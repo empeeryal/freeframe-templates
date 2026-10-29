@@ -1,0 +1,22 @@
+# Copied into github.com/empeeryal/freeframe-templates by scripts/public-templates.mjs; edit it in the
+# Freeframe repository. This repository is a read-only copy, so pull requests are closed with a note.
+# pull_request_target never checks out or runs the pull request's code here; it only comments and closes.
+name: Close pull requests
+
+on:
+  pull_request_target:
+    types: [opened, reopened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  close:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          gh pr close "$PR" --repo "$GITHUB_REPOSITORY" --comment "Thanks for this! This repository is a read-only copy of the free HTML templates from Freeframe, updated automatically with each release, so it can't take pull requests. Please send fixes and ideas through https://freeframe.dev/contact?ref=github or suggest a template at https://freeframe.dev/requests?ref=github."

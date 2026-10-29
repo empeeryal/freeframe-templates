@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" width="480" height="360">
+<rect width="480" height="360" fill="#ecedda"/>
+<g stroke="#1f3a2e" stroke-opacity=".06"><path d="M0 40h480M0 80h480M0 120h480M0 160h480M0 200h480M0 240h480M0 280h480M0 320h480M40 0v360M80 0v360M120 0v360M160 0v360M200 0v360M240 0v360M280 0v360M320 0v360M360 0v360M400 0v360M440 0v360"/></g>
+<path d="M-10 250C60 230 110 280 170 260S260 200 300 230 380 300 490 270" fill="none" stroke="#b9d3d6" stroke-width="22" stroke-linecap="round"/>
+<path d="M-10 250C60 230 110 280 170 260S260 200 300 230 380 300 490 270" fill="none" stroke="#1f3a2e" stroke-width="1" stroke-opacity=".4"/>
+<g fill="none" stroke-linecap="round"><path d="M40 0C70 70 120 120 170 150S250 210 270 360" stroke="#fffdf6" stroke-width="10"/><path d="M0 150h480" stroke="#fffdf6" stroke-width="10"/><path d="M190 158C240 175 300 190 360 196S430 200 480 205" stroke="#fffdf6" stroke-width="8"/><path d="M140 0v60" stroke="#fffdf6" stroke-width="6"/></g>
+<g fill="none" stroke="#1f3a2e" stroke-width="1" stroke-opacity=".5"><path d="M40 0C70 70 120 120 170 150S250 210 270 360"/><path d="M0 150h480"/><path d="M190 158C240 175 300 190 360 196S430 200 480 205"/></g>
+<path d="M120 4h40" stroke="#1f3a2e" stroke-width="3" stroke-dasharray="8 5"/>
+<rect x="132" y="14" width="16" height="10" fill="#1f3a2e"/>
+<rect x="140" y="160" width="60" height="40" fill="#c8ccb2" stroke="#1f3a2e" stroke-opacity=".5"/>
+<g transform="translate(180 120)"><path d="M-12 18v-20l12-10 12 10v20Z" fill="#fffdf6" stroke="#1f3a2e" stroke-width="1.5"/><path d="M0-12v-14M-5-20h10" stroke="#1f3a2e" stroke-width="1.5"/></g>
+<rect x="335" y="208" width="54" height="34" fill="#9fb26f" stroke="#a84325" stroke-width="3"/>
+<g transform="translate(362 206)"><path d="M0 0c-10-12-14-18-14-24a14 14 0 0 1 28 0c0 6-4 12-14 24Z" fill="#a84325" stroke="#1f3a2e" stroke-width="1.5"/><circle cy="-24" r="5" fill="#fffdf6"/></g>
+<path d="M222 210l12 22" stroke="#1f3a2e" stroke-width="3"/>
+<g font-family="Commissioner, 'Segoe UI', sans-serif" fill="#1f3a2e" font-size="13" font-weight="600">
+<text x="166" y="42">Station (2 miles)</text>
+<text x="18" y="140">A44</text>
+<text x="180" y="94" text-anchor="middle">Abbey</text>
+<text x="122" y="218">Town centre</text>
+<text x="430" y="188" text-anchor="middle">Wyre Road</text>
+<text x="362" y="262" text-anchor="middle">Loamstead</text>
+<text x="70" y="296" font-style="italic" font-weight="500">River Avon</text>
+<text x="248" y="226">Old bridge</text>
+</g>
+<g transform="translate(448 40)"><path d="M0-18l7 18H-7Z" fill="#a84325" stroke="#1f3a2e"/><text y="16" text-anchor="middle" font-family="Commissioner, sans-serif" font-size="12" font-weight="700" fill="#1f3a2e">N</text></g>
+</svg>

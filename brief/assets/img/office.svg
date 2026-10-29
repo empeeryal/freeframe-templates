@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 460" width="640" height="460">
+  <defs><clipPath id="win"><rect x="70" y="44" width="500" height="250" rx="6"/></clipPath></defs>
+  <rect width="640" height="460" rx="20" fill="#ece9df"/>
+  <!-- window view -->
+  <g clip-path="url(#win)">
+    <rect x="70" y="44" width="500" height="250" fill="#dfe9e2"/>
+    <circle cx="470" cy="104" r="34" fill="#d4eb5c"/>
+    <path d="M70 214h500v80H70Z" fill="#9fb8ad"/>
+    <path d="M70 226c40-6 70 6 110 0s70-6 110 0 70 6 110 0 80-6 150 0" stroke="#dfe9e2" stroke-width="3" fill="none" opacity=".7"/>
+    <path d="M70 252c50-6 80 6 120 0s80-6 120 0 80 6 120 0 70-4 140 0" stroke="#dfe9e2" stroke-width="3" fill="none" opacity=".5"/>
+    <!-- cranes -->
+    <g fill="none" stroke="#2c473b" stroke-width="5" stroke-linejoin="round">
+      <path d="M150 214V112l22 0v102M150 112l-60 0M172 112l50 0M150 140l22-28M150 168l22-28M150 196l22-28M200 112v50"/>
+      <path d="M300 214v-80h18v80M300 134h-48M318 134h40M300 156l18-22M300 180l18-22M340 134v36"/>
+    </g>
+    <!-- ship -->
+    <path d="M380 190h150l-14 26H392Z" fill="#13221c"/>
+    <rect x="404" y="168" width="22" height="22" fill="#d4eb5c"/><rect x="428" y="168" width="22" height="22" fill="#fffdf8"/><rect x="452" y="168" width="22" height="22" fill="#2c473b"/>
+    <rect x="428" y="148" width="22" height="20" fill="#2c473b"/><rect x="452" y="148" width="22" height="20" fill="#d4eb5c"/>
+    <rect x="490" y="160" width="22" height="30" fill="#fffdf8"/><rect x="496" y="166" width="10" height="6" fill="#13221c"/>
+  </g>
+  <rect x="70" y="44" width="500" height="250" rx="6" fill="none" stroke="#13221c" stroke-width="10"/>
+  <path d="M320 44v250M70 169h500" stroke="#13221c" stroke-width="6"/>
+  <!-- desk -->
+  <rect x="30" y="318" width="580" height="16" rx="4" fill="#13221c"/>
+  <path d="M70 334v126M570 334v126" stroke="#13221c" stroke-width="12"/>
+  <!-- laptop -->
+  <path d="M240 318l14-74h140l14 74Z" fill="#2c473b"/>
+  <path d="M316 268a6 6 0 1 0 0 .1" fill="#d4eb5c"/>
+  <rect x="210" y="314" width="230" height="6" rx="3" fill="#0b1612"/>
+  <!-- mug -->
+  <rect x="460" y="282" width="34" height="36" rx="6" fill="#fffdf8" stroke="#13221c" stroke-width="3"/>
+  <path d="M494 290h6a8 8 0 0 1 0 16h-6" fill="none" stroke="#13221c" stroke-width="3"/>
+  <path d="M470 272c0-8 6-8 6-16M482 272c0-8 6-8 6-16" stroke="#9fb8ad" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <!-- notepad with highlighter -->
+  <rect x="96" y="290" width="104" height="28" rx="3" fill="#fffdf8" stroke="#13221c" stroke-width="3" transform="rotate(-4 148 304)"/>
+  <rect x="106" y="298" width="56" height="7" rx="2" fill="#d4eb5c" transform="rotate(-4 148 304)"/>
+  <rect x="160" y="270" width="12" height="44" rx="3" fill="#d4eb5c" stroke="#13221c" stroke-width="3" transform="rotate(38 166 292)"/>
+  <!-- plant -->
+  <path d="M540 318h40l-6-34h-28Z" fill="#fffdf8" stroke="#13221c" stroke-width="3"/>
+  <path d="M560 284c-4-30-24-40-36-42 4 18 14 34 36 42ZM560 284c2-34 18-52 34-56-2 22-12 44-34 56ZM560 284c-2-22 2-40 4-52" fill="#2c473b" stroke="#2c473b" stroke-width="2"/>
+</svg>
