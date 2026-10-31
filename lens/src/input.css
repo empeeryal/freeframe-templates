@@ -56,6 +56,8 @@
   .site-header[data-overlay] { position: fixed; inset: 0 0 auto 0; background: transparent; backdrop-filter: none; color: #fff; }
   .site-header[data-overlay].is-scrolled, .site-header[data-overlay].menu-open { background: rgb(245 242 236 / .96);
     backdrop-filter: blur(10px); color: var(--color-ink); }
+  /* A backdrop-filter makes the header the containing block for the fixed menu, which then gets no height. */
+  .site-header.menu-open, .site-header[data-overlay].menu-open { -webkit-backdrop-filter: none; backdrop-filter: none; }
   .nav-link { position: relative; padding-block: .35rem; font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; font-weight: 600; }
   .nav-link::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: currentColor;
     transform: scaleX(0); transform-origin: left; transition: transform .3s ease; }

@@ -86,6 +86,8 @@
   .mobile-link { @apply flex min-h-14 items-center justify-between border-b border-line py-3 font-display text-2xl font-semibold text-ink; }
   .mobile-link[aria-current="page"] { @apply text-teal; }
   .menu-is-open { overflow: hidden; }
+  /* A backdrop-filter makes the header the containing block for the fixed menu, which then gets no height. */
+  .menu-is-open .site-header { -webkit-backdrop-filter: none; backdrop-filter: none; }
 
   /* Buttons */
   .btn-sun { @apply btn bg-sun text-ink shadow-[inset_0_-3px_0_rgb(0_0_0/.12)] hover:bg-sun-deep; }

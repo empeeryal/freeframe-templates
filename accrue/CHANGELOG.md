@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-10-31
+
+### Fixed
+
+- The phone menu opened with no height, so its links could not be seen or tapped: the header's background blur made the header, not the screen, the frame for the fixed menu. The blur is now switched off while the menu is open.
+
 ## [1.0.0] - 2026-10-30
 
 ### Added

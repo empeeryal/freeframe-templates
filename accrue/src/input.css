@@ -83,6 +83,8 @@
   .mobile-link { @apply flex items-center justify-between border-b border-line py-4 font-serif text-[1.65rem] font-semibold leading-none; }
   .mobile-link[aria-current="page"] { @apply text-olive; }
   .menu-is-open { overflow: hidden; }
+  /* A backdrop-filter makes the header the containing block for the fixed menu, which then gets no height. */
+  .menu-is-open .site-header { -webkit-backdrop-filter: none; backdrop-filter: none; }
 
   /* Buttons and links */
   .btn-olive { @apply btn bg-olive text-white hover:bg-olive-deep; }
