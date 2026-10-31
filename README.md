@@ -16,7 +16,7 @@ documentation, other stacks and premium templates are on [freeframe.dev](https:/
 Open `index.html` in a browser: no install or build step is needed. Each template's `README.md` and
 `DOCS.md` explain how to customize and deploy it.
 
-## Templates (80)
+## Templates (81)
 
 ### App
 
@@ -45,6 +45,7 @@ Open `index.html` in a browser: no install or build step is needed. Each templat
 
 | | |
 | --- | --- |
+| [<img src="https://freeframe.dev/thumbs/accrue.jpg" width="240" alt="Accrue template">](https://freeframe.dev/templates/accrue?ref=github) | **[Accrue](accrue/)**<br>An editorial, warm website for an accounting and tax firm, with a live tax deadline calendar, a fee estimator and consultation booking.<br>[Live preview](https://freeframe.dev/demos/html/accrue/index.html?ref=github) · [Docs](https://freeframe.dev/templates/accrue/docs/html?ref=github)<br>Also for Next.js, Astro, WordPress on [freeframe.dev](https://freeframe.dev/templates/accrue?ref=github) |
 | [<img src="https://freeframe.dev/thumbs/agency.jpg" width="240" alt="Agency template">](https://freeframe.dev/templates/agency?ref=github) | **[Agency](agency/)**<br>A bold, high-end website for a creative or digital agency.<br>[Live preview](https://freeframe.dev/demos/html/agency/index.html?ref=github) · [Docs](https://freeframe.dev/templates/agency/docs/html?ref=github)<br>Also for Next.js, Astro, WordPress on [freeframe.dev](https://freeframe.dev/templates/agency?ref=github) |
 | [<img src="https://freeframe.dev/thumbs/atlas.jpg" width="240" alt="Atlas template">](https://freeframe.dev/templates/atlas?ref=github) | **[Atlas](atlas/)**<br>A bold, magazine-style personal brand site for a real estate agent, with listings, a home value estimate and calculators.<br>[Live preview](https://freeframe.dev/demos/html/atlas/index.html?ref=github) · [Docs](https://freeframe.dev/templates/atlas/docs/html?ref=github)<br>Also for Next.js, Astro, WordPress on [freeframe.dev](https://freeframe.dev/templates/atlas?ref=github) |
 | [<img src="https://freeframe.dev/thumbs/bistro.jpg" width="240" alt="Bistro template">](https://freeframe.dev/templates/bistro?ref=github) | **[Bistro](bistro/)**<br>A warm, high-end website for a restaurant, café or wine bar.<br>[Live preview](https://freeframe.dev/demos/html/bistro/index.html?ref=github) · [Docs](https://freeframe.dev/templates/bistro/docs/html?ref=github)<br>Also for Next.js, Astro, WordPress on [freeframe.dev](https://freeframe.dev/templates/bistro?ref=github) |
