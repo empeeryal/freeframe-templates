@@ -16,7 +16,7 @@ documentation, other stacks and premium templates are on [freeframe.dev](https:/
 Open `index.html` in a browser: no install or build step is needed. Each template's `README.md` and
 `DOCS.md` explain how to customize and deploy it.
 
-## Templates (82)
+## Templates (83)
 
 ### App
 
@@ -108,6 +108,7 @@ Open `index.html` in a browser: no install or build step is needed. Each templat
 | [<img src="https://freeframe.dev/thumbs/kinetic.jpg" width="240" alt="Kinetic template">](https://freeframe.dev/templates/kinetic?ref=github) | **[Kinetic](kinetic/)**<br>A bright, energetic personal trainer website with a goal picker, a week-view booking flow with health questions, a pricing calculator and free training tools.<br>[Live preview](https://freeframe.dev/demos/html/kinetic/index.html?ref=github) · [Docs](https://freeframe.dev/templates/kinetic/docs/html?ref=github)<br>Also for Next.js, Astro, WordPress on [freeframe.dev](https://freeframe.dev/templates/kinetic?ref=github) |
 | [<img src="https://freeframe.dev/thumbs/mend.jpg" width="240" alt="Mend template">](https://freeframe.dev/templates/mend?ref=github) | **[Mend](mend/)**<br>A calm, clinical-notes website for an independent physiotherapy and sports injury clinic.<br>[Live preview](https://freeframe.dev/demos/html/mend/index.html?ref=github) · [Docs](https://freeframe.dev/templates/mend/docs/html?ref=github) |
 | [<img src="https://freeframe.dev/thumbs/smile.jpg" width="240" alt="Smile template">](https://freeframe.dev/templates/smile?ref=github) | **[Smile](smile/)**<br>A bright, friendly website for a family and cosmetic dental practice, with online booking, a cost estimator and an emergency symptom guide.<br>[Live preview](https://freeframe.dev/demos/html/smile/index.html?ref=github) · [Docs](https://freeframe.dev/templates/smile/docs/html?ref=github)<br>Also for Next.js, Astro, WordPress on [freeframe.dev](https://freeframe.dev/templates/smile?ref=github) |
+| [<img src="https://freeframe.dev/thumbs/solace.jpg" width="240" alt="Solace template">](https://freeframe.dev/templates/solace?ref=github) | **[Solace](solace/)**<br>A calm, warm website for a therapy and counseling practice, with a therapist match quiz and a sliding-scale fee checker.<br>[Live preview](https://freeframe.dev/demos/html/solace/index.html?ref=github) · [Docs](https://freeframe.dev/templates/solace/docs/html?ref=github)<br>Also for Next.js, Astro, WordPress on [freeframe.dev](https://freeframe.dev/templates/solace?ref=github) |
 
 ### Media
 
