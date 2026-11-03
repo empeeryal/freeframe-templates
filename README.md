@@ -16,7 +16,7 @@ documentation, other stacks and premium templates are on [freeframe.dev](https:/
 Open `index.html` in a browser: no install or build step is needed. Each template's `README.md` and
 `DOCS.md` explain how to customize and deploy it.
 
-## Templates (83)
+## Templates (84)
 
 ### App
 
@@ -32,6 +32,7 @@ Open `index.html` in a browser: no install or build step is needed. Each templat
 | [<img src="https://freeframe.dev/thumbs/pocket.jpg" width="240" alt="Pocket template">](https://freeframe.dev/templates/pocket?ref=github) | **[Pocket](pocket/)**<br>A bright launch site for a mobile app, with phone mockups and a scroll-driven feature tour.<br>[Live preview](https://freeframe.dev/demos/html/pocket/index.html?ref=github) · [Docs](https://freeframe.dev/templates/pocket/docs/html?ref=github)<br>Also for Next.js, Astro, WordPress on [freeframe.dev](https://freeframe.dev/templates/pocket?ref=github) |
 | [<img src="https://freeframe.dev/thumbs/tessel.jpg" width="240" alt="Tessel template">](https://freeframe.dev/templates/tessel?ref=github) | **[Tessel](tessel/)**<br>A neo-brutalist SaaS website for an online form and survey builder, with a live form builder in the hero.<br>[Live preview](https://freeframe.dev/demos/html/tessel/index.html?ref=github) · [Docs](https://freeframe.dev/templates/tessel/docs/html?ref=github) |
 | [<img src="https://freeframe.dev/thumbs/tracewick.jpg" width="240" alt="Tracewick template">](https://freeframe.dev/templates/tracewick?ref=github) | **[Tracewick](tracewick/)**<br>One signal. The whole story.<br>[Live preview](https://freeframe.dev/demos/html/tracewick/index.html?ref=github) · [Docs](https://freeframe.dev/templates/tracewick/docs/html?ref=github) |
+| [<img src="https://freeframe.dev/thumbs/wardline.jpg" width="240" alt="Wardline template">](https://freeframe.dev/templates/wardline?ref=github) | **[Wardline](wardline/)**<br>Compliance automation, calm and audit-ready.<br>[Live preview](https://freeframe.dev/demos/html/wardline/index.html?ref=github) · [Docs](https://freeframe.dev/templates/wardline/docs/html?ref=github)<br>Also for Next.js, Astro, WordPress on [freeframe.dev](https://freeframe.dev/templates/wardline?ref=github) |
 | [<img src="https://freeframe.dev/thumbs/weftiq.jpg" width="240" alt="Weftiq template">](https://freeframe.dev/templates/weftiq?ref=github) | **[Weftiq](weftiq/)**<br>Small connections. More room to think.<br>[Live preview](https://freeframe.dev/demos/html/weftiq/index.html?ref=github) · [Docs](https://freeframe.dev/templates/weftiq/docs/html?ref=github) |
 
 ### Blog
