@@ -631,23 +631,22 @@
     const memory = new Map();
     return {
       getItem(key) {
+        // A value that couldn't be written (storage full, for example) is only in memory, and is the newest.
+        if (memory.has(key)) return memory.get(key);
         try {
-          const value = window.localStorage.getItem(key);
-          if (value !== null) {
-            memory.set(key, value);
-            return value;
-          }
+          return window.localStorage.getItem(key);
         } catch {
           /* Sandboxed previews and strict privacy can block storage. */
+          return null;
         }
-        return memory.get(key) ?? null;
       },
       setItem(key, value) {
-        memory.set(key, String(value));
         try {
           window.localStorage.setItem(key, String(value));
+          memory.delete(key);
         } catch {
           /* Memory retains the state. */
+          memory.set(key, String(value));
         }
       },
       removeItem(key) {

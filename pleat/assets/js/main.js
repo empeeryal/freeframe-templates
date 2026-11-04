@@ -936,20 +936,21 @@
   const memory = new Map();
   const safeStorage = {
     getItem(key) {
+      // A value that couldn't be written (storage full, for example) is only in memory, and is the newest.
+      if (memory.has(key)) return memory.get(key);
       try {
-        const value = window.localStorage.getItem(key);
-        if (value !== null) memory.set(key, value);
-        return value === null ? (memory.get(key) ?? null) : value;
+        return window.localStorage.getItem(key);
       } catch {
-        return memory.get(key) ?? null;
+        return null;
       }
     },
     setItem(key, value) {
-      memory.set(key, value);
       try {
         window.localStorage.setItem(key, value);
+        memory.delete(key);
       } catch {
         /* memory remains usable */
+        memory.set(key, value);
       }
     },
     removeItem(key) {

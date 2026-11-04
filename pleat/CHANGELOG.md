@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-11-04
+
+### Fixed
+
+- A change the browser couldn't save, for example when its storage is full, now stays in place for the visit
+  instead of going back to the old value.
+
 ## [1.0.2] - 2026-10-23
 
 ### Fixed
