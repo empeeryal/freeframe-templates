@@ -479,6 +479,30 @@ var LENS = {
 (function () {
   'use strict';
 
+  /* localStorage, or memory when it's blocked or a save fails (storage full). Memory is read first, so a change
+     that couldn't be saved still shows for this page view. */
+  var safeStorage = (function () {
+    var local = null;
+    try { local = window.localStorage; local.getItem('_'); } catch (e) { local = null; /* blocked */ }
+    var memory = Object.create(null);
+    return {
+      getItem: function (key) {
+        if (key in memory) return memory[key];
+        try { return local ? local.getItem(key) : null; } catch (e) { return null; }
+      },
+      setItem: function (key, value) {
+        if (local) {
+          try { local.setItem(key, String(value)); delete memory[key]; return; } catch (e) { /* full */ }
+        }
+        memory[key] = String(value);
+      },
+      removeItem: function (key) {
+        delete memory[key];
+        if (local) { try { local.removeItem(key); } catch (e) { /* blocked */ } }
+      }
+    };
+  })();
+
   var $ = function (sel, el) { return (el || document).querySelector(sel); };
   var $$ = function (sel, el) { return Array.prototype.slice.call((el || document).querySelectorAll(sel)); };
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -759,7 +783,7 @@ var LENS = {
     var ids = LENS.proofIds;
     var load = function () {
       var raw = null;
-      try { raw = JSON.parse(localStorage.getItem(KEY)); } catch (e) { raw = null; }
+      try { raw = JSON.parse(safeStorage.getItem(KEY)); } catch (e) { raw = null; }
       var list = Array.isArray(raw) ? raw : [];
       var clean = [];
       list.forEach(function (x) { if (typeof x === 'string' && ids.indexOf(x) !== -1 && clean.indexOf(x) === -1 && clean.length < LIMIT) clean.push(x); });
@@ -767,7 +791,7 @@ var LENS = {
       return clean;
     };
     var save = function (list) {
-      try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) { /* storage full or blocked: keep working in memory */ }
+      try { safeStorage.setItem(KEY, JSON.stringify(list)); } catch (e) { /* storage full or blocked: keep working in memory */ }
       hideDone();
     };
     // A sent selection is out of date as soon as it changes, so hide the confirmation.

@@ -16,6 +16,30 @@
 (function () {
   'use strict';
 
+  /* localStorage, or memory when it's blocked or a save fails (storage full). Memory is read first, so a change
+     that couldn't be saved still shows for this page view. */
+  var safeStorage = (function () {
+    var local = null;
+    try { local = window.localStorage; local.getItem('_'); } catch (e) { local = null; /* blocked */ }
+    var memory = Object.create(null);
+    return {
+      getItem: function (key) {
+        if (key in memory) return memory[key];
+        try { return local ? local.getItem(key) : null; } catch (e) { return null; }
+      },
+      setItem: function (key, value) {
+        if (local) {
+          try { local.setItem(key, String(value)); delete memory[key]; return; } catch (e) { /* full */ }
+        }
+        memory[key] = String(value);
+      },
+      removeItem: function (key) {
+        delete memory[key];
+        if (local) { try { local.removeItem(key); } catch (e) { /* blocked */ } }
+      }
+    };
+  })();
+
   /* ------------------------------------------------------------------
    * 1. Show data. Edit these to make the site yours (see DOCS.md, Content).
    * ------------------------------------------------------------------ */
@@ -418,10 +442,10 @@
     return function () { s = Math.imul(s ^ (s >>> 15), 2246822507) ^ Math.imul(s ^ (s >>> 13), 3266489909); s ^= s >>> 16; return (s >>> 0) / 4294967296; };
   }
   function readJSON(key, fallback) {
-    try { var v = JSON.parse(localStorage.getItem(key)); return v && typeof v === 'object' ? v : fallback; } catch (e) { return fallback; }
+    try { var v = JSON.parse(safeStorage.getItem(key)); return v && typeof v === 'object' ? v : fallback; } catch (e) { return fallback; }
   }
   function writeJSON(key, value) {
-    try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { /* storage full or blocked: playback still works */ }
+    try { safeStorage.setItem(key, JSON.stringify(value)); } catch (e) { /* storage full or blocked: playback still works */ }
   }
   var toastTimer = null;
   function toast(msg) {

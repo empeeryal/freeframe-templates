@@ -4,6 +4,30 @@
 (function () {
   'use strict';
 
+  /* localStorage, or memory when it's blocked or a save fails (storage full). Memory is read first, so a change
+     that couldn't be saved still shows for this page view. */
+  var safeStorage = (function () {
+    var local = null;
+    try { local = window.localStorage; local.getItem('_'); } catch (e) { local = null; /* blocked */ }
+    var memory = Object.create(null);
+    return {
+      getItem: function (key) {
+        if (key in memory) return memory[key];
+        try { return local ? local.getItem(key) : null; } catch (e) { return null; }
+      },
+      setItem: function (key, value) {
+        if (local) {
+          try { local.setItem(key, String(value)); delete memory[key]; return; } catch (e) { /* full */ }
+        }
+        memory[key] = String(value);
+      },
+      removeItem: function (key) {
+        delete memory[key];
+        if (local) { try { local.removeItem(key); } catch (e) { /* blocked */ } }
+      }
+    };
+  })();
+
   /* ---------- Studio: time zone, opening hours, closures ----------
      Times are 24-hour wall-clock times in Cambridge (UK time). Day 0 is Sunday; null means closed.
      Keep these in step with the hours lists in the HTML (data-hours). */
@@ -139,8 +163,8 @@
   function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function money(n, pence) { return '£' + Number(n).toLocaleString('en-GB', { minimumFractionDigits: pence ? 2 : 0, maximumFractionDigits: pence ? 2 : 0 }); }
-  function store(key, value) { try { if (value === null) localStorage.removeItem(key); else localStorage.setItem(key, JSON.stringify(value)); } catch (e) { /* storage unavailable */ } }
-  function read(key) { try { return JSON.parse(localStorage.getItem(key)); } catch (e) { return null; } }
+  function store(key, value) { try { if (value === null) safeStorage.removeItem(key); else safeStorage.setItem(key, JSON.stringify(value)); } catch (e) { /* storage unavailable */ } }
+  function read(key) { try { return JSON.parse(safeStorage.getItem(key)); } catch (e) { return null; } }
   // Own-key lookups, so URL or stored values like "constructor" never match built-in properties.
   function has(obj, key) { return (typeof key === 'string' || typeof key === 'number') && Object.prototype.hasOwnProperty.call(obj, key); }
   function param(name) { try { return new URLSearchParams(window.location.search).get(name); } catch (e) { return null; } }

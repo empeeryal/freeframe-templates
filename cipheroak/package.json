@@ -1,6 +1,6 @@
 {
   "name": "cipheroak-template",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "build": "tailwindcss -i src/input.css -o assets/css/style.css --minify",

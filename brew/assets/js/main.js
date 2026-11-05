@@ -47,12 +47,25 @@
   // localStorage, or an in-memory stand-in when the browser blocks it (a sandboxed iframe, strict
   // privacy settings): saved state then lasts for this page view instead of the feature doing nothing.
   const safeStorage = (function () {
-    try { const s = window.localStorage; s.getItem('_'); return s; } catch (e) { /* blocked */ }
+    let local = null;
+    try { local = window.localStorage; local.getItem('_'); } catch (e) { local = null; /* blocked */ }
+    // A save that fails (storage full) stays in memory, and memory is read first, so the change isn't lost.
     const memory = Object.create(null);
     return {
-      getItem: (key) => (key in memory ? memory[key] : null),
-      setItem: (key, value) => { memory[key] = String(value); },
-      removeItem: (key) => { delete memory[key]; }
+      getItem: (key) => {
+        if (key in memory) return memory[key];
+        try { return local ? local.getItem(key) : null; } catch (e) { return null; }
+      },
+      setItem: (key, value) => {
+        if (local) {
+          try { local.setItem(key, String(value)); delete memory[key]; return; } catch (e) { /* full */ }
+        }
+        memory[key] = String(value);
+      },
+      removeItem: (key) => {
+        delete memory[key];
+        if (local) { try { local.removeItem(key); } catch (e) { /* blocked */ } }
+      }
     };
   })();
   const store = {

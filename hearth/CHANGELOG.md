@@ -4,6 +4,12 @@ All notable changes to the Hearth template (HTML + Tailwind CSS) are documented 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the template uses
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.4] - 2026-11-04
+
+### Fixed
+
+- A change you make is kept for the visit when the browser can't save it, for example when its storage is full, instead of going back to the old value.
+
 ## [1.0.3] - 2026-10-23
 
 ### Fixed

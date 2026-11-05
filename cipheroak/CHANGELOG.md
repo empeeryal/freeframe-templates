@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-11-04
+
+### Fixed
+
+- A change you make is kept for the visit when the browser can't save it, for example when its storage is full, instead of going back to the old value.
+
 ## [1.0.0] - 2026-10-24
 
 ### Added

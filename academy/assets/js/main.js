@@ -4,6 +4,30 @@
 (function () {
   'use strict';
 
+  /* localStorage, or memory when it's blocked or a save fails (storage full). Memory is read first, so a change
+     that couldn't be saved still shows for this page view. */
+  var safeStorage = (function () {
+    var local = null;
+    try { local = window.localStorage; local.getItem('_'); } catch (e) { local = null; /* blocked */ }
+    var memory = Object.create(null);
+    return {
+      getItem: function (key) {
+        if (key in memory) return memory[key];
+        try { return local ? local.getItem(key) : null; } catch (e) { return null; }
+      },
+      setItem: function (key, value) {
+        if (local) {
+          try { local.setItem(key, String(value)); delete memory[key]; return; } catch (e) { /* full */ }
+        }
+        memory[key] = String(value);
+      },
+      removeItem: function (key) {
+        delete memory[key];
+        if (local) { try { local.removeItem(key); } catch (e) { /* blocked */ } }
+      }
+    };
+  })();
+
   // The school's name, used in every page title this script sets (course, instructor and lesson
   // pages). Change it together with the name in the HTML pages' <title> and header/footer.
   var SITE_NAME = 'Northfield Academy';
@@ -35,10 +59,10 @@
     return function () { s = (Math.imul(s, 1664525) + 1013904223) >>> 0; return s / 4294967296; };
   }
   function readJSON(key) {
-    try { var raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : null; } catch (e) { return null; }
+    try { var raw = safeStorage.getItem(key); return raw ? JSON.parse(raw) : null; } catch (e) { return null; }
   }
   function writeJSON(key, value) {
-    try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+    try { safeStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
   }
   var uid = 0;
   function nextId(prefix) { uid += 1; return prefix + '-' + uid; }
@@ -398,7 +422,7 @@
     if (JSON.stringify(clean) !== JSON.stringify(stored)) writeJSON(PROGRESS_KEY, clean); // self-heal
     return clean;
   }
-  function clearStored(key) { try { localStorage.removeItem(key); } catch (e) {} }
+  function clearStored(key) { try { safeStorage.removeItem(key); } catch (e) {} }
   function saveProgress(p) { delete p.demo; writeJSON(PROGRESS_KEY, p); }
   // The first real action replaces the sample (demo) progress with the visitor's own.
   function makeOwn(p) {
@@ -447,7 +471,7 @@
   $$('[data-theme-toggle]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var dark = root.classList.toggle('dark');
-      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+      try { safeStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
       updateThemeLabels();
     });
   });
@@ -649,7 +673,7 @@
     var search = $('#catalogue-search');
     var viewBtns = $$('[data-view]');
     var view = 'grid';
-    try { view = localStorage.getItem('academy-view') === 'list' ? 'list' : 'grid'; } catch (e) {}
+    try { view = safeStorage.getItem('academy-view') === 'list' ? 'list' : 'grid'; } catch (e) {}
 
     // Read filters from the URL.
     var params = new URLSearchParams(window.location.search);
@@ -719,7 +743,7 @@
     function setView(v) {
       view = v;
       viewBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.view === v)); });
-      try { localStorage.setItem('academy-view', v); } catch (e) {}
+      try { safeStorage.setItem('academy-view', v); } catch (e) {}
       apply();
     }
     viewBtns.forEach(function (b) { b.addEventListener('click', function () { setView(b.dataset.view); }); });

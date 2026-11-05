@@ -4,6 +4,30 @@
 (function () {
   'use strict';
 
+  /* localStorage, or memory when it's blocked or a save fails (storage full). Memory is read first, so a change
+     that couldn't be saved still shows for this page view. */
+  var safeStorage = (function () {
+    var local = null;
+    try { local = window.localStorage; local.getItem('_'); } catch (e) { local = null; /* blocked */ }
+    var memory = Object.create(null);
+    return {
+      getItem: function (key) {
+        if (key in memory) return memory[key];
+        try { return local ? local.getItem(key) : null; } catch (e) { return null; }
+      },
+      setItem: function (key, value) {
+        if (local) {
+          try { local.setItem(key, String(value)); delete memory[key]; return; } catch (e) { /* full */ }
+        }
+        memory[key] = String(value);
+      },
+      removeItem: function (key) {
+        delete memory[key];
+        if (local) { try { local.removeItem(key); } catch (e) { /* blocked */ } }
+      }
+    };
+  })();
+
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   /* =====================================================================
@@ -386,8 +410,8 @@
   }
   // 41000 -> "41’000" (Swiss thousands separator)
   function chf(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '’'); }
-  function store(key, value) { try { localStorage.setItem(key, value); } catch (e) {} }
-  function read(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
+  function store(key, value) { try { safeStorage.setItem(key, value); } catch (e) {} }
+  function read(key) { try { return safeStorage.getItem(key); } catch (e) { return null; } }
   function setParams(params) {
     var qs = params.toString();
     try { history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash); } catch (e) {}
@@ -905,7 +929,7 @@
     });
     estRoot.querySelector('[data-est-reset]').addEventListener('click', function () {
       brief = { scope: DEFAULT_BRIEF.scope.slice(), scale: DEFAULT_BRIEF.scale, urgency: DEFAULT_BRIEF.urgency };
-      try { localStorage.removeItem(BRIEF_KEY); } catch (e) {}
+      try { safeStorage.removeItem(BRIEF_KEY); } catch (e) {}
       syncInputs();
       renderBrief();
     });

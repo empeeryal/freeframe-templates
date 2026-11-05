@@ -3,6 +3,30 @@
 (function () {
   'use strict';
 
+  /* localStorage, or memory when it's blocked or a save fails (storage full). Memory is read first, so a change
+     that couldn't be saved still shows for this page view. */
+  var safeStorage = (function () {
+    var local = null;
+    try { local = window.localStorage; local.getItem('_'); } catch (e) { local = null; /* blocked */ }
+    var memory = Object.create(null);
+    return {
+      getItem: function (key) {
+        if (key in memory) return memory[key];
+        try { return local ? local.getItem(key) : null; } catch (e) { return null; }
+      },
+      setItem: function (key, value) {
+        if (local) {
+          try { local.setItem(key, String(value)); delete memory[key]; return; } catch (e) { /* full */ }
+        }
+        memory[key] = String(value);
+      },
+      removeItem: function (key) {
+        delete memory[key];
+        if (local) { try { local.removeItem(key); } catch (e) { /* blocked */ } }
+      }
+    };
+  })();
+
   var D = window.SOLSTICE || { days: [], stages: [], genres: {}, artists: [], diets: {}, vendors: [], tickets: [], addons: [] };
   var $ = function (sel, el) { return (el || document).querySelector(sel); };
   var $$ = function (sel, el) { return Array.prototype.slice.call((el || document).querySelectorAll(sel)); };
@@ -24,9 +48,9 @@
   // Read (one argument) or write (two arguments) JSON in localStorage. Never throws.
   function store(key, value) {
     try {
-      if (arguments.length < 2) return JSON.parse(localStorage.getItem(key));
-      if (value === null) localStorage.removeItem(key);
-      else localStorage.setItem(key, JSON.stringify(value));
+      if (arguments.length < 2) return JSON.parse(safeStorage.getItem(key));
+      if (value === null) safeStorage.removeItem(key);
+      else safeStorage.setItem(key, JSON.stringify(value));
     } catch (e) { return null; }
   }
   function byId(list) {

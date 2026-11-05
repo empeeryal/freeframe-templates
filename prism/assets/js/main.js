@@ -18,6 +18,30 @@ document.documentElement.classList.add('js');
 (function () {
   'use strict';
 
+  /* localStorage, or memory when it's blocked or a save fails (storage full). Memory is read first, so a change
+     that couldn't be saved still shows for this page view. */
+  var safeStorage = (function () {
+    var local = null;
+    try { local = window.localStorage; local.getItem('_'); } catch (e) { local = null; /* blocked */ }
+    var memory = Object.create(null);
+    return {
+      getItem: function (key) {
+        if (key in memory) return memory[key];
+        try { return local ? local.getItem(key) : null; } catch (e) { return null; }
+      },
+      setItem: function (key, value) {
+        if (local) {
+          try { local.setItem(key, String(value)); delete memory[key]; return; } catch (e) { /* full */ }
+        }
+        memory[key] = String(value);
+      },
+      removeItem: function (key) {
+        delete memory[key];
+        if (local) { try { local.removeItem(key); } catch (e) { /* blocked */ } }
+      }
+    };
+  })();
+
   /* ------------------------------------------------------------------
    * 1. Content and settings
    * ------------------------------------------------------------------ */
@@ -151,8 +175,8 @@ document.documentElement.classList.add('js');
   }
   function store(key, value) {
     try {
-      if (value === undefined) return localStorage.getItem(key);
-      localStorage.setItem(key, value);
+      if (value === undefined) return safeStorage.getItem(key);
+      safeStorage.setItem(key, value);
     } catch (e) { /* storage blocked: the feature still works for this visit */ }
     return null;
   }

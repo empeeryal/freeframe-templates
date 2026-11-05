@@ -356,12 +356,25 @@
   /* localStorage, or an in-memory stand-in when it's blocked (sandboxed iframes, strict privacy
      settings). The exercise plan then lasts for the page view instead of disappearing. */
   var safeStorage = (function () {
-    try { var s = window.localStorage; s.getItem('_'); return s; } catch (e) { /* blocked */ }
+    var local = null;
+    try { local = window.localStorage; local.getItem('_'); } catch (e) { local = null; /* blocked */ }
+    // A save that fails (storage full) stays in memory, and memory is read first, so the change isn't lost.
     var memory = Object.create(null);
     return {
-      getItem: function (key) { return key in memory ? memory[key] : null; },
-      setItem: function (key, value) { memory[key] = String(value); },
-      removeItem: function (key) { delete memory[key]; }
+      getItem: function (key) {
+        if (key in memory) return memory[key];
+        try { return local ? local.getItem(key) : null; } catch (e) { return null; }
+      },
+      setItem: function (key, value) {
+        if (local) {
+          try { local.setItem(key, String(value)); delete memory[key]; return; } catch (e) { /* full */ }
+        }
+        memory[key] = String(value);
+      },
+      removeItem: function (key) {
+        delete memory[key];
+        if (local) { try { local.removeItem(key); } catch (e) { /* blocked */ } }
+      }
     };
   })();
   function readJSON(key) { try { return JSON.parse(safeStorage.getItem(key)); } catch (e) { return null; } }

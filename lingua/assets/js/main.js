@@ -18,6 +18,30 @@
 (function () {
   'use strict';
 
+  /* localStorage, or memory when it's blocked or a save fails (storage full). Memory is read first, so a change
+     that couldn't be saved still shows for this page view. */
+  var safeStorage = (function () {
+    var local = null;
+    try { local = window.localStorage; local.getItem('_'); } catch (e) { local = null; /* blocked */ }
+    var memory = Object.create(null);
+    return {
+      getItem: function (key) {
+        if (key in memory) return memory[key];
+        try { return local ? local.getItem(key) : null; } catch (e) { return null; }
+      },
+      setItem: function (key, value) {
+        if (local) {
+          try { local.setItem(key, String(value)); delete memory[key]; return; } catch (e) { /* full */ }
+        }
+        memory[key] = String(value);
+      },
+      removeItem: function (key) {
+        delete memory[key];
+        if (local) { try { local.removeItem(key); } catch (e) { /* blocked */ } }
+      }
+    };
+  })();
+
   /* ------------------------------------------------------------------
    * 1. Data. Edit these to change the school's courses and teachers; the
    *    HTML pages show the same content (update both).
@@ -128,13 +152,13 @@
   function optionValues(select) { return $$('option', select).map(function (o) { return o.value; }); }
 
   function storageGet(key) {
-    try { return window.localStorage.getItem(key); } catch (e) { return null; }
+    try { return safeStorage.getItem(key); } catch (e) { return null; }
   }
   function storageSet(key, value) {
-    try { window.localStorage.setItem(key, value); } catch (e) { /* storage full or blocked */ }
+    try { safeStorage.setItem(key, value); } catch (e) { /* storage full or blocked */ }
   }
   function storageRemove(key) {
-    try { window.localStorage.removeItem(key); } catch (e) { /* ignore */ }
+    try { safeStorage.removeItem(key); } catch (e) { /* ignore */ }
   }
   function readJSON(key) {
     var raw = storageGet(key);

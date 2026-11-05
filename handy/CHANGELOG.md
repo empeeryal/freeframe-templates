@@ -6,6 +6,12 @@ All notable changes to the Handy HTML template are documented here. The format f
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-04
+
+### Fixed
+
+- A change you make is kept for the visit when the browser can't save it, for example when its storage is full, instead of going back to the old value.
+
 ## [1.0.5] - 2026-10-26
 
 ### Fixed

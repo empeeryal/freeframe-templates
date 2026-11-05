@@ -2,6 +2,30 @@
 (function () {
   'use strict';
 
+  /* localStorage, or memory when it's blocked or a save fails (storage full). Memory is read first, so a change
+     that couldn't be saved still shows for this page view. */
+  var safeStorage = (function () {
+    var local = null;
+    try { local = window.localStorage; local.getItem('_'); } catch (e) { local = null; /* blocked */ }
+    var memory = Object.create(null);
+    return {
+      getItem: function (key) {
+        if (key in memory) return memory[key];
+        try { return local ? local.getItem(key) : null; } catch (e) { return null; }
+      },
+      setItem: function (key, value) {
+        if (local) {
+          try { local.setItem(key, String(value)); delete memory[key]; return; } catch (e) { /* full */ }
+        }
+        memory[key] = String(value);
+      },
+      removeItem: function (key) {
+        delete memory[key];
+        if (local) { try { local.removeItem(key); } catch (e) { /* blocked */ } }
+      }
+    };
+  })();
+
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   /* ---------- Data ----------
@@ -69,7 +93,7 @@
   var DEFAULT_QUOTE = { service: 'plumbing', size: 'medium', options: [], urgency: 'standard' };
   function readQuote() {
     var raw = null;
-    try { raw = JSON.parse(localStorage.getItem(QUOTE_KEY)); } catch (e) { raw = null; }
+    try { raw = JSON.parse(safeStorage.getItem(QUOTE_KEY)); } catch (e) { raw = null; }
     var q = { service: DEFAULT_QUOTE.service, size: DEFAULT_QUOTE.size, options: [], urgency: DEFAULT_QUOTE.urgency };
     if (raw && typeof raw === 'object' && !Array.isArray(raw)) {
       if (typeof raw.service === 'string' && PRICES.hasOwnProperty(raw.service)) q.service = raw.service;
@@ -81,7 +105,7 @@
     }
     return q;
   }
-  function saveQuote(q) { try { localStorage.setItem(QUOTE_KEY, JSON.stringify(q)); } catch (e) {} }
+  function saveQuote(q) { try { safeStorage.setItem(QUOTE_KEY, JSON.stringify(q)); } catch (e) {} }
 
   /* ---------- Header: shadow on scroll + mobile menu ---------- */
   var header = document.getElementById('site-header');

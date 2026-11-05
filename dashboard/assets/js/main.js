@@ -14,6 +14,30 @@
 (function () {
   'use strict';
 
+  /* localStorage, or memory when it's blocked or a save fails (storage full). Memory is read first, so a change
+     that couldn't be saved still shows for this page view. */
+  var safeStorage = (function () {
+    var local = null;
+    try { local = window.localStorage; local.getItem('_'); } catch (e) { local = null; /* blocked */ }
+    var memory = Object.create(null);
+    return {
+      getItem: function (key) {
+        if (key in memory) return memory[key];
+        try { return local ? local.getItem(key) : null; } catch (e) { return null; }
+      },
+      setItem: function (key, value) {
+        if (local) {
+          try { local.setItem(key, String(value)); delete memory[key]; return; } catch (e) { /* full */ }
+        }
+        memory[key] = String(value);
+      },
+      removeItem: function (key) {
+        delete memory[key];
+        if (local) { try { local.removeItem(key); } catch (e) { /* blocked */ } }
+      }
+    };
+  })();
+
   /* ===================================================================
    * 1. Helpers
    * ================================================================= */
@@ -155,7 +179,7 @@
   $$('[data-theme-toggle]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var dark = document.documentElement.classList.toggle('dark');
-      try { localStorage.setItem('ns-theme', dark ? 'dark' : 'light'); } catch (e) {}
+      try { safeStorage.setItem('ns-theme', dark ? 'dark' : 'light'); } catch (e) {}
       btn.setAttribute('aria-pressed', String(dark));
     });
     btn.setAttribute('aria-pressed', String(document.documentElement.classList.contains('dark')));
@@ -186,7 +210,7 @@
   $$('[data-sidebar-collapse]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var c = root.classList.toggle('sb-collapsed');
-      try { localStorage.setItem('ns-sidebar', c ? 'collapsed' : 'open'); } catch (e) {}
+      try { safeStorage.setItem('ns-sidebar', c ? 'collapsed' : 'open'); } catch (e) {}
       syncNavLabels();
       // Charts re-measure through their ResizeObservers once the width transition ends.
     });
@@ -1217,7 +1241,7 @@
   if (prodGrid) {
     var pState = { cat: 'All', q: new URLSearchParams(location.search).get('q') || '', view: 'grid' };
     // Only accept known views; anything else in storage would hide both layouts.
-    try { pState.view = localStorage.getItem('ns-products-view') === 'table' ? 'table' : 'grid'; } catch (e) {}
+    try { pState.view = safeStorage.getItem('ns-products-view') === 'table' ? 'table' : 'grid'; } catch (e) {}
     var pq = $('[data-products-search]');
     pq.value = pState.q;
     var prodTable = $('[data-products-table]');
@@ -1269,7 +1293,7 @@
     $$('[data-view]').forEach(function (b) {
       b.addEventListener('click', function () {
         pState.view = b.dataset.view;
-        try { localStorage.setItem('ns-products-view', pState.view); } catch (e) {}
+        try { safeStorage.setItem('ns-products-view', pState.view); } catch (e) {}
         renderProducts();
       });
     });

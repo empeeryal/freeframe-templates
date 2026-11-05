@@ -6,6 +6,12 @@ All notable changes to the Keystone HTML template are documented here. The forma
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-11-04
+
+### Fixed
+
+- A change you make is kept for the visit when the browser can't save it, for example when its storage is full, instead of going back to the old value.
+
 ## [1.0.2] - 2026-10-23
 
 ### Fixed

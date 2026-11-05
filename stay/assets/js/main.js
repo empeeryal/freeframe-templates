@@ -10,6 +10,30 @@
 (function () {
   'use strict';
 
+  /* localStorage, or memory when it's blocked or a save fails (storage full). Memory is read first, so a change
+     that couldn't be saved still shows for this page view. */
+  var safeStorage = (function () {
+    var local = null;
+    try { local = window.localStorage; local.getItem('_'); } catch (e) { local = null; /* blocked */ }
+    var memory = Object.create(null);
+    return {
+      getItem: function (key) {
+        if (key in memory) return memory[key];
+        try { return local ? local.getItem(key) : null; } catch (e) { return null; }
+      },
+      setItem: function (key, value) {
+        if (local) {
+          try { local.setItem(key, String(value)); delete memory[key]; return; } catch (e) { /* full */ }
+        }
+        memory[key] = String(value);
+      },
+      removeItem: function (key) {
+        delete memory[key];
+        if (local) { try { local.removeItem(key); } catch (e) { /* blocked */ } }
+      }
+    };
+  })();
+
   /* ------------------------------------------------------------------
    * 1. Data and helpers
    * ------------------------------------------------------------------ */
@@ -387,23 +411,23 @@
   }
   function readDraft() {
     var stored;
-    try { stored = window.localStorage.getItem(DRAFT_KEY); } catch (e) { return {}; }
+    try { stored = safeStorage.getItem(DRAFT_KEY); } catch (e) { return {}; }
     if (stored === null) return {};
     var parsed;
     try { parsed = JSON.parse(stored); } catch (e) { parsed = null; }
     var clean = sanitizeDraft(parsed);
     try {
-      if (!Object.keys(clean).length) window.localStorage.removeItem(DRAFT_KEY);
-      else if (JSON.stringify(clean) !== stored) window.localStorage.setItem(DRAFT_KEY, JSON.stringify(clean));
+      if (!Object.keys(clean).length) safeStorage.removeItem(DRAFT_KEY);
+      else if (JSON.stringify(clean) !== stored) safeStorage.setItem(DRAFT_KEY, JSON.stringify(clean));
     } catch (e) { /* storage unavailable: ignore */ }
     return clean;
   }
   function saveDraft(patch) {
     var next = sanitizeDraft(Object.assign({}, readDraft(), patch));
-    try { window.localStorage.setItem(DRAFT_KEY, JSON.stringify(next)); } catch (e) { /* ignore */ }
+    try { safeStorage.setItem(DRAFT_KEY, JSON.stringify(next)); } catch (e) { /* ignore */ }
     return next;
   }
-  function clearDraft() { try { window.localStorage.removeItem(DRAFT_KEY); } catch (e) { /* ignore */ } }
+  function clearDraft() { try { safeStorage.removeItem(DRAFT_KEY); } catch (e) { /* ignore */ } }
 
   // Values from the URL (e.g. booking.html?checkin=…&room=sea&promo=LONGSTAY) override the draft.
   function stayFromURL() {

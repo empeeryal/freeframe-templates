@@ -2,6 +2,30 @@
 (function () {
   'use strict';
 
+  /* localStorage, or memory when it's blocked or a save fails (storage full). Memory is read first, so a change
+     that couldn't be saved still shows for this page view. */
+  var safeStorage = (function () {
+    var local = null;
+    try { local = window.localStorage; local.getItem('_'); } catch (e) { local = null; /* blocked */ }
+    var memory = Object.create(null);
+    return {
+      getItem: function (key) {
+        if (key in memory) return memory[key];
+        try { return local ? local.getItem(key) : null; } catch (e) { return null; }
+      },
+      setItem: function (key, value) {
+        if (local) {
+          try { local.setItem(key, String(value)); delete memory[key]; return; } catch (e) { /* full */ }
+        }
+        memory[key] = String(value);
+      },
+      removeItem: function (key) {
+        delete memory[key];
+        if (local) { try { local.removeItem(key); } catch (e) { /* blocked */ } }
+      }
+    };
+  })();
+
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   /* ---------- Estimator price model ----------
@@ -83,7 +107,7 @@
   var ESTIMATE_KEY = 'keystone-estimate-v1';
   function readEstimate() {
     var raw = null;
-    try { raw = JSON.parse(localStorage.getItem(ESTIMATE_KEY)); } catch (e) { raw = null; }
+    try { raw = JSON.parse(safeStorage.getItem(ESTIMATE_KEY)); } catch (e) { raw = null; }
     var s = { type: DEFAULT_ESTIMATE.type, size: DEFAULT_ESTIMATE.size, finish: DEFAULT_ESTIMATE.finish, timeline: DEFAULT_ESTIMATE.timeline, design: DEFAULT_ESTIMATE.design };
     if (raw && typeof raw === 'object' && !Array.isArray(raw)) {
       if (typeof raw.type === 'string' && TYPES.hasOwnProperty(raw.type)) { s.type = raw.type; s.size = TYPES[raw.type].size; }
@@ -95,7 +119,7 @@
     }
     return s;
   }
-  function saveEstimate(s) { try { localStorage.setItem(ESTIMATE_KEY, JSON.stringify(s)); } catch (e) {} }
+  function saveEstimate(s) { try { safeStorage.setItem(ESTIMATE_KEY, JSON.stringify(s)); } catch (e) {} }
 
   /* ---------- Header: shadow on scroll + mobile menu ---------- */
   var header = document.getElementById('site-header');
