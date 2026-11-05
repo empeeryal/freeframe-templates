@@ -1177,7 +1177,7 @@
       const s = state(), e = commissionEstimate(s);
       const first = cleanText($('#cm-name').value, 80).split(/\s+/)[0];
       const ref = makeRef('PP');
-      successSwap(form, '<p class="sticker">Enquiry received</p>' +
+      successSwap(form, '<p class="sticker">Inquiry received</p>' +
         '<h2 class="h-section mt-4">Thanks, ' + escapeHtml(first) + '. It’s on my desk.</h2>' +
         '<p class="mt-3 text-lg">Your reference is <strong class="font-mono">' + ref + '</strong>.</p>' +
         '<p class="mt-3">I’ll reply by <strong>' + escapeHtml(fmtDate(replyBy())) + '</strong> with a few questions and a proper quote. If we go ahead, the kickoff call could be as soon as <strong>' + escapeHtml(fmtDate(e.plan.start)) + '</strong>.</p>' +

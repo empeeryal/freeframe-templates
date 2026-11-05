@@ -744,7 +744,7 @@
       $('[data-cancel-confirm]').hidden = true;
       $('[data-cancel-start]').hidden = false;
       showForm();
-      status.textContent = 'Reservation ' + (r ? r.ref : '') + ' cancelled. Your $150 deposit will be refunded in full.';
+      status.textContent = 'Reservation ' + (r ? r.ref : '') + ' canceled. Your $150 deposit will be refunded in full.';
       reserveForm.elements.first.focus();
     });
 

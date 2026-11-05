@@ -5,7 +5,7 @@
 Clinic is a calm, accessible website for a dental or medical practice, with treatments and typical
 costs, the care team, patient information and a five-step online booking wizard. The demo practice is
 **Brightside Dental**, a fictional family dental clinic. It is built with HTML5, Tailwind CSS v4 and one
-vanilla JavaScript file, and needs no build step. This guide covers version 1.1.10.
+vanilla JavaScript file, and needs no build step. This guide covers version 1.1.11.
 
 Live demo: [freeframe.dev/templates/clinic](https://freeframe.dev/templates/clinic)
 

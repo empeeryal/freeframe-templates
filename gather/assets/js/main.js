@@ -155,7 +155,7 @@ document.documentElement.classList.add('js');
     {
       id: 'known-in-the-breaking', title: 'Known in the Breaking of Bread', series: 'open-table', part: 2, speaker: 'hannah',
       date: '2026-09-20', book: 'luke', passage: 'Luke 24:13–35', duration: 2180, audio: '',
-      summary: 'Two grieving friends walk to Emmaus with a stranger they do not recognise until supper. Hannah on hope that arrives slowly, and often at the table.',
+      summary: 'Two grieving friends walk to Emmaus with a stranger they do not recognize until supper. Hannah on hope that arrives slowly, and often at the table.',
       verse: { text: 'Did not our heart burn within us, while he talked with us by the way?', ref: 'Luke 24:32 (KJV)' },
       notes: [
         ['Grief walks in circles', 'The two disciples tell the stranger the whole story, including the parts they cannot make sense of. Jesus lets them talk first.'],
@@ -164,7 +164,7 @@ document.documentElement.classList.add('js');
       ],
       questions: [
         'When has God felt like a stranger walking beside you?',
-        'Why do you think they recognised Jesus at the table, rather than on the road?',
+        'Why do you think they recognized Jesus at the table, rather than on the road?',
         'Who do you know who is “walking to Emmaus” right now, and how could you walk with them?'
       ]
     },
@@ -212,7 +212,7 @@ document.documentElement.classList.add('js');
       ],
       questions: [
         'What feels like “the earth moving” in your life at the moment?',
-        'How do you practise stillness, if at all?',
+        'How do you practice stillness, if at all?',
         'Where have you seen God as “a very present help”?'
       ]
     },
@@ -222,7 +222,7 @@ document.documentElement.classList.add('js');
       summary: 'A pilgrim song for the road. Marcus on where we look for help, and the God who does not sleep so we can.',
       verse: { text: 'I will lift up mine eyes unto the hills, from whence cometh my help. My help cometh from the LORD, which made heaven and earth.', ref: 'Psalm 121:1–2 (KJV)' },
       notes: [
-        ['A song for travellers', 'Pilgrims sang this on the way to Jerusalem. It is a psalm for people in the middle of a journey.'],
+        ['A song for travelers', 'Pilgrims sang this on the way to Jerusalem. It is a psalm for people in the middle of a journey.'],
         ['He does not slumber', 'You are allowed to sleep. Keeping the world turning is not your job.'],
         ['Going out and coming in', 'The psalm ends with the most ordinary movements of a day. God keeps those too.']
       ],
@@ -351,7 +351,7 @@ document.documentElement.classList.add('js');
     { id: 'river-trail-cleanup', title: 'River Trail Clean-up', cat: 'serve', date: '2026-10-17', start: '09:00', end: '12:00', place: 'Burcham Park trailhead, Lawrence', summary: 'We adopt two miles of the Kansas River trail. Gloves, grabbers and doughnuts provided; wear shoes you don’t love.' },
     { id: 'newcomers-lunch', title: 'Newcomers’ Lunch', cat: 'community', date: '2026-10-18', start: '12:30', end: '13:45', place: 'The River Room', summary: 'New to Riverbend? Have lunch with our pastors, ask anything and meet other people who are new too. Kids welcome; childcare in Room 104.' },
     { id: 'kids-volunteer-training', title: 'Kids Check-in Volunteer Training', cat: 'serve', date: '2026-10-21', start: '19:00', end: '20:30', place: 'Riverbend Kids wing', summary: 'Everything you need to serve on the Sunday check-in team, including our safeguarding training. Background checks can be done on the night.' },
-    { id: 'block-party', title: 'Riverbend Block Party', cat: 'community', date: '2026-10-24', start: '11:00', end: '15:00', place: 'Riverside Avenue (closed to traffic)', summary: 'Food trucks, a bouncy castle, live music and a chili cook-off on the street outside the church. Free and for the whole neighbourhood.' },
+    { id: 'block-party', title: 'Riverbend Block Party', cat: 'community', date: '2026-10-24', start: '11:00', end: '15:00', place: 'Riverside Avenue (closed to traffic)', summary: 'Food trucks, a bouncy castle, live music and a chili cook-off on the street outside the church. Free and for the whole neighborhood.' },
     { id: 'baptism-sunday', title: 'Baptism Sunday', cat: 'worship', date: '2026-10-25', start: '11:00', end: '12:30', place: 'Main auditorium', summary: 'We celebrate baptisms at the 11:00 gathering. Thinking about being baptised? Talk to any pastor by the Sunday before.' },
     { id: 'family-movie-night', title: 'Family Movie Night', cat: 'kids', date: '2026-10-30', start: '18:00', end: '20:00', place: 'The River Room', summary: 'A family film on the big screen, free popcorn and blankets on the floor. Rated G, pyjamas encouraged.' },
     { id: 'starting-point', title: 'Starting Point', cat: 'classes', date: '2026-11-01', start: '16:00', end: '18:00', place: 'Room 210', summary: 'A two-hour class on who we are, what we believe and how to get involved. The first step towards membership, and dinner is included.' },

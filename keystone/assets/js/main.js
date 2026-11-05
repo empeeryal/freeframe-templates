@@ -43,7 +43,7 @@
   };
   var TIMELINE = {
     flexible: { label: 'Flexible', desc: 'Start when trades are free; 12+ months away.', meta: '−3–4%', mult: [0.96, 0.97], pace: 1.15 },
-    standard: { label: 'Standard', desc: 'A normal programme with one main crew.', meta: 'Base rate', mult: [1, 1], pace: 1 },
+    standard: { label: 'Standard', desc: 'A normal schedule with one main crew.', meta: 'Base rate', mult: [1, 1], pace: 1 },
     fast: { label: 'Fast-track', desc: 'Overlapping trades and extended shifts.', meta: '+8–14%', mult: [1.08, 1.14], pace: 0.82 }
   };
   var DESIGN = { label: 'Architecture & permits', mult: [1.07, 1.1], weeks: [12, 20] };

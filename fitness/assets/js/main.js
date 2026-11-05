@@ -5,7 +5,7 @@ var FORGE = {
     "strength": {
       "name": "Strength Lab",
       "short": "Small-group barbell training with coached progressions every week.",
-      "desc": "Strength Lab is where Keel members get genuinely strong. Each six-week block follows a written programme built around the squat, hinge, press and pull, with a coach adjusting the load for every athlete on the platform. You'll log every set and watch the numbers climb.",
+      "desc": "Strength Lab is where Keel members get genuinely strong. Each six-week block follows a written program built around the squat, hinge, press and pull, with a coach adjusting the load for every athlete on the platform. You'll log every set and watch the numbers climb.",
       "intensity": 2,
       "duration": 60,
       "kcal": "350–500",
@@ -149,9 +149,9 @@ var FORGE = {
         "USA Weightlifting L2",
         "Precision Nutrition L1"
       ],
-      "quote": "Strength is a skill. Practise it like one and it never stops paying you back.",
+      "quote": "Strength is a skill. Practice it like one and it never stops paying you back.",
       "bio": [
-        "Maya founded the Strength Lab programme after a decade coaching competitive lifters and complete beginners side by side. She's a national-level weightlifter and a firm believer that anyone can learn to lift well.",
+        "Maya founded the Strength Lab program after a decade coaching competitive lifters and complete beginners side by side. She's a national-level weightlifter and a firm believer that anyone can learn to lift well.",
         "Outside the gym she coaches a youth weightlifting club and is slowly losing a long-running deadlift bet with her dad."
       ],
       "handle": "maya.lifts"
@@ -176,7 +176,7 @@ var FORGE = {
       "quote": "Every session should leave you tired, proud and wanting to come back.",
       "bio": [
         "Dev is a former 400m runner who swapped the track for coaching. His Ignite classes are famous for brutal finishers and the best playlists in the building.",
-        "He programmes our conditioning blocks and still races the occasional half marathon to keep himself honest."
+        "He programs our conditioning blocks and still races the occasional half marathon to keep himself honest."
       ],
       "handle": "dev.moves"
     },
@@ -198,7 +198,7 @@ var FORGE = {
       "quote": "You don't need to fight to train like a fighter.",
       "bio": [
         "Jonah boxed as an amateur for twelve years before moving into coaching. He teaches real technique to people who have never thrown a punch and makes them look sharp within weeks.",
-        "He runs our Saturday open bag sessions and a free boxing programme for local teenagers."
+        "He runs our Saturday open bag sessions and a free boxing program for local teenagers."
       ],
       "handle": "jonah.boxing"
     },
@@ -241,7 +241,7 @@ var FORGE = {
       ],
       "quote": "Watts don't lie. Show up, ride your numbers, and they will climb.",
       "bio": [
-        "Sami raced road bikes across Europe before building our power-based Keel Ride programme. He loves turning data into motivation and knows every member's FTP by heart.",
+        "Sami raced road bikes across Europe before building our power-based Keel Ride program. He loves turning data into motivation and knows every member's FTP by heart.",
         "Weekends you'll find him leading the free Keel Sunday Social ride out of the Harbor club."
       ],
       "handle": "sami.rides"
@@ -266,7 +266,7 @@ var FORGE = {
       ],
       "quote": "Train hard, eat like you mean it, and give it more than six weeks.",
       "bio": [
-        "Chloe is a registered dietitian and strength coach who helps members connect what they eat with how they train. She leads our 12-week Transform programme.",
+        "Chloe is a registered dietitian and strength coach who helps members connect what they eat with how they train. She leads our 12-week Transform program.",
         "She's also our go-to coach for pre- and postnatal training."
       ],
       "handle": "chloe.fuel"
@@ -1072,7 +1072,7 @@ var FORGE = {
       var name = FORGE.classes[s.type].name;
       if (isBooked(s.id)) {
         setBookings(list.filter(function (x) { return x !== s.id; }));
-        toast('Booking cancelled: ' + name);
+        toast('Booking canceled: ' + name);
       } else if (spotsLeft(s) === 0) {
         toast("You're on the waitlist for " + name);
         modal.close();

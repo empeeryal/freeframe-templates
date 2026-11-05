@@ -1334,7 +1334,7 @@
       eventsCache = null;
       write(KEYS.rsvps, rsvps.length ? rsvps : null);
       render(); renderSelect(''); renderMine(); seatsOptions();
-      toast('Your RSVP for <strong>' + escapeHtml(ev ? ev.title : 'that event') + '</strong> is cancelled. Thanks for letting us know.');
+      toast('Your RSVP for <strong>' + escapeHtml(ev ? ev.title : 'that event') + '</strong> is canceled. Thanks for letting us know.');
       $('#my-rsvps-heading').focus();
     });
     const form = $('#rsvp-form');

@@ -7,7 +7,7 @@ wholesale page with a volume estimator and inquiry form, sourcing, contact with 
 bags are drawn in SVG from the product data, so there are no photos to replace. Plain HTML, Tailwind CSS v4
 and vanilla JavaScript.
 
-**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/roast)
 
 ## Quick start

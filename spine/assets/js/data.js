@@ -294,7 +294,7 @@ window.LARCHMERE = {
       } },
     { id: "pennywhistle-conversation", type: "author", date: "2026-10-29", start: "19:00", end: "20:00", book: "two-editions", capacity: 50,
       title: "Cosima Pennywhistle in conversation with Augie Sorensen",
-      blurb: "Forgeries, first editions and how to hide a body in a bookshop, from the author of A Death in Two Editions." },
+      blurb: "Forgeries, first editions and how to hide a body in a bookstore, from the author of A Death in Two Editions." },
     { id: "salt-moon-launch", type: "author", date: "2026-11-05", start: "19:00", end: "20:30", book: "salt-moon", capacity: 70,
       title: "Launch night: Salt Moon Signal with Kavya Vantongeren",
       blurb: "Celebrate publication week with a reading, a Q&A and star-shaped cookies. Preordered copies are signed on the night." },

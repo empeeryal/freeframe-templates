@@ -4,7 +4,7 @@ A complete website for a real-estate agency, made for the fictional **Harbor & H
 searchable listings, property pages with a gallery and mortgage calculator, saved homes, agent profiles
 and valuation requests. Plain HTML, Tailwind CSS v4 and a small vanilla JavaScript file.
 
-**Version 1.1.12** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.1.13** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/estate)
 
 ## Quick start

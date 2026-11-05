@@ -7,7 +7,7 @@ Reno, Nevada. It is built with plain HTML5, Tailwind CSS v4 and vanilla JavaScri
 The site explains the product with a six-stage board explorer, dates a plan from any of fifteen illustrated
 playbooks, compares customer stories with generated before-and-after charts, builds an itemized pricing quote,
 lists a filterable resource library and finishes with a qualified sales inquiry and a demo time picker. This is
-version 1.0.2 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). The template page with a link to the live demo
+version 1.0.3 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). The template page with a link to the live demo
 is at [freeframe.dev/templates/latchline](https://freeframe.dev/templates/latchline).
 
 The copy is written in US English, prices are in US dollars and every date and time is worked out in the

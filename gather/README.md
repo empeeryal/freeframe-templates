@@ -8,7 +8,7 @@ ministries, a giving form with a live total, an about page with staff, contact a
 404 page. Every illustration and portrait is SVG, so there are no photos to replace. Plain HTML, Tailwind
 CSS v4 and vanilla JavaScript.
 
-**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/gather)
 
 ## Quick start

@@ -7,7 +7,7 @@ fictional practice in Boise, Idaho, with four dentists, three hygienists and a p
 five-step booking flow whose time slots come from each clinician's schedule and the length of the visit, a pricing page
 with a cost estimator and a payment-plan calculator, an emergency symptom guide, a multi-step new patient form and
 filterable treatments and team pages. It's plain HTML5, Tailwind CSS v4 and one vanilla JavaScript file with no
-dependencies. This guide covers version 1.0.5 of the HTML version. Live demo:
+dependencies. This guide covers version 1.0.6 of the HTML version. Live demo:
 [freeframe.dev/templates/smile](https://freeframe.dev/templates/smile).
 
 All health content is general information written for a fictional practice. Have a qualified professional review

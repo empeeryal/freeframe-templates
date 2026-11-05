@@ -30,10 +30,10 @@
       look: { kind: 'modern', time: 'dusk', wall: '#e8e2d6', trim: '#3b403c', accent: '#7d8f7a', room: '#ece6da' },
       summary: 'A light-filled modern home cantilevered over a wooded slope, with floor-to-ceiling glass on every level and a heated lap pool.',
       features: ['Floor-to-ceiling glazing', 'Heated lap pool', 'Chef’s kitchen with island', 'Radiant floor heating', 'Solar panels with battery', 'Home office with forest view'] },
-    { id: 2, title: 'Harbourside Loft', address: 'Unit 6C, 40 Quay Street', area: 'The Docklands', status: 'buy', type: 'Apartment',
+    { id: 2, title: 'Harborside Loft', address: 'Unit 6C, 40 Quay Street', area: 'The Docklands', status: 'buy', type: 'Apartment',
       price: 685000, beds: 2, baths: 2, sqft: 1240, year: 2016, parking: '1 secure space', lot: '—', listed: 5, agent: 4, badges: [],
       look: { kind: 'apartment', time: 'night', wall: '#d8d0c3', trim: '#2f3633', accent: '#3d4f6b', room: '#e9e3d8' },
-      summary: 'A corner loft with exposed brick, 3-metre ceilings and a balcony that looks straight across the working harbour.',
+      summary: 'A corner loft with exposed brick, 3-metre ceilings and a balcony that looks straight across the working harbor.',
       features: ['Corner unit with two aspects', 'Private balcony', 'Exposed brick and timber beams', 'Concierge and gym', 'Bike storage', 'Walk to ferry terminal'] },
     { id: 3, title: 'Rose Cottage', address: '7 Orchard Lane', area: 'Linden Park', status: 'buy', type: 'Cottage',
       price: 540000, beds: 3, baths: 1, sqft: 1500, year: 1912, parking: 'Driveway', lot: '0.2 acres', listed: 9, agent: 5, badges: ['Open house Sat'],
@@ -73,8 +73,8 @@
     { id: 10, title: 'Chapel Row No. 7', address: '7 Chapel Row', area: 'Old Harbor', status: 'buy', type: 'Townhouse',
       price: 925000, beds: 4, baths: 3, sqft: 2050, year: 1885, parking: 'Garage (rear)', lot: '—', listed: 30, agent: 5, badges: [],
       look: { kind: 'townhouse', time: 'dusk', wall: '#7d93a6', trim: '#283035', accent: '#a7834b', room: '#ece4d6' },
-      summary: 'A tall four-storey townhouse on Old Harbor’s prettiest row, with a roof terrace that catches the evening sun.',
-      features: ['Roof terrace with harbour view', 'Four storeys', 'Original sash windows', 'Wine cellar', 'Rear garage', 'Top-rated school catchment'] },
+      summary: 'A tall four-story townhouse on Old Harbor’s prettiest row, with a roof terrace that catches the evening sun.',
+      features: ['Roof terrace with harbor view', 'Four stories', 'Original sash windows', 'Wine cellar', 'Rear garage', 'Top-rated school catchment'] },
     { id: 11, title: 'Orchard Cottage', address: '2 Apple Tree Close', area: 'Cedar Heights', status: 'rent', type: 'Cottage',
       price: 2600, beds: 2, baths: 1, sqft: 980, year: 1938, parking: 'Driveway', lot: '0.15 acres', listed: 4, agent: 3, badges: [],
       look: { kind: 'cottage', time: 'day', wall: '#f3ede0', trim: '#4e5d52', accent: '#7d8f7a', room: '#f1ebdf' },
@@ -863,7 +863,7 @@
     $('[data-p-summary]').textContent = p.summary;
     $('[data-p-more]').textContent = 'Built in ' + p.year + ', this ' + p.type.toLowerCase() + ' offers ' + p.sqft.toLocaleString('en-US') +
       ' sq ft across ' + p.beds + ' bedroom' + (p.beds > 1 ? 's' : '') + ' and ' + p.baths + ' bathroom' + (p.baths > 1 ? 's' : '') +
-      '. ' + p.area + ' puts you close to ' + ({ 'Cedar Heights': 'forest trails and the Cedar Heights village shops', 'The Docklands': 'the ferry terminal, galleries and waterfront restaurants', 'Linden Park': 'the park, the Saturday farmers’ market and well-regarded schools', 'Westshore': 'surf beaches, the coastal path and the Westshore marina', 'Old Harbor': 'cobbled lanes, independent cafés and the harbour wall', 'Hillcrest': 'the lookout, golf club and the best views in Marlow Bay' }[p.area] || 'everything Marlow Bay has to offer') + '.';
+      '. ' + p.area + ' puts you close to ' + ({ 'Cedar Heights': 'forest trails and the Cedar Heights village shops', 'The Docklands': 'the ferry terminal, galleries and waterfront restaurants', 'Linden Park': 'the park, the Saturday farmers’ market and well-regarded schools', 'Westshore': 'surf beaches, the coastal path and the Westshore marina', 'Old Harbor': 'cobbled lanes, independent cafés and the harbor wall', 'Hillcrest': 'the lookout, golf club and the best views in Marlow Bay' }[p.area] || 'everything Marlow Bay has to offer') + '.';
     $('[data-p-features]').innerHTML = p.features.map(function (f) {
       return '<li class="flex items-start gap-3"><svg class="mt-1 size-4 shrink-0 text-brass" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="m4 10 4 4 8-8"/></svg><span>' + esc(f) + '</span></li>';
     }).join('');

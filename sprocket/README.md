@@ -2,7 +2,7 @@
 
 A bold product launch and preorder website for a hardware startup, built for the fictional **Bonfield Bikes** in Duluth, Minnesota, and its Portage compact cargo e-bike: a live configurator with an SVG bike that recolors as you build, shareable and saved builds, a range estimator for hills and winter, production batches with spots left that roll forward on their own, a reservation flow with a refundable deposit, a specs page with a cost calculator, a build log, team and careers pages, and support with FAQ search and delivery zones. Plain HTML, Tailwind CSS v4 and vanilla JavaScript.
 
-**Version 1.0.2** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.3** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/sprocket)
 
 ## Quick start

@@ -522,7 +522,7 @@
     },
     {
       id: "travel",
-      title: "Travelling with keys, or without them",
+      title: "Traveling with keys, or without them",
       topic: "everyday",
       level: "intermediate",
       minutes: 20,

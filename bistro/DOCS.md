@@ -6,7 +6,7 @@ Bistro is a warm, high-end website for a restaurant, café or wine bar. The demo
 Ember**, a fictional wood-fired Mediterranean kitchen in an old town, with tabbed menus, a reservation
 form whose time slots follow the opening hours, private dining packages and a live "open now" badge.
 It is built with HTML5, Tailwind CSS v4 and a small vanilla JavaScript file, and needs no build step.
-This guide covers version 1.1.8.
+This guide covers version 1.1.9.
 
 Live demo: [freeframe.dev/templates/bistro](https://freeframe.dev/templates/bistro)
 
@@ -142,7 +142,7 @@ row can be highlighted:
 empty. Show the matching badges (`badge-v`, `badge-vg`, `badge-gf`) inside the dish so guests can see
 them. Every dish needs `data-dish`; every group of dishes needs `data-menu-group`.
 
-**Private dining packages** on `events.html` each have an "Enquire" link with
+**Private dining packages** on `events.html` each have an "Inquire" link with
 `data-package="The Long Table"`; the value must match an `<option>` in the inquiry form's `package`
 select (see [Forms](#forms)).
 
@@ -317,7 +317,7 @@ Cloudflare Pages or any web host. No build command is needed on the host.
 - **A dish doesn't show up when filtering.** It needs `data-dish` and the right codes in `data-diet`
   (`v`, `vg`, `gf`).
 - **`menu.html#drinks` doesn't open the Drinks tab.** The hash must match the tab's `aria-controls` value.
-- **The "Enquire" button doesn't preselect a package.** Its `data-package` must exactly match an
+- **The "Inquire" button doesn't preselect a package.** Its `data-package` must exactly match an
   `<option>` in the `package` select.
 - **New Tailwind classes have no effect.** Rebuild the CSS.
 - **Forms "send" but nothing arrives.** Connect them as described in [Forms](#forms).

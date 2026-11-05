@@ -6,6 +6,12 @@ All notable changes to the Keystone HTML template are documented here. The forma
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-05
+
+### Changed
+
+- The sample copy uses American spelling, as the template is set in the US.
+
 ## [1.0.4] - 2026-11-05
 
 ### Changed
