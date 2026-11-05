@@ -5,9 +5,9 @@
 Drift is a launch website for a mobile app, written for **Nightjar**, a fictional sleep and wind-down app made
 by a small team in Inverness. It is dark first: a night-sky design with SVG star fields, a glowing moon, soft
 aurora gradients and glassy phone mockups built in HTML, plus a light ("dawn") theme. It has a tabbed feature
-tour, a bedtime calculator, a sound library with generated previews and saved favourites, a wind-down routine
+tour, a bedtime calculator, a sound library with generated previews and saved favorites, a wind-down routine
 builder, pricing with a monthly/annual switch, filterable reviews, sleep guides and a support page with a
-searchable help centre, contact form and press kit. This is the **HTML + Tailwind CSS v4** version, **1.0.2**:
+searchable help center, contact form and press kit. This is the **HTML + Tailwind CSS v4** version, **1.0.2**:
 static pages and one vanilla JavaScript file, no build step needed to run it.
 
 Live demo: [freeframe.dev/templates/drift](https://freeframe.dev/templates/drift)
@@ -33,12 +33,12 @@ python3 -m http.server 8000   # then open http://localhost:8000
 |------|---------|------------------|
 | `index.html` | Home | Night-sky hero with moon, phone mockup and floating cards, store buttons, press strip, tabbed feature tour (`#tour`), "a night with Nightjar" timeline, calculator and sounds teasers, reviews, download block (`#download`) |
 | `features.html` | Features | Four feature sections (`#sounds`, `#alarm`, `#routine`, `#diary`) with app screens, the routine builder (`#builder`), smaller features and a health note |
-| `sounds.html` | Sound library | Category filters, search, favourites, preview play/pause with a "now playing" bar |
+| `sounds.html` | Sound library | Category filters, search, favorites, preview play/pause with a "now playing" bar |
 | `calculator.html` | Bedtime calculator | Wake-up and bedtime modes, fall-asleep allowance, results with suggested options, cycle illustration, FAQ |
 | `pricing.html` | Pricing | Free, Premium and Family plans, monthly/annual switch, comparison table, FAQ (`#faq`) |
 | `reviews.html` | Reviews | Rating summary, rating and topic filters, sorting |
 | `guides.html` | Sleep guides | Featured guide, topic filter, guides that expand in place |
-| `support.html` | Support and press | Help centre search (`#faq`), contact form (`#contact`), press kit (`#press`), privacy summary (`#privacy`) |
+| `support.html` | Support and press | Help center search (`#faq`), contact form (`#contact`), press kit (`#press`), privacy summary (`#privacy`) |
 | `404.html` | Not found | Moon artwork and links back into the site |
 
 ## Project structure
@@ -59,11 +59,11 @@ drift/
 ├── README.md  DOCS.md  CHANGELOG.md
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
-All colours are tokens in the `@theme` block of `src/input.css`. The night theme is the default; the dawn
+All colors are tokens in the `@theme` block of `src/input.css`. The night theme is the default; the dawn
 theme overrides the same tokens under `html.light`, so every utility (`bg-card`, `text-muted`, `border-line`…)
 follows the theme automatically.
 
@@ -74,9 +74,9 @@ follows the theme automatically.
 | `--color-fg`, `--color-muted`, `--color-subtle` | Headings and body, secondary text, captions |
 | `--color-accent` | Links, eyebrows, icons and selected states |
 | `--color-cta`, `--color-cta-hover`, `--color-cta-fg` | The filled "moonlight" button and its text |
-| `--color-moon`, `--color-aurora`, `--color-iris`, `--color-dusk` | Fixed brand colours for artwork (same in both themes) |
+| `--color-moon`, `--color-aurora`, `--color-iris`, `--color-dusk` | Fixed brand colors for artwork (same in both themes) |
 
-To change the main button colour in the night theme:
+To change the main button color in the night theme:
 
 ```css
 @theme {
@@ -86,7 +86,7 @@ To change the main button colour in the night theme:
 ```
 
 Change the matching values in the `html.light` block too, and check contrast in both themes. The phone screens
-use fixed inline colours (the app itself is always dark); edit them in the HTML if your app looks different.
+use fixed inline colors (the app itself is always dark); edit them in the HTML if your app looks different.
 
 ### Typography
 
@@ -102,7 +102,7 @@ Text lives in the HTML pages. Data that drives the interactions is at the top of
 | Constant | What it holds |
 |----------|---------------|
 | `STORAGE` | The localStorage keys (see [Saved data](#saved-data-localstorage)) |
-| `CYCLE_MINUTES`, `CYCLE_COUNTS`, `SUGGESTED_CYCLES` | Calculator maths: 90-minute cycles, the options shown (6, 5, 4, 3) and which are highlighted (5 and 6) |
+| `CYCLE_MINUTES`, `CYCLE_COUNTS`, `SUGGESTED_CYCLES` | Calculator math: 90-minute cycles, the options shown (6, 5, 4, 3) and which are highlighted (5 and 6) |
 | `CALC_MODES`, `LATENCY_OPTIONS`, `CALC_DEFAULTS` | Calculator modes (`wake`, `bed`) and labels, allowed fall-asleep minutes (5, 10, 15, 20, 30), defaults (`wake`, `07:00`, 15) |
 | `ROUTINE_STEPS`, `ROUTINE_DEFAULTS` | Routine builder steps (`id: { label, minutes }`, in running order) and the suggested routine (`dim`, `screens`, `breathe`, `read`, lights out `22:45`) |
 | `SOUND_RECIPES`, `PREVIEW_SECONDS`, `SOUND_CATEGORIES` | How each sound preview is generated, preview length (30 s), allowed filters |
@@ -190,7 +190,7 @@ heart buttons (`data-fav`, `aria-pressed`) save ids to `drift-favourites`. Previ
 noise, sine tones and slow volume waves; no audio files), fading in and stopping after `PREVIEW_SECONDS`. The
 fixed "now playing" bar (`data-now-playing`) has a Stop button; Escape also stops. Without Web Audio the
 buttons still change state and a toast explains. URL parameter: `?cat=rain|nature|noise|ambient|favourites`.
-Code: section 9. The equaliser animation is static with reduced motion.
+Code: section 9. The equalizer animation is static with reduced motion.
 
 ### Pricing switch
 
@@ -208,7 +208,7 @@ lowest), with a live "Showing 12 reviews" count. URL parameters: `?stars=` and `
 Topic buttons (`data-topic-filter`) filter the guides; each guide expands in place with `<details>`. URL
 parameter: `?topic=routines|bedroom|sounds|mornings`. Code: section 12.
 
-### Help centre search
+### Help center search
 
 Typing in `#faq-search` filters the questions and answers (every word must match), hides empty groups and
 updates the count ("1 answer found"). Code: `initFaqSearch()` (section 13).
@@ -216,7 +216,7 @@ updates the count ("1 answer found"). Code: `initFaqSearch()` (section 13).
 ### Copy buttons and toast
 
 `data-copy-target="id"` copies an element's text (press boilerplate) and `data-copy-text="…"` copies the value
-(colour swatches). Messages appear in the `#toast` live region. Code: section 15.
+(color swatches). Messages appear in the `#toast` live region. Code: section 15.
 
 ## Forms
 
@@ -267,11 +267,11 @@ your host doesn't create them. The calculator page title targets "when should I 
 
 - Skip link, landmarks, one `<h1>` per page and a logical heading order.
 - Visible focus rings in both themes; AA contrast checked in night and dawn themes.
-- Tabs follow the ARIA tabs pattern; filters and favourites use `aria-pressed`; the billing control is a
+- Tabs follow the ARIA tabs pattern; filters and favorites use `aria-pressed`; the billing control is a
   `role="switch"`; counts and results use polite live regions.
 - The mobile menu sets `aria-expanded` and closes with Escape.
 - Decorative SVGs are `aria-hidden`; phone mockups have descriptive `aria-label`s.
-- Reduced motion turns off twinkling stars, drifting auroras, floating cards, the equaliser and reveals.
+- Reduced motion turns off twinkling stars, drifting auroras, floating cards, the equalizer and reveals.
 
 When editing, keep one `h1`, label every new input and check that `aria-controls`/`aria-labelledby` ids exist.
 
@@ -295,7 +295,7 @@ no server code.
   silent switch is on. Check the device volume.
 - **The time input shows AM/PM.** Time inputs follow the browser's locale; the calculator still works in
   24-hour `HH:MM` internally.
-- **Favourites or settings don't persist.** Storage is blocked (private mode or a sandboxed preview), so they
+- **Favorites or settings don't persist.** Storage is blocked (private mode or a sandboxed preview), so they
   last only for the page view.
 - **The theme flashes on load.** Keep the inline script in the `<head>` above the closing `</head>` on every page.
 - **The social image doesn't show.** Use an absolute `og:image` URL to the PNG.

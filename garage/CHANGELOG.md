@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.3] - 2026-11-04
 
 ### Fixed
@@ -40,5 +46,5 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - MOT reminder: the next MOT due date from the last test date (a year less a day) or a new car's registration date (third anniversary), the earliest test that keeps the renewal date, a countdown, a timeline and the reminder date; reminders are saved in localStorage and work in memory when storage is blocked.
 - Open-now status in UK time on every page (never a bare "Closed": it says when the workshop opens next), today's hours, a workshop-day gauge, the next free MOT drop-off and upcoming closures. `?at=` previews any UK date and time.
 - Filterable services (`?cat=`), reviews with relative dates, rating breakdown, filter and sort, a searchable FAQ with highlighted matches (`?q=`) and a validated contact form.
-- SVG artwork: car inspection drawing, brake assembly, tyre tread section, MOT calendar, workshop elevation, rating gauge, street map, seven team portraits, favicon and social image.
+- SVG artwork: car inspection drawing, brake assembly, tire tread section, MOT calendar, workshop elevation, rating gauge, street map, seven team portraits, favicon and social image.
 - Accessible mobile menu, skip link, keyboard-friendly calendar, back-to-top button and scroll reveals that respect reduced motion.

@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.3] - 2026-10-26
 
 ### Fixed
@@ -19,9 +25,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### Fixed
 
-- The newsletter, contact and tour enquiry success messages no longer say the form is a demo and nothing was
-  sent. The newsletter one asks the reader to look out for a confirmation email; the contact and enquiry ones
-  confirm the message or enquiry, say a reply comes within one working day (as the pages already promise) and
+- The newsletter, contact and tour inquiry success messages no longer say the form is a demo and nothing was
+  sent. The newsletter one asks the reader to look out for a confirmation email; the contact and inquiry ones
+  confirm the message or inquiry, say a reply comes within one working day (as the pages already promise) and
   show a reference like SJ-7K2Q. `DOCS.md` and `template.json` are updated to match.
 
 ## [1.0.1] - 2026-10-19
@@ -42,8 +48,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - Tour pages generated from the `TOURS` data: highlights, day-by-day itinerary accordion with "expand all",
   illustrated route map, what's included and excluded, departure dates with availability and prices, and
   related trips.
-- Booking widget with departure, travellers stepper and room choice, showing a live total and deposit,
-  feeding a validated enquiry form with a demo success state.
+- Booking widget with departure, travelers stepper and room choice, showing a live total and deposit,
+  feeding a validated inquiry form with a demo success state.
 - Destinations page with a month-by-month seasonality table and a best-time chart for each region.
 - Journal with a topic filter, and an article page with a reading progress bar and table of contents.
 - About page with the company story, guides with illustrated avatars and responsible travel commitments,

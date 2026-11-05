@@ -35,8 +35,8 @@ Do not publish `node_modules`. No JavaScript bundler is used.
 | File            | Purpose                       | Notable sections and features                                                             |
 | --------------- | ----------------------------- | ----------------------------------------------------------------------------------------- |
 | `index.html`    | Introduce the workshop        | Bicycle illustration, next drop-off day, featured repairs, work standard and links        |
-| `services.html` | Find a repair                 | All 16 repairs, symptom search, category buttons, labour-price and bench-time sorting     |
-| `service.html`  | Explain one repair            | `?repair=` selection, three work steps, suitability, labour, parts allowance and mechanic |
+| `services.html` | Find a repair                 | All 16 repairs, symptom search, category buttons, labor-price and bench-time sorting     |
+| `service.html`  | Explain one repair            | `?repair=` selection, three work steps, suitability, labor, parts allowance and mechanic |
 | `estimate.html` | Build a repair plan           | `?repair=` preselection, quantities, bike complexity, parts grade, overlap advice, copy   |
 | `book.html`     | Book a drop-off               | Ten rolling opening days, mechanic choice, time buttons, validation and a booked state    |
 | `workshop.html` | Meet the people               | Three mechanic profiles, individual specialisms and workshop standards                    |
@@ -75,9 +75,9 @@ cogmere/
 
 `template.json` is gallery metadata in the source repository. It is omitted from the downloadable archive.
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 Open `src/input.css`. The `@theme` block defines the shared palette and typefaces:
 
@@ -101,9 +101,9 @@ For example:
 }
 ```
 
-Rebuild the CSS after changing tokens. SVG files contain their own colour values, so update those separately. Check text contrast, including buttons and focus outlines, whenever you change colours.
+Rebuild the CSS after changing tokens. SVG files contain their own color values, so update those separately. Check text contrast, including buttons and focus outlines, whenever you change colors.
 
-Most layout styling is Tailwind utilities in HTML and generated strings in `main.js`. The small component layer covers repeated buttons, labels, inputs, cards and reveal behaviour.
+Most layout styling is Tailwind utilities in HTML and generated strings in `main.js`. The small component layer covers repeated buttons, labels, inputs, cards and reveal behavior.
 
 ### Typography
 
@@ -132,7 +132,7 @@ Static headings, addresses, navigation and explanatory sections live in the HTML
 | `TEAM`               | Three mechanics, biographies, specialisms, portraits and approaches                             |
 | `GUIDES`             | Eight ride notes: title, category, introduction, three practical points, a safety note and art  |
 | `CHECKS`             | Checklist IDs, labels, explanations, applicable ride kinds and wet-only flags                   |
-| `BIKE_TYPES`         | Bike labels and labour-complexity rates                                                         |
+| `BIKE_TYPES`         | Bike labels and labor-complexity rates                                                         |
 | `PARTS_GRADES`       | Parts labels and allowance multipliers                                                          |
 | `SERVICE_CATEGORIES` | Filter button order                                                                             |
 | `GUIDE_CATEGORIES`   | Journal category labels                                                                         |
@@ -166,7 +166,7 @@ Add `perBike: true` to a whole-bike package (the safety check, everyday service,
 
 IDs must be unique, short lowercase slugs. The `mechanic` must match an ID in `TEAM`. Add a new category to `SERVICE_CATEGORIES` if needed. `SERVICE_MAP`, `TEAM_MAP` and `CHECK_MAP` are derived automatically.
 
-The homepage chooses four repairs in the final initialisation block: `service`, `puncture`, `rim` and `gears`. Change that list to choose different featured cards.
+The homepage chooses four repairs in the final initialization block: `service`, `puncture`, `rim` and `gears`. Change that list to choose different featured cards.
 
 ### Images and artwork
 
@@ -198,20 +198,20 @@ The footer year is filled in the browser using `TIME_ZONE`. Change all fictional
 
 `cleanPlan()`, `readPlan()` and `writePlan()` keep the saved plan valid. `planTotals()` calculates:
 
-- Labour: each catalogue labour price multiplied by quantity.
-- Complexity: the combined labour multiplied by the selected bike rate, rounded to the nearest penny.
-- Parts: each catalogue allowance multiplied by the selected parts multiplier, rounded per job, then multiplied by quantity.
-- Total: labour plus complexity plus parts.
+- Labor: each catalog labor price multiplied by quantity.
+- Complexity: the combined labor multiplied by the selected bike rate, rounded to the nearest penny.
+- Parts: each catalog allowance multiplied by the selected parts multiplier, rounded per job, then multiplied by quantity.
+- Total: labor plus complexity plus parts.
 
-The standard bike rate is 0%; cargo is 20%; e-bike mechanical work is 15%. Parts multipliers are 1 for everyday, 1.4 for the longer-wearing allowance and 0 for labour-only estimates. Quantities are clamped to whole numbers from 1 to 4, or to 1 for `perBike` packages.
+The standard bike rate is 0%; cargo is 20%; e-bike mechanical work is 15%. Parts multipliers are 1 for everyday, 1.4 for the longer-wearing allowance and 0 for labor-only estimates. Quantities are clamped to whole numbers from 1 to 4, or to 1 for `perBike` packages.
 
-For example, a safety check and an inner tube replacement on a standard bike with everyday parts total £38: £30 labour and £8 parts. Choosing cargo adds £6 complexity, for £44. These remain allowances subject to inspection.
+For example, a safety check and an inner tube replacement on a standard bike with everyday parts total £38: £30 labor and £8 parts. Choosing cargo adds £6 complexity, for £44. These remain allowances subject to inspection.
 
 `renderEstimate()` also shows overlap notes when packages include the routine adjustments selected separately. It does not silently discount or remove a job: the mechanic resolves overlap in the final quote.
 
 `estimate.html?repair=<id>` preselects that repair in the "Add a repair" list (an unknown ID is ignored). It doesn't add anything until the visitor presses Add repair.
 
-`planText()` produces the text for Copy estimate. `navigator.clipboard` may require HTTP and permission; if copying is blocked, the page shows one labelled, selected textarea (reused on later clicks and kept up to date as the plan changes) so the visitor can copy manually.
+`planText()` produces the text for Copy estimate. `navigator.clipboard` may require HTTP and permission; if copying is blocked, the page shows one labeled, selected textarea (reused on later clicks and kept up to date as the plan changes) so the visitor can copy manually.
 
 Removing a line returns focus to the next remove button or the repair selector. Clearing a plan returns focus to the selector. Every change updates the totals and live status.
 
@@ -233,13 +233,13 @@ To change opening days, edit `isOpeningDay()`, the printed hours in every HTML f
 
 `initGuides()` filters `GUIDES` by selected category and a search across the whole note: title, category, introduction, practical points and the safety note (so "wet weather" and "bulge" both find notes). `readingMinutes()` works out the reading time from the note's own words at about 200 words a minute. The result count is live. Each note uses native `details` and `summary` elements for keyboard-operable expansion. Search and expanded notes are not saved.
 
-The notes are general care guidance. Keep the advice to stop riding when a brake, steering part, wheel or tyre may be unsafe. Do not turn them into a guarantee of safety.
+The notes are general care guidance. Keep the advice to stop riding when a brake, steering part, wheel or tire may be unsafe. Do not turn them into a guarantee of safety.
 
 ### Saved pre-ride checks
 
 `visibleChecks()` includes checks matching the selected ride kind and adds wet-only items when the weather is wet. The everyday dry list has six checks; the loaded wet list has thirteen.
 
-`renderChecklist()` creates labelled checkboxes and `updateChecklistProgress()` updates the visible checked count and the `role="progressbar"` meter (`data-check-meter`, filled by `data-check-bar`). Changing the ride or weather retains existing valid ticks; only relevant ticks count towards progress. The reset action clears all ticks while keeping the selected ride settings.
+`renderChecklist()` creates labeled checkboxes and `updateChecklistProgress()` updates the visible checked count and the `role="progressbar"` meter (`data-check-meter`, filled by `data-check-bar`). Changing the ride or weather retains existing valid ticks; only relevant ticks count towards progress. The reset action clears all ticks while keeping the selected ride settings.
 
 A previous tick is not a new inspection. The page explains this and provides a prominent fresh-check action. Change check text and applicability in `CHECKS`; update sidebar tips in `RIDE_TYPES`.
 
@@ -257,7 +257,7 @@ The forms don't send anything until you connect them to a backend. Both validate
 
 `initContact()` validates the same name and email rules and a question of at least 15 characters. Its success state (`data-contact-done`) thanks the visitor by first name, shows a reference and the "what happens next" line for the chosen topic from `CONTACT_TOPICS`. Contact details are never saved.
 
-The add-repair form in `estimate.html` selects an ID from the catalogue. Search and filter controls only change the local display.
+The add-repair form in `estimate.html` selects an ID from the catalog. Search and filter controls only change the local display.
 
 To connect a form service such as Formspree, add its endpoint to the form:
 
@@ -288,7 +288,7 @@ try {
 
 Keep credentials on a server, not in this JavaScript.
 
-For bookings, use your server to check availability again before confirming a slot. Include the selected date, time, mechanic and repair plan, and calculate authoritative prices from your server catalogue. A browser estimate is not an invoice or an authorisation to take payment.
+For bookings, use your server to check availability again before confirming a slot. Include the selected date, time, mechanic and repair plan, and calculate authoritative prices from your server catalog. A browser estimate is not an invoice or an authorization to take payment.
 
 Publish a real privacy notice explaining the form service, retention and contact route before collecting personal information.
 
@@ -301,7 +301,7 @@ All storage access goes through `safeStorage`. It writes to a memory map before 
 | `cogmere.repair-plan.v1` | `{ jobs: [{ id, qty }], bike, parts }` | Known own-key repair, bike and parts IDs; maximum 16 distinct repairs; quantities clamped 1–4; duplicate repairs merged |
 | `cogmere.ride-checks.v1` | `{ kind, weather, done: [] }`          | Known ride kind, `dry` or `wet` weather, unique known check IDs                                                         |
 
-Catalogue prices, names and descriptions are never taken from saved values. Invalid JSON is removed. Invalid shapes become safe defaults, unknown fields are dropped and valid portions are written back in normalised form. `cleanPlan()` examines at most 64 incoming job entries.
+Catalog prices, names and descriptions are never taken from saved values. Invalid JSON is removed. Invalid shapes become safe defaults, unknown fields are dropped and valid portions are written back in normalized form. `cleanPlan()` examines at most 64 incoming job entries.
 
 To reset both features from the browser console on your deployed origin:
 
@@ -315,7 +315,7 @@ The on-page clear and fresh-check buttons also work when storage is blocked. Nam
 
 ## SEO and sharing
 
-Every page has a unique title and description, Open Graph title and description, site name, locale, theme colour and favicon. The repair detail updates its browser title from the validated repair; its static social metadata describes the repair detail page generally.
+Every page has a unique title and description, Open Graph title and description, site name, locale, theme color and favicon. The repair detail updates its browser title from the validated repair; its static social metadata describes the repair detail page generally.
 
 Before publishing, replace `og:image` with an absolute URL to your own hosted `assets/img/og-image.png`. Add a canonical URL to each page if your hosting serves duplicate paths. Add a sitemap for your real public pages and a `robots.txt` suited to your deployment.
 
@@ -323,13 +323,13 @@ Use your real domain in production metadata. There is no analytics or structured
 
 ## Accessibility
 
-The pages include a skip link, semantic header/navigation/main/footer landmarks, one rendered `h1`, visible focus outlines, labelled controls, inline validation and live result counts. Menu controls, selected filters and drop-off times expose their state. Dynamic customer text is escaped or assigned as text.
+The pages include a skip link, semantic header/navigation/main/footer landmarks, one rendered `h1`, visible focus outlines, labeled controls, inline validation and live result counts. Menu controls, selected filters and drop-off times expose their state. Dynamic customer text is escaped or assigned as text.
 
 Keep all `aria-controls`, `aria-labelledby` and `aria-describedby` references paired with existing IDs. New icons that repeat text should be hidden from assistive technology. Do not use a shorter `aria-label` that drops visible button text.
 
 Check keyboard order after editing the estimator. Removing a repair should leave focus in the remaining plan or the add selector. The booking and contact success states have `tabindex="-1"` so submission can move focus to them.
 
-The design follows the same light palette for either system colour scheme; it does not store a theme preference. Recheck contrast at mobile and desktop sizes after changing colours. Avoid shrinking tap targets or disabling zoom.
+The design follows the same light palette for either system color scheme; it does not store a theme preference. Recheck contrast at mobile and desktop sizes after changing colors. Avoid shrinking tap targets or disabling zoom.
 
 ## Building and deploying
 
@@ -350,7 +350,7 @@ Tailwind scans this template's HTML and JavaScript through `source("../")`. Keep
 
 Upload the HTML files and `assets/` together to any static host. Netlify Drop, Cloudflare Pages and GitHub Pages can serve this site. Keep relative link paths intact when hosting under a subdirectory.
 
-Configure your host's missing-page behaviour to serve `404.html` with an HTTP 404 status. Test `index.html`, an inner page, an unknown URL, the fonts, all drawings and both forms after deployment.
+Configure your host's missing-page behavior to serve `404.html` with an HTTP 404 status. Test `index.html`, an inner page, an unknown URL, the fonts, all drawings and both forms after deployment.
 
 Before launch, test every page at phone and desktop widths, all estimator settings, quantity limits, removal focus, blocked storage, keyboard navigation and a successful and failed backend submission if connected. Test the calendar around Easter, Christmas and the year boundary as well as a year and two years ahead.
 
@@ -370,7 +370,7 @@ The browser may block persistent storage, as sandboxed previews do. Memory fallb
 
 ### A quantity or repair disappears on reload
 
-The saved-data validator removes unknown IDs and clamps quantities. Update the catalogue and any migrated storage together when renaming IDs. Clear the old storage keys while testing catalogue changes.
+The saved-data validator removes unknown IDs and clamps quantities. Update the catalog and any migrated storage together when renaming IDs. Clear the old storage keys while testing catalog changes.
 
 ### Copy estimate shows a text box
 
@@ -386,7 +386,7 @@ Until you connect a form service (see [Forms](#forms)), the success state is sho
 
 ### A service link shows the safety check
 
-The `repair` query parameter is missing or not a known catalogue ID. Use the exact lowercase ID from `SERVICES`, for example `service.html?repair=chain`.
+The `repair` query parameter is missing or not a known catalog ID. Use the exact lowercase ID from `SERVICES`, for example `service.html?repair=chain`.
 
 ## License
 

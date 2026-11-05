@@ -2,7 +2,7 @@
 
 ## Overview
 
-Tracewick is a fictional observability company in Retford, Nottinghamshire. This HTML5, Tailwind CSS v4 and dependency-free JavaScript template is version 1.0.0. Its nine pages combine a midnight telemetry aesthetic with a useful service explorer, local request queries, pricing calculations and searchable engineering guides. Visit [the template page](https://freeframe.dev/templates/tracewick) for the live preview.
+Tracewick is a fictional observability company in Retford, Nottinghamshire. This HTML5, Tailwind CSS v4 and dependency-free JavaScript template is version 1.0.1. Its nine pages combine a midnight telemetry aesthetic with a useful service explorer, local request queries, pricing calculations and searchable engineering guides. Visit [the template page](https://freeframe.dev/templates/tracewick) for the live preview.
 
 ## Quick start
 
@@ -32,7 +32,7 @@ No API keys, database, external JavaScript packages or build step are required t
 | `docs.html`     | Engineering documentation | Sixteen searchable guides, topic filter and copyable snippets                           |
 | `status.html`   | Reliability agreement     | Current status, 90-day uptime, incident history, maintenance, commitments and updates   |
 | `company.html`  | Company and team          | Retford working room, three people, operating principles and career invitation          |
-| `contact.html`  | Engineering enquiry       | Topic selector, validation, request reference and next steps                            |
+| `contact.html`  | Engineering inquiry       | Topic selector, validation, request reference and next steps                            |
 | `404.html`      | Missing route             | Route illustration and links back to useful destinations                                |
 
 ## Project structure
@@ -61,9 +61,9 @@ tracewick/
 └── LICENSE.txt             Template licence
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 The `@theme` block in `src/input.css` owns the design tokens.
 Rebuild the stylesheet after changing tokens or utility classes.
@@ -86,7 +86,7 @@ For example, change the accent inside the existing theme block:
 --color-cyan: #6ce9e0;
 ```
 
-Keep foreground contrast readable after changing colours.
+Keep foreground contrast readable after changing colors.
 The small shared classes include `.wrap`, `.eyebrow`, `.btn`, `.field`, `.label`, `.metric` and `.signal-grid`.
 Most page layout is expressed directly as Tailwind utility classes in HTML and generated markup.
 There is one dark design; no theme toggle or theme preference is stored.
@@ -185,7 +185,7 @@ Text search updates on input; other filters update on change so leaving search d
 ### Service details
 
 `openService()` renders a service diagram, trend, workload measures and current alert budget.
-The native modal dialog is labelled by its service heading.
+The native modal dialog is labeled by its service heading.
 Close, Escape and the backdrop dismiss it.
 Closing returns focus to the invoking detail button when it still exists.
 The budget action closes the dialog and focuses the relevant service selector.
@@ -193,7 +193,7 @@ The budget action closes the dialog and focuses the relevant service selector.
 The trend lines come from `serviceSeries()`: 24 hourly p95 values derived from each service's latency, error rate,
 group (`PEAK_HOUR`) and a seed from its ID, so every service has its own shape. `sparkline()` draws the card line and
 `serviceChart()` draws the dialog's p95 chart (with the alert-budget line) and hourly error bars.
-The service dialog is centred with `fixed inset-0 m-auto` because Tailwind's preflight removes the native dialog margin.
+The service dialog is centered with `fixed inset-0 m-auto` because Tailwind's preflight removes the native dialog margin.
 
 ### Watchlist
 
@@ -217,7 +217,7 @@ These thresholds are local planning settings; they do not create real monitoring
 
 ### Trace workbench
 
-`TRACES` contains 84 deterministic reference requests derived from the service catalogue.
+`TRACES` contains 84 deterministic reference requests derived from the service catalog.
 `parseQuery()` supports space-separated conditions:
 
 | Condition          | Meaning                                  |
@@ -293,7 +293,7 @@ incident history (`INCIDENTS`). The current status rule: every component is oper
 
 Past incidents are dated relative to today (`daysAgo`, London) while `KEEP_INCIDENTS_RELATIVE = true`, so the history
 and the bars never look old; for a real site set it to `false` and give each incident a fixed `date` (`YYYY-MM-DD`).
-Each day's bar takes its colour from the incidents on that day: degraded time counts as half downtime and planned
+Each day's bar takes its color from the incidents on that day: degraded time counts as half downtime and planned
 maintenance inside its published window does not count. Bars are buttons; selecting one shows that day's detail.
 
 ### Planned maintenance
@@ -325,7 +325,7 @@ Content stays visible if Intersection Observer is unavailable.
 
 `initContact()` handles `data-contact-form` on `contact.html`.
 It validates a name of at least two characters, a complete email address, a team name of at least two characters, at least fifteen characters of context and permission to reply.
-`topic` is initialised from the URL only when it matches `TOPICS`.
+`topic` is initialized from the URL only when it matches `TOPICS`.
 Field errors are associated with inputs and the first invalid input receives focus.
 The form hides on success and the focused panel contains an engineering request reference beginning `TW`, the topic by its label, a one-working-day reply and what happens next.
 Submitted names are escaped before being inserted into the success panel.
@@ -373,11 +373,11 @@ All persistence passes through `safeStorage`.
 It catches unavailable storage and keeps an in-memory map for the current page view.
 Read-after-write continues working in that mode; state does not survive navigation or reload.
 `readJSON()` removes malformed JSON.
-`readWatchlist()`, `readBudgets()` and `readEstimate()` normalise shapes before use.
+`readWatchlist()`, `readBudgets()` and `readEstimate()` normalize shapes before use.
 
 | Key                     | Shape                                                            | Validation                                                                  |
 | ----------------------- | ---------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| `tracewick.watch.v1`    | Array of service IDs                                             | Known own-map IDs only, unique, maximum catalogue length                    |
+| `tracewick.watch.v1`    | Array of service IDs                                             | Known own-map IDs only, unique, maximum catalog length                    |
 | `tracewick.budgets.v1`  | Object keyed by service ID                                       | Known IDs, object values, latency/error limits clamped to supported ranges  |
 | `tracewick.estimate.v1` | Object with `plan`, `ingestion`, `seats`, `retention`, `billing` | Known plan, bounded numbers, supported retention and monthly/annual billing |
 
@@ -414,7 +414,7 @@ Replace the fictional brand in each head when rebranding.
 The current relative `og:image` is convenient for local preview.
 Before launch, set it to your absolute image URL, for example `https://your-domain.example/assets/img/og-image.png`.
 Add canonical URLs, a sitemap and robots rules appropriate to your public host.
-There is no fabricated review, organisation rating or structured-data claim in this template.
+There is no fabricated review, organization rating or structured-data claim in this template.
 Configure your host to serve `404.html` as its missing-route page.
 
 ## Accessibility
@@ -429,7 +429,7 @@ The design supports reduced motion and small viewports.
 Keep heading levels sequential when inserting new sections.
 Do not remove label text, duplicate IDs or put the only explanation in a placeholder.
 Keep equivalent text beside decorative diagrams.
-Check contrast again whenever colours or image backgrounds change.
+Check contrast again whenever colors or image backgrounds change.
 
 ## Building and deploying
 
@@ -451,7 +451,7 @@ The build writes the minified `assets/css/style.css`; do not edit that output di
 Upload the complete folder to a static host such as Netlify, GitHub Pages or Cloudflare Pages.
 Keep the relative directory layout intact, including images and JavaScript.
 No server rendering or JavaScript bundler is needed.
-Connect and test the two business form endpoints before accepting real enquiries.
+Connect and test the two business form endpoints before accepting real inquiries.
 Review contact details, pricing, service claims, privacy terms and future maintenance dates before launch.
 
 ## Troubleshooting

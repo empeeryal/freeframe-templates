@@ -1,6 +1,6 @@
 # Sonata
 
-A complete HTML + Tailwind CSS v4 website for an independent music school. Twelve courses, six tutors, a weekly timetable, a lesson-price calculator and a guided enrolment enquiry, with saved courses and a practice planner.
+A complete HTML + Tailwind CSS v4 website for an independent music school. Twelve courses, six tutors, a weekly timetable, a lesson-price calculator and a guided enrollment inquiry, with saved courses and a practice planner.
 
 ## Quick start
 

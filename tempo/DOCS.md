@@ -34,7 +34,7 @@ This guide covers version 1.0.5. See it live at
 | `index.html` | Home | New-release hero with countdown, pre-save and "Play Glasshouse" (`#presave`), platform links, city ticker, the new album's track list, click-to-play video poster, next four shows, merch preview, press quote, Static Club sign-up (`#join`) |
 | `music.html` | Discography | Release stats, album/EP/single filter with counts, release grid, release detail (`#release`) with track list, credits and previous/next links. `music.html?type=ep&release=night-bus-hymns#release` |
 | `tour.html` | Tour | Region filter and country select, show list with status badges, calendar downloads, past shows, "notify me" form (`#notify`), FAQ. `tour.html?region=europe&country=Germany`, `tour.html?notify=paris#notify` |
-| `merch.html` | Store | Category filter (`merch.html?cat=apparel`), product cards with colour and size options (`#p-<product id>`), shipping and sizing |
+| `merch.html` | Store | Category filter (`merch.html?cat=apparel`), product cards with color and size options (`#p-<product id>`), shipping and sizing |
 | `about.html` | About | Group illustration, story and stats, band members, timeline, press quotes |
 | `press.html` | Press kit | Fact sheet, short/medium/long bio tabs with copy, downloads (`#downloads`), tech rider, press quotes, contacts (`#contacts`) |
 | `contact.html` | Contact | Topic-routed form (`contact.html?topic=booking`), direct contacts, postal address |
@@ -64,9 +64,9 @@ tempo/
 interfaces, home page, music page, tour page, merch and cart, press kit, forms, header and reveals, back
 to top. Search for the section title to find your way around.
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 All design tokens live in the `@theme` block at the top of `src/input.css`:
 
@@ -171,18 +171,18 @@ Add a product to `PRODUCTS`:
 ```
 
 `kind` picks the SVG mock-up (`lp`, `cd`, `cassette`, `tee`, `hoodie`, `poster`, `tote` or `pins`); `lp` and
-`cd` use the cover of the `release` you set. Products with more than one colour get swatches; products with
+`cd` use the cover of the `release` you set. Products with more than one color get swatches; products with
 `sizes` require a size before they can be added. Sizes listed in `soldOut` are shown crossed out and
 disabled. Category counts on `merch.html` are filled in from the data.
 
 ### Images and artwork
 
-- **Album covers** are drawn by `cover()` in `main.js` from each release's `art` object: `bg` (paper colour),
-  `a` and `b` (two inks), `ink` (title colour) and `motif` (`weather`, `glass`, `river`, `signal`, `moons`,
+- **Album covers** are drawn by `cover()` in `main.js` from each release's `art` object: `bg` (paper color),
+  `a` and `b` (two inks), `ink` (title color) and `motif` (`weather`, `glass`, `river`, `signal`, `moons`,
   `bus`, `sun` or `grid`). Any element with `data-cover="<release id>"` gets the cover painted into it; add
   `data-cover-label=""` when the cover is decorative. To use real artwork, replace the cover markup in
   `cover()` with an `<img>` of your square artwork (at least 1200×1200).
-- **Merch mock-ups** are drawn by `productArt()` for the selected colour, in a 4:5 frame. Replace them with
+- **Merch mock-ups** are drawn by `productArt()` for the selected color, in a 4:5 frame. Replace them with
   4:5 product photos the same way.
 - **Band and member portraits** are SVG files in `assets/img/` (`band.svg` 1200×800, `member-*.svg`
   400×500). Swap them for photos with the same aspect ratios and keep the `alt` text accurate.
@@ -207,10 +207,10 @@ release from its first playable track (add `data-play-track="<track id>"` to sta
 a playing button again pauses it. Playing a track queues the rest of its release, so previous and next work.
 
 The player bar (`#player`) slides up when something is loaded. It has previous, play/pause, next, a seek
-slider, mute and close. Every track list shows the current track with an equaliser and `aria-current`, and
+slider, mute and close. Every track list shows the current track with an equalizer and `aria-current`, and
 play buttons switch to pause.
 
-**Previews without audio files:** each track's preview is a 30-second piece of music synthesised in the
+**Previews without audio files:** each track's preview is a 30-second piece of music synthesized in the
 browser by `Synth` (a pad, bass, arpeggio and drums in a key, tempo and chord progression picked from the
 track id), encoded as a WAV file and played by a normal `<audio>` element. To play your real audio, give
 the track a `src`:
@@ -263,8 +263,8 @@ shows the next four shows with the same markup.
 
 ### Merch and cart
 
-Product cards are rendered from `PRODUCTS`. Choosing a colour redraws the mock-up; "Add to bag" checks that
-a size is chosen, adds the item (merging identical colour and size) and opens the cart drawer. The drawer
+Product cards are rendered from `PRODUCTS`. Choosing a color redraws the mock-up; "Add to bag" checks that
+a size is chosen, adds the item (merging identical color and size) and opens the cart drawer. The drawer
 (`#cart`) is a modal dialog: focus moves into it and is kept there, Esc or the backdrop closes it and focus
 returns to the button that opened it. It has quantity steppers (1–10), remove buttons, the subtotal, a
 free-shipping meter based on `BAND.freeShippingFrom` and a shipping line based on `BAND.shipping`.
@@ -295,7 +295,7 @@ fact sheet, and `rider` saves `#rider-text`. The band illustration is a plain `d
 The header gets a border once you scroll. On screens under 1024 px the menu button opens a full-height menu
 (`aria-expanded`, Esc closes it and returns focus). Elements with `.reveal` fade in as they scroll into view
 (revealing one also reveals everything above it); with reduced motion they are visible straight away and
-the ticker, equalisers and vinyl stop moving. The back-to-top button appears after one screen, lifts itself
+the ticker, equalizers and vinyl stop moving. The back-to-top button appears after one screen, lifts itself
 above the player bar and toasts, and moves focus to the main content. Remove its block at the end of
 `main.js` and the `.back-to-top` styles to drop it.
 
@@ -339,7 +339,7 @@ as numeric ones like `MS-10482`.
 
 | Key | Shape | Notes |
 |-----|-------|-------|
-| `tempo-cart` | `[{ "id": "glasshouse-tee", "colour": "Pink", "size": "L", "qty": 2 }]` | Read by `readCart()`, which drops unknown products, colours or sizes, sold-out sizes and bad quantities, and caps quantities at 10 |
+| `tempo-cart` | `[{ "id": "glasshouse-tee", "colour": "Pink", "size": "L", "qty": 2 }]` | Read by `readCart()`, which drops unknown products, colors or sizes, sold-out sizes and bad quantities, and caps quantities at 10 |
 | `tempo-presave` | `true` or `false` | The pre-save button's state |
 
 To reset, run `localStorage.removeItem('tempo-cart')` (or `tempo-presave`) in the browser console, or clear
@@ -369,11 +369,11 @@ to `https://your-domain.com/assets/img/og-image.png` and add `<meta property="og
 - The cart is a modal dialog with focus trapping and Esc; the press bios use the ARIA tabs pattern; the menu
   uses `aria-expanded` and Esc.
 - Forms have real labels, inline errors linked with `aria-describedby` and success boxes that receive focus.
-- `prefers-reduced-motion` turns off reveals, the ticker, equalisers, the spinning vinyl and smooth
+- `prefers-reduced-motion` turns off reveals, the ticker, equalizers, the spinning vinyl and smooth
   scrolling.
 
 When editing, keep one `h1` per page, give new inputs a `<label>`, keep `alt` text on portraits, and check
-the contrast of any new colour pairs.
+the contrast of any new color pairs.
 
 ## Building and deploying
 

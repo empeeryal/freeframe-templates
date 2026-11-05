@@ -4,7 +4,7 @@ A calm, accessible website for a dental or medical practice, made for the fictio
 Dental**: treatments and costs, the care team, patient information and a five-step online booking
 wizard. Plain HTML, Tailwind CSS v4 and a small vanilla JavaScript file.
 
-**Version 1.1.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.1.10** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/clinic)
 
 ## Quick start
@@ -20,7 +20,7 @@ npm run build
 
 ## Documentation
 
-[DOCS.md](DOCS.md) covers everything: pages and files, colours and fonts, opening hours, clinicians and services, the booking wizard and other
+[DOCS.md](DOCS.md) covers everything: pages and files, colors and fonts, opening hours, clinicians and services, the booking wizard and other
 interactive features, connecting the forms, SEO, accessibility and deploying.
 
 ## License

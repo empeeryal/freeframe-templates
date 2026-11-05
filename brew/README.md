@@ -2,7 +2,7 @@
 
 A bold, hand-printed website for a craft brewery, taproom or brewpub, built for the fictional **Cinderjack Brewing Co.** in Bend, Oregon: a live "on tap now" board with open-now status in Pacific time, fifteen beers with filters and SVG flavor charts, opening hours that know every US federal holiday, a food truck rotation, a dated events calendar, cans and merch to go with pickup slots and a 21+ check, brewery tour booking with live capacity and a private events inquiry. Plain HTML, Tailwind CSS v4 and vanilla JavaScript.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.3** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/brew)
 
 ## Quick start

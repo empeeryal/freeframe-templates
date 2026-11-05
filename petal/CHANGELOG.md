@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.4] - 2026-11-04
 
 ### Fixed
@@ -23,7 +29,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ### Fixed
 
-- The checkout, subscription, wedding enquiry, contact and flower post confirmations no longer say they are a
+- The checkout, subscription, wedding inquiry, contact and flower post confirmations no longer say they are a
   demo and that nothing was sent or charged. The order confirmation says a confirmation email follows; the
   subscription, wedding and contact confirmations show a reference (like HH-7K2Q) and say what happens next
   using the reply times the pages already promise; flower post sign-ups point to a confirmation email. The
@@ -43,13 +49,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - Initial release with 10 pages: Home, Shop, Product, Basket, Checkout, Subscriptions, Weddings & events,
   Flower care, About & contact, 404.
 - Live same-day delivery countdown in the shop’s time zone (Europe/London) that rolls to the next delivery day after the 1pm cut-off, on Sundays and on fully booked days
-- Seasonal colours: the hero bouquet, delivery band and “in season now” list follow spring, summer, autumn and winter
-- Shop filters for occasion, colour and price, with sorting and shareable ?occasion=, ?colour=, ?price= and ?sort= links
+- Seasonal colors: the hero bouquet, delivery band and “in season now” list follow spring, summer, autumn and winter
+- Shop filters for occasion, color and price, with sorting and shareable ?occasion=, ?colour=, ?price= and ?sort= links
 - Product pages with three sizes and prices, a keyboard-friendly delivery calendar that skips Sundays, holidays and fully booked days, and a gift message with a live counter and card preview
 - Basket saved in localStorage: per-bouquet delivery day, quantity and gift message, with gift message drafts kept as you type
 - Postcode check against delivery zones, with a charge per delivery day and no same-day delivery further afield
 - Demo checkout with inline validation, card formatting and an order number
 - Subscription builder: weekly, fortnightly or monthly, with the price per delivery, per month, per year, the yearly saving and the first delivery dates
-- Wedding and event estimate with steppers and a validated enquiry form
+- Wedding and event estimate with steppers and a validated inquiry form
 - Every bouquet drawn in SVG from the product data, no photos to replace
 - Full documentation in `DOCS.md`.

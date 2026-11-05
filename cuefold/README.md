@@ -1,7 +1,7 @@
 # Cuefold
 
-A complete HTML + Tailwind CSS v4 website for an independent theatre in Bridgnorth.
-Ten pages include a six-week programme that stays current, detailed productions, saved
+A complete HTML + Tailwind CSS v4 website for an independent theater in Bridgnorth.
+Ten pages include a six-week program that stays current, detailed productions, saved
 visit planning, access preferences, and ticket and workshop requests.
 
 ## Quick start
@@ -17,4 +17,4 @@ Read [DOCS.md](DOCS.md) for page details, data, date rules, forms, storage and d
 
 MIT. See `LICENSE.txt` in the download for the terms.
 Fahkwang and Questrial come from Google Fonts under the SIL Open Font License.
-All SVG artwork is included. The theatre, people and productions are fictional.
+All SVG artwork is included. The theater, people and productions are fictional.

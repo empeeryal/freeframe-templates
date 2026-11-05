@@ -30,8 +30,8 @@ You only need Node.js 24 or newer if you want to change the styles and rebuild t
 | File | Purpose | Notable sections and features |
 |------|---------|-------------------------------|
 | `index.html` | Home | Hero with portrait and early-bird ribbon, three ways to start, flagship course with live price and countdown, student work wall, sticky-note reviews, more courses, next workshop, newsletter sign-up |
-| `courses.html` | Course catalogue | Level and topic filter chips, "saved only" toggle, result count, empty state, refund promise |
-| `course.html` | Course sales page | Rendered from `COURSES` by `?id=`: stats, what you'll make, curriculum accordion with computed counts and runtime, reviews, FAQ, sticky price card with early-bird countdown, enrol dialog, related courses |
+| `courses.html` | Course catalog | Level and topic filter chips, "saved only" toggle, result count, empty state, refund promise |
+| `course.html` | Course sales page | Rendered from `COURSES` by `?id=`: stats, what you'll make, curriculum accordion with computed counts and runtime, reviews, FAQ, sticky price card with early-bird countdown, enroll dialog, related courses |
 | `workshops.html` | Live workshops | Upcoming dates in UK time with BST/GMT, the visitor's own time, seats left bar, booking and waitlist dialog, private workshop call to action |
 | `resources.html` | Free resources | Type filter, worksheets, palettes and cheat sheets downloaded as generated SVG files, brush packs linked to the newsletter |
 | `gallery.html` | Student gallery | Course filter, generated artwork grid, lightbox with previous/next and keyboard arrows |
@@ -61,9 +61,9 @@ sketch/
   LICENSE.txt            license (added to the download)
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 Design tokens live in the `@theme` block at the top of `src/input.css`.
 
@@ -73,9 +73,9 @@ Design tokens live in the `@theme` block at the top of `src/input.css`.
 | `--color-paper-2` | `#fff6e0` | Warm panels |
 | `--color-ink` | `#1d1626` | Text, outlines and the hard shadows |
 | `--color-muted` | `#554c60` | Secondary text |
-| `--color-pink`, `--color-blue`, `--color-yellow`, `--color-green`, `--color-orange`, `--color-lilac` | marker colours | Buttons, stickers and fills, always with ink text |
+| `--color-pink`, `--color-blue`, `--color-yellow`, `--color-green`, `--color-orange`, `--color-lilac` | marker colors | Buttons, stickers and fills, always with ink text |
 | `--color-*-soft` | pale versions | Card and section backgrounds |
-| `--color-pink-ink`, `--color-blue-ink`, `--color-green-ink`, `--color-orange-ink` | dark versions | Coloured text on white (AA contrast) |
+| `--color-pink-ink`, `--color-blue-ink`, `--color-green-ink`, `--color-orange-ink` | dark versions | Colored text on white (AA contrast) |
 
 To change the main accent from pink to, say, teal:
 
@@ -88,10 +88,10 @@ To change the main accent from pink to, say, teal:
 ```
 
 The artwork in `assets/js/main.js` uses hex values directly: `COLOURS` (course cover backgrounds),
-`PALETTES` (artwork colour sets) and `INK`. Change those too if you change the palette. The squiggle
+`PALETTES` (artwork color sets) and `INK`. Change those too if you change the palette. The squiggle
 underlines and the hand-drawn nav circle are data-URI SVGs in `src/input.css` (`.squiggle`,
 `.squiggle-blue`, `.squiggle-yellow`, `.squiggle-green`, `.nav-link[aria-current="page"]`); edit the
-`stroke='%23ff6fae'` colour in them.
+`stroke='%23ff6fae'` color in them.
 
 Useful component classes in `src/input.css`: `.btn` with `.btn-yellow`, `.btn-pink`, `.btn-green`,
 `.btn-white`, `.btn-ink`, `.btn-lg`, `.btn-sm`; `.card` (wonky corners and hard shadow); `.tilt-l`,
@@ -126,7 +126,7 @@ the top of `assets/js/main.js`:
 | `FEW_SEATS` | A workshop with this many seats left or fewer shows "Only N seats left" (5) |
 | `LEVELS` | `beginner`, `improver`, `confident`: name and tag background |
 | `TOPICS` | `basics`, `characters`, `lettering`, `colour`, `places`, `animation` |
-| `COLOURS`, `PALETTES` | Hex colours for covers and generated artwork |
+| `COLOURS`, `PALETTES` | Hex colors for covers and generated artwork |
 | `COURSES` | Every course, its modules and lessons |
 | `FLAGSHIP` | Id of the course shown on the home page and at `course.html` with no `?id=` (`'draw-anything'`) |
 | `REVIEWS` | Student quotes per course (`course` is a course id) |
@@ -230,14 +230,14 @@ header heart links to `courses.html?saved=1` and shows the saved-course count in
 
 ## Features
 
-### Course catalogue filters
+### Course catalog filters
 
 `initCourses()` in `main.js` renders `courseCard()` for every course in `COURSES` into
 `[data-course-grid]`. Chips for each level and topic show how many courses they contain. Filters are kept
 in the URL (`?level=`, `?topic=`, `?saved=1`) with `history.replaceState`, so a filtered view can be
 shared. URL values are only accepted if they are own keys of `LEVELS` or `TOPICS`. The "Saved only" chip
 shows saved courses; an empty state explains what to do. Chips are buttons with `aria-pressed` inside
-labelled groups, and the result count is an `aria-live` region.
+labeled groups, and the result count is an `aria-live` region.
 
 ### Saved courses
 
@@ -256,7 +256,7 @@ title and meta description are set from the course. Sections:
 - Curriculum: a `<details>` accordion, the first module open, with lesson numbers, minutes and "Project"
   tags. "Expand all" opens or closes every module. Counts use correct singular and plural ("1 lesson").
 - Reviews from `REVIEWS` and a static FAQ.
-- The sticky price card with enrol and save buttons, and three related courses.
+- The sticky price card with enroll and save buttons, and three related courses.
 
 ### Early-bird pricing and countdown
 
@@ -266,7 +266,7 @@ demo: a rolling deadline at the end of the month (see [Demo dates](#demo-dates))
 the saving, the deadline ("Sunday 15 November at 23:59 (UK time)") and a days/hours/minutes/seconds
 countdown that ticks every second. When the deadline passes, the box re-renders by itself with the full
 price and "The early-bird price ended on ...", the home hero ribbon (`[data-early-ribbon]`) hides, course
-cards drop their early-bird sticker and the enrol dialog quotes the full price. To run a real offer, set
+cards drop their early-bird sticker and the enroll dialog quotes the full price. To run a real offer, set
 `EARLY_BIRD_ENDS` (or a course's `ends`) to a date; to remove it, set the course's `earlyBird: null`.
 
 The countdown has `role="timer"`; its digits are hidden from screen readers and a visually hidden sentence
@@ -363,7 +363,7 @@ fetch(contact.action, { method: 'POST', body: new FormData(contact), headers: { 
 The newsletter forms work the same way with your email provider's form endpoint (Buttondown, Kit,
 MailerLite and others offer one). For the sign-up dialog, most course platforms (Teachable, Podia,
 Thinkific and so on) and booking tools give you a checkout link: the simplest change is to turn the
-enrol and book buttons into links to those pages, or to redirect from the submit handler in
+enroll and book buttons into links to those pages, or to redirect from the submit handler in
 `initSignupDialog()`.
 
 ## Saved data (localStorage)
@@ -399,11 +399,11 @@ block (JSON-LD) per course fits this template well.
 - Dialogs are native `<dialog>` elements with `aria-labelledby`; focus returns to the opener.
 - Live regions announce result counts, toasts and form success; the countdown has a readable summary.
 - Decorative SVG is `aria-hidden`; artwork in the lightbox and course hero has a text label.
-- Colour pairs meet WCAG AA: marker colours always carry ink text, and coloured text uses the `*-ink`
+- Color pairs meet WCAG AA: marker colors always carry ink text, and colored text uses the `*-ink`
   tokens.
 - `prefers-reduced-motion` turns off reveals, wobbles, bobbing doodles and smooth scrolling.
 
-When editing, keep one `<h1>` per page, give every new input a `<label>`, and keep coloured text on the
+When editing, keep one `<h1>` per page, give every new input a `<label>`, and keep colored text on the
 `*-ink` tokens.
 
 ## Building and deploying

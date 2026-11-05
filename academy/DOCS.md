@@ -3,7 +3,7 @@
 ## Overview
 
 Academy is a complete website for an online school, built for the fictional **Northfield Academy**, which
-teaches design, code and data. It has a searchable course catalogue, course pages with a curriculum, learning
+teaches design, code and data. It has a searchable course catalog, course pages with a curriculum, learning
 paths, instructor profiles, pricing with a team seats calculator, a student dashboard and a lesson player.
 This is the **HTML + Tailwind CSS v4** version, **1.0.5**. Plain HTML pages share one vanilla JavaScript file,
 with no framework or build step needed to run it.
@@ -30,8 +30,8 @@ You only need **Node.js 24** if you change the styles and want to rebuild the CS
 | File | Purpose | Notable features |
 |------|---------|------------------|
 | `index.html` | Home | Hero with course search, topic tiles with live course counts, featured courses, how it works, learning paths, count-up stats, instructors, testimonials, pricing teaser |
-| `courses.html` | Course catalogue | Search, filters (topic, level, length, price, rating), six sort orders, grid/list view, filters kept in the URL, empty state |
-| `course.html` | One course, chosen with `?id=` (for example `course.html?id=react-from-scratch`) | Outcomes, curriculum accordion with free preview lessons, preview dialog, instructor, reviews histogram, FAQs, sticky enrol card, related courses |
+| `courses.html` | Course catalog | Search, filters (topic, level, length, price, rating), six sort orders, grid/list view, filters kept in the URL, empty state |
+| `course.html` | One course, chosen with `?id=` (for example `course.html?id=react-from-scratch`) | Outcomes, curriculum accordion with free preview lessons, preview dialog, instructor, reviews histogram, FAQs, sticky enroll card, related courses |
 | `paths.html` | Learning paths | Each path's courses in order, total hours, weeks and bundle price |
 | `instructors.html` | Instructor grid | "Teach with us" application form (`#teach`) |
 | `instructor.html` | One instructor, chosen with `?id=` (for example `instructor.html?id=hana`) | Bio, stats, tags, their courses, other instructors |
@@ -66,9 +66,9 @@ Each page's `<body>` has a `data-page` attribute (`home`, `courses`, `course`, `
 `instructor`, `pricing`, `learn`, `lesson`, `notfound`). `main.js` runs the matching function in its `pages`
 object (`pages.home`, `pages.courses`, …), so a page only renders what it needs.
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 All design tokens live in the `@theme` block at the top of `src/input.css`:
 
@@ -80,7 +80,7 @@ All design tokens live in the `@theme` block at the top of `src/input.css`:
 | `--color-paper` | Light background |
 | `--color-night`, `--color-night-2`, `--color-night-3` | Dark-mode backgrounds |
 
-To change the brand colour, replace the `leaf` scale with your own (keep the 50–950 steps) and rebuild the CSS:
+To change the brand color, replace the `leaf` scale with your own (keep the 50–950 steps) and rebuild the CSS:
 
 ```css
 @theme {
@@ -90,11 +90,11 @@ To change the brand colour, replace the `leaf` scale with your own (keep the 50�
 }
 ```
 
-A few colours are not tokens:
+A few colors are not tokens:
 
 - The logo SVG in each page header uses `#19693a` and `#ffc727` directly.
-- Topic colours (course covers, path cards) are the `TOPICS` object in `assets/js/main.js`, and the topic
-  label text colours are `TOPIC_TEXT` next to it (chosen for AA contrast in light and dark).
+- Topic colors (course covers, path cards) are the `TOPICS` object in `assets/js/main.js`, and the topic
+  label text colors are `TOPIC_TEXT` next to it (chosen for AA contrast in light and dark).
 - The certificate artwork in `certificate()` uses the brand green and yellow directly.
 
 ### Typography
@@ -124,8 +124,8 @@ comes from the **Data** section near the top of `assets/js/main.js`:
 
 | Constant | Contents |
 |----------|----------|
-| `TOPICS` | The five topics (`design`, `frontend`, `backend`, `data`, `product`) with name and art colours |
-| `INSTRUCTORS` | `id`, `name`, `role`, `topic`, portrait colours (`skin`, `hair`, `style`), `rating`, `students`, `bio`, `tags` |
+| `TOPICS` | The five topics (`design`, `frontend`, `backend`, `data`, `product`) with name and art colors |
+| `INSTRUCTORS` | `id`, `name`, `role`, `topic`, portrait colors (`skin`, `hair`, `style`), `rating`, `students`, `bio`, `tags` |
 | `COURSES` | `id`, `title`, `topic`, `level`, `hours`, `price` (0 = free), `rating`, `reviews`, `students`, `instructor` (an instructor `id`), optional `badge`, `updated`, `summary`, `outcomes`, `modules`, optional `lessons` |
 | `PATHS` | `id`, `name`, `topic`, `weeks`, `blurb`, `courses` (course ids, in order) |
 
@@ -139,7 +139,7 @@ Add a course by adding an object to `COURSES`:
   modules: ['Getting started', 'Auto layout', 'Components', 'Prototyping'] },
 ```
 
-It then appears in the catalogue, on `course.html?id=figma-basics`, in search, on its instructor's page and,
+It then appears in the catalog, on `course.html?id=figma-basics`, in search, on its instructor's page and,
 if you add its id to a path, in that path.
 
 How the curriculum works (function `curriculum(course)`):
@@ -156,7 +156,7 @@ visitors' progress for that course may point at different lessons (unknown ids a
 [Saved data](#saved-data-localstorage)).
 
 The featured courses on the home page are the ids listed at the start of `pages.home`. The headline "Twelve
-courses …" on `courses.html` and the stats on the home page are plain text, so update them when your catalogue
+courses …" on `courses.html` and the stats on the home page are plain text, so update them when your catalog
 changes.
 
 Prices on the pricing cards are written in the HTML as `data-monthly` and `data-annual` attributes. The team
@@ -169,7 +169,7 @@ There are no image files for courses or people. All of it is SVG drawn by functi
 
 | Function | Draws | Notes |
 |----------|-------|-------|
-| `cover(course)` | Course cover art (320×200 viewBox, used at 16:10) | Colours from the course's topic; two alternating motifs per topic |
+| `cover(course)` | Course cover art (320×200 viewBox, used at 16:10) | Colors from the course's topic; two alternating motifs per topic |
 | `avatar(person, size)` | Instructor portrait (square, circular crop) | Uses the instructor's `skin`, `hair` and `style` (0–5) |
 | `stars(rating)` | Star rating with partial fill | Has a text alternative ("Rated 4.8 out of 5") |
 | `certificate(course, name)` | Certificate of completion (560×380) | Shown on the dashboard |
@@ -207,7 +207,7 @@ visitor's system setting. The toggle buttons have `data-theme-toggle`.
 
 ## Features
 
-### Course catalogue
+### Course catalog
 
 `courses.html`, function `pages.courses`.
 
@@ -235,10 +235,10 @@ To add a filter value, add the input in `courses.html` and the matching conditio
 - Preview lessons link to the lesson player; the "Preview this course" dialog (`#preview-dialog`, a native
   `<dialog>`) lists them. Escape and clicking the backdrop close it.
 - The review histogram is generated to match the course's rating.
-- **Enrol** (`data-enrol`) saves the enrolment in the browser and shows a toast. It doesn't take payment. For a
+- **Enroll** (`data-enrol`) saves the enrollment in the browser and shows a toast. It doesn't take payment. For a
   paid course the toast gives an order reference (`NA-` and four characters, from `makeRef()`); when you connect a
   checkout, show its order number instead. Once enrolled, the button becomes "Continue learning" and opens the next lesson.
-- The enrol card is sticky on large screens and marked `data-back-to-top-hide`, so the back-to-top button never
+- The enroll card is sticky on large screens and marked `data-back-to-top-hide`, so the back-to-top button never
   covers it.
 
 ### Learning paths
@@ -258,7 +258,7 @@ Hours and the bundle price are added up from the courses; `weeks` is your own es
 - **Reset demo progress** (`data-reset`) clears saved progress and notes.
 
 Until a visitor does something themselves, the dashboard shows **sample progress** (the `DEMO` object in
-`main.js`) so it never looks empty, with a note explaining it. Their first enrolment or completed lesson
+`main.js`) so it never looks empty, with a note explaining it. Their first enrollment or completed lesson
 replaces the sample with their own progress (`makeOwn()`).
 
 ### Lesson player
@@ -269,7 +269,7 @@ replaces the sample with their own progress (`makeOwn()`).
   `aria-current="page"`. On small screens it's a drawer opened by the "Course contents" button.
 - **Mark as complete** (`data-complete`) toggles the lesson, updates the streak and moves "last lesson" to the
   next unfinished one. Its state is exposed with `aria-pressed`.
-- Lessons other than previews are **locked** until the visitor enrols (or completes a preview lesson).
+- Lessons other than previews are **locked** until the visitor enrolls (or completes a preview lesson).
 - **Tabs** (Overview, Notes, Resources) follow the ARIA tabs pattern: arrow keys, Home and End move between
   them (`setupTabs()`).
 - **Notes** save automatically as you type (after a short pause) and are kept per lesson.
@@ -305,7 +305,7 @@ it, delete both blocks and rebuild the CSS.
 | Form | Where | Validates |
 |------|-------|-----------|
 | Newsletter | Footer of every page (`data-newsletter`) | Email present and well-formed |
-| Course search | Home, catalogue, 404 (`data-search-form`) | An empty search goes to the full catalogue |
+| Course search | Home, catalog, 404 (`data-search-form`) | An empty search goes to the full catalog |
 | Teach with us | `instructors.html#teach` (`data-teach-form`) | Name, email, topic chosen, idea at least 20 characters |
 | Team quote | `pricing.html#teams` (`data-team-form`) | Name, work email, company or school |
 
@@ -341,16 +341,16 @@ fetch('https://formspree.io/f/your-id', {
 Make sure every input has a `name` attribute so `FormData` includes it, and keep the success message only for a
 real success. Netlify Forms works too: add `name="team-quote"` and `data-netlify="true"` to the `<form>`.
 
-Enrolment and progress are also front-end only: to support real accounts, replace the functions in the
+Enrollment and progress are also front-end only: to support real accounts, replace the functions in the
 "Progress" section of `main.js` with calls to your backend.
 
 ## Saved data (localStorage)
 
 | Key | Shape | Written by |
 |-----|-------|------------|
-| `academy-progress` | `{ enrolled: { "<course id>": { done: ["m1-l1", …], last: "m1-l2" } }, streak: { count: 3, last: "2026-10-07" } }` | Enrol, mark as complete, opening a lesson |
+| `academy-progress` | `{ enrolled: { "<course id>": { done: ["m1-l1", …], last: "m1-l2" } }, streak: { count: 3, last: "2026-10-07" } }` | Enroll, mark as complete, opening a lesson |
 | `academy-notes` | `{ "<course id>/<lesson id>": "note text" }` (each note at most 5,000 characters) | Lesson notes |
-| `academy-view` | `"grid"` or `"list"` | Catalogue view buttons |
+| `academy-view` | `"grid"` or `"list"` | Catalog view buttons |
 | `theme` | `"dark"` or `"light"` | Theme toggle |
 
 Everything is validated when read (`cleanProgress()` and `loadNotes()`):
@@ -384,14 +384,14 @@ To stop saving altogether, remove the `writeJSON` calls.
 Built in:
 
 - A skip link to `<main id="main">`, landmarks (`header`, `nav`, `main`, `footer`) and one `h1` per page.
-- Visible focus styles (`:focus-visible` outlines in `src/input.css`) and AA colour contrast in both themes.
+- Visible focus styles (`:focus-visible` outlines in `src/input.css`) and AA color contrast in both themes.
 - The mobile menu sets `aria-expanded`, closes with Escape and returns focus to its button.
 - Tabs, dialogs, the billing switch and the progress bars use the matching ARIA patterns.
 - Star ratings, progress rings and covers have text alternatives; decorative SVGs are `aria-hidden`.
 - Live regions announce result counts and toasts.
 - Reduced motion turns off reveals, count-ups and smooth scrolling.
 
-When you edit, keep one `h1` per page, give every new input a `<label>`, and check new colours for contrast in
+When you edit, keep one `h1` per page, give every new input a `<label>`, and check new colors for contrast in
 light and dark mode.
 
 ## Building and deploying
@@ -418,7 +418,7 @@ You can leave out `src/`, `package.json` and the Markdown files when uploading; 
 ## Troubleshooting
 
 - **A class I added has no effect.** It isn't in the compiled CSS yet. Run `npm run build`.
-- **The dashboard shows courses I never took.** That's the sample progress. Enrol in a course or complete a
+- **The dashboard shows courses I never took.** That's the sample progress. Enroll in a course or complete a
   lesson, or press **Reset demo progress**.
 - **My new course doesn't appear.** Check that its `instructor` matches an `id` in `INSTRUCTORS` and its
   `topic` is a key of `TOPICS`, and look for errors in the browser console (a missing comma in `COURSES` stops

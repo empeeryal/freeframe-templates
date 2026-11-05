@@ -6,7 +6,7 @@ latest episode, an episode archive with filters, episode pages with chapters, sh
 transcript, an accessible audio player with a mini player that follows you across pages, hosts, subscribe,
 advertise and be-a-guest pages. Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.4** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/echo)
 
 ## Quick start
@@ -22,7 +22,7 @@ npm run build
 
 ## Documentation
 
-[DOCS.md](DOCS.md) is the full guide: pages and files, colours and fonts, adding episodes, chapters and
+[DOCS.md](DOCS.md) is the full guide: pages and files, colors and fonts, adding episodes, chapters and
 transcripts, connecting real audio files, the player and its keyboard shortcuts, saved progress, the archive
 filters, connecting the forms, the artwork, SEO, accessibility, deploying and troubleshooting. Changes are
 listed in [CHANGELOG.md](CHANGELOG.md).

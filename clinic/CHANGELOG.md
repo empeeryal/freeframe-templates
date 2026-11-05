@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.10] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.1.9] - 2026-10-26
 
 ### Fixed
@@ -60,7 +66,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
   the `.prose-c ul` rule only matched lists inside a `.prose-c` element.
 - Star ratings: the five-star ratings have `role="img"`, so their `aria-label` ("5 out of 5 stars")
   is announced, and the single decorative star after "4.9" in the hero is hidden from screen readers
-  instead of being labelled "1 out of 5 stars".
+  instead of being labeled "1 out of 5 stars".
 
 ## [1.1.2] - 2026-10-07
 

@@ -4,7 +4,7 @@
 
 Sprout is a multi-page website template for a practical gardening school, built for the fictional **Loamstead field
 school** on a walled plot in Pershore, Worcestershire. It has ten courses with their own pages and drawings, a filterable
-course list, a twelve-week timetable with places left, a three-step enrolment request, a bed planner that draws plants
+course list, a twelve-week timetable with places left, a three-step enrollment request, a bed planner that draws plants
 to scale, a saved shortlist, tutor profiles, and an access statement, booking terms and safeguarding note written the
 way a real school would write them. The look is a field notebook: cream paper, graph-paper panels, deep green ink and a
 rust accent, with Vollkorn headings and Commissioner text.
@@ -32,15 +32,15 @@ aren't already used (see [Building and deploying](#building-and-deploying)).
 
 | File | Purpose | Notable sections and features |
 |------|---------|-------------------------------|
-| `index.html` | Home | Hero with the field drawing, the next five sessions, "In the garden this month", the three soonest courses, how enrolment works, bed planner teaser, tutors and learner quotes |
+| `index.html` | Home | Hero with the field drawing, the next five sessions, "In the garden this month", the three soonest courses, how enrollment works, bed planner teaser, tutors and learner quotes |
 | `courses.html` | All courses | Level buttons, topic and season filters (kept in the URL), course cards with next date and places, Save buttons, level guide |
 | `course.html` | One course (`?course=<id>`) | Title, description and Open Graph tags set from the course; facts, drawing, session plan, what you take home, what to bring, next four dates with places, tutor, learner quote, related courses; an "unknown course" message for bad links |
 | `timetable.html` | Upcoming sessions | Every session starting in the next twelve weeks, grouped by month, filterable by course and level, with Enrol links |
-| `enrol.html` | Enrolment request | Three steps (date, who's coming, your details), inline validation, running total, confirmation with a reference |
+| `enrol.html` | Enrollment request | Three steps (date, who's coming, your details), inline validation, running total, confirmation with a reference |
 | `planner.html` | Bed planner | Bed size and crop, plant count, scale drawing with one mark per plant, too-small and corner-only messages, suggested course with Save |
-| `saved.html` | Shortlist | Saved courses with their next dates, enrolment requests made on this device, clear and remove buttons |
+| `saved.html` | Shortlist | Saved courses with their next dates, enrollment requests made on this device, clear and remove buttons |
 | `about.html` | About the school | Founder's note, map of the plot, numbers, tutor cards, values |
-| `visit.html` | Visit and contact | Enquiry form, address, hours, sketch map, travel notes, access statement (`#access`), booking terms (`#terms`), safeguarding (`#safeguarding`), FAQ (`#faq`) |
+| `visit.html` | Visit and contact | Inquiry form, address, hours, sketch map, travel notes, access statement (`#access`), booking terms (`#terms`), safeguarding (`#safeguarding`), FAQ (`#faq`) |
 | `404.html` | Page not found | Links back to the home page, courses and timetable |
 
 ## Project structure
@@ -63,11 +63,11 @@ sprout/
   README.md, DOCS.md, CHANGELOG.md
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
-The colours are Tailwind theme tokens in `src/input.css`. Every `bg-*`, `text-*` and `border-*` class in the pages
+The colors are Tailwind theme tokens in `src/input.css`. Every `bg-*`, `text-*` and `border-*` class in the pages
 uses them, so changing a value changes it everywhere after a CSS rebuild.
 
 | Token | Default | Used for |
@@ -122,7 +122,7 @@ Page text is in the HTML files. The school's data is in the first section of `as
 | `QUOTES` | One learner quote per course: `course`, `name`, `place`, `text` |
 | `CROPS` | Planner crops: `name`, `spacing` (cm), `mark` (the plant drawing), `course` (the course suggested) |
 | `MONTH_NOTES` | Twelve "In the garden this month" notes: title, text and a course id |
-| `MIN_LEAD_DAYS`, `TIMETABLE_DAYS`, `SESSIONS_PER_COURSE`, `CLOSED`, `DEMO_TAKEN`, `MAX_PEOPLE` | Timetable and enrolment settings (see [Session dates](#session-dates)) |
+| `MIN_LEAD_DAYS`, `TIMETABLE_DAYS`, `SESSIONS_PER_COURSE`, `CLOSED`, `DEMO_TAKEN`, `MAX_PEOPLE` | Timetable and enrollment settings (see [Session dates](#session-dates)) |
 
 To add a course, add an object to `COURSES` with a new `id`, add a drawing to `ART` (or let it fall back to the first
 course's drawing), and add a quote to `QUOTES` if you have one:
@@ -140,7 +140,7 @@ course's drawing), and add a quote to `QUOTES` if you have one:
 }
 ```
 
-The enquiry form's topic list fills itself from `COURSES`. Course and planner copy on the home page (for example "Ten
+The inquiry form's topic list fills itself from `COURSES`. Course and planner copy on the home page (for example "Ten
 courses through the year") is plain text in `index.html` and `courses.html`; update the number if you add or remove
 courses.
 
@@ -151,7 +151,7 @@ All artwork is SVG drawn for the template; there are no photos.
 - **Course drawings** are built in `assets/js/main.js` (`ART`, one function per course id, drawn in a 320 × 220
   view box and shown at 16:11). To use a photo instead, replace `courseArt(c)` with an `<img>` of the same ratio.
 - **Tutor portraits** are `PORTRAIT` entries drawn by `portrait(id)`.
-- **Planner marks** are `MARKS`, one small drawing per crop type, centred on 0,0.
+- **Planner marks** are `MARKS`, one small drawing per crop type, centered on 0,0.
 - `assets/img/field.svg` (600 × 660), `plot-map.svg` (640 × 480) and `directions.svg` (480 × 360) are plain SVG files
   used with `<img>`; keep the ratios or update the `width`/`height` attributes.
 - The social image is `assets/img/og-image.png` (1200 × 630), made from `og-image.svg`. Edit the SVG, then regenerate
@@ -201,7 +201,7 @@ Other rules:
 - No session starts or runs between `CLOSED.from` and `CLOSED.to` (20 December to 4 January). The visit page says the
   same in its hours list; change both together.
 - Fortnights count weeks from Monday 5 January 1970 (`weekIndex`); parity 0 and 1 alternate.
-- Course pages and the enrolment form offer the next `SESSIONS_PER_COURSE` (4) dates, however far ahead. The timetable
+- Course pages and the enrollment form offer the next `SESSIONS_PER_COURSE` (4) dates, however far ahead. The timetable
   lists every session starting within `TIMETABLE_DAYS` (84) days of the first bookable day. If a filtered course has
   nothing in that window (a seasonal course out of season), it says when the next date is and links to it.
 - Long dates add the year when it isn't the current year ("Saturday 6 March 2027").
@@ -222,8 +222,8 @@ Each session shows how many places are left: `capacity` minus a demo number of p
 requested on this device. The demo number comes from a stable hash of the course and date, so it doesn't change
 between visits: sessions within three weeks have up to about `DEMO_TAKEN` (75%) of their places taken, further-out
 sessions fewer, and at least two places are always left until a visitor requests them. With three or fewer left the badge turns straw
-coloured ("Only 2 places left", "Last place"); a session with none left shows "Full" and a waiting-list link to the
-enquiry form. On a real site, replace the `taken` value in `makeSession()` with numbers from your booking system.
+colored ("Only 2 places left", "Last place"); a session with none left shows "Full" and a waiting-list link to the
+inquiry form. On a real site, replace the `taken` value in `makeSession()` with numbers from your booking system.
 
 ### Course list filters
 
@@ -246,7 +246,7 @@ course instead of showing a wrong one.
 price, level and places left, and links to `enrol.html?course=<id>&session=<YYYY-MM-DD>`. The course and level
 filters are kept in the URL (`?course=…&level=…`).
 
-### Enrolment request
+### Enrollment request
 
 `enrol.html` is one form in three steps (`fieldset[data-step]`); **Continue** validates the current step before moving
 on and focuses the next step's heading. Step 1 picks a course and one of its next four dates (full dates are
@@ -286,7 +286,7 @@ above the steps and lets the visitor choose again.
 
 Every course card, course page and the planner's suggestion have a **Save** toggle (`[data-save]`, `aria-pressed`).
 The header link shows the number saved and its accessible name says it ("Shortlist, 2 courses saved"). `saved.html`
-lists the saved courses with their next dates, and the enrolment requests made on this device, each with a Remove
+lists the saved courses with their next dates, and the enrollment requests made on this device, each with a Remove
 button. Changes are announced through a polite live region (`#announcer`).
 
 ### In the garden this month
@@ -303,20 +303,20 @@ copyright year is filled in by the script.
 ## Forms
 
 None of the forms sends anything until you connect it: each shows its confirmation in the page and saves nothing to a
-server. The enrolment confirmation shows its `LS-4821` reference; the enquiry confirmation shows a reference such as
+server. The enrollment confirmation shows its `LS-4821` reference; the inquiry confirmation shows a reference such as
 `LS-7K2Q` (`LS-` and four characters from `makeRef()`, with no 0/O or 1/I). Both say what happens next ("within one
 working day", the reply time the visit page already promises); change them to match how you actually handle requests.
 
 | Form | Where | Validates |
 |------|-------|-----------|
-| Enrolment request | `enrol.html`, `[data-enrol-form]` | Course, date, people, experience, name, email, optional UK phone, terms |
-| Enquiry | `visit.html`, `[data-enquiry-form]` | Name (2+ characters), email, message (10–1,500 characters); topic is a select |
+| Enrollment request | `enrol.html`, `[data-enrol-form]` | Course, date, people, experience, name, email, optional UK phone, terms |
+| Inquiry | `visit.html`, `[data-enquiry-form]` | Name (2+ characters), email, message (10–1,500 characters); topic is a select |
 | Bed planner | `planner.html`, `[data-planner]` | Width and length (0.2–10 m), crop |
 
-`visit.html?topic=<course id>` (or `general`, `visit`, `access`, `group`) preselects the enquiry topic; course pages
+`visit.html?topic=<course id>` (or `general`, `visit`, `access`, `group`) preselects the inquiry topic; course pages
 and waiting-list links use it.
 
-To connect the enquiry form to a service such as [Formspree](https://formspree.io), set the form's `action` to your
+To connect the inquiry form to a service such as [Formspree](https://formspree.io), set the form's `action` to your
 endpoint and replace the success branch in section 14 of `assets/js/main.js` with a request:
 
 ```js
@@ -329,7 +329,7 @@ if (!response.ok) { /* show an error message and keep the form */ return; }
 // then hide the form and show [data-enquiry-done]
 ```
 
-Make the submit handler `async` to use `await`. The enrolment form works the same way (section 11, the submit
+Make the submit handler `async` to use `await`. The enrollment form works the same way (section 11, the submit
 handler): send `new FormData(form)` to your booking system or form service, and only show the confirmation and save
 the request once the response is OK. If your booking system or form service returns its own reference, put it in
 `[data-done-ref]` or `[data-enquiry-ref]` instead of the one made in the browser. If you take payment online, link to
@@ -344,7 +344,7 @@ your payment page from the confirmation rather than collecting card details in t
 | `sprout:planner:v1` | `{ w, l, crop }` | Numbers within the planner limits and a known crop, otherwise ignored |
 
 All access goes through one `safeStorage` object. When the browser blocks `localStorage` (a sandboxed iframe, strict
-privacy settings), it falls back to memory, so saving, the shortlist count and enrolment requests still work for the
+privacy settings), it falls back to memory, so saving, the shortlist count and enrollment requests still work for the
 page view. Damaged JSON is treated as empty. To reset, clear the keys in the browser's developer tools, or use **Clear
 shortlist** and **Remove** on `saved.html`.
 
@@ -382,7 +382,7 @@ the pages and a `robots.txt` that points to it. For richer search results you co
 - `aria-current="page"` on the current navigation link, `aria-pressed` on filter and Save buttons, `aria-expanded`
   on the menu button, and an accessible name on the icon-only shortlist link that includes the count.
 - Forms use visible labels, `novalidate` with inline errors linked by `aria-describedby`, `aria-invalid` and focus
-  on the first problem; enrolment steps move focus to each step's heading.
+  on the first problem; enrollment steps move focus to each step's heading.
 - Results and counts that change (course count, planner result, saved and removed messages) are live regions.
 - Drawings are decorative (`aria-hidden`) where the text says the same thing; the hero, plot map and sketch map have
   descriptive `alt` text.
@@ -416,7 +416,7 @@ server code. `404.html` is picked up automatically by most static hosts.
 - **The timetable shows different dates from the screenshots.** Dates are worked out from today in UK time. Use
   `?now=YYYY-MM-DD` to see a particular day.
 - **A seasonal course has no dates in the timetable.** It is out of season in the next twelve weeks; its course page
-  and the enrolment form still show its next four dates, and the timetable says when it next runs.
+  and the enrollment form still show its next four dates, and the timetable says when it next runs.
 - **New Tailwind classes have no effect.** Rebuild the CSS (`npm run build`). Classes put together from strings in
   JavaScript (`'bg-' + colour`) aren't found by the scanner; write the full class name.
 - **Saved courses disappear when I close the tab.** The browser is blocking storage (a private window or sandboxed

@@ -6,7 +6,7 @@ an outline that follows your reading, an archive by year, tags, series, instant 
 about and now page and a newsletter sign-up. Plain HTML, Tailwind CSS v4 and a small vanilla
 JavaScript file.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.2** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/notebook)
 
 ## Quick start
@@ -22,7 +22,7 @@ npm run build
 
 ## Documentation
 
-[DOCS.md](DOCS.md) covers everything: pages and files, colours and fonts, writing posts and keeping the
+[DOCS.md](DOCS.md) covers everything: pages and files, colors and fonts, writing posts and keeping the
 post index in `assets/js/posts.js` up to date, code highlighting, every interactive feature, connecting
 the forms, SEO, accessibility and deploying.
 

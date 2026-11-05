@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.11] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.1.10] - 2026-11-04
 
 ### Fixed

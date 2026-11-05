@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.8] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.1.7] - 2026-10-23
 
 ### Fixed
@@ -20,7 +26,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ### Fixed
 
-- Reading time counts only the words a reader reads: each text node on its own (words in neighbouring
+- Reading time counts only the words a reader reads: each text node on its own (words in neighboring
   tags used to run together), without the chart's SVG text (its title, description and labels), scripts,
   styles, hidden elements or the notes. The example essay now reads "4 min read" (it was 5 because of
   the chart's text), also on the home page and in the archive.
@@ -43,7 +49,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ### Fixed
 
-- The thin strip above the header is a labelled landmark (`role="region"`, `aria-label="About The Ledger"`).
+- The thin strip above the header is a labeled landmark (`role="region"`, `aria-label="About The Ledger"`).
 - The code block in `article.html` has `tabindex="0"`, so keyboard users can scroll it on small screens.
 - `404.html` has `<meta name="robots" content="noindex">`, so the error page is not indexed.
 - A tampered stored theme (any `ledger-theme` value other than `"dark"` or `"light"`) no longer forces light
@@ -64,7 +70,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 ### Fixed
 
 - The accent kicker on the inverted quote band now meets WCAG AA contrast in both themes.
-- Footnote back-links are underlined so they don't rely on colour alone.
+- Footnote back-links are underlined so they don't rely on color alone.
 
 ## [1.1.0] - 2026-10-05
 

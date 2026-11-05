@@ -56,7 +56,7 @@ soiree/
   LICENSE.txt            MIT license (in the download)
 ```
 
-## Customising
+## Customizing
 
 ### Brand and colors
 

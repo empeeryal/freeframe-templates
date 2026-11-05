@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.3] - 2026-11-04
 
 ### Fixed
@@ -34,7 +40,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - Nine pages and a 404 for Clemency Thorne, a fictional novelist from Canterbury: home, books, single
   book, events, about, book clubs, press and media, newsletter and contact.
 - Home page with a new-release hero: a live countdown to publication day in UK time that switches to an
-  "out now" state by itself, pre-order links to five bookshops, early praise, the opening lines, the
+  "out now" state by itself, pre-order links to five bookstores, early praise, the opening lines, the
   series in reading order, the next three events, a "continue reading" bookmark and a newsletter sign-up.
 - Books page with series/standalone filters and counts (`books.html?show=`) and a reading-order or
   newest-first view (`books.html?order=`).
@@ -51,6 +57,6 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
   text files, the author portrait and every jacket as SVG downloads.
 - Contact form that routes by topic (`contact.html?topic=`) with its own fields per topic and a
   character counter, plus validated newsletter forms with demo success states.
-- SVG book jackets drawn from each book's colours and motif, an illustrated portrait, a map of the
+- SVG book jackets drawn from each book's colors and motif, an illustrated portrait, a map of the
   places in the books, a PNG social image and SEO and Open Graph tags on every page.
 - Accessible mobile menu, skip link, scroll reveals and back-to-top button that respect reduced motion.

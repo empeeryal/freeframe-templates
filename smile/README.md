@@ -6,7 +6,7 @@ tooth mascot keep it warm and reassuring. It has a five-step booking flow with r
 estimator with membership comparison and a payment-plan calculator, an emergency symptom guide, a multi-step new
 patient form, and filterable treatments and team pages. Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/smile)
 
 ## Quick start
@@ -22,7 +22,7 @@ npm run build
 
 ## Documentation
 
-[DOCS.md](DOCS.md) is the full guide: pages and files, colours and fonts, opening hours, clinicians, visit types and
+[DOCS.md](DOCS.md) is the full guide: pages and files, colors and fonts, opening hours, clinicians, visit types and
 prices, the booking rules, the estimator and triage guide, connecting the forms and a practice-management system
 safely, SEO, accessibility, deploying and troubleshooting. Changes are listed in [CHANGELOG.md](CHANGELOG.md).
 

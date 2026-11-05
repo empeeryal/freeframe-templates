@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.2] - 2026-11-04
 
 ### Fixed
@@ -36,13 +42,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 - Initial release with 9 pages: Home, Shop, Book, Bag & checkout, Events, Book clubs, Find your next read,
   Visit us, 404.
-- Twenty-four books, each with its own hand-drawn SVG cover generated from the book data, plus a bookshelf hero drawn from the same catalogue
+- Twenty-four books, each with its own hand-drawn SVG cover generated from the book data, plus a bookshelf hero drawn from the same catalog
 - Shop with genre, format and price filters, staff-pick and new-release toggles, search, six sorts and shareable URLs
 - Book pages with hardcover or paperback choice, live availability (on the shelf, order in or preorder), quantity limits and related books
 - Staff picks shown as handwritten shelf-talker cards from four illustrated booksellers
 - Bag saved in localStorage with free store pickup or US shipping, a free-shipping bar, sales tax, ready dates and an order reference
 - Events calendar of author readings, launches, book clubs and Saturday story time that rolls forward, with type filters and saved RSVPs
 - Five book clubs that meet by rule, with each month’s pick worked out from a reading list and a join form that remembers your clubs
-- Four-question reading finder that ranks the catalogue and gives a reason for every suggestion
+- Four-question reading finder that ranks the catalog and gives a reason for every suggestion
 - Live open or closed status for the shop and café, the next seven days’ hours and US holidays computed by rule on New York time
 - Full documentation in `DOCS.md`.

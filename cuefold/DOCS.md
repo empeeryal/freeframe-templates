@@ -2,7 +2,7 @@
 
 ## Overview
 
-Cuefold 1.0.0 is an HTML5 and Tailwind CSS v4 website for a fictional independent theatre in Bridgnorth, Shropshire. Its ten pages combine a six-week performance programme that stays current, detailed productions, saved visit planning, access preferences, and ticket and workshop requests. The [template page](https://freeframe.dev/templates/cuefold) links to the live preview and available downloads.
+Cuefold 1.0.1 is an HTML5 and Tailwind CSS v4 website for a fictional independent theater in Bridgnorth, Shropshire. Its ten pages combine a six-week performance program that stays current, detailed productions, saved visit planning, access preferences, and ticket and workshop requests. The [template page](https://freeframe.dev/templates/cuefold) links to the live preview and available downloads.
 
 ## Quick start
 
@@ -22,18 +22,18 @@ Node 24 and npm are needed only when rebuilding Tailwind after changing classes.
 
 | File               | Purpose                     | Notable features                                                                            |
 | ------------------ | --------------------------- | ------------------------------------------------------------------------------------------- |
-| `index.html`       | Theatre introduction        | Featured production date, three programme cards, room statistics and visitor routes         |
+| `index.html`       | Theater introduction        | Featured production date, three program cards, room statistics and visitor routes         |
 | `programme.html`   | Find a performance          | Search, genre, date window and access filters; eighteen productions in date order           |
 | `show.html`        | Production details          | `show` parameter, story, credits, age guidance, effects notes, performances and saved dates |
 | `planner.html`     | Build an evening            | Saved performances, overlaps, cost and date summaries, access notes and text download       |
 | `tickets.html`     | Ask the box office          | Production/date selection, live estimate, seating and a box-office reply with a reference   |
 | `access.html`      | Plan a comfortable visit    | Room diagram, practical access details, questions and saved preferences                     |
 | `participate.html` | Workshops and volunteering  | Three rule-dated workshops with their own art, steward information and a place request      |
-| `about.html`       | Meet the theatre            | Building story, three team members and approach to programming                              |
+| `about.html`       | Meet the theater            | Building story, three team members and approach to programming                              |
 | `visit.html`       | Find the door               | Address, hours, travel guidance and arrival-time calculator                                 |
-| `404.html`         | Recover from a missing page | Programme, home and box-office links                                                        |
+| `404.html`         | Recover from a missing page | Program, home and box-office links                                                        |
 
-Every file repeats the same header and footer. Every page has a static `h1`; on `show.html` it holds The Borrowed Staircase and `initShow()` replaces it with the chosen production. If JavaScript is disabled, the shared navigation, contact information and static editorial sections remain available; the catalogue, estimates and planner need JavaScript.
+Every file repeats the same header and footer. Every page has a static `h1`; on `show.html` it holds The Borrowed Staircase and `initShow()` replaces it with the chosen production. If JavaScript is disabled, the shared navigation, contact information and static editorial sections remain available; the catalog, estimates and planner need JavaScript.
 
 ## Project structure
 
@@ -63,11 +63,11 @@ cuefold/
 
 `template.json` supplies gallery information in the source repository and is excluded from the public download. It lists pages, category, features and the template version.
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
-Change the theatre name in every HTML file and in `assets/js/main.js`. Also update the wordmark text in `assets/img/og-image.svg`, the social PNG, the favicon, email addresses and downloadable text headings.
+Change the theater name in every HTML file and in `assets/js/main.js`. Also update the wordmark text in `assets/img/og-image.svg`, the social PNG, the favicon, email addresses and downloadable text headings.
 
 `src/input.css` defines the brand in `@theme`:
 
@@ -90,7 +90,7 @@ For example, change the rust accent and rebuild:
 }
 ```
 
-Keep the changed colour dark enough for text on paper and paper-coloured text on the accent. Artwork contains its own explicit SVG colours; changing CSS tokens does not recolour the drawing files.
+Keep the changed color dark enough for text on paper and paper-colored text on the accent. Artwork contains its own explicit SVG colors; changing CSS tokens does not recolour the drawing files.
 
 ### Typography
 
@@ -102,7 +102,7 @@ Fahkwang is the display face and Questrial is the body face, both regular weight
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fahkwang&amp;family=Questrial&amp;display=swap" />
 ```
 
-The `--font-display` and `--font-sans` tokens in `src/input.css` name the families, with a system fallback stack. To swap a family, change the `<link>` on every page (ask only for the weights you use), update the token and rebuild CSS. Update the social SVG font names and regenerate its PNG in the chosen faces. To self-host instead, download the fonts with their licences, add `@font-face` rules and remove the links.
+The `--font-display` and `--font-sans` tokens in `src/input.css` name the families, with a system fallback stack. To swap a family, change the `<link>` on every page (ask only for the weights you use), update the token and rebuild CSS. Update the social SVG font names and regenerate its PNG in the chosen faces. To self-host instead, download the fonts with their licenses, add `@font-face` rules and remove the links.
 
 ### Content
 
@@ -111,7 +111,7 @@ Edit editorial copy directly in the HTML files. Repeated production data lives i
 | Field                                | Meaning                                                                              |
 | ------------------------------------ | ------------------------------------------------------------------------------------ |
 | `id`                                 | Unique production key used by URLs, images and performance IDs                       |
-| `title`, `genre`, `summary`, `story` | Catalogue and detail copy                                                            |
+| `title`, `genre`, `summary`, `story` | Catalog and detail copy                                                            |
 | `duration`                           | Whole running time in minutes                                                        |
 | `price`                              | Standard price in pounds; concession is £3 less                                      |
 | `age`                                | Recommended audience age text                                                        |
@@ -140,13 +140,13 @@ Use an existing object as the shape for an addition:
 
 This is a short excerpt of the existing object, not a complete replacement. Include the remaining fields described above, draw `assets/img/<id>.svg` and keep `id` unique. Add any new genre to `GENRES` and the genre select in `programme.html`.
 
-`WORKSHOPS` holds the three workshop titles, week numbers (see Workshops below), times, durations, prices, leaders and image keys. The interests select, `choices` in `initInterest()` and URL validation must agree with the workshop IDs. The fourth enquiry option is `volunteer`.
+`WORKSHOPS` holds the three workshop titles, week numbers (see Workshops below), times, durations, prices, leaders and image keys. The interests select, `choices` in `initInterest()` and URL validation must agree with the workshop IDs. The fourth inquiry option is `volunteer`.
 
-Contact information is repeated in HTML. `BOX_OFFICE` is the email address printed in the downloadable visit plan. Phone `01632 960743` and `.example` addresses are fictional; replace them consistently for a real theatre.
+Contact information is repeated in HTML. `BOX_OFFICE` is the email address printed in the downloadable visit plan. Phone `01632 960743` and `.example` addresses are fictional; replace them consistently for a real theater.
 
 ### Images and artwork
 
-Each of the eighteen production SVGs is a separate 600 × 600 stage-object composition. Keep a square aspect ratio for replacement artwork. Catalogue cards use the whole square and the ticket estimate shows a small square thumbnail. The three workshops have their own 600 × 430 drawings (`workshop-story.svg`, `workshop-movement.svg`, `workshop-objects.svg`).
+Each of the eighteen production SVGs is a separate 600 × 600 stage-object composition. Keep a square aspect ratio for replacement artwork. Catalog cards use the whole square and the ticket estimate shows a small square thumbnail. The three workshops have their own 600 × 430 drawings (`workshop-story.svg`, `workshop-movement.svg`, `workshop-objects.svg`).
 
 Additional artwork includes `theatre.svg`, `access-room.svg`, `map.svg`, `catriona.svg`, `melisande.svg` and `anselm.svg`. The map is an orientation sketch. It is not a surveyed route or live navigation service; replace it with verified directions for the real venue.
 
@@ -160,17 +160,17 @@ The header is repeated across all ten pages. Update both the desktop and mobile 
 
 `initMenu()` controls the small-screen menu, keeps `aria-expanded` in step with visibility, closes on Escape and returns focus to the menu button. It also closes after a click outside the menu and when the desktop breakpoint is reached.
 
-This design has a single light palette and intentionally does not store a theme preference. A dark operating-system colour scheme does not replace the theatre’s chosen colours.
+This design has a single light palette and intentionally does not store a theme preference. A dark operating-system color scheme does not replace the theater’s chosen colors.
 
 ## Features
 
-### A programme that stays current
+### A program that stays current
 
 The calendar uses `LOCALE = 'en-GB'` and `TIMEZONE = 'Europe/London'`. `londonToday()` finds the current calendar day in that zone; calendar arithmetic uses midday UTC dates to avoid daylight-saving shifts.
 
-Every performance has a real date and time in `SHOWS[].dates`, written for a six-week programme from Tuesday 20 October 2026. With `KEEP_PROGRAMME_CURRENT = true`, a performance that has started moves forward by whole programme cycles (`PROGRAMME_WEEKS = 6`, so 42 days): the weekday and time stay right and the programme always runs about six weeks ahead, with something on in the next few days. Performances that haven't happened yet keep their dates, so on 20 October 2026 the page shows exactly the dates in the data.
+Every performance has a real date and time in `SHOWS[].dates`, written for a six-week program from Tuesday 20 October 2026. With `KEEP_PROGRAMME_CURRENT = true`, a performance that has started moves forward by whole program cycles (`PROGRAMME_WEEKS = 6`, so 42 days): the weekday and time stay right and the program always runs about six weeks ahead, with something on in the next few days. Performances that haven't happened yet keep their dates, so on 20 October 2026 the page shows exactly the dates in the data.
 
-Set `KEEP_PROGRAMME_CURRENT = false` for a real programme with fixed dates. Performances that have started then drop out of the listings, and a production with no performances left disappears from the programme and says so on its detail page.
+Set `KEEP_PROGRAMME_CURRENT = false` for a real program with fixed dates. Performances that have started then drop out of the listings, and a production with no performances left disappears from the program and says so on its detail page.
 
 `PERFORMANCES` contains the upcoming performances in date order, derived from `SHOWS`. Performance IDs (`staircase-a`) never change when a date rolls. `performanceById` and `showById` provide validated lookups. `dayLabel()`, `timeLabel()` and `performanceLabel()` format all visitor-facing dates and times. Copyright uses the current London year.
 
@@ -178,9 +178,9 @@ Saved plans store each performance with the date it was saved for. A saved perfo
 
 Test with a fixed clock a year and two years ahead, and around a saved performance's start time, when changing this logic. There are no hard-coded upcoming years in page copy.
 
-### Programme search and filters
+### Program search and filters
 
-`initProgramme()` combines title/story search, genre, a 7, 14 or 28-day window (`PERIODS`) and access type. Date windows are measured from today; the whole programme covers six weeks. The result card uses the first performance that matches all filters.
+`initProgramme()` combines title/story search, genre, a 7, 14 or 28-day window (`PERIODS`) and access type. Date windows are measured from today; the whole program covers six weeks. The result card uses the first performance that matches all filters.
 
 The list remains in date order. A production with two matching dates appears once; the result text also counts its matching performances. Open its detail page to compare both dates.
 
@@ -206,7 +206,7 @@ Removing a planner row moves focus to the next available Remove button, or to a 
 
 ### Access preferences
 
-`ACCESS_NOTES` defines `stepfree`, `hearing`, `quiet` and `companion`. `initAccess()` saves only booleans, announces a saved count and can clear the preferences. `readAccess()` normalises the stored shape and removes unrelated fields.
+`ACCESS_NOTES` defines `stepfree`, `hearing`, `quiet` and `companion`. `initAccess()` saves only booleans, announces a saved count and can clear the preferences. `readAccess()` normalizes the stored shape and removes unrelated fields.
 
 The planner displays the notes and the ticket request includes them. A saved step-free preference preselects a wheelchair-space request; the visitor can choose a different seating option. The box office must confirm all arrangements.
 
@@ -216,13 +216,13 @@ Preferences are practical planning information rather than medical details. They
 
 `initTickets()` chooses an initial production from validated URL parameters, then a saved performance, then the first production with performances. The performance must belong to the selected production. Changing productions rebuilds the date options.
 
-`calculation()` reads catalogue prices, never prices from the URL or storage. Each quantity box takes a whole number from 0 to 8 and the total must be 1–8. A box that breaks the rule is marked `aria-invalid` with the message under the quantity fields as soon as it is typed, and the estimate shows a dash rather than a number that differs from the field. A concession ticket is `CONCESSION_OFF` (£3) less than the standard ticket; cards show the concession price as "From".
+`calculation()` reads catalog prices, never prices from the URL or storage. Each quantity box takes a whole number from 0 to 8 and the total must be 1–8. A box that breaks the rule is marked `aria-invalid` with the message under the quantity fields as soon as it is typed, and the estimate shows a dash rather than a number that differs from the field. A concession ticket is `CONCESSION_OFF` (£3) less than the standard ticket; cards show the concession price as "From".
 
 `HANDLING_PENCE = 100` is added once per non-empty request. For The Borrowed Staircase, two standard tickets and one concession cost £18 + £18 + £15 + £1 = £52.
 
 When the request is valid, the form is replaced by the box office's reply: "Request received · ref CF-1234", the performance, tickets, estimated total and access notes, and what happens next (seats held now, a confirmation email within a working day, payment by phone or at the box office). See Forms for connecting it to a real service.
 
-### Workshops and enquiries
+### Workshops and inquiries
 
 Workshop dates follow a rule rather than fixed dates: the first Saturday at least `WORKSHOP_NOTICE_DAYS` (3) days ahead, then one a week in `WORKSHOPS` order (`week: 0, 1, 2`). Request a place selects the matching option in the form and moves focus to it.
 
@@ -242,9 +242,9 @@ The hidden announcement region reports saved-plan changes. Visible result and pr
 
 ## Forms
 
-The ticket request and participation enquiry use `novalidate` with visible, field-specific JavaScript errors. Name needs 2–100 characters; email must have a complete address shape and be at most 160 characters. Ticket notes are limited to 800 characters; participation notes to 600. Ticket requests also require permission to reply.
+The ticket request and participation inquiry use `novalidate` with visible, field-specific JavaScript errors. Name needs 2–100 characters; email must have a complete address shape and be at most 160 characters. Ticket notes are limited to 800 characters; participation notes to 600. Ticket requests also require permission to reply.
 
-Both forms finish in `submitForm()` in `assets/js/main.js`, which shows the reply straight away. Until you connect a service, nothing reaches the theatre. To connect one, create an endpoint and add it to the form:
+Both forms finish in `submitForm()` in `assets/js/main.js`, which shows the reply straight away. Until you connect a service, nothing reaches the theater. To connect one, create an endpoint and add it to the form:
 
 ```html
 <form data-ticket-form action="https://formspree.io/f/YOUR_FORM_ID" method="post" novalidate></form>
@@ -263,7 +263,7 @@ if (response.ok) done();
 
 Catch failures, keep the entered data and report a useful error (with the box-office phone number). The `CF-1234` reference is made in the browser; use your service's reference if it returns one. Include the calculated production/date fields and verify them again on the server. Do not trust browser totals for sales or bookings. Only say a request was received after a confirmed successful response; only say a booking is confirmed after a real booking system confirms it.
 
-`data-access-form` saves local preferences only. `data-arrival-form` performs local arithmetic. The programme filter form never transmits a query. No form stores contact names, email addresses or messages in localStorage.
+`data-access-form` saves local preferences only. `data-arrival-form` performs local arithmetic. The program filter form never transmits a query. No form stores contact names, email addresses or messages in localStorage.
 
 ## Saved data (localStorage)
 
@@ -272,9 +272,9 @@ All access goes through `safeStorage` in `assets/js/main.js`. It probes browser 
 | Key                 | Shape                                                                 | Validation                                                        |
 | ------------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------- |
 | `cuefold-plan-v1`   | `{ items: [{ id: 'staircase-a', date: '2026-10-21' }], passed: [] }`  | Known production, `-a`/`-b`, date shape, deduplicated, maximum 36 |
-| `cuefold-access-v1` | `{ stepfree: false, hearing: false, quiet: false, companion: false }` | Only four recognised keys; only literal `true` enables a choice   |
+| `cuefold-access-v1` | `{ stepfree: false, hearing: false, quiet: false, companion: false }` | Only four recognized keys; only literal `true` enables a choice   |
 
-Malformed JSON and plans of the wrong shape are removed. An item whose performance has started moves to `passed` until the planner has shown the notice. Unknown performance IDs, duplicates and extra preference fields are stripped. Catalogue lookups use `Object.prototype.hasOwnProperty.call` so values such as `constructor` and `toString` cannot select inherited properties.
+Malformed JSON and plans of the wrong shape are removed. An item whose performance has started moves to `passed` until the planner has shown the notice. Unknown performance IDs, duplicates and extra preference fields are stripped. Catalog lookups use `Object.prototype.hasOwnProperty.call` so values such as `constructor` and `toString` cannot select inherited properties.
 
 Clear the plan on `planner.html` and access preferences on `access.html`, or reset both from the browser console:
 
@@ -286,11 +286,11 @@ location.reload();
 
 When storage is blocked, in-memory choices last only until the next navigation or reload. Download a visit plan if you need a portable copy. The website does not make a network backup or require an account.
 
-Supported URL parameters are `show` and `performance` on tickets, `show` on detail, `genre`, `access`, `period` and `search` on the programme, and `interest` on participation. Unrecognised lookup keys fall back safely. There is no time-preview parameter; use a browser test clock for calendar checks.
+Supported URL parameters are `show` and `performance` on tickets, `show` on detail, `genre`, `access`, `period` and `search` on the program, and `interest` on participation. Unrecognized lookup keys fall back safely. There is no time-preview parameter; use a browser test clock for calendar checks.
 
 ## SEO and sharing
 
-Each HTML file has its own title, description, theme colour, icon and Open Graph tags. Replace fictional business details, update the copy and use the real absolute social image URL after deployment:
+Each HTML file has its own title, description, theme color, icon and Open Graph tags. Replace fictional business details, update the copy and use the real absolute social image URL after deployment:
 
 ```html
 <meta property="og:image" content="https://your-theatre.example/assets/img/og-image.png" />
@@ -302,11 +302,11 @@ The detail page updates metadata in JavaScript. See Production details above bef
 
 ## Accessibility
 
-The template includes semantic landmarks, a skip link, one `h1` per rendered page, labelled fields, visible focus indicators and reduced-motion support. The menu exposes its open state and closes on Escape. Status regions announce filtering and saved-state updates.
+The template includes semantic landmarks, a skip link, one `h1` per rendered page, labeled fields, visible focus indicators and reduced-motion support. The menu exposes its open state and closes on Escape. Status regions announce filtering and saved-state updates.
 
 Keep the one-heading structure when adding content. Do not remove label associations or the IDs used by `aria-describedby`. Give new buttons explicit visible action text and keep any longer accessible name beginning with that same action.
 
-Access claims describe the fictional theatre. Verify entrance widths, wheelchair spaces, equipment, companion arrangements and actual performance features before publishing for a real venue. A diagram alone is not an access audit.
+Access claims describe the fictional theater. Verify entrance widths, wheelchair spaces, equipment, companion arrangements and actual performance features before publishing for a real venue. A diagram alone is not an access audit.
 
 ## Building and deploying
 
@@ -319,7 +319,7 @@ npm run build
 
 `npm run watch` recompiles while editing. Commit or upload the regenerated `assets/css/style.css`; the browser does not compile `src/input.css`.
 
-Upload the complete folder to any static host, including Netlify Drop, Cloudflare Pages or GitHub Pages. Keep relative paths and `.html` filenames intact. A custom 404 needs host configuration: GitHub Pages recognises `404.html`; other hosts have their own error-page setting.
+Upload the complete folder to any static host, including Netlify Drop, Cloudflare Pages or GitHub Pages. Keep relative paths and `.html` filenames intact. A custom 404 needs host configuration: GitHub Pages recognizes `404.html`; other hosts have their own error-page setting.
 
 Do not upload `node_modules`. No build step or environment variable is required on the host if you upload the already compiled files.
 
@@ -339,11 +339,11 @@ Run `npm run build` after adding classes. Tailwind scans HTML and JavaScript und
 
 Saved performances are removed once they have started, and the planner says so. A private browser, sandboxed frame or page opened from disk may also limit saved state to one view. Download a text plan before leaving if needed.
 
-### A request did not reach the theatre
+### A request did not reach the theater
 
 The forms show the box office's reply in the browser but don't send anything until you connect an endpoint in `submitForm()` (see Forms).
 
-### A programme filter has no results
+### A program filter has no results
 
 Clear filters and search again. Date and access choices are combined, so a narrow date window can legitimately exclude a particular production. Check `SHOWS`, `PERFORMANCES` and the access flags when editing data.
 

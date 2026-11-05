@@ -56,11 +56,11 @@ docs/
 └── DOCS.md                this guide
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
-Colours are CSS variables in `src/input.css`: `:root` holds the light theme and `.dark` the dark one.
+Colors are CSS variables in `src/input.css`: `:root` holds the light theme and `.dark` the dark one.
 The `@theme` block maps them to Tailwind utilities (`bg-bg`, `bg-subtle`, `bg-surface`, `text-ink`,
 `text-muted`, `border-line`, `bg-brand`, `text-brand-ink`, `bg-brand-soft`), so you only change the
 variables:
@@ -77,7 +77,7 @@ variables:
 ```
 
 Other variables: `--d-bg`, `--d-subtle`, `--d-surface`, `--d-ink`, `--d-muted`, `--d-line`,
-`--d-brand-ink` (text on brand buttons) and `--d-code-bg` (code blocks). Syntax colours are the `.tok-*`
+`--d-brand-ink` (text on brand buttons) and `--d-code-bg` (code blocks). Syntax colors are the `.tok-*`
 classes, callouts `.callout-*` and changelog badges `.badge-*`, all in `src/input.css`. Rebuild the CSS
 after changes. Update the two `theme-color` meta tags in each page's `<head>` to match `--d-bg`.
 
@@ -183,7 +183,7 @@ intro.
 
 ### Syntax highlighting and copy buttons
 
-A small tokenizer in `assets/js/main.js` (section 5, `RULES`) colours keywords, strings, numbers,
+A small tokenizer in `assets/js/main.js` (section 5, `RULES`) colors keywords, strings, numbers,
 comments, functions and properties for `js`/`ts`, commands and flags for `bash`, keys for `json` and tags
 for `html`, with no library. Every `[data-copy]` button copies its block's visible code and shows
 "Copied!".
@@ -255,7 +255,7 @@ Add a `sitemap.xml` listing every page. Heading `id`s give every section a stabl
 
 ## Accessibility
 
-- Skip link to `<main id="content">`, labelled landmarks and one `<h1>` per page.
+- Skip link to `<main id="content">`, labeled landmarks and one `<h1>` per page.
 - Search is a dialog with a combobox and listbox (`aria-activedescendant`), full keyboard support and
   focus kept inside while open.
 - Tabs follow the WAI-ARIA tabs pattern; code blocks are focusable for keyboard scrolling.

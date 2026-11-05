@@ -5,7 +5,7 @@
 Clinic is a calm, accessible website for a dental or medical practice, with treatments and typical
 costs, the care team, patient information and a five-step online booking wizard. The demo practice is
 **Brightside Dental**, a fictional family dental clinic. It is built with HTML5, Tailwind CSS v4 and one
-vanilla JavaScript file, and needs no build step. This guide covers version 1.1.9.
+vanilla JavaScript file, and needs no build step. This guide covers version 1.1.10.
 
 Live demo: [freeframe.dev/templates/clinic](https://freeframe.dev/templates/clinic)
 
@@ -56,12 +56,12 @@ clinic/
 └── DOCS.md                this guide
 ```
 
-`assets/js/main.js` is organised in seven numbered sections listed in its header comment. Section **1.
+`assets/js/main.js` is organized in seven numbered sections listed in its header comment. Section **1.
 Settings** holds everything you are likely to change.
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 The palette and fonts are tokens in the `@theme` block at the top of `src/input.css`:
 
@@ -293,7 +293,7 @@ Local practices benefit from [Dentist](https://schema.org/Dentist) or MedicalCli
 
 Clinic is built for patients of all ages and abilities:
 
-- Larger base text, high contrast, thick 3px focus rings, skip link and labelled landmarks.
+- Larger base text, high contrast, thick 3px focus rings, skip link and labeled landmarks.
 - The wizard uses fieldsets with legends, moves focus to each step's heading, marks the current step
   with `aria-current="step"`, and labels each day button with its date and availability.
 - Filter buttons use `aria-pressed`; the mobile menu uses `aria-expanded` and closes with Esc.

@@ -62,9 +62,9 @@ chapter/
   LICENSE.txt            license (added to the download)
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 Design tokens live in the `@theme` block at the top of `src/input.css`.
 
@@ -78,8 +78,8 @@ Design tokens live in the `@theme` block at the top of `src/input.css`.
 | `--color-rule` | `#cbbca2` | Hairlines and borders |
 | `--color-oxblood`, `--color-oxblood-deep` | `#7b2230`, `#5c1622` | Links, buttons, drop caps, newsletter band |
 | `--color-gilt` | `#b08a3e` | Ornaments only (not text) |
-| `--color-gilt-ink` | `#7a5a1c` | Gilt-coloured labels on paper (AA contrast) |
-| `--color-marsh`, `--color-marsh-2`, `--color-glass` | greens | The home page hero (the new book's colours) |
+| `--color-gilt-ink` | `#7a5a1c` | Gilt-colored labels on paper (AA contrast) |
+| `--color-marsh`, `--color-marsh-2`, `--color-glass` | greens | The home page hero (the new book's colors) |
 
 To change the accent from oxblood to, say, navy:
 
@@ -95,7 +95,7 @@ The paper grain is a small SVG noise texture in the `body` rule of `src/input.cs
 `.btn-glass`, `.btn-ghost-light` and `.btn-sm`; `.caps` and `.caps-sm` (spaced capitals); `.h-title`,
 `.h-section` and `.lead`; `.ornament` (a fleuron between hairlines); `.dropcap`; `.link`; `.jacket`
 (spine shading and shadow around a jacket SVG); `.chip`; `.label`, `.input`, `.check`, `.field-error`.
-Sections with a dark background use `.on-dark`, which switches link, muted-text, error and focus colours.
+Sections with a dark background use `.on-dark`, which switches link, muted-text, error and focus colors.
 
 ### Typography
 
@@ -121,7 +121,7 @@ the top of `assets/js/main.js`:
 | `STORAGE_KEYS` | `{ reader: 'chapter-reader', size: 'chapter-reader-size' }` |
 | `NEW_RELEASE` | Id of the book the home page, announcement bar and `book.html` without `?id=` are about (`'the-glass-marsh'`) |
 | `KEEP_DEMO_CURRENT`, `DEMO_ANCHOR` | `true` and `'2026-10-17'`: move the new book's publication day and every event forward in whole weeks (see [Demo dates](#demo-dates)) |
-| `RETAILERS` | Bookshops: name, a short note and the link prefix (`url + book id`) |
+| `RETAILERS` | Bookstores: name, a short note and the link prefix (`url + book id`) |
 | `FORMAT_NAMES` | `hardback`, `paperback`, `ebook`, `audio` |
 | `SERIES` | Series names and jacket label (`lark`) |
 | `BOOKS` | Every book: jacket, blurb, formats, reviews, first chapter, themes and questions |
@@ -226,7 +226,7 @@ mobile menu (`#mobile-menu`) and the footer in every file. Mark the current page
 
 `fillRelease()` in `main.js` fills every `[data-release-date]` with the new book's publication day, shows
 `[data-release-state="soon"]` or `[data-release-state="out"]`, sets `[data-buy-verb]` to "Pre-order" or
-"Buy", fills `[data-buy-links]` with links to each bookshop that sells the book, and starts every
+"Buy", fills `[data-buy-links]` with links to each bookstore that sells the book, and starts every
 `[data-countdown]` (days, hours, minutes and seconds in `[data-unit]` boxes, with singular and plural
 unit labels). When the countdown reaches zero the page switches to the "out" state without a reload.
 The countdown has `role="timer"` and a hidden sentence (`[data-countdown-label]`) for screen readers.
@@ -365,7 +365,7 @@ once you know the address. Add a `sitemap.xml` listing the pages, and consider `
 - Jackets have text alternatives where they carry meaning and are hidden where the title is already
   next to them.
 - Live regions announce result counts, reader progress, copy confirmations and the contact routing.
-- Text colours meet WCAG AA on every paper tone; gilt is used as text only in the darker `gilt-ink`.
+- Text colors meet WCAG AA on every paper tone; gilt is used as text only in the darker `gilt-ink`.
 - Motion (reveals, page turns, smooth scrolling) is off with reduced motion.
 
 When editing, keep one `<h1>` per page, give new inputs a `<label>`, and keep `aria-controls` and
@@ -406,4 +406,4 @@ All links are relative, so it also works in a subfolder.
 
 MIT. The code and all included artwork are free for personal and commercial use; see `LICENSE.txt`.
 Libre Baskerville, Crimson Pro and Josefin Sans are licensed under the SIL Open Font License.
-Clemency Thorne, her books, publisher, agency, bookshops, reviewers and events are fictional.
+Clemency Thorne, her books, publisher, agency, bookstores, reviewers and events are fictional.

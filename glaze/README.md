@@ -8,7 +8,7 @@ studio story and glaze guide, care and delivery, a visit page with live opening 
 Saturdays, and a 404 page. Every pot is drawn from the product data, so there are no photos to replace. Plain
 HTML, Tailwind CSS v4 and vanilla JavaScript.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.3** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/glaze)
 
 ## Quick start
@@ -28,7 +28,7 @@ npm run watch     # rebuilds assets/css/style.css while you edit
 
 ## Documentation
 
-[DOCS.md](DOCS.md) covers everything: pages and structure, brand colours and fonts, adding pieces and glazes,
+[DOCS.md](DOCS.md) covers everything: pages and structure, brand colors and fonts, adding pieces and glazes,
 the SVG pottery drawings, stock and made-to-order dates, delivery prices and postcodes, workshops and their
 date rules, opening hours and closures, the saved basket, connecting the checkout and forms, SEO,
 accessibility and deploying.

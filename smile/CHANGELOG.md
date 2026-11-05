@@ -6,6 +6,12 @@ All notable changes to the Smile HTML template are documented here. The format f
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.4] - 2026-10-23
 
 ### Fixed

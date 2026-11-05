@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.1] - 2026-11-04
 
 ### Fixed
@@ -32,5 +38,5 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - Company page with drawn team portraits, backers, a timeline and press kit downloads.
 - News with a topic filter, coming-up events built from rules, and dated posts, milestone years and the
   reservation count that roll forward with `KEEP_DEMO_CURRENT`.
-- Contact form with the enquiry type and role from the URL and a reference on success, a newsletter form, dark
+- Contact form with the inquiry type and role from the URL and a reference on success, a newsletter form, dark
   mode toggle, accessible mobile menu, scroll reveals, back-to-top and a PNG social image.

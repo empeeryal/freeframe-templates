@@ -6,7 +6,7 @@ discography with a working track player, tour dates with filters and calendar do
 a cart, an about page, an electronic press kit and a contact form that routes messages by topic. Plain HTML,
 Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.7** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/tempo)
 
 ## Quick start
@@ -22,7 +22,7 @@ npm run build
 
 ## Documentation
 
-[DOCS.md](DOCS.md) is the full guide: pages and files, colours and fonts, adding releases, tour dates and
+[DOCS.md](DOCS.md) is the full guide: pages and files, colors and fonts, adding releases, tour dates and
 products, connecting real audio files, video and a store, the player and its keyboard shortcuts, the cart,
 connecting the forms, the artwork, SEO, accessibility, deploying and troubleshooting. Changes are listed in
 [CHANGELOG.md](CHANGELOG.md).

@@ -7,7 +7,7 @@ fictional independent magazine of essays about software, design, craft and atten
 front page, a long-form article layout with an automatic table of contents and reading progress, a
 searchable archive, topic pages, a masthead and a contact page, with typography tuned for reading in light
 and dark mode. It is built with HTML5, Tailwind CSS v4 and vanilla JavaScript, and needs no build step.
-This guide covers version 1.1.7.
+This guide covers version 1.1.8.
 
 Live demo: [freeframe.dev/templates/ledger](https://freeframe.dev/templates/ledger)
 
@@ -52,11 +52,11 @@ ledger/
 └── DOCS.md                this guide
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
-Colours are CSS variables at the top of `src/input.css`: `:root` for light mode and `.dark` for dark mode.
+Colors are CSS variables at the top of `src/input.css`: `:root` for light mode and `.dark` for dark mode.
 `@theme inline` maps them to Tailwind utilities (`bg-paper`, `bg-surface`, `text-ink`, `text-muted`,
 `border-line`, `text-accent`, `bg-accent-soft`).
 
@@ -91,14 +91,14 @@ Headlines and article text use **Newsreader** (`--font-serif`), interface text u
 `<div class="prose-ledger" data-article>` drives:
 
 - **Reading time**: the words a reader reads ÷ 230, written into every `[data-reading-time]`. Words are
-  counted per text node (so words in neighbouring tags never run together), leaving out SVG text (the
+  counted per text node (so words in neighboring tags never run together), leaving out SVG text (the
   chart's title, description and labels), scripts, styles, `hidden`/`aria-hidden` elements and the notes;
   captions and code count.
 - **Table of contents**: built from the article's `<h2>` headings (ids are generated from the text if
   missing). Add `data-toc-skip` to an `<h2>` to leave it out, as the "Notes" heading does.
 - **Footnotes**: a reference `<sup><a href="#fn1" id="ref1" aria-describedby="notes-label">1</a></sup>` and
   a note `<li id="fn1">... <a href="#ref1" aria-label="Back to reference 1">↩</a></li>` in the Notes list.
-- **Code**: hand-coloured with `tok-c` (comment), `tok-k` (keyword), `tok-s` (string) and `tok-f`
+- **Code**: hand-colored with `tok-c` (comment), `tok-k` (keyword), `tok-s` (string) and `tok-f`
   (function) spans; there's no automatic highlighter.
 
 Copy `article.html` for each new essay and update its `<title>`, meta description, Open Graph tags and
@@ -255,7 +255,7 @@ For each article, consider [Article structured data](https://schema.org/Article)
 
 ## Accessibility
 
-- Skip link, landmarks, one `<h1>` per page and visible focus outlines in the accent colour.
+- Skip link, landmarks, one `<h1>` per page and visible focus outlines in the accent color.
 - Text and kickers meet WCAG AA contrast in both themes; footnote back-links are underlined.
 - The chart has a `<title>` and `<desc>`; footnotes link both ways with labels.
 - Topic chips and the theme toggle use `aria-pressed`; the archive count is announced (`aria-live`).

@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.5] - 2026-11-04
 
 ### Fixed
@@ -62,6 +68,6 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - Ticket shop with quantity steppers, early-bird prices, 10% group discount, fees and a demo checkout
 - Food village with dietary and keyword filters linked to numbered map pins
 - Interactive site map with toggleable layers and a searchable FAQ
-- Contact form that routes volunteer, trader, press and visitor enquiries
+- Contact form that routes volunteer, trader, press and visitor inquiries
 - One data file for artists, stages, traders and ticket prices
 - Full documentation in `DOCS.md`.

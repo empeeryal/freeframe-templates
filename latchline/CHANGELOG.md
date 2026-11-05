@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.1] - 2026-10-26
 
 ### Fixed
@@ -16,5 +22,5 @@
 - Six-stage onboarding board explorer with keyboard tabs, customer and team views, and a plan preview that dates any playbook's milestones around weekends and office holidays.
 - Fifteen playbooks with their own SVG diagrams, filters with live counts, search, sorting and a saved shortlist.
 - Customer stories with generated before-and-after charts, and a resource library with a rolling monthly onboarding clinic.
-- Active-onboarding pricing calculator with three plans, add-ons, annual billing and an itemized quote that carries into the enquiry.
-- Team portraits, live office status and closures in Pacific time, a qualified sales enquiry with a demo time picker, and full documentation.
+- Active-onboarding pricing calculator with three plans, add-ons, annual billing and an itemized quote that carries into the inquiry.
+- Team portraits, live office status and closures in Pacific time, a qualified sales inquiry with a demo time picker, and full documentation.

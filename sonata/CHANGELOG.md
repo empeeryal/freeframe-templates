@@ -4,6 +4,12 @@ All notable changes to Sonata are recorded here.
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.1] - 2026-10-19
 
 ### Fixed
@@ -16,7 +22,7 @@ All notable changes to Sonata are recorded here.
 ### Added
 
 - Ten responsive pages for an independent music school, with original art for every course, page illustrations and tutor portraits.
-- Course search and filters, tutor filter, weekly timetable showing the current teaching week, term-price calculator and guided enrolment enquiry with a confirmation and reference number.
+- Course search and filters, tutor filter, weekly timetable showing the current teaching week, term-price calculator and guided enrollment inquiry with a confirmation and reference number.
 - Term, half-term and bank-holiday dates worked out for any year, with the date new starters join.
 - Saved shortlist, weekly practice planner and accessible contact form.
-- Complete customisation, deployment and integration documentation.
+- Complete customization, deployment and integration documentation.

@@ -4,10 +4,10 @@
 
 Petal is a shop website for a florist with same-day local delivery, built for **Hollyhock**, a fictional
 independent flower shop on Wyle Cop in Shrewsbury. It has a seasonal home page with a live "order by 1pm for
-same-day delivery" countdown, a shop filtered by occasion, colour and price, product pages with sizes, a
+same-day delivery" countdown, a shop filtered by occasion, color and price, product pages with sizes, a
 delivery calendar and a gift message, a basket saved in the browser with a postcode check and delivery
 charges, a demo checkout, a flower subscription builder with the savings worked out, a weddings and events
-page with an estimate and enquiry form, a day-by-day flower care guide, an about and contact page and a 404
+page with an estimate and inquiry form, a day-by-day flower care guide, an about and contact page and a 404
 page. It is plain HTML with Tailwind CSS v4 and one vanilla JavaScript file, with no build step needed to use
 it. This guide covers version 1.0.3. See it live at
 [freeframe.dev/templates/petal](https://freeframe.dev/templates/petal).
@@ -24,7 +24,7 @@ it. This guide covers version 1.0.3. See it live at
 3. You only need Node.js 24 or newer if you change the CSS classes (see
    [Building and deploying](#building-and-deploying)).
 
-Everything that depends on the time (the countdown, the delivery calendar, the season colours, open-now
+Everything that depends on the time (the countdown, the delivery calendar, the season colors, open-now
 badges) follows the shop's clock in `Europe/London`. To preview another moment, add `?now=` to any page URL,
 for example `index.html?now=2026-10-17T12:58` (two minutes before the cut-off) or
 `product.html?id=peony-blush&now=2026-10-18T10:00` (a Sunday). The preview clock keeps ticking from there.
@@ -33,13 +33,13 @@ for example `index.html?now=2026-10-17T12:58` (two minutes before the cut-off) o
 
 | File | Purpose | Notable sections and features |
 |------|---------|-------------------------------|
-| `index.html` | Home | Seasonal hero with the bouquet drawn in the season's colours, live same-day countdown, "in season now" list, bestsellers (from the product data), shop by occasion with counts, how delivery works, postcode checker, subscription teaser, reviews |
-| `shop.html` | Shop | Occasion, colour and price filters, sort, live result count, shareable links (`shop.html?occasion=birthday&colour=pink&price=under-40&sort=price-asc`), empty state |
+| `index.html` | Home | Seasonal hero with the bouquet drawn in the season's colors, live same-day countdown, "in season now" list, bestsellers (from the product data), shop by occasion with counts, how delivery works, postcode checker, subscription teaser, reviews |
+| `shop.html` | Shop | Occasion, color and price filters, sort, live result count, shareable links (`shop.html?occasion=birthday&colour=pink&price=under-40&sort=price-asc`), empty state |
 | `product.html` | Product | `product.html?id=peony-blush&size=generous`: three sizes with prices, delivery calendar, gift message with counter and card preview, add to basket, related bouquets |
 | `basket.html` | Basket | Lines with delivery day, quantity and gift message, postcode check, delivery charge per delivery day, total, notice when a saved date has passed, last order when empty |
 | `checkout.html` | Checkout (demo) | Recipient, address, postcode check, your details, demo card, validation, order number and confirmation |
 | `subscriptions.html` | Subscriptions | Weekly, fortnightly or monthly; size; delivery day; price per delivery, per month and per year, the yearly saving and the first four dates (`subscriptions.html?plan=weekly&size=classic`) |
-| `weddings.html` | Weddings & events | Recent work, rough estimate with steppers, enquiry form with an 8-week minimum date |
+| `weddings.html` | Weddings & events | Recent work, rough estimate with steppers, inquiry form with an 8-week minimum date |
 | `care.html` | Flower care | Day-by-day plan from the delivery date, the basics, searchable flower-by-flower tips |
 | `about.html` | About & contact | Story, team, delivery zones table (`about.html#delivery`), hours with today highlighted, map, contact form (`about.html#contact`), FAQ |
 | `404.html` | Not found | Links back to home and the shop |
@@ -59,9 +59,9 @@ petal/
   README.md, DOCS.md, CHANGELOG.md
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 The design tokens are in the `@theme` block of `src/input.css`. Every utility such as `bg-fern` or
 `text-peony-deep` comes from them.
@@ -79,7 +79,7 @@ The design tokens are in the `@theme` block of `src/input.css`. Every utility su
 | `--color-blush`, `--color-butter`, `--color-sky`, `--color-lilac` | pastel tints | Product card backgrounds and panels |
 | `--color-marigold`, `--color-cornflower`, `--color-poppy` | bright accents | Decoration, badges, numbers |
 
-To change the brand colour, edit the tokens and rebuild the CSS:
+To change the brand color, edit the tokens and rebuild the CSS:
 
 ```css
 @theme {
@@ -89,7 +89,7 @@ To change the brand colour, edit the tokens and rebuild the CSS:
 }
 ```
 
-#### Season colours
+#### Season colors
 
 Below `@theme`, `:root[data-season="spring"]` (and `summer`, `autumn`, `winter`) set five variables:
 `--season-1`, `--season-2`, `--season-3` (the hero bouquet's flowers), `--season-soft` (the hero circle,
@@ -161,14 +161,14 @@ There are no photos. All artwork is SVG:
 
 - **Bouquets** are drawn by `Art.bouquet(art, extra, key)` in section 7 of `main.js` (a 240×280 drawing), from a
   product's `art` object:
-  - `wrap`: `'paper'` (needs `paper` and `ribbon` colours), `'box'` (a hatbox: `box`, `band`) or `'jug'`
+  - `wrap`: `'paper'` (needs `paper` and `ribbon` colors), `'box'` (a hatbox: `box`, `band`) or `'jug'`
     (`jug`, `rim`).
   - `shape`: `'dome'`, `'tall'` or `'loose'`.
   - `heads`: up to nine `[kind, colour]` pairs, most important first. Kinds: `rose`, `peony`, `dahlia`,
     `ranunculus`, `anemone`, `daisy`, `tulip`. The classic size draws five; generous adds two, abundant four.
-  - `spikes`: optional colours of delphinium-style spires. `foliage`: `'eucalyptus'`, `'leaf'`, `'fern'` or
+  - `spikes`: optional colors of delphinium-style spires. `foliage`: `'eucalyptus'`, `'leaf'`, `'fern'` or
     `'none'`.
-  - Colours can be hex values or CSS variables such as `'var(--season-1)'`. The `key` (the product id) seeds the
+  - Colors can be hex values or CSS variables such as `'var(--season-1)'`. The `key` (the product id) seeds the
     small random tilts, so a bouquet always looks the same.
 - The **hero bouquet** on the home page is the same drawing, inlined in `index.html` with season variables. The
   team portraits, map, empty basket and 404 flower are inline SVG in their pages.
@@ -220,14 +220,14 @@ your dates will be shifted too.
 `initShop()` renders the filter buttons from `OCCASIONS`, `COLOURS` and `PRICE_BANDS` (classic price) and the
 sort menu from `SORTS`. Pressing a button again clears it. The URL is kept in step (`?occasion=`, `?colour=`,
 `?price=`, `?sort=`) so a filtered page can be shared. Values from the URL are only used if they are a key of
-the matching constant. The filters are buttons with `aria-pressed`, grouped and labelled, and the result count
+the matching constant. The filters are buttons with `aria-pressed`, grouped and labeled, and the result count
 ("4 bouquets · birthday, pink") is a live region.
 
 ### Product page and delivery calendar
 
 `initProduct()` reads `?id=` (unknown ids show a "We couldn't find that bouquet" page) and an optional
 `?size=`. Choosing a size updates the price and redraws the bouquet with more flowers. The calendar shows today
-to `DELIVERY.daysAhead` days ahead, Monday first. Sundays, holidays and past days are greyed out; fully booked
+to `DELIVERY.daysAhead` days ahead, Monday first. Sundays, holidays and past days are grayed out; fully booked
 days are struck through in pink; after the cut-off today is disabled. Each day is a button with
 `aria-pressed` and a full label ("Wednesday 28 October, fully booked"). The calendar is one tab stop: arrow keys
 move between available days (up and down move a week), Home and End jump to the first and last.
@@ -274,7 +274,7 @@ show the last order.
 
 ### Subscription builder
 
-`initSubscriptions()` builds the plan and size cards from `SUBSCRIPTION`. The maths, for a size's one-off price
+`initSubscriptions()` builds the plan and size cards from `SUBSCRIPTION`. The math, for a size's one-off price
 `P` and a plan's `discount` and `perYear`:
 
 | Figure | Formula | Fortnightly generous (default) |
@@ -291,8 +291,8 @@ delivery that lands on a `CLOSED_DATES` day moves to the next delivery day. The 
 ### Wedding estimate
 
 `initWeddings()` lists `WEDDING.items` with steppers (the defaults are one bridal bouquet, six buttonholes and
-eight centrepieces: £140 + £84 + £384 = £608, plus set-up of 12% = £73, raised to the £90 minimum, so £698).
-Below `WEDDING.minSpend` a note explains the minimum. The rough total goes into the enquiry form's hidden
+eight centerpieces: £140 + £84 + £384 = £608, plus set-up of 12% = £73, raised to the £90 minimum, so £698).
+Below `WEDDING.minSpend` a note explains the minimum. The rough total goes into the inquiry form's hidden
 `estimate` field.
 
 ### Flower care guide
@@ -315,12 +315,12 @@ the `.back-to-top` styles in `src/input.css` to drop it.
 | Postcode (`#postcode-form`) | `basket.html` | UK postcode in a delivery zone |
 | Checkout (`#checkout-form`) | `checkout.html` | Recipient, address, town, postcode in a zone, optional phone, notes up to 150 characters, your name, email and phone, card, expiry, CVC, confirmation box |
 | Subscription (`#sub-form`) | `subscriptions.html` | Name, email, postcode in a zone |
-| Wedding enquiry (`#wedding-form`) | `weddings.html` | Names, email, optional phone, date at least 8 weeks and at most 2 years ahead, guests 1–400, venue, message up to 600 characters |
+| Wedding inquiry (`#wedding-form`) | `weddings.html` | Names, email, optional phone, date at least 8 weeks and at most 2 years ahead, guests 1–400, venue, message up to 600 characters |
 | Contact (`data-form="contact"`) | `about.html` | Name, email, topic, optional order number (`HH-12345`), message of 10–800 characters |
 
 Validation is inline: errors appear under each field on blur and submit (`fieldMessage()` in section 17), the
 first invalid field gets focus, and a success panel replaces the form. **The forms send nothing until you
-connect them**, even though the success panels read as if they had. The subscription, wedding enquiry and
+connect them**, even though the success panels read as if they had. The subscription, wedding inquiry and
 contact panels show a short reference (`HH-` and four characters, made in the browser by `makeRef()` in
 `main.js`); if your form service returns its own reference, show that instead. The panels promise a reply
 within a working day (contact, subscription) or two working days (weddings), as the pages already say, the
@@ -379,7 +379,7 @@ hours, telephone, area served) in `index.html` helps local search.
 ## Accessibility
 
 - Skip link, landmarks, one `<h1>` per page and logical headings.
-- Visible focus outlines; WCAG AA colour contrast, including each season's `--season-ink`.
+- Visible focus outlines; WCAG AA color contrast, including each season's `--season-ink`.
 - The mobile menu button has `aria-expanded` and closes with Esc.
 - Filter buttons and calendar days use `aria-pressed`; the calendar is one tab stop with arrow-key movement and
   each day's label says why it's unavailable.

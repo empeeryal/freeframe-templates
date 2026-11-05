@@ -2,20 +2,20 @@
 
 ## Overview
 
-Mosaic is a multi-page website template for a community arts centre, gallery or makers' space. The demo is
-Mosaic, a fictional arts centre in an old dye works on Market Street, Ulverston, Cumbria, with classes, gigs,
+Mosaic is a multi-page website template for a community arts center, gallery or makers' space. The demo is
+Mosaic, a fictional arts center in an old dye works on Market Street, Ulverston, Cumbria, with classes, gigs,
 film nights, family sessions, free exhibitions, room hire and volunteering. It is built with plain HTML,
 Tailwind CSS v4 and vanilla JavaScript (no frameworks, no build step needed to use it). This guide covers version 1.0.2.
 See the template page at [freeframe.dev/templates/mosaic](https://freeframe.dev/templates/mosaic), which links
 to the live demo.
 
-The programme has no fixed dates. Every date is worked out in the browser from rules such as "every Tuesday" or
+The program has no fixed dates. Every date is worked out in the browser from rules such as "every Tuesday" or
 "last Friday of the month", in UK time, so the site is always current on any day you open it.
 
 ## Quick start
 
 1. Unzip the download.
-2. Open `index.html` in a browser. Everything works from the file system, including the programme, filters,
+2. Open `index.html` in a browser. Everything works from the file system, including the program, filters,
    saved events and calendar downloads.
 3. Or serve the folder with any static server, for example `npx serve .`, and open the address it prints.
 
@@ -27,12 +27,12 @@ You only need Node 24 if you change Tailwind classes or `src/input.css` and want
 | File | Purpose | Notable sections and features |
 |------|---------|-------------------------------|
 | `index.html` | Home | Hero collage, "This week at Mosaic" (next six sessions, one per listing), eight category tiles with live date counts, the current exhibition, how it works, quote and numbers, get involved and hire teasers |
-| `whats-on.html` | The programme | Seven-day strip, filters (category, age, price, when, custom dates, saved only), list grouped into Today / This week / Next week / months, "Show three more weeks", winter break note |
+| `whats-on.html` | The program | Seven-day strip, filters (category, age, price, when, custom dates, saved only), list grouped into Today / This week / Next week / months, "Show three more weeks", winter break note |
 | `event.html` | One listing | Artwork, description, included and bring lists, upcoming dates to choose from, .ics download, booking request form or drop-in note, "More like this" |
 | `workshops.html` | Classes | Weekly timetable (Monday to Sunday), filterable class cards with next session, first-class steps, FAQ |
-| `hire.html` | Room hire | Four rooms with floor plans, live estimate (room, date, start, hours, people, layout, extras, community discount) and enquiry form, FAQ |
+| `hire.html` | Room hire | Four rooms with floor plans, live estimate (room, date, start, hours, people, layout, extras, community discount) and inquiry form, FAQ |
 | `get-involved.html` | Volunteering and support | On-page navigation, six volunteer roles, volunteer form, Friends membership tiers, teach / exhibit / start a group |
-| `about.html` | Our story | Story and timeline, values, team with cut-paper portraits, how the centre is funded |
+| `about.html` | Our story | Story and timeline, values, team with cut-paper portraits, how the center is funded |
 | `visit.html` | Visiting | Live opening status, hours table with today highlighted, winter break note, illustrated map, getting here, access, contact form |
 | `404.html` | Not found | Helpful links and artwork |
 
@@ -56,9 +56,9 @@ mosaic/
   README.md, DOCS.md, CHANGELOG.md
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 All design tokens live in the `@theme` block at the top of `src/input.css`. Tailwind turns each
 `--color-*` token into utilities such as `bg-violet`, `text-vermilion-dark` or `ring-line`.
@@ -76,8 +76,8 @@ All design tokens live in the `@theme` block at the top of `src/input.css`. Tail
 | `--color-teal` | `#17685a` | Exhibitions, success messages |
 | `--color-leaf` | `#7fb069` | Open studios & socials |
 
-Each colour has `-light` (and some `-dark`) partners for tag backgrounds and readable text. To change the brand
-colour:
+Each color has `-light` (and some `-dark`) partners for tag backgrounds and readable text. To change the brand
+color:
 
 ```css
 @theme {
@@ -86,8 +86,8 @@ colour:
 }
 ```
 
-The artwork in `assets/js/main.js` uses the same colours from the `C` object (section 5); change them there too
-if you re-colour the site. Category tag colours come from `TONES` in the same section.
+The artwork in `assets/js/main.js` uses the same colors from the `C` object (section 5); change them there too
+if you re-color the site. Category tag colors come from `TONES` in the same section.
 
 ### Typography
 
@@ -105,7 +105,7 @@ the CSS. Both have system fallbacks.
 
 ### Content
 
-Page text is in the HTML files. The programme, rooms and settings are in `assets/js/data.js`, in one object,
+Page text is in the HTML files. The program, rooms and settings are in `assets/js/data.js`, in one object,
 `window.MOSAIC_DATA`:
 
 | Constant | What it holds |
@@ -113,14 +113,14 @@ Page text is in the HTML files. The programme, rooms and settings are in `assets
 | `CENTRE` | Name, address, phone, email and `uidDomain` (used in .ics UIDs) |
 | `HOURS` | Welcome desk hours by weekday (`0` = Sunday); `null` means closed |
 | `WINTER_BREAK` | The yearly closure, `{ from: { month: 12, day: 24 }, to: { month: 1, day: 1 } }` |
-| `CATEGORIES` | Programme categories: `print`, `clay`, `textile`, `music`, `family`, `exhibition`, `film`, `studio`, each with a `label` and a colour `tone` |
+| `CATEGORIES` | Program categories: `print`, `clay`, `textile`, `music`, `family`, `exhibition`, `film`, `studio`, each with a `label` and a color `tone` |
 | `AGES` | Who a listing is for: `all`, `under5`, `kids`, `teens`, `adults` |
 | `AGE_FILTERS` | The age filter options and which `AGES` each one shows |
 | `PRICE_FILTERS` | The price filter options: `any`, `free`, `under10`, `pwyc` |
 | `ROOMS` | Rooms in the building; rooms with `hire` (rate per hour, seated and standing capacity, size) appear on the hire page |
 | `HIRE_EXTRAS` | Flat-fee extras for hire: `projector` (£15), `pa` (£25), `kitchen` (£12), `clear` (£30) |
 | `HIRE` | Hire rules: `minHours` 2, `maxHours` 10, `firstStart` 8, `lastEnd` 22, `communityDiscount` 0.3, `eveningSurcharge` 0.15 from `eveningFrom` 18 |
-| `LISTINGS` | The 20 listings in the programme |
+| `LISTINGS` | The 20 listings in the program |
 | `GALLERY` | The order and length of exhibitions in the Foyer Gallery |
 
 A listing looks like this:
@@ -174,7 +174,7 @@ shows past events.
 
 For a real site with one-off dates, the simplest change is to keep using rules for regular sessions and add
 exhibitions to `GALLERY.runs` in the order you will show them, setting `GALLERY.anchor` to the first opening day.
-There is no switch to turn off: the rules are the programme.
+There is no switch to turn off: the rules are the program.
 
 The `?now=YYYY-MM-DDTHH:MM` URL parameter (UK time) previews any page on another date, for example
 `whats-on.html?now=2027-12-28T10:00` to see the winter break.
@@ -204,7 +204,7 @@ shows the saved count (`data-saved-count`).
 
 ## Features
 
-### Programme and date engine
+### Program and date engine
 
 `main.js` section 4. `occurrences(from, to, filter)` returns every session, exhibition run and preview between
 two day numbers, sorted by date and time. `ruleText()` writes "Every Tuesday" or "Second and fourth Sunday of
@@ -317,7 +317,7 @@ fetch('https://formspree.io/f/your-form-id', {
 
 Give every input a `name` attribute (they already have one) so it is included in `FormData`.
 
-Each success message confirms the request in the centre's own words, says what happens next and, except for the
+Each success message confirms the request in the center's own words, says what happens next and, except for the
 newsletter, shows a short reference made in the browser by `makeRef()` (`MA-` and four characters, no 0/O or 1/I).
 If your booking system or form service returns its own reference, show that instead. The messages promise a reply
 within two working days (bookings, room hire and the contact form, as the hire and visit pages say), a call from the
@@ -346,7 +346,7 @@ schema.org `Event` structured data built from `LISTINGS`.
 
 - Skip link, landmarks (`header`, `nav`, `main`, `footer`), one `<h1>` per page and headings in order.
 - `aria-current="page"` on the current navigation link; breadcrumbs on the event page.
-- Visible focus outlines, AA colour contrast in the tokens, `prefers-reduced-motion` respected.
+- Visible focus outlines, AA color contrast in the tokens, `prefers-reduced-motion` respected.
 - Filters and pills are real radio buttons, checkboxes and selects with labels; result counts and estimates use
   live regions.
 - Save buttons and date choices use `aria-pressed`; form errors are linked with `aria-describedby` and fields get
@@ -370,11 +370,11 @@ so the site also works from a sub-folder.
 
 ## Troubleshooting
 
-- **The programme is empty or shows "Loading the programme…"**: JavaScript is off or `assets/js/data.js` didn't
+- **The program is empty or shows "Loading the programme…"**: JavaScript is off or `assets/js/data.js` didn't
   load. Check that both scripts are present and that `data.js` is listed before `main.js`.
 - **A new listing doesn't appear**: check that `cat`, `room` and `ages` are existing keys, that `rule.day` is
   0 to 6, and that `start`/`end` use `HH:MM`.
-- **Dates are a day out**: the site always uses UK time. Change `TIMEZONE` in `main.js` if your centre is
+- **Dates are a day out**: the site always uses UK time. Change `TIMEZONE` in `main.js` if your center is
   elsewhere, and the currency in `money()`.
 - **New Tailwind classes have no effect**: rebuild the CSS (`npm run build`). Classes built in JavaScript must be
   written out in full in a source file so Tailwind can find them.
@@ -389,5 +389,5 @@ download.
 
 Bagel Fat One and Epilogue are licensed under the SIL Open Font License and loaded from Google Fonts.
 
-Mosaic, its staff, programme, address and contact details are fictional; the phone number and email domain are
+Mosaic, its staff, program, address and contact details are fictional; the phone number and email domain are
 reserved for fiction and examples.

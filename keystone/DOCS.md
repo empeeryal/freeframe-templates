@@ -58,11 +58,11 @@ keystone/
   README.md, DOCS.md, CHANGELOG.md
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
-All design tokens live in the `@theme` block of `src/input.css`. Three colour families matter:
+All design tokens live in the `@theme` block of `src/input.css`. Three color families matter:
 
 | Token family | Used for |
 |--------------|----------|
@@ -85,7 +85,7 @@ To change the accent, edit the signal values and rebuild the CSS:
 }
 ```
 
-A few colours are written directly into SVG artwork and inline SVG (the hero drawing, map, chart, logo mark and the
+A few colors are written directly into SVG artwork and inline SVG (the hero drawing, map, chart, logo mark and the
 files in `assets/img/`) as hex values such as `#f15a0f`. Search and replace them if you change the accent. The
 `theme-color` meta tag in each page uses `#1a1b1d`.
 
@@ -183,12 +183,12 @@ PNG with any SVG editor or browser screenshot at 1200 x 630. The favicon is `ass
 
 The header and footer are repeated in every HTML file, so change them in all eight pages (search and replace works
 well). The desktop menu is the `<nav aria-label="Main">` list and the mobile menu is `<nav id="mobile-menu">`. Mark the
-current page with `aria-current="page"` on its links in both menus; the underline and colour come from the
+current page with `aria-current="page"` on its links in both menus; the underline and color come from the
 `aria-[current=page]` styles on `.nav-link` and `.mobile-link`. `project.html` marks the Projects link with
 `aria-current="true"` because it is inside that section. The "Get an estimate" button sits outside the nav and is
 shown from the `sm` breakpoint up; the mobile menu repeats it as the last link.
 
-The top bar above the header holds the licence number and phone number. The footer's large "CORBEL" wordmark is an
+The top bar above the header holds the license number and phone number. The footer's large "CORBEL" wordmark is an
 `aria-hidden` inline SVG; change its `<text>` or remove the whole `<div aria-hidden="true">`.
 
 ## Features
@@ -399,10 +399,10 @@ Built in:
 - Filter chips with `aria-pressed`, a live result count, accordion buttons with `aria-expanded`, estimator steps with
   `aria-current="step"` and a live estimate.
 - Native `<dialog>` lightbox with keyboard support and focus return.
-- Labelled form fields, inline errors linked with `aria-describedby`, and focus moved to the first error.
+- Labeled form fields, inline errors linked with `aria-describedby`, and focus moved to the first error.
 - Meaningful `alt` text on drawings; decorative SVG is `aria-hidden`. The safety chart has a screen-reader table.
 - Reduced motion turns off reveals, line drawing, count-ups and smooth scrolling.
-- Text colours meet WCAG AA contrast.
+- Text colors meet WCAG AA contrast.
 
 When editing, keep one `<h1>` per page, give every new input a `<label>`, keep orange text on light backgrounds at
 `signal-700`, and keep the final value inside `[data-count]` spans.

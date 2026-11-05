@@ -60,11 +60,11 @@ brief/
   README.md, DOCS.md, CHANGELOG.md
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
-All colours are tokens in the `@theme` block at the top of `src/input.css`. Tailwind turns each one into
+All colors are tokens in the `@theme` block at the top of `src/input.css`. Tailwind turns each one into
 utilities (`bg-ink`, `text-pine`, `border-line` and so on), so changing a token changes it everywhere.
 
 | Token | Default | Used for |
@@ -80,7 +80,7 @@ utilities (`bg-ink`, `text-pine`, `border-line` and so on), so changing a token 
 | `--color-pine` / `--color-pine-soft` | `#1f5a43` / `#dfe9e2` | Links, icons and icon tiles |
 | `--color-lime` / `--color-lime-soft` / `--color-lime-deep` | `#d4eb5c` / `#edf6bd` / `#b8d13a` | The highlighter accent: marks, chips, buttons on ink |
 
-The lime accent is a fill colour. Don't use it for text on light backgrounds; use `text-pine` or `text-ink`.
+The lime accent is a fill color. Don't use it for text on light backgrounds; use `text-pine` or `text-ink`.
 To change the accent, for example to a warm coral:
 
 ```css
@@ -330,7 +330,7 @@ data.append('start', state.slot.at.toISOString());
 
 Set `AVAILABILITY.demoBusyShare` to `0`, and keep `closed` up to date with your holidays.
 
-Because enquiries can contain sensitive personal information, use a form service that stores data in a
+Because inquiries can contain sensitive personal information, use a form service that stores data in a
 suitable region, and say in your privacy notice how you handle it.
 
 ## Saved data (localStorage)
@@ -362,7 +362,7 @@ opening hours. Check your regulator's rules on advertising, reviews and how fees
 ## Accessibility
 
 - Skip link, landmarks (`header`, `nav`, `main`, `footer`), one `<h1>` per page and a logical heading order.
-- Visible focus outlines; colours meet WCAG AA (body text `slate` on `paper` is about 7:1).
+- Visible focus outlines; colors meet WCAG AA (body text `slate` on `paper` is about 7:1).
 - Native form controls with labels, hints linked by `aria-describedby`, inline errors and focus management.
 - Accessible patterns: mobile menu (`aria-expanded`, Escape), accordion, chips (`aria-pressed`), live regions
   for counts and the estimate, keyboard calendar, focus moved to new steps and results.
@@ -406,7 +406,7 @@ harmless. Most hosts serve `404.html` automatically for missing pages.
 - **The booking calendar has no free days.** Check `AVAILABILITY.hours` (day 0 is Sunday), `minNoticeHours`,
   `daysAhead` and `closed`, and that `demoBusyShare` is below 1.
 - **Booking times look an hour out.** Slots are in `Europe/London` and follow UK daylight saving. Change
-  `AVAILABILITY.timeZone` and `zoneName` if you practise elsewhere.
+  `AVAILABILITY.timeZone` and `zoneName` if you practice elsewhere.
 - **A form shows its thank-you message but nothing arrives.** It sends nothing until you connect it; see
   [Forms](#forms).
 - **The social preview has no image.** Use an absolute `og:image` URL and make sure `og-image.png` was

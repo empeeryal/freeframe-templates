@@ -6,7 +6,7 @@ Rillmark is a multi-page portfolio website for an independent motion designer an
 built for Rillmark, the fictional studio of Marika Drever on the Seagate in Dundee, Scotland, who makes
 title sequences, brand motion, explainer animation and music videos. It is plain HTML5, Tailwind CSS v4
 and vanilla JavaScript with no dependencies: a showreel drawn live in SVG, fifteen projects with their own
-case studies and artwork, a fee estimator in pounds, a journal, an about page and a project enquiry. This
+case studies and artwork, a fee estimator in pounds, a journal, an about page and a project inquiry. This
 guide covers version 1.0.0 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). The template page,
 with a link to the live demo, is at https://freeframe.dev/templates/rillmark.
 
@@ -33,7 +33,7 @@ You only need Node.js 24 if you change `src/input.css` or add Tailwind classes t
 | `services.html` | Services and fees (`?service=`) | Four services with "from" prices, the fee estimator, how a project runs, questions about fees |
 | `journal.html` | Journal (`?topic=`, `#<note id>`) | Topic chips with counts, dated notes newest first, each opening in place |
 | `about.html` | About | Portrait, biography, three working principles, collaborators, the studio and its view, kit, recognition |
-| `contact.html` | Project enquiry (`?service=`) | Validated enquiry with budget and finish date, the attached estimate and shortlisted references, studio clock, hours, availability, success state with reference and next steps |
+| `contact.html` | Project inquiry (`?service=`) | Validated inquiry with budget and finish date, the attached estimate and shortlisted references, studio clock, hours, availability, success state with reference and next steps |
 | `404.html` | Not found | A film strip with a missing frame and links back |
 
 ## Project structure
@@ -61,15 +61,15 @@ rillmark/
 
 `data.js` must load before `main.js`; every page includes both at the end of `<body>`.
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 Design tokens live in the `@theme` block at the top of `src/input.css`.
 
 | Token | Default | Used for |
 |-------|---------|----------|
-| `--color-paper` | `#efecf4` | Page background, a cool lilac grey |
+| `--color-paper` | `#efecf4` | Page background, a cool lilac gray |
 | `--color-paper-2` | `#e4dfec` | Alternate bands and sunken panels |
 | `--color-card` | `#f9f8fc` | Cards, inputs, text on dark sections |
 | `--color-line` | `#cdc5d9` | Hairlines on paper |
@@ -95,7 +95,7 @@ labels), `.h-display`, `.h-page`, `.h-section`, `.h-card` and `.lead`; `.btn` wi
 `.btn-line`, `.btn-mint`, `.btn-ghost` and `.btn-sm`; `.nav-link` and `.mnav-link`; `.frame` (a 16:9
 box for artwork); `.chip`; `.option` (the estimator's radio cards); `.label`, `.hint`, `.input`, `.check`,
 `.field-error`; `.scrub` (the range sliders); `.toast`. Sections with a dark background carry `.on-dark`,
-which switches link and focus colours.
+which switches link and focus colors.
 
 ### Typography
 
@@ -193,7 +193,7 @@ A demo can be online for years, so nothing dated may go stale. The rules:
   today that is a working day. The strip shows the next six months: months before that start are
   "Booked", its month has "One slot left", later months are "Open". The header's "Booking from" month and
   every `[data-next-start]` use the same date.
-- **Replies.** The enquiry's reply date is `STUDIO.replyWorkingDays` (2) working days after today.
+- **Replies.** The inquiry's reply date is `STUDIO.replyWorkingDays` (2) working days after today.
 - **Working days** skip weekends, Scottish bank holidays (worked out for any year by
   `scottishBankHolidays(year)`: 1 and 2 January, Good Friday, the first and last Mondays of May, the first
   Monday of August, St Andrew's Day and Christmas, with weekend substitutes) and the winter closure in
@@ -203,7 +203,7 @@ A demo can be online for years, so nothing dated may go stale. The rules:
 
 For example, on Saturday 24 October 2026 the site shows "Booking from December", a next start of Monday
 7 December, the strip October and November booked, December with one slot left and January to March open,
-and an enquiry reply by Tuesday 27 October.
+and an inquiry reply by Tuesday 27 October.
 
 To check another date, add `?now=2027-03-01` or `?now=2027-03-01T16:30` (UK time) to any page's address.
 
@@ -218,7 +218,7 @@ per `motif`, at a moment `t` from 0 to 1:
 | `iris` | Morrowfield Festival Titles | A nine-blade camera iris opening |
 | `windows` | The Lowlight Hours | Tenement windows lighting one by one |
 | `lanterns` | Paper Lanterns | Lanterns rising over roofs |
-| `pipes` | How the Heat Gets Home | A drop of heat travelling along a pipe to three houses |
+| `pipes` | How the Heat Gets Home | A drop of heat traveling along a pipe to three houses |
 | `books` | Borrow Anything | A spine sliding out of a shelf, then objects appearing |
 | `rain` | Weather-Made | Sideways rain and a turning mark |
 | `grid` | Ninefold Onboarding | A three-by-three grid of filling pots that swap places |
@@ -289,7 +289,7 @@ In the demo: all 15; titles 4, brand 4, explainer 4, music 3; 2024 has 4 project
 
 Every card and case study has a Save button (`[data-save="<id>"]`, `aria-pressed`). Saved projects appear
 in the work page's shortlist panel (with remove buttons and "Clear the shortlist"), in the header count
-(`[data-shortlist-count]`) and on the enquiry form as references the visitor can untick. Toasts confirm
+(`[data-shortlist-count]`) and on the inquiry form as references the visitor can untick. Toasts confirm
 each change. See [Saved data](#saved-data-localstorage).
 
 ### Case studies
@@ -335,7 +335,7 @@ same sum gives the "from" prices on the service list (`[data-from-price]`): £8,
 £7,400.
 
 `services.html?service=music` preselects a service (checked against `SERVICES`). "Send this estimate
-with an enquiry" saves the estimate and opens `contact.html`, where it is summarised, fills the service
+with an inquiry" saves the estimate and opens `contact.html`, where it is summarized, fills the service
 and budget fields and is sent as the hidden `estimate` field. The labels on the radio cards and the
 rounds select repeat the prices in HTML: update them if you change `data.js`.
 
@@ -363,7 +363,7 @@ no-preference)` in `src/input.css`).
 
 ## Forms
 
-The project enquiry (`[data-enquiry-form]` on `contact.html`) checks, in the browser:
+The project inquiry (`[data-enquiry-form]` on `contact.html`) checks, in the browser:
 
 - name: required; email: required and shaped like an address;
 - what you need and budget: a choice is required;
@@ -433,7 +433,7 @@ and services; none is included.
   scrubber frame have text alternatives.
 - The showreel has visible play and pause controls, only autoplays with motion allowed and pauses off
   screen; reduced motion turns off every animation.
-- Colours meet WCAG AA. Coral is for decoration only on paper.
+- Colors meet WCAG AA. Coral is for decoration only on paper.
 
 When editing, keep one `<h1>`, label every new input, keep `aria-controls` and `aria-labelledby`
 pointing at ids that exist, and don't put text in coral on the paper background.

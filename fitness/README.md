@@ -5,7 +5,7 @@ weekly timetable with class booking, class and coach profiles, membership pricin
 calorie calculator, and a free-trial sign-up. Plain HTML, Tailwind CSS v4 and a small vanilla JavaScript
 file.
 
-**Version 1.1.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.1.11** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/fitness)
 
 ## Quick start
@@ -21,7 +21,7 @@ npm run build
 
 ## Documentation
 
-[DOCS.md](DOCS.md) covers everything: pages and files, colours and fonts, editing classes, coaches and the timetable, bookings and other
+[DOCS.md](DOCS.md) covers everything: pages and files, colors and fonts, editing classes, coaches and the timetable, bookings and other
 interactive features, connecting the forms, SEO, accessibility and deploying.
 
 ## License

@@ -53,9 +53,9 @@ forge/
   README.md, DOCS.md, CHANGELOG.md
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 The design tokens live in the `@theme` block of `src/input.css`. Every utility such as `bg-ink-900`,
 `border-line`, `text-muted` or `text-brand-400` comes from them.
@@ -80,9 +80,9 @@ To change the accent, edit the brand scale and rebuild:
 }
 ```
 
-A few SVGs use the accent as a literal colour (`#ffbe3d`): the logo in the header, footer and favicon, the feature
+A few SVGs use the accent as a literal color (`#ffbe3d`): the logo in the header, footer and favicon, the feature
 illustrations and diagram on `index.html`, the team avatars on `company.html` and the latency chart in `main.js`
-(section 7). Search for `ffbe3d` to change them too. The code token colours are the `.t-k`, `.t-s`, `.t-n`, `.t-c`,
+(section 7). Search for `ffbe3d` to change them too. The code token colors are the `.t-k`, `.t-s`, `.t-n`, `.t-c`,
 `.t-f`, `.t-p` and `.t-d` classes in `src/input.css`.
 
 Forge is a dark-only design (`color-scheme: dark` in `src/input.css` and a `color-scheme` meta tag on every page).
@@ -90,9 +90,9 @@ There is no light theme or toggle.
 
 ### Layout grid
 
-Each page's content sits in `.frame`, a centred 1240px column with hairlines left and right. Sections are separated
+Each page's content sits in `.frame`, a centered 1240px column with hairlines left and right. Sections are separated
 by `.rule`, a top border with a small cross where it meets the frame. Card grids use `.cells` (1px gaps that show
-the line colour) or `.cells-open` (lines drawn per card, so a short last row stays blank; used for the filtered SDK
+the line color) or `.cells-open` (lines drawn per card, so a short last row stays blank; used for the filtered SDK
 list). `.pad-x` gives the standard horizontal padding. `.bg-plus` is the faint field of plus marks behind heroes and
 `.glow` the amber light; both are decorative and `aria-hidden`.
 
@@ -175,7 +175,7 @@ group plus the language picker on `docs.html`. A code group is a `[data-code-gro
 saved (see [Saved data](#saved-data-localstorage)), so picking Go on the home page also opens the quickstart in Go.
 
 - **Code:** `selectLang()` and `initLangTabs()` in section 4 of `assets/js/main.js`.
-- **Highlighting:** `<code data-highlight="python">` blocks are coloured on load by `highlight()` (section 2), a
+- **Highlighting:** `<code data-highlight="python">` blocks are colored on load by `highlight()` (section 2), a
   small tokenizer for `curl` (shell), `node`, `python`, `go` and `json`. The HTML stays plain text, so you can paste
   new samples without adding spans.
 - **Accessibility:** tabs use `role="tab"` with `aria-selected` and a roving `tabindex`; arrow keys, Home and End
@@ -231,7 +231,7 @@ comparison table. The slider has `aria-valuetext`, and the result is announced p
 ### Status page
 
 `initStatus()` (section 12) renders one row of 90 daily bars per component into `#uptime`, ending on `STATUS.end`
-(UTC). A day's colour is the worst incident that touched it (`warn`, `down` or `info`); uptime per day subtracts
+(UTC). A day's color is the worst incident that touched it (`warn`, `down` or `info`); uptime per day subtracts
 outage minutes in full and degraded minutes at half, weighted by how many of the selected regions were affected.
 Maintenance doesn't count as downtime.
 
@@ -349,13 +349,13 @@ good additions.
 
 Built in:
 
-- Skip link to `#main`, landmarks (`header`, labelled `nav`s, `main`, `footer`) and one `<h1>` per page with ordered
+- Skip link to `#main`, landmarks (`header`, labeled `nav`s, `main`, `footer`) and one `<h1>` per page with ordered
   headings.
-- Visible amber focus rings and colour contrast that passes WCAG AA on every surface.
+- Visible amber focus rings and color contrast that passes WCAG AA on every surface.
 - ARIA patterns: menu button with `aria-expanded`, tabs with roving `tabindex`, a switch (`role="switch"`), accordion
   buttons, `aria-pressed` filters and region buttons, a radio group for explorer endpoints, keyboard-navigable uptime
   bars with tooltips, live regions for the hero response, explorer, calculator, filters and copy buttons, and
-  labelled scrollable tables (`role="region"`, `tabindex="0"`).
+  labeled scrollable tables (`role="region"`, `tabindex="0"`).
 - `prefers-reduced-motion`: no typing, no flowing diagram lines, no blinking cursors, no reveals, instant back to top.
 - Decorative SVG and mock-ups are `aria-hidden`; meaningful graphics (wordmarks, the latency chart) have labels.
 

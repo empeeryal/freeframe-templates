@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.1] - 2026-11-04
 
 ### Fixed
@@ -17,4 +23,4 @@
 - Sixteen original repair drawings, a bicycle illustration, a hero scene for every inner page, eight ride-note illustrations and three mechanic portraits, with Chivo and Spline Sans from Google Fonts.
 - Drop-off booking and workshop question forms with inline validation and a success state with a reference.
 - Validated saved repair plans and checklist progress with an in-memory fallback.
-- Full customisation and deployment documentation.
+- Full customization and deployment documentation.

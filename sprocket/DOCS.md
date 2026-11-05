@@ -257,7 +257,7 @@ The round trip must be 1–80 miles; otherwise an inline error shows and the las
   delivery zone. The reservation is saved under `sprocket:reservation`.
 - **Return visit:** the saved reservation is shown instead of the form, with "Change my build" and "Cancel
   reservation" (a second "Yes, cancel it" step). Cancelling removes it and shows the form again with "Reservation
-  BB-06-26CD cancelled. Your $150 deposit will be refunded in full."
+  BB-06-26CD canceled. Your $150 deposit will be refunded in full."
 
 No payment is taken: see [Forms](#forms) to connect a real backend or payment provider.
 

@@ -67,7 +67,7 @@ canopy/
 The campground map (`sites.html`), the area map (`visit.html`) and the 404 compass are inline SVG in the pages;
 the site pins, elevation profiles, season strip and store product icons are drawn by `assets/js/main.js`.
 
-## Customising
+## Customizing
 
 ### Brand and colors
 
@@ -209,7 +209,7 @@ lookup, so unknown values are ignored.
 
 Keyboard: Tab moves between pins in the order of `SITES`; the arrow keys jump to the nearest visible pin in that
 direction. On small screens the map scrolls sideways inside its frame so the pins stay readable: the frame is a
-focusable, labelled region (arrow keys scroll it), a hint above it (`data-map-hint`) and a fade on the right edge
+focusable, labeled region (arrow keys scroll it), a hint above it (`data-map-hint`) and a fade on the right edge
 (`data-map-fade`) show while there is more map to the right, and choosing a site (`?site=`, a pin or "On the map")
 scrolls its pin into view.
 
@@ -384,7 +384,7 @@ range and amenities.
 - Skip link, landmarks (`header`, `nav`, `main`, `footer`), one `<h1>` per page and logical headings.
 - Visible focus outlines (lake blue on light backgrounds, pale orange on dark), AA color contrast; safety orange is
   used behind dark text or for decoration only.
-- The campground map is a labelled group with a description; each pin is a focusable `role="button"` with a full
+- The campground map is a labeled group with a description; each pin is a focusable `role="button"` with a full
   label (site, hookups, RV length, pets) and `aria-pressed` when chosen.
 - Calendar days are buttons with full date labels, `aria-pressed` for the chosen stay and `aria-disabled` for
   closed and booked nights; arrow, Home, End and Page keys move around.

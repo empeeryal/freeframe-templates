@@ -62,12 +62,12 @@ bloom/
 └── DOCS.md                    This guide
 ```
 
-`main.js` is organised in numbered sections (listed in its header comment): data, helpers, header, reveal, opening
+`main.js` is organized in numbered sections (listed in its header comment): data, helpers, header, reveal, opening
 hours, before/after, services, team, gallery, booking, gift cards, forms and back to top.
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 The design tokens are in the `@theme` block at the top of `src/input.css`. Tailwind turns each `--color-*` token into
 utilities such as `bg-shell`, `text-plum` and `border-line`.
@@ -96,7 +96,7 @@ To change the accent:
 ```
 
 Rebuild the CSS afterwards. The gift card designs (`.gift-petal`, `.gift-sage`, `.gift-noir` in `src/input.css`) and
-the SVG artwork have their own colours; update them too, along with `accent` in `template.json`.
+the SVG artwork have their own colors; update them too, along with `accent` in `template.json`.
 
 ### Typography
 
@@ -274,7 +274,7 @@ change the `21` in `renderDates()`.
 | Signature cut & finish (£68) | £68 | £82 | £95 |
 | Balayage (£210) | £210 | £252 | £294 |
 
-Until a stylist or a time (and so a team member) is chosen, the summary shows hair and colour prices and the total as
+Until a stylist or a time (and so a team member) is chosen, the summary shows hair and color prices and the total as
 "from" the stylist price. To change the levels, edit `BLOOM.levels`; to make another category scale with level, add it
 to the check in `priceFor()` and to the matching `scaled` checks in `paintSummary()`. The prices printed on
 `services.html` and `team.html` are HTML; update them by hand.
@@ -464,7 +464,7 @@ Built in:
 - Visible focus styles.
 - Menu button with `aria-expanded`; Escape closes the menu.
 - Toggle buttons with `aria-pressed` for filters, saved looks, dates and time slots; unavailable dates are disabled and
-  labelled "unavailable".
+  labeled "unavailable".
 - Live regions for the services, team and gallery counts.
 - Wizard steps with focusable headings, `aria-current="step"` on the progress list and focus on the confirmation.
 - Form errors next to each field with `aria-invalid`, focus on the first error.

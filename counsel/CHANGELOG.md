@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.5] - 2026-10-26
 
 ### Fixed
@@ -18,7 +24,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 ### Fixed
 
 - The consultation request confirmation no longer says "This is a demo" and that nothing was sent. It now confirms
-  the enquiry, shows a reference (like HS-7K2Q) and says a partner will reply within one business day, as the contact
+  the inquiry, shows a reference (like HS-7K2Q) and says a partner will reply within one business day, as the contact
   page already promises. The newsletter confirmation asks subscribers to look out for a confirmation email instead of
   telling the site owner to connect an email service. `DOCS.md` describes the reference.
 

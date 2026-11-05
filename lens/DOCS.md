@@ -5,7 +5,7 @@
 Lens is an image-led portfolio for wedding, portrait and travel photographers, built for **Ines Morrow
 Photography**, a fictional photographer in Lisbon. It has a full-bleed slideshow home page, filterable galleries
 with a masonry layout and a lightbox, photo stories, packages with a live price calculator, a client proofing page
-for choosing album favourites and an enquiry form. The 49 "photographs" are original SVG illustrations ready to be
+for choosing album favorites and an inquiry form. The 49 "photographs" are original SVG illustrations ready to be
 swapped for your own. This is the **HTML + Tailwind CSS v4** version, **1.0.6**: static pages and one vanilla
 JavaScript file, no build step needed to run it.
 
@@ -36,8 +36,8 @@ python3 -m http.server 8000   # then open http://localhost:8000
 | `stories.html` | Journal list | Story cards |
 | `story.html` | A long-form photo story | Full-width photos with captions, a pull quote and "Keep reading" |
 | `packages.html` | Packages and pricing | Package cards that double as the calculator's choice, extra hours, add-ons, total and deposit, FAQ |
-| `proofing.html` | Client proofing | Choose up to 15 favourites, saved in `localStorage`; all/selected view, clear and send |
-| `contact.html` | Enquiry form | Conditional date rule, package prefill from `?package=` |
+| `proofing.html` | Client proofing | Choose up to 15 favorites, saved in `localStorage`; all/selected view, clear and send |
+| `contact.html` | Inquiry form | Conditional date rule, package prefill from `?package=` |
 | `404.html` | Page not found | Links back home and to the portfolio |
 
 ## Project structure
@@ -58,9 +58,9 @@ lens/
 └── template.json             template metadata and version
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 Design tokens are in the `@theme` block of `src/input.css`:
 
@@ -205,7 +205,7 @@ matching dot button.
 (falling back to the first one), fills the heading, summary and details (`data-g-title`, `data-g-category`,
 `data-g-summary`, `data-g-location`, `data-g-date`, `data-g-count`), updates the page title and description,
 renders the photos into `.masonry` (`data-gallery`) with `loading="lazy"`, and points the previous/next links
-(`data-g-prev`, `data-g-next`) at the neighbouring galleries. The masonry is CSS columns: 1, 2 and 3 columns at the
+(`data-g-prev`, `data-g-next`) at the neighboring galleries. The masonry is CSS columns: 1, 2 and 3 columns at the
 `sm` and `lg` breakpoints (`.masonry` in `src/input.css`).
 
 ### Lightbox
@@ -221,8 +221,8 @@ closes it. The next photo is preloaded.
 `packages.html` (`<form data-calculator>`) and the "Package calculator" block. Choosing a package card (a radio
 `name="package"`) sets the base price and hours; the − / + buttons (`data-hours-step`) add 0–6 extra hours
 (`MAX_EXTRA`) at `LENS.extraHour`; ticked add-ons add their `data-price`. Add-ons in `LENS.included[package]` are
-ticked, disabled and labelled "Included in …", and aren't charged. The summary, total (`data-calc-total`, live
-region) and deposit (`total × LENS.deposit`) update on every change. **Enquire with this estimate**
+ticked, disabled and labeled "Included in …", and aren't charged. The summary, total (`data-calc-total`, live
+region) and deposit (`total × LENS.deposit`) update on every change. **Inquire with this estimate**
 (`data-calc-enquire`) links to `contact.html?package=…&hours=…&addons=…`.
 
 To change prices, edit `LENS.packages`, `LENS.extraHour`, `LENS.deposit` and the add-ons' `data-price`, and the
@@ -261,7 +261,7 @@ The block at the end of `main.js` adds a square button after you scroll about on
 
 ## Forms
 
-**The enquiry form doesn't send anything until you connect it.** `contact.html` has
+**The inquiry form doesn't send anything until you connect it.** `contact.html` has
 `<form data-enquiry novalidate>`, validated by the "Enquiry form" block in `main.js`:
 
 | Field | Rule |
@@ -279,9 +279,9 @@ Errors appear under each field (`aria-invalid`, `aria-describedby`) on submit an
 first invalid field gets focus. On success the `data-success` box is shown and focused, with a short reference in its
 `data-ref` element (`IM-` and four characters, made in the browser by `makeRef()`; show your form service's own
 reference instead if it returns one). It promises a reply within two working days, like the intro on the page: change
-both if yours differs. **Send another enquiry** (`data-reset`) clears the form.
+both if yours differs. **Send another inquiry** (`data-reset`) clears the form.
 
-To receive enquiries with Formspree, replace the comment in the submit handler (after the `if (!ok)` line) with:
+To receive inquiries with Formspree, replace the comment in the submit handler (after the `if (!ok)` line) with:
 
 ```js
 fetch('https://formspree.io/f/your-form-id', {
@@ -301,7 +301,7 @@ fetch('https://formspree.io/f/your-form-id', {
 
 and remove the four success lines that follow. Every field
 already has a `name`. The calculator's `hours` and `addons` URL parameters aren't read by the form; if you want them
-in the enquiry, read them from `params` and add hidden inputs.
+in the inquiry, read them from `params` and add hidden inputs.
 
 The proofing page's **Send selection** only shows a confirmation. To send the choice to the studio, `fetch` the
 `selected` array (photo ids) to your endpoint in the `[data-proof-submit]` click handler.
@@ -340,8 +340,8 @@ Built in:
 - Skip link, landmarks, one `h1` per page and `aria-current="page"` on the current nav link.
 - Visible focus outlines (rust on paper, sand on dark sections) and AA contrast.
 - Mobile menu with `aria-expanded` and `aria-controls`; focus moves into it, Escape closes it and returns focus.
-- Slideshow with a pause button, labelled dots and hidden inactive slides; it starts paused with reduced motion.
-- Lightbox on native `<dialog>` (focus trap, Escape, focus return), labelled buttons and a live counter.
+- Slideshow with a pause button, labeled dots and hidden inactive slides; it starts paused with reduced motion.
+- Lightbox on native `<dialog>` (focus trap, Escape, focus return), labeled buttons and a live counter.
 - Filter, view and proofing buttons use `aria-pressed`; counts, totals and messages are live regions.
 - Form errors linked with `aria-describedby`; the date hint stays linked.
 - Reduced motion turns off reveals, crossfade zooms and smooth scrolling.

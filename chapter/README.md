@@ -10,7 +10,7 @@ reading-order views, single book pages with a first-chapter reader that remember
 roll forward with the calendar, book club guides to download, a press kit and a contact form that routes
 messages to the agent, publicist or rights team.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.4** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/chapter)
 
 ## Quick start
@@ -26,7 +26,7 @@ npm run build
 
 ## Documentation
 
-[DOCS.md](DOCS.md) is the full guide: pages and files, colours and fonts, adding books, extracts, events
+[DOCS.md](DOCS.md) is the full guide: pages and files, colors and fonts, adding books, extracts, events
 and book club questions, switching the demo dates to your real publication day, the reader and its saved
 place, connecting the forms, the jacket artwork, SEO, accessibility, deploying and troubleshooting.
 Changes are listed in [CHANGELOG.md](CHANGELOG.md).

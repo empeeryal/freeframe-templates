@@ -55,9 +55,9 @@ fitness/
 └── DOCS.md                this guide
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 The palette and fonts are tokens in the `@theme` block at the top of `src/input.css`:
 
@@ -255,7 +255,7 @@ one working day.
 
 Elements with `data-open-status="harbor"` (or another location id) show "Open now · until 22:00" or
 "Closed · opens 06:00". Hours lists with `data-hours` highlight today's `[data-hours-row]` (counted from
-Monday) in the accent colour and mark it with `aria-current="date"`.
+Monday) in the accent color and mark it with `aria-current="date"`.
 
 ### Mobile menu, header, reveals and counters
 
@@ -343,10 +343,10 @@ and a `sitemap.xml`.
 
 ## Accessibility
 
-- Skip link, labelled landmarks, one `<h1>` per page and strong focus rings.
+- Skip link, labeled landmarks, one `<h1>` per page and strong focus rings.
 - Day tabs follow the tabs pattern; the booking dialog is a native `<dialog>` with focus return.
 - Filter buttons use `aria-pressed`; the pricing switch uses `role="switch"` and `aria-checked`.
-- Intensity is shown as a meter with a text label, not colour alone.
+- Intensity is shown as a meter with a text label, not color alone.
 - Multi-step forms move focus to each step's legend and mark the current step with `aria-current`.
 - Reveals, counters and smooth scrolling respect `prefers-reduced-motion`.
 

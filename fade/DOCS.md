@@ -61,7 +61,7 @@ fade/
 └── CHANGELOG.md               Version history
 ```
 
-## Customising
+## Customizing
 
 ### Brand and colors
 

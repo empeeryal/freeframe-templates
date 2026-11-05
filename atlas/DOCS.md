@@ -6,7 +6,7 @@ Atlas is a personal-brand website template for an independent real estate agent 
 **Delia Quintero**, a fictional Nashville agent who trained as an architect and works in six neighborhoods. It is
 built with plain HTML5, Tailwind CSS v4 and one vanilla JavaScript file with no dependencies. Listings, neighborhoods,
 the home value formula and the booking rules all live in data constants at the top of `assets/js/main.js`, and every
-house and room picture is an SVG drawn from that data, so there are no photos to license. This is version 1.0.2 (see
+house and room picture is an SVG drawn from that data, so there are no photos to license. This is version 1.0.3 (see
 [CHANGELOG.md](CHANGELOG.md)). Live demo: [freeframe.dev/templates/atlas](https://freeframe.dev/templates/atlas).
 
 ## Quick start
@@ -56,7 +56,7 @@ atlas/
   CHANGELOG.md              version history
 ```
 
-## Customising
+## Customizing
 
 ### Brand and colors
 
@@ -83,7 +83,7 @@ To change the brand blue, replace the cobalt scale and rebuild the CSS:
 ```
 
 Contrast rules noted in the comments: use `persimmon-600` or darker behind white text, `persimmon-700` for small
-persimmon text on paper, and `ink-600` or darker for small grey text. Reusable pieces such as `.btn`, `.btn-primary`,
+persimmon text on paper, and `ink-600` or darker for small gray text. Reusable pieces such as `.btn`, `.btn-primary`,
 `.card`, `.kicker`, `.display`, `.hl`, `.swash`, `.input`, `.tab`, `.seg`, `.slot` and `.listing-card` are defined in
 the `@layer components` block of the same file.
 
@@ -363,7 +363,7 @@ state's advertising rules.
 - The mobile menu button uses `aria-expanded` and `aria-controls`; Esc closes the menu.
 - Status tabs, bedroom choices and day buttons use `aria-pressed` or native radios; result counts, the estimate
   teaser, calculator results and the booking summary are `aria-live` regions.
-- The map areas are links with descriptive labels; illustrations are either labelled (`role="img"`) or hidden from
+- The map areas are links with descriptive labels; illustrations are either labeled (`role="img"`) or hidden from
   screen readers when decorative.
 - Booked time slots are announced as "booked" rather than offered.
 - Motion is reduced for visitors who prefer it.

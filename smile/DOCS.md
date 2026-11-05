@@ -7,7 +7,7 @@ fictional practice in Boise, Idaho, with four dentists, three hygienists and a p
 five-step booking flow whose time slots come from each clinician's schedule and the length of the visit, a pricing page
 with a cost estimator and a payment-plan calculator, an emergency symptom guide, a multi-step new patient form and
 filterable treatments and team pages. It's plain HTML5, Tailwind CSS v4 and one vanilla JavaScript file with no
-dependencies. This guide covers version 1.0.4 of the HTML version. Live demo:
+dependencies. This guide covers version 1.0.5 of the HTML version. Live demo:
 [freeframe.dev/templates/smile](https://freeframe.dev/templates/smile).
 
 All health content is general information written for a fictional practice. Have a qualified professional review
@@ -65,9 +65,9 @@ smile/
   DOCS.md                this guide
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 All design tokens live in the `@theme` block at the top of `src/input.css`. Tailwind turns each token into
 utilities, so `--color-berry-600` becomes `bg-berry-600`, `text-berry-600` and so on.
@@ -81,7 +81,7 @@ utilities, so `--color-berry-600` becomes `bg-berry-600`, `text-berry-600` and s
 | `--color-ink`, `--color-body`, `--color-muted` | Headings, body text and secondary text |
 | `--color-line`, `--color-cream`, `--color-cloud` | Borders, page background and soft panels |
 
-To change the brand colour, replace the berry scale and rebuild the CSS:
+To change the brand color, replace the berry scale and rebuild the CSS:
 
 ```css
 @theme {
@@ -93,7 +93,7 @@ To change the brand colour, replace the berry scale and rebuild the CSS:
 }
 ```
 
-Keep the 600 shade dark enough for white button text (at least 4.5:1 contrast). A few colours are written as hex
+Keep the 600 shade dark enough for white button text (at least 4.5:1 contrast). A few colors are written as hex
 values in the SVG files and the inline SVGs (for example `#5146d4` for berry and `#1d1a4d` for ink), so search and
 replace those too if you change the palette. The `theme-color` meta tag in each page uses the cream background
 `#fffaf3`.
@@ -179,7 +179,7 @@ Add `included: { per: 'adult', count: 2 }` (or `per: 'kid'`) when Grin Club cove
 
 ### Images and artwork
 
-All artwork is SVG, so it stays sharp and needs no image optimisation:
+All artwork is SVG, so it stays sharp and needs no image optimization:
 
 - `hero.svg` (560 x 520) is Pip the tooth mascot on the home page. The two floating cards over it are HTML.
 - Team portraits are 240 x 240 SVGs with a rounded square background. To use photos, keep a square crop (at least
@@ -199,7 +199,7 @@ list, the mobile menu (`<nav id="mobile-menu">`) and the footer link lists in ea
 `aria-current="page"`, which highlights them. The "Emergency?" pill shows from 1280 px wide; below that, emergency
 is in the mobile menu and in each page's content.
 
-The footer starts with a wave. Its colour class (`text-cream` on most pages, `text-berry-50` on `treatments.html`)
+The footer starts with a wave. Its color class (`text-cream` on most pages, `text-berry-50` on `treatments.html`)
 matches the background of the section above it:
 
 ```html
@@ -246,13 +246,13 @@ for the number of adults and kids in the plan. It compares:
   covered by `included` free up to their yearly count per member, and everything else at `MEMBERSHIP.discount` off.
 
 The cheaper option gets a "Best value" tag and a sentence explains the saving. Results are in an `aria-live`
-region; each stepper is a labelled group with "Fewer" and "More" buttons and a number input.
+region; each stepper is a labeled group with "Fewer" and "More" buttons and a number input.
 
 ### Payment-plan calculator
 
 Below the estimator (`[data-plan]`), visitors enter a cost between `FINANCE.min` and `FINANCE.max` (or use the
 slider, or "Use my estimate from above") and choose a term from `FINANCE.terms`. The monthly payment uses the standard
-amortised loan formula, or a simple division for 0% terms. The rates are deliberately labelled as made-up examples;
+amortized loan formula, or a simple division for 0% terms. The rates are deliberately labeled as made-up examples;
 replace them with your financing provider's published terms or remove the section.
 
 ### Emergency symptom guide
@@ -409,7 +409,7 @@ geo-coordinates. The template doesn't include structured data because it would d
 Built in:
 
 - A skip link, landmarks (`header`, `nav`, `main`, `footer`), one `<h1>` per page and a logical heading order.
-- Visible focus outlines on every interactive element and colour contrast that meets WCAG AA.
+- Visible focus outlines on every interactive element and color contrast that meets WCAG AA.
 - An accessible mobile menu (`aria-expanded`, `aria-controls`, Escape closes it and returns focus).
 - ARIA patterns: tabs, `aria-pressed` filter chips and calendar days, `aria-current` for the current page and
   booking step, `aria-live` regions for filter counts, estimates and slot headings.
@@ -422,7 +422,7 @@ When you edit:
 
 - Keep exactly one `<h1>` per page and don't skip heading levels.
 - Give every new input a `<label>` and add `data-validate` when it needs checking.
-- Check contrast when you change colours, especially white text on the 600 shades.
+- Check contrast when you change colors, especially white text on the 600 shades.
 - Keep the emergency guidance visible and plain: it's the content people need most when they're stressed.
 
 ## Building and deploying

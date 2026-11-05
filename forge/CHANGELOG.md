@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.4] - 2026-11-04
 
 ### Fixed
@@ -44,7 +50,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
   Talk to sales, Get an API key, 404.
 - Hero code sample that types itself in curl, Node, Python or Go, then streams in the JSON response and delivery results
 - API explorer: pick one of five endpoints, edit parameters and get realistic JSON, headers, status codes, latency and 404/422 errors
-- Usage-based pricing with a monthly / annual switch and a volume slider that picks the cheapest plan and itemises overage tiers
+- Usage-based pricing with a monthly / annual switch and a volume slider that picks the cheapest plan and itemizes overage tiers
 - Quickstart with copyable code blocks and language tabs that stay in sync across the page and are remembered on every page
 - Status page with a component-by-region grid, 90-day uptime bars per region with hover and keyboard tooltips, and incident timelines
 - Filterable changelog (feature, improvement, fix, breaking) and SDK directory with type filters, search and shareable URLs

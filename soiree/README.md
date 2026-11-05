@@ -5,7 +5,7 @@ Charleston, South Carolina: service packages with a comparison table, a budget e
 with case studies, a planning timeline, a venue guide with a saved shortlist, a journal and a validated inquiry
 form. Built with HTML5, Tailwind CSS v4 and vanilla JavaScript.
 
-**Version 1.0.0** · see [CHANGELOG.md](CHANGELOG.md) for what changed.
+**Version 1.0.5** · see [CHANGELOG.md](CHANGELOG.md) for what changed.
 
 Live demo: [freeframe.dev/templates/soiree](https://freeframe.dev/templates/soiree)
 

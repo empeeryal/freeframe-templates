@@ -37,7 +37,7 @@ Add `?now=2027-06-25T21:30` to any page's URL to preview it at a given festival 
 | `tickets.html` | Tickets | Day, weekend and add-on rows with steppers, order summary with fees and group discount, three-step checkout with an order reference, good-to-know cards |
 | `food.html` | Food & drink | Food/sweet/drink and dietary filters, search, trader cards, food village map with numbered pins |
 | `info.html` | Plan your visit | Site map with layer toggles and a text version, getting there, accessibility, families, what to bring, searchable FAQ |
-| `contact.html` | Get involved | Contact form that routes volunteer, trader, press and visitor enquiries, direct contacts |
+| `contact.html` | Get involved | Contact form that routes volunteer, trader, press and visitor inquiries, direct contacts |
 | `404.html` | Not found | Error page with links back |
 
 ## Project structure
@@ -64,11 +64,11 @@ solstice/
 └── DOCS.md                this guide
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
-All colours are tokens in the `@theme` block of `src/input.css`. Tailwind turns each one into utilities
+All colors are tokens in the `@theme` block of `src/input.css`. Tailwind turns each one into utilities
 (`bg-sun`, `text-tomato`, `border-ink`...), and the component classes use them through CSS variables.
 
 | Token | Default | Used for |
@@ -80,7 +80,7 @@ All colours are tokens in the `@theme` block of `src/input.css`. Tailwind turns 
 | `--color-sun` / `--color-sun-soft` | `#ffc53d` / `#ffe08a` | Main accent, planned sets, hover states |
 | `--color-tangerine` | `#ff8a2b` | Orchard stage, accents |
 | `--color-tomato` | `#c73a1e` | Primary buttons, clash warnings, eyebrows |
-| `--color-sea`, `--color-sky`, `--color-leaf`, `--color-peach` | | Section colours, stages, dietary tags |
+| `--color-sea`, `--color-sky`, `--color-leaf`, `--color-peach` | | Section colors, stages, dietary tags |
 
 To change the main accent, edit the token and rebuild:
 
@@ -91,7 +91,7 @@ To change the main accent, edit the token and rebuild:
 ```
 
 Keep white text on `--color-tomato` at 4.5:1 contrast or more. The SVG files in `assets/img/` and the
-generated artwork in `main.js` use hex colours directly; search for the old hex value to change them too.
+generated artwork in `main.js` use hex colors directly; search for the old hex value to change them too.
 
 The "poster" look comes from a few component classes in `src/input.css`: `.poster` (thick ink outline
 and a hard offset shadow), `.poster-sm`, `.poster-hover`, `.btn` with `.btn-primary`, `.btn-sun`,
@@ -152,7 +152,7 @@ Add a trader to `vendors`:
   diets: ['vegetarian'], pin: [62, 44] }
 ```
 
-`kind` is `food`, `sweet` or `drink` (pin colour and the "Show" filter). `diets` uses the keys of `diets`.
+`kind` is `food`, `sweet` or `drink` (pin color and the "Show" filter). `diets` uses the keys of `diets`.
 `pin` is the position on the food village map in percent (x, y). Trader numbers follow the array order.
 
 Ticket prices are in `tickets` (`price` and `early`, in pounds) and `addons` (`price`). The ticket rows
@@ -377,11 +377,11 @@ can add `schema.org/MusicEvent` or `Festival` structured data (name, dates, loca
 ## Accessibility
 
 - Skip link, landmarks, one `<h1>` per page and a logical heading order.
-- Visible focus outlines and WCAG AA colour contrast.
+- Visible focus outlines and WCAG AA color contrast.
 - Mobile menu with `aria-expanded`, closed with Esc.
 - Filters and toggles use `aria-pressed`; day tabs use the tabs pattern; the artist pop-up is a native
   `<dialog>` that returns focus; counts and totals are announced with `aria-live`.
-- The timetable has a list view, each grid column is labelled with its stage, and the site map has a text
+- The timetable has a list view, each grid column is labeled with its stage, and the site map has a text
   version.
 - Reduced motion turns off reveals, the tape, the turning sun and hover lifts.
 

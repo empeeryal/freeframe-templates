@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.4] - 2026-11-04
 
 ### Fixed
@@ -54,7 +60,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - Cart and plan saved in localStorage, validated and repaired on every read
 - Three-step checkout with inline validation and card formatting (demo only)
 - Brew guides in accessible tabs with a recipe scaler
-- Wholesale volume estimator and enquiry form
+- Wholesale volume estimator and inquiry form
 - Coffee bags and beans drawn in SVG from the product data
 - Accessible mobile menu, skip link, reduced-motion support and scroll reveals
 - Full documentation in `DOCS.md`.

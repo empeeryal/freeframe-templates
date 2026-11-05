@@ -2,7 +2,7 @@
 
 ## Overview
 
-Guardmere is an HTML and Tailwind CSS v4 website for a fictional independent cybersecurity practice in Dorking. Version 1.0.0 includes nine pages, twelve illustrated assessment areas, a scope calculator, saved readiness evidence notes and a consultation request form. See the [template page](https://freeframe.dev/templates/guardmere) for the live preview.
+Guardmere is an HTML and Tailwind CSS v4 website for a fictional independent cybersecurity practice in Dorking. Version 1.0.1 includes nine pages, twelve illustrated assessment areas, a scope calculator, saved readiness evidence notes and a consultation request form. See the [template page](https://freeframe.dev/templates/guardmere) for the live preview.
 
 ## Quick start
 
@@ -30,8 +30,8 @@ No account, API key, database or external JavaScript library is required.
 | File                | Purpose               | Notable content                                                                                 |
 | ------------------- | --------------------- | ----------------------------------------------------------------------------------------------- |
 | `index.html`        | Practice introduction | Illustrated report, three services, process tabs, next working consultation date                |
-| `services.html`     | Service catalogue     | Twelve records, category/search filters, detail dialogs, saved scope additions                  |
-| `assessment.html`   | Assessment planning   | Organisation inputs, selected controls, itemised estimate, save and remove controls             |
+| `services.html`     | Service catalog     | Twelve records, category/search filters, detail dialogs, saved scope additions                  |
+| `assessment.html`   | Assessment planning   | Organization inputs, selected controls, itemized estimate, save and remove controls             |
 | `readiness.html`    | Evidence preparation  | Twelve questions, category/state/search filters, notes, completion progress, reset confirmation |
 | `case-studies.html` | Engagement accounts   | Six anonymous accounts, sector/search filters, accessible detail dialogs                        |
 | `resources.html`    | Security field notes  | Twelve articles, topic/search filters, expandable practical steps                               |
@@ -69,9 +69,9 @@ The engagement accounts describe fictional work. They do not claim guaranteed pr
 
 There is no client-side router. Relative links work when the folder is published beneath a subdirectory.
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 Edit `@theme` in `src/input.css`, then rebuild `assets/css/style.css`.
 
@@ -94,7 +94,7 @@ For example:
 }
 ```
 
-Also update the theme-colour meta tags, `template.json` accent and SVG colours when changing the palette. Check text, buttons, focus indicators and hover states for contrast.
+Also update the theme-color meta tags, `template.json` accent and SVG colors when changing the palette. Check text, buttons, focus indicators and hover states for contrast.
 
 ### Typography
 
@@ -115,7 +115,7 @@ Static introductions, navigation, contact details and footer text live in the HT
 | `RESOURCES`  | Twelve field notes, steps and cautions                                    |
 | `TEAM`       | Three names, roles, portraits and professional focus                      |
 | `CATEGORIES` | Labels for systems, operations and people                                 |
-| `SIZE_BANDS` | Organisation labels and effort multipliers                                |
+| `SIZE_BANDS` | Organization labels and effort multipliers                                |
 | `TIMINGS`    | Timing labels                                                             |
 
 A service uses this shape:
@@ -135,7 +135,7 @@ A service uses this shape:
 }
 ```
 
-Use a unique, lowercase identifier and one of the existing categories. Add a matching `assets/img/ID.svg` illustration. Services feed the catalogue, calculator and readiness checklist, so review all three after an addition. The checklist progress denominator comes from `SERVICES.length`.
+Use a unique, lowercase identifier and one of the existing categories. Add a matching `assets/img/ID.svg` illustration. Services feed the catalog, calculator and readiness checklist, so review all three after an addition. The checklist progress denominator comes from `SERVICES.length`.
 
 `SERVICE_MAP` and `CASE_MAP` are derived from these records. Identifier lookups use an own-property check rather than trusting URL or storage values.
 
@@ -145,7 +145,7 @@ Every service has a distinct 600 × 420 SVG drawing (`ID.svg`), used on its serv
 
 All drawings are included locally. Decorative images use empty alternative text; the three portraits describe the person depicted. Replace portrait alt text when changing people.
 
-`assets/img/favicon.svg` is the small shield mark. `og-image.svg` is the 1200 × 630 editable social source; `og-image.png` is the raster sharing image. Update both when changing the brand. The downloadable catalogue thumbnail is managed outside this folder.
+`assets/img/favicon.svg` is the small shield mark. `og-image.svg` is the 1200 × 630 editable social source; `og-image.png` is the raster sharing image. Update both when changing the brand. The downloadable catalog thumbnail is managed outside this folder.
 
 ### Navigation, header and footer
 
@@ -161,15 +161,15 @@ The practice address is Suite 4, South Street, Dorking, Surrey RH4 2HG. Hours ar
 
 `setupServices()` filters the `SERVICES` array by category and case-insensitive text. Search covers names, descriptions and deliverables. Counts and empty states update immediately.
 
-`serviceCard()` creates the catalogue cards. The service details open in a native dialog, with deliverables and evidence to gather. Escape, Close and an outside click dismiss the dialog; focus returns to the opener.
+`serviceCard()` creates the catalog cards. The service details open in a native dialog, with deliverables and evidence to gather. Escape, Close and an outside click dismiss the dialog; focus returns to the opener.
 
 `toggleScope()` reads the saved plan, adds a known service once (or removes it if it is already in scope), saves it and rereads it through the storage adapter. Every "Include in scope" button for that service (card and dialog) gets `aria-pressed` from the saved selection, and the count and live notification show the actual saved selection. Default assessment areas count as selected before the first explicit save.
 
 ### Assessment estimate
 
-`setupAssessment()` reads organisation inputs and selected areas without replacing active native inputs. `estimate()` calculates the fee from the catalogue.
+`setupAssessment()` reads organization inputs and selected areas without replacing active native inputs. `estimate()` calculates the fee from the catalog.
 
-| Setting                             | Behaviour                                    |
+| Setting                             | Behavior                                    |
 | ----------------------------------- | -------------------------------------------- |
 | `DAY_RATE_PENCE`                    | 95000, equivalent to £950 per consultant day |
 | `SIZE_BANDS.small.multiplier`       | 1 for up to 50 people                        |
@@ -213,11 +213,11 @@ Accounts use anonymous sectors rather than invented client endorsements or logos
 
 `setupResources()` filters twelve `RESOURCES` by topic and text. Search includes practical steps. Native `details` and `summary` elements provide keyboard-operable expansion without a separate JavaScript accordion.
 
-Each article contains a caution as well as steps. These notes are general guidance, not a substitute for authorisation, legal advice or a scoped technical review.
+Each article contains a caution as well as steps. These notes are general guidance, not a substitute for authorization, legal advice or a scoped technical review.
 
 ### Process tabs and menu
 
-`setupNavigation()` controls the home-page process tabs. Arrow keys move between tabs, and Home and End select the first or last tab. Each tab owns a labelled panel and maintains one keyboard tab stop.
+`setupNavigation()` controls the home-page process tabs. Arrow keys move between tabs, and Home and End select the first or last tab. Each tab owns a labeled panel and maintains one keyboard tab stop.
 
 The mobile menu updates `aria-expanded`, closes with Escape and returns focus to the trigger. Growing to the desktop breakpoint closes it. Navigation uses ordinary links.
 
@@ -241,13 +241,13 @@ The home-page next consultation date uses the same function. The copyright year 
 
 ## Forms
 
-The catalogue, readiness, case and resource filter forms operate locally and prevent normal submission. The assessment form calculates locally; its explicit buttons save or reset the scope.
+The catalog, readiness, case and resource filter forms operate locally and prevent normal submission. The assessment form calculates locally; its explicit buttons save or reset the scope.
 
-The contact form validates a 2–100 character name, an email address up to 200 characters, a 20–2,000 character message and, when requested, an eligible call date. Organisation is optional. Inline errors, an alert summary and focus on the first invalid field support correction.
+The contact form validates a 2–100 character name, an email address up to 200 characters, a 20–2,000 character message and, when requested, an eligible call date. Organization is optional. Inline errors, an alert summary and focus on the first invalid field support correction.
 
 The optional `contact.html?topic=assessment` parameter preselects assessment, readiness, review or conversation. Unknown values are ignored. A saved assessment summary appears above the form when available.
 
-The standalone form is front-end only: it makes no network request and delivers no enquiry until connected to a backend. Its success view generates a local `GM-` reference, displays next steps and provides a new-enquiry button. It never claims that an email was sent. Personal contact details are not written to browser storage.
+The standalone form is front-end only: it makes no network request and delivers no inquiry until connected to a backend. Its success view generates a local `GM-` reference, displays next steps and provides a new-inquiry button. It never claims that an email was sent. Personal contact details are not written to browser storage.
 
 ### Connect a submission endpoint
 
@@ -302,7 +302,7 @@ A readiness record is:
 }
 ```
 
-`readJSON()` removes malformed JSON or invalid top-level shapes. `normalisePlan()` accepts only known bands, timing values and own service IDs, deduplicates selections and clamps integer ranges. Numeric fields accept strings or numbers only; nested objects, arrays, booleans and null use safe defaults without invoking coercion methods. `normaliseReadiness()` accepts only known IDs, removes duplicates and limits cleaned notes to 240 characters. Unknown fields are dropped and normalised records are written back.
+`readJSON()` removes malformed JSON or invalid top-level shapes. `normalisePlan()` accepts only known bands, timing values and own service IDs, deduplicates selections and clamps integer ranges. Numeric fields accept strings or numbers only; nested objects, arrays, booleans and null use safe defaults without invoking coercion methods. `normaliseReadiness()` accepts only known IDs, removes duplicates and limits cleaned notes to 240 characters. Unknown fields are dropped and normalized records are written back.
 
 Saved values are escaped before insertion into generated HTML. Contact names, addresses, messages and call preferences are never persisted. Do not use readiness notes for confidential evidence, passwords or personal data.
 
@@ -318,7 +318,7 @@ Publish a sitemap listing the eight main pages and a robots file suited to the s
 
 ## Accessibility
 
-The pages include a skip link, main landmark, one primary heading, visible keyboard focus, labelled controls and descriptive page titles. Decorative art is hidden from assistive technology with empty alternative text.
+The pages include a skip link, main landmark, one primary heading, visible keyboard focus, labeled controls and descriptive page titles. Decorative art is hidden from assistive technology with empty alternative text.
 
 Native dialogs manage modal focus; Close and Escape restore the opener. Both dialogs have valid initial heading references even before opening. Tabs maintain the selected state, panel references and keyboard movement.
 
@@ -345,7 +345,7 @@ Tailwind scans this template through `source("../")`. Compiled CSS is committed 
 
 Upload the HTML files and `assets` folder together to a static host such as GitHub Pages, Netlify or Cloudflare Pages. Source CSS and documentation may also be retained, but are not required at runtime.
 
-Connect the enquiry endpoint, replace fictional business details, update social URLs and test keyboard navigation, form errors, call preferences and saved-data resets on the published origin. Storage is origin-specific, so local saved plans do not transfer to the live domain.
+Connect the inquiry endpoint, replace fictional business details, update social URLs and test keyboard navigation, form errors, call preferences and saved-data resets on the published origin. Storage is origin-specific, so local saved plans do not transfer to the live domain.
 
 ## Troubleshooting
 
@@ -353,16 +353,16 @@ Connect the enquiry endpoint, replace fictional business details, update social 
 | ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Fonts look different                           | Confirm access to the Google Fonts hosts and that both CSS2 family names match the theme tokens. Fallback fonts work offline.                                  |
 | New classes have no effect                     | Rebuild CSS with `npm run build`; the browser reads `assets/css/style.css`, not the source file.                                                               |
-| Saved state vanishes after reload              | The browser may block localStorage. The memory fallback preserves same-page behaviour but cannot survive reloads. Serve over HTTP and review privacy settings. |
-| Old service IDs disappear                      | Normalisation intentionally discards IDs absent from `SERVICES`. Migrate records before renaming catalogue IDs.                                                |
+| Saved state vanishes after reload              | The browser may block localStorage. The memory fallback preserves same-page behavior but cannot survive reloads. Serve over HTTP and review privacy settings. |
+| Old service IDs disappear                      | Normalization intentionally discards IDs absent from `SERVICES`. Migrate records before renaming catalog IDs.                                                |
 | A call date is missing                         | Weekends, calculated bank holidays and `EXTRA_CLOSURES` are excluded. The list begins tomorrow in London time.                                                 |
-| A request shows success but no enquiry arrives | The front-end needs a real submission endpoint. Connect it in `setupContact()` and wait for `response.ok` before showing success.                              |
+| A request shows success but no inquiry arrives | The front-end needs a real submission endpoint. Connect it in `setupContact()` and wait for `response.ok` before showing success.                              |
 | A social image does not update                 | Regenerate the PNG from the edited SVG and use an absolute production `og:image` URL. Sharing services may cache earlier images.                               |
 | Mobile navigation stays open after edits       | Preserve the menu ID, toggle data attribute and deferred `main.js` script. Check the browser console for earlier JavaScript errors.                            |
 
 ## License
 
-MIT. See `LICENSE.txt` in the download for the template licence.
+MIT. See `LICENSE.txt` in the download for the template license.
 
 The original illustrations and icons are included.
 

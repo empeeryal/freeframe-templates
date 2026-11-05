@@ -3,11 +3,11 @@
 A shop for **First Crack Coffee**, a fictional specialty coffee roaster: home, a filterable coffee shop,
 product pages with bag sizes, grinds, tasting notes and a brew recipe, a subscription builder with price per
 cup and delivery dates, a cart drawer, a three-step checkout, brew guides with a recipe scaler, a
-wholesale page with a volume estimator and enquiry form, sourcing, contact with FAQ and a 404 page. Coffee
+wholesale page with a volume estimator and inquiry form, sourcing, contact with FAQ and a 404 page. Coffee
 bags are drawn in SVG from the product data, so there are no photos to replace. Plain HTML, Tailwind CSS v4
 and vanilla JavaScript.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/roast)
 
 ## Quick start

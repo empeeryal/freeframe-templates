@@ -6,6 +6,12 @@ All notable changes to the Keystone HTML template are documented here. The forma
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.3] - 2026-11-04
 
 ### Fixed

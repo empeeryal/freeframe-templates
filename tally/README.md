@@ -7,7 +7,7 @@ annual switch and a VAT toggle, a late-payment interest and time-saved calculato
 directory, customer stories, a security and trust page, a changelog, a demo request form and a 404 page. Plain
 HTML, Tailwind CSS v4 and vanilla JavaScript; every illustration is SVG or HTML.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/tally)
 
 ## Quick start

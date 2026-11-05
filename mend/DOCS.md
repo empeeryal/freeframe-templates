@@ -2,9 +2,9 @@
 
 ## Overview
 
-Mend is a multi-page website template for an independent physiotherapy and sports injury clinic. The demo
+Mend is a multi-page website template for an independent physical therapy and sports injury clinic. The demo
 is **Lavant Physiotherapy**, a fictional clinic at 48 Whyke Road in Chichester, West Sussex, with five
-physiotherapists and a sports massage therapist. It is built with plain HTML, Tailwind CSS v4 and one
+physical therapists and a sports massage therapist. It is built with plain HTML, Tailwind CSS v4 and one
 vanilla JavaScript file (`assets/js/main.js`), with no other dependencies. This is version 1.1.0 (see
 `template.json` and [CHANGELOG.md](CHANGELOG.md)). Live demo:
 [freeframe.dev/templates/mend](https://freeframe.dev/templates/mend).
@@ -73,15 +73,15 @@ The body map is inline SVG in `index.html`. The treatment drawings (`ART`), the 
 (`figureSVG()`) and the small locator figures on the conditions page (`locatorSVG()`) are drawn by `main.js`,
 so they don't have separate files.
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 All design tokens live in the `@theme` block at the top of `src/input.css`. The ones that matter:
 
 | Token | Used for |
 |-------|----------|
-| `--color-biro-*` | The ink colour: buttons (`biro-600`), links, headings (`biro-900` = `--color-ink`), the dark bands and footer (`biro-900`), pale fills (`biro-50`) |
+| `--color-biro-*` | The ink color: buttons (`biro-600`), links, headings (`biro-900` = `--color-ink`), the dark bands and footer (`biro-900`), pale fills (`biro-50`) |
 | `--color-margin-*` | The red margin rule and "don't wait" warnings (`margin-50` fill, `margin-500` rule, `margin-600`/`700` text) |
 | `--color-hi`, `--color-hi-soft` | Highlighter: selected body map region, pressed chips, today in the diary, the `.hl` swipe behind headline words |
 | `--color-ink`, `--color-body`, `--color-muted` | Heading, body and secondary text |
@@ -94,7 +94,7 @@ The component layer in the same file holds the few repeated pieces: `.wrap` (pag
 `.btn-paper`), `.chip`, `.field`, `.tag`, the booking pieces (`.choice`, `.day`, `.slot`, `.step`, `.yesno`), the
 body map (`.region`), `.side-index` and `.timeline`. Everything else is Tailwind utilities in the markup.
 
-To change the ink colour, edit the biro scale and rebuild:
+To change the ink color, edit the biro scale and rebuild:
 
 ```css
 @theme {
@@ -105,7 +105,7 @@ To change the ink colour, edit the biro scale and rebuild:
 
 Keep `biro-600` at a contrast of at least 4.5:1 against white, because button text is white, and keep
 text on the highlighter in `--color-ink`. The SVG files
-in `assets/img/` use hex colours directly; search and replace them if you change the palette a lot.
+in `assets/img/` use hex colors directly; search and replace them if you change the palette a lot.
 
 ### Typography
 
@@ -138,7 +138,7 @@ Page text is plain HTML in each file. Everything the scripts use is a constant a
 | `BODY_AREAS` | Body map areas: label, intro, conditions, suggested treatments, exercise filter, red flags |
 | `EXERCISES`, `EXERCISE_AREAS`, `LEVELS`, `EQUIPMENT` | Exercise library and its filters |
 | `PACKAGES`, `PACKAGE_MONTHS` | Packages on `prices.html` |
-| `INSURERS` | Insurers: name, `direct` or `claim`, whether they need an authorisation number or GP referral |
+| `INSURERS` | Insurers: name, `direct` or `claim`, whether they need an authorization number or GP referral |
 
 The opening hours are also written out in the HTML (every `dl[data-hours]` in the footer, the home page's
 "Visit us" section and the contact page). If you change `HOURS`, change those lists too.
@@ -263,7 +263,7 @@ To show real availability, replace `slotsFor()` with a call to your booking syst
 1. **Treatment**: radio cards built from `TREATMENTS`.
 2. **Clinician**: "First available" plus everyone who offers the treatment, with their days and next slot.
 3. **Day and time**: seven days at a time (Earlier and Later move between the two pages). Days with no
-   times are disabled and labelled Closed (with the reason for screen readers, such as "closed on Sundays"
+   times are disabled and labeled Closed (with the reason for screen readers, such as "closed on Sundays"
    or "closed for Christmas Day"), Off (nobody working) or Full. Times are grouped into morning,
    afternoon and evening; with "First available" each time shows who it's with.
 4. **Your details**: name, email, phone, area (filled from `BODY_AREAS`), notes and the health screening.
@@ -347,7 +347,7 @@ sessions and, when "Use a package" is ticked, uses as many whole packages for th
 `?treatment=` preselects a treatment.
 
 The insurer checker lists `INSURERS` and, for the one you pick, explains whether the clinic bills them
-directly or you pay and claim, and whether an authorisation number or GP referral is needed. `?insurer=`
+directly or you pay and claim, and whether an authorization number or GP referral is needed. `?insurer=`
 preselects one.
 
 ### Previewing another date
@@ -424,7 +424,7 @@ Built in: a skip link, landmarks, one `<h1>` per page, visible focus outlines, `
 navigation, an accessible mobile menu, a keyboard-operable body map (radio group with arrow keys, every drawn region a real control), focusable
 scrolling regions, real
 form controls with linked error messages, live regions for counts and the counter, and
-`prefers-reduced-motion` support. Colours meet WCAG AA contrast.
+`prefers-reduced-motion` support. Colors meet WCAG AA contrast.
 
 When editing: keep one `<h1>` per page, give new inputs a `<label>`, keep `aria-controls` and
 `aria-labelledby` pointing at ids that exist, and if you add body map areas, give each region an

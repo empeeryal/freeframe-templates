@@ -1,10 +1,10 @@
 # Pocket — mobile app website template
 
 A multi-page launch site for a mobile app (a fictional budgeting app): phone mockups built in HTML, a scroll-driven
-feature tour, screenshot carousel and lightbox, pricing, release notes, help centre, press kit and privacy policy,
+feature tour, screenshot carousel and lightbox, pricing, release notes, help center, press kit and privacy policy,
 with light and dark themes. Built with HTML5, Tailwind CSS v4 and vanilla JavaScript. A Next.js version of this template is also available.
 
-**Version 1.0.5** · see [CHANGELOG.md](CHANGELOG.md) for what changed.
+**Version 1.0.6** · see [CHANGELOG.md](CHANGELOG.md) for what changed.
 
 Live demo: [freeframe.dev/templates/pocket](https://freeframe.dev/templates/pocket)
 

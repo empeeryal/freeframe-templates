@@ -63,9 +63,9 @@ vows/
 └── template.json           template metadata and version
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 Design tokens are in the `@theme` block of `src/input.css`:
 
@@ -87,7 +87,7 @@ Change the palette, then rebuild the CSS:
 }
 ```
 
-The SVG ornaments and gallery illustrations have their colours inside the files; edit them or replace the files.
+The SVG ornaments and gallery illustrations have their colors inside the files; edit them or replace the files.
 Update `<meta name="theme-color">` in each page if you change `--color-paper`.
 
 ### Typography
@@ -366,7 +366,7 @@ Built in:
 - Skip link, landmarks, one `h1` per page and `aria-current="page"` in the navigation.
 - Visible focus outlines (terracotta) and AA contrast.
 - Mobile menu with `aria-expanded`; Escape closes it and returns focus, and links close it.
-- RSVP: labelled radio groups, an error summary (`role="alert"`), errors linked with `aria-describedby`, focus moved
+- RSVP: labeled radio groups, an error summary (`role="alert"`), errors linked with `aria-describedby`, focus moved
   to each step's heading or the first problem, and `aria-current="step"` in the progress list.
 - Native `<dialog>` lightbox, `<details>` FAQ, `aria-pressed` toggles, `role="timer"` countdown and polite live
   regions for counts and toasts.

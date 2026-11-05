@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.3] - 2026-11-04
 
 ### Fixed
@@ -18,7 +24,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 - The newsletter, sponsorship and guest pitch confirmations no longer say the form is a demo and nothing
   was sent. They read like the show's own messages: a confirmation link on its way for subscribers, and a
-  reference (like OT-7K2Q) with the promised reply time for sponsor enquiries and guest pitches. `DOCS.md`
+  reference (like OT-7K2Q) with the promised reply time for sponsor inquiries and guest pitches. `DOCS.md`
   and `template.json` describe the new wording.
 
 ## [1.0.1] - 2026-10-19
@@ -47,7 +53,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - Home page with the latest episode and its player, "listen on" links, featured episodes, topics with
   counts, hosts, listener reviews and a validated newsletter sign-up.
 - Advertise page with audience stats, an SVG line chart, a donut chart and CSS bar charts (each with the
-  numbers available as a table), ad formats, a rate card and a validated enquiry form.
+  numbers available as a table), ad formats, a rate card and a validated inquiry form.
 - Be a guest page with a pitch form (conditional fields, character counter, URL check) and a success state;
   subscribe page with app links, a copyable RSS feed address, the next release date and an FAQ.
 - Generated SVG cover art per season and topic, waveforms and guest avatars, illustrated host portraits, a

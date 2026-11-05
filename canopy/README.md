@@ -6,7 +6,7 @@ interactive SVG map of 25 sites and cabins with filters, a booking calendar with
 add-ons, trails with elevation profiles, guided programs, and a camp store pre-order basket. Plain HTML, Tailwind
 CSS v4 and one vanilla JavaScript file, drawn in a trail-map style.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.3** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/canopy)
 
 ## Quick start

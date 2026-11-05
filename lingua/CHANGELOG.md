@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.5] - 2026-11-04
 
 ### Fixed
@@ -24,10 +30,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### Fixed
 
-- The enrolment, contact and newsletter confirmations no longer say the form is a demo and nothing was sent. The
-  enrolment and contact messages now confirm the request, promise an email or reply within one working day and show a
+- The enrollment, contact and newsletter confirmations no longer say the form is a demo and nothing was sent. The
+  enrollment and contact messages now confirm the request, promise an email or reply within one working day and show a
   reference (like LI-7K2Q); the newsletter one asks subscribers to look out for a confirmation email. The notes beside
-  the contact and enrolment buttons no longer say nothing is sent. `DOCS.md` describes the reference.
+  the contact and enrollment buttons no longer say nothing is sent. `DOCS.md` describes the reference.
 
 ## [1.0.2] - 2026-10-19
 
@@ -48,7 +54,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 ### Added
 
 - Ten pages for Lingua Language School, a fictional language school in Bristol: home, courses, course, placement
-  test, teachers, timetable, fees and enrolment, about, contact and a 404 page.
+  test, teachers, timetable, fees and enrollment, about, contact and a 404 page.
 - Course filters by language, level and format, kept in the URL, with a live count and empty state.
 - Course pages from `?id=` with keyboard-accessible tabs (overview, syllabus, teacher), fee, places left and related
   courses.
@@ -56,7 +62,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
   on the device and validated on every read.
 - Weekly timetable with filters by language, format and time of day; teacher directory with a language filter.
 - Prices in accessible tabs for group courses, private lessons and companies.
-- Four-step enrolment form with validation, concession rate, course book and instalments, a live fee summary and a
+- Four-step enrollment form with validation, concession rate, course book and installments, a live fee summary and a
   saved draft that is repaired when it has been tampered with.
 - Contact form with `?topic=` prefill, newsletter form and FAQ.
 - URL parameters read in any case and accepted only when they name the template's own courses, languages and options.

@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.3] - 2026-11-04
 
 ### Fixed
@@ -25,7 +31,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ### Fixed
 
-- The press kit's copy-colour buttons' accessible names now include their visible text (WCAG 2.5.3).
+- The press kit's copy-color buttons' accessible names now include their visible text (WCAG 2.5.3).
 
 ## [1.0.0] - 2026-10-17
 
@@ -36,9 +42,9 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - Phone mockups with five app screens (tonight, sounds, smart alarm, wind-down, sleep diary) built in HTML and SVG.
 - Tabbed feature tour on the home page that swaps the phone screen, with arrow-key support.
 - Bedtime calculator with wake-up and bedtime modes, a fall-asleep allowance, shareable links and saved settings.
-- Sound library with category filters, search, saved favourites and 30-second Web Audio previews.
+- Sound library with category filters, search, saved favorites and 30-second Web Audio previews.
 - Wind-down routine builder that works out when to start and remembers your steps.
 - Pricing with a monthly / annual switch, comparison table and FAQ.
 - Reviews with rating and topic filters and sorting; sleep guides with a topic filter.
-- Searchable help centre, validated contact form, press kit with copy buttons and a privacy summary.
+- Searchable help center, validated contact form, press kit with copy buttons and a privacy summary.
 - Scroll reveals, a back-to-top button and reduced-motion support.

@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.2] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.1.1] - 2026-11-04
 
 ### Fixed
@@ -44,10 +50,10 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - Renamed the clinic director to Thea Varcoe (portrait `team-varcoe.svg`), so no surname is shared with
   another template or a real brand.
 - The self-pay price table no longer overflows at phone widths, and its scrolling wrapper is a focusable,
-  labelled region.
+  labeled region.
 - The body map no longer draws joint circles that look clickable but aren't: every visible region and pin
   is a real control.
-- The booking diary labelled Sunday "closed for the weekend" although Saturday is open; closed days now say
+- The booking diary labeled Sunday "closed for the weekend" although Saturday is open; closed days now say
   "closed on Sundays" or name the bank holiday.
 - Pressing "Send message" or "Request this appointment" straight after correcting a field could miss the
   button, because the error line under the field disappeared on blur and moved the button mid-click.

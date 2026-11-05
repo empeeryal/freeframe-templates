@@ -2,7 +2,7 @@
 
 ## Overview
 
-Planwick is a spacious product-planning website for a fictional SaaS business in Leominster, in a deep indigo, periwinkle and marigold palette. Version 1.0.0 uses static HTML, Tailwind CSS v4 and plain browser JavaScript. Its workspace combines a roadmap, transparent priority inputs and capacity-based release planning. The [template page](https://freeframe.dev/templates/planwick) links to the live preview.
+Planwick is a spacious product-planning website for a fictional SaaS business in Leominster, in a deep indigo, periwinkle and marigold palette. Version 1.0.1 uses static HTML, Tailwind CSS v4 and plain browser JavaScript. Its workspace combines a roadmap, transparent priority inputs and capacity-based release planning. The [template page](https://freeframe.dev/templates/planwick) links to the live preview.
 
 ## Quick start
 
@@ -20,7 +20,7 @@ For example, with Python installed:
 python3 -m http.server 8080
 ```
 
-Open `http://localhost:8080`. Use an HTTP server for consistent storage and browser behaviour.
+Open `http://localhost:8080`. Use an HTTP server for consistent storage and browser behavior.
 
 Node 24 and npm are needed only when rebuilding the stylesheet.
 
@@ -40,7 +40,7 @@ npm run build
 | `pricing.html`      | Plans and calculator | Seat count, billing cycle, add-ons and contact handoff                    |
 | `integrations.html` | Connection planning  | Twelve connections, access notes, saved rollout and data-access promises |
 | `resources.html`    | Planning library     | Eight searchable, expandable practical guides                             |
-| `contact.html`      | Business enquiries   | Validation, optional conversation date, reference and success state       |
+| `contact.html`      | Business inquiries   | Validation, optional conversation date, reference and success state       |
 | `404.html`          | Recovery page        | Links back to the product, workspace and library                          |
 
 The contact page introduces the three team members and gives opening hours.
@@ -72,9 +72,9 @@ planwick/
   DOCS.md                This guide
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 The `@theme` block in [src/input.css](src/input.css) owns the palette.
 
@@ -89,7 +89,7 @@ The `@theme` block in [src/input.css](src/input.css) owns the palette.
 | `--color-line`   | Borders and dividers                        |
 | `--color-error`  | Form errors                                 |
 
-Change the ink colour and rebuild:
+Change the ink color and rebuild:
 
 ```css
 @theme {
@@ -270,7 +270,7 @@ The workspace link opens the saved plan.
 
 ### Pricing calculator
 
-`setupPricing` reads catalogue rates from `PLANWICK_DATA.plans`.
+`setupPricing` reads catalog rates from `PLANWICK_DATA.plans`.
 The monthly seat rates in pence are Start 600, Team 1200 and Scale 2200.
 The accepted seat count is 2–200 whole people.
 Annual billing reduces the seat component by 20%.
@@ -280,8 +280,8 @@ Add-ons receive no additional annual discount.
 The annual invoice is twelve times the monthly equivalent.
 Prices exclude VAT, and no payment is collected.
 
-`plan`, `seats` and `billing` query parameters can initialise this page.
-Plans must be own properties of the catalogue; unknown plans are ignored.
+`plan`, `seats` and `billing` query parameters can initialize this page.
+Plans must be own properties of the catalog; unknown plans are ignored.
 Seat values are clamped; billing must be `monthly` or `annual`.
 Calculated contact links pass these three validated values to `contact.html`.
 The reset control returns to Team, ten seats, monthly, with no add-ons.
@@ -309,16 +309,16 @@ Search and expanded details are not saved between visits.
 
 ## Forms
 
-### Enquiry form
+### Inquiry form
 
 `setupContact` handles `contact-form` in `contact.html`.
-It requires a name, valid email, organisation, a message of at least twelve trimmed characters and consent to reply.
+It requires a name, valid email, organization, a message of at least twelve trimmed characters and consent to reply.
 Errors are associated with their inputs and marked with `aria-invalid`.
 A summary reports the number of fields requiring attention and focus moves to the first.
 The topic and team-size selectors capture the purpose and scale of the request.
 The optional preferred date appears only for product walkthroughs.
 
-`conversationDays` provides the next six Tuesday or Thursday dates after today, labelled with the weekday
+`conversationDays` provides the next six Tuesday or Thursday dates after today, labeled with the weekday
 (for example "Tuesday 27 October 2026"). When a walkthrough is requested with a specific day, the success panel
 repeats it: "We’ll suggest a walkthrough time on Tuesday 27 October 2026, in UK time."
 It uses Europe/London for the current day and UTC noon for date arithmetic.
@@ -328,16 +328,16 @@ Set it to `false` to calculate from `FIXED_CONVERSATION_START`, currently `2026-
 This gives a reproducible preview; it does not represent calendar availability.
 The team agrees an exact time after discussing the request.
 
-Valid `plan`, `seats` and `billing` parameters prefill a pricing enquiry.
+Valid `plan`, `seats` and `billing` parameters prefill a pricing inquiry.
 No raw URL value is inserted into HTML.
 The success panel includes a generated `PW-` reference and the next step.
 Ask another question restores the form and focuses the name field.
 No personal field is placed in localStorage.
 
-The included form is a front-end presentation: it does not transmit an enquiry, send email or reserve a meeting.
+The included form is a front-end presentation: it does not transmit an inquiry, send email or reserve a meeting.
 Before launch, connect a real service and display the success panel only after its successful response.
 The submission handler contains the integration comment immediately before reference generation.
-Replace that section with your request, preserving the validation and focus behaviour.
+Replace that section with your request, preserving the validation and focus behavior.
 
 For example, create a Formspree endpoint and replace the success block with an async request:
 
@@ -364,8 +364,8 @@ Configure consent retention and a privacy notice appropriate to your business.
 
 The workspace score form edits saved planning inputs and validates numeric limits.
 Workspace, connection and resource filter forms operate locally and suppress navigation on Enter.
-The pricing form recalculates local catalogue amounts and does not process payment.
-These forms need no backend unless you want shared accounts or synchronised data.
+The pricing form recalculates local catalog amounts and does not process payment.
+These forms need no backend unless you want shared accounts or synchronized data.
 
 ## Saved data (localStorage)
 
@@ -375,10 +375,10 @@ is a planning checklist only: it doesn't connect accounts or ask for credentials
 
 All persistence goes through `safeStorage` in `main.js`.
 Its in-memory map is updated before attempting localStorage writes.
-If storage is blocked, the current page retains read-after-write behaviour.
+If storage is blocked, the current page retains read-after-write behavior.
 A reload or another page cannot retain that fallback memory.
-Malformed JSON is replaced with a sanitised default.
-All stored catalogue identifiers require own-key membership.
+Malformed JSON is replaced with a sanitized default.
+All stored catalog identifiers require own-key membership.
 
 | Key                        | Shape                                       | Reset            |
 | -------------------------- | ------------------------------------------- | ---------------- |
@@ -386,7 +386,7 @@ All stored catalogue identifiers require own-key membership.
 | `planwick.pricing.v1`      | `{plan, seats, billing, insights, archive}` | Reset pricing choices |
 | `planwick.integrations.v1` | Array of unique connection IDs              | Clear rollout choices |
 
-`sanitiseWorkspace` retains every catalogue initiative and accepts only known overrides.
+`sanitiseWorkspace` retains every catalog initiative and accepts only known overrides.
 It rejects unknown or duplicate IDs and invalid stage names.
 Numeric inputs reject non-scalar shapes and are bounded to their documented limits.
 Reach, effort and capacity are rounded to whole values; confidence uses five-point increments.
@@ -396,7 +396,7 @@ An explicitly empty scope remains empty after reload.
 
 `sanitisePricing` validates plan membership and billing vocabulary.
 It clamps and rounds seats and accepts add-ons only as strict Booleans.
-Prices are always calculated from the catalogue rather than saved amounts.
+Prices are always calculated from the catalog rather than saved amounts.
 Connection state accepts only a unique array of known IDs.
 
 To remove all saved choices in the browser console:
@@ -408,7 +408,7 @@ localStorage.removeItem("planwick.integrations.v1");
 location.reload();
 ```
 
-These keys contain planning preferences, not personal enquiry details.
+These keys contain planning preferences, not personal inquiry details.
 Change the key version if you deliberately introduce an incompatible schema.
 
 ## SEO and sharing
@@ -435,7 +435,7 @@ Reduced-motion preferences disable reveals and movement.
 
 Keep a single `h1` per page when editing.
 Give new controls visible labels and maintain full visible text in accessible names.
-Do not use colour alone to explain a planning stage or selected item.
+Do not use color alone to explain a planning stage or selected item.
 Recheck at 390-pixel and 1280-pixel widths after altering content.
 Long labels and new navigation entries can affect the responsive header.
 
@@ -457,7 +457,7 @@ The shipped stylesheet is already compiled and minified.
 Upload the full folder to a static host such as GitHub Pages, Cloudflare Pages or Netlify.
 Keep relative file paths and the `assets` directory together.
 Configure `404.html` as the host's not-found response where supported.
-Serve over HTTPS in production and connect the enquiry backend before collecting requests.
+Serve over HTTPS in production and connect the inquiry backend before collecting requests.
 No application server, database, account system or payment service is included.
 
 ## Troubleshooting
@@ -467,10 +467,10 @@ No application server, database, account system or payment service is included.
 | New utility classes have no effect                 | Rebuild CSS after editing HTML or JavaScript strings.                                           |
 | Font appearance differs                            | Check access to Google Fonts and both preconnect links; system fonts are the fallback.          |
 | Planning choices disappear                         | Check private-browsing or storage restrictions; the fallback survives only on the current page. |
-| An old initiative reappears after reset            | Reset intentionally restores all current catalogue records and defaults.                        |
+| An old initiative reappears after reset            | Reset intentionally restores all current catalog records and defaults.                        |
 | A URL selects no connection                        | Use an exact known connection ID such as `issues`; unknown IDs are ignored.                     |
 | An annual total seems different                    | The 20% reduction applies to seats; add-ons keep their monthly equivalent.                      |
-| The enquiry success appears but nobody receives it | Connect a backend; the included handler presents the local success state only.                  |
+| The inquiry success appears but nobody receives it | Connect a backend; the included handler presents the local success state only.                  |
 | Dates remain fixed                                 | Set both current-date flags to `true` and check the browser clock.                              |
 
 ## License

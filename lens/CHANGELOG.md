@@ -6,6 +6,12 @@ All notable changes to the Lens template are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.0.9] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.8] - 2026-11-04
 
 ### Fixed
@@ -22,8 +28,8 @@ All notable changes to the Lens template are documented here. The format follows
 
 ### Fixed
 
-- The enquiry form's confirmation no longer says it is a demo and nothing was sent. It now confirms the
-  enquiry, shows a reference (like IM-7K2Q) and says I reply within two working days, as the page already
+- The inquiry form's confirmation no longer says it is a demo and nothing was sent. It now confirms the
+  inquiry, shows a reference (like IM-7K2Q) and says I reply within two working days, as the page already
   promises. The client proofing page no longer calls itself a demo: sending a selection shows "Selection
   received" with a reference and when to expect the first album layout. `DOCS.md` describes the references.
 
@@ -78,6 +84,6 @@ All notable changes to the Lens template are documented here. The format follows
   focus return).
 - Package calculator with extra hours, add-ons, included extras, total and deposit.
 - Client proofing page with a 15-photo limit, saved in localStorage and validated on every read.
-- Enquiry form with inline validation, conditional date rules and package prefill.
+- Inquiry form with inline validation, conditional date rules and package prefill.
 - 49 original SVG photo stand-ins, a back-to-top button, scroll reveals with reduced-motion support, and SEO
   and Open Graph tags on every page.

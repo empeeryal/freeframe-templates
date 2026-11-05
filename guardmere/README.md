@@ -4,7 +4,7 @@ A nine-page HTML and Tailwind CSS v4 website for an independent cybersecurity pr
 
 Open `index.html` in a browser. No installation is needed for the compiled website. Google Fonts require internet access.
 
-Read [DOCS.md](DOCS.md) for customisation, data, forms, saved state, dates and deployment.
+Read [DOCS.md](DOCS.md) for customization, data, forms, saved state, dates and deployment.
 
 To rebuild styles with Node 24:
 

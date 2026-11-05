@@ -7,7 +7,7 @@ URLs, listing pages with an illustrated gallery and open houses you can add to a
 seller net proceeds sheet, a buyer affordability calculator, an interactive neighborhood map and a consultation
 booking flow. Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.3** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/atlas)
 
 ## Quick start

@@ -3,9 +3,9 @@
 ## Overview
 
 Wander is a website for a small-group tour company, built for **Saltwind Journeys**, a fictional travel
-company by Sheffield's canal basin that runs trips of twelve travellers or fewer in Morocco, Peru, Norway,
+company by Sheffield's canal basin that runs trips of twelve travelers or fewer in Morocco, Peru, Norway,
 the Aegean, Japan and Tanzania. It has a trip finder, a filterable tours page, tour pages with a
-day-by-day itinerary, a route map, departure dates and a live-priced booking enquiry, a destinations page
+day-by-day itinerary, a route map, departure dates and a live-priced booking inquiry, a destinations page
 with a seasonality chart, a journal with an article, an about page and a contact page. It is plain HTML
 with Tailwind CSS v4 and one vanilla JavaScript file, with no build step needed to use it. This guide
 covers version 1.0.2. See it live at [freeframe.dev/templates/wander](https://freeframe.dev/templates/wander).
@@ -26,9 +26,9 @@ covers version 1.0.2. See it live at [freeframe.dev/templates/wander](https://fr
 
 | File | Purpose | Notable sections and features |
 |------|---------|-------------------------------|
-| `index.html` | Home | Hero with postcard art, trip finder, destination ticker, featured tours (from the data), why travel with us, destinations grid, traveller postcards with ratings, journal teaser, newsletter |
+| `index.html` | Home | Hero with postcard art, trip finder, destination ticker, featured tours (from the data), why travel with us, destinations grid, traveler postcards with ratings, journal teaser, newsletter |
 | `tours.html` | All tours | Region, style, duration, month and budget filters with live counts, sort, filter chips, result count, empty state, URL parameters |
-| `tour.html` | One tour (`tour.html?id=atlas-sahara`) | Key facts, highlights, itinerary accordion, route map, included and excluded, departure dates table, booking widget, enquiry form, related tours, mobile price bar |
+| `tour.html` | One tour (`tour.html?id=atlas-sahara`) | Key facts, highlights, itinerary accordion, route map, included and excluded, departure dates table, booking widget, inquiry form, related tours, mobile price bar |
 | `destinations.html` | Regions and when to go | Seasonality table (regions × months), a section per region with highlights and a best-time chart |
 | `journal.html` | Travel guides and stories | Featured story, topic filter (`journal.html?topic=food`), story cards |
 | `article.html` | One journal article | Reading progress bar, table of contents, drop cap, pull quote, packing checklist, related tours |
@@ -51,9 +51,9 @@ wander/
   README.md, DOCS.md, CHANGELOG.md
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 The design tokens are in the `@theme` block of `src/input.css`. Every utility such as `bg-clay` or
 `text-muted` comes from them.
@@ -66,13 +66,13 @@ The design tokens are in the `@theme` block of `src/input.css`. Every utility su
 | `--color-line` | `#e2cfae` | Borders and dashed rules |
 | `--color-ink` | `#23180f` | Text, outlines and the offset card shadows |
 | `--color-muted` | `#66523f` | Secondary text |
-| `--color-clay` / `--color-clay-dark` | `#b0431d` / `#8c3214` | Brand colour: primary buttons, links, eyebrows |
+| `--color-clay` / `--color-clay-dark` | `#b0431d` / `#8c3214` | Brand color: primary buttons, links, eyebrows |
 | `--color-sun` / `--color-sun-deep` | `#f4a62a` / `#b86e00` | Stamps, ticker, highlights / stars and icons |
 | `--color-sea` / `--color-deep` | `#0e5a5f` / `#0a3b3f` | Dark bands, "best" season, footer |
 | `--color-lagoon`, `--color-coral` | `#7cc4b8`, `#ef7b5a` | Decoration and charts |
 | `--color-foam` | `#fff9ef` | Text on dark backgrounds |
 
-To change the brand colour, edit the tokens and rebuild the CSS:
+To change the brand color, edit the tokens and rebuild the CSS:
 
 ```css
 @theme {
@@ -81,7 +81,7 @@ To change the brand colour, edit the tokens and rebuild the CSS:
 }
 ```
 
-A few colours are written directly into SVG in `assets/js/main.js` (the route map pins and the landscape
+A few colors are written directly into SVG in `assets/js/main.js` (the route map pins and the landscape
 palettes in `SKIES` and `LAYERS`), in the logo inside each page header and footer, and in
 `assets/img/favicon.svg`. Search for the hex value to change them too.
 
@@ -116,7 +116,7 @@ constants in section 1 of `assets/js/main.js`:
 | `PRICE_MIN`, `PRICE_MAX` | Range of the budget slider on `tours.html` |
 | `PEAK_SUPPLEMENT` | Added per person to departures in a region's best months |
 | `DEPOSIT` | Deposit per person shown in the booking widget |
-| `MAX_TRAVELLERS` | Most travellers in one enquiry |
+| `MAX_TRAVELLERS` | Most travelers in one inquiry |
 | `BOOKING_CUTOFF` | Departures sooner than this many days from today are not offered |
 | `DEPARTURE_DAYS` | Days of the month after which each departure's Saturday is chosen |
 
@@ -175,7 +175,7 @@ aspect ratio works. To use photos instead, replace the element with an `<img>` i
 The `.art-frame` class adds a subtle paper grain over whatever is inside.
 
 Other generated art: `routeMap(tour)` draws the tour page map from `stops`, and `avatar(spec)` draws the
-guide and traveller portraits for elements with `data-avatar="skin,hair,style,background"` (style is
+guide and traveler portraits for elements with `data-avatar="skin,hair,style,background"` (style is
 `short`, `long`, `bun`, `curly` or `bald`). Replace either with images if you have them.
 
 The social image is `assets/img/og-image.png` (1200×630), rendered from `og-image.svg`. Edit the SVG and
@@ -236,13 +236,13 @@ left", and four or more travellers booked shows "Guaranteed". Replace `departure
 (for example a fixed array per tour) if you have them; the table and widget only need objects of the form
 `{ start, end, month, price, peak, left, guaranteed }`.
 
-### Booking widget and enquiry
+### Booking widget and inquiry
 
-The `#booking-widget` card has a departure select (`#dep-select`), a travellers stepper (1 to
-`MAX_TRAVELLERS`, never more than the places left) and a room choice. `quote(tour, departure, travellers,
+The `#booking-widget` card has a departure select (`#dep-select`), a travelers stepper (1 to
+`MAX_TRAVELLERS`, never more than the places left) and a room choice. `quote(tour, departure, travelers,
 room)` returns the price per person, the own-room supplement, the total and the deposit, shown live in an
 `aria-live` list. "Choose" buttons in the dates table select a departure. The current choice is written to
-the summary above the enquiry form and to its hidden fields (`tour`, `departure`, `travellers`, `room`,
+the summary above the inquiry form and to its hidden fields (`tour`, `departure`, `travellers`, `room`,
 `total`), so a connected form receives everything. On phones a fixed bar at the bottom shows the total and
 links to the widget. `?date=YYYY-MM-DD`, `?month=5` and `?travellers=3` preselect choices.
 
@@ -285,13 +285,13 @@ submit, the first invalid field is focused, and each error is in the element `<f
 | Form | Where | Success state |
 |------|-------|---------------|
 | Newsletter (`#newsletter-form`) | `index.html` | `#newsletter-success` |
-| Enquiry (`#enquiry-form`) | `tour.html#enquire` | `#enquiry-success`, repeating the booking summary |
+| Inquiry (`#enquiry-form`) | `tour.html#enquire` | `#enquiry-success`, repeating the booking summary |
 | Contact (`#contact-form`) | `contact.html` | `#contact-success` |
 
 The form's `data-success` attribute names its success box. **The forms don't send anything** until you
 connect them, although their success messages read as if they had: the newsletter one asks the reader to
-look out for a confirmation email, the contact one promises a reply within one working day and the enquiry
-one a reply from a travel expert within one working day, as the pages already say. The contact and enquiry
+look out for a confirmation email, the contact one promises a reply within one working day and the inquiry
+one a reply from a travel expert within one working day, as the pages already say. The contact and inquiry
 messages show a short reference (`SJ-` and four characters) made by `makeRef()` in `showSuccess()`; show
 your form service's own reference instead if it returns one. To collect submissions, post the form in `onValid()` in section 11 of `main.js`,
 for example to Formspree:
@@ -361,7 +361,7 @@ Vercel or your own server. No server code is needed.
   than `BOOKING_CUTOFF` days away; check the tour's `months`.
 - **Prices look higher than "from".** Departures in a region's best months add `PEAK_SUPPLEMENT`; set it
   to `0` to turn peak pricing off.
-- **The enquiry shows its confirmation but nothing arrives.** The forms send nothing until you connect them
+- **The inquiry shows its confirmation but nothing arrives.** The forms send nothing until you connect them
   in `onValid()` (see [Forms](#forms)).
 - **Fonts look different offline.** The fonts come from Google Fonts; without a connection the system
   fallbacks are used.

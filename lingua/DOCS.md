@@ -4,9 +4,9 @@
 
 Lingua is a complete website for a language school that teaches adults in small groups, in person and online. It is
 shown as **Lingua Language School**, a fictional school on Wharf Lane in Nottingham with thirteen courses in Spanish,
-French, Italian, German, Japanese and Portuguese. It has a course catalogue with filters, course pages with a syllabus
+French, Italian, German, Japanese and Portuguese. It has a course catalog with filters, course pages with a syllabus
 and teacher, an interactive placement test that recommends a course, a weekly timetable, teachers, fees and a
-four-step enrolment form. This is the **HTML + Tailwind CSS v4** version (1.0.3): plain HTML files, one stylesheet
+four-step enrollment form. This is the **HTML + Tailwind CSS v4** version (1.0.3): plain HTML files, one stylesheet
 and one vanilla JavaScript file, with no build step needed to run it.
 
 Live demo: [freeframe.dev/templates/lingua](https://freeframe.dev/templates/lingua)
@@ -35,7 +35,7 @@ You only need Node.js 24 (for `npm`) if you change `src/input.css` or add Tailwi
 | `placement.html` | Placement test | A language plus ten can-do questions, a CEFR level estimate and recommended courses |
 | `teachers.html` | Teachers | Eight teacher cards with a language filter and the courses each teaches |
 | `timetable.html` | Timetable | Monday to Saturday week view with filters by language, format and time of day |
-| `enrol.html` | Fees & enrolment | Prices in tabs (group, private, companies), good-to-know facts, four-step enrolment form with a live fee summary |
+| `enrol.html` | Fees & enrollment | Prices in tabs (group, private, companies), good-to-know facts, four-step enrollment form with a live fee summary |
 | `about.html` | About | Story and figures, teaching method, the building, FAQ |
 | `contact.html` | Contact | Contact form (topic prefilled from the URL), map, address, reception hours, getting here |
 | `404.html` | Not found | Friendly 404 page for your host to serve |
@@ -57,9 +57,9 @@ lingua/
 └── LICENSE.txt           MIT license (added to the download)
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 All design tokens are in the `@theme` block at the top of `src/input.css`. Tailwind turns each `--color-*` token into
 utilities (`bg-brand`, `text-tomato-ink`, `border-ink`...), so changing a token re-skins the whole site.
@@ -72,9 +72,9 @@ utilities (`bg-brand`, `text-tomato-ink`, `border-ink`...), so changing a token 
 | `--color-brand`, `--color-brand-dark`, `--color-brand-soft` | Ultramarine buttons, links and highlights |
 | `--color-tomato` / `--color-tomato-ink` | Decorative accent / accent text (eyebrows, "places left") |
 | `--color-sun`, `--color-mint` | Yellow highlights (level badges, call to action) and success panels |
-| `--color-es` … `--color-pt` (+ `-ink`, `-solid`) | One colour pair per language, applied with the `tone-es` … `tone-pt` classes |
+| `--color-es` … `--color-pt` (+ `-ink`, `-solid`) | One color pair per language, applied with the `tone-es` … `tone-pt` classes |
 
-For example, to make the brand colour teal:
+For example, to make the brand color teal:
 
 ```css
 @theme {
@@ -110,7 +110,7 @@ Text is in the HTML files. The data the scripts need is at the top of `assets/js
 
 | Constant | Contents |
 |----------|----------|
-| `LANGS` | The six languages: `id` (used in URLs), `code`, `name`, `tone` (colour class) |
+| `LANGS` | The six languages: `id` (used in URLs), `code`, `name`, `tone` (color class) |
 | `LEVELS` | CEFR levels A1 to C1 with a name and a one-line description |
 | `COURSES` | Every course: `id`, `lang`, `level`, `format` (`in-person` or `online`), `title`, `days` (0 = Monday … 5 = Saturday), `start`, `end`, `weeks`, `starts` (`YYYY-MM-DD`), `fee` (pounds), `teacher`, `seats`, `room`, `summary`, `description` |
 | `KEEP_DEMO_CURRENT`, `TERM` | `true` and `{ starts: '2027-01-11', ends: '2027-03-26' }`: the term the courses belong to. Once it has started, the demo moves the term and every course start on by whole weeks to the same term next year (see [Demo dates](#demo-dates)). Set it to `false` once `COURSES` and `TERM` hold your real dates |
@@ -118,8 +118,8 @@ Text is in the HTML files. The data the scripts need is at the top of `assets/js
 | `SYLLABUS`, `OUTCOMES` | Five modules and four outcomes per level, shared by every language |
 | `BOOK_PRICE`, `CONCESSION` | The optional course book (£24) and the concession discount (0.15) |
 
-The course page, the related courses, the placement test's recommendations and the enrolment form are built from
-`COURSES`. The course cards on `index.html` and `courses.html`, the timetable, the teacher cards and the enrolment
+The course page, the related courses, the placement test's recommendations and the enrollment form are built from
+`COURSES`. The course cards on `index.html` and `courses.html`, the timetable, the teacher cards and the enrollment
 form's course list are HTML, so a new course needs both. To add one:
 
 1. Add an entry to `COURSES`:
@@ -184,10 +184,10 @@ anything else is ignored.
 
 `course.html?id=<course id>` shows that course: `initCoursePage()` fills every `[data-course-field]` (title, chips,
 schedule, start date, length in hours, place, teacher, fee, places left, overview, outcomes, syllabus and teacher
-tab), points the enrol button to `enrol.html?course=<id>#enrol` and the placement link to
+tab), points the enroll button to `enrol.html?course=<id>#enrol` and the placement link to
 `placement.html?lang=<language>`, rebuilds the related courses (other courses in the same language first) and sets the
 page title. The id is matched in any case; an unknown or missing id shows the course in the markup (the first one).
-Places left under four are shown in the accent colour.
+Places left under four are shown in the accent color.
 
 Syllabus weeks are spread over the course length (a two-week intensive shows "Part 1" to "Part 5"). Dates are plain
 strings formatted without `Date` objects, so the page shows the same thing in every time zone.
@@ -224,28 +224,28 @@ filtered, and choosing a filter updates the URL. Code: `initTeacherFilter()`.
 
 ### Timetable
 
-`timetable.html` shows one column per day with a card per class (`[data-session]`, coloured by language). Filters:
+`timetable.html` shows one column per day with a card per class (`[data-session]`, colored by language). Filters:
 language, format and time of day (mornings start before 12:00, lunchtimes before 17:00, evenings later; Saturdays
 match the Saturday column). Empty days show "No classes", and a message appears when nothing matches. Filters are
 kept in the URL (`?lang=&format=&time=`, any case). Code: `initTimetable()`.
 
-### Enrolment form
+### Enrollment form
 
 `enrol.html#enrol` is a four-step form (`form[data-enrol-form]`):
 
 1. **Course**: a required select grouped by language, with when, where, teacher and places left below it.
 2. **Your details**: first and last name, email (checked for a valid address), an optional phone (digits, spaces,
    `+`, `(`, `)` and `-`, at least seven digits), and whether you've studied the language before.
-3. **Options**: pay in full or in three monthly instalments, the 15% concession rate and the £24 course book.
+3. **Options**: pay in full or in three monthly installments, the 15% concession rate and the £24 course book.
 4. **Review**: everything you entered, the total and a required terms checkbox.
 
 The step indicator marks the current step with `aria-current="step"`; each step validates before moving on, shows
 inline errors and focuses the first invalid field. The summary (`[data-summary]`) updates live with the fee, the
-concession, the book, the total and, for instalments, the three payments (the last absorbs any rounding, so they add
+concession, the book, the total and, for installments, the three payments (the last absorbs any rounding, so they add
 up exactly). Fees are calculated in pence by `enrolQuote()`.
 
 `enrol.html?course=<id>` (any case, own ids only) chooses the course; the course page and placement result link
-here. Confirming shows a thank-you panel that confirms the enrolment, promises an email within one working day and
+here. Confirming shows a thank-you panel that confirms the enrollment, promises an email within one working day and
 shows a short reference (`LI-` and four characters, made in the browser by `makeRef()`; show your booking system's own
 reference instead if it returns one), and clears the draft. Code: `initEnrol()`.
 
@@ -260,7 +260,7 @@ and smooth scrolling are all off.
 ### Back to top
 
 A round button appears after scrolling about one screen. It scrolls to the top (instantly with reduced motion) and
-moves focus to `<main>`. It hides while it would cover the sticky course fee card or enrolment summary
+moves focus to `<main>`. It hides while it would cover the sticky course fee card or enrollment summary
 (`data-back-to-top-hide`). To remove it, delete the "Back to top" block at the end of `main.js` and the `.back-to-top`
 styles in `src/input.css`.
 
@@ -269,7 +269,7 @@ styles in `src/input.css`.
 | Form | Page | Validates |
 |------|------|-----------|
 | Placement test (`data-placement-form`) | `placement.html` | An answer on every step |
-| Enrolment (`data-enrol-form`) | `enrol.html` | Each step (see above) |
+| Enrollment (`data-enrol-form`) | `enrol.html` | Each step (see above) |
 | Contact (`data-form="contact"`) | `contact.html` | Name, email, message of at least 20 characters |
 | Newsletter (`data-form="newsletter"`) | Footer of every page | Email |
 
@@ -304,7 +304,7 @@ and remove the lines after it that reset the form and show the success message s
 that fill in `[data-ref]`, or use your form service's reference). To use different endpoints, branch on
 `form.dataset.form` (`contact`, `newsletter`).
 
-The enrolment form is sent in the same way from the last branch of its submit handler in `initEnrol()` (look for
+The enrollment form is sent in the same way from the last branch of its submit handler in `initEnrol()` (look for
 "To send for real"). Send `new FormData(form)`, or `JSON.stringify(draft)` plus `enrolQuote(draft)` if your booking
 system takes JSON, and show the thank-you panel only once it succeeds. Take real payments on your payment
 provider's own page, never in this form.
@@ -313,12 +313,12 @@ provider's own page, never in this form.
 
 | Key | Shape |
 |-----|-------|
-| `lingua:enrol:v1` | `{ course, first, last, email, phone, experience, plan, concession, book, heard }` — the enrolment in progress |
+| `lingua:enrol:v1` | `{ course, first, last, email, phone, experience, plan, concession, book, heard }` — the enrollment in progress |
 | `lingua:placement:v1` | `{ lang, answers }` — the last placement result (`answers`: ten numbers, each 0, 1 or 2) |
 
 Every read is validated:
 
-- the enrolment draft goes through `sanitizeDraft()`: `course` must be a course id, the text fields lose control
+- the enrollment draft goes through `sanitizeDraft()`: `course` must be a course id, the text fields lose control
   characters and are cut to their maximum length, `experience`, `plan` and `heard` must be one of their values and
   `concession` and `book` must be `true` to count. The repaired draft is written back, and JSON that can't be parsed
   is removed;
@@ -355,15 +355,15 @@ Built in:
 - visible focus rings (`:focus-visible` and `.choice:has(input:focus-visible)` in `src/input.css`);
 - one `h1` per page, and level badges with hidden "Level" text for screen readers;
 - form errors linked with `aria-describedby` and `aria-invalid`, focus moved to the first error, and focus moved to
-  each new step's heading in the placement test and enrolment form;
+  each new step's heading in the placement test and enrollment form;
 - tabs, toggle buttons and step indicators using the standard ARIA patterns (`role="tab"`, `aria-pressed`,
   `aria-current="step"`), and native radio buttons and checkboxes inside the choice cards;
-- live regions for filter counts, the course details in the enrolment form and the fee summary;
+- live regions for filter counts, the course details in the enrollment form and the fee summary;
 - reduced motion respected by reveals, the bobbing bubbles, smooth scrolling and the back-to-top button;
-- text colours that meet WCAG AA contrast; the language colours pair a light background with a dark text colour.
+- text colors that meet WCAG AA contrast; the language colors pair a light background with a dark text color.
 
 When editing, keep one `h1` per page, give every new input a `<label>`, keep `alt` text meaningful, and check contrast
-if you change colours.
+if you change colors.
 
 ## Building and deploying
 
@@ -397,12 +397,12 @@ leave out `src/`, `package.json` and the Markdown files when uploading.
 - **The course page always shows Spanish for Beginners.** The `id` in the URL must match an `id` in `COURSES`;
   unknown ids fall back to the course in the markup.
 - **A new course appears on its course page but not in the list or timetable.** The lists are HTML: add its card,
-  timetable entries and enrolment option too (see [Content](#content)).
-- **The enrolment form starts with someone else's details.** It restores the saved draft from this browser. Clear
+  timetable entries and enrollment option too (see [Content](#content)).
+- **The enrollment form starts with someone else's details.** It restores the saved draft from this browser. Clear
   `lingua:enrol:v1` (see [Saved data](#saved-data-localstorage)).
 - **The placement test opens on a result.** A previous result is saved; use "Start again", or link to
   `placement.html?lang=<language>` to start a fresh test.
-- **Fees on the cards don't match the enrolment total.** Card prices are HTML; the enrolment uses `COURSES[].fee`,
+- **Fees on the cards don't match the enrollment total.** Card prices are HTML; the enrollment uses `COURSES[].fee`,
   `CONCESSION` and `BOOK_PRICE`. Update both when you change prices.
 - **Social previews show no image.** Make `og:image` an absolute URL on your domain.
 

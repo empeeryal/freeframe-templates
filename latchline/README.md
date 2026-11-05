@@ -3,7 +3,7 @@
 A nine-page HTML5 and Tailwind CSS v4 website for Latchline, a customer onboarding platform in Reno, Nevada.
 Includes a six-stage board explorer, a dated plan preview, fifteen illustrated playbooks with a saved shortlist,
 customer stories with before-and-after charts, an active-onboarding pricing calculator, a resource library with a
-rolling monthly clinic, and a qualified sales enquiry with a demo time picker in Pacific time.
+rolling monthly clinic, and a qualified sales inquiry with a demo time picker in Pacific time.
 
 ## Quick start
 

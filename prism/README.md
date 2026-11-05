@@ -6,7 +6,7 @@ stats, pricing with a monthly/annual switch and a usage cost calculator, API doc
 buttons, a filterable changelog, a company and careers page, a talk-to-sales form and a 404 page. Plain HTML,
 Tailwind CSS v4 and vanilla JavaScript; every illustration is SVG or CSS.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.4** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/prism)
 
 ## Quick start

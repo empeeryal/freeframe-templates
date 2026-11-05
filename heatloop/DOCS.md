@@ -37,7 +37,7 @@ You only need Node.js 24 (for `npm`) if you change `src/input.css` or add Tailwi
 | `careers.html` | Careers | Workshop drawing, roles with team, location and remote filters, saved roles, role details dialog, benefits, hiring steps |
 | `company.html` | Company | Story and key figures, principles, team with drawn portraits, backers with their marks, timeline, press kit downloads (`#press`) |
 | `news.html` | News | Nine dated posts that expand in place (`#post-<id>`), topic filter, coming-up events, press contact |
-| `contact.html` | Contact | Enquiry form with type and role from the URL, office and workshop addresses, phone numbers, sketch map |
+| `contact.html` | Contact | Inquiry form with type and role from the URL, office and workshop addresses, phone numbers, sketch map |
 | `404.html` | Not found | Friendly 404 page with a cooling chart, for your host to serve |
 
 ## Project structure
@@ -66,11 +66,11 @@ heatloop/
 
 Most artwork is inline SVG inside the pages, so it follows the light and dark themes.
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
-Colours are CSS variables at the top of `src/input.css`: `:root` holds the light theme and `.dark` the dark
+Colors are CSS variables at the top of `src/input.css`: `:root` holds the light theme and `.dark` the dark
 theme. Tailwind reads them through `@theme inline`, so `bg-paper`, `text-copper`, `border-rule` and so on switch
 with the theme automatically.
 
@@ -86,7 +86,7 @@ with the theme automatically.
 | `--ochre`, `--ember` | `#c98a3a`, `#d4682a` | `#e0a052`, `#ee8a4c` | Tariff line and heat in drawings (decorative) |
 | `--field`, `--danger` | `#fbf9f4`, `#a3301c` | `#0f1b15`, `#ff9a85` | Form inputs, error messages |
 
-Three fixed colours in `@theme` don't change with the theme: `--color-pine` and `--color-pine-deep` (the green
+Three fixed colors in `@theme` don't change with the theme: `--color-pine` and `--color-pine-deep` (the green
 band and footer), `--color-cream` (text on it) and `--color-wheat` (labels on it). To change the brand green:
 
 ```css
@@ -126,7 +126,7 @@ Page text lives in the HTML files. Data that drives the interactions is at the t
 | `RESERVATIONS_AT_ANCHOR`, `RESERVATIONS_PER_WEEK`, `SURVEY_LEAD_MONTHS` | Reservation count and queue place, survey month |
 | `TEAMS`, `LOCATIONS`, `MODES`, `ROLES` | Careers: filters and the eleven roles |
 | `EVENT_RULES`, `EVENTS_SHOWN` | Coming-up events on the news page |
-| `CONTACT_TYPES`, `CONTACT_REPLY` | Contact enquiry types and which team replies |
+| `CONTACT_TYPES`, `CONTACT_REPLY` | Contact inquiry types and which team replies |
 
 Adding a role is one object in `ROLES` (the `team` and `location` keys must exist in `TEAMS` and `LOCATIONS`):
 
@@ -203,7 +203,7 @@ in a polite live region.
 
 Expected results: semi, oil, time-of-use, North East Scotland (the defaults): £1,262 now, £1,149 with a Heatloop,
 "£113 less a year", 4.0 t to 1.7 t (58% less), Heatloop 28. Semi with gas: "£130 more a year", 3.0 t to 1.7 t.
-Flat, direct electric, Economy 7, Southern England: "£687 less a year", Heatloop 18. The estimate is labelled as an
+Flat, direct electric, Economy 7, Southern England: "£687 less a year", Heatloop 18. The estimate is labeled as an
 estimate, says when a Heatloop would cost more to run, and the formula section shows every step with the
 visitor's numbers. Inputs are kept in the URL (see [URL parameters](#url-parameters)); "Copy link to this
 estimate" copies it, with the link shown as text if the clipboard isn't available.
@@ -257,7 +257,7 @@ today, regardless of the switch: the copyright year (`[data-year]`), the coming-
 
 ### Contact type and role
 
-`contact.html?type=press` preselects the enquiry type (own keys of `CONTACT_TYPES`); `?role=<id>` (an id in
+`contact.html?type=press` preselects the inquiry type (own keys of `CONTACT_TYPES`); `?role=<id>` (an id in
 `ROLES`) selects Careers and starts the message with "Application: <role title>".
 
 ### Header, mobile menu, scroll reveals and back to top
@@ -271,7 +271,7 @@ The menu button toggles `#mobile-menu` with `aria-expanded`; Esc closes it and r
 | Form | Page | Validates |
 |------|------|-----------|
 | `[data-reserve]` | `reserve.html` | Model chosen; postcode format; name; email; optional UK phone |
-| `#contact-form` | `contact.html` | Enquiry type, name, email, optional UK phone, message of at least 20 characters |
+| `#contact-form` | `contact.html` | Inquiry type, name, email, optional UK phone, message of at least 20 characters |
 | `#newsletter` | every page | Email |
 
 Errors appear under each field (linked with `aria-describedby`) and set `aria-invalid`; focus moves to the first

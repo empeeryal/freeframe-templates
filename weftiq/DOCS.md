@@ -2,7 +2,7 @@
 
 ## Overview
 
-Weftiq is a fictional workflow automation business in Wymondham. This HTML and Tailwind CSS website includes a twelve-recipe library, an editable workflow workbench, transparent pricing and connection guidance. Version 1.0.0 includes nine pages. Visit the [template page](https://freeframe.dev/templates/weftiq) for the live preview.
+Weftiq is a fictional workflow automation business in Wymondham. This HTML and Tailwind CSS website includes a twelve-recipe library, an editable workflow workbench, transparent pricing and connection guidance. Version 1.0.1 includes nine pages. Visit the [template page](https://freeframe.dev/templates/weftiq) for the live preview.
 
 ## Quick start
 
@@ -19,7 +19,7 @@ python3 -m http.server 8080
 ```
 
 Open `http://localhost:8080`.
-HTTP is recommended because browser storage behaviour can vary for local files.
+HTTP is recommended because browser storage behavior can vary for local files.
 Node.js 24 or newer is required only when rebuilding CSS.
 No browser framework, external JavaScript library or API credential is required.
 Google Fonts require a network connection; system sans-serif fonts remain available when offline.
@@ -29,13 +29,13 @@ Google Fonts require a network connection; system sans-serif fonts remain availa
 | File                | Purpose               | Notable features                                                           |
 | ------------------- | --------------------- | -------------------------------------------------------------------------- |
 | `index.html`        | Business introduction | Vertical workflow illustration, working principles, featured recipes       |
-| `recipes.html`      | Recipe library        | Twelve original diagrams, text and team filters, favourites                |
+| `recipes.html`      | Recipe library        | Twelve original diagrams, text and team filters, favorites                |
 | `recipe.html`       | Recipe detail         | Validated recipe identifier, trigger, condition, actions and care guidance |
 | `builder.html`      | Workflow workbench    | Editable nodes, rule checks, local run log, eight named flows              |
 | `pricing.html`      | Plans and estimates   | Task, AI credit and editor assumptions; monthly and annual calculations    |
 | `integrations.html` | Connection directory  | Twelve records, search, categories and setup disclosures                   |
 | `company.html`      | People and approach   | Three illustrated people and rolling workflow hours                        |
-| `contact.html`      | Business enquiry      | Validation, request reference and next steps                               |
+| `contact.html`      | Business inquiry      | Validation, request reference and next steps                               |
 | `404.html`          | Missing page          | Helpful links back into the website                                        |
 
 The recipe detail page reads `recipe` from its query string.
@@ -68,9 +68,9 @@ weftiq/
   LICENSE.txt             MIT license
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 Design tokens live in the `@theme` block of [src/input.css](src/input.css).
 The warm palette combines paper, peach, lemon, coral and dark ink.
@@ -95,8 +95,8 @@ For example:
 ```
 
 Rebuild CSS after editing tokens or utility classes.
-Check contrast after changing colours, especially muted text and button labels.
-The `.wrap`, `.btn`, `.field`, `.label`, `.save-button` and `.node-line` components hold repeated layout behaviour.
+Check contrast after changing colors, especially muted text and button labels.
+The `.wrap`, `.btn`, `.field`, `.label`, `.save-button` and `.node-line` components hold repeated layout behavior.
 
 ### Typography
 
@@ -182,9 +182,9 @@ There is no dark mode.
 
 ## Features
 
-### Recipe discovery and favourites
+### Recipe discovery and favorites
 
-`initRecipes` renders the catalogue and listens to search, team and view controls.
+`initRecipes` renders the catalog and listens to search, team and view controls.
 Search matches the title, summary and team label without case sensitivity.
 Views include all recipes, saved recipes, AI-assisted recipes and rules-only recipes.
 The visible count uses singular and plural wording.
@@ -217,7 +217,7 @@ No query parameter is executed as code.
 ### Workflow editing
 
 `initBuilder` owns the workbench state.
-`cleanFlow` normalises every draft and named flow.
+`cleanFlow` normalizes every draft and named flow.
 A flow has a name, trigger, condition, rule value and up to six actions.
 Names are limited to 60 characters; phrase rules are limited to 80.
 Urgency thresholds range from one to five.
@@ -259,14 +259,14 @@ Saving the same name, ignoring letter case, replaces the existing named flow.
 Saving another name at the limit produces a useful notice.
 Load restores the fields and draft; Remove deletes the named entry.
 Both operations work during the current page visit when browser storage is blocked.
-`readFlows` validates identifiers, removes duplicates and sanitises nested flows.
+`readFlows` validates identifiers, removes duplicates and sanitizes nested flows.
 A record whose `flow` is not an object with at least one known action (for example `{"id":"wf-abcdefg","flow":"x"}`) is dropped rather than replaced with a default flow.
 Saved names are escaped when rendered.
 Named flows contain process settings, so do not put personal information in their names.
 
 ### Cost calculator
 
-`initPricing` reads and writes sanitised settings.
+`initPricing` reads and writes sanitized settings.
 `priceFor` returns costs in pence to avoid display rounding errors.
 The included task allowances are 2,000, 8,000 and 20,000.
 Plan prices are £24, £59 and £129 per month.
@@ -321,7 +321,7 @@ Set `KEEP_CLINICS_CURRENT` to `false` to use `FIXED_CLINIC_DATES`.
 Replace that array with confirmed `YYYY-MM-DD` dates.
 Past fixed dates are hidden; an exhausted list shows a contact invitation.
 No card asserts a remaining place count or real-time availability.
-The enquiry link prefills `topic=clinic`.
+The inquiry link prefills `topic=clinic`.
 
 ### Menu and motion
 
@@ -334,8 +334,8 @@ Without JavaScript, content remains visible.
 
 ## Forms
 
-The contact form is the only enquiry form.
-Other forms filter records, add nodes, run local rules or calculate costs; they do not submit enquiries.
+The contact form is the only inquiry form.
+Other forms filter records, add nodes, run local rules or calculate costs; they do not submit inquiries.
 `initContact` validates a 2–100 character name, complete email up to 180 characters, 15–2,000 character message and consent.
 Field errors use `aria-invalid` and linked error text.
 The first invalid field receives focus.
@@ -384,7 +384,7 @@ Show production success only after `response.ok`.
 Handle network exceptions with the same visible error summary.
 Disable the submit button while waiting and re-enable it on failure.
 Validate on your server, add abuse controls and define a retention policy.
-Use an appropriate privacy notice before collecting real enquiries.
+Use an appropriate privacy notice before collecting real inquiries.
 
 ## Saved data (localStorage)
 
@@ -392,14 +392,14 @@ Every saved feature goes through `safeStorage` and `readJSON`/`writeJSON`.
 The wrapper retains an in-memory copy when localStorage access throws.
 This supports read-after-write interactions during the same page visit.
 Memory-only data ends on navigation or reload.
-Storage is browser-local and does not synchronise accounts or devices.
+Storage is browser-local and does not synchronize accounts or devices.
 No contact details or run messages are stored.
 
 | Key                    | Shape                                 | Read validation                                             |
 | ---------------------- | ------------------------------------- | ----------------------------------------------------------- |
-| `weftiq:favourites:v1` | Array of recipe ID strings            | Own catalogue IDs only; deduplicated; maximum twelve        |
-| `weftiq:draft:v1`      | Flow object                           | `cleanFlow` sanitises fields, rules, queues and six actions |
-| `weftiq:flows:v1`      | Array of `{id, flow}`                 | Valid `wf-` ID, unique IDs, sanitised flows, maximum eight  |
+| `weftiq:favourites:v1` | Array of recipe ID strings            | Own catalog IDs only; deduplicated; maximum twelve        |
+| `weftiq:draft:v1`      | Flow object                           | `cleanFlow` sanitizes fields, rules, queues and six actions |
+| `weftiq:flows:v1`      | Array of `{id, flow}`                 | Valid `wf-` ID, unique IDs, sanitized flows, maximum eight  |
 | `weftiq:pricing:v1`    | Plan, billing and numeric assumptions | `cleanPricing` validates plans and clamps ranges            |
 
 A flow shape is:
@@ -447,7 +447,7 @@ Motion respects `prefers-reduced-motion`.
 Native disclosures remain operable with keyboard input.
 Keep visible button words within their accessible names when editing labels.
 Maintain alternative text for informative diagrams.
-Test long names, zoom, narrow screens, keyboard navigation and colour contrast after customising.
+Test long names, zoom, narrow screens, keyboard navigation and color contrast after customizing.
 
 ## Building and deploying
 

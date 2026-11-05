@@ -2,12 +2,12 @@
 
 ## Overview
 
-Garage is a complete website for an independent car repair garage, MOT test centre or mechanic, shown as
+Garage is a complete website for an independent car repair garage, MOT test center or mechanic, shown as
 **Bellcrank Motor Works**, a fictional family-run garage in Spinners Yard, Kidderminster (UK). It has an open-now
 status in UK time, filterable services with guide prices, a fixed-price service checker, a booking request with UK
 number plate formatting, a drop-off calendar that skips Sundays and bank holidays and a courtesy car option, an MOT
 due-date calculator with saved reminders, reviews, a team page, a searchable FAQ and directions. The look is bold
-and mechanical: number-plate yellow on charcoal, condensed industrial type, chamfered "cut metal" corners, chequered
+and mechanical: number-plate yellow on charcoal, condensed industrial type, chamfered "cut metal" corners, checkered
 strips and technical SVG line drawings of cars and parts. This is the **HTML + Tailwind CSS v4** version (1.0.2):
 plain HTML files, one stylesheet and one vanilla JavaScript file, with no build step needed to run it.
 
@@ -65,11 +65,11 @@ garage/
   LICENSE.txt            MIT license (in the download)
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
-All colours are tokens in the `@theme` block of `src/input.css`:
+All colors are tokens in the `@theme` block of `src/input.css`:
 
 | Token | Default | Used for |
 |-------|---------|----------|
@@ -94,7 +94,7 @@ the tokens and rebuild:
 }
 ```
 
-Some SVG drawings use the same colours as literal hex values (`#ffd21f`, `#121316`); search and replace them if you
+Some SVG drawings use the same colors as literal hex values (`#ffd21f`, `#121316`); search and replace them if you
 change the palette.
 
 ### Typography
@@ -162,7 +162,7 @@ are `<li data-review data-rating="5" data-service="mot">` items in `reviews.html
 ### Images and artwork
 
 Every picture is SVG drawn for this template: the MOT inspection car on the home page, the brake assembly
-(`services.html`), the tyre tread section (`prices.html`), the calendar and certificate (`mot.html`), the rating gauge
+(`services.html`), the tire tread section (`prices.html`), the calendar and certificate (`mot.html`), the rating gauge
 (`reviews.html`), the workshop elevation (`about.html`), the map (`contact.html`) and the broken-down car (`404.html`)
 are inline in the pages; the team portraits are `assets/img/team/*.svg` (square, 200×200). To use photos instead, keep
 a square crop for portraits and replace the inline drawings with `<img>` elements of a similar aspect ratio (roughly
@@ -366,7 +366,7 @@ Each page has its own `<title>`, meta description, Open Graph tags and `theme-co
 - Results, counts and confirmations are live regions (`role="status"` / `aria-live="polite"`); form errors use
   `aria-invalid` and `aria-describedby`.
 - Drawings have `role="img"` with a `<title>`; decorative portraits have empty `alt`.
-- Colour contrast meets WCAG AA; yellow is only used behind black text or on black.
+- Color contrast meets WCAG AA; yellow is only used behind black text or on black.
 - Scroll reveals, the menu underline and smooth scrolling respect `prefers-reduced-motion`.
 
 When editing, keep one `<h1>` per page, give every new input a `<label>`, and keep `aria-describedby` ids in step
@@ -401,7 +401,7 @@ files and `assets/`.
   `prices.html`, `services.html` and `index.html`; update them together.
 - **Every slot is free or every day is full.** The demo availability is `slotTaken()` and `courtesyLeft()`; set
   `DEMO_SLOTS_TAKEN` to `0` or connect your booking diary there.
-- **A plate is rejected.** `parsePlate()` accepts the standard UK formats only; Northern Ireland and personalised
+- **A plate is rejected.** `parsePlate()` accepts the standard UK formats only; Northern Ireland and personalized
   formats outside them need another pattern added.
 - **Reminders disappear after closing the tab.** The browser is blocking storage (private mode, a sandboxed iframe);
   the site falls back to memory for that page view.

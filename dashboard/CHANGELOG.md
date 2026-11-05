@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.10] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.1.9] - 2026-11-04
 
 ### Fixed
@@ -75,7 +81,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 - An unknown stored products view no longer hides both the grid and the table.
 - The order status filters use `aria-pressed` instead of `aria-selected`, which isn't valid on plain buttons.
-- Raised low-contrast text to meet WCAG AA (axe colour-contrast checks now pass in light and dark).
+- Raised low-contrast text to meet WCAG AA (axe color-contrast checks now pass in light and dark).
 
 ## [1.1.0] - 2026-10-05
 

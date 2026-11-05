@@ -3,7 +3,7 @@
 ## Overview
 
 Flow is a multi-page website template for an independent yoga studio, built for Salt & Sage Yoga, a fictional
-studio above the harbour in Falmouth, Cornwall. It is plain HTML5, Tailwind CSS v4 and one vanilla JavaScript
+studio above the harbor in Falmouth, Cornwall. It is plain HTML5, Tailwind CSS v4 and one vanilla JavaScript
 file, with no framework and no build step needed to run it. The home page lists today's classes from the weekly
 timetable, the timetable can be filtered and shows what's on now and next, and visitors can reserve a specific mat
 and see it under My bookings. This guide covers version 1.0.3 (see `template.json`). Live demo:
@@ -32,7 +32,7 @@ CSS. See [Building and deploying](#building-and-deploying).
 | `classes.html` | Class styles | Seven styles with "good if" lists, length, room, teachers, next class and classes a week; level guide; health note |
 | `teachers.html` | Teachers | Four profiles with training, styles, next class and a link to their filtered timetable |
 | `pricing.html` | Prices | Intro offer, class passes, memberships, intro-offer calculator, short FAQ |
-| `workshops.html` | Workshops and retreats | Event cards with places left, kind filter, booking enquiry form |
+| `workshops.html` | Workshops and retreats | Event cards with places left, kind filter, booking inquiry form |
 | `guide.html` | Beginners' guide and FAQ | Five steps, what to bring, health note, searchable FAQ accordion |
 | `contact.html` | Contact | Illustrated map, address, today's opening times, travel notes, message form |
 | `404.html` | Not found | Links back into the site |
@@ -57,22 +57,22 @@ flow/
   LICENSE.txt                MIT license (in the download)
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 All design tokens are in the `@theme` block at the top of `src/input.css`:
 
 | Token | Use |
 |-------|-----|
 | `--color-sand`, `--color-shell`, `--color-dune`, `--color-drift`, `--color-line` | Page background, cards, soft panels, deeper panels, borders |
-| `--color-sea-50` ... `--color-sea-900` | Brand colour: buttons and links (700), dark bands (900) |
+| `--color-sea-50` ... `--color-sea-900` | Brand color: buttons and links (700), dark bands (900) |
 | `--color-clay-100` ... `--color-clay-700` | Warm accent: italic words, "On now", best-value bars |
 | `--color-sage-100` ... `--color-sage-700` | Level dots, ticks and leaves |
 | `--color-ink`, `--color-body`, `--color-mute` | Headings, body text, secondary text |
 | `--color-error` | Form errors |
 
-To change the brand colour, replace the sea scale with your own and rebuild the CSS:
+To change the brand color, replace the sea scale with your own and rebuild the CSS:
 
 ```css
 @theme {
@@ -129,7 +129,7 @@ appear twice: the cards and form options in `workshops.html` (each card has `dat
 
 So the demo always has upcoming events, each event in `EVENTS` has a rolling `rule`, worked out from today's date in
 London: `monthsAhead` (1 = next month), `weekday` (0 = Sunday ... 6 = Saturday) and `nth` (1–4, or -1 for the last one
-in the month). `days` sets how long it lasts (default 1). For your real programme, replace the rule with fixed UK dates;
+in the month). `days` sets how long it lasts (default 1). For your real program, replace the rule with fixed UK dates;
 an event with a `date` ignores its rule:
 
 ```js
@@ -140,14 +140,14 @@ inversions: { title: 'Arm balances & inversions, step by step', kind: 'workshop'
 ```
 
 The dates on the cards (`[data-event-when="<id>"]`), the short dates on the home page teasers
-(`[data-event-short="<id>"]`) and the enquiry form options are filled in from `EVENTS`. Without JavaScript the cards
+(`[data-event-short="<id>"]`) and the inquiry form options are filled in from `EVENTS`. Without JavaScript the cards
 read "Dates on request". Keep the ids: `?event=<id>` links use them.
 
 ### Images and artwork
 
 There are no photos. All artwork is SVG drawn for this template:
 
-- `pose-*.svg` (240x240): a line figure over a coloured pebble, used for class styles.
+- `pose-*.svg` (240x240): a line figure over a colored pebble, used for class styles.
 - `teacher-*.svg` (240x300): arch-shaped portraits. To use photos, keep a 4:5 ratio and the `arch` class on the
   wrapper so they get the same rounded top.
 - The home hero scene is inline SVG in `index.html` (460x560, arch frame).
@@ -228,7 +228,7 @@ rest. The concession only applies to memberships. Results are announced through 
 
 Each card in `workshops.html` has `data-event="<id>"`. Dates come from `EVENTS` (rolling rules or fixed dates, see
 [Workshop dates](#workshop-dates-rolling-or-fixed)) and the cards are sorted by date. Events whose end date is before
-today are hidden, and their option is removed from the enquiry form. The "Everything / Workshops / Retreats" buttons
+today are hidden, and their option is removed from the inquiry form. The "Everything / Workshops / Retreats" buttons
 in `[data-kind-filter]` use `aria-pressed`. An "Enquire" button preselects the event in the form, and
 `workshops.html?event=scilly#enquire` does the same from another page (only ids in `EVENTS` are accepted).
 
@@ -253,14 +253,14 @@ There are two forms, both with `novalidate`, `data-validate-form`, inline errors
 
 | Form | Page | Validates |
 |------|------|-----------|
-| Booking enquiry (`[data-enquiry-form]`) | `workshops.html` | Event chosen, name, valid email, optional phone format, terms ticked |
+| Booking inquiry (`[data-enquiry-form]`) | `workshops.html` | Event chosen, name, valid email, optional phone format, terms ticked |
 | Message (`[data-contact-form]`) | `contact.html` | Name, valid email, topic chosen, message of at least 10 characters |
 
 Each field names its error element with `data-error-id` and is linked to it with `aria-describedby`. On submit, the
 first invalid field gets focus and a summary appears in a `role="alert"` paragraph. The success state confirms the
-message or enquiry has reached the studio, shows a short reference in `[data-success-ref]` (`SS-` and four
+message or inquiry has reached the studio, shows a short reference in `[data-success-ref]` (`SS-` and four
 characters, made in the browser by `makeRef()`) and says what happens next: a reply within one working day for
-messages and within two working days, with a deposit link, for workshop enquiries. If your form service returns
+messages and within two working days, with a deposit link, for workshop inquiries. If your form service returns
 its own reference, show that instead, and change the reply times to match how you actually handle messages.
 
 **The forms don't send anything until you connect them**, although their success states read as if they had. To use Formspree (or any form service that accepts
@@ -307,7 +307,7 @@ its `<head>`. Before you launch:
 ## Accessibility
 
 - Skip link, landmarks (`header`, `nav`, `main`, `footer`), one `<h1>` per page and a logical heading order.
-- Visible focus rings (`:focus-visible`), WCAG AA colour contrast on sand, shell and dune backgrounds.
+- Visible focus rings (`:focus-visible`), WCAG AA color contrast on sand, shell and dune backgrounds.
 - Native `<dialog>` for booking, a radio group for mats, `aria-pressed` filter buttons, `<details>` for accordions.
 - Live regions for timetable counts, FAQ results, the calculator and booking confirmations.
 - `prefers-reduced-motion` turns off reveals, drifting and the breathing dot.

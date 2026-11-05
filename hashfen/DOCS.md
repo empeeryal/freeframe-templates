@@ -2,7 +2,7 @@
 
 ## Overview
 
-Hashfen is a fictional network research product based in Sleaford, built with standalone HTML, Tailwind CSS v4 and dependency-free JavaScript. Version 1.0.0 includes nine pages, twelve original network profiles, transaction modelling, a research workspace and a pricing calculator. See the [template page](https://freeframe.dev/templates/hashfen) for the live preview.
+Hashfen is a fictional network research product based in Sleaford, built with standalone HTML, Tailwind CSS v4 and dependency-free JavaScript. Version 1.0.1 includes nine pages, twelve original network profiles, transaction modeling, a research workspace and a pricing calculator. See the [template page](https://freeframe.dev/templates/hashfen) for the live preview.
 
 The profiles describe invented networks and editable assumptions. The product does not connect wallets, request secrets, move funds or query blockchains. Replace the research content with reviewed material appropriate to your business before publishing.
 
@@ -32,14 +32,14 @@ Run these commands from this template folder, where [package.json](package.json)
 | File            | Purpose              | Features                                                          |
 | --------------- | -------------------- | ----------------------------------------------------------------- |
 | `index.html`    | Product introduction | Original network artwork, research method, featured profiles      |
-| `networks.html` | Network catalogue    | Search, architecture filter, sorting, watchlist buttons           |
+| `networks.html` | Network catalog    | Search, architecture filter, sorting, watchlist buttons           |
 | `network.html`  | Individual profile   | Validated network parameter, assumptions, risks, related profiles |
 | `planner.html`  | Transaction planning | Editable fee calculation, sensitivity, saved scenarios            |
 | `research.html` | Research workspace   | Saved profiles, notes, comparison table, add/remove/clear         |
 | `pricing.html`  | Subscription plans   | Three plans and a seat/lookup usage calculator                    |
-| `learn.html`    | Research library     | Nine searchable, categorised expandable notes                     |
+| `learn.html`    | Research library     | Nine searchable, categorized expandable notes                     |
 | `company.html`  | Company and contact  | Three people, methods, contact request and success state          |
-| `404.html`      | Missing page         | Useful routes back to the catalogue and planner                   |
+| `404.html`      | Missing page         | Useful routes back to the catalog and planner                   |
 
 All paths are relative. Keep the pages and `assets` directory together when deploying under a subdirectory.
 
@@ -70,9 +70,9 @@ hashfen/
 
 The social image source is `assets/img/og-image.svg`; `assets/img/og-image.png` is its 1200 × 630 raster export.
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 Edit the `@theme` block in [src/input.css](src/input.css). The main tokens are:
 
@@ -87,7 +87,7 @@ Edit the `@theme` block in [src/input.css](src/input.css). The main tokens are:
 | `--color-lime`   | `#c9f76b` | Calls to action, focus and calculated totals |
 | `--color-violet` | `#bda5f1` | Labels, accents and link decoration          |
 
-For example, change the accent while retaining a light colour against the dark canvas:
+For example, change the accent while retaining a light color against the dark canvas:
 
 ```css
 @theme {
@@ -95,7 +95,7 @@ For example, change the accent while retaining a light colour against the dark c
 }
 ```
 
-Rebuild CSS after editing. Check button text, input boundaries and focus contrast when changing tokens. Update the SVG palette separately; SVG colours do not inherit Tailwind tokens.
+Rebuild CSS after editing. Check button text, input boundaries and focus contrast when changing tokens. Update the SVG palette separately; SVG colors do not inherit Tailwind tokens.
 
 ### Typography
 
@@ -107,16 +107,16 @@ To switch families, replace the Google Fonts link on all nine pages and update b
 
 ### Content
 
-Static copy lives in the HTML pages. Shared catalogue content lives in [assets/js/data.js](assets/js/data.js), exposed as `window.HASHFEN_DATA`.
+Static copy lives in the HTML pages. Shared catalog content lives in [assets/js/data.js](assets/js/data.js), exposed as `window.HASHFEN_DATA`.
 
-| Catalogue  | Contents                                                                       |
+| Catalog  | Contents                                                                       |
 | ---------- | ------------------------------------------------------------------------------ |
 | `networks` | Twelve networks, IDs, labels, assumptions, artwork and operating questions     |
 | `guides`   | Nine notes with category, title, summary, paragraphs and a closing check       |
 | `plans`    | Three subscription plans, allowances, additional-place and lookup-block prices |
 | `team`     | Three people, roles, biographies and portrait paths                            |
 
-In [assets/js/main.js](assets/js/main.js), these become `NETWORKS`, `GUIDES`, `PLANS` and `TEAM`. `NETWORK_MAP` and `PLAN_MAP` are generated from catalogue IDs.
+In [assets/js/main.js](assets/js/main.js), these become `NETWORKS`, `GUIDES`, `PLANS` and `TEAM`. `NETWORK_MAP` and `PLAN_MAP` are generated from catalog IDs.
 
 To add a profile, copy a complete existing object from `networks`, give it a unique lower-case ID and supply every field, including `checks`, `metrics`, `index` and `art`.
 
@@ -160,7 +160,7 @@ Header, mobile navigation and footer are repeated in each HTML file. Apply navig
 
 `initMenu` controls `data-menu-toggle` and `#mobile-menu`. The control updates its expanded state, focuses the first link when opening and returns focus when Escape closes it. At desktop width the mobile menu closes.
 
-The theme is deliberately dark and does not include a theme switch or theme storage key. Operating-system colour preferences do not change its palette.
+The theme is deliberately dark and does not include a theme switch or theme storage key. Operating-system color preferences do not change its palette.
 
 ## Features
 
@@ -168,7 +168,7 @@ The theme is deliberately dark and does not include a theme switch or theme stor
 
 `initNetworkLibrary` reads `NETWORKS`, `LAYERS` and `SORTS`, then renders `card` entries into `data-network-grid`. Search covers the name, consensus, use and heading. Sorting supports name, fee and finality.
 
-The `q`, `layer` and `sort` URL parameters initialise the controls; subsequent edits stay on the page without rewriting the URL. Unknown sort and architecture values use safe defaults. The result count is a live status and the empty state offers a reset.
+The `q`, `layer` and `sort` URL parameters initialize the controls; subsequent edits stay on the page without rewriting the URL. Unknown sort and architecture values use safe defaults. The result count is a live status and the empty state offers a reset.
 
 `initNetworkDetail` uses the `network` parameter and an own-property lookup against `NETWORK_MAP`. Unknown IDs, including inherited property names, fall back to Velcrux. It updates the document title and social description to match the selected profile.
 
@@ -203,15 +203,15 @@ Scenario names are limited to 60 characters and notes to 400. The save status is
 
 ### Research watchlist
 
-`toggleWatch`, `updateWatchUI`, `initResearch` and `renderResearch` share saved profiles across the catalogue, details and workspace. The workspace also has its own add selector so saving remains useful when browser storage is unavailable.
+`toggleWatch`, `updateWatchUI`, `initResearch` and `renderResearch` share saved profiles across the catalog, details and workspace. The workspace also has its own add selector so saving remains useful when browser storage is unavailable.
 
 Each saved profile has a note capped at 600 characters. Input updates saved state without replacing the active textarea. Adding or removing another profile re-renders the workspace from the saved state, retaining notes.
 
-The comparison table uses saved catalogue assumptions. On narrow screens it scrolls inside its own wrapper. Remove and clear actions return keyboard focus to a surviving control.
+The comparison table uses saved catalog assumptions. On narrow screens it scrolls inside its own wrapper. Remove and clear actions return keyboard focus to a surviving control.
 
 ### Pricing calculator
 
-`initPricing` reads `PLANS`; `priceCalculation` derives all charges from catalogue prices. Seats are clamped to 1–100 and lookups to 0–1,000,000. This calculator does not persist inputs.
+`initPricing` reads `PLANS`; `priceCalculation` derives all charges from catalog prices. Seats are clamped to 1–100 and lookups to 0–1,000,000. This calculator does not persist inputs.
 
 Additional places are charged above the included allowance. Additional lookups are rounded up to blocks of 10,000. Annual pricing discounts the base subscription only; additions are charged at their monthly rate multiplied by twelve.
 
@@ -237,7 +237,7 @@ The network filter, guide filter, research picker, planner, scenario save and pr
 
 The contact form in [company.html](company.html) is front-end-only and does not transmit data until you connect a backend. It validates names of 2–100 characters, email format up to 180 characters, messages of 12–2,000 characters and an allowed topic. Each problem is shown beside its own field.
 
-Organisation is optional. Contact details are not stored in localStorage. On success the form gives a reference and a next step. No email is sent by this standalone version.
+Organization is optional. Contact details are not stored in localStorage. On success the form gives a reference and a next step. No email is sent by this standalone version.
 
 Connect a form service inside `initContact`, immediately after validation and before reference generation. Make the submit listener asynchronous and replace the integration comment with an awaited request:
 
@@ -272,7 +272,7 @@ All saved features use one `safeStorage` adapter. It mirrors writes into a memor
 
 `readJSON` removes malformed JSON. `cleanWatch` accepts records with an items array, checks own ID properties, rejects unknown IDs, removes duplicates and truncates notes. `cleanPlanner` starts with profile defaults, reads own numeric properties, clamps ranges and restricts finality windows. Inputs saved under the earlier `gas` property name are read as `units`.
 
-`cleanScenarios` accepts only arrays, requires a unique `hf-` ID matching its pattern, a non-empty name and a values record, then sanitises each calculation. The read functions rewrite valid JSON to its normalised shape. All three stores are checked at boot, even on pages that do not display them.
+`cleanScenarios` accepts only arrays, requires a unique `hf-` ID matching its pattern, a non-empty name and a values record, then sanitizes each calculation. The read functions rewrite valid JSON to its normalized shape. All three stores are checked at boot, even on pages that do not display them.
 
 Use Clear watchlist and Clear saved scenarios in their respective pages. To reset all persisted settings through the browser console:
 
@@ -285,11 +285,11 @@ location.reload();
 
 Blocked storage retains changes only in the current page. Reloading or navigating discards that memory fallback. Use the workspace add selector and planner's saved scenario controls to exercise every feature on the same page.
 
-Research notes are local to this browser, not synchronised to a server. Do not use them for secrets, private keys, seed phrases or personal contact information.
+Research notes are local to this browser, not synchronized to a server. Do not use them for secrets, private keys, seed phrases or personal contact information.
 
 ## SEO and sharing
 
-Each HTML head has a unique title and description, Open Graph tags, theme colour and favicon. `network.html` updates its title and descriptions after selecting a valid profile; crawlers without JavaScript receive the default profile metadata.
+Each HTML head has a unique title and description, Open Graph tags, theme color and favicon. `network.html` updates its title and descriptions after selecting a valid profile; crawlers without JavaScript receive the default profile metadata.
 
 Replace the relative `og:image` value on every page with the absolute public URL of `assets/img/og-image.png`, such as `https://your-domain.example/assets/img/og-image.png`. Use your real production domain when launching.
 
@@ -305,7 +305,7 @@ Results and save actions use status messages. Watchlist buttons expose pressed s
 
 The mobile menu supports Escape and focus return. Native guide disclosures support keyboard use without custom roles. Tables keep a caption and scoped header cells.
 
-Reduced motion disables reveal transitions. When changing colours or imagery, recheck contrast, 200% zoom, keyboard order, meaningful image alternatives and narrow-screen overflow.
+Reduced motion disables reveal transitions. When changing colors or imagery, recheck contrast, 200% zoom, keyboard order, meaningful image alternatives and narrow-screen overflow.
 
 ## Building and deploying
 
@@ -324,7 +324,7 @@ npm run watch
 
 `src/input.css` scans this template through `source("../")`. Keep the compiled output at `assets/css/style.css` and deploy all HTML, CSS, JS and artwork together.
 
-Upload the folder to any static host, including GitHub Pages, Netlify or Cloudflare Pages. Configure the host's missing-page behaviour to use `404.html`. A backend integration for contact requests is a separate deployment concern.
+Upload the folder to any static host, including GitHub Pages, Netlify or Cloudflare Pages. Configure the host's missing-page behavior to use `404.html`. A backend integration for contact requests is a separate deployment concern.
 
 Test the deployed URLs under the actual base path. Cache fingerprinting is not built in; invalidate stale CSS/JS when publishing an update.
 
@@ -338,7 +338,7 @@ Test the deployed URLs under the actual base path. Cache fingerprinting is not b
 | A profile link opens Velcrux                      | Check the exact `network` ID against `networks` in `data.js`                            |
 | Contact requests do not arrive                    | Connect and verify a backend inside `initContact`; the standalone form does not send    |
 | Annual estimate differs from ten monthly payments | Only the base plan is discounted; additional places and lookup blocks use twelve months |
-| A changed catalogue ignores old saved entries     | Known-ID validation deliberately removes deleted or renamed IDs                         |
+| A changed catalog ignores old saved entries     | Known-ID validation deliberately removes deleted or renamed IDs                         |
 | Social previews show an old image                 | Regenerate the PNG, set an absolute `og:image` and refresh the platform's preview cache |
 
 ## License

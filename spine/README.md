@@ -1,13 +1,13 @@
 # Spine — HTML + Tailwind CSS template
 
-A bookstore website for **Larchmere Books**, a fictional independent bookshop with a café corner on Maple Street in
+A bookstore website for **Larchmere Books**, a fictional independent bookstore with a café corner on Maple Street in
 Burlington, Vermont: a home page with a bookshelf drawn in SVG and handwritten staff picks, a shop of twenty-five
 books filtered by genre, format and price, book pages with hardcover or paperback choices, a saved bag with free
 store pickup or shipping, an events calendar with RSVPs, five book clubs with monthly picks, a four-question reading
 finder, a visit page with live hours and holidays, and a 404 page. Every cover is drawn from the book data, so there
 are no photos to replace. Plain HTML, Tailwind CSS v4 and vanilla JavaScript.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.3** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/spine)
 
 ## Quick start

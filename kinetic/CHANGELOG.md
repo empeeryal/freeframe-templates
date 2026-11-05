@@ -6,6 +6,12 @@ All notable changes to the Kinetic HTML template are documented here. The format
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.4] - 2026-11-04
 
 ### Fixed
@@ -39,10 +45,10 @@ All notable changes to the Kinetic HTML template are documented here. The format
 ### Added
 
 - Eight pages for Fenline Performance, a fictional two-coach personal training studio in Cambridge: home,
-  programmes, pricing, client results, training tools, about, contact and online booking, plus a 404 page.
-- Home page goal picker with a recommended programme, coach, price and first six weeks for each of five goals,
+  programs, pricing, client results, training tools, about, contact and online booking, plus a 404 page.
+- Home page goal picker with a recommended program, coach, price and first six weeks for each of five goals,
   remembered in `localStorage`, and a live "next free consult" badge.
-- Programmes and client stories filterable by goal, with `?goal=` links that can be shared.
+- Programs and client stories filterable by goal, with `?goal=` links that can be shared.
 - Booking flow with six session types, a coach step with each coach's next opening, a week view built from coach
   shifts, small-group classes, session length and notice periods, PAR-Q style health questions with a
   "please talk to us first" outcome, and a confirmation with a `.ics` download (demo only, nothing is booked).

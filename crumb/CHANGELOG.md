@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.5] - 2026-11-04
 
 ### Fixed
@@ -54,7 +60,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - Initial release with 8 pages: Home, Preorder, Celebration cakes, Café menu, Checkout, Our story,
   Visit & wholesale, 404.
 - Live “fresh out of the oven” board: out at, baking now, on the shelf and sold out, from the bake schedule in the bakery’s time zone
-- Preorder catalogue with shelf filters, shareable ?category= links and a “baked that day” toggle
+- Preorder catalog with shelf filters, shareable ?category= links and a “baked that day” toggle
 - Per-day bake availability, quantity limits and days’ notice for whole cakes
 - Basket drawer with collection day, half-hour slots from opening hours, a 2pm next-day cut-off and notes
 - Celebration cake builder with a live SVG drawing, price breakdown, message limit and lead-time date

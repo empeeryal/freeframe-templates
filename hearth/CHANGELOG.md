@@ -4,6 +4,12 @@ All notable changes to the Hearth template (HTML + Tailwind CSS) are documented 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the template uses
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.5] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.4] - 2026-11-04
 
 ### Fixed
@@ -14,8 +20,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### Fixed
 
-- The room enquiry, gift voucher, contact and newsletter confirmations no longer tell guests the form is a demo
-  and nothing was sent. The enquiry and contact panels confirm the message reached the inn, promise a reply
+- The room inquiry, gift voucher, contact and newsletter confirmations no longer tell guests the form is a demo
+  and nothing was sent. The inquiry and contact panels confirm the message reached the inn, promise a reply
   within a day (as the pages already say) and show a reference like FH-7K2Q; the voucher panel confirms the
   order with a reference and says how the voucher will arrive; the newsletter panel asks subscribers to look
   out for a confirmation email. `DOCS.md` describes the reference, and its version line now reads 1.0.3.
@@ -44,8 +50,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - "Fire's lit" status, today's bar, kitchen and breakfast hours, and the next event, all worked out from the
   opening hours in UK time (Europe/London).
 - Stay checker with date, guest and dog validation, a Saturday two-night minimum, seasonal nightly rates priced
-  night by night, a dog fee, demo availability and a booking enquiry form.
-- Booking enquiry draft (dates, guests, dogs, room and contact details) saved in the browser, validated on every
+  night by night, a dog fee, demo availability and a booking inquiry form.
+- Booking inquiry draft (dates, guests, dogs, room and contact details) saved in the browser, validated on every
   read and kept in memory when storage is blocked.
 - Menus for breakfast, lunch, dinner and Sunday roast in accessible tabs, with a vegetarian, vegan and
   gluten-free filter and a chalkboard of specials for each day of the week.

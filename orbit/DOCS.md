@@ -9,7 +9,7 @@ pricing with a calculator, an integrations directory, customer stories, a change
 page, a sales form and a three-step trial sign-up. It is plain HTML with Tailwind CSS v4 and one vanilla
 JavaScript file, with no build step needed to use it. The design is light and friendly: warm paper
 backgrounds, pastel panels, a coral accent, rounded UI and the Gabarito display face. This guide covers
-version 1.0.3. See it live at [freeframe.dev/templates/orbit](https://freeframe.dev/templates/orbit).
+version 1.0.4. See it live at [freeframe.dev/templates/orbit](https://freeframe.dev/templates/orbit).
 
 ## Quick start
 
@@ -53,9 +53,9 @@ orbit/
   README.md, DOCS.md, CHANGELOG.md
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 The design tokens live in the `@theme` block of `src/input.css`. Every utility such as `bg-cream`,
 `text-ink-soft` or `bg-coral-500` comes from them.
@@ -70,7 +70,7 @@ The design tokens live in the `@theme` block of `src/input.css`. Every utility s
 | `--color-peach`, `-mint`, `-lilac`, `-butter`, `-sky`, `-blush` | pastels | Panels, shift blocks, chips |
 | `--color-peach-ink`, `-mint-ink`, … | deep partners | Text placed on the matching pastel |
 
-To change the brand colour, edit the coral scale and rebuild:
+To change the brand color, edit the coral scale and rebuild:
 
 ```css
 @theme {
@@ -107,7 +107,7 @@ All text is in the HTML files. The settings behind the interactive parts are at 
 
 Lists of things are written directly in the HTML so they work without JavaScript:
 
-- **Integrations**: each card in `integrations.html` is an `<li data-filter-item="integrations" data-tags="payroll" data-search="...">`. The drawer content is the `<template data-detail>` inside the card. To add one, copy a card, change the logo colour, name, category (`data-tags`), the `data-drawer-open` id, the lowercase `data-search` words and the template text.
+- **Integrations**: each card in `integrations.html` is an `<li data-filter-item="integrations" data-tags="payroll" data-search="...">`. The drawer content is the `<template data-detail>` inside the card. To add one, copy a card, change the logo color, name, category (`data-tags`), the `data-drawer-open` id, the lowercase `data-search` words and the template text.
 - **Customer stories**: `<li data-filter-item="customers" data-tags="hotels">` in `customers.html`. Industries are `restaurants`, `cafes`, `hotels`, `retail` and `leisure`.
 - **Changelog entries**: `<li data-filter-item="changelog" data-tags="new mobile">` in `changelog.html`, each with an `id` for deep links.
 - **Plans**: the cards and the comparison table in `pricing.html`.
@@ -135,7 +135,7 @@ There are no photos. Everything is SVG or CSS:
   `assets/img/favicon.svg`.
 - **Customer wordmarks** (Lantern Coffee, Fernhill Hotels and others) are inline SVG with `role="img"` and an
   `aria-label`. Keep those when you replace them with real logos.
-- **Integration logos** are coloured rounded squares with a white glyph, inline SVG and `aria-hidden` (the name
+- **Integration logos** are colored rounded squares with a white glyph, inline SVG and `aria-hidden` (the name
   is next to them).
 - **Avatars** are illustrated SVG portraits. To use photos, replace an `<svg>` with an `<img>` of the same size
   classes (square; at least 640×640 px for the team grid, 96×96 px elsewhere) and a real `alt`.
@@ -179,7 +179,7 @@ The hero of `index.html` has a week schedule (`#schedule-demo`) for five people.
 
 `#tour` on the home page is a vertical `role="tablist"` with four tabs that swap HTML mock-ups. `initTabs()`
 (section 5) handles click, Arrow keys, Home and End with a roving `tabindex`. Any `role="tablist"` on any page
-gets the same behaviour; panels are linked with `aria-controls`.
+gets the same behavior; panels are linked with `aria-controls`.
 
 ### Pricing and calculator
 
@@ -306,9 +306,9 @@ page) and `FAQPage` JSON-LD are good additions.
 
 Built in:
 
-- Skip link to `#main`, landmarks (`header`, labelled `nav`s, `main`, `footer`) and one `<h1>` per page with
+- Skip link to `#main`, landmarks (`header`, labeled `nav`s, `main`, `footer`) and one `<h1>` per page with
   ordered headings.
-- Visible coral focus rings and colour contrast that passes WCAG AA; pastel chips always use their deep `-ink`
+- Visible coral focus rings and color contrast that passes WCAG AA; pastel chips always use their deep `-ink`
   partner for text.
 - ARIA patterns: menu button with `aria-expanded`, tabs with roving `tabindex`, a radiogroup billing switch,
   accordion buttons, `aria-pressed` filters, a modal `<dialog>`, a step indicator with `aria-current`, and live

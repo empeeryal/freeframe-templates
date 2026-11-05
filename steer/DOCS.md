@@ -28,7 +28,7 @@ You only need Node.js 24 or newer if you want to change the styles and rebuild t
 
 | File | Purpose | Notable sections and features |
 |------|---------|-------------------------------|
-| `index.html` | Home | Hero with postcode check and the next free lesson card, stats band, lesson types, four steps to a licence, instructor strip with next free times, theory teaser, latest passes, new-pupil offer |
+| `index.html` | Home | Hero with postcode check and the next free lesson card, stats band, lesson types, four steps to a license, instructor strip with next free times, theory teaser, latest passes, new-pupil offer |
 | `lessons.html` | Lessons & prices | Price list, block booking table, intensive courses with start dates, Pass Plus, price calculator |
 | `instructors.html` | Instructors | Gearbox, area and language filters, six instructor cards with portrait, car, areas, languages, days, hours, pass rate and next free lesson, "Choose" button |
 | `book.html` | Book a lesson | Pick-up postcode check, gearbox, lesson length, instructor, seven-day week view of free times, details form, summary panel and confirmation |
@@ -58,9 +58,9 @@ steer/
   CHANGELOG.md              version history
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 The design tokens live in the `@theme` block at the top of `src/input.css`:
 
@@ -84,7 +84,7 @@ Yellow is only used behind dark text or on dark backgrounds, never as text on wh
 }
 ```
 
-Then rebuild the CSS. The SVG artwork uses the same colours as literal hex values, so search the HTML and
+Then rebuild the CSS. The SVG artwork uses the same colors as literal hex values, so search the HTML and
 `assets/img/` for `#0b4f6c` and `#ffc531` if you want the drawings to follow.
 
 ### Typography
@@ -158,7 +158,7 @@ To add a pass, add an object to `PASSES` with a past `date` (`YYYY-MM-DD`), an `
 All artwork is inline SVG or SVG files: the hero roundabout scene, lesson-type icons, the motorway scene, the quiz
 card, the district map, four test-route drawings, the office street map and the 404 three-point turn are inline in the
 pages; instructor portraits are `assets/img/instructors/*.svg` (200 × 200, shown in circles); instructor cars are
-drawn by `carSvg()` in `main.js` from each instructor's `car` colour and body. To use photos instead, replace the
+drawn by `carSvg()` in `main.js` from each instructor's `car` color and body. To use photos instead, replace the
 portrait `src` in `portrait()` with your own square images (at least 400 × 400).
 
 The social image is `assets/img/og-image.png` (1200 × 630), generated from `assets/img/og-image.svg`. Edit the SVG,
@@ -220,7 +220,7 @@ times in the next seven days. The instructor cards, home strip and areas panel s
    ahead. Each day lists free start times as buttons with `aria-pressed`; a day off shows why (Sunday, a bank holiday
    name, the Christmas break). When several instructors are free at once, the saved instructor wins, then the first
    in `INSTRUCTORS`. If nothing is free in the visible week, a link jumps to the next free time.
-4. **Details**: name, mobile, email, provisional licence status, first-lesson offer and notes.
+4. **Details**: name, mobile, email, provisional license status, first-lesson offer and notes.
 
 The summary panel shows the pick-up, lesson, instructor, time and price (the first two hours at `FIRST_RATE` when "This
 is my first lesson" is ticked). Submitting shows a confirmation with a reference such as `BL-4K7QZ` and what happens
@@ -243,7 +243,7 @@ district on the map; a by-arrangement result highlights its pill.
 - Intensive courses: the fixed `INTENSIVES` price, which includes the test car; the new-pupil offer doesn't apply.
 - Pass Plus can be added to either.
 
-It shows each line, the total, the average per hour (everything but Pass Plus divided by the lesson hours, labelled
+It shows each line, the total, the average per hour (everything but Pass Plus divided by the lesson hours, labeled
 "test car included" whenever the test car is in the price, as it always is for an intensive course), the saving
 against pay-as-you-go and a rough number of weeks at two hours a week. The block table and intensive cards on the same page are built from the same constants. "Copy
 link" copies a URL with the choices; if the clipboard isn't available the link is shown instead.
@@ -313,7 +313,7 @@ block at the end of `main.js`; sticky panels marked `data-back-to-top-hide` hide
 | Form | Where | Validates |
 |------|-------|-----------|
 | Postcode check | `index.html`, `areas.html` `[data-postcode-form]` | A UK postcode or its first half |
-| Booking request | `book.html` `[data-booking]` | Covered postcode, a picked time, name, UK phone, email, licence status |
+| Booking request | `book.html` `[data-booking]` | Covered postcode, a picked time, name, UK phone, email, license status |
 | Contact | `contact.html` `[data-contact-form]` | Name, email, optional UK phone, message (10+ characters); `?topic=` preselects the subject |
 
 Errors appear under each field (`[data-error="name"]`) with `aria-invalid`, and focus moves to the first problem. The
@@ -384,7 +384,7 @@ Each page has its own `<title>`, meta description, Open Graph tags and `theme-co
 - Counts, results and confirmations are live regions (`role="status"` / `aria-live="polite"`); form errors use
   `aria-invalid` and `aria-describedby`.
 - Drawings have `role="img"` with a `<title>`; decorative portraits have empty `alt`.
-- Colour contrast meets WCAG AA; yellow is only used behind dark text or on dark backgrounds.
+- Color contrast meets WCAG AA; yellow is only used behind dark text or on dark backgrounds.
 - Scroll reveals, the progress bar and smooth scrolling respect `prefers-reduced-motion`.
 
 When editing, keep one `<h1>` per page, give every new input a `<label>`, and keep `aria-describedby` ids in step with

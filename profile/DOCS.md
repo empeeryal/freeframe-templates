@@ -6,7 +6,7 @@ Profile is a developer portfolio with a résumé, projects, writing and a ⌘K c
 person is **Sam Lindqvist**, a fictional engineer. It pairs a printable résumé and a filterable project
 gallery with a writing archive, a `/uses` page and a validated contact form, with persistent dark mode
 and keyboard-first navigation. It is built with HTML5, Tailwind CSS v4 and vanilla JavaScript, and needs
-no build step. This guide covers version 1.1.9.
+no build step. This guide covers version 1.1.10.
 
 Live demo: [freeframe.dev/templates/profile](https://freeframe.dev/templates/profile)
 
@@ -54,13 +54,13 @@ profile/
 └── DOCS.md                this guide
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
-The accent colour is a scale in the `@theme` block at the top of `src/input.css`
+The accent color is a scale in the `@theme` block at the top of `src/input.css`
 (`--color-accent-50` to `--color-accent-900`, teal by default). Neutrals use Tailwind's `zinc` palette.
-Replace the accent scale to re-colour links, focus rings, eyebrows and the contribution graph, then
+Replace the accent scale to re-color links, focus rings, eyebrows and the contribution graph, then
 rebuild the CSS:
 
 ```css

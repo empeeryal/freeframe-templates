@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.2] - 2026-11-04
 
 ### Fixed
@@ -18,7 +24,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 - The thumbnail shows the campground in season instead of "Closed for the winter".
 - The site map is usable on phones: a hint and an edge fade show that it scrolls sideways to Pine Loop and the
-  cabins, choosing a site scrolls its pin into view, and the scrolling frame is a focusable, labelled region.
+  cabins, choosing a site scrolls its pin into view, and the scrolling frame is a focusable, labeled region.
 - The guest menu stops at six and at the chosen site's limit, matching the six-person rule on the rates page.
 - The newsletter success message no longer says the next letter goes out "when booking opens" (booking is
   always open).

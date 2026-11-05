@@ -62,11 +62,11 @@ glaze/
 └── CHANGELOG.md
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
-The colours and fonts are Tailwind theme tokens in `src/input.css`, so every utility such as `bg-clay`,
+The colors and fonts are Tailwind theme tokens in `src/input.css`, so every utility such as `bg-clay`,
 `text-cobalt` or `ring-line` follows them:
 
 | Token | Default | Used for |
@@ -80,7 +80,7 @@ The colours and fonts are Tailwind theme tokens in `src/input.css`, so every uti
 | `--color-moss` / `--color-moss-tint` | `#56653a` / `#e3e7d1` | “ready to send”, confirmations |
 | `--color-kiln` | `#2a2822` | dark bands and footer |
 
-To change the main button colour, edit the cobalt tokens and rebuild the CSS:
+To change the main button color, edit the cobalt tokens and rebuild the CSS:
 
 ```css
 @theme {
@@ -95,7 +95,7 @@ The few repeated pieces live in `@layer components`: `.btn-primary`, `.btn-ghost
 `.field-error`, `.hint`), radio cards (`.option`), filter buttons (`.pill`), `.stepper`, `.swatch` and
 `.tag`. Everything else is Tailwind utilities in the HTML.
 
-The pot colours are not tokens: they belong to each glaze in `GLAZES` in `assets/js/main.js` (see
+The pot colors are not tokens: they belong to each glaze in `GLAZES` in `assets/js/main.js` (see
 [Images and artwork](#images-and-artwork)).
 
 ### Typography
@@ -120,7 +120,7 @@ sections:
 | `HOURS` | opening hours, Sunday first: `['10:00', '17:00']` or `null` for closed |
 | `CLOSED_DATES` | days closed every year, as `'MM-DD'` (shop, workshops, dispatch and collection) |
 | `KILN_OPENING` | the kiln-opening Saturday: `weekday` and the early `open` time |
-| `GLAZES`, `GLAZE_ORDER` | the five glazes: name, note, colours, tile class, care flags |
+| `GLAZES`, `GLAZE_ORDER` | the five glazes: name, note, colors, tile class, care flags |
 | `CATEGORIES` | the five shapes used by the shop filter |
 | `SORTS` | the sort options |
 | `PRODUCTS` | the twelve pieces |
@@ -161,7 +161,7 @@ cards to update.
 ### Images and artwork
 
 There are no photos. The pots are drawn by `potArt()` in section 7 of `main.js` from the piece’s `shape` and
-the chosen glaze: a body path filled with the glaze’s three `body` colours, `rim` and `inside` colours, iron
+the chosen glaze: a body path filled with the glaze’s three `body` colors, `rim` and `inside` colors, iron
 `speckle` dots (or `null`), and an unglazed foot in `CLAY_BODY`. The drawings have no background of their own;
 the tile behind each pot takes the glaze’s `tile` class (`bg-bisque`, `bg-cobalt-tint`…). To add a glaze, add
 an entry to `GLAZES` and its id to `GLAZE_ORDER`, then list it on the pieces that come in it.
@@ -255,7 +255,7 @@ event.
 ### Checkout
 
 `checkout.html` validates name, email, optional phone and, for delivery, the address and a UK postcode. It
-normalises the postcode (`ls21 3ab` → `LS21 3AB`), charges the remote fee for remote postcodes and refuses
+normalizes the postcode (`ls21 3ab` → `LS21 3AB`), charges the remote fee for remote postcodes and refuses
 Northern Ireland, Jersey, Guernsey and the Isle of Man (`NO_POST`) with a message. Collection hides the address
 and shows the collection date; a workshop-only order hides delivery entirely and asks for names. Placing the
 order shows a confirmation with an order number (`VC-` and five digits), the summary and the dates, saves it
@@ -345,7 +345,7 @@ sites need an absolute URL, so change it to your domain when you publish (for ex
 
 ## Accessibility
 
-- Skip link, landmarks, one `<h1>` per page, labelled navigation (`Main`, `Mobile`, `Breadcrumb`, footer).
+- Skip link, landmarks, one `<h1>` per page, labeled navigation (`Main`, `Mobile`, `Breadcrumb`, footer).
 - The menu button has `aria-expanded`, `aria-controls` and a label that changes to “Close menu”; Escape
   closes it and returns focus.
 - Filters are toggle buttons with `aria-pressed`; glaze, size, workshop and session choices are real radio
@@ -377,7 +377,7 @@ There is no server code. `src/`, `package.json` and `node_modules/` aren’t nee
 
 ## Troubleshooting
 
-- **A new colour or class has no effect.** Rebuild the CSS (`npm run build`). If the class is only in
+- **A new color or class has no effect.** Rebuild the CSS (`npm run build`). If the class is only in
   `main.js`, check it is written out in full.
 - **The basket empties on every page.** The browser is blocking storage (private mode in some browsers, or the
   page is in a sandboxed iframe). The basket then lasts for one page view; serve the site normally.
@@ -391,6 +391,6 @@ There is no server code. `src/`, `package.json` and `node_modules/` aren’t nee
 
 ## License
 
-MIT. The code and all included artwork are free for personal and commercial use. The full licence text is
+MIT. The code and all included artwork are free for personal and commercial use. The full license text is
 in `LICENSE.txt`, which is added to the download. Petrona and Red Hat Text are
 licensed under the SIL Open Font License. Vennick Clay, its people and its address details are fictional.

@@ -7,7 +7,7 @@ fixed fees, a fee estimator, a branching "what are my options?" check with a tri
 searchable guides, a long-form article and a four-step consultation booking flow. Plain HTML, Tailwind CSS
 v4 and one vanilla JavaScript file.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/brief)
 
 ## Quick start
@@ -23,7 +23,7 @@ npm run build
 
 ## Documentation
 
-[DOCS.md](DOCS.md) is the full guide: pages and files, colours and fonts, editing matters and fees, the
+[DOCS.md](DOCS.md) is the full guide: pages and files, colors and fonts, editing matters and fees, the
 options check and deadline rules, the booking availability, connecting the forms and a real booking tool,
 saved data, SEO, accessibility, deploying and troubleshooting. Changes are listed in
 [CHANGELOG.md](CHANGELOG.md).

@@ -7,7 +7,7 @@ shareable results, a three-step reservation with a postcode check, careers with 
 company page with a press kit, and news. Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file, with light
 and dark themes.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.2** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/heatloop)
 
 ## Quick start
@@ -23,7 +23,7 @@ npm run build
 
 ## Documentation
 
-[DOCS.md](DOCS.md) is the full guide: pages and files, colours, fonts and dark mode, models, tariffs and estimator
+[DOCS.md](DOCS.md) is the full guide: pages and files, colors, fonts and dark mode, models, tariffs and estimator
 data, the reservation and careers features, demo dates, connecting the forms, saved data, URL parameters, SEO,
 accessibility, deploying and troubleshooting. Changes are listed in [CHANGELOG.md](CHANGELOG.md).
 

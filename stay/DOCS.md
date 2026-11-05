@@ -55,9 +55,9 @@ stay/
 └── LICENSE.txt           MIT license (added to the download)
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 All design tokens live in the `@theme` block at the top of `src/input.css`:
 
@@ -82,7 +82,7 @@ To change the accent:
 }
 ```
 
-Then rebuild the CSS (`npm run build`). Keep text colours at WCAG AA contrast against the backgrounds they sit on.
+Then rebuild the CSS (`npm run build`). Keep text colors at WCAG AA contrast against the backgrounds they sit on.
 A few inline styles use hex values directly (for example `accent-[#1d4b57]` on checkboxes in `booking.html`);
 search for the old hex when you change `--color-sea`.
 
@@ -164,7 +164,7 @@ The header, mobile menu and footer are repeated in every HTML file. To add a pag
 1. Copy an existing page (for example `offers.html`) and replace the content inside `<main id="main">`.
 2. Add a link to the desktop menu (`<nav aria-label="Main">`) and the mobile menu (`<nav aria-label="Mobile">`) on
    **every** page, and to the footer columns if you like.
-3. Mark the current page's links with `aria-current="page"`: the styles underline the desktop link and colour the
+3. Mark the current page's links with `aria-current="page"`: the styles underline the desktop link and color the
    mobile one.
 
 A project-wide search and replace is the quickest way to change the menu on all pages.
@@ -427,10 +427,10 @@ Built in:
 - tabs, dialog and step indicators using the standard ARIA patterns (`role="tab"`, native `<dialog>`, `aria-current`);
 - live regions for filter counts, calendar status and toasts;
 - reduced motion respected by animations, smooth scrolling, the hero zoom and the back-to-top button;
-- text colours that meet WCAG AA contrast.
+- text colors that meet WCAG AA contrast.
 
 When editing, keep one `h1` per page, give every new input a `<label>`, keep `alt` text meaningful, and check contrast
-if you change colours.
+if you change colors.
 
 ## Building and deploying
 

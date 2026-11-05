@@ -9,7 +9,7 @@ buttons, heading links, an outline that follows your reading, a progress bar and
 archive by year, a tag browser, instant search, a series page, projects, an about and now page and a
 subscribe page. The design is a sheet of graph paper with a red margin line and a yellow highlighter, in
 light and dark mode. It is built with HTML5, Tailwind CSS v4 and vanilla JavaScript, and needs no build
-step. This guide covers version 1.0.1.
+step. This guide covers version 1.0.2.
 
 Live demo: [freeframe.dev/templates/notebook](https://freeframe.dev/templates/notebook)
 
@@ -56,11 +56,11 @@ notebook/
   README.md, DOCS.md, CHANGELOG.md
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
-All colours are CSS custom properties at the top of `src/input.css`, once for light mode (`:root`) and once
+All colors are CSS custom properties at the top of `src/input.css`, once for light mode (`:root`) and once
 for dark mode (`.dark`). Tailwind reads them through `@theme inline`, so classes such as `bg-paper`,
 `text-muted`, `border-line`, `text-pen` and `bg-marker` follow the tokens.
 
@@ -74,7 +74,7 @@ for dark mode (`.dark`). Tailwind reads them through `@theme inline`, so classes
 | `--pen` / `--pen-soft` | Red pen: margin lines, `// labels`, series badges, active outline entry |
 | `--marker` | Highlighter: link underlines, `<mark>`, the current nav item |
 | `--shadow` | Hard offset shadow under cards and buttons |
-| `--code-bg`, `--code-ink`, `--code-line`, `--tok-*` | Code blocks and the syntax colours |
+| `--code-bg`, `--code-ink`, `--code-line`, `--tok-*` | Code blocks and the syntax colors |
 
 To make the pen blue instead of red:
 
@@ -132,7 +132,7 @@ and the copy button:
 ```
 
 Highlighting is plain `<span>`s with five classes: `tok-k` (keywords), `tok-s` (strings), `tok-n` (numbers),
-`tok-c` (comments) and `tok-f` (functions and commands). Their colours are the `--tok-*` tokens, one set
+`tok-c` (comments) and `tok-f` (functions and commands). Their colors are the `--tok-*` tokens, one set
 for each theme. Known languages get a friendly label (`sql` → SQL, `bash` → Shell, `text` → Output; the
 list is `LANGS` in `assets/js/main.js`); any other name is shown as written.
 
@@ -274,10 +274,10 @@ generate one.
 ## Accessibility
 
 - A skip link, landmarks (`header`, `nav` with labels, `main`, `aside`, `footer`) and one `<h1>` per page.
-- Visible focus outlines in the pen colour; the current page is marked with `aria-current="page"`.
+- Visible focus outlines in the pen color; the current page is marked with `aria-current="page"`.
 - Toggle buttons (`aria-pressed`) for theme and tags, live regions for counts, copy and form messages.
-- Focusable, labelled code blocks; heading links named after their section.
-- Colours meet WCAG AA in both themes, including the syntax colours.
+- Focusable, labeled code blocks; heading links named after their section.
+- Colors meet WCAG AA in both themes, including the syntax colors.
 - Reduced motion turns off reveals and smooth scrolling.
 
 When editing, keep one `<h1>` per page, give every new input a `<label>`, and keep headings in order.

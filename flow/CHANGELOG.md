@@ -6,6 +6,12 @@ All notable changes to the Flow HTML template are documented here. The format fo
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.4] - 2026-11-04
 
 ### Fixed
@@ -22,8 +28,8 @@ All notable changes to the Flow HTML template are documented here. The format fo
 
 ### Fixed
 
-- The contact and workshop enquiry confirmations no longer say the form is a demo that doesn't send anything.
-  They now confirm the message or enquiry reached the studio, show a reference (like SS-7K2Q) and give the reply
+- The contact and workshop inquiry confirmations no longer say the form is a demo that doesn't send anything.
+  They now confirm the message or inquiry reached the studio, show a reference (like SS-7K2Q) and give the reply
   times the pages already promise. The note under the mat map no longer says "In this demo"; it says reserved
   mats are listed under My bookings. `DOCS.md` describes the reference.
 
@@ -45,13 +51,13 @@ All notable changes to the Flow HTML template are documented here. The format fo
 - Rolling seven-day timetable with style, level and teacher filters (shareable `?style=`, `?level=` and
   `?teacher=` links), "On now" and "Up next" markers and mats left for each class.
 - Mat booking: choose your spot on a room plan, saved in `localStorage` (or in memory when storage is blocked),
-  listed under My bookings with a count in the header on every page, and cancellable.
+  listed under My bookings with a count in the header on every page, and cancelable.
 - Class styles with a three-level guide, each style's next class and classes a week; teacher profiles with their
   next class.
 - Class passes and memberships with an intro-offer calculator that compares every option for how often you
-  practise, with a concession toggle.
+  practice, with a concession toggle.
 - Workshops and retreats with rolling dates (or fixed dates you set), a kind filter, past events hidden
-  automatically and a validated booking enquiry form (`?event=` preselects an event).
+  automatically and a validated booking inquiry form (`?event=` preselects an event).
 - Beginners' guide and a searchable FAQ accordion that highlights matching words.
 - Contact page with an illustrated map, travel notes, today's opening times and a validated message form.
 - Hand-drawn SVG line art, arch frames, pebble shapes and wave dividers; EB Garamond and Mulish.

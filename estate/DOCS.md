@@ -28,7 +28,7 @@ they work from the file system too. Node.js 24 is only needed to rebuild the CSS
 
 | File | Purpose | Notable sections |
 |------|---------|------------------|
-| `index.html` | Home | Hero with property search, stats, six featured homes, neighbourhood guides, services, testimonials |
+| `index.html` | Home | Hero with property search, stats, six featured homes, neighborhood guides, services, testimonials |
 | `listings.html` | All homes | Buy/rent/all switch, filters, sort, grid/list view, saved homes, shareable URLs |
 | `property.html` | One property (`property.html?id=3`) | Gallery and lightbox, key facts, features, floor plan, mortgage calculator or move-in costs, viewing form, agent card, similar homes |
 | `agents.html` | Team | Agent profiles, each linking to that agent's listings |
@@ -56,12 +56,12 @@ estate/
 └── DOCS.md                this guide
 ```
 
-`assets/js/main.js` is organised in four numbered parts, marked by comment banners: **1. Data**,
+`assets/js/main.js` is organized in four numbered parts, marked by comment banners: **1. Data**,
 **2. Artwork**, **3. Shared UI** and **4. Pages**.
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 The palette and fonts are tokens in the `@theme` block at the top of `src/input.css`:
 
@@ -116,7 +116,7 @@ in part 1 of `assets/js/main.js`.
 |-------|---------|
 | `id` | Unique number, used in `property.html?id=` |
 | `status` | `'buy'` or `'rent'` (rent prices are per month) |
-| `area` | Neighbourhood; must match the filter options (see below) |
+| `area` | Neighborhood; must match the filter options (see below) |
 | `type` | `'House'`, `'Apartment'`, `'Townhouse'` or `'Cottage'` |
 | `price`, `beds`, `baths`, `sqft`, `year`, `parking`, `lot` | Facts shown on cards and the property page |
 | `listed` | Days since listing; "Newest" sorting uses it |
@@ -131,11 +131,11 @@ in part 1 of `assets/js/main.js`.
 featured.innerHTML = [1, 3, 12, 4, 5, 6].map(function (id) { return card(byId(id), 'grid'); }).join('');
 ```
 
-**Neighbourhoods** (`Old Harbor`, `The Docklands`, `Linden Park`, `Westshore`, `Cedar Heights`,
+**Neighborhoods** (`Old Harbor`, `The Docklands`, `Linden Park`, `Westshore`, `Cedar Heights`,
 `Hillcrest`) appear in several places. If you rename or add one, update:
 
 - the `location` `<select>` in the home-page search (`index.html`) and in the filters (`listings.html`);
-- the neighbourhood guides on `index.html` and any mentions in `sell.html`;
+- the neighborhood guides on `index.html` and any mentions in `sell.html`;
 - the short area descriptions used on the property page: the object literal inside the
   `$('[data-p-more]').textContent = ...` line in part 4 of `assets/js/main.js`.
 
@@ -151,7 +151,7 @@ Property pictures are SVG illustrations generated in part 2 of `assets/js/main.j
 |--------------|--------|
 | `kind` | `modern`, `townhouse`, `cottage`, `apartment`, `coastal` (exterior style) |
 | `time` | `day`, `golden`, `dusk`, `night` (sky and lighting) |
-| `wall`, `trim`, `accent`, `room` | Hex colours for walls, window frames, details and interior walls |
+| `wall`, `trim`, `accent`, `room` | Hex colors for walls, window frames, details and interior walls |
 
 Each property gets five gallery views from `gallery(p)`: the exterior, living room, kitchen, primary
 bedroom and the exterior at another time of day. Static artwork on pages uses placeholders such as
@@ -234,7 +234,7 @@ pre-filled:
 | Term (`term`) | 30 years (15, 20, 25 or 30) |
 
 It updates as you type and shows the deposit, monthly payment, loan amount, total interest, total cost
-and a principal/interest bar. The monthly payment uses the standard amortisation formula. Change the
+and a principal/interest bar. The monthly payment uses the standard amortization formula. Change the
 defaults in the inputs' `value` attributes in `property.html`.
 
 For rentals it shows **move-in costs** instead: first month plus a deposit of 1.5 × monthly rent. Change
@@ -265,14 +265,14 @@ it, delete that JavaScript block and the CSS rules, then rebuild the CSS.
 
 All forms marked `data-validate` share one validator that uses the browser's own constraints
 (`required`, `type="email"`, `pattern`, `minlength`, `min`/`max`) and shows friendly messages under each
-field. Set `data-pattern-message` on a field to customise its pattern message. Date inputs with
+field. Set `data-pattern-message` on a field to customize its pattern message. Date inputs with
 `data-future` can't be set earlier than tomorrow (on the visitor's local calendar).
 
 | Form | Page | Notes |
 |------|------|-------|
 | Request a viewing (`#viewing`) | `property.html` | Hidden `property` field is filled with the listing name and reference (e.g. "Rose Cottage (HH-1003)") |
 | Free valuation | `sell.html` | Property details and contact information |
-| Contact | `contact.html` | General enquiries |
+| Contact | `contact.html` | General inquiries |
 | Newsletter | Footer of every page | Email only |
 
 On success the form's `[data-form-body]` is hidden and its `[data-success]` message shown; a
@@ -342,7 +342,7 @@ listing (or use a CMS) and add a `sitemap.xml` that lists them.
 
 ## Accessibility
 
-- Skip link, labelled landmarks and one `<h1>` per page.
+- Skip link, labeled landmarks and one `<h1>` per page.
 - Filter and view buttons use `aria-pressed`; the mobile filter panel and menu use `aria-expanded`.
 - Generated artwork has `role="img"` and descriptive labels; decorative art is `aria-hidden`.
 - The lightbox traps focus, closes with Esc and restores focus.
@@ -371,7 +371,7 @@ used automatically by most hosts.
 
 - **A new listing doesn't appear.** Check its `status` (`'buy'`/`'rent'`) matches the current mode, and
   that the `id` is unique.
-- **A neighbourhood filter shows no homes.** The listing's `area` must match the `<option value>` exactly.
+- **A neighborhood filter shows no homes.** The listing's `area` must match the `<option value>` exactly.
 - **`property.html` always shows the same home.** The URL needs `?id=` with an existing listing id.
 - **New classes in `main.js` have no styling.** Rebuild the CSS so Tailwind picks them up.
 - **Saved homes disappear.** They're stored per browser; private windows and cleared site data reset them.

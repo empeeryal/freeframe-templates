@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.1] - 2026-11-04
 
 ### Fixed
@@ -26,17 +32,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - Work index with discipline chips and live counts, a year filter, search and a shortlist-only view
   (`work.html?discipline=`, `?year=`, `?q=`, `?shortlist=1`).
 - Shortlist of saved projects in localStorage (kept in memory when storage is blocked), shown in the
-  header, the work page panel and the enquiry form.
+  header, the work page panel and the inquiry form.
 - Case study for every project from the same data (`project.html?project=`): brief, a styleframe scrubber
   with timecode, four styleframes, process, results, credits, a quote and previous/next links.
 - Fee estimator in GBP (`services.html?service=`): service, duration, style, rounds of changes, rush and
   extras, with a breakdown, VAT, deposit, schedule, earliest start and delivery date; the estimate can be
-  sent with an enquiry.
+  sent with an inquiry.
 - Journal of dated notes with topic filters (`journal.html?topic=`), notes that open in place and dates
   that roll forward with `KEEP_DEMO_CURRENT`.
 - About page with an illustrated portrait, working principles, five collaborators, the Dundee studio,
   kit and recognition.
-- Project enquiry with validation, budget, finish date and brief, saved references and estimate, ending
+- Project inquiry with validation, budget, finish date and brief, saved references and estimate, ending
   in an "enquiry received" state with a reference, a reply date and next steps.
 - Availability, earliest start and reply dates worked out in Europe/London time with Scottish bank
   holidays and the studio's winter closure, plus a `?now=` preview parameter.

@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.11] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.1.10] - 2026-11-04
 
 ### Fixed
@@ -23,9 +29,9 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ### Fixed
 
-- The ticket checkout, sponsor enquiry and newsletter confirmations no longer say the site is a demo or that
+- The ticket checkout, sponsor inquiry and newsletter confirmations no longer say the site is a demo or that
   nothing was sent. The checkout button reads "Place order" and its confirmation says "Order placed" with an
-  order reference (like SU-7K2Q) and that a payment link or invoice follows by email; the sponsor enquiry gives
+  order reference (like SU-7K2Q) and that a payment link or invoice follows by email; the sponsor inquiry gives
   a reference and repeats the two-working-day promise; the newsletter asks the visitor to look out for a
   confirmation email. `DOCS.md`, `README.md` and `template.json` describe the new wording.
 
@@ -54,7 +60,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
   Other speakers used to get no animation, no icon and a compact session list.
 - Speaker page: `?id=` is matched in any letter case (`?id=Mei-Tanaka` works like `?id=mei-tanaka`). Only
   the speakers' own ids count; `constructor`, `__proto__` and unknown ids still show the first speaker.
-- Home page: the stats said "12 hands-on workshops", but the programme has 5; it now says 5.
+- Home page: the stats said "12 hands-on workshops", but the program has 5; it now says 5.
 - Schedule: choosing a day with the arrow keys, Home or End now updates the URL hash too (only clicks
   did), so reloading or sharing the page opens that day.
 - Schedule: a star button's label follows its state: "Remove “…” from my schedule" once the session is
@@ -122,6 +128,6 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - Star sessions into a personal schedule saved on the device
 - "On now" and "Up next" highlights while the event is live
 - Ticket quantities with live totals, early-bird pricing and a 15% team discount
-- Validated demo checkout, sponsor enquiry and newsletter forms
+- Validated demo checkout, sponsor inquiry and newsletter forms
 - Illustrated SVG speaker portraits, venue scene and city map
 - One data file for speakers, sessions and ticket prices

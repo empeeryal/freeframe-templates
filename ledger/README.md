@@ -4,7 +4,7 @@ An editorial magazine for long-form writing, made for the fictional **The Ledger
 page, a long-form article with table of contents and reading progress, a searchable archive, topics,
 about and contact. Plain HTML, Tailwind CSS v4 and a small vanilla JavaScript file.
 
-**Version 1.1.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.1.8** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/ledger)
 
 ## Quick start
@@ -20,7 +20,7 @@ npm run build
 
 ## Documentation
 
-[DOCS.md](DOCS.md) covers everything: pages and files, colours and fonts, writing articles, the archive data, every interactive feature,
+[DOCS.md](DOCS.md) covers everything: pages and files, colors and fonts, writing articles, the archive data, every interactive feature,
 connecting the forms, SEO, accessibility and deploying.
 
 ## License

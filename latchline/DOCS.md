@@ -6,8 +6,8 @@ Latchline is a nine-page marketing website for a B2B software company: a custome
 Reno, Nevada. It is built with plain HTML5, Tailwind CSS v4 and vanilla JavaScript, with no runtime dependencies.
 The site explains the product with a six-stage board explorer, dates a plan from any of fifteen illustrated
 playbooks, compares customer stories with generated before-and-after charts, builds an itemized pricing quote,
-lists a filterable resource library and finishes with a qualified sales enquiry and a demo time picker. This is
-version 1.0.1 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). The template page with a link to the live demo
+lists a filterable resource library and finishes with a qualified sales inquiry and a demo time picker. This is
+version 1.0.2 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). The template page with a link to the live demo
 is at [freeframe.dev/templates/latchline](https://freeframe.dev/templates/latchline).
 
 The copy is written in US English, prices are in US dollars and every date and time is worked out in the
@@ -41,7 +41,7 @@ Fonts load from Google Fonts, so the first visit needs an internet connection. Y
 | `pricing.html` | Pricing | Active-onboarding quote calculator: volume, billing, three plans with a lowest-price recommendation, add-ons, itemized quote, FAQ |
 | `resources.html` | Resources | Rolling monthly onboarding clinic dates and a sixteen-item library with format chips, topic, search and sort |
 | `company.html` | Company | Story, values, eight team members with drawn portraits, history, Reno office map, live open or closed status and upcoming closures |
-| `contact.html` | Contact sales | Qualified enquiry with routing, a demo day and time picker, context from pricing, playbooks and the clinic, a success state with a reference |
+| `contact.html` | Contact sales | Qualified inquiry with routing, a demo day and time picker, context from pricing, playbooks and the clinic, a success state with a reference |
 | `404.html` | Page not found | Friendly error with links to the main pages |
 
 ## Project structure
@@ -67,9 +67,9 @@ latchline/
   CHANGELOG.md           version history
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 Design tokens live in the `@theme` block of `src/input.css`. Each `--color-*` token becomes a set of Tailwind
 utilities (`bg-cobalt`, `text-ink-soft`, `border-line` and so on).
@@ -84,7 +84,7 @@ utilities (`bg-cobalt`, `text-ink-soft`, `border-line` and so on).
 | `--color-sun` | `#ffcf3f` | Highlight marker and badges (never used for text) |
 | `--color-moss` / `--color-flare` | `#186b48` / `#b83218` | On track and blocked states, errors |
 
-To change the brand colour, edit the token and rebuild the CSS:
+To change the brand color, edit the token and rebuild the CSS:
 
 ```css
 @theme {
@@ -94,7 +94,7 @@ To change the brand colour, edit the token and rebuild the CSS:
 }
 ```
 
-A few colours are written directly inside SVG files and in the SVG strings in `main.js` (story charts, resource
+A few colors are written directly inside SVG files and in the SVG strings in `main.js` (story charts, resource
 glyphs, portraits). Search for the hex value, for example `#1f45d6`, to update those as well.
 
 ### Typography
@@ -174,7 +174,7 @@ The header and footer are repeated in each HTML file. To add a page, copy an exi
 
 `initStages()` in `main.js` renders a tab for each entry in `STAGES` and fills the panel with the stage's text,
 automations, risk signal and two lanes of tasks. Task `status` is `done`, `doing`, `blocked` or `next`, each with
-its own colour (see `STATUS`). The "Customer view" and "Team view" buttons switch the text between the stage's
+its own color (see `STATUS`). The "Customer view" and "Team view" buttons switch the text between the stage's
 `customer` and `team` fields. Selecting a stage writes `#stage-<id>` to the address, and a link such as
 `product.html#stage-access` opens that stage.
 
@@ -212,7 +212,7 @@ Enterprise 6; up to 14 days 5; up to 30 days 10.
 
 The "Shortlist" button on every card (also on the home page) toggles `aria-pressed` and saves the playbook id.
 The dark panel on the playbooks page lists shortlisted playbooks with their total tasks, a remove button for
-each, "Clear shortlist" and a link to contact sales, which carries the shortlist into the enquiry.
+each, "Clear shortlist" and a link to contact sales, which carries the shortlist into the inquiry.
 
 ### Customer stories
 
@@ -296,7 +296,7 @@ Customer story numbers, the benchmark and resource publication dates are past fa
 There are three forms. The playbook, resource and story filters and the pricing calculator never submit
 anything. The plan preview checks that a kickoff date is set.
 
-The sales enquiry on `contact.html` validates on submit, shows a summary ("Please check 3 fields below.") and an
+The sales inquiry on `contact.html` validates on submit, shows a summary ("Please check 3 fields below.") and an
 inline message under each field, and moves focus to the first problem:
 
 | Field | Rule |
@@ -392,7 +392,7 @@ Tailwind scans the whole folder (`@import "tailwindcss" source("../")`), includi
 `main.js`. Keep class names as whole strings there so they are found.
 
 To publish, upload the folder to any static host: Netlify Drop, Cloudflare Pages, GitHub Pages, Vercel or plain
-web hosting. No server code is needed. Set the absolute `og:image` URL and connect the enquiry form first.
+web hosting. No server code is needed. Set the absolute `og:image` URL and connect the inquiry form first.
 
 ## Troubleshooting
 

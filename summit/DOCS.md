@@ -31,10 +31,10 @@ Add `?now=2027-04-15T10:45` to any page's URL to preview it as if the event were
 | `index.html` | Home | Hero with live countdown, topics strip, highlights, featured speakers, count-up stats, schedule preview, sponsor wall, testimonial, venue preview, newsletter |
 | `speakers.html` | All speakers | Track filter and pop-up speaker profiles |
 | `speaker.html` | One speaker (`speaker.html?id=hana-kim`, any letter case) | Bio, links, sessions, "More speakers" |
-| `schedule.html` | Programme | Day tabs, track filter, starred sessions in "My schedule", "On now"/"Up next" during the event |
+| `schedule.html` | Program | Day tabs, track filter, starred sessions in "My schedule", "On now"/"Up next" during the event |
 | `tickets.html` | Tickets | Four passes with early-bird prices, quantity steppers, order summary with team discount, comparison, refund FAQ, checkout with an order confirmation |
 | `venue.html` | Venue and travel | Venue details, illustrated map, travel options, partner hotels, accessibility |
-| `sponsors.html` | Sponsors | Sponsor tiers and packages, sponsorship enquiry form |
+| `sponsors.html` | Sponsors | Sponsor tiers and packages, sponsorship inquiry form |
 | `404.html` | Not found | Error page with links back |
 
 ## Project structure
@@ -55,9 +55,9 @@ summit/
 └── DOCS.md                this guide
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 The palette and fonts are tokens in the `@theme` block at the top of `src/input.css`:
 
@@ -70,7 +70,7 @@ The palette and fonts are tokens in the `@theme` block at the top of `src/input.
 | `--color-lime` | Focus rings, "On now" badges, selected items |
 | `--color-sky` | "Up next" badges and accents |
 
-Change the three gradient colours to restyle the whole event, then rebuild the CSS:
+Change the three gradient colors to restyle the whole event, then rebuild the CSS:
 
 ```css
 @theme {
@@ -80,7 +80,7 @@ Change the three gradient colours to restyle the whole event, then rebuild the C
 }
 ```
 
-Track colours (`.tag-design`, `.tag-engineering`, ...) are component classes in `src/input.css`. Update
+Track colors (`.tag-design`, `.tag-engineering`, ...) are component classes in `src/input.css`. Update
 the `theme-color` meta tag in each page's `<head>` if you change `--color-night`.
 
 ### Typography
@@ -92,7 +92,7 @@ them.
 ### Content
 
 Event content is split between **`assets/js/data.js`** (used by scripts) and the **HTML** (what's shown
-without JavaScript). Change both when you edit the programme.
+without JavaScript). Change both when you edit the program.
 
 `data.js` defines `window.SUMMIT`:
 
@@ -131,7 +131,7 @@ panel in `schedule.html`, with the same id and timing attributes:
 </li>
 ```
 
-Copy the inner markup from a neighbouring session so it keeps its star button (`data-star="s36"`) and
+Copy the inner markup from a neighboring session so it keeps its star button (`data-star="s36"`) and
 `.live-badge`. `data-start`/`data-end` are local event times without a time zone.
 
 **Adding a speaker** means an entry in `SUMMIT.speakers`, a portrait at `assets/img/speakers/<id>.svg`,
@@ -328,10 +328,10 @@ Add [Event structured data](https://schema.org/Event) (name, dates, location, of
 
 ## Accessibility
 
-- Skip link, labelled landmarks, one `<h1>` per page and visible lime focus rings.
+- Skip link, labeled landmarks, one `<h1>` per page and visible lime focus rings.
 - Day tabs follow the tabs pattern; filters and stars use `aria-pressed`.
 - Speaker profiles use a native `<dialog>` with focus return; the countdown has `role="timer"`.
-- Track tags use text labels, not colour alone.
+- Track tags use text labels, not color alone.
 - Toasts are announced with `aria-live`.
 - Motion (reveals, drifting gradients, counters) respects `prefers-reduced-motion`.
 

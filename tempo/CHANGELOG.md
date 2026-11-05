@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.6] - 2026-11-04
 
 ### Fixed
@@ -68,16 +74,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
   day), the new album's track list, a click-to-play video poster, the next four shows, a merch preview, a
   press quote and a validated fan-club sign-up.
 - Track player docked to the bottom of the page with play/pause, previous/next, seek, mute, a now-playing
-  state in every track list and keyboard shortcuts. Previews are synthesised in the browser as WAV files;
+  state in every track list and keyboard shortcuts. Previews are synthesized in the browser as WAV files;
   a track with a `src` plays a real file instead.
 - Discography with album/EP/single filters and counts (`music.html?type=`), a release detail view with track
   list, credits and previous/next links (`music.html?release=`), and a copy-link button.
 - Tour page with region and country filters (`tour.html?region=&country=`), sold-out, last-tickets and
   on-sale-soon states, `.ics` calendar downloads, past shows, an FAQ and a "notify me" form that can be
   pre-filled from a show (`tour.html?notify=`).
-- Merch store with category filters (`merch.html?cat=`), colour swatches that redraw the product art, sizes
+- Merch store with category filters (`merch.html?cat=`), color swatches that redraw the product art, sizes
   with sold-out options, and a cart drawer saved in localStorage with quantities, subtotal, a free-shipping
-  meter and a clearly labelled demo checkout.
+  meter and a clearly labeled demo checkout.
 - Press kit with a fact sheet, short/medium/long bio tabs with copy to clipboard and downloadable cover art,
   logo, bios, fact sheet and tech rider; contacts with copy buttons.
 - Contact form that routes by topic (booking by region, press, sync, orders, general) with conditional

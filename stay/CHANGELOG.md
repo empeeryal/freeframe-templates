@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.10] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.9] - 2026-11-04
 
 ### Fixed
@@ -41,7 +47,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### Fixed
 
-- Availability calendar: a booked night inside the selected stay is readable (it failed colour contrast).
+- Availability calendar: a booked night inside the selected stay is readable (it failed color contrast).
 
 ## [1.0.4] - 2026-10-09
 
@@ -71,7 +77,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### Fixed
 
-- The booking review step pluralises guests correctly ("1 adult, 1 child" instead of "1 adults, 1 children").
+- The booking review step pluralizes guests correctly ("1 adult, 1 child" instead of "1 adults, 1 children").
 
 ## [1.0.1] - 2026-10-07
 

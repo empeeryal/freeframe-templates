@@ -2,7 +2,7 @@
 
 ## Overview
 
-Quoin is a fictional architectural salvage yard in Hexham, Northumberland. Version 1.0.0 is a complete HTML and Tailwind CSS v4 website with sixteen stock lots, a basket, a reservation request checkout, a room-by-room project board, care notes, the yard team and a visit page with opening days, a delivery guide and a contact form. The [template page](https://freeframe.dev/templates/quoin) links to the live preview and download.
+Quoin is a fictional architectural salvage yard in Hexham, Northumberland. Version 1.0.1 is a complete HTML and Tailwind CSS v4 website with sixteen stock lots, a basket, a reservation request checkout, a room-by-room project board, care notes, the yard team and a visit page with opening days, a delivery guide and a contact form. The [template page](https://freeframe.dev/templates/quoin) links to the live preview and download.
 
 ## Quick start
 
@@ -67,13 +67,13 @@ CHANGELOG.md               Template release history
 DOCS.md                    This guide
 ```
 
-`template.json` is catalogue metadata in the source repository and is excluded from the downloadable ZIP. The download receives a `LICENSE.txt` file during packaging.
+`template.json` is catalog metadata in the source repository and is excluded from the downloadable ZIP. The download receives a `LICENSE.txt` file during packaging.
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
-The colours and fonts are declared in the `@theme` block in `src/input.css`.
+The colors and fonts are declared in the `@theme` block in `src/input.css`.
 
 | Token            | Purpose                        |
 | ---------------- | ------------------------------ |
@@ -87,7 +87,7 @@ The colours and fonts are declared in the `@theme` block in `src/input.css`.
 | `--font-display` | Antic Didone headings          |
 | `--font-sans`    | Sarabun body and controls      |
 
-For example, change the primary action colour, then rebuild:
+For example, change the primary action color, then rebuild:
 
 ```css
 @theme {
@@ -151,7 +151,7 @@ wax: [
 ],
 ```
 
-`extra` is added to each unit. Unknown finish identifiers fall back to the first option in the group. Basket totals always come from this catalogue, never from a stored price.
+`extra` is added to each unit. Unknown finish identifiers fall back to the first option in the group. Basket totals always come from this catalog, never from a stored price.
 
 Category names are also listed in the `stock.html` select. If you introduce another category, add an option there. The same applies to care materials in `care.html`.
 
@@ -159,7 +159,7 @@ The team has `name`, `role`, `initials`, `look` (the portrait's alt text), `port
 
 ### Images and artwork
 
-Every lot has its own 400 × 330 SVG drawing in `assets/img/`, named `lot-<id>.svg`. The drawings are measured studies: the brass pulls are shown front and side with their 128 mm screw centres, the slate hearth in three-quarter view with its rough-cut back edge, the fanlight with its glazing bars.
+Every lot has its own 400 × 330 SVG drawing in `assets/img/`, named `lot-<id>.svg`. The drawings are measured studies: the brass pulls are shown front and side with their 128 mm screw centers, the slate hearth in three-quarter view with its rough-cut back edge, the fanlight with its glazing bars.
 
 | File                                                        | Used on                     | Size      |
 | ----------------------------------------------------------- | --------------------------- | --------- |
@@ -203,9 +203,9 @@ The close action and Escape return focus to the card control that opened it.
 
 `addToBasket()` clamps quantities against `stockRemaining()`. A lot can have separate finish lines, but their combined quantity can't exceed its stock.
 
-`loadBasket()` sanitises every stored line. Unknown identifiers are dropped, unknown finishes are reset, duplicate lines are merged and the stock cap is enforced.
+`loadBasket()` sanitizes every stored line. Unknown identifiers are dropped, unknown finishes are reset, duplicate lines are merged and the stock cap is enforced.
 
-`basketCost()` derives the total from current catalogue prices and preparation extras. `basketWeight()` totals the load.
+`basketCost()` derives the total from current catalog prices and preparation extras. `basketWeight()` totals the load.
 
 After a removal, focus moves to the next remaining action or the inventory link. When the basket is empty, the basket page shows the last reservation request, if there is one.
 
@@ -241,7 +241,7 @@ The estimate counts one unit of each saved lot at its base price. It excludes pr
 
 ### Delivery guide
 
-`deliveryQuote()` normalises and validates the postcode, then applies `DELIVERY`.
+`deliveryQuote()` normalizes and validates the postcode, then applies `DELIVERY`.
 
 | Area                       | Starting guide price |
 | -------------------------- | -------------------- |
@@ -314,13 +314,13 @@ All access goes through `safeStorage`. It keeps an in-memory copy and falls back
 
 | Key                     | Shape                                      | Validation                                                                              |
 | ----------------------- | ------------------------------------------ | --------------------------------------------------------------------------------------- |
-| `quoin.basket.v1`       | Array of `{id, finish, quantity}`          | Catalogue own-key identifier, allowed finish, positive integer and cumulative stock cap |
-| `quoin.board.v1`        | `{name, budget, items:[{id, room, note}]}` | Text limits, budget clamp, unique catalogue ids and allowed room                        |
+| `quoin.basket.v1`       | Array of `{id, finish, quantity}`          | Catalog own-key identifier, allowed finish, positive integer and cumulative stock cap |
+| `quoin.board.v1`        | `{name, budget, items:[{id, room, note}]}` | Text limits, budget clamp, unique catalog ids and allowed room                        |
 | `quoin.last-request.v1` | `{ref, items, total, method, when}`        | `ref` must be `QN-` and four digits, integer counts and total, `collect` or `delivery`  |
 
 Malformed JSON is removed. Valid JSON with the wrong shape is ignored or replaced with a safe empty value. Fields are read with own-property checks, so names such as `constructor` are never product ids.
 
-HTML rendering escapes text before interpolation. No stored value can override a catalogue price. The template doesn't save names, phone numbers, email addresses, postcodes or messages; the last request keeps only its reference, item count, total, method and date.
+HTML rendering escapes text before interpolation. No stored value can override a catalog price. The template doesn't save names, phone numbers, email addresses, postcodes or messages; the last request keeps only its reference, item count, total, method and date.
 
 Reset saved state from the browser console:
 
@@ -333,25 +333,25 @@ location.reload();
 
 ## SEO and sharing
 
-Every HTML file has its own title, description, Open Graph title and description, locale, theme colour, favicon and sharing image. The lot page updates its visible title for the chosen object after loading.
+Every HTML file has its own title, description, Open Graph title and description, locale, theme color, favicon and sharing image. The lot page updates its visible title for the chosen object after loading.
 
 Change `og:image` to an absolute deployed URL, such as `https://your-domain.example/assets/img/og-image.png`, before launch. Replace the example domain with your real domain.
 
-A production catalogue may need separate indexable product URLs and server-rendered metadata. The query-driven lot page is a compact static catalogue, not a full search-indexing platform.
+A production catalog may need separate indexable product URLs and server-rendered metadata. The query-driven lot page is a compact static catalog, not a full search-indexing platform.
 
 Add a sitemap containing the public pages and a robots file appropriate to your deployment. The template does not contain structured data or analytics.
 
 ## Accessibility
 
-The site has a skip link, semantic landmarks, one rendered `h1` per page, visible keyboard focus, labelled form fields and polite live status messages.
+The site has a skip link, semantic landmarks, one rendered `h1` per page, visible keyboard focus, labeled form fields and polite live status messages.
 
-Native `dialog`, `details`, `select` and radio controls provide familiar keyboard behaviour. Form errors are associated through `aria-describedby` and marked with `aria-invalid`.
+Native `dialog`, `details`, `select` and radio controls provide familiar keyboard behavior. Form errors are associated through `aria-describedby` and marked with `aria-invalid`.
 
 After removing a basket or board item, focus moves to a remaining action. Dialog close restores focus to its opener. Mobile Escape closes the menu.
 
 Lot drawings and team portraits have alt text, and every measurement in a drawing is repeated in the page text. The checkout radio choices are native radio buttons inside a fieldset with a legend.
 
-Keep text contrast, input labels and focus outlines when changing colours. Check every page at narrow widths, including long lot names and the checkout confirmation.
+Keep text contrast, input labels and focus outlines when changing colors. Check every page at narrow widths, including long lot names and the checkout confirmation.
 
 ## Building and deploying
 
@@ -406,6 +406,6 @@ Removing or renaming a product identifier drops stale state on the next load. Ke
 
 ## License
 
-MIT. The code and included artwork may be used under the licence in `LICENSE.txt` supplied with the download.
+MIT. The code and included artwork may be used under the license in `LICENSE.txt` supplied with the download.
 
 Antic Didone and Sarabun are Google Fonts under the SIL Open Font License, loaded from Google Fonts. The SVG illustrations are original artwork included with the template. Quoin, its team and its inventory are fictional.

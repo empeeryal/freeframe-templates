@@ -4,7 +4,7 @@ A complete, multi-page website for a software product, built with HTML5 and Tail
 features, pricing (monthly/annual switch, comparison table, FAQ), about, contact, sign in / sign up and a
 404 page, in light and dark themes.
 
-**Version 1.1.4** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.1.7** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/launch)
 
 ## Quick start

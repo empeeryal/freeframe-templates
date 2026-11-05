@@ -62,9 +62,9 @@ tally/
   LICENSE.txt               MIT license
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 All design tokens are in the `@theme` block at the top of `src/input.css`. The ones that matter most:
 
@@ -88,7 +88,7 @@ To change the accent, edit the mint scale and rebuild:
 ```
 
 Keep the 700/800 shades dark enough for AA contrast on `--color-paper`. A few SVGs (logo, charts, OG image)
-use hex colours directly; search for `#45d99b` and `#0d1f1b` to update them too.
+use hex colors directly; search for `#45d99b` and `#0d1f1b` to update them too.
 
 ### Typography
 
@@ -324,7 +324,7 @@ Add a `sitemap.xml` listing the nine pages and a `robots.txt` pointing to it. Th
 
 - Skip link, landmarks (`header`, `nav` with labels, `main`, `footer`), one `<h1>` per page and a logical
   heading order.
-- Visible focus outlines in the accent colour, AA contrast on every surface, `prefers-reduced-motion`
+- Visible focus outlines in the accent color, AA contrast on every surface, `prefers-reduced-motion`
   respected (reveals, chart animation, count-up and smooth scrolling are off).
 - ARIA patterns: tabs, pressed buttons for filters and billing, `aria-current` for navigation and invoice
   stage, live regions for totals, counts, calculator results and the pricing status.

@@ -58,9 +58,9 @@ gather/
 calendar, 12 groups finder, 13 plan your visit, 14 giving form, 15 forms, 16 boot. A separate back-to-top
 block follows.
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 The design tokens are in the `@theme` block of `src/input.css`. Every utility such as `bg-plum` or
 `text-muted` comes from them.
@@ -73,14 +73,14 @@ The design tokens are in the `@theme` block of `src/input.css`. Every utility su
 | `--color-line` | `#e5d8c5` | Hairlines and card rings |
 | `--color-ink` | `#2b1b36` | Text, the footer, dark bands and the audio player |
 | `--color-muted` | `#5f5468` | Secondary text |
-| `--color-plum` / `--color-plum-dark` | `#5b2a6e` / `#431d52` | Brand colour, primary buttons, links |
+| `--color-plum` / `--color-plum-dark` | `#5b2a6e` / `#431d52` | Brand color, primary buttons, links |
 | `--color-lilac` | `#efe5f5` | Selected states, worship events |
 | `--color-apricot` / `-light` / `-dark` | `#f6a96b` / `#fde3cc` / `#9a4716` | Warm accent (backgrounds), tint, accent text |
 | `--color-sage` / `-light` / `-dark` | `#c9dcc0` / `#e6efe0` / `#33603b` | Hills, care ministry, serve events, success |
 | `--color-river` / `-light` / `-dark` | `#bcd9e8` / `#e3f0f6` / `#1f5577` | River, kids' ministry and events |
 | `--color-rose` | `#b3364a` | Errors, "Live now", classes events |
 
-To change the brand colour, edit the tokens and rebuild the CSS:
+To change the brand color, edit the tokens and rebuild the CSS:
 
 ```css
 @theme {
@@ -123,7 +123,7 @@ the top of `assets/js/main.js`:
 | `SERIES` | Sermon series: `title`, `subtitle`, `art` (`table`, `sun`, `wheat` or `wave`), `blurb` |
 | `BOOKS` | Labels for the book filter |
 | `SERMONS` | Every sermon (see below) |
-| `EVENT_CATS`, `EVENTS` | Event categories with their colour classes, and events |
+| `EVENT_CATS`, `EVENTS` | Event categories with their color classes, and events |
 | `DAYS`, `AREAS`, `STAGES`, `GROUPS` | Small-group filter labels and groups |
 | `GIVING` | Amount chips, default amount, min and max, card fee, funds |
 | `VISIT` | Number of Sundays offered, maximum party size, kids' rooms by age |
@@ -142,7 +142,7 @@ Add a sermon by adding an object to `SERMONS` (order doesn't matter; the archive
 ```
 
 `speaker` is a key of `PEOPLE`, `series` a key of `SERIES`, `book` a key of `BOOKS`, and `duration` is in
-seconds. The demo quotes the King James Version, which is in the public domain; check the licence of any
+seconds. The demo quotes the King James Version, which is in the public domain; check the license of any
 other translation before quoting it.
 
 Add an event to `EVENTS`. Times are 24-hour, in the church's time zone; add `weekly` to repeat it every
@@ -317,7 +317,7 @@ says "Please fix the highlighted fields."
 | `data-label` | Name used in the error message |
 | `data-novalidate` | Field is skipped (used by filters) |
 
-| Form | Where | Behaviour |
+| Form | Where | Behavior |
 |------|-------|-----------|
 | Newsletter (`data-form="newsletter"`) | `index.html` | Replaced with a thank-you message that points to a confirmation email |
 | Plan your visit (`#visit-form`) | `visit.html#plan` | Validates contact details and each child's age; confirms the Sunday, time and seats, with a reference |
@@ -343,7 +343,7 @@ setupValidation(contact, () => {
 
 Every field has a `name`, so `FormData` carries all the values; keep a `name` on any field you add.
 Prayer requests can be sensitive: send them to a service and inbox only your pastoral team can read, and
-honour the `private` field.
+honor the `private` field.
 
 ### Connecting a payment provider
 
@@ -392,14 +392,14 @@ Add a `sitemap.xml` listing the pages and a `robots.txt` pointing to it. For sea
 - `aria-current="page"` on the current navigation item; the mobile menu uses `aria-expanded`, closes with
   `Esc` and when the window grows to desktop width.
 - Visible focus outlines on every control; radio and checkbox cards show focus on the card.
-- The audio player is fully keyboard operable, with labelled buttons and a native range slider with
+- The audio player is fully keyboard operable, with labeled buttons and a native range slider with
   spoken time.
 - The calendar is a table with a caption and column headers; day buttons have full-date labels with the
   number of events; the event detail is a modal `<dialog>`.
 - Filter results and counts are announced with `role="status"`; form errors are linked to their fields.
 - Illustrations have `<title>` text (the map also has a `<desc>`); decorative SVG is hidden from screen
   readers.
-- Colour contrast meets WCAG AA; `prefers-reduced-motion` turns off reveals, the live pulse and the river
+- Color contrast meets WCAG AA; `prefers-reduced-motion` turns off reveals, the live pulse and the river
   shimmer.
 
 When editing, keep one `<h1>` per page, give every new input a `<label>`, and don't use `apricot` for text.

@@ -24,13 +24,13 @@ covers version 1.0.3. See it live at [freeframe.dev/templates/roast](https://fre
 
 | File | Purpose | Notable sections and features |
 |------|---------|-------------------------------|
-| `index.html` | Home | Hero with bag art, tasting-note ticker, this week's roasts (from the catalogue), roast levels, subscription steps, brew guide links, sourcing figures, reviews |
+| `index.html` | Home | Hero with bag art, tasting-note ticker, this week's roasts (from the catalog), roast levels, subscription steps, brew guide links, sourcing figures, reviews |
 | `shop.html` | Shop | Roast, origin and process filters with counts, sort, active-filter chips, live result count, empty state, URL parameters |
 | `product.html` | One coffee (`product.html?id=kochere`) | Gallery (bag and beans), size cards with prices, grind, quantity, add to cart, tasting profile, origin details, brew recipe, related coffees |
 | `subscribe.html` | Subscription builder | Style, bag size, bags per delivery, frequency, grind; live summary with change buttons, price per delivery and per cup, monthly estimate, next three delivery dates; sign-up form |
 | `checkout.html` | Checkout | Details, delivery and payment steps with validation, review with edit links, order summary, confirmation, empty state |
 | `brew.html` | Brew guides | Six methods in tabs (`brew.html#aeropress`), recipe scaler for cups and strength |
-| `wholesale.html` | Wholesale | Benefits, price tiers, volume estimator, enquiry form |
+| `wholesale.html` | Wholesale | Benefits, price tiers, volume estimator, inquiry form |
 | `about.html` | Our sourcing | How we buy, prices paid table, producers |
 | `contact.html` | Contact & FAQ | Contact form, roastery hours, FAQ (`contact.html#faq`) |
 | `404.html` | Not found | Links back to the shop and home |
@@ -50,9 +50,9 @@ roast/
   README.md, DOCS.md, CHANGELOG.md
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 The design tokens are in the `@theme` block of `src/input.css`. Every utility such as `bg-cobalt` or
 `text-muted` comes from them.
@@ -63,14 +63,14 @@ The design tokens are in the `@theme` block of `src/input.css`. Every utility su
 | `--color-cream` | `#fffcf4` | Cards and form fields |
 | `--color-oat` | `#f6e9c8` | Soft panels |
 | `--color-sun` | `#ffcd4a` | Yellow bands, stickers, the back-to-top button |
-| `--color-cobalt` / `--color-cobalt-dark` | `#2338b5` / `#18268a` | Brand colour, primary buttons, links |
+| `--color-cobalt` / `--color-cobalt-dark` | `#2338b5` / `#18268a` | Brand color, primary buttons, links |
 | `--color-sky` | `#d9e0ff` | Selected options, highlight cards |
 | `--color-navy` | `#141a3c` | Text, outlines and the offset "sticker" shadows |
 | `--color-muted` | `#4b4f6e` | Secondary text |
 | `--color-tomato` / `--color-tomato-dark` | `#e0522f` / `#b03417` | Decoration / error text, stars, the cart badge |
 | `--color-leaf` | `#23714a` | Savings text, the order confirmation tick |
 
-To change the brand colour, edit the token and rebuild the CSS:
+To change the brand color, edit the token and rebuild the CSS:
 
 ```css
 @theme {
@@ -79,9 +79,9 @@ To change the brand colour, edit the token and rebuild the CSS:
 }
 ```
 
-The bag artwork and the logo use literal colours: the navy outline `#141a3c` in `art()` in `main.js`, and the
+The bag artwork and the logo use literal colors: the navy outline `#141a3c` in `art()` in `main.js`, and the
 logo SVG in every page's header and footer and in `assets/img/favicon.svg`. Keep text contrast at 4.5:1 or
-more if you change the dark or muted colours.
+more if you change the dark or muted colors.
 
 The component classes in `src/input.css` give the template its look: `.btn-primary`, `.btn-sun`,
 `.btn-outline`, `.btn-light`, `.card` (outlined card with the offset shadow), `.sticker`, `.tag`, `.eyebrow`,
@@ -109,7 +109,7 @@ Page copy is in the HTML files. Everything the shop calculates comes from consta
 
 | Constant | What it holds |
 |----------|---------------|
-| `COFFEES` | The catalogue: one object per coffee |
+| `COFFEES` | The catalog: one object per coffee |
 | `ORIGINS`, `ROASTS`, `PROCESSES` | Filter keys and their labels |
 | `SIZES` | Bag sizes: `id`, `label`, `grams` and `factor` (price = 250 g price × factor, rounded to whole dollars) |
 | `GRINDS` | Grind options |
@@ -137,7 +137,7 @@ To add a coffee, add an object to `COFFEES`:
 - `origin`, `roast` and `process` must be keys of `ORIGINS`, `ROASTS` and `PROCESSES`. A new origin also
   needs a checkbox in the filter form in `shop.html` (copy one `<label class="check">` and change `value`
   and `data-count-for`).
-- `price` is the 250 g price in dollars; `brew` is a key of `METHODS`; `bag` is the bag colour.
+- `price` is the 250 g price in dollars; `brew` is a key of `METHODS`; `bag` is the bag color.
 - `featured: 1` to `4` puts the coffee on the home page in that order; `badge` adds a sticker.
 
 The product page's HTML contains Kochere Lot 7 as default text, which the script replaces with the coffee
@@ -148,7 +148,7 @@ shipping copy ("Free shipping over $45") are plain HTML: update them when you ch
 ### Images and artwork
 
 There are no photos. Every coffee "photo" is an SVG drawn by `art(coffee, view)` in `main.js`: view `0` is
-the bag (colour from `coffee.bag`, origin, process and roast dots on the label, a sun, waves or moon for the
+the bag (color from `coffee.bag`, origin, process and roast dots on the label, a sun, waves or moon for the
 roast), view `1` the roasted beans. Any element with `data-art="<coffee id>"` (and optionally
 `data-view="1"`) is filled with it, as in the home hero.
 
@@ -259,7 +259,7 @@ errors appear on blur and submit, the first invalid field is focused, and each e
 | `data-validate` | `zip`, `order`, `card`, `expiry` or `cvc` |
 | `data-group` (on a fieldset) | At least one checkbox ticked; message from `data-msg` |
 
-| Form | Where | Behaviour |
+| Form | Where | Behavior |
 |------|-------|-----------|
 | Newsletter (`data-form="newsletter"`) | Every footer | Replaced with a thank-you message |
 | Subscription sign-up (`data-form="subscribe"`) | `subscribe.html#start` | Confirms the saved plan, first delivery date and a reference |
@@ -313,7 +313,7 @@ social sites need full URLs. `404.html` has `noindex`. Consider adding a `sitema
 - Skip link, landmarks, one `h1` per page and a logical heading order.
 - `aria-current="page"` in the menus, `aria-current="step"` in the checkout.
 - Keyboard support everywhere: the cart drawer traps focus and closes with Escape, the mobile menu closes
-  with Escape, the brew tabs follow the WAI-ARIA tabs pattern, radio cards keep native radio behaviour.
+  with Escape, the brew tabs follow the WAI-ARIA tabs pattern, radio cards keep native radio behavior.
 - Live regions for the result count, the plan summary, the scaler and estimator results, toasts and form
   status; errors are linked to their fields.
 - Visible focus outlines, AA contrast, and `prefers-reduced-motion` turns off reveals, the ticker and

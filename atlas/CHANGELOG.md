@@ -6,6 +6,12 @@ All notable changes to the Atlas HTML template are documented here. The format f
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.2] - 2026-10-23
 
 ### Fixed
@@ -31,7 +37,7 @@ All notable changes to the Atlas HTML template are documented here. The format f
   shareable URLs (`?status=`, `?area=`, `?beds=`, `?min=`, `?max=`, `?sort=`).
 - Listing detail pages (`listing.html?id=`) with an illustrated room gallery, key facts, sold results, open houses
   with `.ics` downloads, a validated tour request form and similar homes.
-- Home value estimate (three steps), seller net proceeds sheet and buyer affordability calculator, all labelled as
+- Home value estimate (three steps), seller net proceeds sheet and buyer affordability calculator, all labeled as
   illustrative.
 - Interactive SVG neighborhood map linked to six neighborhood guides with per-area statistics.
 - Consultation booking with consult types, a day strip, time slots in Central Time, validation, a confirmation and

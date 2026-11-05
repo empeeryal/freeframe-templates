@@ -6,7 +6,7 @@ Overprint is a multi-page portfolio website for an independent illustrator, styl
 The demo is built for Pomelo Press, the fictional studio of illustrator Pipa Valdespino on Frankfort Ave in
 Louisville, Kentucky, who draws editorial illustration, picture books, packaging and posters and prints much
 of it herself. It is plain HTML5, Tailwind CSS v4 and vanilla JavaScript with no dependencies: twelve
-projects with case studies, a shop with a cart and checkout, a four-step commission enquiry with a fee
+projects with case studies, a shop with a cart and checkout, a four-step commission inquiry with a fee
 estimate and timeline, an about page with fairs and events, and a contact form. This guide covers version
 1.0.0 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). The template page, with a link to the live
 demo, is at https://freeframe.dev/templates/overprint.
@@ -33,7 +33,7 @@ You only need Node.js 24 if you change `src/input.css` or add Tailwind classes t
 | `project.html` | Case study (`?project=`) | Title, client, kind, year and inks; Sketch, Plates and Final print tabs; ink toggles; brief; deliverables; three process notes; result; client quote; more of the same kind; previous and next |
 | `shop.html` | Shop (`?filter=`, `#<product id>`) | Filter chips, twelve products with sizes, editions and stock, add to cart, next mail day, questions |
 | `checkout.html` | Checkout | Cart lines with steppers, delivery options, address, test card payment, totals with shipping and tax, order confirmation |
-| `commissions.html` | Commission enquiry (`?type=`) | Four steps with a progress bar, live fee range and dated timeline, budget check, rush and too-soon warnings, terms |
+| `commissions.html` | Commission inquiry (`?type=`) | Four steps with a progress bar, live fee range and dated timeline, budget check, rush and too-soon warnings, terms |
 | `about.html` | About and events | Riso portrait, biography, four-step process, tools, studio facts with the local time and next open studio, upcoming fairs and events |
 | `contact.html` | Contact (`?topic=`) | Contact form with an order-number field for shop questions, studio details, live local time and open/closed line, an illustrated map |
 | `404.html` | Not found | A misregistered 404 and links back |

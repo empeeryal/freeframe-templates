@@ -7,7 +7,7 @@ Zürich that works across identity, digital product, editorial and wayfinding. T
 a strict 12-column grid, one typeface family in several weights plus a mono face for labels, a monochrome palette and
 a single red accent. Project imagery is drawn in SVG, so there are no photos to license. It has a work index with
 filters and grid/list views, nine data-driven case studies, a services page with a brief estimator, a studio page, a
-journal and a five-step project enquiry. This is the HTML + Tailwind CSS v4 version, **version 1.0.3**. See it live at
+journal and a five-step project inquiry. This is the HTML + Tailwind CSS v4 version, **version 1.0.3**. See it live at
 [freeframe.dev/templates/studio](https://freeframe.dev/templates/studio).
 
 ## Quick start
@@ -35,7 +35,7 @@ No build step is needed to use or edit the text. Node.js 24 is only needed to re
 | `services.html` | Services | Four disciplines with deliverables, timelines and starting prices, three engagement models, the brief estimator and an FAQ |
 | `studio.html` | Studio | Story, floor plan of the studio, values, process timeline, team, open roles and visiting details |
 | `journal.html` | Journal | Eight short notes with topic filters, expandable text and a newsletter sign-up |
-| `contact.html` | Contact | Five-step project enquiry with a review step, plus email, phone and studio hours with a live open/closed note |
+| `contact.html` | Contact | Five-step project inquiry with a review step, plus email, phone and studio hours with a live open/closed note |
 | `404.html` | Not found | "Off the grid" page with links back into the site |
 
 ## Project structure
@@ -56,16 +56,16 @@ studio/
 └─ README.md, DOCS.md, CHANGELOG.md
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 All design tokens live in the `@theme` block of `src/input.css`:
 
 | Token | Value | Used for |
 |-------|-------|----------|
 | `--color-paper` | `#f6f6f3` | Page background |
-| `--color-sheet` | `#ffffff` | Raised surfaces: the estimator panel and the enquiry form |
+| `--color-sheet` | `#ffffff` | Raised surfaces: the estimator panel and the inquiry form |
 | `--color-tint` | `#ecece7` | Quiet fills and image backgrounds |
 | `--color-rule` | `#d6d6cf` | Hairlines between rows and sections |
 | `--color-faint` | `#8b8b85` | Decorative lines only (too light for text) |
@@ -227,7 +227,7 @@ in step when you replace them. Covers in cards have an empty `alt` because the l
 
 The header and footer are repeated in every HTML file, so change them in all eight pages (search and replace works
 well). The desktop menu is `<nav aria-label="Main">` and the mobile menu is `<nav id="mobile-menu">`. Mark the current
-page with `aria-current="page"` on its links in both menus; the red square and colour come from the `aria-[current]`
+page with `aria-current="page"` on its links in both menus; the red square and color come from the `aria-[current]`
 styles on `.nav-link` and `.mobile-link`. `project.html` marks Work with `aria-current="true"` because it is inside that
 section.
 
@@ -290,7 +290,7 @@ hints in their labels are plain text, so update them when you change the numbers
 `DEFAULT_BRIEF`. Choices are saved in `localStorage` (see [Saved data](#saved-data-localstorage)); Reset restores the
 defaults. Results are announced through a visually hidden `aria-live` region.
 
-### Project enquiry
+### Project inquiry
 
 The form on `contact.html` (`[data-enquiry]`) has five `<section data-step>` steps: Project, Budget and timeline,
 Details, About you and Review. "Next" validates the current step before moving on; the step tabs above the form let
@@ -339,14 +339,14 @@ delete the last block of `main.js` and the `.back-to-top` styles in `src/input.c
 ## Forms
 
 There are two forms. Neither sends anything until you connect it, although their success messages read as if it had.
-The enquiry confirmation shows a short reference (`RA-` and four characters, made in the browser by `makeRef()` in
+The inquiry confirmation shows a short reference (`RA-` and four characters, made in the browser by `makeRef()` in
 `main.js`; show your form service's own reference instead if it returns one) and repeats the reply time the contact page
 already promises (within two working days, usually to suggest a 30-minute call). The newsletter confirmation asks the
 visitor to look out for a confirmation email. Change either if yours differs.
 
 | Form | Page | Validates |
 |------|------|-----------|
-| Project enquiry (`[data-enquiry]`) | `contact.html` | At least one service; organisation; a budget and a timeline; project details of at least 40 characters; an optional link that must start with `http://` or `https://`; name; a valid email; the consent box |
+| Project inquiry (`[data-enquiry]`) | `contact.html` | At least one service; organization; a budget and a timeline; project details of at least 40 characters; an optional link that must start with `http://` or `https://`; name; a valid email; the consent box |
 | Newsletter (`[data-newsletter]`) | `journal.html` | A valid email |
 
 Errors appear under each field (`.field-error`), are linked with `aria-describedby` and mark the field
@@ -356,7 +356,7 @@ Errors appear under each field (`.field-error`), are linked with `aria-described
 
 1. Create a form at [formspree.io](https://formspree.io) and copy its endpoint, for example
    `https://formspree.io/f/abcdwxyz`.
-2. In `main.js`, find the enquiry `submit` handler (look for "Demo only: nothing is sent") and replace the lines
+2. In `main.js`, find the inquiry `submit` handler (look for "Demo only: nothing is sent") and replace the lines
    that show the success message with a request:
 
    ```js
@@ -414,13 +414,13 @@ Add a `sitemap.xml` listing the eight pages (and `robots.txt` pointing to it), a
 ## Accessibility
 
 - Skip link, landmarks (`header`, `nav`, `main`, `footer`), one `<h1>` per page and a logical heading order.
-- Visible focus outlines in the accent colour; all interactive elements are native buttons, links and inputs.
+- Visible focus outlines in the accent color; all interactive elements are native buttons, links and inputs.
 - Filters, view toggle and grid toggle use `aria-pressed`; counts and estimator results use `aria-live="polite"`.
 - The work preview is decorative (`aria-hidden`), appears on keyboard focus as well as hover and is dismissible
   with Escape.
-- The enquiry form moves focus to each step's heading, announces the step and links errors to their fields.
+- The inquiry form moves focus to each step's heading, announces the step and links errors to their fields.
 - Accordions are native `<details>`; note toggles use `aria-expanded` and `aria-controls`.
-- Text colours meet WCAG AA: use `text-mute` (not `text-faint`) for secondary text, and `text-signal-ink` for red
+- Text colors meet WCAG AA: use `text-mute` (not `text-faint`) for secondary text, and `text-signal-ink` for red
   text on light backgrounds.
 - `prefers-reduced-motion` turns off all reveals, count-ups and transitions.
 

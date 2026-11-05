@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.4] - 2026-11-04
 
 ### Fixed
@@ -19,7 +25,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 - Confirmations no longer tell visitors the site is a demo or that nothing was sent or charged. The order
   confirmation says the receipt is on its way and that tracker times are a guide; order numbers now look like
-  CC-7K2Q (made without 0/O or 1/I) instead of CC- and four digits. The catering enquiry confirms the party order
+  CC-7K2Q (made without 0/O or 1/I) instead of CC- and four digits. The catering inquiry confirms the party order
   with the promised one-working-day reply and a reference; the newsletter asks subscribers to look out for a
   confirmation email. The footer line, promo code hints and checkout notes no longer mention a demo (the payment
   step still says no payment is taken). `DOCS.md` describes the reference.
@@ -48,13 +54,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
   Catering & party orders, 404.
 - Menu with sticky section nav, scrollspy and vegan, vegetarian, gluten-free and spicy filters (shareable
   `?diet=` links).
-- Pizza customiser with sizes, crusts, extra toppings, half and half and a live price, diet tags and allergens.
+- Pizza customizer with sizes, crusts, extra toppings, half and half and a live price, diet tags and allergens.
 - Postcode delivery checker with zones, fees, minimum orders and delivery times.
 - Cart drawer on every page with editing, kitchen notes, promo codes and free-delivery progress.
 - Set meal deals and a build-your-bundle builder with discount tiers.
 - Checkout with delivery or pickup, ASAP or time slots generated from opening hours and kitchen lead time.
 - Animated order tracker on the confirmation page.
 - Live open-now badges and opening hours in the shop's time zone, plus an SVG delivery-zone map.
-- Catering pizza calculator and party-order enquiry form with validation.
+- Catering pizza calculator and party-order inquiry form with validation.
 - Pizzas, sides and drinks drawn in SVG from the menu data.
 - Full documentation in `DOCS.md`.

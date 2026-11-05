@@ -7,7 +7,7 @@ Studio** (London, Lisbon and New York). It has a big-type home page with a rotat
 testimonial carousel, services with engagement models and price ranges, a filterable work page, a full
 case study with a before/after slider, an about page with team portraits, a careers page with filterable
 roles and an application form, and a detailed project-brief contact form. This is the HTML + Tailwind CSS
-v4 version, **version 1.1.6**. See it live at
+v4 version, **version 1.1.7**. See it live at
 [freeframe.dev/templates/agency](https://freeframe.dev/templates/agency).
 
 ## Quick start
@@ -58,9 +58,9 @@ agency/
 └─ README.md, DOCS.md, CHANGELOG.md
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 The brand tokens are the `@theme` block at the top of `src/input.css`:
 
@@ -236,7 +236,7 @@ to the first problem. Checkbox groups marked `data-required-group="message"` nee
 box. A valid form hides itself and shows the `[data-success]` panel next to it; `[data-reset-form]`
 brings the form back. The panel's `[data-ref]` shows a short reference (`NS-` and four characters, made in
 the browser by `makeRef()`; use your form service's own reference instead if it returns one). The panels say
-what happens next, using the reply times the pages already promise (a partner replies to enquiries within
+what happens next, using the reply times the pages already promise (a partner replies to inquiries within
 two working days, applications get a reply within ten working days): change both if yours differ.
 
 | Form | Page | Fields and rules |

@@ -7,7 +7,7 @@ ticket booking with snacks and a booking reference, memberships with a monthly o
 private hire, and a visit page with hours, access and the concession menu. Plain HTML, Tailwind CSS v4 and
 vanilla JavaScript.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.3** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/matinee)
 
 ## Quick start

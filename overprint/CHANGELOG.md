@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.1] - 2026-11-04
 
 ### Fixed
@@ -30,7 +36,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
   and quantity steppers.
 - Checkout with delivery options, free shipping over $75, Kentucky sales tax, address and test-card
   validation, ending in an order confirmation with the next mail day.
-- Four-step commission enquiry (`commissions.html?type=`) with a live fee range, budget check, rush and
+- Four-step commission inquiry (`commissions.html?type=`) with a live fee range, budget check, rush and
   too-soon warnings and a dated timeline in working days, ending in an "enquiry received" state.
 - Studio dates in America/Kentucky/Louisville time with US holidays and the winter break: booking month,
   earliest start, reply date, open studio and mail days, plus a `?now=` preview parameter.

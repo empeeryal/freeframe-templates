@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.6] - 2026-11-04
 
 ### Fixed
@@ -63,18 +69,18 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ### Added
 
-- Ten pages: home, course catalogue, course detail, learning paths, instructors, instructor profile,
+- Ten pages: home, course catalog, course detail, learning paths, instructors, instructor profile,
   pricing, student dashboard (My learning), lesson player and a 404 page.
 - One data section for the whole site (top of `assets/js/main.js`): 12 courses, 6 instructors and
   4 learning paths, with curricula and lesson lengths generated from each course.
-- Course catalogue with search and filters for topic, level, length, price and rating, six sort
+- Course catalog with search and filters for topic, level, length, price and rating, six sort
   orders and grid/list views; filters live in the URL and the view is remembered.
 - Course pages with outcomes, a curriculum accordion with free preview lessons, a preview dialog,
-  instructor bio, reviews with a rating histogram, FAQs and a sticky enrol card.
+  instructor bio, reviews with a rating histogram, FAQs and a sticky enroll card.
 - Student dashboard with stats, a learning streak, continue-where-you-left-off, progress rings and
   certificates (generated SVG) in a dialog.
 - Lesson player with a course sidebar, mark-as-complete, per-lesson notes, accessible tabs and
-  previous/next navigation; locked lessons until you enrol.
+  previous/next navigation; locked lessons until you enroll.
 - Progress, notes and preferences saved in localStorage and validated on every read, so tampered or
   corrupt data never breaks a page.
 - Pricing with a monthly/yearly toggle, comparison table, team seats calculator with volume

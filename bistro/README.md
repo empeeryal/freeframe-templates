@@ -5,7 +5,7 @@ tabbed menus with dietary filters, reservations whose time slots follow the open
 dining, a live "open now" badge and contact. Plain HTML, Tailwind CSS v4 and a small vanilla JavaScript
 file.
 
-**Version 1.1.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.1.8** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/bistro)
 
 ## Quick start
@@ -21,7 +21,7 @@ npm run build
 
 ## Documentation
 
-[DOCS.md](DOCS.md) covers everything: pages and files, colours and fonts, opening hours and menus, reservations and other interactive
+[DOCS.md](DOCS.md) covers everything: pages and files, colors and fonts, opening hours and menus, reservations and other interactive
 features, connecting the forms, SEO, accessibility and deploying.
 
 ## License

@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.8] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.7] - 2026-11-04
 
 ### Fixed
@@ -75,7 +81,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 ### Added
 
 - Initial release: a nine-page site for Bloom Hair & Spa, a fictional salon and day spa: Home, Services & prices, Team, Book online, Gift cards, Gallery, About, Visit & contact and a 404 page.
-- Five-step booking wizard (treatments, stylist, date and time, details, review) with time slots worked out from opening hours, each team member's working days and the length of the chosen treatments. Hair and colour prices scale with the stylist's level, and the running total and duration update as you go. `?service=` and `?stylist=` preselect choices.
+- Five-step booking wizard (treatments, stylist, date and time, details, review) with time slots worked out from opening hours, each team member's working days and the length of the chosen treatments. Hair and color prices scale with the stylist's level, and the running total and duration update as you go. `?service=` and `?stylist=` preselect choices.
 - Gift card builder with preset or custom amounts (£25–£500), three designs, a live preview, a character counter and scheduled delivery. Demo checkout only: no payment is taken.
 - Service menu and team page filters with live counts, and a gallery with saved looks and a lightbox (arrow keys, Esc, focus returned to the look you opened).
 - Before/after comparison slider built on a native range input.

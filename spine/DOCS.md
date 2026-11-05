@@ -3,7 +3,7 @@
 ## Overview
 
 Spine is a bookstore website template built with plain HTML, Tailwind CSS v4 and vanilla JavaScript (no
-dependencies). The demo brand is **Larchmere Books**, a fictional independent bookshop with a café corner (The
+dependencies). The demo brand is **Larchmere Books**, a fictional independent bookstore with a café corner (The
 Margin) at 112 Maple Street in Burlington, Vermont, run by Odessa Merriweather and three booksellers. It sells
 twenty-five books in hardcover and paperback, lists author readings, book clubs and Saturday story time with
 RSVPs, runs five book clubs with monthly picks, and has a bag with free store pickup or US shipping. Every book
@@ -33,7 +33,7 @@ keeps ticking from there. It is handy for checking opening hours, holidays, pick
 
 | File | Purpose | Notable sections and features |
 |------|---------|-------------------------------|
-| `index.html` | Home | Bookshelf hero drawn from the catalogue, open/closed status for shop and café, one staff pick per bookseller with a shelf-talker card, new and upcoming books, the next three author events, the café corner, the next book club meeting, a link to the reading finder |
+| `index.html` | Home | Bookshelf hero drawn from the catalog, open/closed status for shop and café, one staff pick per bookseller with a shelf-talker card, new and upcoming books, the next three author events, the café corner, the next book club meeting, a link to the reading finder |
 | `shop.html` | Shop | Search, genre, format and price filters, staff-pick and new-release toggles, six sorts, result count, shareable URLs, empty state |
 | `book.html` | One book (`?book=lantern-ferry`) | Drawn cover, format choice with prices, copies stepper with a limit, availability (on the shelf, order in or preorder), pickup time, staff shelf-talker, the author’s upcoming event, details, related books |
 | `bag.html` | Bag and checkout | Quantity steppers, store pickup or shipping, gift wrap, free-shipping bar, sales tax, ready and arrival dates, contact and US address validation, order confirmation |
@@ -65,7 +65,7 @@ spine/
 
 `data.js` loads before `main.js` on every page and sets `window.LARCHMERE`.
 
-## Customising
+## Customizing
 
 ### Brand and colors
 
@@ -269,7 +269,7 @@ the book’s cover (or a story-time tile), its time and seats left. Seats taken 
 `seatsLeft()`, a stable demo number per event that never takes more than 70% of the seats; replace it with your
 booking system’s numbers. RSVP buttons fill the form in the sidebar; an RSVP saves up to `RSVP_MAX` (4) seats with
 a reference (`EV-` and four digits), marks the event “You’re going” and appears in “Your RSVPs”, where it can be
-cancelled.
+canceled.
 
 RSVP keys are stable: `e:<event id>` for `EVENTS`, `story:<date>` for story time and `club:<club id>:<date>` for a
 club meeting. Each RSVP also stores the `date` of the occurrence it was made for. When `KEEP_DEMO_CURRENT` moves
@@ -391,7 +391,7 @@ the book page (built from the same `BOOKS` entry) are good additions.
 
 ## Accessibility
 
-- Skip link, landmarks, one `<h1>` per page, labelled navigation (`Main`, `Mobile`, `Breadcrumb`, footer).
+- Skip link, landmarks, one `<h1>` per page, labeled navigation (`Main`, `Mobile`, `Breadcrumb`, footer).
 - The menu button has `aria-expanded`, `aria-controls` and a label that changes to “Close menu”; Escape closes it
   and returns focus.
 - Filters and event types are toggle buttons with `aria-pressed`; formats, pickup or shipping and finder answers

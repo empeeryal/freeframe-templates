@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.7] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.1.6] - 2026-10-26
 
 ### Fixed
@@ -53,7 +59,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ### Fixed
 
-- Raised low-contrast text to meet WCAG AA (axe colour-contrast checks now pass in light and dark).
+- Raised low-contrast text to meet WCAG AA (axe color-contrast checks now pass in light and dark).
 - Star ratings use `role="img"` so their label is valid.
 
 ## [1.1.0] - 2026-10-05

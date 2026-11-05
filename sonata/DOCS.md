@@ -2,7 +2,7 @@
 
 ## Overview
 
-Sonata 1.0.0 is a standalone HTML + Tailwind CSS v4 website for Sonata Music Rooms, a fictional independent music school in Tiverton, Devon. It includes twelve courses, six tutors, twenty-four weekly sessions, a tuition calculator, a guided enrolment enquiry and a saved practice planner. See the [template page](https://freeframe.dev/templates/sonata) for the live preview and available downloads.
+Sonata 1.0.0 is a standalone HTML + Tailwind CSS v4 website for Sonata Music Rooms, a fictional independent music school in Tiverton, Devon. It includes twelve courses, six tutors, twenty-four weekly sessions, a tuition calculator, a guided enrollment inquiry and a saved practice planner. See the [template page](https://freeframe.dev/templates/sonata) for the live preview and available downloads.
 
 ## Quick start
 
@@ -30,15 +30,15 @@ Use `npm run watch` during development. Do not upload `node_modules` to your sta
 | File | Purpose | Features |
 | --- | --- | --- |
 | `index.html` | School introduction | Featured courses, teaching approach, introduction price and the term new starters join |
-| `courses.html` | Course catalogue | Instrument, age, level and text filters; saved shortlist |
+| `courses.html` | Course catalog | Instrument, age, level and text filters; saved shortlist |
 | `course.html` | Course detail | Outcomes, term outline, tutor, prices and matching weekly sessions |
 | `tutors.html` | Teaching team | Six biographies, instrument filter and expandable teaching notes |
-| `timetable.html` | Weekly planning | This or the next teaching week with term dates; day, instrument, age, level and tutor filters (collapsed behind a Filter button on small screens); session enquiry links |
+| `timetable.html` | Weekly planning | This or the next teaching week with term dates; day, instrument, age, level and tutor filters (collapsed behind a Filter button on small screens); session inquiry links |
 | `fees.html` | Tuition information | Group, individual and flexible-pass calculator; bursaries and policies |
-| `enrol.html` | Enrolment enquiry | Four steps, age matching, first lesson and pro-rata tuition, then a confirmation with a reference |
+| `enrol.html` | Enrollment inquiry | Four steps, age matching, first lesson and pro-rata tuition, then a confirmation with a reference |
 | `approach.html` | School philosophy | School history, learning guidance and saved weekly practice planner |
-| `contact.html` | Visits and enquiries | Location illustration, access, opening hours and a message form with a confirmation |
-| `404.html` | Missing page | Useful links back to the home page and course catalogue |
+| `contact.html` | Visits and inquiries | Location illustration, access, opening hours and a message form with a confirmation |
+| `404.html` | Missing page | Useful links back to the home page and course catalog |
 
 The default course on `course.html` is Piano, from the Beginning. Use `course.html?id=little-keys` to link directly to a different course.
 
@@ -68,11 +68,11 @@ sonata/
   CHANGELOG.md               Template release history
 ```
 
-`template.json` is catalogue metadata and may be omitted from a production upload. The download process supplies `LICENSE.txt` separately.
+`template.json` is catalog metadata and may be omitted from a production upload. The download process supplies `LICENSE.txt` separately.
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 The brand palette lives in the `@theme` block of `src/input.css`:
 
@@ -93,7 +93,7 @@ For example, change the accent and rebuild:
 --color-vermillion: #a93430;
 ```
 
-Focus outlines and illustration colours also use literal colours in `src/input.css` and `assets/img/*.svg`. Update those when changing the palette. Preserve sufficient text contrast, especially on tinted backgrounds.
+Focus outlines and illustration colors also use literal colors in `src/input.css` and `assets/img/*.svg`. Update those when changing the palette. Preserve sufficient text contrast, especially on tinted backgrounds.
 
 ### Typography
 
@@ -107,7 +107,7 @@ Headings use Lora (regular and italic, weights 400–700); body copy and control
 
 ### Content
 
-General copy is in the HTML pages. Catalogue and interaction data is in `assets/js/main.js`.
+General copy is in the HTML pages. Catalog and interaction data is in `assets/js/main.js`.
 
 | Constant | Contents |
 | --- | --- |
@@ -118,7 +118,7 @@ General copy is in the HTML pages. Catalogue and interaction data is in `assets/
 | `FAMILY_LABELS` | Instrument identifiers and display labels |
 | `AGE_LABELS` | Child, teen and adult labels |
 | `LEVEL_LABELS` | Beginner, developing and confident labels |
-| `EXPERIENCE` | Starting-point choices in the enrolment review |
+| `EXPERIENCE` | Starting-point choices in the enrollment review |
 | `CONTACT_TOPICS` | Contact form topic labels |
 | `LESSON_FORMATS` | Group, 30-minute and 45-minute individual tuition |
 | `MINUTE_OPTIONS` | Allowed daily practice lengths |
@@ -134,7 +134,7 @@ Weekdays are `1` for Monday through `6` for Saturday. Sunday is `0` in practice 
 
 To add a course, duplicate a complete object in `COURSES`, change its key, and fill every field. The required fields are `title`, `family`, `keywords`, `tutor`, `age`, `ageText`, `level`, `minutes`, `price`, `subtitle`, `description`, `outcomes`, `weeks`, `bring` and `practice`. `featured: true` includes it on the home page.
 
-Add matching entries to `SESSIONS`. A course without sessions cannot produce a useful enrolment preference. `tutor` must match an existing `TUTORS` key; `family`, `age` and `level` must match the label maps.
+Add matching entries to `SESSIONS`. A course without sessions cannot produce a useful enrollment preference. `tutor` must match an existing `TUTORS` key; `family`, `age` and `level` must match the label maps.
 
 Age labels are broad filters. A course's more specific range, such as ages 4–7, lives in `ageText`. Review individual suitability with the family before confirming a place.
 
@@ -154,7 +154,7 @@ The location guide is an inline SVG in `contact.html`. Update its accessible tit
 
 Header and footer markup is repeated in every HTML file. Update every copy when adding a page, changing hours or replacing contact information. Keep links relative, including `.html` extensions.
 
-Use `aria-current="page"` on the active primary and mobile navigation links. The course detail page intentionally does not claim to be the course catalogue page.
+Use `aria-current="page"` on the active primary and mobile navigation links. The course detail page intentionally does not claim to be the course catalog page.
 
 The mobile menu uses `#menu-toggle` and `#mobile-menu`. Do not change one without updating the JavaScript selector and `aria-controls` reference.
 
@@ -166,7 +166,7 @@ The footer's copyright year is filled using the current Europe/London calendar d
 
 `courses()` reads `COURSES` and populates `#course-grid`. Filters combine instrument, age, level and a case-insensitive text search over each course's title, subtitle, description, instrument label, tutor name and `keywords` (for example `violin`, `viola`, `fiddle`, `kit`). Add the words people search for to `keywords`.
 
-`#course-count` announces the number of matching courses. A designed empty state appears when no course matches. The Clear filters button restores the complete catalogue.
+`#course-count` announces the number of matching courses. A designed empty state appears when no course matches. The Clear filters button restores the complete catalog.
 
 | URL parameter | Allowed values |
 | --- | --- |
@@ -180,7 +180,7 @@ Invalid lookup values are ignored using own-property checks, so values such as `
 
 ### Shortlist
 
-`readSaved()`, `toggleSaved()` and `updateSaved()` manage course bookmarks. Bookmark controls expose `aria-pressed`; the catalogue shortlist provides a separate Remove action and term-price comparison.
+`readSaved()`, `toggleSaved()` and `updateSaved()` manage course bookmarks. Bookmark controls expose `aria-pressed`; the catalog shortlist provides a separate Remove action and term-price comparison.
 
 Removing a shortlist entry moves focus to the next available Remove control or a remaining course bookmark. All saves pass through `safeStorage`; the feature remains usable within the page if storage is blocked.
 
@@ -188,13 +188,13 @@ Removing a shortlist entry moves focus to the next available Remove control or a
 
 `tutors()` filters `TUTORS` using `?instrument=` and the instrument select. Biographies explain teaching style, interests and possible adaptations. Native disclosure controls reveal more detail and are keyboard accessible.
 
-The course catalogue and enrolment flow use the same tutor keys. Changing a tutor requires updating the relevant course references and portrait filename.
+The course catalog and enrollment flow use the same tutor keys. Changing a tutor requires updating the relevant course references and portrait filename.
 
 ### Weekly timetable
 
-`timetable()` combines the five select filters, groups matching sessions by weekday, and sorts each day by start time. A session card links to the enrolment flow with both `?course=` and `?session=`.
+`timetable()` combines the five select filters, groups matching sessions by weekday, and sorts each day by start time. A session card links to the enrollment flow with both `?course=` and `?session=`.
 
-The `places` field is editorial availability information, shown as "N places left". It is not connected to an inventory service; places are confirmed by the school and enquiries do not decrement availability.
+The `places` field is editorial availability information, shown as "N places left". It is not connected to an inventory service; places are confirmed by the school and inquiries do not decrement availability.
 
 Each weekday heading shows its date in the displayed teaching week. When a date is a bank holiday (Good Friday, Easter Monday, the early May and spring bank holidays can fall in term), the heading says so and that there are no lessons that day.
 
@@ -204,7 +204,7 @@ The filter parameters are `day` (`1` Monday to `6` Saturday, from `DAY_OPTIONS`)
 
 All business dates use `TIMEZONE = 'Europe/London'`. Date labels use British English. Calendar arithmetic uses UTC at noon after determining the school's local date, avoiding daylight-saving drift.
 
-| Setting | Default | Behaviour |
+| Setting | Default | Behavior |
 | --- | --- | --- |
 | `TERM_DATES` | `null` | `null` works out terms from `TERM_RULES` for any year; or a list of your real terms |
 | `TERM_RULES` | Spring, Summer, Autumn | Half-term Monday for each term: on or after 12 February, last Monday in May, last Monday in October |
@@ -240,7 +240,7 @@ To preview another date, run the template check with a fixed clock, for example 
 
 ### Tuition calculator
 
-`calculateFee()` drives `fees()`, which prices a full ten-week term or pass (the enrolment flow prices the lessons left in the joining term instead). Group tuition uses the selected course's `price`; individual lessons use `LESSON_FORMATS`. For a group the result is headed with the course title; for individual lessons it reads "Individual <instrument> lessons" with the course's tutor and the lesson length. The introduction-credit line only appears when the credit applies. Term results name the next term's start and note that new starters part-way through a term pay only for the lessons left.
+`calculateFee()` drives `fees()`, which prices a full ten-week term or pass (the enrollment flow prices the lessons left in the joining term instead). Group tuition uses the selected course's `price`; individual lessons use `LESSON_FORMATS`. For a group the result is headed with the course title; for individual lessons it reads "Individual <instrument> lessons" with the course's tutor and the lesson length. The introduction-credit line only appears when the credit applies. Term results name the next term's start and note that new starters part-way through a term pay only for the lessons left.
 
 A term is ten lessons. A flexible pass is six individual lessons, valid for twelve weeks. Group tuition cannot be purchased as a flexible pass; the option is disabled and the calculator returns to a term when Group is selected.
 
@@ -255,9 +255,9 @@ Examples:
 
 URL parameters are `course`, `format`, `plan` and `credit`. Formats must be a key from `LESSON_FORMATS`, plans are `term` or `pass`, and credit is applied only for `credit=yes`. Totals update in the polite live region `#fee-result`.
 
-The calculator's individual formats are comparisons. For group tuition, the action carries the course into the group enrolment enquiry. For individual tuition, it changes to Ask about individual lessons and opens the contact page, because individual slots are arranged with the school.
+The calculator's individual formats are comparisons. For group tuition, the action carries the course into the group enrollment inquiry. For individual tuition, it changes to Ask about individual lessons and opens the contact page, because individual slots are arranged with the school.
 
-### Guided enrolment
+### Guided enrollment
 
 `enrolment()` owns four steps: course and starting point, weekly session, contact and learner details, then review. Each course has one tutor, shown as text in step two (`#enrol-tutor`); the session list only offers that course's sessions, with places left.
 
@@ -267,7 +267,7 @@ Continue validates the current step. The details step validates name, email, lea
 
 Step two works out the first lesson (`lessonsFrom(session.day)`) and the tuition for the lessons left in the joining term: lessons × the course price, less `INTRO_PRICE` when the learner books an introduction first (it is credited) or has already paid for one. "I have paid for an introduction" is only offered when "Discuss a full ten-week term" is chosen, so the credit can't be applied twice. `#wizard-status` announces the step in a neutral style; errors appear next to their fields.
 
-Send your enquiry (`#enrol-submit`, step four) checks every step again, then hides the form and shows `#enrol-done`: "Request received · ref SM-1234", the learner, course, session, first lesson and tuition, and that the school will reply to the given email. The reference comes from `reference()`; replace it with the one your form service or database returns. Nothing claims an email has been sent.
+Send your inquiry (`#enrol-submit`, step four) checks every step again, then hides the form and shows `#enrol-done`: "Request received · ref SM-1234", the learner, course, session, first lesson and tuition, and that the school will reply to the given email. The reference comes from `reference()`; replace it with the one your form service or database returns. Nothing claims an email has been sent.
 
 Personal contact and learner details are not saved in localStorage; they exist only in the current page.
 
@@ -287,7 +287,7 @@ The IntersectionObserver reveals visible content and everything above it. Reduce
 
 ## Forms
 
-As shipped, no form sends data, reserves a place or processes payment: the enrolment enquiry and the contact form validate, then show a confirmation with a reference number on the page. Both handlers have a comment marking where to send the data. Connect a form service (below) before going live, and show the confirmation only after it accepts the submission.
+As shipped, no form sends data, reserves a place or processes payment: the enrollment inquiry and the contact form validate, then show a confirmation with a reference number on the page. Both handlers have a comment marking where to send the data. Connect a form service (below) before going live, and show the confirmation only after it accepts the submission.
 
 ### Contact form validation
 
@@ -317,7 +317,7 @@ if (!response.ok) throw new Error('The enquiry could not be sent.');
 
 Wrap that request in `try`/`catch`, disable the submit button while pending, and restore it in `finally`. Show the confirmation only after a successful response, using the reference your service returns if it gives one. On failure retain all input and provide an email or telephone alternative. Add provider-specific spam protection and server-side validation.
 
-For enrolment, integrate in the `#enrol-form` submit handler at step four (marked with a comment), not at Continue. Give the form an `action` the same way. Build a payload from the reviewed fields, including stable course and session IDs. Validate the IDs, age suitability, availability and pricing again on the server. Do not trust a client-side fee total or a places counter.
+For enrollment, integrate in the `#enrol-form` submit handler at step four (marked with a comment), not at Continue. Give the form an `action` the same way. Build a payload from the reviewed fields, including stable course and session IDs. Validate the IDs, age suitability, availability and pricing again on the server. Do not trust a client-side fee total or a places counter.
 
 The course filters, timetable filters, calculator and practice planner are local interaction forms, not external submissions. Their event handlers prevent default navigation.
 
@@ -355,7 +355,7 @@ With storage blocked, memory lasts only for that page view. Navigating to anothe
 
 ## SEO and sharing
 
-Each page has its own title, description, Open Graph title and description, locale, theme colour and social image. `courseDetail()` updates the title and Open Graph description for the selected course after JavaScript loads.
+Each page has its own title, description, Open Graph title and description, locale, theme color and social image. `courseDetail()` updates the title and Open Graph description for the selected course after JavaScript loads.
 
 Replace the relative `og:image` value in every page with your deployed absolute URL, such as `https://YOUR_SITE/assets/img/og-image.png`. Replace the school name, address, fictional domain and phone number consistently across all pages and JavaScript.
 
@@ -365,13 +365,13 @@ There is no preconfigured analytics, tracking pixel or structured-data block. Ad
 
 ## Accessibility
 
-The site includes a skip link, semantic landmarks, one main heading on each page, visible focus outlines, labelled controls and linked inline validation errors. Decorative SVG icons are hidden from assistive technology; meaningful illustrations have alternatives.
+The site includes a skip link, semantic landmarks, one main heading on each page, visible focus outlines, labeled controls and linked inline validation errors. Decorative SVG icons are hidden from assistive technology; meaningful illustrations have alternatives.
 
-Counts and changing calculator outputs use live regions. Enrolment steps move focus deliberately. Bookmark and practice controls expose pressed state. Native FAQ and tutor disclosures support standard keyboard interaction.
+Counts and changing calculator outputs use live regions. Enrollment steps move focus deliberately. Bookmark and practice controls expose pressed state. Native FAQ and tutor disclosures support standard keyboard interaction.
 
-Keep buttons at comfortable touch sizes, preserve heading order, and retest contrast after changing colours. If replacing portraits with photos, write useful alternative text. Do not put essential instructions only inside illustrations.
+Keep buttons at comfortable touch sizes, preserve heading order, and retest contrast after changing colors. If replacing portraits with photos, write useful alternative text. Do not put essential instructions only inside illustrations.
 
-The site honours `prefers-reduced-motion`. Static content remains visible without JavaScript, except data-driven catalogues, timetable, course details and interactive tools; those require JavaScript.
+The site honors `prefers-reduced-motion`. Static content remains visible without JavaScript, except data-driven catalogs, timetable, course details and interactive tools; those require JavaScript.
 
 ## Building and deploying
 
@@ -395,11 +395,11 @@ Configure your host to use `404.html` for missing pages. Test navigation from a 
 | A new utility has no visible effect | Rebuild CSS and clear the browser cache; keep utility names literal in scanned files |
 | Font fallback appears | Check the Google Fonts `<link>` in the page head and that your Content Security Policy allows `fonts.googleapis.com` and `fonts.gstatic.com` |
 | A course has no sessions | Add matching `SESSIONS` entries with an existing course key and unique session IDs |
-| Enrolment rejects an age group | Pick the category matching the course; update the course data if its target audience has changed |
+| Enrollment rejects an age group | Pick the category matching the course; update the course data if its target audience has changed |
 | Saved choices vanish on navigation | Storage may be blocked; the fallback is intentionally limited to the current page view |
 | A group pass becomes a term | Flexible passes are supported for individual tuition only |
 | The timetable dates differ next year | Terms are worked out from `TERM_RULES`; set `TERM_DATES` to your real term calendar |
-| Enquiries never arrive | No form service is connected yet; follow Forms above |
+| Inquiries never arrive | No form service is connected yet; follow Forms above |
 
 ## License
 

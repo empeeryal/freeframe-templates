@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.4] - 2026-11-04
 
 ### Fixed
@@ -23,7 +29,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ### Fixed
 
-- The newsletter, contact and sign-up (enrol, book, waitlist) confirmations no longer say they are a demo and
+- The newsletter, contact and sign-up (enroll, book, waitlist) confirmations no longer say they are a demo and
   that nothing was sent. The newsletter asks subscribers to look out for a confirmation email; the contact
   message says Marnie answers emails on Tuesdays and Thursdays and shows a reference like MD-7K2Q; the sign-up
   dialog shows a reference and says what happens next for a free or paid course, a free or paid workshop
@@ -42,7 +48,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 - Initial release with 10 pages: Home, Courses, Course sales page, Live workshops, Free resources,
   Student gallery, About, Newsletter, Contact and 404.
-- Course catalogue filtered by level and topic, with shareable `?level=` and `?topic=` links
+- Course catalog filtered by level and topic, with shareable `?level=` and `?topic=` links
 - Saved courses kept in localStorage (or in memory when storage is blocked), with a header count and a
   "saved only" filter
 - Course sales page generated from one data file: curriculum accordion with lesson counts and total runtime
@@ -51,9 +57,9 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - Demo dates that never go stale: a rolling early-bird deadline (`EARLY_BIRD_ENDS = null`) and workshop dates
   that move forward in whole weeks (`KEEP_DEMO_CURRENT`), both easy to switch to real dates
 - Live workshops in Europe/London time with BST/GMT labels, the visitor's own time, seats left and a waitlist
-- Free worksheets, colour palettes and cheat sheets generated as downloadable SVG files, filterable by type
+- Free worksheets, color palettes and cheat sheets generated as downloadable SVG files, filterable by type
 - Student gallery with course filters and a keyboard-friendly lightbox
-- Validated newsletter, contact, enrol and booking forms with demo success states
+- Validated newsletter, contact, enroll and booking forms with demo success states
 - Hand-drawn SVG artwork throughout: portrait, course covers, student work and doodles
 - Accessible mobile menu, skip link, reduced-motion support, scroll reveals and a back-to-top button
 - Full documentation in `DOCS.md`.

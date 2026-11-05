@@ -1,6 +1,6 @@
 # Praxlet
 
-A complete HTML5 and Tailwind CSS v4 website for a modular educational robotics company in Oundle. Nine pages include a sixteen-module catalogue, comparison board, kit configurator, six projects and practical field notes.
+A complete HTML5 and Tailwind CSS v4 website for a modular educational robotics company in Oundle. Nine pages include a sixteen-module catalog, comparison board, kit configurator, six projects and practical field notes.
 
 ## Quick start
 

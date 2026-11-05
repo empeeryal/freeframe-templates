@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.8] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.1.7] - 2026-10-26
 
 ### Fixed
@@ -29,7 +35,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 - "Make another booking" now resets the notes character counter to 0 and hides the "nine or more guests"
   note along with the rest of the form.
-- Private dining enquiry: the confirmation no longer reads "in Not sure yet" when that space is chosen.
+- Private dining inquiry: the confirmation no longer reads "in Not sure yet" when that space is chosen.
   It now names the space in its own sentence ("Space: Not sure yet.").
 - `DOCS.md` no longer says the 404 page shows opening hours (it has links home, to the menu and to
   reservations).
@@ -67,7 +73,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ### Fixed
 
-- Raised low-contrast text to meet WCAG AA (axe colour-contrast checks now pass in light and dark).
+- Raised low-contrast text to meet WCAG AA (axe color-contrast checks now pass in light and dark).
 - Star ratings use `role="img"` so their label is valid.
 
 ## [1.1.0] - 2026-10-05
@@ -97,7 +103,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - Live 'Open now / Closed' badge and today's hours highlighted
 - Reservation form with time slots generated from your opening hours
 - Seating choice cards, party-size guidance and a character counter
-- Private dining packages that preselect the enquiry form
+- Private dining packages that preselect the inquiry form
 - Client-side validation with inline errors and success states
 - Accessible mobile menu, skip link and scroll-reveal animations
 - Illustrated SVG dishes, chef portrait and map, no stock photos needed

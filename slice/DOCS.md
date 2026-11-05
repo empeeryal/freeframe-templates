@@ -2,11 +2,11 @@
 
 ## Overview
 
-Slice is a website for a pizzeria or takeaway with online ordering, built for **Crust Club**, a fictional
+Slice is a website for a pizzeria or takeout with online ordering, built for **Crust Club**, a fictional
 sourdough pizzeria with two shops in Manchester (Ancoats and Chorlton). It has a filterable menu with a
-pizza customiser, a cart drawer on every page, a postcode delivery checker, set deals and a bundle builder, a
+pizza customizer, a cart drawer on every page, a postcode delivery checker, set deals and a bundle builder, a
 checkout with time slots worked out from the opening hours, an animated order tracker, a locations page
-with a delivery-zone map, an about page and a catering page with a pizza calculator and enquiry form. It is
+with a delivery-zone map, an about page and a catering page with a pizza calculator and inquiry form. It is
 plain HTML with Tailwind CSS v4 and one vanilla JavaScript file, with no build step needed to use it. This
 guide covers version 1.0.3. See it live at
 [freeframe.dev/templates/slice](https://freeframe.dev/templates/slice).
@@ -32,12 +32,12 @@ Try an order: check the postcode `M4 6AJ` on the home page, add a pizza from the
 | File | Purpose | Notable sections and features |
 |------|---------|-------------------------------|
 | `index.html` | Home | Hero with delivery / pickup switch and postcode checker, bestsellers (from the menu data), deals, how ordering works, dough story, reviews, both shops with open-now badges |
-| `menu.html` | Menu | Sticky section nav with scrollspy, vegan / vegetarian / gluten-free / spicy filters, live count, empty state, item customiser, allergen guide (`menu.html#allergens`) |
+| `menu.html` | Menu | Sticky section nav with scrollspy, vegan / vegetarian / gluten-free / spicy filters, live count, empty state, item customizer, allergen guide (`menu.html#allergens`) |
 | `deals.html` | Deals & bundles | Three set deals with a picker dialog, build-your-bundle with discount tiers (`deals.html#bundle`), demo promo codes with copy buttons |
 | `checkout.html` | Checkout | Delivery or pickup, ASAP or scheduled slot, contact and address, demo payment, order summary with promo code, confirmation with order tracker, empty state |
 | `locations.html` | Locations & delivery | SVG delivery-zone map, postcode checker, zones table, both shops with full hours (today highlighted) and open-now, delivery FAQ |
 | `about.html` | Our story | Timeline, the four dough steps, suppliers, team, values |
-| `catering.html` | Catering & party orders | Packages, pizza calculator, party-order enquiry form, FAQ |
+| `catering.html` | Catering & party orders | Packages, pizza calculator, party-order inquiry form, FAQ |
 | `404.html` | Not found | Links to the menu, home and locations |
 
 ## Project structure
@@ -59,11 +59,11 @@ slice/
   CHANGELOG.md            version history
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
-All colours and fonts are tokens in the `@theme` block at the top of `src/input.css`. Each token becomes
+All colors and fonts are tokens in the `@theme` block at the top of `src/input.css`. Each token becomes
 Tailwind classes (`--color-tomato` gives `bg-tomato`, `text-tomato`, `ring-tomato`...).
 
 | Token | Default | Used for |
@@ -78,7 +78,7 @@ Tailwind classes (`--color-tomato` gives `bg-tomato`, `text-tomato`, `ring-tomat
 | `--color-ink` | `#2a1209` | Text, footer, dark buttons |
 | `--color-cocoa` | `#6b4a3a` | Secondary text |
 
-Each strong colour has a `-soft` tint (`tomato-soft`, `cheese-soft`, `basil-soft`) for tags and card
+Each strong color has a `-soft` tint (`tomato-soft`, `cheese-soft`, `basil-soft`) for tags and card
 backgrounds. To re-brand, change the values and rebuild the CSS:
 
 ```css
@@ -88,7 +88,7 @@ backgrounds. To re-brand, change the values and rebuild the CSS:
 }
 ```
 
-Keep text on `tomato` and `basil` at 4.5:1 contrast or better. A few colours are written directly in SVG
+Keep text on `tomato` and `basil` at 4.5:1 contrast or better. A few colors are written directly in SVG
 artwork (pizza toppings, the map, `og-image.svg`) and in `<meta name="theme-color">` on each page.
 
 Component classes live in `@layer components` in `src/input.css`: `btn-primary`, `btn-cheese`,
@@ -211,7 +211,7 @@ opens that item straight away.
 The section nav sticks under the header and highlights the section in view (an `IntersectionObserver`
 scrollspy), scrolling itself sideways on phones.
 
-### Item customiser
+### Item customizer
 
 `openCustomiser()` opens a `<dialog>` for a pizza: size (with the price of each size), crust, half and half,
 up to six extra toppings and quantity. The picture, price, diet tags and allergens update as you choose.
@@ -309,7 +309,7 @@ table carries the same information. To draw your own area, replace the paths and
 On `catering.html`, guests (10–300) and appetite (`APPETITE`: slices per person) give the number of large
 pizzas (8 slices each), a suggested veggie / vegan / meaty mix, sides and an estimate using the average
 large pizza price and `CATERING_DISCOUNT` (10% off 10+ pizzas, 15% off 20+). **Use these numbers** copies
-the guest count and a summary into the enquiry form.
+the guest count and a summary into the inquiry form.
 
 ### Scroll reveal, motion and back to top
 
@@ -322,7 +322,7 @@ appears after one screen; it lifts above toasts and the mobile order bar. Remove
 ## Forms
 
 All forms validate in the browser with inline messages (`fieldMessage()` in `main.js`) and finish with an
-in-world confirmation. The catering enquiry confirms the party order, promises a reply within one working day
+in-world confirmation. The catering inquiry confirms the party order, promises a reply within one working day
 with a menu and a fixed quote (as the catering page says; change both if yours differs) and shows a reference
 (`CC-` and four characters, from `makeRef()`; use your form service's own reference instead if it returns
 one). The newsletter asks subscribers to look out for a confirmation email. **None of them send anything**
@@ -331,7 +331,7 @@ until you connect them.
 | Form | Where | Validates |
 |------|-------|-----------|
 | Newsletter (`data-form="newsletter"`) | Footer of every page | Email |
-| Catering enquiry (`data-form="catering"`) | `catering.html` | Name, email, phone, guests 10–300, date at least two days ahead (in the shop's time zone), time 11:00–22:00, delivery or pickup, delivery postcode (UK format, only when delivering), consent |
+| Catering inquiry (`data-form="catering"`) | `catering.html` | Name, email, phone, guests 10–300, date at least two days ahead (in the shop's time zone), time 11:00–22:00, delivery or pickup, delivery postcode (UK format, only when delivering), consent |
 | Checkout (`#checkout-form`) | `checkout.html` | Delivery postcode in a zone, minimum order, a time slot, name, phone, email, address (delivery), card fields (card payment) |
 
 To connect the newsletter or catering form to a form service such as [Formspree](https://formspree.io),
@@ -393,15 +393,15 @@ if you need the menu in the raw HTML, copy the rendered cards into `menu.html`.
 - Skip link, landmarks (`header`, `nav`, `main`, `footer`), one `h1` per page and a logical heading order.
 - Visible focus outlines everywhere, including radio cards, chips and the Delivery / Pickup switch.
 - The mobile menu button has `aria-expanded` and closes on Esc.
-- The customiser and deal pickers use the native `<dialog>`; the cart drawer is `role="dialog"` with
+- The customizer and deal pickers use the native `<dialog>`; the cart drawer is `role="dialog"` with
   `aria-modal`, a focus trap and Esc to close.
 - Filter chips are toggle buttons (`aria-pressed`); the result count, postcode result, bundle hint, toasts
   and tracker status are live regions.
-- Quantity steppers have labelled buttons ("One more Margherita"), and remove / edit buttons include the
+- Quantity steppers have labeled buttons ("One more Margherita"), and remove / edit buttons include the
   item name for screen readers.
-- Diet tags have text, not just colour; allergens are written out.
+- Diet tags have text, not just color; allergens are written out.
 - Reduced motion turns off reveals, floating, spinning, card turns and tracker animations.
-- Colours meet WCAG AA contrast. Keep text on `tomato` and `basil` at full opacity when you edit.
+- Colors meet WCAG AA contrast. Keep text on `tomato` and `basil` at full opacity when you edit.
 
 When editing, keep exactly one `h1` per page, give every new input a `<label>`, and keep `alt` text on
 meaningful images.
@@ -432,7 +432,7 @@ are relative.
   JavaScript (`'bg-' + color`) aren't found by Tailwind; write the full class name.
 - **"Open now" is wrong.** Hours are in `TIMEZONE`. Check `STORES[].hours` (Sunday first) and set
   `TIMEZONE` to your shop's zone, for example `'America/New_York'`.
-- **My postcode isn't recognised.** Zones match UK postcode districts. For other countries, change
+- **My postcode isn't recognized.** Zones match UK postcode districts. For other countries, change
   `postcodeDistrict()` and `checkPostcode()` to read your format (for example a 5-digit ZIP) and list those
   codes in `ZONES[].districts`.
 - **The cart shows old items or totals after I changed the menu.** Lines whose item, size or topping no

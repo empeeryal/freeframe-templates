@@ -31,7 +31,7 @@ You only need Node.js 24 (for `npm`) if you change `src/input.css` or add Tailwi
 | File | Page | Notable sections and features |
 |------|------|-------------------------------|
 | `index.html` | Home | Woodcut hero with the "fire's lit" status card, a check-a-stay bar, today's hours and the next event, three rooms, food, walks, dogs, guest book, voucher ticket |
-| `rooms.html` | Rooms and prices | Six rooms with features and a price per season, the stay checker (`#check`), the booking enquiry form and house notes |
+| `rooms.html` | Rooms and prices | Six rooms with features and a price per season, the stay checker (`#check`), the booking inquiry form and house notes |
 | `food.html` | Food & drink | Menus in tabs (breakfast, lunch, dinner, Sunday roast), diet filter, chalkboard specials for today, ales on handpull |
 | `walks.html` | Walks from the door | Eight walks with length, difficulty and saved filters, an SVG route map, save buttons |
 | `dogs.html` | Dogs & good to know | Dog policy, what's provided for dogs, FAQ (`<details>`), house rules |
@@ -64,9 +64,9 @@ hearth/
   LICENSE.txt            MIT license (in the download)
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 The design tokens are in the `@theme` block at the top of `src/input.css`:
 
@@ -92,7 +92,7 @@ Change a value and rebuild the CSS. For example, a navy accent instead of ox-blo
 ```
 
 The paper grain is an inline SVG noise tile on `body` (in `@layer base`); delete the `background-image` line for
-flat paper. The SVG artwork uses the same colours as fixed hex values, so edit the files in `assets/img/` (or the
+flat paper. The SVG artwork uses the same colors as fixed hex values, so edit the files in `assets/img/` (or the
 inline SVGs in the pages) if you change the palette a lot.
 
 Components defined in `src/input.css` include `btn` (with `btn-primary`, `btn-green`, `btn-paper`, `btn-sm`),
@@ -225,17 +225,17 @@ checker, then opens `rooms.html?checkin=YYYY-MM-DD&checkout=YYYY-MM-DD&guests=N#
 - **Availability** (`isBooked()`) is a fixed demo pattern so some rooms show "Booked on Sat 24 Oct". Replace
   it with a call to your booking system.
 - With no room chosen, all six rooms are listed: available ones with prices and an "Enquire about ..." button
-  that fills the enquiry form; others with the reason (too small, dog-free, booked).
+  that fills the inquiry form; others with the reason (too small, dog-free, booked).
 - URL parameters prefill the form and show prices at once: `room` (a room id), `checkin`, `checkout`
   (`YYYY-MM-DD`), `guests` (1 to 4), `dogs` (0 to 2). Room ids are checked with
   `Object.prototype.hasOwnProperty.call(ROOMS, id)`, so `?room=constructor` is ignored.
 
 The results area (`#stay-results`) is a polite live region and receives focus after "Check prices".
 
-### Booking enquiry
+### Booking inquiry
 
 `#enquiry` sits under the checker. `[data-enquiry-summary]` repeats the chosen stay and total. The checker and
-the enquiry fields are saved as you type (see [Saved data](#saved-data-localstorage)); "Clear saved details"
+the inquiry fields are saved as you type (see [Saved data](#saved-data-localstorage)); "Clear saved details"
 (`[data-clear-draft]`) empties both forms and the saved copy. A successful send also clears it.
 
 ### Menu tabs and diet filter
@@ -271,7 +271,7 @@ dishes that are both. Empty groups hide, `[data-menu-empty]` shows when nothing 
 ### Events
 
 `initEvents()` builds the list for the next `EVENT_WINDOW_DAYS` days from `EVENT_RULES` and `EVENTS`, sorted by
-date and time in London. Today's events stay listed until three hours after they start and are labelled
+date and time in London. Today's events stay listed until three hours after they start and are labeled
 "Today" or "Tonight" (from 5pm); tomorrow's say "Tomorrow". The type filter (`[data-event-type]`) is kept in the
 URL as `?type=quiz|music|food|special`. On the home page `[data-next-event]` shows the next event.
 
@@ -339,7 +339,7 @@ fetch('https://formspree.io/f/your-id', {
 });
 ```
 
-The enquiry, voucher and contact panels show a short reference in `[data-success-ref]` (`FH-` and four
+The inquiry, voucher and contact panels show a short reference in `[data-success-ref]` (`FH-` and four
 characters, made in the browser by `makeRef()`; show your form service's or booking system's own reference
 instead if it returns one). The voucher panel's `[data-success-delivery]` line depends on the delivery choice.
 The newsletter panel asks subscribers to look out for a confirmation email.
@@ -357,7 +357,7 @@ form service.
 | `hearth:enquiry` | `{ checkin, checkout, guests, dogs, room, name, email, phone, message }` (every field optional) | Dates must be real `YYYY-MM-DD` dates, arrival not in the past, departure after arrival; `guests` an integer 1 to 4; `dogs` 0 to 2; `room` an own key of `ROOMS`; strings trimmed to 120 characters (message 1000). Anything else is dropped. |
 | `hearth:saved-walks` | `["cove", "tarn"]` | Only ids that are own keys of `WALKS`, without duplicates |
 
-URL parameters override the saved enquiry for that visit. All storage goes through one `safeStorage` object: it
+URL parameters override the saved inquiry for that visit. All storage goes through one `safeStorage` object: it
 is `localStorage`, or an in-memory stand-in when the browser blocks storage (a sandboxed iframe, strict privacy
 settings), so saving still works for the rest of the page view. To reset, use "Clear saved details" on the rooms
 page, unsave the walks, or run `localStorage.removeItem('hearth:enquiry')` in the browser console.
@@ -377,7 +377,7 @@ opening hours and price range.
 ## Accessibility
 
 - Skip link, landmarks (`header`, `nav`, `main`, `footer`), one `<h1>` per page and logical headings.
-- Visible focus outlines (ox-blood on paper, amber on green), AA colour contrast throughout; the ember colour is
+- Visible focus outlines (ox-blood on paper, amber on green), AA color contrast throughout; the ember color is
   used only on dark backgrounds or for decoration.
 - ARIA patterns: tabs on the food page, toggle buttons with `aria-pressed` for filters, saves and the map,
   `aria-expanded` on the menu button, `aria-current="page"` in the nav and `aria-current="date"` on today's
@@ -422,7 +422,7 @@ don't need to upload `src/`, `package.json` or the Markdown files.
   in `rooms.html`; update both.
 - **New Tailwind classes have no effect.** Rebuild the CSS (`npm run build`). Classes built from pieces in JS
   (`'bg-' + colour`) aren't found; write them in full.
-- **Saved walks or the enquiry disappear after closing the tab.** The browser is blocking storage (private
+- **Saved walks or the inquiry disappear after closing the tab.** The browser is blocking storage (private
   mode, a sandboxed iframe); the site falls back to memory for that page view.
 - **The specials board or events show the wrong day.** They use London time, so a visitor in another time zone
   can see tomorrow's board late at night. That's intended; change `TIME_ZONE` to suit.

@@ -5,7 +5,7 @@
 Folio is a dark, type-led portfolio for product designers, developers and small studios. The demo
 content belongs to Mira Okafor, a fictional independent product designer in Lisbon, with six sample
 projects and one full case study. It is built with plain HTML5, Tailwind CSS v4 and a small vanilla
-JavaScript file, so it runs without a build step. This guide covers version 1.1.8.
+JavaScript file, so it runs without a build step. This guide covers version 1.1.9.
 
 Live demo: [freeframe.dev/templates/folio](https://freeframe.dev/templates/folio)
 
@@ -51,11 +51,11 @@ folio/
 └── DOCS.md                this guide
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
-All colours and fonts are design tokens in the `@theme` block at the top of `src/input.css`:
+All colors and fonts are design tokens in the `@theme` block at the top of `src/input.css`:
 
 | Token | Used for |
 |-------|----------|
@@ -75,7 +75,7 @@ To switch the accent to a green, change the tokens and rebuild the CSS:
 }
 ```
 
-The `theme-color` meta tag in each page's `<head>` (`#0b0b0c`) colours the browser UI on phones; update
+The `theme-color` meta tag in each page's `<head>` (`#0b0b0c`) colors the browser UI on phones; update
 it if you change `--color-bg`.
 
 ### Typography
@@ -281,7 +281,7 @@ search engines, add a `sitemap.xml` listing your pages and a `robots.txt` at the
 
 ## Accessibility
 
-- A "Skip to content" link jumps to `<main id="main">`; focus rings use the accent colour.
+- A "Skip to content" link jumps to `<main id="main">`; focus rings use the accent color.
 - Landmarks (`header`, `nav` with labels, `main`, `footer`) and one `<h1>` per page.
 - Filter buttons use `aria-pressed`; the mobile menu uses `aria-expanded` and closes with Esc.
 - Form errors are linked with `aria-describedby` and announced with `aria-live`.

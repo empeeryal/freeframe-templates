@@ -9,7 +9,7 @@ npm install
 npm run build
 ```
 
-Read [DOCS.md](DOCS.md) for the full customisation, data, form integration and deployment guide.
+Read [DOCS.md](DOCS.md) for the full customization, data, form integration and deployment guide.
 
 ## License
 

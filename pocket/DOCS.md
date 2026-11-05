@@ -4,7 +4,7 @@
 
 Pocket is a launch website for a mobile app, built for **Pocket**, a fictional budgeting app from Bristol.
 It has layered phone mockups, a scroll-driven feature tour, a screenshot carousel with a lightbox, pricing,
-release notes, a help centre, a press kit and a privacy policy. Every phone screen is plain HTML and SVG, with no
+release notes, a help center, a press kit and a privacy policy. Every phone screen is plain HTML and SVG, with no
 image files. This is the **HTML + Tailwind CSS v4** version, **1.0.5**: static pages and one vanilla JavaScript
 file, no build step needed to run it.
 
@@ -34,8 +34,8 @@ python3 -m http.server 8000   # then open http://localhost:8000
 | `screenshots.html` | Screenshots | Horizontal carousel (buttons, swipe, arrow keys) with a lightbox |
 | `pricing.html` | Pricing | Free, Plus and Family plans, monthly/yearly toggle, comparison table, FAQ accordion |
 | `changelog.html` | Release notes ("What's new") | Timeline with type and platform filters and a live count |
-| `support.html` | Help centre | Searchable FAQ in groups, contact form in a sticky sidebar, newsletter |
-| `press.html` | Press kit | Boilerplate, key facts, logos, colours and leadership, all with copy buttons |
+| `support.html` | Help center | Searchable FAQ in groups, contact form in a sticky sidebar, newsletter |
+| `press.html` | Press kit | Boilerplate, key facts, logos, colors and leadership, all with copy buttons |
 | `privacy.html` | Privacy policy | Table of contents that highlights the section you're reading |
 | `404.html` | Not found | Links back into the site |
 
@@ -58,9 +58,9 @@ pocket/
 ├── README.md  DOCS.md  CHANGELOG.md
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 Tokens are in the `@theme` block of `src/input.css`:
 
@@ -82,7 +82,7 @@ Change the green by replacing the `pine` scale (keep the 50–950 steps), then r
 }
 ```
 
-The phone screens use **inline styles** with hex colours so each screen is self-contained. Search the HTML for
+The phone screens use **inline styles** with hex colors so each screen is self-contained. Search the HTML for
 `#0f7457` (the brand green) and other hex values to recolour them. The logos and favicon are SVG files you can
 edit in any vector editor or text editor.
 
@@ -192,7 +192,7 @@ FAQ items on the pricing and help pages are buttons marked `data-accordion-butto
 (`data-platform-filter`) hide non-matching changes and empty releases, and update the count
 (`data-change-count`). An empty state appears when nothing matches.
 
-### Help centre search
+### Help center search
 
 `support.html`. Typing in `data-help-search` filters every `data-faq-item` by its text, hides empty groups and shows
 "3 articles match …" (`data-help-count`) or the empty state (`data-help-empty`). The contact form sits in a sticky
@@ -240,7 +240,7 @@ Forms with `data-validate` are checked with the browser's built-in constraints (
   `data-match="<id>"` and `data-match-message`.
 
 When valid, `onValid(form)` hides the form and shows the element named in `data-success`. The contact form's success
-message ("Thanks, message received.") promises a reply within one working day, as the help centre and features pages
+message ("Thanks, message received.") promises a reply within one working day, as the help center and features pages
 say, and shows a short reference (`PO-` and four characters, made in the browser by `makeRef()` and written into the
 message's `[data-ref]` element; use your help desk's own reference instead if it returns one). It has a "Send another
 message" button whose `data-form-reset` holds the **form's** `id` (for example `data-form-reset="contact-form"`), not

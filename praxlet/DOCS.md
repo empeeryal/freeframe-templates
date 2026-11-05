@@ -2,7 +2,7 @@
 
 ## Overview
 
-Praxlet is a fictional educational robotics and modular hardware company in Oundle. This HTML and Tailwind CSS v4 template includes a sixteen-module catalogue, a compatible kit planner, project guides, field notes and a business enquiry form. This is version 1.0.0. Visit the [template page](https://freeframe.dev/templates/praxlet) for the live preview.
+Praxlet is a fictional educational robotics and modular hardware company in Oundle. This HTML and Tailwind CSS v4 template includes a sixteen-module catalog, a compatible kit planner, project guides, field notes and a business inquiry form. This is version 1.0.1. Visit the [template page](https://freeframe.dev/templates/praxlet) for the live preview.
 
 ## Quick start
 
@@ -16,7 +16,7 @@ python3 -m http.server 8080
 
 Open `http://localhost:8080` in your browser.
 You can also open the HTML files directly, although browser restrictions may limit persistence and copying.
-JavaScript must be enabled for the catalogue, kit planner and enquiry validation.
+JavaScript must be enabled for the catalog, kit planner and inquiry validation.
 Node.js 24 or later and npm are required only when rebuilding the CSS.
 Google Fonts requires an internet connection; system sans-serif fallbacks remain available offline.
 
@@ -25,14 +25,14 @@ Google Fonts requires an internet connection; system sans-serif fallbacks remain
 | File                | Purpose            | Notable features                                                                        |
 | ------------------- | ------------------ | --------------------------------------------------------------------------------------- |
 | `index.html`        | Brand introduction | Exploded robot illustration, four modules, three projects and kit planning introduction |
-| `modules.html`      | Module catalogue   | Sixteen products, search, voltage/category filters, sorting and saved comparison        |
+| `modules.html`      | Module catalog   | Sixteen products, search, voltage/category filters, sorting and saved comparison        |
 | `module.html`       | Module detail      | Specifications, included parts, assembly steps, dependencies and related modules        |
 | `configurator.html` | Kit bench          | Presets, quantities, compatibility checks, budget and class-set totals, named builds    |
 | `projects.html`     | Project bench      | Six parts lists, learning aims, expandable methods and planner links                    |
 | `docs.html`         | Field notes        | Twelve searchable guides with practical steps and cautions                              |
 | `company.html`      | Company story      | Principles, three team members and Oundle workshop information                          |
-| `contact.html`      | Enquiries          | Validated request, kit quote with parts list and total, success reference and next steps |
-| `404.html`          | Error recovery     | Links to the catalogue, kit bench and company contact                                   |
+| `contact.html`      | Inquiries          | Validated request, kit quote with parts list and total, success reference and next steps |
+| `404.html`          | Error recovery     | Links to the catalog, kit bench and company contact                                   |
 
 `module.html?module=rangetail` selects a module.
 An absent or unknown module selects Arcloop safely.
@@ -41,7 +41,7 @@ An absent or unknown module selects Arcloop safely.
 A valid planner query is consumed once and removed with `history.replaceState`.
 Unknown identifiers, including inherited property names, cannot select records.
 `docs.html?guide=first-power` opens the matching field note.
-`contact.html?topic=kit` selects an enquiry topic.
+`contact.html?topic=kit` selects an inquiry topic.
 The allowed topics are `quote`, `kit`, `module`, `project`, `visit` and `support`; anything else falls back to `kit`.
 `contact.html?topic=quote` opens the quote request for the current kit bench (the kit bench's "Request a quote" button links here).
 
@@ -71,13 +71,13 @@ praxlet/
   CHANGELOG.md               Release history
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 Edit `@theme` in `src/input.css` and rebuild `assets/css/style.css`.
 The important tokens are `paper`, `ink`, `red`, `line`, `muted`, `wash` and `soft`.
-`paper` is the warm page background, `ink` the dark instrument colour and `red` the action colour.
+`paper` is the warm page background, `ink` the dark instrument color and `red` the action color.
 Keep sufficient contrast for small labels, borders and keyboard focus rings.
 
 ```css
@@ -117,7 +117,7 @@ A module record includes these fields:
 | Field                        | Meaning                                                   |
 | ---------------------------- | --------------------------------------------------------- |
 | `id`, `name`, `code`         | Stable identifier, visible name and specimen code         |
-| `category`, `interface`      | Catalogue grouping and electrical/mechanical connection   |
+| `category`, `interface`      | Catalog grouping and electrical/mechanical connection   |
 | `voltage`, `current`         | Required logic/supply voltage and planning current in mA  |
 | `price`                      | Price in integer pence, including VAT                     |
 | `slots`                      | Chassis mounting slots occupied by one unit               |
@@ -137,18 +137,18 @@ Inner-page heroes have their own art: `hero-modules.svg`, `hero-kit.svg`, `hero-
 `bench.svg` (company). Team portraits are `person-1.svg` to `person-3.svg`, in the order of `team` in `data.js`;
 names are in the HTML, not the artwork.
 
-The age and small-parts note ("Recommended for ages 11+. Contains small parts.") appears on the catalogue,
+The age and small-parts note ("Recommended for ages 11+. Contains small parts.") appears on the catalog,
 kit bench, projects, module detail and quote form. Change `AGE_NOTE` in `main.js` and the `data-age-note`
 paragraphs in the HTML together, and check the wording against the safety marking your products carry.
 Include its identifier in relevant project `parts` objects.
-Update HTML claims about catalogue size when changing the sixteen-item catalogue.
+Update HTML claims about catalog size when changing the sixteen-item catalog.
 
 Project records contain `id`, `title`, `level`, `minutes`, `voltage`, `summary`, `art`, `parts`, `learn` and `steps`.
 Their `parts` object maps known module IDs to integer quantities.
 Guide records contain `id`, `title`, `category`, `summary`, `steps` and `caution`.
 Team records contain `name`, `role` and `bio`; their portraits follow array order.
 All names, specifications, projects and contact details are fictional.
-Replace them with checked information for your own organisation before launch.
+Replace them with checked information for your own organization before launch.
 
 ### Images and artwork
 
@@ -168,9 +168,9 @@ Header and footer markup is repeated in all nine HTML files.
 Update every copy when adding a page or changing the workshop details.
 Set `aria-current="page"` only on the current navigation link.
 The mobile toggle controls `#mobile-menu` through `data-menu-toggle`.
-Preserve the controlled ID, expanded state, visible labels and Escape behaviour.
+Preserve the controlled ID, expanded state, visible labels and Escape behavior.
 The footer year is filled from the current date in Europe/London.
-The site follows one fixed light palette in both operating-system colour preferences.
+The site follows one fixed light palette in both operating-system color preferences.
 There is no theme switch or saved dark-mode setting.
 
 ## Features
@@ -190,7 +190,7 @@ Change the categories in `CATEGORIES` and matching HTML options together.
 
 `initModule` validates the `module` query through an own-property lookup.
 It renders one detail record, updates the document title and shows three related records.
-Specifications use the same catalogue data as the calculator.
+Specifications use the same catalog data as the calculator.
 The setup instructions and included pieces are authored per module.
 The add-to-build link goes to the kit bench with a known module ID.
 
@@ -202,7 +202,7 @@ Buttons expose `aria-pressed`, update the saved board and announce changes.
 The board compares price, voltage, planning current, interface, dimensions, mass and mounting slots.
 Remove buttons move focus to another removal control or the clear control as appropriate.
 The clear button clears all selected modules and restores a useful focus target.
-Filtering the catalogue retains the comparison selection.
+Filtering the catalog retains the comparison selection.
 The detail page also supports adding or removing its module.
 
 ### Kit compatibility
@@ -215,7 +215,7 @@ It checks all of the following:
 
 - Exactly one controller and an appropriate power module.
 - Controller voltage and each powered module's voltage against the selected system.
-- Available controller channels for I²C, PWM, digital and analogue connections.
+- Available controller channels for I²C, PWM, digital and analog connections.
 - Fixed I²C address collisions, including repeated units with the same address.
 - Module dependencies and their quantities, such as two Seamdrive units per Siltstep.
 - Occupied mounting slots against Tackrail and optional Shelfwing capacity.
@@ -277,11 +277,11 @@ No content depends on an animation completing.
 
 ## Forms
 
-### Enquiry request
+### Inquiry request
 
 `initContact` handles `data-contact-form` in `contact.html`.
 It validates a name of at least two characters, a complete email, a twelve-character message, a known topic and permission to reply.
-Organisation is optional.
+Organization is optional.
 Errors appear beside their fields and in a live summary; focus moves to the first invalid field.
 The current kit is displayed as context but contact details are never placed in local storage.
 A valid submission hides the form and displays a focused success panel, a `PX-YYYYMMDD-####` reference and a two-working-day next step.
@@ -301,7 +301,7 @@ The Ask another question button resets the form and focuses the name field.
 The success panel uses scoped `overflow-wrap: anywhere` to keep long unbroken names within narrow screens.
 
 The supplied front-end handler does not send requests to a server.
-Its success state demonstrates the completed customer journey and must be connected before accepting live enquiries.
+Its success state demonstrates the completed customer journey and must be connected before accepting live inquiries.
 Find the production integration comment immediately before `const firstName` in `initContact`.
 Make the submit listener `async`, then insert a real request at that point.
 For example, replace the placeholder endpoint below with your Formspree form endpoint:
@@ -327,8 +327,8 @@ Keep the existing success code after this block so it runs only after `response.
 Disable the submit control during the request and restore it on failure.
 Prefer a server-generated reference returned by the endpoint over `requestReference` in production.
 Add server-side validation, spam protection, retention rules and your privacy information.
-If attaching the current kit, send only a sanitised parts/settings object and calculate prices on the server.
-The catalogue filter, guide filter, add-part and save-build forms only update the local interface.
+If attaching the current kit, send only a sanitized parts/settings object and calculate prices on the server.
+The catalog filter, guide filter, add-part and save-build forms only update the local interface.
 They do not submit to a network endpoint.
 
 ## Saved data (localStorage)
@@ -343,17 +343,17 @@ Memory-only changes end when the page closes or reloads.
 | Key                  | Shape                                    | Validation                                                                                          |
 | -------------------- | ---------------------------------------- | --------------------------------------------------------------------------------------------------- |
 | `praxlet:build:v1`   | `{parts:[{id,qty}],voltage,budget,kits}` | Known own IDs, bounded integer quantities, 3.3/5 V, bounded budget and kit count                    |
-| `praxlet:saved:v1`   | `[{id,name,build}]`                      | Up to six records, unique safe IDs and names, two-to-sixty-character names, sanitised nested builds |
+| `praxlet:saved:v1`   | `[{id,name,build}]`                      | Up to six records, unique safe IDs and names, two-to-sixty-character names, sanitized nested builds |
 | `praxlet:compare:v1` | `[moduleId]`                             | Known own IDs, unique values, maximum four                                                          |
 
 `cleanBuild` inspects at most 64 incoming part entries and merges duplicate known IDs within quantity limits.
 Unknown IDs, inherited property names and malformed record shapes are discarded.
 Numeric fields accept only primitive numbers or strings before conversion; objects cannot trigger coercion hooks.
 Saved-build IDs must be strings before the identifier pattern is checked.
-`readSaved` strips control characters, deduplicates names without case and sanitises every nested build, dropping any that has no modules left.
+`readSaved` strips control characters, deduplicates names without case and sanitizes every nested build, dropping any that has no modules left.
 The build is written in its clean shape after reading.
 An absent current draft starts with Line courier; an existing invalid shape becomes an empty safe draft.
-No names, email addresses, messages or organisation details from the enquiry form are stored.
+No names, email addresses, messages or organization details from the inquiry form are stored.
 Named build labels are user-entered local labels; avoid putting personal details in them.
 
 Use the on-page clear, remove and delete controls for normal resets.
@@ -383,13 +383,13 @@ No structured-data claims, live stock feeds or external analytics are included.
 
 Pages contain a skip link, semantic header/navigation/main/footer landmarks and one `h1`.
 All form controls have visible labels and errors are connected with `aria-describedby`.
-Filter results and planning updates use status text rather than colour alone.
+Filter results and planning updates use status text rather than color alone.
 Buttons expose pressed or expanded state where appropriate.
 Comparison and saved-build removal return focus to a usable control.
-The success panel is focusable and receives focus after a valid enquiry.
+The success panel is focusable and receives focus after a valid inquiry.
 Keyboard focus outlines are visible against both paper and dark panels.
 Reduced-motion preferences disable movement and show all revealed content.
-Preserve contrast, label associations and heading order when changing colours or copy.
+Preserve contrast, label associations and heading order when changing colors or copy.
 Test long module names, larger text, narrow screens and keyboard navigation after editing.
 
 ## Building and deploying
@@ -410,7 +410,7 @@ Do not edit the minified CSS by hand.
 Upload all HTML files and the `assets` directory to a static host.
 Netlify, Cloudflare Pages, GitHub Pages and ordinary web hosting can serve the files.
 Relative links work from a subdirectory without changing a base URL.
-Serve HTTPS for reliable clipboard access and connect the enquiry backend before launch.
+Serve HTTPS for reliable clipboard access and connect the inquiry backend before launch.
 No API keys, wallet access or device-control credentials belong in these browser files.
 
 `TIME_ZONE` is `Europe/London`.
@@ -426,15 +426,15 @@ If you do not need the year update, replace `data-year` elements with your chose
 | Changed utility classes do not appear      | Run the CSS build and use complete class strings within the scanned folder.                                    |
 | Fonts use a system fallback                | Check internet access and the Google Fonts links in every page head.                                           |
 | A kit shows voltage issues                 | Match the selected system to the controller and every powered peripheral; mechanical parts are neutral.        |
-| A kit exceeds power or mounting capacity   | Reduce quantities, select a suitable project preset, or revise the catalogue's checked physical specification. |
+| A kit exceeds power or mounting capacity   | Reduce quantities, select a suitable project preset, or revise the catalog's checked physical specification. |
 | A repeated sensor reports an address clash | The supplied sensor has a fixed I²C address; remove the duplicate or model a properly supported alternative.   |
 | Saved builds disappear after reload        | Storage may be blocked or private; the memory fallback only lasts for the current page.                        |
 | Clipboard copy is unavailable              | Use the displayed selectable parts-list field or serve the site over HTTPS.                                    |
-| Enquiries show success but never arrive    | Connect the documented backend request and wait for `response.ok` before showing success.                      |
+| Inquiries show success but never arrive    | Connect the documented backend request and wait for `response.ok` before showing success.                      |
 
 ## License
 
-MIT. The code and included artwork are free for personal and commercial use under the distribution licence.
+MIT. The code and included artwork are free for personal and commercial use under the distribution license.
 The downloadable package includes `LICENSE.txt`.
 Teko and Mada are served by Google Fonts and licensed under the SIL Open Font License.
 The included SVG illustrations and inline icons are original artwork.

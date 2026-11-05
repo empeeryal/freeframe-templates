@@ -6,7 +6,7 @@ opening hours, rooms with a seasonal price checker, tabbed menus with a dietary 
 from the door with a route map, events, gift vouchers and directions. Plain HTML, Tailwind CSS v4 and one vanilla
 JavaScript file, illustrated in a woodcut style.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/hearth)
 
 ## Quick start
@@ -22,7 +22,7 @@ npm run build
 
 ## Documentation
 
-[DOCS.md](DOCS.md) is the full guide: pages and files, colours and fonts, rooms, seasons and prices, opening
+[DOCS.md](DOCS.md) is the full guide: pages and files, colors and fonts, rooms, seasons and prices, opening
 hours, menus, walks, events and vouchers, connecting the forms, saved data, SEO, accessibility, deploying and
 troubleshooting. Changes are listed in [CHANGELOG.md](CHANGELOG.md).
 

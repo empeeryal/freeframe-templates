@@ -30,10 +30,10 @@ CSS. See [Building and deploying](#building-and-deploying).
 
 | File | Purpose | Notable sections and features |
 |------|---------|-------------------------------|
-| `index.html` | Home | Hero with live "next free consult" badge, goal picker with five recommendation panels, programmes teaser, three client progress charts, how it works, testimonials, pricing teaser with Kickstart offer and a health note |
-| `programmes.html` | Programmes | Seven programme cards filterable by goal (`?goal=`), what's included, prices, facts and booking links, comparison table |
+| `index.html` | Home | Hero with live "next free consult" badge, goal picker with five recommendation panels, programs teaser, three client progress charts, how it works, testimonials, pricing teaser with Kickstart offer and a health note |
+| `programmes.html` | Programs | Seven program cards filterable by goal (`?goal=`), what's included, prices, facts and booking links, comparison table |
 | `pricing.html` | Pricing | Kickstart intro offer (`#kickstart`), session packs, memberships (`#memberships`), cost calculator (`#calculator`), monthly vs pay-per-session table, FAQ (`#faq`), small print (`#terms`) |
-| `results.html` | Client results | Six anonymised progress stories with SVG charts, filterable by goal (`?goal=`), review wall |
+| `results.html` | Client results | Six anonymized progress stories with SVG charts, filterable by goal (`?goal=`), review wall |
 | `tools.html` | Training tools | Plan builder (`#plan`), one-rep max estimator (`#one-rep-max`), pace calculator (`#pace`) |
 | `about.html` | About | Studio story, coach profiles (`#ffion`, `#yusuf`), approach, milestones, studio facts and safety note |
 | `contact.html` | Contact | Contact form, map, getting there, studio hours with open-now status, social links (`#social`), privacy note (`#privacy`) |
@@ -64,22 +64,22 @@ kinetic/
   CHANGELOG.md              version history
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 All design tokens live in the `@theme` block at the top of `src/input.css`. The ones that matter most:
 
 | Token | Used for |
 |-------|----------|
 | `--color-cobalt-50` to `--color-cobalt-950` | Brand blue: buttons, links, headings accents, dark bands (`900`/`950`) |
-| `--color-flare-50` to `--color-flare-800` | Energy colour: highlights, button shadows, stripes; `700`/`800` for text on light backgrounds |
+| `--color-flare-50` to `--color-flare-800` | Energy color: highlights, button shadows, stripes; `700`/`800` for text on light backgrounds |
 | `--color-sun-*` | Small highlights (today's hours row, chart markers) |
 | `--color-mint-*` | Success and "included" ticks, positive outcomes |
 | `--color-ink`, `--color-body`, `--color-muted` | Heading, body and secondary text |
 | `--color-paper`, `--color-mist`, `--color-line` | Page background, quiet fills and borders |
 
-To change the brand colour, replace the cobalt scale (keep `600` dark enough for white text, at least 4.5:1):
+To change the brand color, replace the cobalt scale (keep `600` dark enough for white text, at least 4.5:1):
 
 ```css
 @theme {
@@ -153,7 +153,7 @@ var COACHES = {
 assessment: { label: 'Fitness assessment', minutes: 60, price: 55, priceLabel: '£55', coaches: ['yusuf'], notice: 1440, screen: true }
 ```
 
-**Add a programme.** Copy an `<article>` on `programmes.html`. Its `data-goals` attribute lists the goal ids it
+**Add a program.** Copy an `<article>` on `programmes.html`. Its `data-goals` attribute lists the goal ids it
 should appear under, separated by spaces (`data-goals="strength sport"`). Filter counts update automatically.
 
 **Add a client story chart.** Add an entry to `RESULTS` and a figure where you want it:
@@ -176,8 +176,8 @@ plank: { label: 'Plank hold', unit: 'reps', x: ['Wk 1', 'Wk 4', 'Wk 8'], y: [20,
 All artwork is SVG and drawn for this template:
 
 - `pose-strength.svg`, `pose-fatloss.svg`, `pose-mobility.svg`, `pose-sport.svg` and `pose-postnatal.svg` are
-  120 x 120 pictograms. On selected goal cards and programme headers they are turned white with a CSS filter
-  (`brightness-0 invert`), so keep them single-colour plus flare accents.
+  120 x 120 pictograms. On selected goal cards and program headers they are turned white with a CSS filter
+  (`brightness-0 invert`), so keep them single-color plus flare accents.
 - `coach-ffion.svg` and `coach-yusuf.svg` are square portraits. Replace them with square photos (at least
   480 x 480) and keep `alt` text on `about.html` describing the person.
 - `studio.svg` is 16:10 and `map.svg` is 10:7. You can swap the map for an embedded map, but note that adds
@@ -203,7 +203,7 @@ panels (`[data-goal-panel="strength"]` and so on). Edit the panels directly in t
 the `kinetic-goal` key and preselected next time; `index.html?goal=sport` also selects a goal. The panel container is
 an `aria-live="polite"` region and the cards are a native radio group (arrow keys move between goals).
 
-### Programme and story filters
+### Program and story filters
 
 `programmes.html` and `results.html` use the same filter. A `[data-filter]` wrapper holds chip buttons
 (`[data-filter-value]`, `aria-pressed`) and items with `data-goals`. With `data-filter-url` on the wrapper the choice is
@@ -256,7 +256,7 @@ All dates and times are calculated and shown in `STUDIO.timeZone` (`Europe/Londo
 zone. The `.ics` file stores the start and end in UTC, so calendars convert it correctly.
 
 Accessibility: each step heading receives focus when the step opens, the progress bar marks the current step with
-`aria-current="step"`, step errors use `role="alert"`, each day in the week view is a labelled group and every time
+`aria-current="step"`, step errors use `role="alert"`, each day in the week view is a labeled group and every time
 is a radio with a full label (for example "Tuesday, 20 October 2026, 07:30, Ffion").
 
 ### Health questions
@@ -409,11 +409,11 @@ Built in:
 - Native radio groups for the goal picker, session, coach, time and health questions; filters use `aria-pressed`
   buttons; the calculator, filters, booking and plan builder announce changes with live regions.
 - Charts have text summaries; decorative SVG is `aria-hidden`; meaningful images have `alt` text.
-- Colour contrast meets WCAG AA for text; flare (`#ff5a33`) is only used behind dark text or as decoration.
+- Color contrast meets WCAG AA for text; flare (`#ff5a33`) is only used behind dark text or as decoration.
 - `prefers-reduced-motion` turns off reveals, the ticker, floating cards, chart drawing and smooth scrolling.
 
 When editing, keep one `h1` per page, give every new input a `<label>`, keep `aria-labelledby` and
-`aria-describedby` pointing at ids that exist, and check contrast if you change colours.
+`aria-describedby` pointing at ids that exist, and check contrast if you change colors.
 
 ## Building and deploying
 

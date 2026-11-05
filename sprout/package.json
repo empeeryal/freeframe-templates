@@ -1,6 +1,6 @@
 {
   "name": "sprout-template",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "scripts": {
     "build": "tailwindcss -i src/input.css -o assets/css/style.css --minify",

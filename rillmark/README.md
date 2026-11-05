@@ -10,9 +10,9 @@ The home page plays a showreel drawn live from six projects, with play/pause and
 respect reduced motion. The work index filters fifteen projects by discipline and year, with search and a
 saved shortlist; every project has its own case study with a styleframe scrubber. The services page
 estimates a fee with a full breakdown in pounds, the journal and availability roll forward with the
-calendar, and the enquiry form finishes with a reference and next steps.
+calendar, and the inquiry form finishes with a reference and next steps.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.2** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/rillmark)
 
 ## Quick start
@@ -28,9 +28,9 @@ npm run build
 
 ## Documentation
 
-[DOCS.md](DOCS.md) is the full guide: pages and files, colours and fonts, adding projects and journal
+[DOCS.md](DOCS.md) is the full guide: pages and files, colors and fonts, adding projects and journal
 notes, the artwork motifs, the showreel, the estimator's prices, the booking calendar and demo dates, the
-shortlist and its saved data, connecting the enquiry form, SEO, accessibility, deploying and
+shortlist and its saved data, connecting the inquiry form, SEO, accessibility, deploying and
 troubleshooting. Changes are listed in [CHANGELOG.md](CHANGELOG.md).
 
 ## License

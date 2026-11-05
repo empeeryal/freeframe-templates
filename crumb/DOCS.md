@@ -2,9 +2,9 @@
 
 ## Overview
 
-Crumb is a website for a neighbourhood bakery and café with click-and-collect preorders, built for
+Crumb is a website for a neighborhood bakery and café with click-and-collect preorders, built for
 **Bramble & Rye**, a fictional bakery on St Benedicts Street in Norwich. It has a live "fresh out of the
-oven" board, a preorder catalogue with per-day availability and quantity limits, a basket drawer with a
+oven" board, a preorder catalog with per-day availability and quantity limits, a basket drawer with a
 collection day, time slot and order cut-off, a click-and-collect checkout with an order number and a calendar file, a
 celebration cake builder with a live drawing and price, a café menu with diet filters, an about page and a
 visit page with a wholesale form. It is plain HTML with Tailwind CSS v4 and one vanilla JavaScript file, with
@@ -32,11 +32,11 @@ bakery's clock), add `?now=` to any page URL, for example `index.html?now=2026-1
 |------|---------|-------------------------------|
 | `index.html` | Home | Hero with the shop-window illustration and "Preorder for pickup", live bake board, how preordering works, this week's specials (from the product data), celebration cake teaser, café teaser, reviews, visit us with open-now badge, hours and map |
 | `shop.html` | Preorder | Shelf filters with counts (`shop.html?category=bread`), collection-day picker, "only that day's bakes" toggle, product cards grouped by shelf, add buttons and steppers, allergen note |
-| `cakes.html` | Celebration cakes | Builder for size, sponge, filling, finish, colour, message and collection date; live SVG preview, price breakdown and allergens; recent cakes; cake FAQ |
+| `cakes.html` | Celebration cakes | Builder for size, sponge, filling, finish, color, message and collection date; live SVG preview, price breakdown and allergens; recent cakes; cake FAQ |
 | `cafe.html` | Café menu | Coffee, tea, brunch and sweet things with diet filters (`cafe.html?diet=vegan,gf`), café notes |
 | `checkout.html` | Checkout | Collection day and slot, notes, contact details, pay at collection or by card (test mode), order summary, confirmation with order number and `.ics` file, empty state with the last order |
 | `about.html` | Our story | Story, timeline, the 36-hour sourdough process, suppliers, team, waste figures |
-| `visit.html` | Visit & wholesale | Illustrated map, hours with today highlighted, contact, getting here, wholesale enquiry form (`visit.html#wholesale`), FAQ |
+| `visit.html` | Visit & wholesale | Illustrated map, hours with today highlighted, contact, getting here, wholesale inquiry form (`visit.html#wholesale`), FAQ |
 | `404.html` | Not found | Links back to home, preorder and café |
 
 ## Project structure
@@ -54,9 +54,9 @@ crumb/
   README.md, DOCS.md, CHANGELOG.md
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 The design tokens are in the `@theme` block of `src/input.css`. Every utility such as `bg-bramble` or
 `text-muted` comes from them.
@@ -69,7 +69,7 @@ The design tokens are in the `@theme` block of `src/input.css`. Every utility su
 | `--color-line` | `#e7d6bf` | Hairlines and dashed rules |
 | `--color-ink` | `#3a2620` | Text, outlines, the footer |
 | `--color-muted` | `#6c574a` | Secondary text |
-| `--color-bramble` / `--color-bramble-deep` | `#74305a` / `#561f42` | Brand colour: buttons, links, basket |
+| `--color-bramble` / `--color-bramble-deep` | `#74305a` / `#561f42` | Brand color: buttons, links, basket |
 | `--color-bramble-soft` | `#f3dce7` | Selected options, the hero window frame |
 | `--color-blush` / `--color-blush-deep` | `#f7dcd3` / `#a33a3f` | Cake tiles, sold out, error text |
 | `--color-pistachio` / `--color-pistachio-deep` | `#dfe8cb` / `#43602a` | Whole cake tiles, "on the shelf", vegan |
@@ -77,7 +77,7 @@ The design tokens are in the `@theme` block of `src/input.css`. Every utility su
 | `--color-lilac`, `--color-sky` | `#e5ddf0`, `#d9e8ee` | Pastel accents |
 | `--color-crust` | `#b9733c` | Decoration only (steam, bread brown) |
 
-To change the brand colour, edit the tokens and rebuild the CSS:
+To change the brand color, edit the tokens and rebuild the CSS:
 
 ```css
 @theme {
@@ -87,8 +87,8 @@ To change the brand colour, edit the tokens and rebuild the CSS:
 }
 ```
 
-The illustrations use fixed colours inside `assets/js/main.js` (section 6) and inline SVG in the pages, so a
-new brand colour doesn't recolour the bakes. The category tile colours are `CATEGORY_TINT` in `main.js`.
+The illustrations use fixed colors inside `assets/js/main.js` (section 6) and inline SVG in the pages, so a
+new brand color doesn't recolour the bakes. The category tile colors are `CATEGORY_TINT` in `main.js`.
 
 ### Typography
 
@@ -160,7 +160,7 @@ There are no photos. All artwork is SVG:
 
 - **Bakes** are drawn by `Art.bake(art)` in section 6 of `main.js` from a product's `art` object. `kind` picks
   the drawing: `boule`, `tin`, `baguette`, `focaccia`, `croissant`, `painchoc`, `bun`, `knot`, `scone`,
-  `tart`, `cookie`, `brownie`, `loafcake` or `layercake`. Optional colours: `crust` and `top` (breads),
+  `tart`, `cookie`, `brownie`, `loafcake` or `layercake`. Optional colors: `crust` and `top` (breads),
   `seeds` / `oats` (`tin`), `score: 'leaf'` (`boule`), `almonds` (`croissant`), `dough` / `swirl` (`bun`),
   `sponge`, `frosting`, `filling` and `top` (`'berries'`, `'walnuts'`, `'drip'`, `'flowers'`) for
   `layercake`.
@@ -187,7 +187,7 @@ file. Mark the current page's links with `aria-current="page"`. Each page's `<bo
 
 All times use the bakery's clock (`TIMEZONE`) via `shopNow()`, so a visitor abroad sees the shop's real
 state. Elements with `data-open-status` show "Open now until 4pm" or "Closed · opens Tuesday 7:30am" with a
-coloured dot; `data-cutoff` shows the countdown to the order cut-off ("Order in the next 2h 14m to collect
+colored dot; `data-cutoff` shows the countdown to the order cut-off ("Order in the next 2h 14m to collect
 tomorrow"); `data-hours-list` lists the week with today highlighted. They refresh every 30 seconds. Add
 `?now=YYYY-MM-DDTHH:MM` to a URL to test any time.
 
@@ -199,7 +199,7 @@ then **Out since 7:30am**, and **Sold out** after its optional `soldOut` time. B
 and sold-out ones last. After closing (and on closed days) it shows the next bake day instead, so the page
 never looks empty. It refreshes every minute. Each card links to its shelf on the preorder page.
 
-### Preorder catalogue
+### Preorder catalog
 
 `initShop()` renders `PRODUCTS` grouped by shelf. The chips filter by shelf and update the URL
 (`?category=pastry`); the collection-day picker is the basket's day; "Only that day's bakes" hides anything
@@ -230,7 +230,7 @@ remove button, then the collection details:
 
 `initCakes()` builds the radio cards from `CAKE` and redraws the cake and price on every change. The price is
 the size's `price` plus sponge, filling and finish extras multiplied by the size's `factor`, rounded to
-whole pounds (`cakePrice()`). The colour swatches are disabled for the naked finish. The message is limited
+whole pounds (`cakePrice()`). The color swatches are disabled for the naked finish. The message is limited
 to `CAKE.messageMax` characters with a live counter. The date input's minimum is `CAKE.leadDays` days ahead
 (after the cut-off) and closed days are rejected. Adding the cake puts it in the basket, sets the collection
 to that date and shows a toast; one order holds up to `CAKE.maxPerOrder` cakes.
@@ -260,7 +260,7 @@ the `.back-to-top` styles in `src/input.css` to drop it.
 | Form | Where | Validates |
 |------|-------|-----------|
 | Bake list sign-up (`data-form="newsletter"`) | Footer, every page | Email |
-| Wholesale enquiry (`data-form="wholesale"`) | `visit.html` | Business, type, name, email, optional phone, loaves a day (10–400), at least one interest, start date at least 7 days ahead, message up to 600 characters |
+| Wholesale inquiry (`data-form="wholesale"`) | `visit.html` | Business, type, name, email, optional phone, loaves a day (10–400), at least one interest, start date at least 7 days ahead, message up to 600 characters |
 | Cake builder (`#cake-form`) | `cakes.html` | Collection date (lead time, open day), message length |
 | Checkout (`#checkout-form`) | `checkout.html` | Time slot, name, email, UK phone, allergen confirmation, card fields when paying now |
 
@@ -268,7 +268,7 @@ Validation is inline: errors appear under each field on blur and submit (`fieldM
 first invalid field gets focus, and a success panel replaces the form. The wholesale confirmation shows a short
 reference (`BR-` and four characters, from `makeRef()` in section 17) and says Ruth replies within two working
 days; the bake list confirmation asks subscribers to look out for a confirmation email. Change the wording to match
-how you actually handle enquiries, and show your form service's own reference if it returns one. **The forms
+how you actually handle inquiries, and show your form service's own reference if it returns one. **The forms
 send nothing until you connect them.**
 
 To connect the newsletter or wholesale form to a form service such as Formspree, replace the
@@ -316,11 +316,11 @@ in `index.html` helps local search.
 ## Accessibility
 
 - Skip link, landmarks, one `<h1>` per page and logical headings.
-- Visible focus outlines in the brand colour; WCAG AA colour contrast.
+- Visible focus outlines in the brand color; WCAG AA color contrast.
 - The mobile menu button has `aria-expanded` and closes with Esc.
 - The basket drawer is a modal dialog with a focus trap, Esc to close and focus returned to the opener.
 - Filter chips use `aria-pressed`; result counts and toasts are live regions.
-- Steppers have labelled buttons ("One more Butter croissant"); the art has text alternatives or is hidden.
+- Steppers have labeled buttons ("One more Butter croissant"); the art has text alternatives or is hidden.
 - Form errors are linked with `aria-describedby` and fields get `aria-invalid`.
 - Scroll reveals, steam and pulses are off with `prefers-reduced-motion`.
 

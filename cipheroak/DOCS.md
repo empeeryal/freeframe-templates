@@ -58,9 +58,9 @@ cipheroak/
   LICENSE.txt           License (added to the download)
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 The design tokens live in the `@theme` block at the top of `src/input.css`. Tailwind turns each `--color-*` token into utilities such as `bg-juniper`, `text-bark-soft` and `border-line`.
 
@@ -88,7 +88,7 @@ To change the main accent, edit one line and rebuild the CSS:
 --color-juniper: #1f4f6b;
 ```
 
-A few colours are repeated as hex values where Tailwind can't reach: the SVG files in `assets/img/`, the drawing functions in `assets/js/main.js` (`INK`, `PAPER`, `TOPIC_GROUND`, the `LOCATIONS` colours and the ring diagram) and the `theme-color` meta tag in each page.
+A few colors are repeated as hex values where Tailwind can't reach: the SVG files in `assets/img/`, the drawing functions in `assets/js/main.js` (`INK`, `PAPER`, `TOPIC_GROUND`, the `LOCATIONS` colors and the ring diagram) and the `theme-color` meta tag in each page.
 
 The shared components in `@layer components` are small: `.wrap` (page width), `.eyebrow`, `.btn`, `.btn-ghost`, `.btn-sm`, `.nav-link`, `.text-link`, `.label`, `.field`, `.error`, `.chip` (toggle buttons, styled by `aria-pressed` or `aria-checked`), `.arch` (the arched frame used for page art and portraits) and `.reveal`.
 
@@ -152,7 +152,7 @@ All artwork is SVG drawn for this template; there are no photos.
 | `assets/img/hero-404.svg` | 404 page | 384 × 460 |
 | `assets/img/service-*.svg` | Home service cards | 112 × 112 |
 | `assets/img/studio-map.svg` | Company page map | 640 × 320 |
-| `GUIDE_ART` and `guideArt()` in `main.js` | One drawing per guide, on a ground colour per topic | 320 × 200 |
+| `GUIDE_ART` and `guideArt()` in `main.js` | One drawing per guide, on a ground color per topic | 320 × 200 |
 | `portrait()` in `main.js` | Team portraits, drawn from each person's `portrait` settings | 200 × 220 |
 | `ringDiagram()` in `main.js` | The signer planner's key ring | 360 × 360 |
 
@@ -278,7 +278,7 @@ To regenerate the PNG after editing `og-image.svg`, open the SVG in a browser an
 ## Accessibility
 
 - A skip link, landmarks (`header`, `nav`, `main`, `footer`), one `<h1>` per page and a logical heading order.
-- Visible focus outlines in juniper (ochre on dark bands), and colour contrast at WCAG AA.
+- Visible focus outlines in juniper (ochre on dark bands), and color contrast at WCAG AA.
 - The mobile menu uses `aria-expanded` and `aria-controls` and closes on Escape.
 - Assessment answers and the quote's plan picker are radio groups with arrow-key support; filters and slots are toggle buttons with `aria-pressed`; counts and results are announced through live regions.
 - Form fields have labels, inline errors are linked with `aria-describedby`, and focus moves to the first error or to the success message.

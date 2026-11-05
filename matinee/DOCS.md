@@ -64,7 +64,7 @@ matinee/
 
 `data.js` is loaded before `main.js` on every page and exposes one object, `window.GARNET`.
 
-## Customising
+## Customizing
 
 ### Brand and colors
 

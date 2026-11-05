@@ -59,9 +59,9 @@ counsel/
 └── LICENSE.txt           MIT license (added to the download)
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 Design tokens are in the `@theme` block at the top of `src/input.css`:
 
@@ -205,7 +205,7 @@ On `article.html`, the bar marked `data-reading-progress` fills as you read the 
   first link, and Esc closes it and returns focus.
 - Elements with the `reveal` class fade in as they scroll into view; revealing one also reveals everything before it,
   so jumping to an anchor never leaves hidden content. With reduced motion (or without JavaScript) everything shows at
-  once. Optional `style="--d:70ms"` staggers neighbouring cards.
+  once. Optional `style="--d:70ms"` staggers neighboring cards.
 
 ### Back to top
 
@@ -258,7 +258,7 @@ fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept
   });
 ```
 
-3. Check that the success messages match how you handle enquiries (reply time, conflict check, confirmation email).
+3. Check that the success messages match how you handle inquiries (reply time, conflict check, confirmation email).
 
 Keep the conflict-check notice on the consultation form, and don't ask for confidential details before you've confirmed
 there's no conflict of interest.
@@ -289,7 +289,7 @@ Built in:
 - an accessible mobile menu (`aria-expanded`, Esc to close, focus management);
 - the office map with a descriptive `<title>`;
 - reduced motion respected by reveals, count-ups, smooth scrolling and the back-to-top button;
-- colour pairs that meet WCAG AA, including dedicated brass shades for text on ivory and on navy.
+- color pairs that meet WCAG AA, including dedicated brass shades for text on ivory and on navy.
 
 When editing, keep one `h1` per page, label new inputs, use `--color-gold-ink`/`--color-gold-soft` (not `--color-gold`)
 for brass text, and keep `alt` text meaningful.

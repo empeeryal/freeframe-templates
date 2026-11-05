@@ -2,9 +2,9 @@
 
 An image-led website for a wedding, portrait and travel photographer (the fictional Ines Morrow): full-bleed
 slideshow, filterable galleries with a masonry layout and lightbox, photo stories, packages with a price
-calculator, client proofing and an enquiry form. Built with HTML5, Tailwind CSS v4 and vanilla JavaScript. A Next.js version of this template is also available.
+calculator, client proofing and an inquiry form. Built with HTML5, Tailwind CSS v4 and vanilla JavaScript. A Next.js version of this template is also available.
 
-**Version 1.0.3** · see [CHANGELOG.md](CHANGELOG.md) for what changed.
+**Version 1.0.9** · see [CHANGELOG.md](CHANGELOG.md) for what changed.
 
 Live demo: [freeframe.dev/templates/lens](https://freeframe.dev/templates/lens)
 

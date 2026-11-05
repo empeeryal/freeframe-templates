@@ -426,7 +426,7 @@ data (schema.org) with the address, phone and `openingHoursSpecification` matchi
 - Filters, tabs, day and slot pickers are buttons with `aria-pressed`; disabled slots are real `disabled` buttons
   with "(full)" for screen readers.
 - Counts, cart contents, tour summaries and estimates update in polite live regions; the toast is a `role="status"`.
-- The tasting-notes dialog is a native modal `<dialog>` labelled by the beer's name.
+- The tasting-notes dialog is a native modal `<dialog>` labeled by the beer's name.
 - Charts and drawings have text alternatives (`role="img"` with a label or `<title>`); decorative cans are hidden.
 - Visible focus outlines, WCAG AA contrast in every section, and no motion with `prefers-reduced-motion`.
 

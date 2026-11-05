@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.12] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.1.11] - 2026-11-04
 
 ### Fixed
@@ -94,7 +100,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 ### Fixed
 
 - Saved homes in localStorage are validated: corrupt data (such as `{}`) no longer breaks the listings, and unknown ids are dropped and the stored list repaired.
-- Muted text, eyebrows and the brass buttons now meet WCAG AA contrast (slightly darker `--color-muted`, `--color-brass-600` and button colour).
+- Muted text, eyebrows and the brass buttons now meet WCAG AA contrast (slightly darker `--color-muted`, `--color-brass-600` and button color).
 - Star ratings use `role="img"` so their label is valid.
 
 ## [1.1.0] - 2026-10-05

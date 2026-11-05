@@ -6,7 +6,7 @@ Bistro is a warm, high-end website for a restaurant, café or wine bar. The demo
 Ember**, a fictional wood-fired Mediterranean kitchen in an old town, with tabbed menus, a reservation
 form whose time slots follow the opening hours, private dining packages and a live "open now" badge.
 It is built with HTML5, Tailwind CSS v4 and a small vanilla JavaScript file, and needs no build step.
-This guide covers version 1.1.7.
+This guide covers version 1.1.8.
 
 Live demo: [freeframe.dev/templates/bistro](https://freeframe.dev/templates/bistro)
 
@@ -30,7 +30,7 @@ Node.js 24 is only needed to rebuild the CSS (see [Building and deploying](#buil
 | `menu.html` | Menus | Lunch / Dinner / Drinks / Desserts tabs, vegetarian / vegan / gluten-free filter, allergen notes |
 | `about.html` | Story | Timeline, values, team, suppliers |
 | `reservations.html` | Book a table | Reservation form with day-dependent time slots, policies sidebar |
-| `events.html` | Private dining | Three packages, upcoming events, enquiry form |
+| `events.html` | Private dining | Three packages, upcoming events, inquiry form |
 | `contact.html` | Visit | Contact cards, opening hours with today highlighted, illustrated map, contact form, FAQ |
 | `404.html` | Not found | Error page with links home, to the menu and to reservations |
 
@@ -57,9 +57,9 @@ bistro/
 menu**, **3. Scroll reveal**, **4. Tabs + dietary filter** and **5. Forms**, followed by the back-to-top
 block.
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 The palette and fonts are tokens in the `@theme` block at the top of `src/input.css`:
 
@@ -143,7 +143,7 @@ empty. Show the matching badges (`badge-v`, `badge-vg`, `badge-gf`) inside the d
 them. Every dish needs `data-dish`; every group of dishes needs `data-menu-group`.
 
 **Private dining packages** on `events.html` each have an "Enquire" link with
-`data-package="The Long Table"`; the value must match an `<option>` in the enquiry form's `package`
+`data-package="The Long Table"`; the value must match an `<option>` in the inquiry form's `package`
 select (see [Forms](#forms)).
 
 ### Images and artwork
@@ -232,7 +232,7 @@ Every form is marked `data-validate="<kind>"` and names its success panel with
 | Form | Page | Fields |
 |------|------|--------|
 | Reservation (`data-validate="reservation"`) | `reservations.html` | `date`, `time`, `guests`, `seating` (radio cards), `occasion`, `name`, `email`, `phone`, `notes` |
-| Private dining enquiry (`enquiry`) | `events.html` | `type`, `package`, `date`, `guests` (8–60), `name`, `email`, `message` (20+ characters) |
+| Private dining inquiry (`enquiry`) | `events.html` | `type`, `package`, `date`, `guests` (8–60), `name`, `email`, `message` (20+ characters) |
 | Contact (`contact`) | `contact.html` | `topic`, `name`, `email`, `message` (10+ characters) |
 | Newsletter (`newsletter`) | Footer of every page | `email` |
 
@@ -285,7 +285,7 @@ JSON-LD block with your address, phone, hours and menu URL to `index.html` and `
 
 ## Accessibility
 
-- Skip link, labelled landmarks and one `<h1>` per page.
+- Skip link, labeled landmarks and one `<h1>` per page.
 - Menu tabs use the tabs pattern with arrow-key support; filter buttons use `aria-pressed`.
 - Dietary badges have visible codes plus screen-reader text ("Vegetarian").
 - Form errors are linked with `aria-describedby`, fields get `aria-invalid`, and success panels receive

@@ -3,7 +3,7 @@
 ## Overview
 
 Dashboard is a complete admin interface for the fictional outdoor-gear shop behind **Northstar Admin**:
-KPI cards and charts, analytics, a full orders table, customers with a detail panel, a product catalogue
+KPI cards and charts, analytics, a full orders table, customers with a detail panel, a product catalog
 with inventory, settings (profile, team, billing, notifications) and a sign-in screen, in light and dark
 themes. Every chart is SVG drawn by plain JavaScript; there are no frameworks or chart libraries. This is
 the HTML + Tailwind CSS v4 version, **version 1.1.7**. See it live at
@@ -31,7 +31,7 @@ No build step is needed. Node.js 24 is only needed to rebuild the CSS (see
 | `analytics.html` | Analytics | Visitors line chart, revenue bars, checkout funnel, order heatmap, top pages, countries |
 | `orders.html` | Orders | Searchable, filterable, sortable and paginated orders table with row selection and bulk actions |
 | `customers.html` | Customers | Customer list with segments and search, slide-over detail panel with a notes form |
-| `products.html` | Products | Product catalogue with category filter, grid/table view and inventory levels |
+| `products.html` | Products | Product catalog with category filter, grid/table view and inventory levels |
 | `settings.html` | Settings | Profile, team (invite modal), billing (plans, invoices), notification switches; `settings.html#billing` opens a tab directly |
 | `login.html` | Sign in | Sign-in screen (demo: accepts any email and 8+ character password) |
 | `404.html` | Not found | Not-found page |
@@ -53,16 +53,16 @@ dashboard/
 └─ README.md, DOCS.md, CHANGELOG.md
 ```
 
-`assets/js/main.js` is organised in numbered sections: 1 Helpers, 2 Demo data, 3 Theme, 4 Sidebar and
+`assets/js/main.js` is organized in numbered sections: 1 Helpers, 2 Demo data, 3 Theme, 4 Sidebar and
 drawer, 5 Dropdown menus and global search, 6 Toast, modals, tabs and forms, 7 Charts, 8 Overview and
 analytics pages, 9 Orders table, 10 Customers, 11 Products, 12 Settings and sign-in, 13 Scroll reveal,
 then the back-to-top button.
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
-Tokens live at the top of `src/input.css`. The `brand-*` scale (indigo by default) colours buttons, links,
+Tokens live at the top of `src/input.css`. The `brand-*` scale (indigo by default) colors buttons, links,
 active navigation and focus rings:
 
 ```css
@@ -76,8 +76,8 @@ active navigation and focus rings:
 }
 ```
 
-Chart colours are separate CSS variables, defined once for light mode and again for dark mode just below
-`@theme`: `--chart-1` to `--chart-5` (series colours), `--chart-grid`, `--chart-text` and
+Chart colors are separate CSS variables, defined once for light mode and again for dark mode just below
+`@theme`: `--chart-1` to `--chart-5` (series colors), `--chart-grid`, `--chart-text` and
 `--chart-surface`. Charts read them at paint time, so changing a variable recolours every chart and they
 follow the theme without re-rendering. Rebuild the CSS after editing.
 
@@ -96,7 +96,7 @@ All demo data is generated in **section 2 ("Demo data")** of `assets/js/main.js`
 | `TODAY` | The "current" date the demo is built around: the visitor's today (preview another day with `?now=YYYY-MM-DD`) |
 | `NAMES`, `CITIES`, `CHANNELS` | Lists used to generate customers and orders |
 | `STATUSES` | Order statuses and their badge classes (`Paid`, `Pending`, `Refunded`, `Failed`) |
-| `PRODUCTS` | Product catalogue: name, SKU, category, price, stock, capacity, units sold, colour and icon |
+| `PRODUCTS` | Product catalog: name, SKU, category, price, stock, capacity, units sold, color and icon |
 | `ORDERS` | 48 generated orders (id, customer, date, status, channel, items, product, total) |
 | `CUSTOMERS` | Customers derived from `NAMES` and their orders (email, city, joined, orders, spent, segment) |
 
@@ -115,7 +115,7 @@ settings content) is in the HTML files.
 ### Images and artwork
 
 There are no photos. Avatars are generated initials (`avatar()` in section 1), product images are SVG
-icons on a coloured tile (`thumb()` in section 11), and charts are SVG. To show real product photos,
+icons on a colored tile (`thumb()` in section 11), and charts are SVG. To show real product photos,
 change `thumb()` to return an `<img>`. The favicon is `assets/img/favicon.svg`; the social image is
 `assets/img/og-image.png` (1200×630, editable source `og-image.svg`).
 
@@ -157,8 +157,8 @@ Dropdown menus (notifications, account) open on click and close with Escape or a
 Elements with `data-modal` are dialogs: `data-modal-open="<id>"` opens one, `data-modal-close` closes it,
 focus is trapped and returned. `toast(message)` shows a short status message; any element with
 `data-toast-msg="..."` shows one when clicked. Buttons for screens the template doesn't include (help
-centre, new customer, CSV import, photo upload and so on) show an in-app message such as "Opening the help
-centre…" or "Exporting your report. The PDF will arrive by email."; point them at your own pages or actions
+center, new customer, CSV import, photo upload and so on) show an in-app message such as "Opening the help
+center…" or "Exporting your report. The PDF will arrive by email."; point them at your own pages or actions
 and change the messages to match.
 
 ### Charts
@@ -219,7 +219,7 @@ appear under each field (inside its `[data-field]` wrapper), linked with `aria-d
 to the first problem. A valid form then calls the handler named by `data-on-valid` (from the `HANDLERS`
 object) or shows the toast in `data-success`.
 
-| Form | Page | Behaviour |
+| Form | Page | Behavior |
 |------|------|-----------|
 | Sign in (`data-on-valid="signin"`) | `login.html` | Email and password (8+ characters); `HANDLERS.signin` redirects to `index.html` |
 | Profile (`data-success="Profile saved"`) | `settings.html` | Name, email, bio and other profile fields; shows a toast |
@@ -253,7 +253,7 @@ it on your server or host, not in this front-end code.
 
 | Key | Values | Used for |
 |-----|--------|----------|
-| `ns-theme` | `"dark"` or `"light"` | Colour theme |
+| `ns-theme` | `"dark"` or `"light"` | Color theme |
 | `ns-sidebar` | `"collapsed"` or `"open"` | Desktop sidebar state |
 | `ns-products-view` | `"grid"` or `"table"` | Products page view |
 
@@ -299,7 +299,7 @@ connect the data to your API.
 
 - **Charts are blank.** Their containers are found by attributes such as `[data-revenue-chart]` and
   `#traffic-donut`; keep those when editing the HTML.
-- **A chart's colours don't change.** Edit the `--chart-*` variables (both light and dark blocks), then
+- **A chart's colors don't change.** Edit the `--chart-*` variables (both light and dark blocks), then
   rebuild the CSS.
 - **Search doesn't find a new page.** Add it to `SEARCH` in section 5.
 - **`settings.html#billing` opens the wrong tab.** The tab's `aria-controls` must be `panel-billing`.

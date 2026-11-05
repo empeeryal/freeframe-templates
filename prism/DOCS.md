@@ -52,9 +52,9 @@ prism/
   README.md, DOCS.md, CHANGELOG.md
 ```
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 The design tokens live in the `@theme` block of `src/input.css`. Every utility such as `bg-ink-900`,
 `text-muted` or `text-brand-300` comes from them.
@@ -72,7 +72,7 @@ The design tokens live in the `@theme` block of `src/input.css`. Every utility s
 The spectrum gradient used for dividers and tabs is the `--spectrum` custom property in `:root`; the gradient
 text class `.text-spectrum` and the `.glass` card border are defined in the same file.
 
-To change the brand colour, edit the brand scale and rebuild:
+To change the brand color, edit the brand scale and rebuild:
 
 ```css
 @theme {
@@ -103,7 +103,7 @@ All text is in the HTML files. The data behind the interactive parts is at the t
 | `PLAYGROUND` | The example prompts and their streamed answers, sources, seconds and token counts |
 | `PLAYGROUND_FALLBACK` | The answer shown for any prompt that isn't an example (`{prompt}` is replaced) |
 | `MODELS` | Playground models: milliseconds per token and a time factor for the meta line |
-| `BENCHMARKS` | Chart models (name, colour) and tests (name, scores in percent) |
+| `BENCHMARKS` | Chart models (name, color) and tests (name, scores in percent) |
 | `PRICING` | Seat prices, included tokens, input share, API prices per model, slider steps, enterprise threshold |
 | `FREE_EMAIL` | Email domains the sales form rejects as non-work addresses (section 10) |
 
@@ -186,7 +186,7 @@ time and tokens. The first example runs once when the playground scrolls into vi
 `initBenchmarks()` (section 5) draws grouped horizontal bars into `#bench-chart` from `BENCHMARKS`, a legend into
 `#bench-legend` and a data table into `#bench-table` (inside "View as a table"). The SVG is redrawn on resize so
 labels stay readable on phones. The first model uses the spectrum gradient (`color: 'spectrum'`); others take any
-CSS colour. The SVG has `role="img"` and an `aria-label` that lists every value. Bars grow in when the figure is
+CSS color. The SVG has `role="img"` and an `aria-label` that lists every value. Bars grow in when the figure is
 revealed (`.bar` rules in `src/input.css`), instantly with reduced motion.
 
 ### Pricing and calculator
@@ -213,7 +213,7 @@ remembered (see [Saved data](#saved-data-localstorage)). Arrow keys, Home and En
 
 Copy buttons have `data-copy`. With a value (`data-copy="npm install @prismlabs/sdk"`) they copy that text;
 empty, they copy the visible code block in their `[data-tabs]` or `[data-copy-scope]` container. The label
-changes to "Copied" and a live region announces it. Code is syntax-coloured with spans (`t-k`, `t-s`, `t-n`,
+changes to "Copied" and a live region announces it. Code is syntax-colored with spans (`t-k`, `t-s`, `t-n`,
 `t-c`, `t-f`, `t-p`) styled in `src/input.css`; when you change a sample you can drop the spans and keep plain
 text. Code blocks are focusable so keyboard users can scroll them.
 
@@ -311,11 +311,11 @@ Built in:
 
 - Skip link to `#main`, landmarks (`header`, `nav` with labels, `main`, `footer`) and one `<h1>` per page with
   ordered headings.
-- Visible focus rings (`:focus-visible` in brand aqua) and colour contrast that passes WCAG AA on every
+- Visible focus rings (`:focus-visible` in brand aqua) and color contrast that passes WCAG AA on every
   surface.
 - ARIA patterns: menu button with `aria-expanded`, tabs with roving `tabindex`, a switch (`role="switch"`),
   accordion buttons, `aria-pressed` filters, live regions for the playground, calculator, filters and copy
-  buttons, and labelled scrollable tables (`role="region"`, `tabindex="0"`).
+  buttons, and labeled scrollable tables (`role="region"`, `tabindex="0"`).
 - `prefers-reduced-motion`: no streaming animation, no marquee, no reveals, instant back-to-top.
 - Decorative SVG and mock-ups are `aria-hidden`; meaningful graphics (logos, charts) have labels.
 

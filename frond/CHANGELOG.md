@@ -4,6 +4,12 @@ All notable changes to Frond are documented here.
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.0.0] - 2026-10-19
 
 ### Added

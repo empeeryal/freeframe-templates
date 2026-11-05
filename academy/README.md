@@ -1,10 +1,10 @@
 # Academy — online course platform template
 
-A complete website for an online school (the fictional Northfield Academy): searchable course catalogue, course
+A complete website for an online school (the fictional Northfield Academy): searchable course catalog, course
 pages, learning paths, instructors, pricing with a team calculator, a student dashboard and a lesson player. Built
 with HTML5, Tailwind CSS v4 and one vanilla JavaScript file. A Next.js version of this template is also available.
 
-**Version 1.0.3** · see [CHANGELOG.md](CHANGELOG.md) for what changed.
+**Version 1.0.7** · see [CHANGELOG.md](CHANGELOG.md) for what changed.
 
 Live demo: [freeframe.dev/templates/academy](https://freeframe.dev/templates/academy)
 

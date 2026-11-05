@@ -2,7 +2,7 @@
 
 ## Overview
 
-Pleat is a complete HTML and Tailwind CSS v4 website for an independent alterations and repair workroom in Alnwick, Northumberland. This guide covers version 1.0.2, which includes a service catalogue, a multi-garment price estimator, a saved repair plan, a rolling fitting diary, a fitting request form and an enquiry form. The fictional studio uses British spelling, pounds sterling and the `Europe/London` time zone. See the [template page and live demo](https://freeframe.dev/templates/pleat).
+Pleat is a complete HTML and Tailwind CSS v4 website for an independent alterations and repair workroom in Alnwick, Northumberland. This guide covers version 1.0.2, which includes a service catalog, a multi-garment price estimator, a saved repair plan, a rolling fitting diary, a fitting request form and an inquiry form. The fictional studio uses British spelling, pounds sterling and the `Europe/London` time zone. See the [template page and live demo](https://freeframe.dev/templates/pleat).
 
 ## Quick start
 
@@ -13,7 +13,7 @@ Open `index.html` directly, or serve this directory over HTTP:
 python3 -m http.server 8080
 ```
 
-Open `http://localhost:8080`. The website does not require a backend to browse, build estimates or try the fitting request and enquiry forms.
+Open `http://localhost:8080`. The website does not require a backend to browse, build estimates or try the fitting request and inquiry forms.
 The forms show their confirmation in the browser but send nothing until you connect them (see [Forms](#forms)).
 
 Node 24 and npm are required only when rebuilding the CSS.
@@ -31,7 +31,7 @@ No JavaScript package or framework runs in the browser.
 | `work.html`     | Explore completed work       | Category filters and keyboard-accessible detail dialogs                                 |
 | `studio.html`   | Meet the three staff         | Specialisms, working days and direct fitting links                                      |
 | `care.html`     | Look after clothes           | Searchable care notes, fabric filters and expandable advice                             |
-| `visit.html`    | Find or contact the workroom | Hours, access, winter closures and enquiry preparation                                  |
+| `visit.html`    | Find or contact the workroom | Hours, access, winter closures and inquiry preparation                                  |
 | `404.html`      | Recover from a missing page  | Links to the home page and alteration list                                              |
 
 A service detail page falls back to `trouser-hem` when an unknown service key is supplied.
@@ -63,12 +63,12 @@ pleat/
   CHANGELOG.md               Template release history
 ```
 
-The public download also includes `LICENSE.txt`; catalogue metadata is removed during packaging.
+The public download also includes `LICENSE.txt`; catalog metadata is removed during packaging.
 Do not put credentials or private customer data into this directory.
 
-## Customising
+## Customizing
 
-### Brand and colours
+### Brand and colors
 
 Edit the `@theme` block in `src/input.css`, then rebuild the CSS.
 Layouts are composed with Tailwind utilities in the HTML and JavaScript-generated markup.
@@ -95,7 +95,7 @@ For example:
 }
 ```
 
-The SVG drawings have their own literal colours. Update those too when changing the palette.
+The SVG drawings have their own literal colors. Update those too when changing the palette.
 Keep text contrast strong, especially on dark panels and in small form hints.
 
 ### Typography
@@ -189,7 +189,7 @@ Crossing the desktop breakpoint closes the mobile menu.
 
 ## Features
 
-### Service catalogue and detail
+### Service catalog and detail
 
 `initServices()` filters the records by category and search term.
 The category is reflected in `?category=`; search text stays on the page and is not saved.
@@ -320,7 +320,7 @@ email within one working day to confirm the time or offer the nearest alternativ
 No appointment is reserved and nothing is sent until you connect the form (see below).
 Name, email and notes are not persisted.
 
-### Workroom enquiry
+### Workroom inquiry
 
 `#contact-form` validates the name, email and a message of 12–1,500 characters.
 `initContact()` validates the topic against a fixed own-key map.
@@ -330,7 +330,7 @@ reference from `makeRef()`. Nothing is sent until you connect the form.
 
 ### Connecting a real endpoint
 
-For an enquiry service, add your own endpoint to the form:
+For an inquiry service, add your own endpoint to the form:
 
 ```html
 <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="post" novalidate></form>
@@ -400,7 +400,7 @@ Price, result-count and save feedback use live announcements.
 The work dialog restores focus on close, and removing a plan item restores focus to a useful target.
 
 When editing, preserve label associations and ARIA target IDs.
-Do not communicate a price change or an error only through colour.
+Do not communicate a price change or an error only through color.
 Keep target sizes comfortable at narrow widths and avoid adding unbroken long labels.
 
 ## Building and deploying
@@ -421,7 +421,7 @@ Preserve the relative directory layout and compiled CSS.
 No environment variables or secrets are required for the included client-side features.
 If you set a content security policy, allow `https://fonts.googleapis.com` for styles and `https://fonts.gstatic.com` for fonts.
 
-Before publishing, replace the business identity and reserved contact details, verify access information, connect the chosen enquiry service and review every page at desktop and mobile sizes.
+Before publishing, replace the business identity and reserved contact details, verify access information, connect the chosen inquiry service and review every page at desktop and mobile sizes.
 Connect real booking capacity before offering confirmed appointments.
 Test a saved plan, a blocked-storage plan and the winter closure period after changing the data.
 

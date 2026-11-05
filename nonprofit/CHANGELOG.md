@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.8] - 2026-11-05
+
+### Changed
+
+- The guide, README and changelog use American spelling. The template itself is unchanged.
+
 ## [1.1.7] - 2026-10-26
 
 ### Fixed
@@ -64,7 +70,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ### Fixed
 
-- Raised low-contrast text to meet WCAG AA (axe colour-contrast checks now pass in light and dark).
+- Raised low-contrast text to meet WCAG AA (axe color-contrast checks now pass in light and dark).
 
 ## [1.1.0] - 2026-10-05
 
@@ -90,7 +96,7 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - Initial release with 9 pages: Home, About & finances, Programs, Stories, Story, Get involved, Events, Donate, 404.
 - Donate page with one-time/monthly toggle, preset and custom amounts
 - Live impact message for every amount, plus cover-the-fees total
-- Gift dedication (in honour or memory) and validated demo checkout
+- Gift dedication (in honor or memory) and validated demo checkout
 - Animated impact counters and appeal progress bar
 - Programs filter with a dot-matrix world map that highlights regions
 - SVG donut chart showing where every dollar goes
