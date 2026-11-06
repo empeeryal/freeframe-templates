@@ -112,7 +112,7 @@ var SLOT_STEP = 30;                 // minutes between reservation slots
 var TIMEZONE = 'America/New_York';  // the restaurant's time zone (IANA name)
 ```
 
-Set `TIMEZONE` to your restaurant's zone (for example `'Europe/London'` or `'America/Chicago'`). "Now" is
+Set `TIMEZONE` to your restaurant's zone (for example `'America/New_York'` or `'America/Chicago'`). "Now" is
 always read in that zone by `businessNow()`, so every visitor sees the same open/closed status, today's
 row and bookable times, wherever their device is.
 
@@ -311,7 +311,7 @@ Cloudflare Pages or any web host. No build command is needed on the host.
 ## Troubleshooting
 
 - **The open/closed badge is an hour or more out.** Set `TIMEZONE` at the top of `assets/js/main.js` to
-  your restaurant's IANA zone name (for example `'Europe/London'`).
+  your restaurant's IANA zone name (for example `'America/Chicago'`).
 - **No reservation times appear.** Check `HOURS` for that weekday isn't `null`, and that opening hours
   minus `LAST_SEATING_BEFORE_CLOSE` leaves at least one slot.
 - **A dish doesn't show up when filtering.** It needs `data-dish` and the right codes in `data-diet`

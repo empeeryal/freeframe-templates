@@ -188,7 +188,7 @@
   .option-card:has(:checked) .option-dot { @apply border-ink bg-ink; }
   .option-card:has(:checked) .option-dot::after { content: ""; @apply size-2.5 rounded-full bg-lime; }
 
-  /* Segmented control (fee estimator complexity, VAT) */
+  /* Segmented control (fee estimator complexity) */
   .seg { @apply grid gap-1 rounded-lg border border-line-strong/70 bg-paper-2 p-1; }
   .seg-opt {
     @apply flex min-h-11 cursor-pointer items-center justify-center rounded-md px-3 py-2 text-center text-sm font-semibold text-slate transition hover:text-ink

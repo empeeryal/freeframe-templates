@@ -6,6 +6,12 @@ All notable changes to the Brief HTML template are documented here. The format f
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-11-06
+
+### Changed
+
+- Removed a leftover mention of VAT from a stylesheet comment. The template's look is unchanged.
+
 ## [1.0.6] - 2026-11-05
 
 ### Changed
