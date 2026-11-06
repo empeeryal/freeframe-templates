@@ -1,6 +1,6 @@
 # Cuefold
 
-A complete HTML + Tailwind CSS v4 website for an independent theater in Bridgnorth.
+A complete HTML + Tailwind CSS v4 website for an independent theater in Staunton, Virginia.
 Ten pages include a six-week program that stays current, detailed productions, saved
 visit planning, access preferences, and ticket and workshop requests.
 

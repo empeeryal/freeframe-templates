@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" fill="none">
   <rect width="400" height="300" fill="#dfe1d3"/>
-  <!-- the yard: timber fence, a pallet of stone, sky -->
+  <!-- the yard: wood fence, a pallet of stone, sky -->
   <path d="M0 0h400v150H0z" fill="#e7ead9"/>
   <g fill="#b39a74" stroke="#8a7656" stroke-width="1.5"><path d="M0 120h400v14H0z"/><path d="M10 90h22v120H10zm40 0h22v120H50zm280 0h22v120h-22zm40 0h22v120h-22z"/></g>
   <path d="M296 196h104v40H296z" fill="#c9bea4" stroke="#8f876f"/><path d="M296 206h104M296 216h104M296 226h104M330 196v40m34-40v40" stroke="#a89e84"/>

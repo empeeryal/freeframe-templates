@@ -2,14 +2,14 @@
 
 ## Overview
 
-Quoin is a fictional architectural salvage yard in Hexham, Northumberland. Version 1.0.1 is a complete HTML and Tailwind CSS v4 website with sixteen stock lots, a basket, a reservation request checkout, a room-by-room project board, care notes, the yard team and a visit page with opening days, a delivery guide and a contact form. The [template page](https://freeframe.dev/templates/quoin) links to the live preview and download.
+Quoin is a fictional architectural salvage yard in Troy, New York. Version 1.0.2 is a complete HTML and Tailwind CSS v4 website with sixteen stock lots, a cart, a reservation request checkout, a room-by-room project board, care notes, the yard team and a visit page with opening days, a delivery guide and a contact form. The [template page](https://freeframe.dev/templates/quoin) links to the live preview and download.
 
 ## Quick start
 
 1. Unzip the download into a folder of its own.
 2. Open `index.html` in a browser, or serve the folder with a static web server.
 3. Open `stock.html`, choose a lot and try its preparation options.
-4. Add a few pieces to the basket and send a reservation request from `checkout.html`.
+4. Add a few pieces to the cart and send a reservation request from `checkout.html`.
 5. Edit the business details in every HTML file before publishing.
 
 The compiled stylesheet is included. Visitors do not need Node, pnpm or a framework. Use Node 24 only when rebuilding the CSS.
@@ -22,13 +22,13 @@ Browser privacy rules can limit storage on `file:` URLs. Use an HTTP server when
 | --------------- | --------------------------- | ------------------------------------------------------------------------------ |
 | `index.html`    | Introduce the yard          | Material study, four featured lots, how the yard works, visit links            |
 | `stock.html`    | Browse the inventory        | Search, category and price filters, sort, quick preview, save to project board |
-| `lot.html`      | Examine one lot             | Provenance, dimensions, condition, preparation, quantity and basket            |
+| `lot.html`      | Examine one lot             | Provenance, dimensions, condition, preparation, quantity and cart              |
 | `basket.html`   | Review a selection          | Quantity controls, removal, weight and price summary, last request             |
-| `checkout.html` | Send a reservation request  | Contact details, collection day or delivery postcode, live summary, reference  |
+| `checkout.html` | Send a reservation request  | Contact details, pickup day or delivery ZIP code, live summary, reference      |
 | `projects.html` | Build a room-by-room plan   | Picker, room tags, notes, budget and print                                     |
 | `care.html`     | Understand the materials    | Eight searchable care notes and expandable instructions                        |
 | `yard.html`     | Meet the people             | Three team portraits, the way the yard works, offering pieces to the yard      |
-| `visit.html`    | Plan a visit or delivery    | Opening days with closures, postcode delivery guide, contact form              |
+| `visit.html`    | Plan a visit or delivery    | Opening days with closures, ZIP code delivery guide, contact form              |
 | `404.html`      | Recover from a missing link | Inventory, project board and contact routes                                    |
 
 ### URL parameters
@@ -39,7 +39,7 @@ Browser privacy rules can limit storage on `file:` URLs. Use an HTTP server when
 | `stock.html` | `q`, `category`, `max`, `sort`             | Pre-fills the filters (`max` is `100`, `300` or `500`; `sort` is `lot`, `low`, `high`, `name`). |
 | `visit.html` | `topic=selling`                            | Pre-selects the contact form topic (`stock`, `selling`, `delivery`, `other`).                   |
 | `visit.html` | `lot=slate-hearth`                         | Pre-selects "A piece in stock" and starts the message with the lot number and name.             |
-| any page     | `now=2026-12-23` or `now=2026-12-23T09:30` | Previews the opening days, collection days and copyright year on another date (London time).    |
+| any page     | `now=2026-12-23` or `now=2026-12-23T09:30` | Previews the opening days, pickup days and copyright year on another date (New York time).    |
 
 Every value is checked against an allowlist or an own-key lookup (`Object.prototype.hasOwnProperty.call`), so `?lot=constructor` or `?topic=__proto__` fall back safely.
 
@@ -49,7 +49,7 @@ Every value is checked against an allowlist or an own-key lookup (`Object.protot
 index.html                 Home and featured lots
 stock.html                 Search and quick-preview shell
 lot.html                   Data-driven lot details
-basket.html                Basket and price summary
+basket.html                Cart and price summary
 checkout.html              Reservation request and confirmation
 projects.html              Project board controls
 care.html                  Searchable care library
@@ -126,19 +126,19 @@ Each product has the following fields:
 | `provenance`  | One line on where it came from, shown on cards and the lot page           |
 | `unit`        | What one price and one unit of stock buys: `piece`, `pair`, `set`, `pack` |
 | `category`    | Filter category                                                           |
-| `price`       | Price per unit in pounds, including VAT                                   |
+| `price`       | Price per unit in US dollars, before sales tax                            |
 | `stock`       | Units available across all finishes                                       |
 | `era`         | Approximate period, such as `1910s`                                       |
-| `dimensions`  | Measurements in centimetres                                               |
-| `weight`      | Approximate kilograms per unit, for handling and delivery                 |
+| `dimensions`  | Measurements in inches                                                    |
+| `weight`      | Approximate pounds per unit, for handling and delivery                    |
 | `finishGroup` | Key in `FINISHES`                                                         |
 | `intro`       | Short description                                                         |
 | `condition`   | Imperfections and included parts                                          |
-| `use`         | Suggested use and fitting cautions                                        |
+| `use`         | Suggested use and install cautions                                        |
 | `art`         | Relative image path                                                       |
 | `featured`    | Whether it appears on the home page                                       |
 
-Units are defined in `UNITS` in `main.js`. A unit's `label` follows the price ("£96 per pack of four") and `one`/`many` are used for stock and quantities ("12 packs in stock", "3 packs"). The tiles are sold in packs of four, the brass pulls, shelf brackets and shutters in pairs, and the balusters in sets of six; `stock` and `weight` count those units. To add a unit, add an entry to `UNITS` and use its key in the product.
+Units are defined in `UNITS` in `main.js`. A unit's `label` follows the price ("$120 per pack of four") and `one`/`many` are used for stock and quantities ("12 packs in stock", "3 packs"). The tiles are sold in packs of four, the brass pulls, shelf brackets and shutters in pairs, and the balusters in sets of six; `stock` and `weight` count those units. To add a unit, add an entry to `UNITS` and use its key in the product.
 
 To add a lot, duplicate an object in `products`, give it a unique `id` and lot number, write a plain `name` and a one-line `provenance`, then add its drawing. Check stock, dimensions, weight and unit together.
 
@@ -147,11 +147,11 @@ A preparation group is an array of objects in `FINISHES`:
 ```js
 wax: [
   { id: "original", label: "Cleaned, as found", extra: 0 },
-  { id: "waxed", label: "Light wax finish", extra: 18 },
+  { id: "waxed", label: "Light wax finish", extra: 25 },
 ],
 ```
 
-`extra` is added to each unit. Unknown finish identifiers fall back to the first option in the group. Basket totals always come from this catalog, never from a stored price.
+`extra` is added to each unit. Unknown finish identifiers fall back to the first option in the group. Cart totals always come from this catalog, never from a stored price.
 
 Category names are also listed in the `stock.html` select. If you introduce another category, add an option there. The same applies to care materials in `care.html`.
 
@@ -159,14 +159,14 @@ The team has `name`, `role`, `initials`, `look` (the portrait's alt text), `port
 
 ### Images and artwork
 
-Every lot has its own 400 × 330 SVG drawing in `assets/img/`, named `lot-<id>.svg`. The drawings are measured studies: the brass pulls are shown front and side with their 128 mm screw centers, the slate hearth in three-quarter view with its rough-cut back edge, the fanlight with its glazing bars.
+Every lot has its own 400 × 330 SVG drawing in `assets/img/`, named `lot-<id>.svg`. The drawings are measured studies: the brass pulls are shown front and side with their 5 in screw centers, the slate hearth in three-quarter view with its rough-cut back edge, the fanlight with its glazing bars.
 
 | File                                                        | Used on                     | Size      |
 | ----------------------------------------------------------- | --------------------------- | --------- |
 | `yard-study.svg`                                            | Home hero                   | 650 × 640 |
 | `yard-shed.svg`                                             | Yard page hero              | 560 × 440 |
 | `team-lowenna.svg`, `team-fenella.svg`, `team-taliesin.svg` | Yard team portraits         | 400 × 300 |
-| `sack-truck.svg`                                            | Basket hero, empty checkout | 400 × 330 |
+| `sack-truck.svg`                                            | Cart hero, empty checkout   | 400 × 330 |
 | `project-board.svg`                                         | Project board hero          | 400 × 330 |
 
 Photographs can replace drawings. Keep the aspect ratio and rewrite the `alt` text to describe the actual object. Don't put measurements only inside an image.
@@ -199,7 +199,7 @@ The close action and Escape return focus to the card control that opened it.
 
 `purchaseForm()` is shared by the quick preview and the lot page. Keep its per-instance id prefix unique if you add another instance.
 
-### Basket and preparation
+### Cart and preparation
 
 `addToBasket()` clamps quantities against `stockRemaining()`. A lot can have separate finish lines, but their combined quantity can't exceed its stock.
 
@@ -207,70 +207,70 @@ The close action and Escape return focus to the card control that opened it.
 
 `basketCost()` derives the total from current catalog prices and preparation extras. `basketWeight()` totals the load.
 
-After a removal, focus moves to the next remaining action or the inventory link. When the basket is empty, the basket page shows the last reservation request, if there is one.
+After a removal, focus moves to the next remaining action or the inventory link. When the cart is empty, the cart page (`basket.html`) shows the last reservation request, if there is one.
 
 ### Reservation request (checkout)
 
-`initCheckout()` drives `checkout.html`. With an empty basket it hides the form and shows an empty state with the last request. Otherwise it lists the pieces and keeps the summary (`summaryMarkup()`) in step with the delivery choice:
+`initCheckout()` drives `checkout.html`. With an empty cart it hides the form and shows an empty state with the last request. Otherwise it lists the pieces and keeps the summary (`summaryMarkup()`) in step with the delivery choice:
 
 | Choice                         | Summary line                        | Total                         |
 | ------------------------------ | ----------------------------------- | ----------------------------- |
-| Collect from the yard          | Collection from Hexham: Free        | Total to pay on collection    |
-| Deliver, postcode not valid    | Delivery: Add your postcode         | Goods total                   |
-| Deliver, guide-price area      | Delivery to NE46 (guide): £35       | Estimated total with delivery |
-| Deliver, individual-quote area | Delivery to PO30: Quoted separately | Goods total                   |
+| Pick up at the yard            | Pickup in Troy: Free                | Total at pickup, before sales tax |
+| Deliver, ZIP code not valid    | Delivery: Add your ZIP code         | Subtotal, before sales tax    |
+| Deliver, guide-price area      | Delivery to 12180 (guide): $65      | Estimated total, before sales tax |
+| Deliver, individual-quote area | Delivery to 99501: Quoted separately | Subtotal, before sales tax   |
 
-Collection shows a "Preferred collection day" select filled with the next six open days (`collectionDays()`); delivery shows the postcode field instead. On submit the name, phone number, email and (for delivery) postcode are validated. A valid request:
+Pickup shows a "Preferred pickup day" select filled with the next six open days (`collectionDays()`); delivery shows the ZIP code field instead. On submit the name, phone number, email and (for delivery) ZIP code are validated. A valid request:
 
 1. makes a reference such as `QN-4821`,
 2. shows "Reservation request QN-4821 received." with the customer's first name, the number we'll call, what we'll arrange, and the time the pieces are held until (`HOLD_HOURS`, 48),
 3. lists the requested lines and total, and what happens next,
-4. saves a short summary under `quoin.last-request.v1` and empties the basket.
+4. saves a short summary under `quoin.last-request.v1` and empties the cart.
 
-The copy promises a call within one working day and that nothing is paid online; change it in `checkout.html` and `showConfirmation()` if your yard works differently.
+The copy promises a call within one business day and that nothing is paid online; change it in `checkout.html` and `showConfirmation()` if your yard works differently.
 
 ### Project board
 
 `initBoard()` works with the `board` object. Save a piece from the inventory or add it with the board picker. The picker also makes the feature usable in a single page view when storage is blocked.
 
-`ROOMS` defines the allowed room labels. Every saved piece has a room and a note of up to 300 characters. The project name is limited to 80 characters and the budget to £0–£1,000,000; a negative budget is reset to 0 in the field as well.
+`ROOMS` defines the allowed room labels. Every saved piece has a room and a note of up to 300 characters. The project name is limited to 80 characters and the budget to $0–$1,000,000; a negative budget is reset to 0 in the field as well.
 
-The estimate counts one unit of each saved lot at its base price. It excludes preparation and delivery, and doesn't change the basket. Saving a piece doesn't hold it; only a reservation request does.
+The estimate counts one unit of each saved lot at its base price. It excludes preparation and delivery, and doesn't change the cart. Saving a piece doesn't hold it; only a reservation request does.
 
 `updateBoardTotal()` reports the number of pieces, their total and the difference from the working budget. Printing uses a print stylesheet with controls hidden.
 
 ### Delivery guide
 
-`deliveryQuote()` normalizes and validates the postcode, then applies `DELIVERY`.
+`deliveryQuote()` normalizes and validates the ZIP code (5 digits, optional +4), then applies `DELIVERY` by its first three digits. The field and code keep the name `postcode`.
 
-| Area                       | Starting guide price |
-| -------------------------- | -------------------- |
-| NE                         | £35                  |
-| CA, DH, DL, SR, TS, TD, YO | £65                  |
-| Other mainland areas       | £110                 |
+| Area                                                                      | Starting guide price |
+| ------------------------------------------------------------------------- | -------------------- |
+| Capital Region (120–123)                                                  | $65                  |
+| Hudson Valley, Adirondacks, Berkshires, southern Vermont (124–129, 012, 052, 053) | $145                 |
+| The rest of the contiguous US                                             | $395                 |
 
-Each started 40 kg band above the first 40 kg adds £15. For example, a 100 kg NE load has a £65 guide price.
+Each started 100 lb band above the first 100 lb adds $25. For example, a 250 lb load to a Capital Region ZIP code has a $115 guide price.
 
-The visit form offers 10, 40 or 100 kg. The checkout uses the basket weight. Collection is free.
+The visit form offers 20, 100 or 250 lb. The checkout uses the cart weight. Pickup is free.
 
-`INDIVIDUAL_AREAS` and `INDIVIDUAL_DISTRICTS` list the routes that get an individual carrier quote instead of a guide price: Northern Ireland (BT), the Channel Islands (GY, JE), the Isle of Man (IM), the Highlands and islands (IV, KW, HS, ZE and parts of PA, PH and KA), the Isle of Wight (PO30–PO41) and the Isles of Scilly (TR21–TR25). These are guide rules, not a carrier database; check them against your carrier before going live.
+`INDIVIDUAL_AREAS` and `INDIVIDUAL_DISTRICTS` list the routes that get an individual carrier quote instead of a guide price: Puerto Rico and the US Virgin Islands (006–009), Hawaii and the Pacific territories (967–969), Alaska (995–999) and military addresses (090–098, 340, 962–966). These are guide rules, not a carrier database; check them against your carrier before going live.
 
 ### Care library
 
 `initCare()` filters the eight `GUIDES` by text and material. Each record contains `id`, `title`, `material`, `summary`, `steps` and `caution`. Each card's label shows the material and the number of steps.
 
-Each note uses a native `details` element for its full instructions. Keep the safety cautions when editing a note, especially for old paint, glass and electrical fittings.
+Each note uses a native `details` element for its full instructions. Keep the safety cautions when editing a note, especially for old paint, glass and electrical fixtures.
 
-### Opening days, bank holidays and closures
+### Opening days, federal holidays and closures
 
-`TIME_ZONE` is `Europe/London`. `openingDays()` starts from today's London date (or `?now=`) and walks forward through `OPEN_WEEKDAYS` (Wednesday to Saturday) until it has six open days. Opening weekdays that fall on a closure are kept in the list with the reason, and `initDates()` merges a run of closed days with the same reason into one card ("Wed 30 Dec 2026 – Sat 2 Jan 2027 · Closed · Christmas break").
+`TIME_ZONE` is `America/New_York`. `openingDays()` starts from today's New York date (or `?now=`) and walks forward through `OPEN_WEEKDAYS` (Wednesday to Saturday) until it has six open days. Opening weekdays that fall on a closure are kept in the list with the reason, and `initDates()` merges a run of closed days with the same reason into one card ("Wed, Dec 30, 2026 – Sat, Jan 2, 2027 · Closed · Christmas break").
 
 A day is closed when `closedReason()` returns a reason:
 
-- **Bank holidays:** `bankHolidays(year)` works out the England and Wales bank holidays for any year: New Year's Day, Good Friday and Easter Monday (from the date of Easter), the early May, spring and summer bank holidays, Christmas Day and Boxing Day, with the substitute weekdays when they fall at a weekend. Set `CLOSE_ON_BANK_HOLIDAYS` to `false` to open on them.
-- **Yearly closures:** `YARD_CLOSURES` holds month-day ranges. The demo closes from Christmas Eve to 2 January (`{ from: "12-24", to: "01-02", label: "Christmas break" }`), with Christmas Day, Boxing Day and New Year's Day named first so they show their own names. A range may run over New Year. The first matching entry wins.
+- **Federal holidays:** `bankHolidays(year)` works out the US federal holidays for any year: New Year's Day, Martin Luther King Jr. Day, Washington's Birthday, Memorial Day, Juneteenth, Independence Day, Labor Day, Columbus Day, Veterans Day, Thanksgiving Day and Christmas Day. A fixed-date holiday on a weekend is also closed on its observed weekday (Saturday to Friday, Sunday to Monday), and the yard stays shut on the date itself. Set `CLOSE_ON_BANK_HOLIDAYS` to `false` to open on them.
+- **Yearly closures:** `YARD_CLOSURES` holds month-day ranges. The demo closes from Christmas Eve to January 2 (`{ from: "12-24", to: "01-02", label: "Christmas break" }`), with Christmas Day and New Year's Day named first so they show their own names. A range may run over New Year. The first matching entry wins.
 
-Nothing here is a fixed date, so the list stays current on any day. For one-off closures (a stocktake, a holiday week), add a short dated list and check it in `closedReason()`. The same open days fill the checkout's collection-day select. `initDates()` also fills every copyright year from the London date.
+Nothing here is a fixed date, so the list stays current on any day. For one-off closures (an inventory count, a vacation week), add a short dated list and check it in `closedReason()`. The same open days fill the checkout's collection-day select. `initDates()` also fills every copyright year from the New York date.
 
 To see a date, add `?now=2026-12-23` to `visit.html` or `checkout.html`.
 
@@ -286,9 +286,9 @@ The forms check their fields in the browser and then show the result straight aw
 
 | Form                | Page            | Validates                                                                     | Finishes with                                                     |
 | ------------------- | --------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| Reservation request | `checkout.html` | Name, phone (10+ digits), email, postcode when delivering, a non-empty basket | Reference `QN-1234`, hold time, what happens next; basket emptied |
+| Reservation request | `checkout.html` | Name, phone (10+ digits), email, ZIP code when delivering, a non-empty cart   | Reference `QN-1234`, hold time, what happens next; cart emptied   |
 | Contact             | `visit.html`    | Name, email, a message of at least ten characters                             | "Thanks, Jo. Your message is with the yard." and the reply time   |
-| Delivery guide      | `visit.html`    | A complete UK postcode                                                        | A guide price, or a note that the route needs a carrier quote     |
+| Delivery guide      | `visit.html`    | A 5-digit ZIP code, optional +4                                               | A guide price, or a note that the route needs a carrier quote     |
 
 Errors appear under each field, are linked with `aria-describedby`, set `aria-invalid` and move focus to the first problem. Typing in a field clears its error.
 
@@ -304,7 +304,7 @@ fetch("https://formspree.io/f/your-form-id", {
 }).then((response) => (response.ok ? showThanks() : showSendError()));
 ```
 
-Show the success state, and on the checkout clear the basket, only when the response is OK. Write a small `showSendError()` that keeps the form and the basket, and asks the customer to try again or ring the yard. Disable the submit button while the request runs. The checkout form doesn't include the basket lines by itself; add them as a hidden field (for example the lot numbers, units and finishes) before posting.
+Show the success state, and on the checkout clear the cart, only when the response is OK. Write a small `showSendError()` that keeps the form and the cart, and asks the customer to try again or call the yard. Disable the submit button while the request runs. The checkout form doesn't include the cart lines by itself; add them as a hidden field (for example the lot numbers, units and finishes) before posting.
 
 For a real shop, check lot ids, quantities, prices and stock on your server, and never treat the browser's totals as an order. Add your privacy notice and terms before collecting customer details.
 
@@ -320,7 +320,7 @@ All access goes through `safeStorage`. It keeps an in-memory copy and falls back
 
 Malformed JSON is removed. Valid JSON with the wrong shape is ignored or replaced with a safe empty value. Fields are read with own-property checks, so names such as `constructor` are never product ids.
 
-HTML rendering escapes text before interpolation. No stored value can override a catalog price. The template doesn't save names, phone numbers, email addresses, postcodes or messages; the last request keeps only its reference, item count, total, method and date.
+HTML rendering escapes text before interpolation. No stored value can override a catalog price. The template doesn't save names, phone numbers, email addresses, ZIP codes or messages; the last request keeps only its reference, item count, total, method and date.
 
 Reset saved state from the browser console:
 
@@ -347,7 +347,7 @@ The site has a skip link, semantic landmarks, one rendered `h1` per page, visibl
 
 Native `dialog`, `details`, `select` and radio controls provide familiar keyboard behavior. Form errors are associated through `aria-describedby` and marked with `aria-invalid`.
 
-After removing a basket or board item, focus moves to a remaining action. Dialog close restores focus to its opener. Mobile Escape closes the menu.
+After removing a cart or board item, focus moves to a remaining action. Dialog close restores focus to its opener. Mobile Escape closes the menu.
 
 Lot drawings and team portraits have alt text, and every measurement in a drawing is repeated in the page text. The checkout radio choices are native radio buttons inside a fieldset with a legend.
 
@@ -372,7 +372,7 @@ Configure the host to serve `404.html` for missing paths. Keep relative `.html` 
 
 ## Troubleshooting
 
-### Basket disappears after navigation
+### Cart disappears after navigation
 
 Storage may be blocked by the browser, a sandbox or a `file:` origin. The in-memory fallback only lasts for one page view. Test persistent state over HTTP and document browser requirements for a real shop.
 
@@ -386,7 +386,7 @@ Stock is capped across every finish of the same lot. Remove other finish lines o
 
 ### Delivery has no instant price
 
-Some postcodes deliberately require a carrier conversation. Invalid postcodes show an inline error. A guide price is never a firm shipping quote.
+Some ZIP codes deliberately require a carrier conversation. Invalid ZIP codes show an inline error. A guide price is never a firm shipping quote.
 
 ### The confirmation shows but nothing arrives
 
@@ -398,7 +398,7 @@ The fonts load from Google Fonts. Check that the `fonts.googleapis.com` link is 
 
 ### The opening days look wrong
 
-They're worked out in `Europe/London` from the visitor's clock. Check a date with `?now=2026-12-23` on `visit.html`, and review `YARD_CLOSURES` and `CLOSE_ON_BANK_HOLIDAYS` in `main.js`.
+They're worked out in `America/New_York` from the visitor's clock. Check a date with `?now=2026-12-23` on `visit.html`, and review `YARD_CLOSURES` and `CLOSE_ON_BANK_HOLIDAYS` in `main.js`.
 
 ### A saved piece vanished
 

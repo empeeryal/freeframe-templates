@@ -2,7 +2,7 @@
 
 ## Overview
 
-Cogmere 1.0.0 is a complete HTML and Tailwind CSS v4 website for a fictional bicycle repair workshop in Beccles, Suffolk. Its cobalt repair drawings, illustrated workshop scenes and clear workshop tickets suit an independent mechanic who wants to explain the work before asking for a booking. Ten pages include a searchable repair board, a multi-job estimate, a rolling drop-off booking and a saved pre-ride checklist. The [template page](https://freeframe.dev/templates/cogmere) links to the live demo.
+Cogmere 1.0.3 is a complete HTML and Tailwind CSS v4 website for a fictional bicycle repair workshop in Chico, California. Its cobalt repair drawings, illustrated workshop scenes and clear workshop tickets suit an independent mechanic who wants to explain the work before asking for a booking. Ten pages include a searchable repair board, a multi-job estimate, a rolling drop-off booking and a saved pre-ride checklist. The [template page](https://freeframe.dev/templates/cogmere) links to the live demo.
 
 ## Quick start
 
@@ -39,9 +39,9 @@ Do not publish `node_modules`. No JavaScript bundler is used.
 | `service.html`  | Explain one repair            | `?repair=` selection, three work steps, suitability, labor, parts allowance and mechanic |
 | `estimate.html` | Build a repair plan           | `?repair=` preselection, quantities, bike complexity, parts grade, overlap advice, copy   |
 | `book.html`     | Book a drop-off               | Ten rolling opening days, mechanic choice, time buttons, validation and a booked state    |
-| `workshop.html` | Meet the people               | Three mechanic profiles, individual specialisms and workshop standards                    |
+| `workshop.html` | Meet the people               | Three mechanic profiles, individual specialties and workshop standards                    |
 | `journal.html`  | Explain bicycle care          | Eight searchable notes with category selection and expandable practical guidance          |
-| `prep.html`     | Check before a ride           | Ride length, wet-weather additions, saved ticks, progress and reset                       |
+| `prep.html`     | Check before a ride           | Ride length, wet-weather additions, saved checks, progress and reset                       |
 | `visit.html`    | Find and contact the workshop | Map, hours, next drop-off day, access notes and a question form with a success state      |
 | `404.html`      | Recover from a missing page   | Links back to the home page, repair board and drop-off calendar                           |
 
@@ -70,7 +70,7 @@ cogmere/
   README.md                  Short introduction and quick start
   DOCS.md                    This guide
   CHANGELOG.md               Template version history
-  LICENSE.txt                Licence supplied in the download
+  LICENSE.txt                License supplied in the download
 ```
 
 `template.json` is gallery metadata in the source repository. It is omitted from the downloadable archive.
@@ -129,7 +129,7 @@ Static headings, addresses, navigation and explanatory sections live in the HTML
 | Constant             | Content                                                                                         |
 | -------------------- | ----------------------------------------------------------------------------------------------- |
 | `SERVICES`           | The 16 repairs: ID, name, category, prices, minutes, mechanic, search keywords, copy and artwork |
-| `TEAM`               | Three mechanics, biographies, specialisms, portraits and approaches                             |
+| `TEAM`               | Three mechanics, biographies, specialties, portraits and approaches                             |
 | `GUIDES`             | Eight ride notes: title, category, introduction, three practical points, a safety note and art  |
 | `CHECKS`             | Checklist IDs, labels, explanations, applicable ride kinds and wet-only flags                   |
 | `BIKE_TYPES`         | Bike labels and labor-complexity rates                                                         |
@@ -140,7 +140,7 @@ Static headings, addresses, navigation and explanatory sections live in the HTML
 | `CONTACT_TOPICS`     | Question subjects and the "what happens next" line shown after sending                          |
 | `DROP_OFF_TIMES`     | Drop-off time labels in local workshop time                                                     |
 
-All service money values are integer pence. `money()` formats them with `en-GB` and GBP. Minutes describe approximate bench time, not a guaranteed completion or collection time.
+All service money values are integer cents. `money()` formats them with `en-US` and USD. Prices exclude sales tax, and the estimate and booking say so. Minutes describe approximate bench time, not a guaranteed completion or collection time.
 
 A repair has this shape; add it to `SERVICES` and provide the named drawing:
 
@@ -149,20 +149,20 @@ A repair has this shape; add it to `SERVICES` and provide the named drawing:
   id: "chain",
   name: "Chain replacement",
   category: "Drivetrain",
-  labour: 1800,
-  parts: 2500,
+  labour: 2000,
+  parts: 3500,
   minutes: 25,
   mechanic: "bertram",
   keywords: "chain stretch worn skipping slipping noise squeak rusty jumping",
   short: "Measured, matched and cut to the right length.",
   suitable: "A chain at its wear limit, before it damages more expensive parts.",
-  steps: ["Measure wear.", "Fit a compatible chain.", "Test under load."],
+  steps: ["Measure wear.", "Install a compatible chain.", "Test under load."],
   note: "A worn cassette may need replacement too.",
   art: "chain.svg"
 }
 ```
 
-Add `perBike: true` to a whole-bike package (the safety check, everyday service, full strip & rebuild and contact point setup use it): it can be added once, and the estimate shows "One per bike" instead of a quantity box. A `parts` value of `0` shows "parts to agree" on cards, the detail page and the estimate. `keywords` holds the words people use for the symptom ("puncture", "squeal", "creak"); search reads them along with the name, copy, steps and note.
+Add `perBike: true` to a whole-bike package (the safety check, everyday tune-up, full teardown & rebuild and contact point setup use it): it can be added once, and the estimate shows "One per bike" instead of a quantity box. A `parts` value of `0` shows "parts to confirm" on cards, the detail page and the estimate. `keywords` holds the words people use for the symptom ("flat", "squeal", "creak"); search reads them along with the name, copy, steps and note.
 
 IDs must be unique, short lowercase slugs. The `mechanic` must match an ID in `TEAM`. Add a new category to `SERVICE_CATEGORIES` if needed. `SERVICE_MAP`, `TEAM_MAP` and `CHECK_MAP` are derived automatically.
 
@@ -199,13 +199,13 @@ The footer year is filled in the browser using `TIME_ZONE`. Change all fictional
 `cleanPlan()`, `readPlan()` and `writePlan()` keep the saved plan valid. `planTotals()` calculates:
 
 - Labor: each catalog labor price multiplied by quantity.
-- Complexity: the combined labor multiplied by the selected bike rate, rounded to the nearest penny.
+- Complexity: the combined labor multiplied by the selected bike rate, rounded to the nearest cent.
 - Parts: each catalog allowance multiplied by the selected parts multiplier, rounded per job, then multiplied by quantity.
 - Total: labor plus complexity plus parts.
 
 The standard bike rate is 0%; cargo is 20%; e-bike mechanical work is 15%. Parts multipliers are 1 for everyday, 1.4 for the longer-wearing allowance and 0 for labor-only estimates. Quantities are clamped to whole numbers from 1 to 4, or to 1 for `perBike` packages.
 
-For example, a safety check and an inner tube replacement on a standard bike with everyday parts total £38: £30 labor and £8 parts. Choosing cargo adds £6 complexity, for £44. These remain allowances subject to inspection.
+For example, a safety check and an inner tube replacement on a standard bike with everyday parts total $50: $40 labor and $10 parts. Choosing cargo adds $8 complexity, for $58. These remain allowances subject to inspection.
 
 `renderEstimate()` also shows overlap notes when packages include the routine adjustments selected separately. It does not silently discount or remove a job: the mechanic resolves overlap in the final quote.
 
@@ -217,13 +217,13 @@ Removing a line returns focus to the next remove button or the repair selector. 
 
 ### Rolling drop-off calendar
 
-`TIME_ZONE` is `Europe/London`. `todayKey()` derives the workshop's current calendar day, regardless of the visitor's time zone. `openingDates()` then finds the next ten opening days, starting tomorrow. It skips Sundays, Mondays, England bank holidays and `EXTRA_CLOSURES`.
+`TIME_ZONE` is `America/Los_Angeles`. `todayKey()` derives the workshop's current calendar day, regardless of the visitor's time zone. `openingDates()` then finds the next ten opening days, starting tomorrow. It skips Sundays, Mondays, US federal holidays and `EXTRA_CLOSURES`.
 
-`bankHolidays(year)` calculates New Year substitutes, Good Friday, Easter Monday, the first and last May Mondays, the last August Monday and Christmas/Boxing Day substitutes. It also closes the actual New Year, Christmas and Boxing Day dates when they fall on a normal Saturday opening. `easterSunday()` supplies the movable spring dates. Exceptional government holidays are not inferred: add a one-off date to `EXTRA_CLOSURES` when needed.
+`bankHolidays(year)` calculates the US federal holidays by rule: New Year's Day, Martin Luther King Jr. Day, Presidents' Day, Memorial Day, Juneteenth, Independence Day, Labor Day, Columbus Day, Veterans Day, Thanksgiving Day and Christmas Day. A date-fixed holiday closes on the day itself and on the weekday it's observed (Friday for a Saturday, Monday for a Sunday), including December 31 when the next New Year's Day is a Saturday. Exceptional closures are not inferred: add a one-off date to `EXTRA_CLOSURES` when needed.
 
 `FIXED_OPENING_DATES` defaults to `null`, so no hard-coded booking year goes stale. For a real calendar with a fixed schedule, replace it with an array of future `YYYY-MM-DD` keys. Invalid, past and closed-day entries are filtered out. Duplicate dates are removed and the result is sorted. Dates are requests, not live availability; connect your actual booking system before treating them as reservations.
 
-`DROP_OFF_TIMES` has six 20-minute conversation starts. Choosing a particular mechanic omits that mechanic's bench-handover window; choosing the first suitable mechanic shows all starts. This is a simple presentation rule, not a stock or reservations system.
+`DROP_OFF_TIMES` has six 20-minute conversation starts. Choosing a particular mechanic omits that mechanic's bench-handoff window; choosing the first suitable mechanic shows all starts. This is a simple presentation rule, not a stock or reservations system.
 
 The optional `book.html?repair=<id>` parameter preselects the repair's mechanic and names the repair in the booking when no repair plan is saved. It does not add a job to the saved plan.
 
@@ -239,9 +239,9 @@ The notes are general care guidance. Keep the advice to stop riding when a brake
 
 `visibleChecks()` includes checks matching the selected ride kind and adds wet-only items when the weather is wet. The everyday dry list has six checks; the loaded wet list has thirteen.
 
-`renderChecklist()` creates labeled checkboxes and `updateChecklistProgress()` updates the visible checked count and the `role="progressbar"` meter (`data-check-meter`, filled by `data-check-bar`). Changing the ride or weather retains existing valid ticks; only relevant ticks count towards progress. The reset action clears all ticks while keeping the selected ride settings.
+`renderChecklist()` creates labeled checkboxes and `updateChecklistProgress()` updates the visible checked count and the `role="progressbar"` meter (`data-check-meter`, filled by `data-check-bar`). Changing the ride or weather retains existing valid checks; only relevant checks count toward progress. The reset action clears all checks while keeping the selected ride settings.
 
-A previous tick is not a new inspection. The page explains this and provides a prominent fresh-check action. Change check text and applicability in `CHECKS`; update sidebar tips in `RIDE_TYPES`.
+A previous check mark is not a new inspection. The page explains this and provides a prominent fresh-check action. Change check text and applicability in `CHECKS`; update sidebar tips in `RIDE_TYPES`.
 
 ### Navigation and motion
 
@@ -253,7 +253,7 @@ A previous tick is not a new inspection. The page explains this and provides a p
 
 The forms don't send anything until you connect them to a backend. Both validate on the client with inline errors and then finish the way the workshop would: the form is replaced by a success state with a reference (`CG-` and four digits from `reference()`), and focus moves to it.
 
-`initBooking()` validates an upcoming opening day, a known mechanic or `any`, one of the offered times, a name of 2–80 characters, a complete email and a bike description of at least three characters; each error shows under its own field. The success state (`data-book-done`) reads "Booked in for Wednesday 21 October, 10:00", the reference, a summary (drop-off, mechanic, name, email, bike and the work from the saved plan or `?repair=`) and what happens next: a confirmation email within a working day, the price agreed at drop-off, and a call when the bike is ready. "Book another bike" resets the form.
+`initBooking()` validates an upcoming opening day, a known mechanic or `any`, one of the offered times, a name of 2–80 characters, a complete email and a bike description of at least three characters; each error shows under its own field. The success state (`data-book-done`) reads "Booked for Wednesday, October 21 at 10:00am", the reference, a summary (drop-off, mechanic, name, email, bike and the work from the saved plan or `?repair=`) and what happens next: a confirmation email within a business day, the price agreed at drop-off, and a call when the bike is ready. "Book another bike" resets the form.
 
 `initContact()` validates the same name and email rules and a question of at least 15 characters. Its success state (`data-contact-done`) thanks the visitor by first name, shows a reference and the "what happens next" line for the chosen topic from `CONTACT_TOPICS`. Contact details are never saved.
 
@@ -278,7 +278,7 @@ try {
   });
   if (!response.ok) throw new Error("Request failed");
 } catch {
-  announce("Sorry, that didn't go through. Please try again or call 01632 960741.");
+  announce("Sorry, that didn't go through. Please try again or call (530) 555-0174.");
   return;
 } finally {
   button.disabled = false;
@@ -352,7 +352,7 @@ Upload the HTML files and `assets/` together to any static host. Netlify Drop, C
 
 Configure your host's missing-page behavior to serve `404.html` with an HTTP 404 status. Test `index.html`, an inner page, an unknown URL, the fonts, all drawings and both forms after deployment.
 
-Before launch, test every page at phone and desktop widths, all estimator settings, quantity limits, removal focus, blocked storage, keyboard navigation and a successful and failed backend submission if connected. Test the calendar around Easter, Christmas and the year boundary as well as a year and two years ahead.
+Before launch, test every page at phone and desktop widths, all estimator settings, quantity limits, removal focus, blocked storage, keyboard navigation and a successful and failed backend submission if connected. Test the calendar around Thanksgiving, Christmas and the year boundary as well as a year and two years ahead.
 
 ## Troubleshooting
 
@@ -378,7 +378,7 @@ Clipboard permission is unavailable or the page was opened from the file system.
 
 ### The calendar skips an expected day
 
-Check the weekday, calculated bank holiday rules and `EXTRA_CLOSURES`. The calendar begins tomorrow and shows only future opening days. The mechanic selector also omits one handover time for each named mechanic.
+Check the weekday, calculated federal holiday rules and `EXTRA_CLOSURES`. The calendar begins tomorrow and shows only future opening days. The mechanic selector also omits one handover time for each named mechanic.
 
 ### A request did not arrive
 

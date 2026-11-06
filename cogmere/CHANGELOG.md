@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-11-05
+
+### Changed
+
+- Set in Chico, California, with American spelling, US dollars, US phone numbers and local details.
+- The drop-off calendar now closes on US federal holidays, worked out by rule for any year, and uses Pacific time.
+
 ## [1.0.2] - 2026-11-05
 
 ### Changed

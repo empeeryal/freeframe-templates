@@ -1,19 +1,19 @@
 /* Sprout — Loamstead field school template. Vanilla JavaScript, no dependencies.
  *
- *  1. Settings and data: school, levels, topics, tutors, courses, learner quotes, crops, seasonal notes
- *  2. Helpers: URL parameters, dates in UK time, storage, formatting
- *  3. Artwork: one drawing per course, tutor portraits, planner plant marks
+ *  1. Settings and data: school, levels, topics, instructors, courses, student quotes, crops, seasonal notes
+ *  2. Helpers: URL parameters, dates in Pacific time, storage, formatting
+ *  3. Artwork: one drawing per course, instructor portraits, planner plant marks
  *  4. Sessions: rolling dates worked out from each course's rule
- *  5. Shortlist and enrolment requests (saved on this device)
+ *  5. Shortlist and enrollment requests (saved on this device)
  *  6. Shared markup: course cards, session rows
  *  7. Home page
  *  8. Course list with filters (courses.html)
  *  9. Course page (course.html?course=…)
- * 10. Timetable (timetable.html)
- * 11. Enrolment (enrol.html)
+ * 10. Schedule (timetable.html)
+ * 11. Enrollment (enrol.html)
  * 12. Bed planner (planner.html)
  * 13. Shortlist page (saved.html)
- * 14. Enquiry form (visit.html)
+ * 14. Inquiry form (visit.html)
  * 15. Header, mobile menu, scroll reveal, year
  *
  * URL parameters and saved data are only accepted when they name one of the template's own values
@@ -26,27 +26,27 @@
    * 1. Settings and data
    * ------------------------------------------------------------------ */
   // Dates and times are worked out in this time zone, whatever the visitor's own clock says.
-  const TIME_ZONE = 'Europe/London';
+  const TIME_ZONE = 'America/Los_Angeles';
 
   // Rolling demo dates. Sessions are never written as dates: each course has a rule (weekday, how
   // often, which months), and the next sessions are worked out from today.
-  // The first bookable session is at least this many days away (time to send joining notes).
+  // The first bookable session is at least this many days away (time to send arrival notes).
   const MIN_LEAD_DAYS = 7;
-  // The timetable page lists sessions starting within this many days of the first bookable day.
+  // The schedule page lists sessions starting within this many days of the first bookable day.
   const TIMETABLE_DAYS = 84;
-  // How many dates each course page and enrolment list offers.
+  // How many dates each course page and enrollment list offers.
   const SESSIONS_PER_COURSE = 4;
   // The plot closes over Christmas and New Year ("MM-DD", inclusive). No sessions start or run then.
-  const CLOSED = { from: '12-20', to: '01-04', label: 'Christmas and New Year' };
+  const CLOSED = { from: '12-20', to: '01-04', label: 'Christmas and New Year’s' };
   // Demo availability: share of places already taken on sessions within 3 weeks (fewer further out).
   // Always leaves at least 2 places, so the demo never shows a full session until a visitor fills one.
   const DEMO_TAKEN = 0.75;
-  // Most people one enrolment request can cover.
+  // Most people one enrollment request can cover.
   const MAX_PEOPLE = 4;
 
   const LEVELS = {
     beginner: { name: 'Beginner', about: 'No experience needed.' },
-    improver: { name: 'Improver', about: 'You have grown a season or two.' },
+    improver: { name: 'Intermediate', about: 'You have grown a season or two.' },
     experienced: { name: 'Experienced', about: 'Confident with tools and keen to go further.' }
   };
   const TOPICS = {
@@ -61,84 +61,84 @@
   const SEASONS = {
     spring: { name: 'Spring', months: [3, 4, 5] },
     summer: { name: 'Summer', months: [6, 7, 8] },
-    autumn: { name: 'Autumn', months: [9, 10, 11] },
+    autumn: { name: 'Fall', months: [9, 10, 11] },
     winter: { name: 'Winter', months: [12, 1, 2] }
   };
 
   const TUTORS = {
     eudora: {
       name: 'Eudora Wickmere', role: 'Founder, soil and vegetables',
-      bio: 'Eudora grew vegetables in a narrow rented yard for ten years before starting Loamstead around a neighbour’s raised bed. She teaches the soil and vegetable courses and still keeps the compost bays in order.',
+      bio: 'Eudora grew vegetables in a narrow rented yard for ten years before starting Loamstead around a neighbor’s raised bed. She teaches the soil and vegetable courses and still keeps the compost bays in order.',
       quote: 'A failed crop is a useful note, not a verdict.'
     },
     idris: {
       name: 'Idris Pennock', role: 'Fruit trees and hedges',
-      bio: 'Idris spent twenty years with the orchards around the Vale of Evesham and has laid hedges in competitions across the Midlands. He teaches pruning, trained fruit and the hedge-laying weekends.',
+      bio: 'Idris spent twenty years in the pear orchards of the Hood River Valley and has taught hedge-laying at farm workshops across Oregon. He teaches pruning, trained fruit and the hedge-laying weekends.',
       quote: 'Cut less than you want to. The tree will tell you next year.'
     },
     halima: {
       name: 'Halima Fennimore', role: 'Containers and propagation',
-      bio: 'Halima ran a balcony nursery from a third-floor flat in Worcester before joining Loamstead. She teaches small-space growing, sowing and cuttings, and runs the Wednesday evening classes.',
+      bio: 'Halima ran a balcony nursery from a third-floor apartment in Salem before joining Loamstead. She teaches small-space growing, sowing and cuttings, and runs the Wednesday evening classes.',
       quote: 'If it has light and a drainage hole, it can grow food.'
     }
   };
 
   // Courses. rule: day = weekday (0 Sunday … 6 Saturday); every = 'week', 'fortnight' (parity 0 or 1
   // picks which weeks) or 'month' (nth = 1st, 2nd or 3rd of that weekday in the month); months = when
-  // it runs; parts = day offsets of each meeting (two-day courses). Times are UK local time.
+  // it runs; parts = day offsets of each meeting (two-day courses). Times are Pacific local time.
   const COURSES = [
     {
-      id: 'first-bed', name: 'Your first growing bed', level: 'beginner', topic: 'veg', tutor: 'eudora', price: 65, capacity: 8,
+      id: 'first-bed', name: 'Your first growing bed', level: 'beginner', topic: 'veg', tutor: 'eudora', price: 85, capacity: 8,
       rule: { day: 6, every: 'fortnight', parity: 0, months: [3, 4, 5, 6, 7, 8, 9, 10], parts: [0] }, start: '10:00', end: '14:00',
       tone: '#e4e9cf',
       summary: 'Turn one small patch into somewhere you can grow supper, and go home with a tray of seedlings.',
-      about: 'Our gentlest start. You will read your soil, mark out a 1.2 metre bed you never need to stand on, and sow the crops that reliably reward a beginner. Lunch is in the barn, and everything you sow goes home with you.',
+      about: 'Our gentlest start. You will read your soil, mark out a 4-foot bed you never need to stand on, and sow the crops that reliably reward a beginner. Lunch is in the barn, and everything you sow goes home with you.',
       plan: ['Meet your soil: a squeeze test and a jar test', 'Mark out a bed you can reach from both sides', 'Sow and plant five reliable crops', 'Watering, thinning and the first month at home'],
-      takeaway: ['A seed tray of salad and beetroot seedlings', 'A printed sowing calendar for a Worcestershire garden'],
-      bring: 'Shoes you don’t mind getting muddy and a packed lunch. We provide tools, gloves, seeds and compost.'
+      takeaway: ['A seed tray of salad and beet seedlings', 'A printed sowing calendar for a Willamette Valley garden'],
+      bring: 'Shoes you don’t mind getting muddy and a bag lunch. We provide tools, gloves, seeds and compost.'
     },
     {
-      id: 'small-space', name: 'A harvest in small spaces', level: 'beginner', topic: 'containers', tutor: 'halima', price: 55, capacity: 8,
+      id: 'small-space', name: 'A harvest in small spaces', level: 'beginner', topic: 'containers', tutor: 'halima', price: 65, capacity: 8,
       rule: { day: 0, every: 'fortnight', parity: 1, months: [4, 5, 6, 7, 8, 9], parts: [0] }, start: '10:00', end: '13:00',
       tone: '#f3dcc4',
-      summary: 'A doorstep, balcony or bright courtyard is enough. Match pots, compost and plants to the light you have.',
+      summary: 'A stoop, balcony or bright patio is enough. Match pots, compost and plants to the light you have.',
       about: 'Bring a photo of your space and we will plan it together. You will learn which containers really work, how to keep them watered through a July heatwave, and plant a cut-and-come-again salad pot to carry home.',
-      plan: ['Map sun and shelter across a day', 'Pots, drainage and the right compost', 'Plant a salad pot and a herb trough', 'Feeding and watering without a garden tap'],
+      plan: ['Map sun and shelter across a day', 'Pots, drainage and the right compost', 'Plant a salad pot and a herb trough', 'Feeding and watering without a garden spigot'],
       takeaway: ['A planted salad pot', 'A watering plan for your own space'],
       bring: 'A photo of your space and rough measurements. Pots and compost are included.'
     },
     {
-      id: 'living-soil', name: 'Make living soil', level: 'beginner', topic: 'soil', tutor: 'eudora', price: 45, capacity: 10,
+      id: 'living-soil', name: 'Make living soil', level: 'beginner', topic: 'soil', tutor: 'eudora', price: 55, capacity: 10,
       rule: { day: 6, every: 'month', nth: 1, months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], parts: [0] }, start: '14:30', end: '17:00',
       tone: '#eadbc8',
-      summary: 'Compost, mulch and leaf mould without the mystery or the smell. Runs all year, in every weather.',
-      about: 'An afternoon at our compost bays. We will turn a heap together, look at what is living in it and work out why some heaps go slimy. You will leave knowing how to make good compost from what your own garden and kitchen produce.',
-      plan: ['Greens, browns and the balance between them', 'Turn a heap and read its temperature', 'Leaf mould, wormeries and green manures', 'How deep to mulch, and when'],
-      takeaway: ['A bag of our finished compost', 'A one-page guide to fixing a sad heap'],
+      summary: 'Compost, mulch and leaf mold without the mystery or the smell. Runs all year, in every weather.',
+      about: 'An afternoon at our compost bays. We will turn a pile together, look at what is living in it and work out why some piles go slimy. You will leave knowing how to make good compost from what your own garden and kitchen produce.',
+      plan: ['Greens, browns and the balance between them', 'Turn a pile and read its temperature', 'Leaf mold, worm bins and cover crops', 'How deep to mulch, and when'],
+      takeaway: ['A bag of our finished compost', 'A one-page guide to fixing a sad pile'],
       bring: 'Old clothes and a sealed sample of your own soil, if you would like us to look at it.'
     },
     {
-      id: 'seed-to-supper', name: 'Seed to supper', level: 'beginner', topic: 'veg', tutor: 'halima', price: 120, capacity: 8,
+      id: 'seed-to-supper', name: 'Seed to supper', level: 'beginner', topic: 'veg', tutor: 'halima', price: 145, capacity: 8,
       rule: { day: 6, every: 'month', nth: 2, months: [2, 3, 4, 5], parts: [0, 21] }, start: '10:00', end: '13:00',
       tone: '#dae7de',
       summary: 'Two spring Saturdays, three weeks apart: sow on the first, prick out and plant on the second.',
-      about: 'Follow a seed from packet to plate. On the first Saturday you will sow tomatoes, courgettes and beans; you take them home to look after, then bring them back three weeks later to prick out, pot on and plan a summer of steady harvests.',
-      plan: ['Reading a seed packet properly', 'Sowing depth, warmth and light', 'Pricking out and potting on (second Saturday)', 'Hardening off and successional sowing'],
-      takeaway: ['About 30 young plants of your own', 'A propagator tray to keep'],
+      about: 'Follow a seed from packet to plate. On the first Saturday you will sow tomatoes, zucchini and beans; you take them home to look after, then bring them back three weeks later to prick out, pot up and plan a summer of steady harvests.',
+      plan: ['Reading a seed packet properly', 'Sowing depth, warmth and light', 'Pricking out and potting up (second Saturday)', 'Hardening off and succession sowing'],
+      takeaway: ['About 30 young plants of your own', 'A seed-starting tray to keep'],
       bring: 'A sturdy box to carry seedlings home, both times. Seeds, compost and trays are included.'
     },
     {
-      id: 'winter-pruning', name: 'Winter fruit-tree pruning', level: 'improver', topic: 'fruit', tutor: 'idris', price: 75, capacity: 6,
+      id: 'winter-pruning', name: 'Winter fruit-tree pruning', level: 'improver', topic: 'fruit', tutor: 'idris', price: 95, capacity: 6,
       rule: { day: 6, every: 'fortnight', parity: 1, months: [11, 12, 1, 2], parts: [0] }, start: '10:00', end: '15:00',
       tone: '#dfe5e6',
-      summary: 'Apples and pears pruned in the dormant season, on our own old orchard trees, with a sharp pair of secateurs each.',
-      about: 'Most fruit trees are pruned too hard or not at all. In the orchard behind the plot, Idris will show you how to read a tree, open up its centre and leave it fruiting well. You will prune a tree yourself before lunch.',
-      plan: ['Fruit buds, growth buds and spurs', 'The three Ds: dead, diseased and damaged', 'Open-centre pruning on a young tree', 'Renovating an old, neglected tree'],
-      takeaway: ['A sharpened pair of our secateurs to borrow at home for a month', 'A pruning calendar for apples, pears and plums'],
-      bring: 'Warm layers, waterproofs and boots. Secateurs, loppers and gloves are provided.'
+      summary: 'Apples and pears pruned in the dormant season, on our own old orchard trees, with a sharp pair of pruners each.',
+      about: 'Most fruit trees are pruned too hard or not at all. In the orchard behind the plot, Idris will show you how to read a tree, open up its center and leave it fruiting well. You will prune a tree yourself before lunch.',
+      plan: ['Fruit buds, growth buds and spurs', 'The three Ds: dead, diseased and damaged', 'Open-center pruning on a young tree', 'Renovating an old, neglected tree'],
+      takeaway: ['A sharpened pair of our pruners to borrow at home for a month', 'A pruning calendar for apples, pears and plums'],
+      bring: 'Warm layers, waterproofs and boots. Pruners, loppers and gloves are provided.'
     },
     {
-      id: 'trained-fruit', name: 'Cordons and espaliers', level: 'improver', topic: 'fruit', tutor: 'idris', price: 70, capacity: 6,
+      id: 'trained-fruit', name: 'Cordons and espaliers', level: 'improver', topic: 'fruit', tutor: 'idris', price: 90, capacity: 6,
       rule: { day: 6, every: 'fortnight', parity: 0, months: [7, 8, 9], parts: [0] }, start: '10:00', end: '14:00',
       tone: '#f0e2c6',
       summary: 'Grow apples and pears flat against a wall or fence, and keep them fruiting with a summer prune.',
@@ -148,89 +148,89 @@
       bring: 'A photo of the wall or fence you have in mind, if you have one.'
     },
     {
-      id: 'cuttings', name: 'Cuttings and propagation', level: 'improver', topic: 'propagation', tutor: 'halima', price: 50, capacity: 10,
+      id: 'cuttings', name: 'Cuttings and propagation', level: 'improver', topic: 'propagation', tutor: 'halima', price: 60, capacity: 10,
       rule: { day: 3, every: 'week', months: [5, 6, 7, 8, 9], parts: [0] }, start: '18:00', end: '20:30',
       tone: '#dce8dd',
       summary: 'A Wednesday evening of softwood and semi-ripe cuttings. More plants for nothing, from plants you already love.',
       about: 'An evening in the potting shed with the doors open. You will take softwood and semi-ripe cuttings from lavender, rosemary, fuchsia and currants, learn why some root in water and others sulk, and set up a cuttings pot that works on any windowsill.',
-      plan: ['Which plants root easily, and when', 'Softwood, semi-ripe and hardwood cuttings', 'Compost, grit and the plastic-bag trick', 'Potting on and overwintering young plants'],
+      plan: ['Which plants root easily, and when', 'Softwood, semi-ripe and hardwood cuttings', 'Compost, grit and the plastic-bag trick', 'Potting up and overwintering young plants'],
       takeaway: ['Two pots of cuttings', 'A cuttings calendar for the year'],
       bring: 'Nothing at all. If you would like to swap cuttings, bring a few in a damp plastic bag.'
     },
     {
-      id: 'hedge-laying', name: 'Hedge-laying weekend', level: 'experienced', topic: 'hedges', tutor: 'idris', price: 185, capacity: 6,
+      id: 'hedge-laying', name: 'Hedge-laying weekend', level: 'experienced', topic: 'hedges', tutor: 'idris', price: 245, capacity: 6,
       rule: { day: 6, every: 'month', nth: 3, months: [11, 12, 1, 2], parts: [0, 1] }, start: '09:00', end: '15:30',
       tone: '#e6e1cf',
-      summary: 'Two days with a billhook on our boundary hawthorn, laid in the Midland style with stakes and hazel binders.',
+      summary: 'Two days with a billhook on our boundary hawthorn, laid in the traditional style with stakes and hazel binders.',
       about: 'A traditional skill that turns a gappy, overgrown hedge into a thick, living barrier for birds and insects. Over a Saturday and Sunday you will lay your own length of our boundary hedge, and learn to keep a billhook safe and sharp.',
       plan: ['Reading a hedge and planning the lay', 'Safe billhook and saw technique', 'Cutting and laying pleachers', 'Staking and binding the top'],
       takeaway: ['Your own laid length of hedge, with your name on the map', 'A certificate of attendance'],
-      bring: 'Sturdy boots, warm layers and a packed lunch for both days. Tools, gloves and eye protection are provided.'
+      bring: 'Sturdy boots, warm layers and a bag lunch for both days. Tools, gloves and eye protection are provided.'
     },
     {
-      id: 'no-dig', name: 'Setting up no-dig beds', level: 'improver', topic: 'soil', tutor: 'eudora', price: 85, capacity: 8,
+      id: 'no-dig', name: 'Setting up no-dig beds', level: 'improver', topic: 'soil', tutor: 'eudora', price: 110, capacity: 8,
       rule: { day: 0, every: 'fortnight', parity: 0, months: [2, 3, 9, 10, 11], parts: [0] }, start: '10:00', end: '15:00',
       tone: '#e9e0cf',
       summary: 'Cardboard, compost and patience: start a weed-free bed without turning a single spadeful.',
-      about: 'Autumn and late winter are the best times to start no-dig. On a working Sunday you will build a bed from turf, mulch an existing border and plan a year of planting that keeps the soil covered and the weeds down.',
+      about: 'Fall and late winter are the best times to start no-dig. On a working Sunday you will build a bed from sod, mulch an existing flower bed and plan a year of planting that keeps the soil covered and the weeds down.',
       plan: ['Why we stopped digging', 'Building a bed on grass, step by step', 'How much compost, and where to find it', 'Planting through mulch and the first year'],
       takeaway: ['A planting plan for one no-dig bed', 'Our compost-quantity calculator on a card'],
-      bring: 'Boots and a packed lunch. If you have flattened cardboard boxes with the tape removed, bring them along.'
+      bring: 'Boots and a bag lunch. If you have flattened cardboard boxes with the tape removed, bring them along.'
     },
     {
-      id: 'seed-saving', name: 'Saving your own seed', level: 'improver', topic: 'propagation', tutor: 'eudora', price: 50, capacity: 10,
+      id: 'seed-saving', name: 'Saving your own seed', level: 'improver', topic: 'propagation', tutor: 'eudora', price: 60, capacity: 10,
       rule: { day: 0, every: 'month', nth: 2, months: [8, 9, 10], parts: [0] }, start: '14:00', end: '16:30',
       tone: '#f2e6c9',
       summary: 'Beans, tomatoes, lettuces and flowers: collect, clean and store seed that grows true next year.',
       about: 'A late-summer afternoon among our seed crops. You will learn which plants come true from seed, how to collect and dry it, the wet method for tomatoes and how to store seed so it is still lively in spring.',
-      plan: ['Open-pollinated, F1 and what comes true', 'Collecting dry seed: beans, lettuce, calendula', 'Fermenting tomato seed', 'Drying, labelling and storing'],
+      plan: ['Open-pollinated, F1 and what comes true', 'Collecting dry seed: beans, lettuce, calendula', 'Fermenting tomato seed', 'Drying, labeling and storing'],
       takeaway: ['Six packets of seed from our plot', 'A seed-saving record card'],
       bring: 'Paper envelopes if you have them. Everything else is provided.'
     }
   ];
 
-  // Learner quotes: past course attendees (first name and village).
+  // Student quotes: past course attendees (first name and town).
   const QUOTES = [
-    { course: 'first-bed', name: 'Corinne', place: 'Fladbury', text: 'I had killed every houseplant I ever owned. Six weeks later we were eating our own salad, and I knew why it worked.' },
-    { course: 'small-space', name: 'Ambrose', place: 'Pershore', text: 'My balcony faces north-east. Halima didn’t tell me it was hopeless; she told me to grow chard. She was right.' },
-    { course: 'living-soil', name: 'Elspeth', place: 'Cropthorne', text: 'Our heap has gone from a slimy pile to proper crumbly compost. The jar test alone was worth the afternoon.' },
-    { course: 'seed-to-supper', name: 'Lionel', place: 'Eckington', text: 'Coming back three weeks later to see everyone’s seedlings side by side taught me more than any book.' },
-    { course: 'winter-pruning', name: 'Petra', place: 'Bredon', text: 'Idris made me cut a branch on a tree I was terrified of. It cropped better the next summer than it had in years.' },
-    { course: 'trained-fruit', name: 'Graham', place: 'Defford', text: 'We now have four espalier pears along a fence I used to hate looking at.' },
-    { course: 'cuttings', name: 'Joan', place: 'Wick', text: 'A lovely evening. I went home with lavender cuttings and every one of them took.' },
-    { course: 'hedge-laying', name: 'Bashir', place: 'Upton-upon-Severn', text: 'Hard, happy work. Two days later I could see my own stretch of hedge from the road.' },
-    { course: 'no-dig', name: 'Ayodele', place: 'Malvern', text: 'I built a bed on my lawn in March and haven’t pulled more than a handful of weeds since.' },
-    { course: 'seed-saving', name: 'Winifred', place: 'Evesham', text: 'I didn’t buy a single bean seed this spring. That felt like a small revolution.' }
+    { course: 'first-bed', name: 'Corinne', place: 'Philomath', text: 'I had killed every houseplant I ever owned. Six weeks later we were eating our own salad, and I knew why it worked.' },
+    { course: 'small-space', name: 'Ambrose', place: 'Corvallis', text: 'My balcony faces north-east. Halima didn’t tell me it was hopeless; she told me to grow chard. She was right.' },
+    { course: 'living-soil', name: 'Elspeth', place: 'Lebanon', text: 'Our compost has gone from a slimy pile to real crumbly black stuff. The jar test alone was worth the afternoon.' },
+    { course: 'seed-to-supper', name: 'Lionel', place: 'Monroe', text: 'Coming back three weeks later to see everyone’s seedlings side by side taught me more than any book.' },
+    { course: 'winter-pruning', name: 'Petra', place: 'Alsea', text: 'Idris made me cut a branch on a tree I was terrified of. It cropped better the next summer than it had in years.' },
+    { course: 'trained-fruit', name: 'Graham', place: 'Adair Village', text: 'We now have four espalier pears along a fence I used to hate looking at.' },
+    { course: 'cuttings', name: 'Joan', place: 'Tangent', text: 'A lovely evening. I went home with lavender cuttings and every one of them took.' },
+    { course: 'hedge-laying', name: 'Bashir', place: 'Brownsville', text: 'Hard, happy work. Two days later I could see my own stretch of hedge from the road.' },
+    { course: 'no-dig', name: 'Ayodele', place: 'Monmouth', text: 'I built a bed on my lawn in March and haven’t pulled more than a handful of weeds since.' },
+    { course: 'seed-saving', name: 'Winifred', place: 'Dallas', text: 'I didn’t buy a single bean seed this spring. That felt like a small revolution.' }
   ];
 
-  // Planner crops: spacing in centimetres between plants (in the row and between rows), the mark drawn
+  // Planner crops: spacing in inches between plants (in the row and between rows), the mark drawn
   // in the plan, and the course that teaches it.
   const CROPS = {
-    lettuce: { name: 'Loose-leaf lettuce', spacing: 30, mark: 'rosette', course: 'first-bed' },
-    beetroot: { name: 'Beetroot', spacing: 15, mark: 'root', course: 'first-bed' },
-    kale: { name: 'Kale', spacing: 45, mark: 'kale', course: 'no-dig' },
-    beans: { name: 'Dwarf French beans', spacing: 25, mark: 'bean', course: 'seed-to-supper' },
-    garlic: { name: 'Garlic', spacing: 15, mark: 'bulb', course: 'no-dig' },
-    chard: { name: 'Swiss chard', spacing: 30, mark: 'chard', course: 'small-space' },
-    courgette: { name: 'Courgette', spacing: 90, mark: 'courgette', course: 'seed-to-supper' },
-    radish: { name: 'Radish', spacing: 5, mark: 'root', course: 'small-space' }
+    lettuce: { name: 'Loose-leaf lettuce', spacing: 12, mark: 'rosette', course: 'first-bed' },
+    beetroot: { name: 'Beets', spacing: 6, mark: 'root', course: 'first-bed' },
+    kale: { name: 'Kale', spacing: 18, mark: 'kale', course: 'no-dig' },
+    beans: { name: 'Bush beans', spacing: 6, mark: 'bean', course: 'seed-to-supper' },
+    garlic: { name: 'Garlic', spacing: 6, mark: 'bulb', course: 'no-dig' },
+    chard: { name: 'Swiss chard', spacing: 12, mark: 'chard', course: 'small-space' },
+    courgette: { name: 'Zucchini', spacing: 36, mark: 'courgette', course: 'seed-to-supper' },
+    radish: { name: 'Radish', spacing: 2, mark: 'root', course: 'small-space' }
   };
-  const PLANNER_LIMITS = { min: 0.2, max: 10 }; // metres
+  const PLANNER_LIMITS = { min: 0.5, max: 30 }; // feet
   // The plan drawing shows at most this many plants across and along; bigger plans show one corner.
   const DRAW_MAX = { across: 24, along: 30 };
 
   // One note per month for "In the garden this month" on the home page.
   const MONTH_NOTES = [
     ['Plan on paper, not in the soil.', 'Order only the seed you will sow, clean your pots and prune apple and pear trees on a dry day.', 'winter-pruning'],
-    ['Warm the soil before you sow.', 'Cover a bed with cardboard or fleece now and it will be ready weeks earlier. Chit early potatoes on a cool windowsill.', 'no-dig'],
+    ['Warm the soil before you sow.', 'Cover a bed with cardboard or row cover now and it will be ready weeks earlier. Sprout early potatoes on a cool windowsill.', 'no-dig'],
     ['Start with one tray of seeds.', 'Sow tomatoes and peppers indoors, label every row and resist the urge to sow the whole packet.', 'seed-to-supper'],
-    ['Little and often.', 'Sow salads every three weeks for a steady supply, and keep fleece handy for frosty nights.', 'first-bed'],
+    ['Little and often.', 'Sow salads every three weeks for a steady supply, and keep row cover handy for frosty nights.', 'first-bed'],
     ['Harden off before you plant out.', 'Give seedlings a week of days outdoors and nights in before they go into the bed.', 'small-space'],
     ['Water the roots, not the leaves.', 'Water deeply in the evening, twice a week, rather than a sprinkle every day.', 'cuttings'],
-    ['Pick before it gets away from you.', 'Courgettes and beans crop harder the more you pick. Summer-prune trained apples and pears.', 'trained-fruit'],
+    ['Pick before it gets away from you.', 'Zucchini and beans crop harder the more you pick. Summer-prune trained apples and pears.', 'trained-fruit'],
     ['Let a few plants go to seed.', 'Leave your best lettuce and calendula to flower, and collect the seed on a dry afternoon.', 'seed-saving'],
-    ['Sow green manure on bare soil.', 'Phacelia or winter rye keeps the soil covered and the worms busy until spring.', 'no-dig'],
-    ['Feed the soil for next year.', 'Collect fallen leaves for leaf mould and spread compost on empty beds before the rain sets in.', 'living-soil'],
+    ['Sow a cover crop on bare soil.', 'Crimson clover or cereal rye keeps the soil covered and the worms busy until spring.', 'no-dig'],
+    ['Feed the soil for next year.', 'Collect fallen leaves for leaf mold and spread compost on empty beds before the rain sets in.', 'living-soil'],
     ['Plant garlic and bare-root fruit.', 'Garlic likes a cold snap. It is also the start of the bare-root season for fruit trees and hedging.', 'hedge-laying'],
     ['A quiet month is still a growing month.', 'Sharpen your tools, check stored apples and squash, and plan next year with a pot of tea.', 'living-soil']
   ];
@@ -249,7 +249,7 @@
   const hasOwn = (obj, key) => typeof key === 'string' && Object.prototype.hasOwnProperty.call(obj, key);
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const plural = (n, one, many) => n + ' ' + (n === 1 ? one : (many || one + 's'));
-  const money = (n) => '£' + n;
+  const money = (n) => '$' + n;
   const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   const COURSE_MAP = Object.create(null);
   COURSES.forEach((c) => { COURSE_MAP[c.id] = c; });
@@ -303,10 +303,10 @@
   function validKey(s) {
     return typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s) && keyOf(dayNum(s)) === s;
   }
-  const shortDate = (key) => DAY[weekday(key)] + ' ' + +key.slice(8) + ' ' + MONTH[monthOf(key) - 1];
-  // Long dates add the year when it isn't this year ("Saturday 6 March 2027").
-  const longDate = (key) => DAY_LONG[weekday(key)] + ' ' + +key.slice(8) + ' ' + MONTH_LONG[monthOf(key) - 1] + (key.slice(0, 4) !== TODAY.slice(0, 4) ? ' ' + key.slice(0, 4) : '');
-  const fullDate = (key) => DAY_LONG[weekday(key)] + ' ' + +key.slice(8) + ' ' + MONTH_LONG[monthOf(key) - 1] + ' ' + key.slice(0, 4);
+  const shortDate = (key) => DAY[weekday(key)] + ', ' + MONTH[monthOf(key) - 1] + ' ' + +key.slice(8);
+  // Long dates add the year when it isn't this year ("Saturday, March 6, 2027").
+  const longDate = (key) => DAY_LONG[weekday(key)] + ', ' + MONTH_LONG[monthOf(key) - 1] + ' ' + +key.slice(8) + (key.slice(0, 4) !== TODAY.slice(0, 4) ? ', ' + key.slice(0, 4) : '');
+  const fullDate = (key) => DAY_LONG[weekday(key)] + ', ' + MONTH_LONG[monthOf(key) - 1] + ' ' + +key.slice(8) + ', ' + key.slice(0, 4);
   // "10:00" → "10am", "14:30" → "2:30pm".
   function clock(hhmm) {
     const h = +hhmm.slice(0, 2), m = +hhmm.slice(3);
@@ -337,7 +337,7 @@
     }).join(' and ');
   }
 
-  // Today in UK time, as a key. ?now=YYYY-MM-DD previews the site on another date (for review).
+  // Today in Pacific time, as a key. ?now=YYYY-MM-DD previews the site on another date (for review).
   function todayKey() {
     const forced = params.get('now');
     if (forced && validKey(forced.slice(0, 10))) return forced.slice(0, 10);
@@ -358,7 +358,7 @@
     return h >>> 0;
   }
 
-  // A short reference for the enquiry confirmation, like LS-7K2Q (no 0/O or 1/I to misread over the phone).
+  // A short reference for the inquiry confirmation, like LS-7K2Q (no 0/O or 1/I to misread over the phone).
   function makeRef(prefix) {
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     let out = '';
@@ -501,7 +501,7 @@
   };
   function courseArt(c) { return (hasOwn(ART, c.id) ? ART[c.id] : ART['first-bed'])(c.tone); }
 
-  // Tutor portraits: simple ink drawings on a coloured disc.
+  // Instructor portraits: simple ink drawings on a colored disc.
   const PORTRAIT = {
     eudora: { bg: '#dbe3b8', skin: '#e9c4a4', top: '#6b8550', back: '<path d="M31 46c-3-18 6-30 19-30s22 12 19 30c-2 8-5 12-8 14H39c-3-2-6-6-8-14Z" fill="#9a9d9e"/>', front: '<path d="M34 34c4-8 10-11 16-11s13 4 16 12c-6-3-12-4-17-2-5 2-10 2-15 1Z" fill="#9a9d9e"/><circle cx="50" cy="17" r="7" fill="#9a9d9e" stroke="#1f3a2e" stroke-width="1.4"/><g fill="none" stroke="#1f3a2e" stroke-width="1.4"><circle cx="44" cy="43" r="4"/><circle cx="56" cy="43" r="4"/><path d="M48 43h4"/></g>' },
     idris: { bg: '#f1dfb2', skin: '#c99872', top: '#2d5141', back: '', front: '<path d="M31 35c0-12 8-20 19-20s19 8 19 20Z" fill="#a84325" stroke="#1f3a2e" stroke-width="1.6"/><path d="M27 35h46v5H27Z" fill="#8a3519" stroke="#1f3a2e" stroke-width="1.4"/><path d="M37 52c3 9 23 9 26 0-1 10-7 14-13 14s-12-4-13-14Z" fill="#7a6252"/>' },
@@ -523,7 +523,7 @@
     const md = key.slice(5);
     return CLOSED.from <= CLOSED.to ? md >= CLOSED.from && md <= CLOSED.to : md >= CLOSED.from || md <= CLOSED.to;
   }
-  // Week number counted from Monday 5 January 1970, for fortnightly courses.
+  // Week number counted from Monday, January 5, 1970, for every-other-week courses.
   const weekIndex = (num) => Math.floor((num - 4) / 7);
   function matchesRule(c, num) {
     const key = keyOf(num), r = c.rule;
@@ -566,7 +566,7 @@
     if (s.dates[1] === keyOf(dayNum(s.key) + 1)) {
       if (!short) return longDate(s.dates[0]) + ' and ' + longDate(s.dates[1]);
       return monthOf(s.dates[0]) === monthOf(s.dates[1])
-        ? DAY[weekday(s.dates[0])] + '–' + DAY[weekday(s.dates[1])] + ' ' + +s.key.slice(8) + '–' + +s.dates[1].slice(8) + ' ' + MONTH[monthOf(s.dates[1]) - 1]
+        ? DAY[weekday(s.dates[0])] + '–' + DAY[weekday(s.dates[1])] + ', ' + MONTH[monthOf(s.dates[1]) - 1] + ' ' + +s.key.slice(8) + '–' + +s.dates[1].slice(8)
         : shortDate(s.dates[0]) + ' – ' + shortDate(s.dates[1]);
     }
     return fmt(s.dates[0]) + ' and ' + fmt(s.dates[1]);
@@ -579,7 +579,7 @@
   function placesClass(n) { return n <= 0 ? 'bg-muted/15 text-muted' : n <= 3 ? 'bg-straw text-rust-dark' : 'bg-leaf text-ink'; }
 
   /* ------------------------------------------------------------------
-   * 5. Shortlist and enrolment requests
+   * 5. Shortlist and enrollment requests
    * ------------------------------------------------------------------ */
   function readShortlist() {
     const raw = store.get(STORAGE.shortlist);
@@ -591,7 +591,7 @@
   function saveShortlist() { store.set(STORAGE.shortlist, shortlist); }
   const isSaved = (id) => shortlist.indexOf(id) !== -1;
 
-  // Enrolment requests made on this device. Damaged or past entries are dropped when read.
+  // Enrollment requests made on this device. Damaged or past entries are dropped when read.
   function readEnrolments() {
     const raw = store.get(STORAGE.enrolments);
     if (!Array.isArray(raw)) return [];
@@ -676,8 +676,8 @@
       '<p class="mt-2 flex flex-wrap gap-1.5">' + (o.showCourse === false ? '' : '<span class="tag">' + LEVELS[c.level].name + '</span>') + '<span class="inline-flex items-center px-2 py-0.5 text-xs font-semibold ' + placesClass(left) + '">' + placesText(left) + '</span></p>' +
       '</div>' +
       '<div class="col-start-2 sm:col-start-3">' + (left > 0
-        ? '<a class="btn btn-primary btn-sm" href="enrol.html?course=' + c.id + '&amp;session=' + s.key + '" aria-label="Enrol on ' + esc(c.name) + ', ' + longDate(s.key) + '">Enrol</a>'
-        : '<a class="btn btn-ghost btn-sm" href="visit.html?topic=' + c.id + '#enquiry" aria-label="Ask about a waiting list for ' + esc(c.name) + ', ' + longDate(s.key) + '">Waiting list</a>') + '</div>' +
+        ? '<a class="btn btn-primary btn-sm" href="enrol.html?course=' + c.id + '&amp;session=' + s.key + '" aria-label="Enroll in ' + esc(c.name) + ', ' + longDate(s.key) + '">Enroll</a>'
+        : '<a class="btn btn-ghost btn-sm" href="visit.html?topic=' + c.id + '#enquiry" aria-label="Ask about a waitlist for ' + esc(c.name) + ', ' + longDate(s.key) + '">Waitlist</a>') + '</div>' +
       '</li>';
   }
   function quoteBlock(q, cls) {
@@ -724,7 +724,7 @@
     }
   })();
 
-  // Tutor cards on about.html, with the courses each tutor teaches.
+  // Instructor cards on about.html, with the courses each one teaches.
   (function tutorCards() {
     const box = $('[data-tutor-cards]');
     if (!box) return;
@@ -815,7 +815,7 @@
     $('[data-c-fig]').textContent = 'Fig. ' + pad(COURSES.indexOf(c) + 1) + ' · ' + c.name;
     set('[data-c-facts]', [
       ['clock', lengthLabel(c) + ', ' + timeRange(c)],
-      ['people', 'Up to ' + c.capacity + ' learners'],
+      ['people', 'Up to ' + c.capacity + ' students'],
       ['leaf', LEVELS[c.level].name + ': ' + LEVELS[c.level].about.toLowerCase().replace(/\.$/, '')],
       ['calendar', 'Runs ' + (monthsLabel(c) === 'All year' ? 'all year' : monthsLabel(c))]
     ].map((f) => '<li class="flex items-start gap-2.5">' + icon(f[0], 'mt-0.5 size-5 shrink-0 text-moss') + '<span>' + f[1] + '</span></li>').join(''));
@@ -849,7 +849,7 @@
   })();
 
   /* ------------------------------------------------------------------
-   * 10. Timetable (timetable.html?course=&level=)
+   * 10. Schedule (timetable.html?course=&level=)
    * ------------------------------------------------------------------ */
   (function timetable() {
     const list = $('[data-timetable]');
@@ -906,7 +906,7 @@
   })();
 
   /* ------------------------------------------------------------------
-   * 11. Enrolment (enrol.html?course=<id>&session=<YYYY-MM-DD>)
+   * 11. Enrollment (enrol.html?course=<id>&session=<YYYY-MM-DD>)
    * ------------------------------------------------------------------ */
   function setError(form, name, msg) {
     const field = form.elements.namedItem(name);
@@ -975,7 +975,7 @@
       $('[data-sum-date]').textContent = x.s ? sessionDates(x.s) : x.c ? 'Choose a date' : '—';
       $('[data-sum-time]').textContent = x.c ? timeRange(x.c) : '—';
       $('[data-sum-people]').textContent = plural(n, 'person', 'people');
-      $('[data-sum-total]').textContent = x.c ? money(x.c.price * n) : '£0';
+      $('[data-sum-total]').textContent = x.c ? money(x.c.price * n) : '$0';
       $('[data-sum-each]').textContent = x.c ? money(x.c.price) + ' per person, all materials included' : '';
       set$('[data-sum-art]', x.c ? courseArt(x.c) : svgOpen('#ecedda') + '<path d="M110 170h100" stroke="' + INK + '" stroke-width="2"/>' + sprig(160, 170, 3.2) + '</svg>');
     }
@@ -1022,8 +1022,8 @@
         ok = setError(form, 'name', name.length < 2 ? 'Enter your full name.' : '') && ok;
         const email = form.elements.email.value.trim();
         ok = setError(form, 'email', !email ? 'Enter your email address.' : !EMAIL.test(email) ? 'Enter an email address like name@example.com.' : '') && ok;
-        const phone = form.elements.phone.value.replace(/[\s()-]/g, '');
-        ok = setError(form, 'phone', phone && !/^(\+44|0)\d{9,10}$/.test(phone) ? 'Enter a UK phone number, like 01632 960748, or leave it blank.' : '') && ok;
+        const phone = form.elements.phone.value.replace(/[\s().-]/g, '');
+        ok = setError(form, 'phone', phone && !/^(\+?1)?[2-9]\d{9}$/.test(phone) ? 'Enter a US phone number, like (541) 555-0179, or leave it blank.' : '') && ok;
         ok = setError(form, 'terms', form.elements.terms.checked ? '' : 'Please confirm you have read the booking terms.') && ok;
       }
       return ok;
@@ -1092,7 +1092,7 @@
   /* ------------------------------------------------------------------
    * 12. Bed planner (planner.html?crop=<id>)
    * ------------------------------------------------------------------ */
-  // Plant marks for the plan drawing, centred on 0,0 in a 20 × 20 cell.
+  // Plant marks for the plan drawing, centered on 0,0 in a 20 × 20 cell.
   const MARKS = {
     rosette: '<circle r="7" fill="#9fb26f" stroke="#1f3a2e" stroke-width="1.2"/><path d="M0-6C-3-2-3 2 0 6M-6 0C-2-3 2-3 6 0" fill="none" stroke="#1f3a2e" stroke-width="1"/>',
     root: '<path d="M0-1c-5 0-6 4-4 7 2 3 2 4 4 4s2-1 4-4c2-3 1-7-4-7Z" fill="#a84325" stroke="#1f3a2e" stroke-width="1.1"/><path d="M0-1V-8M0-3l-4-4M0-3l4-4" stroke="#6b8550" stroke-width="1.6" fill="none"/>',
@@ -1117,9 +1117,9 @@
     function readMetres(input, label) {
       const raw = input.value.trim().replace(',', '.');
       const v = Number(raw);
-      if (!raw) return { error: 'Enter the ' + label + ' in metres.' };
-      if (!Number.isFinite(v)) return { error: 'Enter the ' + label + ' as a number of metres, like 1.2.' };
-      if (v < PLANNER_LIMITS.min || v > PLANNER_LIMITS.max) return { error: 'Enter a ' + label + ' between ' + PLANNER_LIMITS.min + ' and ' + PLANNER_LIMITS.max + ' metres.' };
+      if (!raw) return { error: 'Enter the ' + label + ' in feet.' };
+      if (!Number.isFinite(v)) return { error: 'Enter the ' + label + ' as a number of feet, like 4.' };
+      if (v < PLANNER_LIMITS.min || v > PLANNER_LIMITS.max) return { error: 'Enter a ' + label + ' between ' + PLANNER_LIMITS.min + ' and ' + PLANNER_LIMITS.max + ' feet.' };
       return { value: Math.round(v * 100) / 100 };
     }
     function calculate(focusError) {
@@ -1131,8 +1131,8 @@
       if (!ok) { if (focusError) focusFirstError(form); return; }
       const crop = CROPS[cropSel.value];
       const cm = crop.spacing;
-      // Plants sit in the middle of equal square cells, so a 1.2 m bed at 30 cm holds 4 across.
-      const across = Math.floor((w.value * 100 + 1e-6) / cm), along = Math.floor((l.value * 100 + 1e-6) / cm);
+      // Plants sit in the middle of equal square cells, so a 4 ft bed at 12 in holds 4 across. Beds are in feet, spacing in inches.
+      const across = Math.floor((w.value * 12 + 1e-6) / cm), along = Math.floor((l.value * 12 + 1e-6) / cm);
       const count = across * along;
       store.set(STORAGE.planner, { w: w.value, l: l.value, crop: cropSel.value });
       const result = $('[data-plan-result]');
@@ -1141,7 +1141,7 @@
         result.hidden = true;
         zero.hidden = false;
         const narrow = across === 0 && along === 0 ? 'too small' : across === 0 ? 'too narrow' : 'too short';
-        $('[data-plan-zero-text]').textContent = 'A ' + fmtM(w.value) + ' × ' + fmtM(l.value) + ' bed is ' + narrow + ' for ' + crop.name.toLowerCase() + ' at ' + cm + ' cm spacing. Make it at least ' + fmtM(cm / 100) + ' each way, or choose a crop that sits closer together.';
+        $('[data-plan-zero-text]').textContent = 'A ' + fmtM(w.value) + ' × ' + fmtM(l.value) + ' bed is ' + narrow + ' for ' + crop.name.toLowerCase() + ' at ' + cm + ' in spacing. Make it at least ' + fmtM(cm / 12) + ' each way, or choose a crop that sits closer together.';
         drawPlan(0, 0, crop, w.value, l.value);
         paintSuggestion(crop);
         return;
@@ -1149,7 +1149,7 @@
       result.hidden = false;
       zero.hidden = true;
       $('[data-plant-count]').textContent = plural(count, 'plant');
-      $('[data-plant-detail]').textContent = plural(across, 'plant') + ' across × ' + along + ' along, ' + cm + ' cm apart, in a ' + fmtM(w.value) + ' × ' + fmtM(l.value) + ' bed (' + (w.value * l.value).toFixed(2).replace(/\.?0+$/, '') + ' m²).';
+      $('[data-plant-detail]').textContent = plural(across, 'plant') + ' across × ' + along + ' along, ' + cm + ' in apart, in a ' + fmtM(w.value) + ' × ' + fmtM(l.value) + ' bed (' + (w.value * l.value).toFixed(2).replace(/\.?0+$/, '') + ' sq ft).';
       const truncated = across > DRAW_MAX.across || along > DRAW_MAX.along;
       const note = $('[data-plan-truncated]');
       note.hidden = !truncated;
@@ -1160,17 +1160,17 @@
       drawPlan(across, along, crop, w.value, l.value);
       paintSuggestion(crop);
     }
-    function fmtM(m) { return (Math.round(m * 100) / 100) + ' m'; }
+    function fmtM(m) { return (Math.round(m * 100) / 100) + ' ft'; }
     function drawPlan(across, along, crop, w, l) {
       const box = $('[data-plant-grid]');
       const a = Math.min(across, DRAW_MAX.across), b = Math.min(along, DRAW_MAX.along);
       const cell = 20;
       // Draw the bed to scale (width across, length down), or the shown corner of it.
-      const shownW = across > DRAW_MAX.across ? a * crop.spacing / 100 : w;
-      const shownL = along > DRAW_MAX.along ? b * crop.spacing / 100 : l;
+      const shownW = across > DRAW_MAX.across ? a * crop.spacing / 12 : w;
+      const shownL = along > DRAW_MAX.along ? b * crop.spacing / 12 : l;
       const scale = Math.min(320 / shownW, 420 / shownL);
       const W = Math.max(40, shownW * scale), H = Math.max(40, shownL * scale);
-      const cw = a ? (crop.spacing / 100) * scale : 0;
+      const cw = a ? (crop.spacing / 12) * scale : 0;
       let marks = '';
       const s = Math.min(1.4, Math.max(0.35, cw / cell));
       for (let r = 0; r < b; r++) for (let i = 0; i < a; i++) {
@@ -1183,7 +1183,7 @@
         '<rect x="12" y="12" width="' + W.toFixed(1) + '" height="' + H.toFixed(1) + '" fill="#8a6a50" stroke="#1f3a2e" stroke-width="2"/>' +
         '<g stroke="#f1dfb2" stroke-opacity=".35" stroke-dasharray="3 3">' + grid + '</g>' + marks +
         ((across > DRAW_MAX.across || along > DRAW_MAX.along) ? '<path d="M' + (12 + W) + ' 12v' + H + 'M12 ' + (12 + H) + 'h' + W + '" stroke="#f6f4e9" stroke-width="4" stroke-dasharray="6 5"/>' : '') + '</svg>';
-      $('[data-plan-caption]').textContent = a && b ? 'Plan view: ' + crop.name.toLowerCase() + ', one mark per plant.' : 'Plan view: the bed is smaller than one ' + crop.spacing + ' cm planting square.';
+      $('[data-plan-caption]').textContent = a && b ? 'Plan view: ' + crop.name.toLowerCase() + ', one mark per plant.' : 'Plan view: the bed is smaller than one ' + crop.spacing + ' in planting square.';
     }
     function paintSuggestion(crop) {
       const c = courseById(crop.course);
@@ -1253,7 +1253,7 @@
   })();
 
   /* ------------------------------------------------------------------
-   * 14. Enquiry form (visit.html?topic=<course id|visit|access|group>)
+   * 14. Inquiry form (visit.html?topic=<course id|visit|access|group>)
    * ------------------------------------------------------------------ */
   (function enquiry() {
     const form = $('[data-enquiry-form]');

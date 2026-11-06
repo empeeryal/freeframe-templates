@@ -1,16 +1,16 @@
 /* Sonata Music Rooms. Vanilla JavaScript; no runtime dependencies.
- * All catalogue, tutor, weekly session and practice data is kept here, with the term-date rules.
- * The enrolment and contact forms show a confirmation on the page; see DOCS.md, Forms, to connect a form service.
+ * All catalog, teacher, weekly session and practice data is kept here, with the term-date rules.
+ * The enrollment and contact forms show a confirmation on the page; see DOCS.md, Forms, to connect a form service.
  */
 (function () {
   "use strict";
-  const TIMEZONE = "Europe/London";
+  const TIMEZONE = "America/Indiana/Indianapolis";
   // Term dates. null = work them out from TERM_RULES for any year, so the site never shows a past term as
   // current. For a real school, list your terms instead (a Monday for start and halfTerm), for example:
   // [{ name: "Spring", start: "2027-01-11", halfTerm: "2027-02-15" }, …]
   const TERM_DATES = null;
   const TERM_WEEKS = 10;
-  const INTRO_PRICE = 12;
+  const INTRO_PRICE = 15;
   const STORAGE_KEYS = { saved: "sonata-saved-v1", practice: "sonata-practice-v1" };
   const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   const FAMILY_LABELS = {
@@ -30,15 +30,15 @@
   };
   const CONTACT_TOPICS = {
     lessons: "Lessons and courses",
-    bursary: "Supported places",
+    bursary: "Scholarships",
     access: "Access and quiet visits",
     instruments: "Instruments and practice",
     other: "Something else",
   };
   const LESSON_FORMATS = {
     group: { title: "Course group", minutes: null, price: null },
-    individual30: { title: "Individual · 30 minutes", minutes: 30, price: 30 },
-    individual45: { title: "Individual · 45 minutes", minutes: 45, price: 43 },
+    individual30: { title: "Individual · 30 minutes", minutes: 30, price: 38 },
+    individual45: { title: "Individual · 45 minutes", minutes: 45, price: 55 },
   };
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
@@ -49,9 +49,9 @@
       (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character],
     );
   const money = (amount) =>
-    new Intl.NumberFormat("en-GB", {
+    new Intl.NumberFormat("en-US", {
       style: "currency",
-      currency: "GBP",
+      currency: "USD",
       maximumFractionDigits: 2,
       minimumFractionDigits: Number.isInteger(amount) ? 0 : 2,
     }).format(amount);
@@ -155,12 +155,17 @@
     return date.toISOString().slice(0, 10);
   }
   function dateLabel(date, long = false) {
-    return new Intl.DateTimeFormat("en-GB", {
+    return new Intl.DateTimeFormat("en-US", {
       timeZone: "UTC",
-      day: "numeric",
       month: long ? "long" : "short",
+      day: "numeric",
       year: "numeric",
     }).format(date);
+  }
+  // Sessions keep 24-hour times in the data so they sort; visitors see a 12-hour clock ("4:15pm").
+  function clock(time) {
+    const [hour, minute] = time.split(":").map(Number);
+    return `${hour % 12 || 12}${minute ? `:${String(minute).padStart(2, "0")}` : ""}${hour < 12 ? "am" : "pm"}`;
   }
   function mondayOf(date) {
     return addDays(date, -((date.getUTCDay() + 6) % 7));
@@ -172,44 +177,41 @@
   function lastMonday(year, month) {
     return mondayOf(new Date(Date.UTC(year, month + 1, 0, 12)));
   }
-  // Gregorian Easter (anonymous algorithm), for the Good Friday and Easter Monday bank holidays.
-  function easterSunday(year) {
-    const a = year % 19;
-    const b = Math.floor(year / 100);
-    const c = year % 100;
-    const d = Math.floor(b / 4);
-    const e = b % 4;
-    const f = Math.floor((b + 8) / 25);
-    const g = Math.floor((b - f + 1) / 3);
-    const h = (19 * a + b - d - g + 15) % 30;
-    const i = Math.floor(c / 4);
-    const k = c % 4;
-    const l = (32 + 2 * e + 2 * i - h - k) % 7;
-    const m = Math.floor((a + 11 * h + 22 * l) / 451);
-    const month = Math.floor((h + l - 7 * m + 114) / 31);
-    const day = ((h + l - 7 * m + 114) % 31) + 1;
-    return new Date(Date.UTC(year, month - 1, day, 12));
-  }
-  // England and Wales bank holidays that can fall in term time (the school is closed on all of them).
+  // US federal holidays, worked out by rule (the school is closed on all of them). When a fixed date falls on a
+  // weekend the school closes on the date itself, if it's a Saturday, and on the weekday it's observed.
   function bankHolidays(year) {
-    const easter = easterSunday(year);
-    return {
-      [iso(addDays(easter, -2))]: "Good Friday",
-      [iso(addDays(easter, 1))]: "Easter Monday",
-      [iso(firstMondayOnOrAfter(year, 4, 1))]: "Early May bank holiday",
-      [iso(lastMonday(year, 4))]: "Spring bank holiday",
+    const holidays = {};
+    const fixed = (y, month, day, name) => {
+      const date = new Date(Date.UTC(y, month, day, 12));
+      holidays[iso(date)] = name;
+      if (date.getUTCDay() === 6) holidays[iso(addDays(date, -1))] = `${name} (observed)`;
+      if (date.getUTCDay() === 0) holidays[iso(addDays(date, 1))] = `${name} (observed)`;
     };
+    const november22 = new Date(Date.UTC(year, 10, 22, 12));
+    fixed(year, 0, 1, "New Year’s Day");
+    holidays[iso(firstMondayOnOrAfter(year, 0, 15))] = "Martin Luther King Jr. Day";
+    holidays[iso(firstMondayOnOrAfter(year, 1, 15))] = "Presidents’ Day";
+    holidays[iso(lastMonday(year, 4))] = "Memorial Day";
+    fixed(year, 5, 19, "Juneteenth");
+    fixed(year, 6, 4, "Independence Day");
+    holidays[iso(firstMondayOnOrAfter(year, 8, 1))] = "Labor Day";
+    holidays[iso(firstMondayOnOrAfter(year, 9, 8))] = "Columbus Day";
+    fixed(year, 10, 11, "Veterans Day");
+    holidays[iso(addDays(november22, (11 - november22.getUTCDay()) % 7))] = "Thanksgiving Day";
+    fixed(year, 11, 25, "Christmas Day");
+    fixed(year + 1, 0, 1, "New Year’s Day");
+    return holidays;
   }
   function isBankHoliday(date) {
     return has(bankHolidays(date.getUTCFullYear()), iso(date));
   }
-  // Each term is eleven weeks: five teaching weeks, a half-term week with no lessons, then five more.
-  // The half-term week follows the local schools: the Monday on or after 12 February, the last Monday in
-  // May and the last Monday in October.
+  // Each term is eleven weeks: five teaching weeks, a break week with no lessons, then five more. The break week
+  // starts on a federal holiday Monday: Presidents' Day, Memorial Day and Columbus Day. That keeps fall term
+  // finished before Thanksgiving. halfTerm is the Monday of the break week.
   const TERM_RULES = [
-    { name: "Spring", halfTerm: (year) => firstMondayOnOrAfter(year, 1, 12) },
+    { name: "Spring", halfTerm: (year) => firstMondayOnOrAfter(year, 1, 15) },
     { name: "Summer", halfTerm: (year) => lastMonday(year, 4) },
-    { name: "Autumn", halfTerm: (year) => lastMonday(year, 9) },
+    { name: "Fall", halfTerm: (year) => firstMondayOnOrAfter(year, 9, 8) },
   ];
   function makeTerm(name, start, halfTerm) {
     return { name, start, halfTerm, end: addDays(start, 7 * (TERM_WEEKS + 1) - 2), year: start.getUTCFullYear() };
@@ -235,7 +237,7 @@
   function termOf(date) {
     return TERMS.find((term) => date >= term.start && date <= addDays(term.end, 1)) || null;
   }
-  // A week with lessons: inside a term and not the half-term week.
+  // A week with lessons: inside a term and not the break week.
   function isTeachingWeek(monday) {
     const term = termOf(monday);
     return Boolean(term) && iso(monday) !== iso(term.halfTerm);
@@ -282,11 +284,12 @@
   }
   function rangeLabel(from, to) {
     const sameMonth = from.getUTCMonth() === to.getUTCMonth() && from.getUTCFullYear() === to.getUTCFullYear();
-    return sameMonth ? `${from.getUTCDate()}–${dateLabel(to)}` : `${dateLabel(from).replace(/ \d{4}$/, "")} – ${dateLabel(to)}`;
+    const start = dateLabel(from).replace(/, \d{4}$/, "");
+    return sameMonth ? `${start}–${to.getUTCDate()}, ${to.getUTCFullYear()}` : `${start} – ${dateLabel(to)}`;
   }
   function termSummary(term) {
-    if (!term) return "Times are local to Tiverton.";
-    return `${termLabel(term)}: ${rangeLabel(term.start, term.end)}, with a half-term break ${rangeLabel(term.halfTerm, addDays(term.halfTerm, 4))}. Times are local to Tiverton.`;
+    if (!term) return "Times are Eastern, local to Bloomington.";
+    return `${termLabel(term)}: ${rangeLabel(term.start, term.end)}, with a break week ${rangeLabel(term.halfTerm, addDays(term.halfTerm, 4))}. Times are Eastern, local to Bloomington.`;
   }
   const PRACTICE_WEEK_START = mondayOf(TODAY);
 
@@ -297,12 +300,12 @@
       role: "Piano · listening and first principles",
       experience: "Teaching since 2008 · piano performance and community music",
       introduction:
-        "Rhoswen makes the keyboard feel like familiar territory. She starts with patterns, favourite tunes and a relaxed pair of hands, then brings reading and technique into the picture.",
+        "Rhoswen makes the keyboard feel like familiar territory. She starts with patterns, favorite tunes and a relaxed pair of hands, then brings reading and technique into the picture.",
       approach:
-        "A short demonstration, time to try, and one useful observation. Expect pencil marks, gentle humour and a tune you can recognise by the end of the first lesson.",
+        "A short demonstration, time to try, and one useful observation. Expect pencil marks, gentle humour and a tune you can recognize by the end of the first lesson.",
       interests: "Folk melodies, film music and the small details that make a phrase sing.",
       quote: "The next note is easier when you know why you want to play it.",
-      access: "Happy to use large-print scores, colour-coded plans and a slower-paced introduction.",
+      access: "Happy to use large-print scores, color-coded plans and a slower-paced introduction.",
     },
     bevis: {
       name: "Bevis Merrifield",
@@ -312,7 +315,7 @@
       introduction:
         "Bevis learned his first three chords to play along with a record. He still thinks a good song is the best reason to pick up a guitar, whether you are eight or eighty.",
       approach:
-        "Comfortable hand position first, a small chord vocabulary next, then rhythm that holds a song together. He writes simple practice recordings to match each learner’s pace.",
+        "Comfortable hand position first, a small chord vocabulary next, then rhythm that holds a song together. He writes simple practice recordings to match each student’s pace.",
       interests: "Fingerstyle arrangements, folk sessions and making two chords sound like a whole band.",
       quote: "A clean change between two chords is a perfectly good day’s work.",
       access: "Works with left-handed players and can explore alternative chord shapes for reach or comfort.",
@@ -336,7 +339,7 @@
       role: "Strings · patient hands and a singing tone",
       experience: "Teaching since 2014 · violin, viola and youth ensembles",
       introduction:
-        "Celyn turns the fiddly first steps of string playing into small, understandable tasks. She likes a good dance tune and the moment a learner finds a sound they want to repeat.",
+        "Celyn turns the tricky first steps of string playing into small, understandable tasks. She likes a good dance tune and the moment a student finds a sound they want to repeat.",
       approach:
         "Balanced posture, bow games, listening and just enough notation. More experienced players work on tone, musical shape and playing comfortably with others.",
       interests: "Traditional dance music, string quartets and simple duets that sound bigger than their parts.",
@@ -347,11 +350,11 @@
       name: "Iseult Tregowan",
       family: "drums",
       role: "Drums · groove, coordination and good habits",
-      experience: "Teaching since 2006 · drum kit and rhythm workshops",
+      experience: "Teaching since 2006 · drum set and rhythm workshops",
       introduction:
         "Iseult brings a calm, methodical approach to the noisiest room in the building. Counting, listening and coordination arrive through grooves that make sense in a song.",
       approach:
-        "Learn the pulse with your whole body, then build the parts one at a time. Lessons use an acoustic kit with hearing protection and a quiet practice pad for close work.",
+        "Learn the pulse with your whole body, then build the parts one at a time. Lessons use an acoustic drum set with hearing protection and a quiet practice pad for close work.",
       interests: "Soul records, brushes, percussion circles and a backbeat that makes people move.",
       quote: "The groove matters more than how many notes you fit inside it.",
       access: "Hearing protection is supplied. Quiet pad-based introductions and movement adaptations can be arranged.",
@@ -374,32 +377,32 @@
     "little-keys": {
       title: "Little Keys",
       family: "piano",
-      keywords: ["piano", "keyboard", "keys", "children", "kids", "early years", "nursery rhymes"],
+      keywords: ["piano", "keyboard", "keys", "children", "kids", "preschool", "nursery rhymes"],
       tutor: "rhoswen",
       age: "child",
       ageText: "Ages 4–7",
       level: "beginner",
       minutes: 40,
-      price: 18,
+      price: 24,
       subtitle: "A playful first friendship with the piano.",
       description:
         "Listen, clap, sing and find patterns on the keys. A small-group introduction for young children who are curious about sound, with short activities and plenty of room to try.",
       outcomes: [
         "Find high and low sounds and keep a steady pulse",
         "Play short patterns with both hands",
-        "Recognise a first set of musical symbols",
-        "Share a simple duet with a tutor",
+        "Recognize a first set of musical symbols",
+        "Share a simple duet with a teacher",
       ],
       weeks: [
         "Weeks 1–2: finding the keyboard through sound games",
         "Weeks 3–5: pulse, patterns and a first two-hand tune",
-        "Week 6: a pause for half-term practice",
+        "Week 6: a break week for practice at home",
         "Weeks 7–11: little duets and a tune to share",
       ],
       bring:
         "Nothing for the introduction. A keyboard at home becomes helpful after the first few weeks; we can advise on a sensible starter instrument.",
       practice: [
-        "Clap the pulse of a favourite song",
+        "Clap the pulse of a favorite song",
         "Find two sets of black keys",
         "Play your little pattern slowly",
       ],
@@ -414,7 +417,7 @@
       ageText: "Adults 18+",
       level: "beginner",
       minutes: 50,
-      price: 22,
+      price: 30,
       subtitle: "It is a very good time to begin.",
       description:
         "Learn the keyboard with other adults who are starting too. We connect listening, reading and comfortable technique through simple pieces that sound like music from the very first week.",
@@ -422,12 +425,12 @@
         "Read a simple melody and find its notes",
         "Play basic chords with a steady left hand",
         "Understand a short practice routine",
-        "Choose a piece to work towards independently",
+        "Choose a piece to work toward independently",
       ],
       weeks: [
         "Weeks 1–2: keyboard geography and relaxed hands",
         "Weeks 3–5: melody, chords and making a phrase",
-        "Week 6: a pause for half-term practice",
+        "Week 6: a break week for practice at home",
         "Weeks 7–11: bringing both hands into one song",
       ],
       bring:
@@ -442,13 +445,13 @@
     "piano-next": {
       title: "Piano: The Next Phrase",
       family: "piano",
-      keywords: ["piano", "keyboard", "keys", "pedal", "chords", "grade", "exam"],
+      keywords: ["piano", "keyboard", "keys", "pedal", "chords", "audition", "exam"],
       tutor: "rhoswen",
       age: "teen",
       ageText: "Ages 12–17",
       level: "developing",
       minutes: 50,
-      price: 22,
+      price: 30,
       subtitle: "Move from playing notes to shaping music.",
       description:
         "For young pianists who can already read a simple piece. Explore chords, touch and phrasing through a mix of contemporary and classical music, with space for your own choices.",
@@ -461,15 +464,15 @@
       weeks: [
         "Weeks 1–2: listening and choosing a personal goal",
         "Weeks 3–5: chords, voicing and a new piece",
-        "Week 6: a pause for half-term practice",
+        "Week 6: a break week for practice at home",
         "Weeks 7–11: shaping a performance without pressure",
       ],
       bring:
         "Your current music book and a piece you enjoy. Home access to a piano or touch-sensitive keyboard is needed.",
       practice: [
         "Mark the main phrase in your score",
-        "Practise one chord change without stopping",
-        "Record and listen to eight bars",
+        "Practice one chord change without stopping",
+        "Record and listen to eight measures",
       ],
     },
     "guitar-first": {
@@ -481,7 +484,7 @@
       ageText: "Ages 8–11",
       level: "beginner",
       minutes: 45,
-      price: 20,
+      price: 26,
       subtitle: "Small hands, big songs, one chord at a time.",
       description:
         "A friendly acoustic guitar group for children. Learn to tune, strum and change chords through well-loved songs and rhythm games. No reading experience needed.",
@@ -494,7 +497,7 @@
       weeks: [
         "Weeks 1–2: getting comfortable and finding the beat",
         "Weeks 3–5: two chords become a song",
-        "Week 6: a pause for half-term practice",
+        "Week 6: a break week for practice at home",
         "Weeks 7–11: four chords and playing together",
       ],
       bring: "A correctly sized acoustic guitar. Borrow one for your introduction; ask us about sizing before buying.",
@@ -513,7 +516,7 @@
       ageText: "Adults 18+",
       level: "developing",
       minutes: 60,
-      price: 24,
+      price: 32,
       subtitle: "The guitar in the corner still has songs in it.",
       description:
         "An encouraging return for adults with a few chords and a slightly dusty guitar. Build rhythm, reconnect your hands and leave with songs you actually want to play.",
@@ -526,15 +529,15 @@
       weeks: [
         "Weeks 1–2: comfortable hands and a familiar song",
         "Weeks 3–5: rhythm patterns and fingerpicking",
-        "Week 6: a pause for half-term practice",
+        "Week 6: a break week for practice at home",
         "Weeks 7–11: arranging a song in your own way",
       ],
       bring:
-        "Your acoustic guitar, a tuner and a song suggestion. We can help check strings and set-up at the introduction.",
+        "Your acoustic guitar, a tuner and a song suggestion. We can help check strings and setup at the introduction.",
       practice: [
         "Warm up with two familiar chord changes",
         "Loop a gentle fingerpicking pattern",
-        "Play a favourite song for enjoyment",
+        "Play a favorite song for enjoyment",
       ],
     },
     "voice-first": {
@@ -546,7 +549,7 @@
       ageText: "Adults 18+",
       level: "beginner",
       minutes: 50,
-      price: 21,
+      price: 28,
       subtitle: "You are allowed to sing before you feel ready.",
       description:
         "A small, welcoming singing group for adults who are unsure where to start. Discover comfortable breathing, pitch and expression through songs chosen for the people in the room.",
@@ -559,7 +562,7 @@
       weeks: [
         "Weeks 1–2: relaxed breathing and finding your range",
         "Weeks 3–5: melody, words and simple harmony",
-        "Week 6: a pause for half-term practice",
+        "Week 6: a break week for practice at home",
         "Weeks 7–11: making a song feel like your own",
       ],
       bring: "Water and a song you love listening to. No equipment or previous choir experience is needed.",
@@ -579,12 +582,12 @@
       ageText: "Ages 12–17",
       level: "developing",
       minutes: 60,
-      price: 23,
+      price: 30,
       subtitle: "Your voice, with a little more confidence.",
       description:
         "Explore melody, harmony and telling a story through song. This workshop supports changing voices and builds confidence through listening, small ensembles and practical technique.",
       outcomes: [
-        "Warm up with care and recognise vocal fatigue",
+        "Warm up with care and recognize vocal fatigue",
         "Hold a harmony with another singer",
         "Choose a comfortable key",
         "Communicate the words of a song clearly",
@@ -592,7 +595,7 @@
       weeks: [
         "Weeks 1–2: voice care and musical interests",
         "Weeks 3–5: harmonies and interpreting a lyric",
-        "Week 6: a pause for half-term practice",
+        "Week 6: a break week for practice at home",
         "Weeks 7–11: a small-group song arrangement",
       ],
       bring: "Water, a pencil and a song idea. Wear something comfortable to stand or sit in.",
@@ -611,7 +614,7 @@
       ageText: "Ages 7–11",
       level: "beginner",
       minutes: 40,
-      price: 20,
+      price: 26,
       subtitle: "A sound worth taking your time over.",
       description:
         "Start violin with balanced posture, bow games and short tunes by ear. Groups stay small so every child gets practical help with those important first habits.",
@@ -624,11 +627,11 @@
       weeks: [
         "Weeks 1–2: instrument care, balance and bow games",
         "Weeks 3–5: open strings and first fingers",
-        "Week 6: a pause for half-term practice",
+        "Week 6: a break week for practice at home",
         "Weeks 7–11: a first tune with accompaniment",
       ],
       bring:
-        "A correctly sized violin, shoulder rest and bow. We measure for size before recommending hire or purchase.",
+        "A correctly sized violin, shoulder rest and bow. We measure for size before recommending rental or purchase.",
       practice: ["Check a relaxed bow hold", "Play four slow open-string bows", "Sing your tune before playing it"],
     },
     "strings-together": {
@@ -640,7 +643,7 @@
       ageText: "Adults 18+",
       level: "confident",
       minutes: 60,
-      price: 24,
+      price: 32,
       subtitle: "Your part makes more sense beside another.",
       description:
         "An adult violin and viola group for players comfortable with first position and simple notation. Explore tone, intonation and ensemble listening through dance tunes and short chamber arrangements.",
@@ -653,7 +656,7 @@
       weeks: [
         "Weeks 1–2: listening and shared pulse",
         "Weeks 3–5: articulation, intonation and part exchange",
-        "Week 6: a pause for half-term practice",
+        "Week 6: a break week for practice at home",
         "Weeks 7–11: putting a short set together",
       ],
       bring:
@@ -667,49 +670,49 @@
     "drums-first": {
       title: "The First Backbeat",
       family: "drums",
-      keywords: ["drums", "drum kit", "kit", "percussion", "sticks", "rock"],
+      keywords: ["drums", "drum set", "drum kit", "kit", "percussion", "sticks", "rock"],
       tutor: "iseult",
       age: "teen",
       ageText: "Ages 12–17",
       level: "beginner",
       minutes: 45,
-      price: 22,
+      price: 30,
       subtitle: "Build a beat you can feel good inside.",
       description:
-        "Learn drum kit through coordination, pulse and the job of a rhythm section. Start with one useful groove, then add fills without losing the song.",
+        "Learn drum set through coordination, pulse and the job of a rhythm section. Start with one useful groove, then add fills without losing the song.",
       outcomes: [
         "Set up sticks and seat comfortably",
         "Play a steady basic rock groove",
-        "Count and play a one-bar fill",
+        "Count and play a one-measure fill",
         "Follow the shape of a simple song",
       ],
       weeks: [
         "Weeks 1–2: pulse, posture and stick control",
         "Weeks 3–5: the first groove and a simple fill",
-        "Week 6: a pause for half-term practice",
+        "Week 6: a break week for practice at home",
         "Weeks 7–11: playing with a full-song recording",
       ],
       bring:
-        "Hearing protection is supplied. A practice pad and sticks are useful at home; a drum kit is not needed to begin.",
+        "Hearing protection is supplied. A practice pad and sticks are useful at home; a drum set is not needed to begin.",
       practice: [
         "Count a steady four-beat pulse aloud",
         "Play single strokes evenly on a pad",
-        "Practise the groove slowly before adding a fill",
+        "Practice the groove slowly before adding a fill",
       ],
     },
     "rhythm-room": {
       title: "The Rhythm Room",
       family: "drums",
-      keywords: ["drums", "drum kit", "kit", "percussion", "hand drums", "djembe", "tambourine"],
+      keywords: ["drums", "drum set", "drum kit", "kit", "percussion", "hand drums", "djembe", "tambourine"],
       tutor: "iseult",
       age: "adult",
       ageText: "Adults 18+",
       level: "beginner",
       minutes: 50,
-      price: 21,
+      price: 28,
       subtitle: "A shared pulse is a very good place to start.",
       description:
-        "A sociable adult rhythm group using hand percussion, practice pads and short turns at the drum kit. Build coordination and listening without needing equipment or notation.",
+        "A sociable adult rhythm group using hand percussion, practice pads and short turns at the drum set. Build coordination and listening without needing equipment or notation.",
       outcomes: [
         "Keep a shared pulse and simple subdivisions",
         "Play two complementary percussion patterns",
@@ -718,8 +721,8 @@
       ],
       weeks: [
         "Weeks 1–2: pulse, patterns and listening games",
-        "Weeks 3–5: layered rhythms and drum-kit turns",
-        "Week 6: a pause for half-term practice",
+        "Weeks 3–5: layered rhythms and drum-set turns",
+        "Week 6: a break week for practice at home",
         "Weeks 7–11: arranging a groove as a group",
       ],
       bring: "Comfortable clothes and water. All percussion is provided in the lesson.",
@@ -738,7 +741,7 @@
       ageText: "Ages 12–17",
       level: "confident",
       minutes: 60,
-      price: 24,
+      price: 32,
       subtitle: "Find your place in a bigger sound.",
       description:
         "A mixed-instrument group for young musicians who can play a tune or hold a chord progression. Arrange songs together, listen across the room and learn the practical habits of a good bandmate.",
@@ -751,13 +754,13 @@
       weeks: [
         "Weeks 1–2: finding parts and a shared pulse",
         "Weeks 3–5: song form, dynamics and arrangement",
-        "Week 6: a pause for half-term practice",
+        "Week 6: a break week for practice at home",
         "Weeks 7–11: a short set to share with friends",
       ],
       bring: "Your instrument where portable, plus a pencil. Keyboards, amps, percussion and music stands are here.",
       practice: [
         "Listen for the bass line in your song",
-        "Practise your part with a steady pulse",
+        "Practice your part with a steady pulse",
         "Mark the places where you leave space",
       ],
     },
@@ -791,7 +794,7 @@
   ];
   const SESSION_MAP = Object.fromEntries(SESSIONS.map((session) => [session.id, session]));
   const MINUTE_OPTIONS = { 10: 10, 15: 15, 20: 20, 30: 30 };
-  // Teaching days for the timetable filter (Monday to Saturday) and practice days (any day, Sunday is 0).
+  // Teaching days for the schedule filter (Monday to Saturday) and practice days (any day, Sunday is 0).
   const DAY_OPTIONS = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6 };
   const PRACTICE_DAYS = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 0: 0 };
 
@@ -870,7 +873,7 @@
       node.textContent = WEEK_IS_CURRENT
         ? "This teaching week"
         : halfTermNow
-          ? "Lessons resume after half-term"
+          ? "Lessons resume after the break"
           : "Next teaching week";
     });
     $$("[data-week-label]").forEach((node) => {
@@ -955,7 +958,7 @@
       filters.age = $("#course-age").value;
       filters.level = $("#course-level").value;
       filters.search = $("#course-search").value.trim().slice(0, 100);
-      const query = filters.search.toLocaleLowerCase("en-GB");
+      const query = filters.search.toLocaleLowerCase("en-US");
       const ids = Object.keys(COURSES).filter((id) => {
         const course = COURSES[id];
         return (
@@ -972,7 +975,7 @@
               ...course.keywords,
             ]
               .join(" ")
-              .toLocaleLowerCase("en-GB")
+              .toLocaleLowerCase("en-US")
               .includes(query))
         );
       });
@@ -1006,8 +1009,8 @@
     $('meta[property="og:title"]').content = document.title;
     $('meta[property="og:description"]').content = course.description;
     target.innerHTML = `<section class="bg-celadon border-b border-line"><div class="wrap grid gap-9 py-12 sm:py-16 lg:grid-cols-[1.3fr_1fr] lg:items-center"><div><a class="link text-sm" href="courses.html">All courses</a><p class="eyebrow mt-6">${esc(FAMILY_LABELS[course.family])} · ${esc(course.ageText)} · ${esc(LEVEL_LABELS[course.level])}</p><h1 class="display mt-5 text-5xl sm:text-6xl">${esc(course.title)}</h1><p class="font-display mt-5 text-2xl">${esc(course.subtitle)}</p><div class="mt-7 flex flex-wrap gap-3"><a href="enrol.html?course=${id}" class="btn">Find your lesson ${icon}</a><button type="button" data-save="${id}" aria-pressed="${readSaved().includes(id)}" class="btn-line"><svg aria-hidden="true" viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3h12v18l-6-4-6 4z"/></svg>Save course</button></div></div><img class="w-full rounded-3xl border border-ink/15" src="assets/img/${id}.svg" width="370" height="280" alt="${esc(FAMILY_LABELS[course.family])} course illustration"></div></section>
-    <section class="section"><div class="wrap grid gap-12 lg:grid-cols-[1.5fr_1fr]"><div><h2 class="display text-4xl">A little more about your course.</h2><p class="mt-6 text-lg leading-relaxed">${esc(course.description)}</p><h3 class="font-display mt-9 text-2xl">By the end of the term</h3><ul class="mt-5 space-y-3">${course.outcomes.map((outcome) => `<li class="flex gap-3"><span aria-hidden="true" class="text-vermillion">—</span>${esc(outcome)}</li>`).join("")}</ul><h3 class="font-display mt-9 text-2xl">The shape of your term</h3><ol class="mt-5 space-y-4">${course.weeks.map((week) => `<li class="border-l-2 border-vermillion pl-4 leading-relaxed">${esc(week)}</li>`).join("")}</ol><h3 class="font-display mt-9 text-2xl">What to bring</h3><p class="mt-4 leading-relaxed text-muted">${esc(course.bring)}</p></div><aside><div class="rounded-2xl border border-ink/30 p-7"><p class="eyebrow">The practical bits</p><p class="font-display mt-5 text-4xl">${money(course.price * TERM_WEEKS)} <span class="font-sans text-base">per term</span></p><p class="mt-3">${TERM_WEEKS} lessons · ${course.minutes} minutes each</p><p class="mt-2 text-sm text-muted">${money(course.price)} per lesson · 4–6 in a group</p><p class="mt-6 border-t border-line pt-5 text-sm">${esc(termLabel(JOIN_TERM))} · new starters join from ${dateLabel(JOIN_DATE, true)}. Joining part-way through a term, you pay only for the lessons left. An introduction costs ${money(INTRO_PRICE)}, credited against your first term.</p><a href="fees.html?course=${id}" class="link mt-5 inline-flex">Compare lesson prices</a></div><div class="mt-6 rounded-2xl bg-lilac p-6"><div class="flex items-center gap-4"><img src="assets/img/${course.tutor}.svg" width="80" height="80" alt="${esc(tutor.name)}" class="size-20 rounded-full object-cover"><div><p class="eyebrow">Your tutor</p><h3 class="font-display mt-2 text-2xl">${esc(tutor.name)}</h3></div></div><p class="mt-4 leading-relaxed">${esc(tutor.introduction)}</p><a href="tutors.html?instrument=${course.family}" class="link mt-4 inline-flex">Meet your tutor</a></div></aside></div></section>
-    <section class="section bg-butter"><div class="wrap"><p class="eyebrow">Choose a regular session</p><h2 class="display mt-4 text-4xl">A time that fits your week.</h2><div class="mt-8 grid gap-5 md:grid-cols-2">${sessions.map((session) => `<article class="rounded-2xl bg-paper p-6"><h3 class="font-display text-2xl">${DAYS[session.day]} · ${session.time}</h3><p class="mt-3">${esc(session.room)} · ${course.minutes} minutes</p><p class="mt-2 text-sm text-muted">${plural(session.places, "place")} left · new starters’ first lesson ${dateLabel(lessonsFrom(session.day)[0] || JOIN_DATE)}</p><a href="enrol.html?course=${id}&session=${session.id}" class="link mt-5 inline-flex">Choose this session</a></article>`).join("")}</div></div></section>`;
+    <section class="section"><div class="wrap grid gap-12 lg:grid-cols-[1.5fr_1fr]"><div><h2 class="display text-4xl">A little more about your course.</h2><p class="mt-6 text-lg leading-relaxed">${esc(course.description)}</p><h3 class="font-display mt-9 text-2xl">By the end of the term</h3><ul class="mt-5 space-y-3">${course.outcomes.map((outcome) => `<li class="flex gap-3"><span aria-hidden="true" class="text-vermillion">—</span>${esc(outcome)}</li>`).join("")}</ul><h3 class="font-display mt-9 text-2xl">The shape of your term</h3><ol class="mt-5 space-y-4">${course.weeks.map((week) => `<li class="border-l-2 border-vermillion pl-4 leading-relaxed">${esc(week)}</li>`).join("")}</ol><h3 class="font-display mt-9 text-2xl">What to bring</h3><p class="mt-4 leading-relaxed text-muted">${esc(course.bring)}</p></div><aside><div class="rounded-2xl border border-ink/30 p-7"><p class="eyebrow">The practical bits</p><p class="font-display mt-5 text-4xl">${money(course.price * TERM_WEEKS)} <span class="font-sans text-base">per term</span></p><p class="mt-3">${TERM_WEEKS} lessons · ${course.minutes} minutes each</p><p class="mt-2 text-sm text-muted">${money(course.price)} per lesson · 4–6 in a group</p><p class="mt-6 border-t border-line pt-5 text-sm">${esc(termLabel(JOIN_TERM))} · new starters join from ${dateLabel(JOIN_DATE, true)}. Joining part-way through a term, you pay only for the lessons left. An introduction costs ${money(INTRO_PRICE)}, credited against your first term.</p><a href="fees.html?course=${id}" class="link mt-5 inline-flex">Compare lesson prices</a></div><div class="mt-6 rounded-2xl bg-lilac p-6"><div class="flex items-center gap-4"><img src="assets/img/${course.tutor}.svg" width="80" height="80" alt="${esc(tutor.name)}" class="size-20 rounded-full object-cover"><div><p class="eyebrow">Your teacher</p><h3 class="font-display mt-2 text-2xl">${esc(tutor.name)}</h3></div></div><p class="mt-4 leading-relaxed">${esc(tutor.introduction)}</p><a href="tutors.html?instrument=${course.family}" class="link mt-4 inline-flex">Meet your teacher</a></div></aside></div></section>
+    <section class="section bg-butter"><div class="wrap"><p class="eyebrow">Choose a regular session</p><h2 class="display mt-4 text-4xl">A time that fits your week.</h2><div class="mt-8 grid gap-5 md:grid-cols-2">${sessions.map((session) => `<article class="rounded-2xl bg-paper p-6"><h3 class="font-display text-2xl">${DAYS[session.day]} · ${clock(session.time)}</h3><p class="mt-3">${esc(session.room)} · ${course.minutes} minutes</p><p class="mt-2 text-sm text-muted">${plural(session.places, "spot")} left · new starters’ first lesson ${dateLabel(lessonsFrom(session.day)[0] || JOIN_DATE)}</p><a href="enrol.html?course=${id}&session=${session.id}" class="link mt-5 inline-flex">Choose this session</a></article>`).join("")}</div></div></section>`;
     updateSaved();
   }
   function tutors() {
@@ -1016,7 +1019,7 @@
     function render() {
       const family = $("#tutor-family").value;
       const ids = Object.keys(TUTORS).filter((id) => family === "all" || TUTORS[id].family === family);
-      $("#tutor-count").textContent = `${plural(ids.length, "tutor")} to meet`;
+      $("#tutor-count").textContent = `${plural(ids.length, "teacher")} to meet`;
       $("#tutor-grid").innerHTML = ids
         .map((id) => {
           const tutor = TUTORS[id];
@@ -1055,10 +1058,10 @@
           (selected.tutor === "all" || selected.tutor === course.tutor)
         );
       }).sort((a, b) => a.day - b.day || a.time.localeCompare(b.time));
-      $("#schedule-count").textContent = `${plural(sessions.length, "session")} in the weekly timetable`;
+      $("#schedule-count").textContent = `${plural(sessions.length, "session")} in the weekly schedule`;
       if (!sessions.length) {
         $("#schedule-list").innerHTML =
-          '<div class="rounded-2xl bg-celadon p-8"><h2 class="font-display text-3xl">A different day might do it.</h2><p class="mt-3">Clear a filter to see more sessions, or ask us about an individual lesson.</p><a href="contact.html" class="link mt-4 inline-flex">Talk about your timetable</a></div>';
+          '<div class="rounded-2xl bg-celadon p-8"><h2 class="font-display text-3xl">A different day might do it.</h2><p class="mt-3">Clear a filter to see more sessions, or ask us about an individual lesson.</p><a href="contact.html" class="link mt-4 inline-flex">Talk about your schedule</a></div>';
       } else {
         $("#schedule-list").innerHTML = [1, 2, 3, 4, 5, 6]
           .filter((day) => sessions.some((session) => session.day === day))
@@ -1068,7 +1071,7 @@
                 .filter((session) => session.day === day)
                 .map((session) => {
                   const course = COURSES[session.course];
-                  return `<article class="grid gap-4 rounded-xl border border-line bg-white p-5 sm:grid-cols-[5rem_1fr]"><p class="font-display text-2xl">${session.time}<span class="font-sans mt-1 block text-xs text-muted">${course.minutes} min</span></p><div><h3 class="font-display text-xl"><a href="course.html?id=${session.course}" class="hover:underline">${esc(course.title)}</a></h3><p class="mt-2 text-sm">${esc(TUTORS[course.tutor].name)} · ${esc(session.room)}</p><div class="mt-3 flex flex-wrap gap-2"><span class="pill">${esc(course.ageText)}</span><span class="pill">${esc(LEVEL_LABELS[course.level])}</span></div><div class="mt-4 flex flex-wrap items-center justify-between gap-3"><p class="text-sm text-muted">${plural(session.places, "place")} left</p><a href="enrol.html?course=${session.course}&session=${session.id}" class="link text-sm">Choose this time</a></div></div></article>`;
+                  return `<article class="grid gap-4 rounded-xl border border-line bg-white p-5 sm:grid-cols-[6rem_1fr]"><p class="font-display text-2xl">${clock(session.time)}<span class="font-sans mt-1 block text-xs text-muted">${course.minutes} min</span></p><div><h3 class="font-display text-xl"><a href="course.html?id=${session.course}" class="hover:underline">${esc(course.title)}</a></h3><p class="mt-2 text-sm">${esc(TUTORS[course.tutor].name)} · ${esc(session.room)}</p><div class="mt-3 flex flex-wrap gap-2"><span class="pill">${esc(course.ageText)}</span><span class="pill">${esc(LEVEL_LABELS[course.level])}</span></div><div class="mt-4 flex flex-wrap items-center justify-between gap-3"><p class="text-sm text-muted">${plural(session.places, "spot")} left</p><a href="enrol.html?course=${session.course}&session=${session.id}" class="link text-sm">Choose this time</a></div></div></article>`;
                 })
                 .join("")}</div></section>`,
           )
@@ -1136,8 +1139,8 @@
         : "";
       const note =
         fee.plan === "pass"
-          ? "Use within twelve weeks of your first lesson; arrange dates with your tutor."
-          : `${NEXT_TERM ? `${termLabel(NEXT_TERM)} starts ${dateLabel(NEXT_TERM.start, true)}. ` : ""}Joining part-way through a term, you pay only for the lessons left. Two equal instalments of ${money(fee.total / 2)} can be arranged.`;
+          ? "Use within twelve weeks of your first lesson; arrange dates with your teacher."
+          : `${NEXT_TERM ? `${termLabel(NEXT_TERM)} starts ${dateLabel(NEXT_TERM.start, true)}. ` : ""}Joining part-way through a term, you pay only for the lessons left. Two equal installments of ${money(fee.total / 2)} can be arranged.`;
       $("#fee-result").innerHTML =
         `<p class="eyebrow">Your ${fee.plan === "pass" ? "flexible pass" : "ten-week term"}</p><h3 class="font-display mt-5 text-3xl">${esc(heading)}</h3><p class="mt-3 text-muted">${esc(detail)}</p><dl class="mt-7 space-y-4"><div class="flex justify-between gap-4"><dt>${plural(fee.lessons, "lesson")} × ${money(fee.price)}</dt><dd>${money(fee.gross)}</dd></div>${creditRow}<div class="flex justify-between gap-4 border-t border-line pt-5"><dt class="font-semibold">Total tuition</dt><dd id="fee-total" class="font-display text-4xl">${money(fee.total)}</dd></div></dl><p class="mt-6 text-sm">${esc(note)}</p>`;
       $("#fee-enrol-link").href = format === "group" ? `enrol.html?course=${course}` : "contact.html?topic=lessons";
@@ -1170,7 +1173,7 @@
       const session = has(SESSION_MAP, $("#enrol-session").value) ? SESSION_MAP[$("#enrol-session").value] : null;
       return session && session.course === $("#enrol-course").value ? session : null;
     }
-    // Tuition for a new starter: the lessons left in the joining term, less the £12 introduction when it applies.
+    // Tuition for a new starter: the lessons left in the joining term, less the $15 introduction when it applies.
     function quote() {
       const course = currentCourse();
       const session = currentSession();
@@ -1194,7 +1197,7 @@
       $("#enrol-session").innerHTML = sessions
         .map(
           (session) =>
-            `<option value="${session.id}">${DAYS[session.day]} ${session.time} · ${plural(session.places, "place")} left</option>`,
+            `<option value="${session.id}">${DAYS[session.day]} ${clock(session.time)} · ${plural(session.places, "spot")} left</option>`,
         )
         .join("");
       updateCost();
@@ -1205,8 +1208,8 @@
       $("#enrol-credit-field").hidden = intro;
       if (intro) $("#enrol-credit").value = "no";
       const q = quote();
-      const first = q.dates[0] ? `First lesson ${DAYS[q.session.day]} ${dateLabel(q.dates[0], true)}. ` : "";
-      $("#enrol-cost").textContent = `${first}${tuitionText(q)}. Nothing is paid until we confirm your place.`;
+      const first = q.dates[0] ? `First lesson ${DAYS[q.session.day]}, ${dateLabel(q.dates[0], true)}. ` : "";
+      $("#enrol-cost").textContent = `${first}${tuitionText(q)}. Nothing is paid until we confirm your spot.`;
     }
     function validateDetails() {
       const checks = [
@@ -1217,9 +1220,9 @@
         ),
         setError(
           "enrol-learner",
-          $("#enrol-learner").value.trim().length >= 2 ? "" : "Please enter the learner’s first name.",
+          $("#enrol-learner").value.trim().length >= 2 ? "" : "Please enter the student’s first name.",
         ),
-        setError("enrol-age", has(AGE_LABELS, $("#enrol-age").value) ? "" : "Please choose the learner’s age group."),
+        setError("enrol-age", has(AGE_LABELS, $("#enrol-age").value) ? "" : "Please choose the student’s age group."),
       ];
       if (has(AGE_LABELS, $("#enrol-age").value) && $("#enrol-age").value !== currentCourse().age) {
         setError(
@@ -1234,10 +1237,10 @@
       const q = quote();
       return [
         ["Course", q.course.title],
-        ["Learner", `${$("#enrol-learner").value.trim()} · ${AGE_LABELS[$("#enrol-age").value]}`],
+        ["Student", `${$("#enrol-learner").value.trim()} · ${AGE_LABELS[$("#enrol-age").value]}`],
         ["Starting point", EXPERIENCE[$("#enrol-experience").value]],
-        ["Tutor", TUTORS[q.course.tutor].name],
-        ["Weekly session", `${DAYS[q.session.day]} ${q.session.time} · ${q.session.room}`],
+        ["Teacher", TUTORS[q.course.tutor].name],
+        ["Weekly session", `${DAYS[q.session.day]} ${clock(q.session.time)} · ${q.session.room}`],
         ["First lesson", q.dates[0] ? `${dateLabel(q.dates[0], true)} · ${termLabel(JOIN_TERM)}` : termLabel(JOIN_TERM)],
         ["First visit", q.intro ? `${money(INTRO_PRICE)} introduction first` : "Start with the term"],
         ["Tuition", tuitionText(q)],
@@ -1268,7 +1271,7 @@
       $("#wizard-back").hidden = step === 0;
       $("#wizard-next").hidden = step === 3;
       $("#enrol-submit").hidden = step !== 3;
-      $("#wizard-next").textContent = step === 2 ? "Review your enquiry" : "Continue";
+      $("#wizard-next").textContent = step === 2 ? "Review your inquiry" : "Continue";
       $("#wizard-status").textContent = `Step ${step + 1} of 4`;
       $(`[data-wizard-step="${step}"] h2`).focus();
       if (step === 3) buildReview();
@@ -1321,7 +1324,7 @@
       $("[data-done-name]").textContent = $("#enrol-name").value.trim().split(/\s+/)[0];
       $("[data-done-email]").textContent = $("#enrol-email").value.trim();
       $("[data-done-detail]").textContent =
-        `${$("#enrol-learner").value.trim()} would like a place on ${q.course.title}, ${DAYS[q.session.day]}s at ${q.session.time} with ${TUTORS[q.course.tutor].name}${q.dates[0] ? `, starting ${dateLabel(q.dates[0], true)}` : ""}. ${tuitionText(q)}.`;
+        `${$("#enrol-learner").value.trim()} would like a spot in ${q.course.title}, ${DAYS[q.session.day]}s at ${clock(q.session.time)} with ${TUTORS[q.course.tutor].name}${q.dates[0] ? `, starting ${dateLabel(q.dates[0], true)}` : ""}. ${tuitionText(q)}.`;
       const done = $("#enrol-done");
       done.hidden = false;
       done.focus();
@@ -1376,13 +1379,13 @@
       const plan = readPractice();
       if (!plan) {
         $("#practice-output").innerHTML =
-          '<h3 class="font-display text-2xl">A little plan goes a long way.</h3><p class="mt-3 text-muted">Choose your days above, then save a manageable routine. Your tutor can help choose what to practise.</p>';
+          '<h3 class="font-display text-2xl">A little plan goes a long way.</h3><p class="mt-3 text-muted">Choose your days above, then save a manageable routine. Your teacher can help choose what to practice.</p>';
         return;
       }
       const course = COURSES[plan.course];
       const done = plan.complete.length;
       $("#practice-output").innerHTML =
-        `<div class="flex flex-wrap items-start justify-between gap-5"><div><p class="eyebrow">Week of ${dateLabel(PRACTICE_WEEK_START)}</p><h3 class="font-display mt-3 text-3xl">${esc(course.title)}</h3><p class="mt-3">${plan.minutes} minutes × ${plural(plan.days.length, "day")} = ${plan.minutes * plan.days.length} minutes for you.</p></div><button type="button" id="practice-clear" class="link text-sm">Clear plan</button></div><p id="practice-progress" role="status" aria-live="polite" class="mt-6 font-semibold">${done ? `${done} of ${plural(plan.days.length, "practice day")} done this week${done === plan.days.length ? " · well played" : ""}` : `${plural(plan.days.length, "practice day")} planned this week · none ticked off yet`}</p><div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">${plan.days.map((day) => `<button type="button" data-practice-done="${day}" aria-pressed="${plan.complete.includes(day)}" class="rounded-xl border border-ink/30 p-4 text-left hover:bg-celadon ${plan.complete.includes(day) ? "bg-celadon" : "bg-white"}"><span class="font-semibold">${DAYS[day]}</span><span class="mt-1 block text-sm">${plan.complete.includes(day) ? "Done — well played" : `${plan.minutes} minutes · mark done`}</span></button>`).join("")}</div><div class="mt-7 border-t border-line pt-6"><h4 class="font-semibold">Three small things to try</h4><ol class="mt-3 list-inside list-decimal space-y-2 text-muted">${course.practice.map((item) => `<li>${esc(item)}</li>`).join("")}</ol></div>`;
+        `<div class="flex flex-wrap items-start justify-between gap-5"><div><p class="eyebrow">Week of ${dateLabel(PRACTICE_WEEK_START)}</p><h3 class="font-display mt-3 text-3xl">${esc(course.title)}</h3><p class="mt-3">${plan.minutes} minutes × ${plural(plan.days.length, "day")} = ${plan.minutes * plan.days.length} minutes for you.</p></div><button type="button" id="practice-clear" class="link text-sm">Clear plan</button></div><p id="practice-progress" role="status" aria-live="polite" class="mt-6 font-semibold">${done ? `${done} of ${plural(plan.days.length, "practice day")} done this week${done === plan.days.length ? " · well played" : ""}` : `${plural(plan.days.length, "practice day")} planned this week · none checked off yet`}</p><div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">${plan.days.map((day) => `<button type="button" data-practice-done="${day}" aria-pressed="${plan.complete.includes(day)}" class="rounded-xl border border-ink/30 p-4 text-left hover:bg-celadon ${plan.complete.includes(day) ? "bg-celadon" : "bg-white"}"><span class="font-semibold">${DAYS[day]}</span><span class="mt-1 block text-sm">${plan.complete.includes(day) ? "Done — well played" : `${plan.minutes} minutes · mark done`}</span></button>`).join("")}</div><div class="mt-7 border-t border-line pt-6"><h4 class="font-semibold">Three small things to try</h4><ol class="mt-3 list-inside list-decimal space-y-2 text-muted">${course.practice.map((item) => `<li>${esc(item)}</li>`).join("")}</ol></div>`;
     }
     $("#practice-form").addEventListener("submit", (event) => {
       event.preventDefault();

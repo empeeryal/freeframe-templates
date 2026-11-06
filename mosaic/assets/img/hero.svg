@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 600">
-  <!-- Mosaic hero: a cut-paper collage of the arched dye works window, the Hoad monument on its hill, and the things people make inside. -->
+  <!-- Mosaic hero: a cut-paper collage of the arched dye works window, the City Hall tower against the hills, and the things people make inside. -->
   <path d="M58 70 120 52l84 10 72-14 90 12 70-8 96 14 46-6 8 84-10 70 12 96-8 74 6 84-10 50-90 6-80-10-88 8-76-6-92 10-66-6-12-70 10-88-8-80 8-96-10-78z" fill="#fde8bd"/>
   <path d="M96 520 548 500l6 30-454 22z" fill="#1f1d36" opacity=".08"/>
   <!-- the arched window -->
@@ -8,7 +8,7 @@
   <circle cx="352" cy="190" r="42" fill="#f3b23a"/>
   <path d="M156 330c40-30 76-44 118-36s80-34 150-18v194H156z" fill="#7fb069"/>
   <path d="M156 380c60-26 120-30 268-6v96H156z" fill="#17685a"/>
-  <!-- the Hoad monument on its hill -->
+  <!-- the City Hall tower against the hills -->
   <path d="M262 296h22l-4-58h-14z" fill="#1f1d36"/>
   <path d="M259 238h28l-14-20z" fill="#1f1d36"/>
   <rect x="268" y="252" width="9" height="12" rx="2" fill="#f3b23a"/>

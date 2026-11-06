@@ -6,6 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-11-05
+
+### Changed
+
+- Set in Hartford, Connecticut, with American spelling, US dollars, US phone numbers and local details.
+- Working days, the studio clock and dates use Eastern time and US federal holidays, worked out for any year, including observed days. The estimator has US fees, drops VAT and says sales tax is extra. Timecodes run at 24 frames a second instead of 25.
+
 ## [1.0.2] - 2026-11-05
 
 ### Changed

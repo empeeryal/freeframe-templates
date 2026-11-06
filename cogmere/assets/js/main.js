@@ -1,7 +1,7 @@
 /* Cogmere Bicycle Workshop — standalone, dependency-free interactions. */
 (() => {
   "use strict";
-  const TIME_ZONE = "Europe/London";
+  const TIME_ZONE = "America/Los_Angeles";
   const STORAGE_KEYS = { plan: "cogmere.repair-plan.v1", checks: "cogmere.ride-checks.v1" };
   const BIKE_TYPES = {
     standard: { label: "Road / hybrid / gravel", rate: 0 },
@@ -11,7 +11,7 @@
   const PARTS_GRADES = {
     everyday: { label: "Everyday dependable", multiplier: 1 },
     durable: { label: "Longer-wearing upgrade", multiplier: 1.4 },
-    labour: { label: "Labour only / parts to agree", multiplier: 0 },
+    labour: { label: "Labor only / parts to confirm", multiplier: 0 },
   };
   const RIDE_TYPES = {
     daily: {
@@ -52,12 +52,12 @@
       next: "We'll reply at {email} with anything that makes the visit easier, from a quieter time to space for a cargo bike.",
     },
     collection: {
-      label: "An existing collection",
-      next: "We'll check your job ticket on the bench and reply at {email} with where the bike is up to.",
+      label: "An existing pickup",
+      next: "We'll check your job ticket on the bench and reply at {email} with where the bike stands.",
     },
   };
-  const DROP_OFF_TIMES = ["09:20", "10:00", "11:20", "13:00", "14:20", "15:40"];
-  // Add YYYY-MM-DD dates here for one-off closures. Recurring England holidays are calculated.
+  const DROP_OFF_TIMES = ["9:20am", "10:00am", "11:20am", "1:00pm", "2:20pm", "3:40pm"];
+  // Add YYYY-MM-DD dates here for one-off closures. Recurring US federal holidays are calculated.
   const EXTRA_CLOSURES = [];
   // null keeps the calendar rolling. An explicit future YYYY-MM-DD array can replace it on a live site.
   const FIXED_OPENING_DATES = null;
@@ -66,29 +66,29 @@
       id: "check",
       name: "Safety check",
       category: "Inspection",
-      labour: 1800,
+      labour: 2500,
       parts: 0,
       minutes: 25,
       mechanic: "eirlys",
       short: "A careful once-over before the miles begin.",
       suitable: "A bike that has been stored, bought used or simply needs a second pair of eyes.",
       steps: [
-        "Check wheel security, tyre condition and visible frame damage.",
-        "Inspect brake operation, steering play and transmission wear.",
+        "Check wheel security, tire condition and visible frame damage.",
+        "Inspect brake operation, steering play and drivetrain wear.",
         "Write a short priority list, with urgent work explained first.",
       ],
       note: "Adjustments and replacement parts are quoted separately. Stop riding if a safety-critical fault is found.",
       art: "check.svg",
       keywords:
-        "safety inspection once-over used second-hand bought stored winter shed loose rattle wobble noise creak worried",
+        "safety inspection once-over used bought stored winter shed loose rattle wobble noise creak worried",
       perBike: true,
     },
     {
       id: "service",
-      name: "Everyday service",
+      name: "Everyday tune-up",
       category: "Servicing",
-      labour: 6500,
-      parts: 1200,
+      labour: 9500,
+      parts: 1500,
       minutes: 90,
       mechanic: "bertram",
       short: "A dependable refresh for the bike you reach for most.",
@@ -106,10 +106,10 @@
     },
     {
       id: "overhaul",
-      name: "Full strip & rebuild",
+      name: "Full teardown & rebuild",
       category: "Servicing",
-      labour: 14500,
-      parts: 4000,
+      labour: 25000,
+      parts: 5000,
       minutes: 210,
       mechanic: "bertram",
       short: "Take the bike back to its good foundations.",
@@ -117,7 +117,7 @@
       steps: [
         "Strip the drivetrain, contact points and accessible serviceable bearings.",
         "Clean, inspect and rebuild with appropriate grease and fresh cable routing.",
-        "Set brakes and gears, torque checked fasteners and complete a road check.",
+        "Set brakes and gears, torque checked fasteners and finish with a road test.",
       ],
       note: "Seized parts, damaged threads and proprietary components need an inspection before a fixed quote.",
       art: "overhaul.svg",
@@ -128,56 +128,56 @@
       id: "puncture",
       name: "Inner tube replacement",
       category: "Wheels",
-      labour: 1200,
-      parts: 800,
+      labour: 1500,
+      parts: 1000,
       minutes: 20,
       mechanic: "taran",
       short: "Find the cause, not just the hole.",
-      suitable: "A conventional tubed tyre that will not hold pressure.",
+      suitable: "A conventional tubed tire that will not hold pressure.",
       steps: [
-        "Remove the wheel and inspect the tyre, rim tape and valve hole.",
-        "Fit the correct tube and remove any lodged debris.",
-        "Inflate within tyre and rim limits and check wheel security.",
+        "Remove the wheel and inspect the tire, rim tape and valve hole.",
+        "Install the correct tube and remove any lodged debris.",
+        "Inflate within tire and rim limits and check wheel security.",
       ],
-      note: "One wheel. Tyres and rim tape are additional if damaged. Cargo and hub-gear wheel removal may need more labour.",
+      note: "One wheel. Tires and rim tape are additional if damaged. Cargo and hub-gear wheel removal may need more labor.",
       art: "puncture.svg",
-      keywords: "puncture flat tyre tire inner tube slow leak pressure valve going down keeps going flat",
+      keywords: "puncture flat tire inner tube slow leak pressure valve going down keeps going flat",
     },
     {
       id: "tyre",
-      name: "Tyre fitting",
+      name: "Tire installation",
       category: "Wheels",
-      labour: 1400,
-      parts: 3200,
+      labour: 2000,
+      parts: 4500,
       minutes: 25,
       mechanic: "taran",
       short: "Fresh grip, straight seating and the right size.",
-      suitable: "A worn, cut or unsuitable tyre on a tubed wheel.",
+      suitable: "A worn, cut or unsuitable tire on a tubed wheel.",
       steps: [
-        "Confirm tyre size, clearance and rim compatibility.",
-        "Inspect rim tape, fit the new tyre and check the tube.",
+        "Confirm tire size, clearance and rim compatibility.",
+        "Inspect rim tape, install the new tire and check the tube.",
         "Seat the bead evenly and inflate within the stated limits.",
       ],
       note: "Per wheel, excluding a new tube if needed. Tubeless installation has its own service.",
       art: "tyre.svg",
-      keywords: "new tyre tire worn bald cut sidewall bulge cracked grip flat",
+      keywords: "new tire worn bald cut sidewall bulge cracked grip flat",
     },
     {
       id: "tubeless",
       name: "Tubeless refresh",
       category: "Wheels",
-      labour: 2400,
-      parts: 1600,
+      labour: 3000,
+      parts: 2000,
       minutes: 40,
       mechanic: "taran",
       short: "A clean start for a system that needs to seal.",
       suitable: "An existing compatible tubeless wheel with dried sealant or a slow leak.",
       steps: [
-        "Remove the tyre and inspect rim tape and the valve.",
+        "Remove the tire and inspect rim tape and the valve.",
         "Clean old sealant, inspect the bead and add fresh sealant.",
-        "Reseat and pressure-check the tyre, with follow-up advice.",
+        "Reseat and pressure-check the tire, with follow-up advice.",
       ],
-      note: "Per wheel. New rim tape, valves and damaged tyres are additional. We cannot guarantee a damaged casing will seal.",
+      note: "Per wheel. New rim tape, valves and damaged tires are additional. We cannot guarantee a damaged casing will seal.",
       art: "tubeless.svg",
       keywords: "tubeless sealant burp slow leak flat puncture dried sealant",
     },
@@ -185,15 +185,15 @@
       id: "rim",
       name: "Rim brake setup",
       category: "Brakes",
-      labour: 2000,
-      parts: 1500,
+      labour: 2500,
+      parts: 2000,
       minutes: 30,
       mechanic: "eirlys",
       short: "A firm lever and a cleaner stop.",
       suitable: "Cable-operated rim brakes with uneven pad contact or a long lever pull.",
       steps: [
         "Inspect cables, housing, rims and pad condition.",
-        "Align pads, centre the brake and set cable tension.",
+        "Align pads, center the brake and set cable tension.",
         "Check lever feel and braking on a controlled test ride.",
       ],
       note: "For one brake. Rim wear or frayed cables may require replacement before adjustment is safe.",
@@ -204,15 +204,15 @@
       id: "disc",
       name: "Disc brake alignment",
       category: "Brakes",
-      labour: 1800,
-      parts: 2200,
+      labour: 2500,
+      parts: 3000,
       minutes: 30,
       mechanic: "eirlys",
-      short: "Sort the scrape and check the stopping power.",
+      short: "Fix the scrape and check the stopping power.",
       suitable: "A rubbing mechanical or hydraulic disc brake with sound components.",
       steps: [
         "Inspect rotor wear, mounting bolts and pad condition.",
-        "Align the calliper and assess rotor runout.",
+        "Align the caliper and assess rotor runout.",
         "Bed in adjusted or replaced pads where appropriate.",
       ],
       note: "For one brake. A bent rotor, contaminated pads or hydraulic fault may need separate work.",
@@ -223,8 +223,8 @@
       id: "bleed",
       name: "Hydraulic brake bleed",
       category: "Brakes",
-      labour: 3200,
-      parts: 1200,
+      labour: 4500,
+      parts: 1500,
       minutes: 45,
       mechanic: "eirlys",
       short: "Fresh fluid and a properly assessed lever.",
@@ -240,9 +240,9 @@
     },
     {
       id: "gears",
-      name: "Gear indexing",
+      name: "Gear adjustment",
       category: "Drivetrain",
-      labour: 2400,
+      labour: 3000,
       parts: 0,
       minutes: 35,
       mechanic: "bertram",
@@ -253,7 +253,7 @@
         "Set limit screws, cable tension and derailleur clearance.",
         "Check every gear under light load and explain any wear.",
       ],
-      note: "Includes adjustment of one or two derailleurs. A bent hanger, worn transmission or new cables are additional.",
+      note: "Includes adjustment of one or two derailleurs. A bent hanger, worn drivetrain or new cables are additional.",
       art: "gears.svg",
       keywords: "gears skipping slipping jumping chatter noise clicking ticking shifting indexing derailleur",
     },
@@ -261,15 +261,15 @@
       id: "chain",
       name: "Chain replacement",
       category: "Drivetrain",
-      labour: 1800,
-      parts: 2500,
+      labour: 2000,
+      parts: 3500,
       minutes: 25,
       mechanic: "bertram",
       short: "Measured, matched and cut to the right length.",
       suitable: "A chain at its wear limit, before it damages more expensive parts.",
       steps: [
         "Measure wear and check cassette and chainring condition.",
-        "Select a compatible chain, size and fit it correctly.",
+        "Select a compatible chain, size and install it correctly.",
         "Lubricate and test under load for skipping.",
       ],
       note: "The parts allowance covers a typical mechanical chain. A worn cassette may need replacement to prevent skipping.",
@@ -280,15 +280,15 @@
       id: "cassette",
       name: "Cassette replacement",
       category: "Drivetrain",
-      labour: 2200,
-      parts: 4200,
+      labour: 2500,
+      parts: 6500,
       minutes: 35,
       mechanic: "bertram",
-      short: "Fresh teeth for a transmission that has done its miles.",
+      short: "Fresh teeth for a drivetrain that has done its miles.",
       suitable: "A worn cassette or a suitable change of gearing.",
       steps: [
         "Check freehub fit, gear range and derailleur capacity.",
-        "Remove the old cassette, clean the freehub and fit correctly.",
+        "Remove the old cassette, clean the freehub and install the new one correctly.",
         "Check chain compatibility, indexing and shifting under load.",
       ],
       note: "A new chain is commonly needed too. Confirm range changes with us before ordering parts.",
@@ -299,7 +299,7 @@
       id: "wheel",
       name: "Wheel true & tension",
       category: "Wheels",
-      labour: 2800,
+      labour: 3500,
       parts: 500,
       minutes: 45,
       mechanic: "taran",
@@ -318,8 +318,8 @@
       id: "bearings",
       name: "Bearing service",
       category: "Bearings",
-      labour: 3600,
-      parts: 1800,
+      labour: 5000,
+      parts: 2500,
       minutes: 60,
       mechanic: "taran",
       short: "Find the roughness behind the rumble.",
@@ -335,17 +335,17 @@
     },
     {
       id: "cables",
-      name: "Cable & housing renewal",
+      name: "Cable & housing replacement",
       category: "Controls",
-      labour: 2800,
-      parts: 2000,
+      labour: 3500,
+      parts: 2500,
       minutes: 45,
       mechanic: "eirlys",
       short: "Lighter action starts with a clear path.",
       suitable: "A stiff, corroded or frayed mechanical brake or gear cable.",
       steps: [
         "Inspect the full cable route and any damaged stops.",
-        "Fit a new inner cable and housing with sealed ends.",
+        "Install a new inner cable and housing with sealed ends.",
         "Set tension, trim and cap the cable, then test its operation.",
       ],
       note: "One cable run. Internal routing and handlebar tape replacement can add time and parts.",
@@ -356,8 +356,8 @@
       id: "fit",
       name: "Contact point setup",
       category: "Controls",
-      labour: 3000,
-      parts: 800,
+      labour: 4500,
+      parts: 1000,
       minutes: 45,
       mechanic: "eirlys",
       short: "Small position changes, carefully agreed.",
@@ -367,7 +367,7 @@
         "Check safe adjustment limits and make agreed saddle or lever changes.",
         "Torque the adjusted parts and take a short comfort check ride.",
       ],
-      note: "A practical setup conversation, not a clinical bike fit. Persistent pain should be discussed with a qualified healthcare professional.",
+      note: "A practical setup conversation, not a clinical bike fit. Persistent pain should be discussed with a qualified health care professional.",
       art: "fit.svg",
       keywords: "saddle height position comfort knee back reach handlebar setup",
       perBike: true,
@@ -376,32 +376,32 @@
   const TEAM = [
     {
       id: "eirlys",
-      name: "Eirlys Garside",
+      name: "Mina Thao",
       role: "Brakes & contact points",
       image: "mechanic-1.svg",
       experience: "Twelve years of workshop practice",
-      copy: "Eirlys likes a clear lever feel, tidy cable routing and the moment a rider understands what a small adjustment has changed.",
+      copy: "Mina likes a clear lever feel, tidy cable routing and the moment a rider understands what a small adjustment has changed.",
       approach: "Bring a description of the problem in your own words. There is no special vocabulary needed.",
       specialisms: ["Rim and disc brakes", "Hydraulic systems", "Everyday riding position"],
     },
     {
       id: "bertram",
-      name: "Bertram Fosbrook",
+      name: "Bert Renner",
       role: "Drivetrains & complete services",
       image: "mechanic-2.svg",
       experience: "Fifteen years keeping bikes moving",
-      copy: "Bertram looks after workhorse commuters and well-loved touring bikes. He measures first, cleans properly and tries an adjustment before reaching for a new part.",
+      copy: "Bert looks after workhorse commuters and well-loved touring bikes. He measures first, cleans properly and tries an adjustment before reaching for a new part.",
       approach: "A noisy gear can have several causes. We work through them, show the wear and explain the options.",
       specialisms: ["Mechanical gears", "Chain and cassette wear", "Complete rebuilds"],
     },
     {
       id: "taran",
-      name: "Taran Bickleigh",
-      role: "Wheels, tyres & bearings",
+      name: "Dara Brody",
+      role: "Wheels, tires & bearings",
       image: "mechanic-3.svg",
       experience: "Nine years at the wheel stand",
-      copy: "Taran enjoys the patient work: a balanced wheel, a tyre that seats evenly and a hub that turns smoothly under load.",
-      approach: "Tell us where you ride and what you carry. Tyres and wheels should suit the actual journey.",
+      copy: "Dara enjoys the patient work: a balanced wheel, a tire that seats evenly and a hub that turns smoothly under load.",
+      approach: "Tell us where you ride and what you carry. Tires and wheels should suit the actual journey.",
       specialisms: ["Wheel tension", "Tubeless care", "Serviceable bearings"],
     },
   ];
@@ -412,13 +412,13 @@
       category: "care",
       art: "note-pressure.svg",
       intro:
-        "The sidewall gives a limit, not a personal setting. Rider weight, tyre width, load and the surface all matter.",
+        "The sidewall gives a limit, not a personal setting. Rider weight, tire width, load and the surface all matter.",
       points: [
         "Check pressure before a long ride using a reliable gauge. A thumb squeeze is a rough clue, not a measurement.",
-        "Stay within both tyre and rim limits. If those limits differ, follow the lower maximum.",
-        "Make small changes and note how the bike feels. Do not compensate for a damaged tyre by adding pressure.",
+        "Stay within both tire and rim limits. If those limits differ, follow the lower maximum.",
+        "Make small changes and note how the bike feels. Do not compensate for a damaged tire by adding pressure.",
       ],
-      warning: "Bulges, exposed casing or a damaged bead mean the tyre needs professional assessment before riding.",
+      warning: "Bulges, exposed casing or a damaged bead mean the tire needs professional assessment before riding.",
     },
     {
       id: "chain-care",
@@ -456,7 +456,7 @@
       points: [
         "Note whether it happens in one gear or across several, and whether the chain tries to change gear.",
         "Tell the mechanic about a recent wheel removal, fall or chain replacement.",
-        "Avoid hard efforts while the transmission skips. Sudden loss of drive can cause a fall.",
+        "Avoid hard efforts while the drivetrain skips. Sudden loss of drive can cause a fall.",
       ],
       warning: "Do not assume tightening a cable will cure wear. A measured inspection comes first.",
     },
@@ -482,11 +482,11 @@
       art: "note-kit.svg",
       intro: "Carry the things you know how to use. A small, well-chosen kit is better than a bag of unfamiliar tools.",
       points: [
-        "Pack a correct spare tube, tyre levers, a working pump and the tool needed to remove your wheel.",
+        "Pack a correct spare tube, tire levers, a working pump and the tool needed to remove your wheel.",
         "Add water, food, a layer and a way to contact someone if plans change.",
         "Check your route, daylight and weather. Tell someone your plan if riding alone.",
       ],
-      warning: "Practise a wheel removal at home. Some bikes need special tools or procedures.",
+      warning: "Practice a wheel removal at home. Some bikes need special tools or procedures.",
     },
     {
       id: "stored-bike",
@@ -495,7 +495,7 @@
       art: "note-shed.svg",
       intro: "A bike that was fine last season still needs a fresh check before its first ride back.",
       points: [
-        "Inspect tyres for cracking and inflate within the stated limits.",
+        "Inspect tires for cracking and inflate within the stated limits.",
         "Check wheel attachment, steering, brake operation and free movement of the drivetrain.",
         "Start with a short, gentle ride somewhere quiet. Stop if something feels loose or unreliable.",
       ],
@@ -506,19 +506,19 @@
       title: "A wobble is worth checking",
       category: "symptoms",
       art: "note-wobble.svg",
-      intro: "A wheel can appear out of line because of the rim, tyre seating or how it sits in the frame.",
+      intro: "A wheel can appear out of line because of the rim, tire seating or how it sits in the frame.",
       points: [
-        "Look for a tyre bead that sits unevenly, and check that the wheel is correctly secured.",
+        "Look for a tire bead that sits unevenly, and check that the wheel is correctly secured.",
         "Check for a broken spoke without putting fingers into a moving wheel.",
         "Explain when the wobble started and whether there was an impact. A photo can help the conversation.",
       ],
-      warning: "Do not ride a cracked rim, loose wheel or badly damaged tyre. Transport the bike instead.",
+      warning: "Do not ride a cracked rim, loose wheel or badly damaged tire. Transport the bike instead.",
     },
   ];
   const CHECKS = [
     {
       id: "tyres",
-      title: "Tyres: pressure and condition",
+      title: "Tires: pressure and condition",
       copy: "Check pressure with a gauge and look for cuts, bulges or anything lodged in the tread.",
       kinds: ["daily", "weekend", "loaded"],
       wet: false,
@@ -615,7 +615,7 @@
   const has = (map, key) => typeof key === "string" && Object.prototype.hasOwnProperty.call(map, key);
   const $ = (selector, parent = document) => parent.querySelector(selector);
   const $$ = (selector, parent = document) => [...parent.querySelectorAll(selector)];
-  const money = (value) => new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP" }).format(value / 100);
+  const money = (value) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(value / 100);
   const escape = (value) =>
     String(value).replace(
       /[&<>"']/g,
@@ -737,11 +737,11 @@
     return { labour, parts, complexity, total: labour + parts + complexity, minutes, count };
   }
   const partsLabel = (item, plan) =>
-    item.parts ? `${money(Math.round(item.parts * PARTS_GRADES[plan.parts].multiplier))} parts` : "parts to agree";
+    item.parts ? `${money(Math.round(item.parts * PARTS_GRADES[plan.parts].multiplier))} parts` : "parts to confirm";
   function planText(plan) {
     const totals = planTotals(plan);
     const jobs = plan.jobs.map((job) => `${job.qty} × ${SERVICE_MAP[job.id].name}`).join("\n");
-    return `Cogmere repair estimate\n${jobs || "No repairs selected"}\nBike: ${BIKE_TYPES[plan.bike].label}\nParts: ${PARTS_GRADES[plan.parts].label}\nLabour: ${money(totals.labour)}\nBike complexity: ${money(totals.complexity)}\nParts allowance: ${money(totals.parts)}\nEstimated total: ${money(totals.total)} including VAT\nSubject to inspection; no work or parts authorised.`;
+    return `Cogmere repair estimate\n${jobs || "No repairs selected"}\nBike: ${BIKE_TYPES[plan.bike].label}\nParts: ${PARTS_GRADES[plan.parts].label}\nLabor: ${money(totals.labour)}\nBike complexity: ${money(totals.complexity)}\nParts allowance: ${money(totals.parts)}\nEstimated total: ${money(totals.total)} before sales tax\nSubject to inspection; no work or parts authorized.`;
   }
   function addJob(id) {
     if (!has(SERVICE_MAP, id)) return;
@@ -762,17 +762,17 @@
     renderEstimate();
   }
   function serviceCard(item) {
-    return `<article class="service-card flex flex-col"><a href="service.html?repair=${item.id}" class="block" tabindex="-1" aria-hidden="true"><img src="assets/img/${item.art}" width="240" height="250" alt="" class="aspect-[1.35] w-full object-contain bg-mist" loading="lazy"></a><div class="flex flex-1 flex-col p-3 sm:p-5"><p class="eyebrow text-blue">${escape(item.category)}</p><h3 class="mt-2 text-base font-bold leading-tight sm:mt-3 sm:text-xl"><a href="service.html?repair=${item.id}" class="hover:underline">${escape(item.name)}</a></h3><p class="mt-3 hidden flex-1 text-sm leading-relaxed text-muted sm:block">${escape(item.short)}</p><div class="mt-auto border-t border-line pt-3 sm:mt-5 sm:pt-4"><p class="font-semibold">${money(item.labour)} <span class="text-xs font-normal text-muted">labour</span></p><p class="mt-1 text-xs text-muted">${item.minutes} min · ${item.parts ? `${money(item.parts)} typical parts` : "parts to agree"}</p></div><button class="btn btn-line btn-small mt-3 w-full sm:mt-4" data-add-repair="${item.id}" aria-label="Add repair: ${escape(item.name)}">Add repair <span aria-hidden="true">+</span></button></div></article>`;
+    return `<article class="service-card flex flex-col"><a href="service.html?repair=${item.id}" class="block" tabindex="-1" aria-hidden="true"><img src="assets/img/${item.art}" width="240" height="250" alt="" class="aspect-[1.35] w-full object-contain bg-mist" loading="lazy"></a><div class="flex flex-1 flex-col p-3 sm:p-5"><p class="eyebrow text-blue">${escape(item.category)}</p><h3 class="mt-2 text-base font-bold leading-tight sm:mt-3 sm:text-xl"><a href="service.html?repair=${item.id}" class="hover:underline">${escape(item.name)}</a></h3><p class="mt-3 hidden flex-1 text-sm leading-relaxed text-muted sm:block">${escape(item.short)}</p><div class="mt-auto border-t border-line pt-3 sm:mt-5 sm:pt-4"><p class="font-semibold">${money(item.labour)} <span class="text-xs font-normal text-muted">labor</span></p><p class="mt-1 text-xs text-muted">${item.minutes} min · ${item.parts ? `${money(item.parts)} typical parts` : "parts to confirm"}</p></div><button class="btn btn-line btn-small mt-3 w-full sm:mt-4" data-add-repair="${item.id}" aria-label="Add repair: ${escape(item.name)}">Add repair <span aria-hidden="true">+</span></button></div></article>`;
   }
   // Search splits the query into words; every word must appear somewhere in the item's text.
   const searchWords = (value) =>
     String(value || "")
-      .toLocaleLowerCase("en-GB")
-      .split(/[^a-z0-9£'-]+/)
+      .toLocaleLowerCase("en-US")
+      .split(/[^a-z0-9$'-]+/)
       .filter(Boolean)
       .slice(0, 8);
   const matchesAll = (words, text) => {
-    const haystack = text.toLocaleLowerCase("en-GB");
+    const haystack = text.toLocaleLowerCase("en-US");
     return words.every((word) => haystack.includes(word.length > 4 && word.endsWith("s") ? word.slice(0, -1) : word));
   };
   function initServiceBoard() {
@@ -829,7 +829,7 @@
     const item = has(SERVICE_MAP, requested) ? SERVICE_MAP[requested] : SERVICE_MAP.check;
     const person = TEAM_MAP[item.mechanic];
     document.title = `${item.name} — Cogmere Bicycle Workshop`;
-    root.innerHTML = `<section class="border-b border-ink bg-mist"><div class="wrap grid items-center gap-9 py-10 md:grid-cols-[1.5fr_1fr] md:py-14"><div><a href="services.html" class="text-link text-sm">All repairs</a><p class="eyebrow mt-7 text-blue">${escape(item.category)} / REPAIR NOTES</p><h1 class="mt-4 text-[clamp(2.5rem,5.4vw,4.75rem)] font-black leading-[1.02] tracking-tight">${escape(item.name)}</h1><p class="mt-6 max-w-xl text-lg text-muted">${escape(item.short)}</p><div class="mt-7 flex flex-wrap gap-3"><button class="btn" data-add-repair="${item.id}" aria-label="Add repair to estimate: ${escape(item.name)}">Add repair to estimate</button><a class="btn btn-line" href="book.html?repair=${item.id}">Arrange a drop-off</a></div></div><img class="max-h-80 w-full object-contain" src="assets/img/${item.art}" width="240" height="250" alt="Technical drawing for ${escape(item.name.toLowerCase())}"></div></section><section class="wrap grid items-start gap-10 py-14 lg:grid-cols-[1.4fr_1fr]"><div><p class="eyebrow text-blue">WHEN IT MAKES SENSE</p><h2 class="mt-4 text-3xl font-bold">The right job for your bike.</h2><p class="mt-5 text-lg leading-relaxed text-muted">${escape(item.suitable)}</p><h2 class="mt-10 text-3xl font-bold">What happens on the stand.</h2><ol class="mt-6 space-y-5">${item.steps.map((step, index) => `<li class="flex gap-4 border-b border-line pb-5"><span class="font-display text-2xl font-bold text-blue">0${index + 1}</span><p class="pt-1 leading-relaxed">${escape(step)}</p></li>`).join("")}</ol><div class="mt-8 border-l-4 border-blue bg-mist p-5"><h3 class="font-semibold">Before you decide</h3><p class="mt-3 text-sm leading-relaxed text-muted">${escape(item.note)}</p></div></div><aside class="border border-ink bg-white p-7"><p class="eyebrow text-blue">THE WORKSHOP TICKET</p><dl class="mt-6 space-y-5"><div class="flex justify-between gap-4"><dt>Labour</dt><dd class="text-2xl font-bold">${money(item.labour)}</dd></div><div class="flex justify-between gap-4"><dt>Typical parts allowance</dt><dd>${item.parts ? money(item.parts) : "Parts to agree"}</dd></div><div class="flex justify-between gap-4"><dt>Approximate bench time</dt><dd>${item.minutes} min</dd></div></dl><p class="mt-6 border-t border-line pt-5 text-sm leading-relaxed text-muted">All prices include VAT. ${item.parts ? "Parts depend on compatibility." : "Most bikes need no parts for this job; if one does, we agree it with you first."} Cargo, e-bike and internal-routing complexity may add labour. Your estimate shows these choices.</p><div class="mt-7 flex items-center gap-4"><img class="size-16 object-cover" src="assets/img/${person.image}" width="240" height="250" alt=""><div><p class="text-sm font-semibold">${escape(person.name)}</p><p class="mt-1 text-xs text-muted">${escape(person.role)}</p></div></div><a class="text-link mt-5 inline-block text-sm" href="workshop.html">Meet the workshop</a></aside></section>`;
+    root.innerHTML = `<section class="border-b border-ink bg-mist"><div class="wrap grid items-center gap-9 py-10 md:grid-cols-[1.5fr_1fr] md:py-14"><div><a href="services.html" class="text-link text-sm">All repairs</a><p class="eyebrow mt-7 text-blue">${escape(item.category)} / REPAIR NOTES</p><h1 class="mt-4 text-[clamp(2.5rem,5.4vw,4.75rem)] font-black leading-[1.02] tracking-tight">${escape(item.name)}</h1><p class="mt-6 max-w-xl text-lg text-muted">${escape(item.short)}</p><div class="mt-7 flex flex-wrap gap-3"><button class="btn" data-add-repair="${item.id}" aria-label="Add repair to estimate: ${escape(item.name)}">Add repair to estimate</button><a class="btn btn-line" href="book.html?repair=${item.id}">Arrange a drop-off</a></div></div><img class="max-h-80 w-full object-contain" src="assets/img/${item.art}" width="240" height="250" alt="Technical drawing for ${escape(item.name.toLowerCase())}"></div></section><section class="wrap grid items-start gap-10 py-14 lg:grid-cols-[1.4fr_1fr]"><div><p class="eyebrow text-blue">WHEN IT MAKES SENSE</p><h2 class="mt-4 text-3xl font-bold">The right job for your bike.</h2><p class="mt-5 text-lg leading-relaxed text-muted">${escape(item.suitable)}</p><h2 class="mt-10 text-3xl font-bold">What happens on the stand.</h2><ol class="mt-6 space-y-5">${item.steps.map((step, index) => `<li class="flex gap-4 border-b border-line pb-5"><span class="font-display text-2xl font-bold text-blue">0${index + 1}</span><p class="pt-1 leading-relaxed">${escape(step)}</p></li>`).join("")}</ol><div class="mt-8 border-l-4 border-blue bg-mist p-5"><h3 class="font-semibold">Before you decide</h3><p class="mt-3 text-sm leading-relaxed text-muted">${escape(item.note)}</p></div></div><aside class="border border-ink bg-white p-7"><p class="eyebrow text-blue">THE WORKSHOP TICKET</p><dl class="mt-6 space-y-5"><div class="flex justify-between gap-4"><dt>Labor</dt><dd class="text-2xl font-bold">${money(item.labour)}</dd></div><div class="flex justify-between gap-4"><dt>Typical parts allowance</dt><dd>${item.parts ? money(item.parts) : "Parts to confirm"}</dd></div><div class="flex justify-between gap-4"><dt>Approximate bench time</dt><dd>${item.minutes} min</dd></div></dl><p class="mt-6 border-t border-line pt-5 text-sm leading-relaxed text-muted">Prices don't include sales tax. ${item.parts ? "Parts depend on compatibility." : "Most bikes need no parts for this job; if one does, we confirm it with you first."} Cargo, e-bike and internal-routing complexity may add labor. Your estimate shows these choices.</p><div class="mt-7 flex items-center gap-4"><img class="size-16 object-cover" src="assets/img/${person.image}" width="240" height="250" alt=""><div><p class="text-sm font-semibold">${escape(person.name)}</p><p class="mt-1 text-xs text-muted">${escape(person.role)}</p></div></div><a class="text-link mt-5 inline-block text-sm" href="workshop.html">Meet the workshop</a></aside></section>`;
   }
   function renderEstimate() {
     const root = $("[data-estimate-lines]");
@@ -841,7 +841,7 @@
     root.innerHTML = plan.jobs
       .map((job) => {
         const item = SERVICE_MAP[job.id];
-        return `<article class="grid gap-4 border border-line bg-white p-5 sm:grid-cols-[72px_1fr]"><img class="w-18" src="assets/img/${item.art}" width="240" height="250" alt=""><div class="min-w-0"><div class="flex items-start justify-between gap-3"><h3 class="text-lg font-bold"><a class="hover:underline" href="service.html?repair=${item.id}">${escape(item.name)}</a></h3><button type="button" class="text-link text-sm" data-remove-repair="${item.id}" aria-label="Remove ${escape(item.name)}">Remove</button></div><p class="mt-2 text-sm text-muted">${money(item.labour)} labour + ${partsLabel(item, plan)} ${item.perBike ? "for the whole bike" : "per job"}</p><div class="mt-4 flex flex-wrap items-center justify-between gap-4">${item.perBike ? '<p class="text-sm">One per bike</p>' : `<div class="flex items-center gap-3"><label class="text-sm" for="qty-${item.id}">Quantity</label><input id="qty-${item.id}" class="field w-20" type="number" min="1" max="4" step="1" value="${job.qty}" data-job-qty="${item.id}"></div>`}<p class="font-semibold">${money((item.labour + Math.round(item.parts * PARTS_GRADES[plan.parts].multiplier)) * job.qty)}</p></div></div></article>`;
+        return `<article class="grid gap-4 border border-line bg-white p-5 sm:grid-cols-[72px_1fr]"><img class="w-18" src="assets/img/${item.art}" width="240" height="250" alt=""><div class="min-w-0"><div class="flex items-start justify-between gap-3"><h3 class="text-lg font-bold"><a class="hover:underline" href="service.html?repair=${item.id}">${escape(item.name)}</a></h3><button type="button" class="text-link text-sm" data-remove-repair="${item.id}" aria-label="Remove ${escape(item.name)}">Remove</button></div><p class="mt-2 text-sm text-muted">${money(item.labour)} labor + ${partsLabel(item, plan)} ${item.perBike ? "for the whole bike" : "per job"}</p><div class="mt-4 flex flex-wrap items-center justify-between gap-4">${item.perBike ? '<p class="text-sm">One per bike</p>' : `<div class="flex items-center gap-3"><label class="text-sm" for="qty-${item.id}">Quantity</label><input id="qty-${item.id}" class="field w-20" type="number" min="1" max="4" step="1" value="${job.qty}" data-job-qty="${item.id}"></div>`}<p class="font-semibold">${money((item.labour + Math.round(item.parts * PARTS_GRADES[plan.parts].multiplier)) * job.qty)}</p></div></div></article>`;
       })
       .join("");
     $("[data-plan-count]").textContent = plural(totals.count, "job");
@@ -858,15 +858,15 @@
       ids.some((id) => ["gears", "rim", "check"].includes(id))
     )
       notes.push(
-        "A complete service includes routine brake and gear adjustment and a safety inspection. We will remove duplicated work from the final quote after seeing the bike.",
+        "A complete tune-up includes routine brake and gear adjustment and a safety inspection. We will remove duplicated work from the final quote after seeing the bike.",
       );
     if (ids.includes("overhaul") && ids.includes("service"))
       notes.push(
-        "An everyday service and a full strip & rebuild cover the same bike. Choose one package, or tell us if these are for different bikes.",
+        "An everyday tune-up and a full teardown & rebuild cover the same bike. Choose one package, or tell us if these are for different bikes.",
       );
     if (plan.parts === "labour" && ids.length)
       notes.push(
-        "Parts are not included in this estimate. We agree compatibility and the exact parts cost before starting.",
+        "Parts are not included in this estimate. We confirm compatibility and the exact parts cost before starting.",
       );
     if (plan.bike === "electric" && ids.length)
       notes.push("Mechanical work only. We do not open battery packs, motors or electronic control systems.");
@@ -880,7 +880,7 @@
     const select = $("[data-add-service]");
     if (!select) return;
     select.innerHTML = SERVICES.map(
-      (item) => `<option value="${item.id}">${escape(item.name)} — ${money(item.labour)} labour</option>`,
+      (item) => `<option value="${item.id}">${escape(item.name)} — ${money(item.labour)} labor</option>`,
     ).join("");
     const requested = new URLSearchParams(location.search).get("repair");
     if (has(SERVICE_MAP, requested)) select.value = requested;
@@ -938,7 +938,7 @@
       const text = planText(readPlan());
       try {
         await navigator.clipboard.writeText(text);
-        announce("Estimate copied. It is not a booking or work authorisation.");
+        announce("Estimate copied. It is not a booking or work authorization.");
       } catch {
         let area = $("[data-copy-fallback]");
         if (!area) {
@@ -965,7 +965,7 @@
     return new Date(`${key}T12:00:00Z`);
   }
   function todayKey() {
-    const parts = new Intl.DateTimeFormat("en-GB", {
+    const parts = new Intl.DateTimeFormat("en-US", {
       timeZone: TIME_ZONE,
       year: "numeric",
       month: "2-digit",
@@ -979,48 +979,41 @@
     date.setUTCDate(date.getUTCDate() + days);
     return dateKey(date);
   }
-  function easterSunday(year) {
-    const a = year % 19,
-      b = Math.floor(year / 100),
-      c = year % 100,
-      d = Math.floor(b / 4),
-      e = b % 4;
-    const f = Math.floor((b + 8) / 25),
-      g = Math.floor((b - f + 1) / 3),
-      h = (19 * a + b - d - g + 15) % 30;
-    const i = Math.floor(c / 4),
-      k = c % 4,
-      l = (32 + 2 * e + 2 * i - h - k) % 7,
-      m = Math.floor((a + 11 * h + 22 * l) / 451);
-    const month = Math.floor((h + l - 7 * m + 114) / 31),
-      day = ((h + l - 7 * m + 114) % 31) + 1;
-    return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-  }
-  function nthMonday(year, month, last = false) {
-    const date = new Date(Date.UTC(year, month, last ? 0 : 1, 12));
-    if (last) date.setUTCDate(date.getUTCDate() - ((date.getUTCDay() + 6) % 7));
-    else date.setUTCDate(1 + ((8 - date.getUTCDay()) % 7));
+  // The nth (1 = first) given weekday (0 = Sunday) of a zero-based month.
+  function nthWeekday(year, month, weekday, n) {
+    const date = new Date(Date.UTC(year, month, 1, 12));
+    date.setUTCDate(1 + ((weekday - date.getUTCDay() + 7) % 7) + (n - 1) * 7);
     return dateKey(date);
   }
+  function lastMonday(year, month) {
+    const date = new Date(Date.UTC(year, month + 1, 0, 12));
+    date.setUTCDate(date.getUTCDate() - ((date.getUTCDay() + 6) % 7));
+    return dateKey(date);
+  }
+  // US federal holidays for a year. A date-fixed holiday closes on the day itself and on the weekday it's
+  // observed: Friday when it falls on a Saturday, Monday when it falls on a Sunday.
   function bankHolidays(year) {
     const days = new Set();
-    let newYear = `${year}-01-01`;
-    while ([0, 6].includes(dateFromKey(newYear).getUTCDay())) newYear = addDays(newYear, 1);
-    days.add(newYear);
-    const easter = easterSunday(year);
-    days.add(addDays(easter, -2));
-    days.add(addDays(easter, 1));
-    days.add(nthMonday(year, 4)); // First Monday in May (zero-based month index).
-    days.add(nthMonday(year, 5, true)); // Last Monday in May.
-    days.add(nthMonday(year, 8, true)); // Last Monday in August.
-    [25, 26].forEach((day) => {
-      let key = `${year}-12-${day}`;
-      while ([0, 6].includes(dateFromKey(key).getUTCDay()) || days.has(key)) key = addDays(key, 1);
+    const fixed = (month, day) => {
+      const key = `${year}-${month}-${day}`,
+        weekday = dateFromKey(key).getUTCDay();
       days.add(key);
-    });
-    days.add(`${year}-01-01`);
-    days.add(`${year}-12-25`);
-    days.add(`${year}-12-26`);
+      if (weekday === 6) days.add(addDays(key, -1));
+      if (weekday === 0) days.add(addDays(key, 1));
+    };
+    fixed("01", "01"); // New Year's Day.
+    days.add(nthWeekday(year, 0, 1, 3)); // Martin Luther King Jr. Day.
+    days.add(nthWeekday(year, 1, 1, 3)); // Presidents' Day.
+    days.add(lastMonday(year, 4)); // Memorial Day.
+    fixed("06", "19"); // Juneteenth.
+    fixed("07", "04"); // Independence Day.
+    days.add(nthWeekday(year, 8, 1, 1)); // Labor Day.
+    days.add(nthWeekday(year, 9, 1, 2)); // Columbus Day.
+    fixed("11", "11"); // Veterans Day.
+    days.add(nthWeekday(year, 10, 4, 4)); // Thanksgiving Day.
+    fixed("12", "25"); // Christmas Day.
+    // Next New Year's Day on a Saturday is observed on December 31 of this year.
+    if (dateFromKey(`${year + 1}-01-01`).getUTCDay() === 6) days.add(`${year}-12-31`);
     return days;
   }
   function isOpeningDay(key) {
@@ -1048,7 +1041,7 @@
     return dates;
   }
   function longDate(key) {
-    return new Intl.DateTimeFormat("en-GB", {
+    return new Intl.DateTimeFormat("en-US", {
       weekday: "long",
       day: "numeric",
       month: "long",
@@ -1074,7 +1067,7 @@
     if (requestRepair) mechanicSelect.value = SERVICE_MAP[requestRepair].mechanic;
     function slotsForSelection() {
       if (!dates.includes(dateSelect.value)) return [];
-      // Each specialist has a short bench handover during the day; omit that window.
+      // Each specialist has a short bench handoff during the day; omit that window.
       const personIndex = TEAM.findIndex((person) => person.id === mechanicSelect.value);
       return DROP_OFF_TIMES.filter((_, index) => personIndex === -1 || index !== personIndex + 1);
     }
@@ -1101,7 +1094,7 @@
     });
     const plan = readPlan();
     $("[data-book-plan]").textContent = plan.jobs.length
-      ? `${plan.jobs.map((job) => `${job.qty} × ${SERVICE_MAP[job.id].name}`).join(", ")}. Estimate ${money(planTotals(plan).total)} including VAT, subject to inspection.`
+      ? `${plan.jobs.map((job) => `${job.qty} × ${SERVICE_MAP[job.id].name}`).join(", ")}. Estimate ${money(planTotals(plan).total)} before sales tax, subject to inspection.`
       : requestRepair
         ? `Asking about: ${SERVICE_MAP[requestRepair].name}.`
         : "No repair plan selected. That is fine: describe the problem and we can inspect the bike together.";
@@ -1128,7 +1121,7 @@
       // (make this listener async). Until then the page shows the success state straight away.
       const person = has(TEAM_MAP, values.mechanic) ? TEAM_MAP[values.mechanic] : null;
       const firstName = values.name.trim().split(/\s+/)[0];
-      const shortDay = new Intl.DateTimeFormat("en-GB", {
+      const shortDay = new Intl.DateTimeFormat("en-US", {
         weekday: "long",
         day: "numeric",
         month: "long",
@@ -1148,7 +1141,7 @@
         Bike: values.bike.trim(),
         Work: jobs,
       };
-      $("[data-done-day]", done).textContent = `${shortDay}, ${values.slot}`;
+      $("[data-done-day]", done).textContent = `${shortDay} at ${values.slot}`;
       $("[data-done-ref]", done).textContent = reference();
       $("[data-book-summary]", done).innerHTML = Object.entries(details)
         .map(
@@ -1157,9 +1150,9 @@
         )
         .join("");
       $("[data-done-step-confirm]", done).textContent =
-        `Thanks, ${firstName}. We email ${values.email.trim()} within a working day to confirm the time.`;
+        `Thanks, ${firstName}. We email ${values.email.trim()} within a business day to confirm the time.`;
       $("[data-done-step-drop]", done).textContent =
-        `At drop-off, ${person ? person.name.split(" ")[0] : "one of the mechanics"} looks over the bike with you and writes the price on your job ticket. Nothing starts until you agree it.`;
+        `At drop-off, ${person ? person.name.split(" ")[0] : "one of the mechanics"} looks over the bike with you and writes the price on your job ticket. Nothing starts until you agree to it.`;
       form.hidden = true;
       done.hidden = false;
       done.focus();
@@ -1310,7 +1303,7 @@
         state[key] = value;
         writeChecks(state);
         renderChecklist();
-        announce("Ride checklist updated. Check today's bike before ticking each item.");
+        announce("Ride checklist updated. Check today's bike before checking off each item.");
       });
     });
     $("[data-checklist]").addEventListener("change", (event) => {
@@ -1329,7 +1322,7 @@
       writeChecks(state);
       renderChecklist();
       $("[data-check-id]")?.focus();
-      announce("Fresh checklist ready. Previous ticks cleared.");
+      announce("Fresh checklist ready. Previous checks cleared.");
     });
     renderChecklist();
   }
@@ -1381,14 +1374,14 @@
     elements.forEach((el) => observer.observe(el));
   }
   $$("[data-year]").forEach((node) => {
-    node.textContent = new Intl.DateTimeFormat("en-GB", { year: "numeric", timeZone: TIME_ZONE }).format(new Date());
+    node.textContent = new Intl.DateTimeFormat("en-US", { year: "numeric", timeZone: TIME_ZONE }).format(new Date());
   });
   const featured = $("[data-featured]");
   if (featured)
     featured.innerHTML = ["service", "puncture", "rim", "gears"].map((id) => serviceCard(SERVICE_MAP[id])).join("");
   const nextDay = $("[data-next-day]");
   if (nextDay && openingDates()[0])
-    nextDay.textContent = new Intl.DateTimeFormat("en-GB", {
+    nextDay.textContent = new Intl.DateTimeFormat("en-US", {
       weekday: "long",
       day: "numeric",
       month: "long",

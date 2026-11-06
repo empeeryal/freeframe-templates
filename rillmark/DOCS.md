@@ -3,14 +3,14 @@
 ## Overview
 
 Rillmark is a multi-page portfolio website for an independent motion designer and director. The demo is
-built for Rillmark, the fictional studio of Marika Drever on the Seagate in Dundee, Scotland, who makes
+built for Rillmark, the fictional studio of Marika Drever on Arch Street in Hartford, Connecticut, who makes
 title sequences, brand motion, explainer animation and music videos. It is plain HTML5, Tailwind CSS v4
 and vanilla JavaScript with no dependencies: a showreel drawn live in SVG, fifteen projects with their own
-case studies and artwork, a fee estimator in pounds, a journal, an about page and a project inquiry. This
-guide covers version 1.0.0 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). The template page,
+case studies and artwork, a fee estimator in dollars, a journal, an about page and a project inquiry. This
+guide covers version 1.0.3 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). The template page,
 with a link to the live demo, is at https://freeframe.dev/templates/rillmark.
 
-British spelling, pounds sterling and UK time (Europe/London) are used throughout.
+American spelling, US dollars and Eastern time (America/New_York) are used throughout.
 
 ## Quick start
 
@@ -32,7 +32,7 @@ You only need Node.js 24 if you change `src/input.css` or add Tailwind classes t
 | `project.html` | Case study (`?project=`) | Title, client and discipline, a styleframe scrubber with timecode, facts, brief, four styleframes, process, results, credits, quote, previous and next projects |
 | `services.html` | Services and fees (`?service=`) | Four services with "from" prices, the fee estimator, how a project runs, questions about fees |
 | `journal.html` | Journal (`?topic=`, `#<note id>`) | Topic chips with counts, dated notes newest first, each opening in place |
-| `about.html` | About | Portrait, biography, three working principles, collaborators, the studio and its view, kit, recognition |
+| `about.html` | About | Portrait, biography, three working principles, collaborators, the studio and its view, gear, recognition |
 | `contact.html` | Project inquiry (`?service=`) | Validated inquiry with budget and finish date, the attached estimate and shortlisted references, studio clock, hours, availability, success state with reference and next steps |
 | `404.html` | Not found | A film strip with a missing frame and links back |
 
@@ -48,7 +48,7 @@ rillmark/
     js/main.js           every script: dates, artwork, showreel, filters, case study, estimator, forms
     img/favicon.svg      browser tab icon
     img/marika.svg       illustrated portrait of the director (400 x 480)
-    img/studio.svg       illustration of the studio window over the Tay (640 x 480)
+    img/studio.svg       illustration of the studio window over the Connecticut River (640 x 480)
     img/og-image.svg     social sharing image source (1200 x 630)
     img/og-image.png     social sharing image used by og:image
   src/input.css          Tailwind source: design tokens and components
@@ -122,8 +122,8 @@ Static text lives in the HTML files. Everything that is listed, filtered or comp
 | `STUDIO` | Name, director, email, phone, address, `hours` by weekday, `leadWeeks` (6), `replyWorkingDays` (2), `winterClosure` (`['12-24', '01-04']`) |
 | `DISCIPLINES` | `titles`, `brand`, `explainer`, `music`: name, short name and blurb |
 | `PROJECTS` | Every project (15): card, case study, styleframes, process, results, credits, quote |
-| `REEL` | The showreel: `scenes` (project ids in order), `sceneSeconds` (4), `fps` (25) |
-| `SERVICES`, `STYLES`, `ROUNDS`, `RUSH`, `ADD_ONS`, `DEPOSIT`, `VAT_RATE` | The estimator's prices (see [The fee estimator](#the-fee-estimator)) |
+| `REEL` | The showreel: `scenes` (project ids in order), `sceneSeconds` (4), `fps` (24) |
+| `SERVICES`, `STYLES`, `ROUNDS`, `RUSH`, `ADD_ONS`, `DEPOSIT` | The estimator's prices (see [The fee estimator](#the-fee-estimator)) |
 | `TOPICS`, `JOURNAL` | Journal topics and the notes, newest first |
 | `PEOPLE` | Collaborators on the about page: name, role, base, a mark `shape` and `colour`, a note |
 
@@ -131,7 +131,7 @@ And at the top of `assets/js/main.js`:
 
 | Constant | Value | What it does |
 |----------|-------|--------------|
-| `TIMEZONE`, `LOCALE`, `CURRENCY` | `'Europe/London'`, `'en-GB'`, `'GBP'` | Every date, time and price |
+| `TIMEZONE`, `LOCALE`, `CURRENCY` | `'America/New_York'`, `'en-US'`, `'USD'` | Every date, time and price |
 | `STORAGE_KEYS` | `{ shortlist: 'rillmark-shortlist', estimate: 'rillmark-estimate' }` | localStorage keys |
 | `DEFAULT_PROJECT` | `'season-of-tides'` | The case study `project.html` shows without (or with an unknown) `?project=` |
 | `KEEP_DEMO_CURRENT`, `DEMO_ANCHOR` | `true`, `'2026-10-24'` | Rolls the journal dates forward (see [Demo dates](#demo-dates)) |
@@ -149,7 +149,7 @@ A project looks like this (shortened):
   process: [{ title: 'Listening first', text: 'We recorded the orchestra tuning…' } /* three */],
   results: [{ figure: '40', label: 'concerts promoted from one toolkit' } /* three */],
   credits: [['Client', 'Bracken Hall'], ['Direction and animation', 'Marika Drever']],
-  quote: { text: 'It moves like us…', name: 'Struan Kinnaird', role: 'Programme director, Bracken Hall' }
+  quote: { text: 'It moves like us…', name: 'Stuart Kinney', role: 'Program director, Bracken Hall' }
 }
 ```
 
@@ -190,22 +190,23 @@ A demo can be online for years, so nothing dated may go stale. The rules:
   weeks old. On the anchor week the notes show exactly the dates written in `data.js`. Set
   `KEEP_DEMO_CURRENT = false` when you write real notes: they then keep their dates.
 - **Availability.** The earliest start is the first Monday at least `STUDIO.leadWeeks` (6) weeks from
-  today that is a working day. The strip shows the next six months: months before that start are
+  today that is a business day. The strip shows the next six months: months before that start are
   "Booked", its month has "One slot left", later months are "Open". The header's "Booking from" month and
   every `[data-next-start]` use the same date.
-- **Replies.** The inquiry's reply date is `STUDIO.replyWorkingDays` (2) working days after today.
-- **Working days** skip weekends, Scottish bank holidays (worked out for any year by
-  `scottishBankHolidays(year)`: 1 and 2 January, Good Friday, the first and last Mondays of May, the first
-  Monday of August, St Andrew's Day and Christmas, with weekend substitutes) and the winter closure in
-  `STUDIO.winterClosure`.
+- **Replies.** The inquiry's reply date is `STUDIO.replyWorkingDays` (2) business days after today.
+- **Business days** skip weekends, US federal holidays (worked out for any year by
+  `scottishBankHolidays(year)`, which keeps its original name: New Year's Day, Martin Luther King Jr. Day,
+  Washington's Birthday, Memorial Day, Juneteenth, Independence Day, Labor Day, Columbus Day, Veterans Day,
+  Thanksgiving and Christmas, with a Saturday observed the Friday before and a Sunday the Monday after) and
+  the winter closure in `STUDIO.winterClosure`.
 - **Copyright year** is filled in by the browser (`[data-year]`).
 - Projects keep their real years: they are past work.
 
-For example, on Saturday 24 October 2026 the site shows "Booking from December", a next start of Monday
-7 December, the strip October and November booked, December with one slot left and January to March open,
-and an inquiry reply by Tuesday 27 October.
+For example, on Saturday, October 24, 2026 the site shows "Booking from December", a next start of Monday,
+December 7, the strip October and November booked, December with one slot left and January to March open,
+and an inquiry reply by Tuesday, October 27.
 
-To check another date, add `?now=2027-03-01` or `?now=2027-03-01T16:30` (UK time) to any page's address.
+To check another date, add `?now=2027-03-01` or `?now=2027-03-01T16:30` (Eastern time) to any page's address.
 
 ### Images and artwork
 
@@ -216,17 +217,17 @@ per `motif`, at a moment `t` from 0 to 1:
 |-------|---------|---------|
 | `tides` | Season of Tides | Swelling waves and a rising sun |
 | `iris` | Morrowfield Festival Titles | A nine-blade camera iris opening |
-| `windows` | The Lowlight Hours | Tenement windows lighting one by one |
+| `windows` | The Lowlight Hours | Apartment house windows lighting one by one |
 | `lanterns` | Paper Lanterns | Lanterns rising over roofs |
 | `pipes` | How the Heat Gets Home | A drop of heat traveling along a pipe to three houses |
 | `books` | Borrow Anything | A spine sliding out of a shelf, then objects appearing |
 | `rain` | Weather-Made | Sideways rain and a turning mark |
-| `grid` | Ninefold Onboarding | A three-by-three grid of filling pots that swap places |
+| `grid` | Ninefold Onboarding | A three-by-three grid of filling jars that swap places |
 | `glitch` | Cold Open | Jumping lyric bars and tracking lines |
 | `seastack` | Seastack | A day passing behind a lighthouse rock |
 | `loom` | Threads of Millhaven | Weft crossing the warp on a loom |
 | `dots` | Tactile Futures | A raised-dot grid rising under a fingertip |
-| `aurora` | Ochil Lights | Aurora ribbons over hills |
+| `aurora` | Talcott Lights | Aurora ribbons over hills |
 | `satchel` | A Book in Every Bag | A book dropping into a bag, stories flying out |
 | `tower` | Hollowtide | A tide rising round a lighthouse town |
 
@@ -261,7 +262,7 @@ and the mobile menu) and the footer are repeated in every HTML file. To add a pa
 ### The showreel
 
 `initReel()` in `main.js` plays the projects in `REEL.scenes`, `REEL.sceneSeconds` (4) each, redrawing
-the frame at `REEL.fps` (25) with a running timecode (`00:00:SS:FF`), a progress bar per scene and a scene
+the frame at `REEL.fps` (24) with a running timecode (`00:00:SS:FF`), a progress bar per scene and a scene
 list beside the player. Controls: Play/Pause, previous and next scene, and the scene list (each is a
 button). Arrow keys move between scenes while focus is on the controls.
 
@@ -289,7 +290,7 @@ In the demo: all 15; titles 4, brand 4, explainer 4, music 3; 2024 has 4 project
 
 Every card and case study has a Save button (`[data-save="<id>"]`, `aria-pressed`). Saved projects appear
 in the work page's shortlist panel (with remove buttons and "Clear the shortlist"), in the header count
-(`[data-shortlist-count]`) and on the inquiry form as references the visitor can untick. Toasts confirm
+(`[data-shortlist-count]`) and on the inquiry form as references the visitor can uncheck. Toasts confirm
 each change. See [Saved data](#saved-data-localstorage).
 
 ### Case studies
@@ -298,7 +299,7 @@ each change. See [Saved data](#saved-data-localstorage).
 unknown id shows `DEFAULT_PROJECT` with a short note. The page title and meta description are updated.
 
 The scrubber (`#cs-scrub`, a range from 0 to 1000) redraws the hero frame at that moment and shows its
-timecode (`MM:SS:FF` at 25 fps); it works with the arrow keys and announces the time as its value text.
+timecode (`MM:SS:FF` at 24 fps); it works with the arrow keys and announces the time as its value text.
 The four styleframes, process steps, results, credits, quote and previous/next links are generated from
 the project's data. Without JavaScript the page shows the default project's title and summary.
 
@@ -307,32 +308,34 @@ the project's data. Without JavaScript the page shows the default project's titl
 `initEstimator()` on `services.html`. The estimate is:
 
 1. **Direction, boards and styleframes:** `SERVICES[service].design`.
-2. **Animation:** seconds x `perSecond` x the style's `factor`, rounded to £10.
-3. **Extra rounds:** each round over `ROUNDS.included` (2) costs `ROUNDS.extraFee` (£480), up to
+2. **Animation:** seconds x `perSecond` x the style's `factor`, rounded to $10.
+3. **Extra rounds:** each round over `ROUNDS.included` (2) costs `ROUNDS.extraFee` ($600), up to
    `ROUNDS.max` (4).
 4. **Extras:** each `ADD_ONS` item costs `base + perSecond x seconds`.
-5. **Rush:** `RUSH.uplift` (30%) of lines 1 and 2, rounded to £10.
+5. **Rush:** `RUSH.uplift` (30%) of lines 1 and 2, rounded to $10.
 
-Then VAT at `VAT_RATE` (20%), a deposit of `DEPOSIT` (40%) of the total excluding VAT, and a schedule of
+Then a deposit of `DEPOSIT` (40%) of the total, which is before sales tax, and a schedule of
 `SERVICES[service].weeks` + one week per started minute + one week per extra round (times
 `RUSH.weeksFactor`, 0.65, rounded up, for a rush). The schedule starts on the earliest start date; if it
 runs over the winter closure, two weeks are added and a note says so.
 
 | Service (`SERVICES`) | Design | Per second | Default length | Range | Base weeks |
 |----------------------|--------|------------|----------------|-------|------------|
-| `titles` | £2,400 | £95 | 60 s | 15 s – 3 min | 5 |
-| `brand` | £3,200 | £70 | 30 s | 15 s – 2 min | 6 |
-| `explainer` | £1,800 | £60 | 90 s | 30 s – 3 min | 5 |
-| `music` | £2,000 | £30 | 3 min | 2 – 5 min | 6 |
+| `titles` | $3,000 | $120 | 60 s | 15 s – 3 min | 5 |
+| `brand` | $4,000 | $90 | 30 s | 15 s – 2 min | 6 |
+| `explainer` | $2,400 | $75 | 90 s | 30 s – 3 min | 5 |
+| `music` | $2,500 | $40 | 3 min | 2 – 5 min | 6 |
 
-Styles (`STYLES`): `graphic` x1, `mixed` x1.25, `cel` x1.45, `cgi` x1.6. Extras (`ADD_ONS`): `sound` £450 +
-£5/s, `cutdowns` £840, `captions` £120.
+Styles (`STYLES`): `graphic` x1, `mixed` x1.25, `cel` x1.45, `cgi` x1.6. Extras (`ADD_ONS`): `sound` $600 +
+$6/s, `cutdowns` $1,000, `captions` $150.
 
-Worked example, the default (a 60-second 2D graphic title sequence, two rounds, no extras): £2,400 + £5,700
-= **£8,100** excluding VAT, VAT £1,620, £9,720 including VAT, deposit £3,240, 6 weeks. On 24 October 2026
-that starts Monday 7 December and, with the winter closure, delivers around Friday 29 January 2027. The
-same sum gives the "from" prices on the service list (`[data-from-price]`): £8,100, £5,300, £7,200 and
-£7,400.
+Worked example, the default (a 60-second 2D graphic title sequence, two rounds, no extras): $3,000 + $7,200
+= **$10,200** before sales tax, deposit $4,080, 6 weeks. On October 24, 2026 that starts Monday, December 7
+and, with the winter closure, delivers around Friday, January 29, 2027. The same sum gives the "from" prices
+on the service list (`[data-from-price]`): $10,200, $6,700, $9,150 and $9,700.
+
+The estimate doesn't add sales tax; a line under the total says any that applies is extra. Whether tax
+applies depends on your state and what you deliver, so check with your accountant before publishing prices.
 
 `services.html?service=music` preselects a service (checked against `SERVICES`). "Send this estimate
 with an inquiry" saves the estimate and opens `contact.html`, where it is summarized, fills the service
@@ -341,16 +344,16 @@ rounds select repeat the prices in HTML: update them if you change `data.js`.
 
 ### The journal
 
-`initJournal()` lists `JOURNAL` newest first with dates in UK format, "4 days ago" style ages and a topic
+`initJournal()` lists `JOURNAL` newest first with dates in US format, "4 days ago" style ages and a topic
 and reading time. Topic chips show counts (`journal.html?topic=craft`); "Read the note" buttons open each
 note in place (`aria-expanded`, `aria-controls`). `journal.html#<note id>` opens that note. The home page
 shows the latest three.
 
 ### Studio clock and availability
 
-The header and contact page show the time in Dundee (`[data-local-clock]`, "14:32 GMT" or "BST"), updated
+The header and contact page show the time in Hartford (`[data-local-clock]`, "2:32 PM EST" or "EDT"), updated
 every 15 seconds. `[data-open-state]` on the contact page says whether the studio is open, from
-`STUDIO.hours`, bank holidays and the winter closure. Availability is described in
+`STUDIO.hours`, federal holidays and the winter closure. Availability is described in
 [Demo dates](#demo-dates).
 
 ### Motion and reveals
@@ -372,7 +375,7 @@ The project inquiry (`[data-enquiry-form]` on `contact.html`) checks, in the bro
 - the brief: at least 40 characters, with a live character count.
 
 Errors appear under each field (`aria-invalid` and `aria-describedby`), the first invalid field is
-focused, and fields re-check as they are corrected. On success the form is replaced by "Enquiry received"
+focused, and fields re-check as they are corrected. On success the form is replaced by "Inquiry received"
 with a reference like `RM-7K2Q`, the reply date, how many saved projects went with it and next steps.
 `?service=titles` preselects the service.
 
@@ -394,7 +397,7 @@ form.addEventListener('submit', function (e) {
 ```
 
 The form posts `name`, `email`, `organisation`, `service`, `budget`, `deadline`, `message`, `estimate` and
-one `references` value per ticked project id.
+one `references` value per checked project id.
 
 ## Saved data (localStorage)
 

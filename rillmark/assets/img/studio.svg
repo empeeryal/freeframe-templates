@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" width="640" height="480">
-  <!-- The studio window on the Seagate, looking across the Tay to the hills. -->
+  <!-- The studio window on Arch Street, looking across the Connecticut River to the hills. -->
   <rect width="640" height="480" fill="#e4dfec"/>
   <!-- Window and the view -->
   <rect x="60" y="36" width="520" height="270" fill="#f3d9c4"/>
@@ -7,7 +7,7 @@
   <circle cx="452" cy="104" r="26" fill="#ffb07a"/>
   <path d="M60 196c60-28 120-34 180-20s110 4 170-14 120-10 170 10v40H60Z" fill="#7a6c94"/>
   <path d="M60 214c70-14 150-12 230-2s170 0 290-10v94H60Z" fill="#7fb7c9"/>
-  <!-- The rail bridge: a long run of piers -->
+  <!-- The Founders Bridge: a long run of piers -->
   <rect x="60" y="226" width="520" height="5" fill="#342146"/>
   <g fill="#342146">
     <rect x="76" y="231" width="4" height="22"/><rect x="112" y="231" width="4" height="22"/><rect x="148" y="231" width="4" height="22"/><rect x="184" y="231" width="4" height="22"/><rect x="220" y="231" width="4" height="22"/><rect x="256" y="231" width="4" height="22"/><rect x="292" y="231" width="4" height="22"/><rect x="328" y="231" width="4" height="22"/><rect x="364" y="231" width="4" height="22"/><rect x="400" y="231" width="4" height="22"/><rect x="436" y="231" width="4" height="22"/><rect x="472" y="231" width="4" height="22"/><rect x="508" y="231" width="4" height="22"/><rect x="544" y="231" width="4" height="22"/>

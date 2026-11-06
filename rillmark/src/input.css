@@ -12,7 +12,7 @@
   --font-serif: "Gelasio", Georgia, "Times New Roman", serif;
   --font-mono: "Red Hat Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
-  /* Paper: a cool lilac grey, like a lightbox with the lamp off. */
+  /* Paper: a cool lilac gray, like a lightbox with the lamp off. */
   --color-paper: #efecf4;       /* page background */
   --color-paper-2: #e4dfec;     /* sunken panels and alternate bands */
   --color-card: #f9f8fc;        /* cards, inputs, the estimate */

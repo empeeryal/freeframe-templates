@@ -5,6 +5,14 @@ All notable changes to the Sprout HTML template are documented here. The format 
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-05
+
+### Changed
+
+- Set in Corvallis, Oregon, with American spelling, US dollars, US phone numbers and local details.
+- The bed planner works in feet and inches, session dates use Pacific time and US date order, and the optional phone
+  number is checked as a US number.
+
 ## [1.0.4] - 2026-11-05
 
 ### Changed

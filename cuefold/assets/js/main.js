@@ -1,20 +1,20 @@
-/* Cuefold — catalogue, rolling programme, visit planner and box-office forms.
+/* Cuefold — catalog, rolling program, visit planner and box-office forms.
    Dates: performances carry real dates in SHOWS; with KEEP_PROGRAMME_CURRENT on, each one moves forward by
-   whole programme cycles (PROGRAMME_WEEKS) once it has happened, so the demo always has an upcoming programme.
+   whole program cycles (PROGRAMME_WEEKS) once it has happened, so the demo always has an upcoming program.
    Forms: initTickets and initInterest validate in the browser and show the box office's reply. See "Connecting
    the forms" further down to send them to a real endpoint. */
 (function () {
   "use strict";
-  const LOCALE = "en-GB";
-  const TIMEZONE = "Europe/London";
-  // Keep the demo programme current: once a performance has started, it moves forward by whole programme cycles
-  // (PROGRAMME_WEEKS weeks, so weekdays and times stay right). Set to false for a real programme with fixed dates;
+  const LOCALE = "en-US";
+  const TIMEZONE = "America/New_York";
+  // Keep the demo program current: once a performance has started, it moves forward by whole program cycles
+  // (PROGRAMME_WEEKS weeks, so weekdays and times stay right). Set to false for a real program with fixed dates;
   // performances that have happened then simply drop out of the listings.
   const KEEP_PROGRAMME_CURRENT = true;
   const PROGRAMME_WEEKS = 6;
   const BOX_OFFICE = "hello@cuefold.example";
-  const HANDLING_PENCE = 100;
-  const CONCESSION_OFF = 3;
+  const HANDLING_PENCE = 200; // In cents.
+  const CONCESSION_OFF = 5;
   const MAX_TICKETS = 8;
   const STORAGE = { plan: "cuefold-plan-v1", access: "cuefold-access-v1" };
   const SHOWS = [
@@ -23,10 +23,10 @@
       title: "The Borrowed Staircase",
       genre: "Drama",
       duration: 105,
-      price: 18,
+      price: 30,
       age: "12+",
       summary:
-        "An unexpected flight of stairs arrives in a shared hallway. Three neighbours must decide where it leads.",
+        "An unexpected flight of stairs arrives in a shared hallway. Three neighbors must decide where it leads.",
       story:
         "A gently surreal story about belonging, with a revolving set and an argument over a very ordinary doormat.",
       warning: "Contains brief strong language and a sudden bell.",
@@ -48,7 +48,7 @@
       title: "When the Kettle Sings",
       genre: "Comedy",
       duration: 80,
-      price: 16,
+      price: 26,
       age: "10+",
       summary: "One kitchen, four very different cups of tea and a kettle with an opinion on everything.",
       story: "A fast, warm-hearted comedy built around a family kitchen and the things nobody quite manages to say.",
@@ -56,10 +56,10 @@
       captioned: false,
       audio: false,
       room: "Main room",
-      company: "Pennyroyal Theatre",
+      company: "Pennyroyal Theater",
       kind: "Visiting company",
       credits: [
-        ["Written by", "Rhodri Kittow"],
+        ["Written by", "Rhett Kittow"],
         ["Directed by", "Beatrix Varley"],
       ],
       interval: false,
@@ -71,7 +71,7 @@
       title: "The Cartographer’s Pocket",
       genre: "Spoken word",
       duration: 70,
-      price: 14,
+      price: 20,
       age: "14+",
       summary: "A spoken-word expedition through the places we carry without a map.",
       story:
@@ -95,10 +95,10 @@
       title: "Small Hours at Platform Nine",
       genre: "Drama",
       duration: 110,
-      price: 19,
+      price: 32,
       age: "14+",
       summary:
-        "The last train has gone. A station cleaner and a stranded traveller have one night to put the world right.",
+        "The last train has gone. A station janitor and a stranded traveler have one night to put the world right.",
       story: "An intimate two-hander about work, friendship and a very unreliable station clock.",
       warning: "Strong language; themes of loneliness.",
       captioned: true,
@@ -107,7 +107,7 @@
       company: "Cuefold",
       kind: "A Cuefold production",
       credits: [
-        ["Written by", "Dafydd Strachan"],
+        ["Written by", "Davis Strachan"],
         ["Directed by", "Maddox Callow"],
       ],
       interval: true,
@@ -119,12 +119,12 @@
       title: "The Paper Astronaut",
       genre: "Family",
       duration: 55,
-      price: 10,
+      price: 15,
       age: "5+",
-      summary: "A cardboard rocket takes a young explorer much further than the back garden.",
+      summary: "A cardboard rocket takes a young explorer much further than the backyard.",
       story:
         "Handmade puppets, big shadows and a pocket-sized planetarium invite families on a generous little adventure.",
-      warning: "A few moments of darkness; the 11:00 performance is relaxed.",
+      warning: "A few moments of darkness; the 11am performance is relaxed.",
       captioned: false,
       audio: true,
       room: "Main room",
@@ -143,7 +143,7 @@
       title: "A River in the Attic",
       genre: "Movement",
       duration: 65,
-      price: 15,
+      price: 24,
       age: "10+",
       summary: "Two dancers discover that the water above their heads remembers everything.",
       story: "A playful movement piece using rope, reflected light and a set that changes from rafters to riverbank.",
@@ -166,11 +166,11 @@
       title: "The Clockmaker’s Guests",
       genre: "Drama",
       duration: 100,
-      price: 18,
+      price: 30,
       age: "12+",
       summary: "At closing time, every clock in the shop stops for a different reason.",
       story: "A chamber mystery about a forgotten appointment and the quiet art of beginning again.",
-      warning: "A loud mechanical chime before the interval.",
+      warning: "A loud mechanical chime before intermission.",
       captioned: true,
       audio: false,
       room: "Studio",
@@ -189,7 +189,7 @@
       title: "Salt on the Windowsill",
       genre: "Music",
       duration: 75,
-      price: 17,
+      price: 26,
       age: "8+",
       summary: "An acoustic evening of songs collected at the edge of the sea.",
       story: "Three voices, strings and small percussion tell stories of departures, kitchen windows and coming home.",
@@ -209,11 +209,11 @@
       title: "After the Last Bell",
       genre: "Comedy",
       duration: 85,
-      price: 16,
+      price: 26,
       age: "12+",
-      summary: "A school caretaker starts a club for everyone who never liked clubs.",
+      summary: "A school custodian starts a club for everyone who never liked clubs.",
       story:
-        "Dry humour meets an unexpectedly elaborate raffle in a story about finding your people later than planned.",
+        "Dry humor meets an unexpectedly elaborate raffle in a story about finding your people later than planned.",
       warning: "Occasional mild language.",
       captioned: false,
       audio: true,
@@ -222,7 +222,7 @@
       kind: "Co-production",
       credits: [
         ["Written by", "Winnie Ashcombe"],
-        ["Directed by", "Ludo Partridge"],
+        ["Directed by", "Lou Partridge"],
       ],
       interval: false,
       relaxed: false,
@@ -233,11 +233,11 @@
       title: "The Quiet Acrobat",
       genre: "Movement",
       duration: 60,
-      price: 15,
+      price: 24,
       age: "7+",
       summary: "A balancing act for one performer, a wooden chair and a remarkable amount of string.",
       story:
-        "Physical theatre and object play turn small acts of courage into something worth holding your breath for.",
+        "Physical theater and object play turn small acts of courage into something worth holding your breath for.",
       warning: "Quiet participatory moments; no audience member is brought on stage.",
       captioned: true,
       audio: false,
@@ -257,15 +257,15 @@
       title: "Under a Borrowed Moon",
       genre: "Drama",
       duration: 95,
-      price: 18,
+      price: 30,
       age: "12+",
-      summary: "A rooftop gardener and a night porter share the same view, twenty years apart.",
+      summary: "A rooftop gardener and a night doorman share the same view, twenty years apart.",
       story: "A tender play about the care we leave behind, told under a moon that is never quite where it should be.",
       warning: "Discussion of family illness.",
       captioned: false,
       audio: false,
       room: "Main room",
-      company: "Halfpenny Theatre",
+      company: "Wooden Nickel Theater",
       kind: "Visiting company",
       credits: [
         ["Written by", "Perpetua Gale"],
@@ -280,11 +280,11 @@
       title: "The Orchard of Umbrellas",
       genre: "Family",
       duration: 60,
-      price: 11,
+      price: 16,
       age: "4+",
       summary: "In a town where it always rains, one gardener plants something unexpected.",
-      story: "Colourful object puppetry, gentle music and a forest of opening umbrellas celebrate patient curiosity.",
-      warning: "Suitable for a first theatre visit; the 11:00 performance is relaxed.",
+      story: "Colorful object puppetry, gentle music and a forest of opening umbrellas celebrate patient curiosity.",
+      warning: "Suitable for a first theater visit; the 11am performance is relaxed.",
       captioned: false,
       audio: false,
       room: "Main room",
@@ -300,9 +300,9 @@
       title: "A Map of Unsaid Things",
       genre: "Spoken word",
       duration: 75,
-      price: 14,
+      price: 20,
       age: "14+",
-      summary: "Letters never posted become the streets of an imaginary city.",
+      summary: "Letters never mailed become the streets of an imaginary city.",
       story: "A writer and a live sound artist build an evening from the words that usually stay in a drawer.",
       warning: "Themes of separation and grief.",
       captioned: true,
@@ -323,18 +323,18 @@
       title: "The Waiting Cabinet",
       genre: "Comedy",
       duration: 90,
-      price: 17,
+      price: 28,
       age: "12+",
       summary: "An office waiting room acquires a filing cabinet that refuses to be ignored.",
-      story: "A beautifully awkward comedy about queues, forms and the small rebellion of taking a proper lunch break.",
+      story: "A beautifully awkward comedy about waiting in line, forms and the small rebellion of taking a real lunch break.",
       warning: "Brief strong language.",
       captioned: false,
       audio: false,
       room: "Main room",
-      company: "Quillfeather Theatre",
+      company: "Quillfeather Theater",
       kind: "Visiting company",
       credits: [
-        ["Written by", "Algernon Tusk"],
+        ["Written by", "Alton Tusk"],
         ["Directed by", "Rosalie Pellow"],
       ],
       interval: true,
@@ -346,15 +346,15 @@
       title: "Footnotes for a Giant",
       genre: "Family",
       duration: 55,
-      price: 10,
+      price: 15,
       age: "6+",
       summary: "A very small librarian must return a very large overdue book.",
       story: "Shadow puppets and enormous paper feet bring a bookish quest to life, with room for everyone to help.",
-      warning: "A playful giant’s voice; the 11:00 performance is relaxed.",
+      warning: "A playful giant’s voice; the 11am performance is relaxed.",
       captioned: false,
       audio: false,
       room: "Main room",
-      company: "Inkwell Shadow Theatre with Cuefold",
+      company: "Inkwell Shadow Theater with Cuefold",
       kind: "Co-production",
       credits: [["Devised by", "Rosamund Kestle"]],
       interval: false,
@@ -366,7 +366,7 @@
       title: "The Threadbare Ocean",
       genre: "Movement",
       duration: 70,
-      price: 16,
+      price: 26,
       age: "10+",
       summary: "A sailmaker stitches together a sea made from all the journeys she has missed.",
       story: "Fabric, dance and recorded coastal voices make a tactile, quietly absorbing voyage.",
@@ -389,12 +389,12 @@
       title: "The Night Bus Orchestra",
       genre: "Music",
       duration: 85,
-      price: 18,
+      price: 28,
       age: "8+",
       summary: "Every stop adds a new instrument. Nobody is quite sure who is driving.",
       story:
         "An inventive acoustic ensemble takes a late-night route through folk tunes, original songs and street rhythms.",
-      warning: "Amplified acoustic music; ear defenders available.",
+      warning: "Amplified acoustic music; ear protection available.",
       captioned: false,
       audio: true,
       room: "Main room",
@@ -410,7 +410,7 @@
       title: "Almost an Island",
       genre: "Drama",
       duration: 100,
-      price: 19,
+      price: 32,
       age: "12+",
       summary: "A tiny ferry service is about to close. Its two passengers have other ideas.",
       story: "A funny, clear-eyed story about a place on the edge and the people determined to keep it connected.",
@@ -418,7 +418,7 @@
       captioned: false,
       audio: false,
       room: "Main room",
-      company: "Ferrylight Theatre",
+      company: "Ferrylight Theater",
       kind: "Visiting company",
       credits: [["Written by", "Rosalie Pellow"]],
       interval: true,
@@ -441,7 +441,7 @@
     captioned: "Captioned",
     audio: "Audio described",
   };
-  // Date windows on the programme page, in days from today. The programme always runs about six weeks ahead.
+  // Date windows on the program page, in days from today. The program always runs about six weeks ahead.
   const PERIODS = { all: 0, 7: 7, 14: 14, 28: 28 };
   const SEATING = {
     any: "Any comfortable seat",
@@ -451,9 +451,9 @@
   };
   const ACCESS_NOTES = {
     stepfree: "Step-free seat or wheelchair space",
-    hearing: "Hearing loop receiver",
+    hearing: "Assistive listening device",
     quiet: "Directions to the quiet room",
-    companion: "Essential companion information",
+    companion: "Companion seat information",
   };
   // Workshops follow a rule rather than dates: Saturday mornings in the Studio, starting with the first Saturday at
   // least WORKSHOP_NOTICE_DAYS away, then one a week in this order.
@@ -463,9 +463,9 @@
       id: "story",
       title: "Story into scene",
       week: 0,
-      time: "10:30",
+      time: "10:30am",
       minutes: 120,
-      price: 18,
+      price: 35,
       lead: "Catriona Henshaw",
       art: "workshop-story",
       text: "Turn a memory, a found sentence or a small observation into a scene. Bring a notebook; we’ll bring the possibilities.",
@@ -474,9 +474,9 @@
       id: "movement",
       title: "Moving without words",
       week: 1,
-      time: "10:30",
+      time: "10:30am",
       minutes: 90,
-      price: 15,
+      price: 30,
       lead: "Melisande Alderton",
       art: "workshop-movement",
       text: "Explore how a gesture can tell a story. Work seated or standing, at your own pace. No dance experience needed.",
@@ -485,12 +485,12 @@
       id: "objects",
       title: "Small objects, big stories",
       week: 2,
-      time: "10:30",
+      time: "10:30am",
       minutes: 120,
-      price: 18,
+      price: 35,
       lead: "Anselm Trevaskis",
       art: "workshop-objects",
-      text: "An ordinary object becomes a character through play, rhythm and attention. A practical introduction to object theatre.",
+      text: "An ordinary object becomes a character through play, rhythm and attention. A practical introduction to object theater.",
     },
   ];
   const own = (map, key) => Object.prototype.hasOwnProperty.call(map, key);
@@ -504,7 +504,7 @@
   const money = (pence) =>
     new Intl.NumberFormat(LOCALE, {
       style: "currency",
-      currency: "GBP",
+      currency: "USD",
       minimumFractionDigits: pence % 100 ? 2 : 0,
       maximumFractionDigits: 2,
     }).format(pence / 100);
@@ -585,9 +585,9 @@
   function writeJSON(key, value) {
     safeStorage.setItem(key, JSON.stringify(value));
   }
-  // The venue's wall clock: today's date and minutes past midnight in Bridgnorth, whatever the visitor's time zone.
+  // The venue's wall clock: today's date and minutes past midnight in Staunton, whatever the visitor's time zone.
   function londonNow() {
-    const parts = new Intl.DateTimeFormat("en-GB", {
+    const parts = new Intl.DateTimeFormat("en-US", {
       timeZone: TIMEZONE,
       year: "numeric",
       month: "2-digit",
@@ -619,7 +619,7 @@
   // Minutes on the venue's clock, comparable across days.
   const venueMinutes = (key, hour, minute) => dayNumber(key) * 1440 + hour * 60 + minute;
   const NOW_MINUTES = venueMinutes(NOW.day, 0, NOW.minutes);
-  // A performance that has started moves forward by whole programme cycles until it is upcoming again.
+  // A performance that has started moves forward by whole program cycles until it is upcoming again.
   function currentDate(key, hour, minute) {
     const start = venueMinutes(key, hour, minute);
     if (!KEEP_PROGRAMME_CURRENT || start > NOW_MINUTES) return key;
@@ -653,8 +653,14 @@
   function dayLabel(key, options = { weekday: "short", day: "numeric", month: "short" }) {
     return new Intl.DateTimeFormat(LOCALE, { ...options, timeZone: "UTC" }).format(new Date(key + "T12:00:00Z"));
   }
+  // Venue times on a 12-hour clock, in the same style as the opening hours: 11am, 7:45pm.
+  function clockTime(minutes) {
+    const hour = Math.floor(minutes / 60),
+      minute = minutes % 60;
+    return `${hour % 12 || 12}${minute ? ":" + String(minute).padStart(2, "0") : ""}${hour < 12 ? "am" : "pm"}`;
+  }
   function timeLabel(p) {
-    return `${String(p.hour).padStart(2, "0")}:${String(p.minute).padStart(2, "0")}`;
+    return clockTime(p.hour * 60 + p.minute);
   }
   function performanceLabel(p) {
     return `${dayLabel(p.date)} · ${timeLabel(p)}`;
@@ -677,7 +683,7 @@
     return show.price - CONCESSION_OFF;
   }
   function runningTime(show) {
-    return `${show.duration} minutes, ${show.interval ? "including an interval" : "no interval"}`;
+    return `${show.duration} minutes, ${show.interval ? "including an intermission" : "no intermission"}`;
   }
   function performanceAccess(p) {
     return [p.relaxed ? "Relaxed" : null, p.captioned ? "Captioned" : null, p.audio ? "Audio described" : null].filter(
@@ -795,7 +801,7 @@
     savePlan(ids);
     updateSavedUI();
     announce(
-      `${showById[performanceById[id].show].title} ${index >= 0 ? "removed from" : "added to"} your programme. ${count(ids.length, "performance")} saved.`,
+      `${showById[performanceById[id].show].title} ${index >= 0 ? "removed from" : "added to"} your program. ${count(ids.length, "performance")} saved.`,
     );
   });
   function initMenu() {
@@ -920,7 +926,7 @@
     $("[data-show-warning]").textContent = show.warning;
     const facts = [
       ["Running time", runningTime(show)],
-      ["Tickets", `${money(show.price * 100)} standard / ${money(concession(show) * 100)} concession`],
+      ["Tickets", `${money(show.price * 100)} standard / ${money(concession(show) * 100)} discount`],
       ...show.credits,
     ];
     $("[data-show-facts]").innerHTML = facts
@@ -933,11 +939,11 @@
               `<article class="flex flex-wrap items-center justify-between gap-5 border border-ink bg-panel p-5"><div><h3 class="font-display text-xl">${esc(performanceLabel(p))}</h3><div class="mt-2 flex flex-wrap gap-2">${
                 performanceAccess(p)
                   .map((label) => `<span class="tag">${label}</span>`)
-                  .join("") || '<span class="text-sm text-muted">Standard performance · hearing loop available</span>'
+                  .join("") || '<span class="text-sm text-muted">Standard performance · assistive listening available</span>'
               }</div></div><div class="flex flex-wrap gap-3">${saveButton(p)}<a class="btn" href="tickets.html?show=${show.id}&amp;performance=${p.id}">Request tickets ${ARROW}</a></div></article>`,
           )
           .join("")
-      : '<p class="border border-ink bg-panel p-5">No performances are on sale at the moment. Call the box office on 01632 960743 to hear about return dates.</p>';
+      : '<p class="border border-ink bg-panel p-5">No performances are on sale at the moment. Call the box office at (540) 555-0147 to hear about return dates.</p>';
     const related = SHOWS.filter((s) => s.id !== show.id && showPerformances(s).length).sort(
       (a, b) =>
         (b.genre === show.genre) - (a.genre === show.genre) ||
@@ -968,10 +974,10 @@
       ? items
           .map((p) => {
             const show = showById[p.show];
-            return `<article class="grid gap-5 border border-ink p-5 sm:grid-cols-[7rem_1fr]" data-plan-item="${p.id}"><a href="show.html?show=${show.id}"><img src="assets/img/${show.id}.svg" width="120" height="120" alt="" class="w-28"></a><div class="min-w-0"><p class="eyebrow">${esc(show.genre)}</p><h3 class="mt-2 font-display text-xl"><a href="show.html?show=${show.id}">${esc(show.title)}</a></h3><p class="mt-2">${esc(performanceLabel(p))} · ${show.duration} minutes</p><div class="mt-4 flex flex-wrap items-center justify-between gap-3"><a href="tickets.html?show=${show.id}&amp;performance=${p.id}" class="underline underline-offset-4">Request tickets <svg class="inline-block size-4 shrink-0 align-middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a><button type="button" class="save-button" data-plan-remove="${p.id}" aria-label="Remove ${esc(show.title)} from your programme">Remove</button></div></div></article>`;
+            return `<article class="grid gap-5 border border-ink p-5 sm:grid-cols-[7rem_1fr]" data-plan-item="${p.id}"><a href="show.html?show=${show.id}"><img src="assets/img/${show.id}.svg" width="120" height="120" alt="" class="w-28"></a><div class="min-w-0"><p class="eyebrow">${esc(show.genre)}</p><h3 class="mt-2 font-display text-xl"><a href="show.html?show=${show.id}">${esc(show.title)}</a></h3><p class="mt-2">${esc(performanceLabel(p))} · ${show.duration} minutes</p><div class="mt-4 flex flex-wrap items-center justify-between gap-3"><a href="tickets.html?show=${show.id}&amp;performance=${p.id}" class="underline underline-offset-4">Request tickets <svg class="inline-block size-4 shrink-0 align-middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a><button type="button" class="save-button" data-plan-remove="${p.id}" aria-label="Remove ${esc(show.title)} from your program">Remove</button></div></div></article>`;
           })
           .join("")
-      : '<div class="border border-rule bg-panel p-8"><h3 class="font-display text-2xl">The evening is yours to fill.</h3><p class="mt-4 text-muted">Use Save on any performance to keep a few possibilities together. Start with the suggestions below or explore the full programme.</p><a href="programme.html" class="btn mt-6">Find a performance <svg class="inline-block size-4 shrink-0 align-middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a></div>';
+      : '<div class="border border-rule bg-panel p-8"><h3 class="font-display text-2xl">The evening is yours to fill.</h3><p class="mt-4 text-muted">Use Save on any performance to keep a few possibilities together. Start with the suggestions below or explore the full program.</p><a href="programme.html" class="btn mt-6">Find a performance <svg class="inline-block size-4 shrink-0 align-middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a></div>';
     const conflicts = planConflicts(items),
       notice = $("[data-conflicts]");
     notice.hidden = !conflicts.length;
@@ -1011,13 +1017,13 @@
         $("[data-planner-suggestions] a") ||
         $("[data-download-plan]")
       ).focus();
-      announce("Performance removed from your programme.");
+      announce("Performance removed from your program.");
     });
     $("[data-clear-plan]").addEventListener("click", () => {
       savePlan([]);
       updateSavedUI();
       $("[data-planner-suggestions] a").focus();
-      announce("Your programme has been cleared.");
+      announce("Your program has been cleared.");
     });
     $("[data-download-plan]").addEventListener("click", () => {
       const items = readPlan()
@@ -1025,15 +1031,15 @@
         .sort((a, b) => stamp(a) - stamp(b));
       const lines = [
         "CUEFOLD / YOUR VISIT PLAN",
-        "All times Europe/London",
+        "All times Eastern time",
         "",
         ...items.map((p) => `${performanceLabel(p)} — ${showById[p.show].title} (${p.duration} minutes)`),
         "",
         `Access preferences: ${accessText().join("; ") || "None saved"}`,
         "",
         "This is a visit plan, not a ticket or reservation.",
-        "Box office: 01632 960743 / " + BOX_OFFICE,
-        "St Mary’s Street, Bridgnorth, WV16 4DW",
+        "Box office: (540) 555-0147 / " + BOX_OFFICE,
+        "East Johnson Street, Staunton, VA 24401",
       ];
       if (planConflicts(items).length) lines.push("Please check timing overlaps before requesting tickets.");
       downloadText("cuefold-visit-plan.txt", lines.join("\n"));
@@ -1115,7 +1121,7 @@
          headers: { Accept: "application/json" },
        }).then((response) => {
          if (response.ok) done();
-         else showProblem(); // keep the form filled in and ask the visitor to try again or call 01632 960743
+         else showProblem(); // keep the form filled in and ask the visitor to try again or call (540) 555-0147
        });
 
      The reference (CF-1234) is made up in the browser; your service or box-office system may give you its own. */
@@ -1225,9 +1231,9 @@
       $("[data-ticket-cost]").innerHTML =
         q.problem && !q.none
           ? `<div class="flex justify-between gap-4 border-t border-ink pt-4 text-xl"><dt>Estimated total</dt><dd data-ticket-total>—</dd></div><p class="text-sm">${esc(q.problem)}</p>`
-          : `<div class="flex justify-between gap-4"><dt>${count(q.standard, "standard ticket")}</dt><dd>${money(standard)}</dd></div><div class="flex justify-between gap-4"><dt>${count(q.concession, "concession ticket")}</dt><dd>${money(concessions)}</dd></div><div class="flex justify-between gap-4"><dt>Handling contribution</dt><dd>${money(q.none ? 0 : HANDLING_PENCE)}</dd></div><div class="flex justify-between gap-4 border-t border-ink pt-4 text-xl"><dt>Estimated total</dt><dd data-ticket-total>${money(total)}</dd></div>`;
+          : `<div class="flex justify-between gap-4"><dt>${count(q.standard, "standard ticket")}</dt><dd>${money(standard)}</dd></div><div class="flex justify-between gap-4"><dt>${count(q.concession, "discount ticket")}</dt><dd>${money(concessions)}</dd></div><div class="flex justify-between gap-4"><dt>Handling fee</dt><dd>${money(q.none ? 0 : HANDLING_PENCE)}</dd></div><div class="flex justify-between gap-4 border-t border-ink pt-4 text-xl"><dt>Estimated total</dt><dd data-ticket-total>${money(total)}</dd></div>`;
       $("[data-performance-note]").textContent =
-        `${runningTime(show)} · ${show.age} · ${show.room}. ${performanceAccess(p).join(", ") || "Standard performance; hearing loop available."}`;
+        `${runningTime(show)} · ${show.age} · ${show.room}. ${performanceAccess(p).join(", ") || "Standard performance; assistive listening available."}`;
       $("[data-ticket-access]").textContent =
         `Your saved preferences: ${accessText().join("; ") || "None saved. You can tell us what would help in the notes."}`;
     }
@@ -1281,12 +1287,12 @@
         $("[data-request-lead]").textContent =
           `We’ll be in touch at ${email} about ${show.title} on ${dayLabel(p.date, { weekday: "long", day: "numeric", month: "long" })} at ${timeLabel(p)}.`;
         $("[data-request-hold]").textContent =
-          `We’re holding ${count(seats, "seat")} (${SEATING[seatKey].toLowerCase()}) for you now. If we can’t reach you, we keep them until 30 minutes before curtain-up.`;
+          `We’re holding ${count(seats, "seat")} (${SEATING[seatKey].toLowerCase()}) for you now. If we can’t reach you, we keep them until 30 minutes before curtain.`;
         $("[data-request-summary]").innerHTML = [
           ["Performance", `${show.title}, ${performanceLabel(p)}`],
           [
             "Tickets",
-            [q.standard ? `${q.standard} standard` : "", q.concession ? `${q.concession} concession` : ""]
+            [q.standard ? `${q.standard} standard` : "", q.concession ? `${q.concession} discount` : ""]
               .filter(Boolean)
               .join(", "),
           ],
@@ -1315,7 +1321,7 @@
     if (!grid) return;
     grid.innerHTML = WORKSHOPS.map(
       (w) =>
-        `<article class="flex flex-col border border-ink"><img src="assets/img/${w.art}.svg" width="600" height="430" class="aspect-[600/430] w-full border-b border-ink" alt=""><div class="flex flex-1 flex-col p-6"><p class="eyebrow">${esc(dayLabel(workshopDate(w)))} · ${w.time} · Studio</p><h3 class="mt-4 font-display text-2xl">${esc(w.title)}</h3><p class="mt-4 text-muted">${esc(w.text)}</p><p class="mt-4 text-sm">${w.minutes} minutes · ${money(w.price * 100)} · up to 12 people</p><p class="mt-2 text-sm">With ${esc(w.lead)}</p><div class="mt-auto pt-6"><a href="#interest" data-workshop-choice="${w.id}" class="btn btn-light">Request a place ${ARROW}</a></div></div></article>`,
+        `<article class="flex flex-col border border-ink"><img src="assets/img/${w.art}.svg" width="600" height="430" class="aspect-[600/430] w-full border-b border-ink" alt=""><div class="flex flex-1 flex-col p-6"><p class="eyebrow">${esc(dayLabel(workshopDate(w)))} · ${w.time} · Studio</p><h3 class="mt-4 font-display text-2xl">${esc(w.title)}</h3><p class="mt-4 text-muted">${esc(w.text)}</p><p class="mt-4 text-sm">${w.minutes} minutes · ${money(w.price * 100)} · up to 12 people</p><p class="mt-2 text-sm">With ${esc(w.lead)}</p><div class="mt-auto pt-6"><a href="#interest" data-workshop-choice="${w.id}" class="btn btn-light">Request a spot ${ARROW}</a></div></div></article>`,
     ).join("");
     const choice = $("#interest");
     const map = Object.fromEntries(WORKSHOPS.map((w) => [w.id, w]));
@@ -1335,7 +1341,7 @@
       story: "Story into scene workshop",
       movement: "Moving without words workshop",
       objects: "Small objects, big stories workshop",
-      volunteer: "Volunteering as a steward",
+      volunteer: "Volunteering as an usher",
     };
     const done = $("[data-interest-done]");
     form.addEventListener("submit", (event) => {
@@ -1362,12 +1368,12 @@
         $("[data-interest-ref]").textContent = reference();
         $("[data-interest-heading]").textContent = `Thanks, ${firstName(name)}.`;
         $("[data-interest-next]").textContent = workshop
-          ? `We’ve pencilled you in for ${workshop.title} on ${dayLabel(workshopDate(workshop), { weekday: "long", day: "numeric", month: "long" })} at ${workshop.time}. ${firstName(workshop.lead)} will confirm your place by email within two working days. Pay ${money(workshop.price * 100)} on the day, by card or cash.`
-          : "Melisande will email you within a week to arrange a short welcome chat and a first shift alongside an experienced steward.";
+          ? `We’ve penciled you in for ${workshop.title} on ${dayLabel(workshopDate(workshop), { weekday: "long", day: "numeric", month: "long" })} at ${workshop.time}. ${firstName(workshop.lead)} will confirm your spot by email within two business days. Pay ${money(workshop.price * 100)} on the day, by card or cash.`
+          : "Melisande will email you within a week to arrange a short welcome chat and a first shift alongside an experienced usher.";
         form.hidden = true;
         done.hidden = false;
         done.focus();
-        announce("Enquiry received.");
+        announce("Inquiry received.");
       });
     });
     $("[data-interest-another]").addEventListener("click", () => {
@@ -1382,7 +1388,7 @@
     if (!form) return;
     function clock(minutes) {
       const rolled = ((minutes % 1440) + 1440) % 1440;
-      return `${String(Math.floor(rolled / 60)).padStart(2, "0")}:${String(rolled % 60).padStart(2, "0")}${minutes < 0 ? " (previous day)" : ""}`;
+      return `${clockTime(rolled)}${minutes < 0 ? " (previous day)" : ""}`;
     }
     function render() {
       const value = form.elements.curtain.value;
@@ -1391,7 +1397,7 @@
         curtain = h * 60 + m,
         journey = clampInt(form.elements.journey.value, 0, 360);
       $("[data-arrival-result]").innerHTML =
-        `<dl class="space-y-3"><div class="flex justify-between gap-4"><dt>Set off by</dt><dd>${clock(curtain - 30 - journey)}</dd></div><div class="flex justify-between gap-4"><dt>Arrive at Cuefold</dt><dd>${clock(curtain - 30)}</dd></div><div class="flex justify-between gap-4"><dt>Take your seat</dt><dd>${clock(curtain - 10)}</dd></div><div class="flex justify-between gap-4"><dt>Curtain-up</dt><dd>${clock(curtain)}</dd></div></dl><p class="mt-4 text-sm text-muted">All times are local to Bridgnorth. Allow extra time for parking, travel disruption or a touch tour.</p>`;
+        `<dl class="space-y-3"><div class="flex justify-between gap-4"><dt>Leave by</dt><dd>${clock(curtain - 30 - journey)}</dd></div><div class="flex justify-between gap-4"><dt>Arrive at Cuefold</dt><dd>${clock(curtain - 30)}</dd></div><div class="flex justify-between gap-4"><dt>Take your seat</dt><dd>${clock(curtain - 10)}</dd></div><div class="flex justify-between gap-4"><dt>Curtain</dt><dd>${clock(curtain)}</dd></div></dl><p class="mt-4 text-sm text-muted">All times are local to Staunton. Allow extra time for parking, travel delays or a touch tour.</p>`;
     }
     form.addEventListener("submit", (event) => {
       event.preventDefault();

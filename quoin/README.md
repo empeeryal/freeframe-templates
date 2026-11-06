@@ -1,6 +1,6 @@
 # Quoin
 
-An architectural salvage yard in Hexham, built with plain HTML, Tailwind CSS v4 and vanilla JavaScript. Ten pages, sixteen individually drawn lots, a basket with a reservation request checkout, a room-by-room project board and opening days that follow bank holidays.
+An architectural salvage yard in Troy, New York, built with plain HTML, Tailwind CSS v4 and vanilla JavaScript. Ten pages, sixteen individually drawn lots, a cart with a reservation request checkout, a room-by-room project board and opening days that follow US federal holidays.
 
 Open `index.html` directly, or serve the folder with any static web server. No installation is needed to use the compiled site. Node 24 is needed only when rebuilding the CSS.
 

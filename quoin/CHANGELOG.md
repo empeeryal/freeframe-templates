@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-11-05
+
+### Changed
+
+- Set in Troy, New York, with American spelling, US dollars, US phone numbers and local details.
+- The delivery guide now takes 5-digit ZIP codes (optional +4) with bands around Troy, opening days follow US federal
+  holidays by rule in Eastern time, sizes and weights are in inches and pounds, and prices exclude sales tax.
+
 ## [1.0.1] - 2026-11-05
 
 ### Changed

@@ -1,10 +1,10 @@
-/* Quoin: inventory, basket, project board, reservation requests and opening days. */
+/* Quoin: inventory, cart, project board, reservation requests and opening days. */
 (() => {
   "use strict";
   const { products: PRODUCTS, guides: GUIDES, team: TEAM } = window.QUOIN_DATA;
   const own = (object, key) => Object.prototype.hasOwnProperty.call(object, key);
   const PRODUCT_MAP = Object.fromEntries(PRODUCTS.map((product) => [product.id, product]));
-  const TIME_ZONE = "Europe/London";
+  const TIME_ZONE = "America/New_York";
   const STORAGE_KEYS = {
     basket: "quoin.basket.v1",
     board: "quoin.board.v1",
@@ -17,7 +17,7 @@
     set: { one: "set", many: "sets", label: "set of six" },
     pack: { one: "pack", many: "packs", label: "pack of four" },
   };
-  // Opening days: Wednesday to Saturday (0 = Sunday). The yard closes on England and Wales bank
+  // Opening days: Wednesday to Saturday (0 = Sunday). The yard closes on US federal
   // holidays (worked out for any year in bankHolidays()) and for the Christmas break below.
   const OPEN_WEEKDAYS = [3, 4, 5, 6];
   const OPENING_HOURS = "10am–5pm";
@@ -26,7 +26,6 @@
   // first matching entry gives the reason shown, so name single days before the longer break.
   const YARD_CLOSURES = [
     { from: "12-25", to: "12-25", label: "Christmas Day" },
-    { from: "12-26", to: "12-26", label: "Boxing Day" },
     { from: "01-01", to: "01-01", label: "New Year’s Day" },
     { from: "12-24", to: "01-02", label: "Christmas break" },
   ];
@@ -36,23 +35,23 @@
     none: [{ id: "original", label: "As described", extra: 0 }],
     wax: [
       { id: "original", label: "Cleaned, as found", extra: 0 },
-      { id: "waxed", label: "Light wax finish", extra: 18 },
+      { id: "waxed", label: "Light wax finish", extra: 25 },
     ],
     brass: [
       { id: "original", label: "Keep the patina", extra: 0 },
-      { id: "polished", label: "Hand polish", extra: 12 },
+      { id: "polished", label: "Hand polish", extra: 15 },
     ],
     metal: [
       { id: "original", label: "Cleaned, as found", extra: 0 },
-      { id: "protected", label: "Clear protective wax", extra: 16 },
+      { id: "protected", label: "Clear protective wax", extra: 20 },
     ],
     stone: [
       { id: "original", label: "Dry cleaned", extra: 0 },
-      { id: "cleaned", label: "Specialist surface clean", extra: 35 },
+      { id: "cleaned", label: "Specialist surface clean", extra: 50 },
     ],
   };
   const ROOMS = ["Undecided", "Entrance", "Kitchen", "Living room", "Bedroom", "Bathroom", "Garden"];
-  const DELIVERY = { local: 35, north: 65, mainland: 110, perHeavyBand: 15 };
+  const DELIVERY = { local: 65, north: 145, mainland: 395, perHeavyBand: 25 };
   const $ = (selector, context = document) => context.querySelector(selector);
   const $$ = (selector, context = document) => [...context.querySelectorAll(selector)];
   const escape = (value) =>
@@ -61,7 +60,7 @@
       (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char],
     );
   const money = (value) =>
-    new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP", maximumFractionDigits: 0 }).format(value);
+    new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
   const cleanText = (value, limit = 120) =>
     typeof value === "string" ? value.replace(/[\u0000-\u001f\u007f]/g, "").slice(0, limit) : "";
   const clamp = (value, min, max) =>
@@ -203,7 +202,7 @@
       element.textContent = count;
     });
     $$("[data-basket-link]").forEach((element) => {
-      element.setAttribute("aria-label", `Basket, ${plural(count, "item")}`);
+      element.setAttribute("aria-label", `Cart, ${plural(count, "item")}`);
     });
   }
   function updateSaveButtons() {
@@ -239,8 +238,8 @@
     if (available < 1 || (row && row.quantity >= available)) {
       toast(
         product.stock === 1
-          ? `The only ${unitOf(product).one} in lot ${product.lot} is already in your basket.`
-          : `All ${units(product, product.stock)} in lot ${product.lot} are already in your basket.`,
+          ? `The only ${unitOf(product).one} in lot ${product.lot} is already in your cart.`
+          : `All ${units(product, product.stock)} in lot ${product.lot} are already in your cart.`,
       );
       return false;
     }
@@ -248,7 +247,7 @@
     if (row) row.quantity = adjusted;
     else basket.push({ id, finish: finish.id, quantity: adjusted });
     saveBasket();
-    toast(`${product.name} added to your basket${desired > available ? ", up to the available quantity" : ""}.`);
+    toast(`${product.name} added to your cart${desired > available ? ", up to the available quantity" : ""}.`);
     return true;
   }
   function card(product, compact = false) {
@@ -321,7 +320,7 @@
     if (["100", "300", "500"].includes(params.get("max"))) form.elements.max.value = params.get("max");
     if (["lot", "low", "high", "name"].includes(params.get("sort"))) form.elements.sort.value = params.get("sort");
     function render() {
-      const query = form.elements.q.value.trim().toLocaleLowerCase("en-GB");
+      const query = form.elements.q.value.trim().toLocaleLowerCase("en-US");
       const category = form.elements.category.value;
       const max = form.elements.max.value === "all" ? Infinity : Number(form.elements.max.value);
       const matches = PRODUCTS.filter(
@@ -329,7 +328,7 @@
           (category === "all" || product.category === category) &&
           product.price <= max &&
           `${product.name} ${product.category} ${product.intro} ${product.provenance} ${product.era} ${product.lot}`
-            .toLocaleLowerCase("en-GB")
+            .toLocaleLowerCase("en-US")
             .includes(query),
       );
       const sorters = {
@@ -365,8 +364,8 @@
   function purchaseForm(product, prefix) {
     return `<form data-purchase="${product.id}" class="mt-7 space-y-5">
       <label class="label" for="${prefix}-finish">Preparation<select id="${prefix}-finish" name="finish" class="field">${finishOptions(product)}</select></label>
-      <div class="grid grid-cols-[100px_1fr] items-end gap-4"><label class="label" for="${prefix}-quantity">${product.unit === "piece" ? "Quantity" : `${unitOf(product).many[0].toUpperCase()}${unitOf(product).many.slice(1)}`}<input id="${prefix}-quantity" name="quantity" class="field" type="number" min="1" max="${product.stock}" value="1" required></label><div class="pb-3 text-right"><span class="sr-only">Unit price</span><span data-unit-price class="font-display text-4xl">${money(product.price)}</span><span class="mt-1 block text-xs text-muted">per ${unitOf(product).label}, including VAT</span></div></div>
-      <div class="flex flex-wrap gap-3"><button type="submit" class="btn">Add to basket</button><button type="button" data-save="${product.id}" aria-pressed="false" class="btn-outline">Save to board</button></div>
+      <div class="grid grid-cols-[100px_1fr] items-end gap-4"><label class="label" for="${prefix}-quantity">${product.unit === "piece" ? "Quantity" : `${unitOf(product).many[0].toUpperCase()}${unitOf(product).many.slice(1)}`}<input id="${prefix}-quantity" name="quantity" class="field" type="number" min="1" max="${product.stock}" value="1" required></label><div class="pb-3 text-right"><span class="sr-only">Unit price</span><span data-unit-price class="font-display text-4xl">${money(product.price)}</span><span class="mt-1 block text-xs text-muted">per ${unitOf(product).label}, before sales tax</span></div></div>
+      <div class="flex flex-wrap gap-3"><button type="submit" class="btn">Add to cart</button><button type="button" data-save="${product.id}" aria-pressed="false" class="btn-outline">Save to board</button></div>
       <p data-purchase-status role="status" class="text-sm text-muted"></p>
     </form>`;
   }
@@ -377,14 +376,14 @@
     const product = validProduct(id) ? PRODUCT_MAP[id] : PRODUCTS[0];
     const fallback =
       id && !validProduct(id)
-        ? '<p class="mb-6 border border-line p-4 text-sm">That lot was not recognised. Here is one worth a look instead.</p>'
+        ? '<p class="mb-6 border border-line p-4 text-sm">That lot was not recognized. Here is one worth a look instead.</p>'
         : "";
     document.title = `${product.name} | Quoin`;
     container.innerHTML = `${fallback}<div class="grid items-start gap-10 lg:grid-cols-[1.15fr_1fr]">
       <div><img src="${product.art}" width="400" height="330" alt="${escape(product.name)}, drawn to show its construction" class="w-full"><p class="measure mt-4">Measured by hand / ${escape(product.dimensions)}</p><div class="mt-6 grid gap-6 sm:grid-cols-2 sm:gap-5"><div><p class="eyebrow">Condition</p><p class="mt-3 text-sm leading-relaxed text-muted">${escape(product.condition)}</p></div><div><p class="eyebrow">A considered use</p><p class="mt-3 text-sm leading-relaxed text-muted">${escape(product.use)}</p></div></div></div>
       <div><p class="eyebrow">Lot ${product.lot} / ${escape(product.category)} / <span class="normal-case tracking-wide">${escape(product.era)}</span></p><h1 class="mt-5 text-5xl leading-tight sm:text-6xl">${escape(product.name)}</h1><p class="mt-6 text-lg leading-relaxed text-muted">${escape(product.intro)}</p><p class="mt-4 border-l-2 border-rust pl-4 text-sm leading-relaxed">${escape(product.provenance)}</p>
-      <dl class="mt-7 grid grid-cols-2 gap-5 border-y border-line py-5 text-sm"><div><dt class="text-muted">Dimensions</dt><dd class="mt-2 font-semibold">${escape(product.dimensions)}</dd></div><div><dt class="text-muted">Approximate weight</dt><dd class="mt-2 font-semibold">${product.weight} kg${product.unit === "piece" ? "" : ` per ${unitOf(product).one}`}</dd></div><div><dt class="text-muted">Availability</dt><dd class="mt-2 font-semibold">${units(product, product.stock)}${product.unit === "piece" ? "" : ` <span class="font-normal text-muted">(priced per ${unitOf(product).label})</span>`}</dd></div><div><dt class="text-muted">Price includes</dt><dd class="mt-2 font-semibold">VAT & stated preparation</dd></div></dl>${purchaseForm(product, "lot")}
-      <details class="mt-6 border-t border-line py-5"><summary class="cursor-pointer text-sm font-semibold">Before you bring it home</summary><p class="mt-4 text-sm leading-relaxed text-muted">Check your opening, fixing points and access route. Reclaimed pieces may need specialist fitting. When you send a reservation request we hold the pieces for ${HOLD_HOURS} hours and call you to go through condition and fitting before any payment.</p><div class="mt-4 flex flex-wrap gap-x-5 gap-y-2"><a href="visit.html#delivery" class="text-link text-sm">Collection & delivery</a><a href="visit.html?lot=${product.id}#ask" class="text-link text-sm">Ask about this lot</a></div></details></div></div>`;
+      <dl class="mt-7 grid grid-cols-2 gap-5 border-y border-line py-5 text-sm"><div><dt class="text-muted">Dimensions</dt><dd class="mt-2 font-semibold">${escape(product.dimensions)}</dd></div><div><dt class="text-muted">Approximate weight</dt><dd class="mt-2 font-semibold">${product.weight} lb${product.unit === "piece" ? "" : ` per ${unitOf(product).one}`}</dd></div><div><dt class="text-muted">Availability</dt><dd class="mt-2 font-semibold">${units(product, product.stock)}${product.unit === "piece" ? "" : ` <span class="font-normal text-muted">(priced per ${unitOf(product).label})</span>`}</dd></div><div><dt class="text-muted">Price includes</dt><dd class="mt-2 font-semibold">Stated preparation, before sales tax</dd></div></dl>${purchaseForm(product, "lot")}
+      <details class="mt-6 border-t border-line py-5"><summary class="cursor-pointer text-sm font-semibold">Before you bring it home</summary><p class="mt-4 text-sm leading-relaxed text-muted">Check your opening, mounting points and access route. Reclaimed pieces may need specialist installation. When you send a reservation request we hold the pieces for ${HOLD_HOURS} hours and call you to go through condition and installation before any payment.</p><div class="mt-4 flex flex-wrap gap-x-5 gap-y-2"><a href="visit.html#delivery" class="text-link text-sm">Pickup & delivery</a><a href="visit.html?lot=${product.id}#ask" class="text-link text-sm">Ask about this lot</a></div></details></div></div>`;
     $("[data-related]").innerHTML = PRODUCTS.filter((item) => item.id !== product.id)
       .sort((a, b) => Number(b.category === product.category) - Number(a.category === product.category))
       .slice(0, 3)
@@ -406,7 +405,7 @@
       opener = button;
       const product = PRODUCT_MAP[button.dataset.quick];
       $("[data-quick-content]").innerHTML =
-        `<div><img src="${product.art}" alt="${escape(product.name)}" width="400" height="330" class="w-full"><p class="measure mt-4">${escape(product.dimensions)} / ${product.weight} kg</p></div><div><p class="eyebrow">Lot ${product.lot} / <span class="normal-case tracking-wide">${escape(product.era)}</span></p><h2 id="quick-title" class="mt-4 text-4xl">${escape(product.name)}</h2><p class="mt-5 leading-relaxed text-muted">${escape(product.intro)}</p><p class="mt-3 text-sm text-muted">${escape(product.provenance)}</p>${purchaseForm(product, "quick")}<a href="lot.html?lot=${product.id}" class="text-link mt-5 inline-block text-sm">Read the condition notes</a></div>`;
+        `<div><img src="${product.art}" alt="${escape(product.name)}" width="400" height="330" class="w-full"><p class="measure mt-4">${escape(product.dimensions)} / ${product.weight} lb</p></div><div><p class="eyebrow">Lot ${product.lot} / <span class="normal-case tracking-wide">${escape(product.era)}</span></p><h2 id="quick-title" class="mt-4 text-4xl">${escape(product.name)}</h2><p class="mt-5 leading-relaxed text-muted">${escape(product.intro)}</p><p class="mt-3 text-sm text-muted">${escape(product.provenance)}</p>${purchaseForm(product, "quick")}<a href="lot.html?lot=${product.id}" class="text-link mt-5 inline-block text-sm">Read the condition notes</a></div>`;
       updateSaveButtons();
       dialog.showModal();
       $("[data-close-dialog]").focus();
@@ -440,8 +439,8 @@
       if (!validProduct(id)) return;
       const added = addToBasket(id, form.elements.finish.value, form.elements.quantity.value);
       $("[data-purchase-status]", form).textContent = added
-        ? `${PRODUCT_MAP[id].name} is in your basket.`
-        : "Everything we have in this lot is already in your basket.";
+        ? `${PRODUCT_MAP[id].name} is in your cart.`
+        : "Everything we have in this lot is already in your cart.";
     });
   }
   function lineKey(row) {
@@ -453,7 +452,7 @@
     const key = lineKey(row);
     return `<article data-line="${key}" class="grid grid-cols-[84px_1fr] gap-5 border-b border-line py-6 sm:grid-cols-[120px_1fr]"><a href="lot.html?lot=${row.id}"><img src="${product.art}" width="400" height="330" alt="${escape(product.name)}" class="w-full"></a><div class="min-w-0"><p class="eyebrow">Lot ${product.lot}</p><h2 class="mt-2 text-2xl sm:text-3xl"><a href="lot.html?lot=${row.id}">${escape(product.name)}</a></h2><p class="mt-2 text-sm text-muted">${escape(finish.label)} · ${money(product.price + finish.extra)} per ${unitOf(product).label}</p><div class="mt-4 flex flex-wrap items-end justify-between gap-4"><label class="text-xs font-semibold">${product.unit === "piece" ? "Quantity" : `${unitOf(product).many[0].toUpperCase()}${unitOf(product).many.slice(1)}`}<input data-line-quantity="${key}" type="number" min="1" max="${stockRemaining(row.id, row.finish)}" value="${row.quantity}" class="field mt-1 w-20 py-2" aria-label="Quantity: ${escape(product.name)}, ${escape(finish.label)}"></label><span data-line-total class="text-lg font-semibold">${money((product.price + finish.extra) * row.quantity)}</span><button type="button" data-remove-line="${key}" class="text-link text-xs" aria-label="Remove: ${escape(product.name)}, ${escape(finish.label)}">Remove</button></div></div></article>`;
   }
-  // The price panel on the basket and checkout. `delivery` is null on the basket page (collection
+  // The price panel on the cart and checkout pages. `delivery` is null on the cart page (pickup
   // or a delivery guide is chosen at checkout), or the result of checkoutDelivery() on the checkout.
   function summaryMarkup(delivery = null) {
     const goods = basketCost();
@@ -461,28 +460,28 @@
       `<div class="flex justify-between gap-4${extra}"><dt>${label}</dt><dd class="text-right">${value}</dd></div>`;
     let rows = row(plural(basketCount(), "item"), money(goods));
     let total = goods;
-    let totalLabel = "Goods total, including VAT";
-    let note = "Preparation prices are included. Choose collection or delivery on the next page.";
+    let totalLabel = "Subtotal, before sales tax";
+    let note = "Preparation prices are included. Sales tax is added when we confirm your total. Choose pickup or delivery on the next page.";
     if (!delivery) {
-      rows += row("Collection from Hexham", "Free");
+      rows += row("Pickup in Troy", "Free");
       rows += row("Delivery", "Priced at the next step");
     } else if (delivery.method === "collect") {
-      rows += row("Collection from Hexham", "Free");
-      totalLabel = "Total to pay on collection";
-      note = "You pay when you collect, by card or bank transfer. Nothing is taken online.";
+      rows += row("Pickup in Troy", "Free");
+      totalLabel = "Total at pickup, before sales tax";
+      note = "You pay when you pick up, by card or check, with sales tax added. Nothing is taken online.";
     } else if (delivery.price) {
       rows += row(`Delivery to ${escape(delivery.area)} (guide)`, money(delivery.price));
       total = goods + delivery.price;
-      totalLabel = "Estimated total, including VAT";
-      note = "The delivery guide is confirmed on the phone once we know the access and the route.";
+      totalLabel = "Estimated total, before sales tax";
+      note = "The delivery guide is confirmed on the phone once we know the access and the route. Sales tax is added when we confirm your total.";
     } else if (delivery.individual) {
       rows += row(`Delivery to ${escape(delivery.area)}`, "Quoted separately");
       note = "This route needs a carrier quote. We include it when we call you back.";
     } else {
-      rows += row("Delivery", "Add your postcode");
-      note = "Add a delivery postcode to see a guide price.";
+      rows += row("Delivery", "Add your ZIP code");
+      note = "Add a delivery ZIP code to see a guide price.";
     }
-    rows += row("Approximate load", `${basketWeight()} kg`);
+    rows += row("Approximate load", `${basketWeight()} lb`);
     rows += row(totalLabel, money(total), " border-t border-line pt-4 font-semibold");
     return `<dl class="space-y-4 text-sm">${rows}</dl><p class="mt-4 text-xs leading-relaxed text-muted">${note}</p>`;
   }
@@ -491,10 +490,10 @@
     if (!lines) return;
     lines.innerHTML = basket.length
       ? basket.map(basketRow).join("")
-      : `<div class="border border-line p-8"><h2 class="text-4xl">Something good will turn up.</h2><p class="mt-5 text-muted">Your basket is empty. Start with a useful detail or a piece that gives the whole room its character.</p><a href="stock.html" class="btn mt-6">Browse the inventory</a>${lastRequestMarkup()}</div>`;
+      : `<div class="border border-line p-8"><h2 class="text-4xl">Something good will turn up.</h2><p class="mt-5 text-muted">Your cart is empty. Start with a useful detail or a piece that gives the whole room its character.</p><a href="stock.html" class="btn mt-6">Browse the inventory</a>${lastRequestMarkup()}</div>`;
     $("[data-basket-summary]").innerHTML = basket.length
       ? summaryMarkup()
-      : '<p class="text-sm leading-relaxed text-muted">Nothing here yet. Collection from the yard is free; delivery is priced by postcode and weight.</p>';
+      : '<p class="text-sm leading-relaxed text-muted">Nothing here yet. Pickup at the yard is free; delivery is priced by ZIP code and weight.</p>';
     $("[data-checkout-link]").hidden = !basket.length;
   }
   function initBasket() {
@@ -520,7 +519,7 @@
         );
       });
       $("[data-basket-summary]").innerHTML = summaryMarkup();
-      toast("Basket quantity updated.");
+      toast("Cart quantity updated.");
     });
     document.addEventListener("click", (event) => {
       const button = event.target.closest("[data-remove-line]");
@@ -532,12 +531,12 @@
       renderBasket();
       const next = $$("[data-remove-line]")[Math.min(oldIndex, basket.length - 1)];
       (next || $("[data-basket-lines] a"))?.focus();
-      toast("Piece removed from your basket.");
+      toast("Piece removed from your cart.");
     });
   }
   function boardCard(item) {
     const product = PRODUCT_MAP[item.id];
-    return `<article data-board-item="${item.id}" class="min-w-0 border border-line p-5"><img src="${product.art}" width="400" height="330" alt="${escape(product.name)}" class="w-full"><div class="mt-4 flex justify-between text-xs uppercase tracking-widest text-muted"><span>Lot ${product.lot}</span><span>${money(product.price)}${product.unit === "piece" ? "" : ` / ${unitOf(product).one}`}</span></div><h2 class="mt-3 text-3xl"><a href="lot.html?lot=${item.id}">${escape(product.name)}</a></h2><p class="mt-3 text-xs text-muted">${escape(product.dimensions)}</p><label class="label mt-5">Room<select data-board-room="${item.id}" class="field">${ROOMS.map((room) => `<option${room === item.room ? " selected" : ""}>${room}</option>`).join("")}</select></label><label class="label mt-4">Measurements & ideas<textarea data-board-note="${item.id}" rows="3" maxlength="300" class="field">${escape(item.note)}</textarea></label><div class="mt-5 flex flex-wrap gap-x-5 gap-y-3"><button type="button" data-board-add="${item.id}" class="text-link text-sm">Add to basket</button><button type="button" data-board-remove="${item.id}" class="text-link text-sm" aria-label="Remove from board: ${escape(product.name)}">Remove from board</button></div></article>`;
+    return `<article data-board-item="${item.id}" class="min-w-0 border border-line p-5"><img src="${product.art}" width="400" height="330" alt="${escape(product.name)}" class="w-full"><div class="mt-4 flex justify-between text-xs uppercase tracking-widest text-muted"><span>Lot ${product.lot}</span><span>${money(product.price)}${product.unit === "piece" ? "" : ` / ${unitOf(product).one}`}</span></div><h2 class="mt-3 text-3xl"><a href="lot.html?lot=${item.id}">${escape(product.name)}</a></h2><p class="mt-3 text-xs text-muted">${escape(product.dimensions)}</p><label class="label mt-5">Room<select data-board-room="${item.id}" class="field">${ROOMS.map((room) => `<option${room === item.room ? " selected" : ""}>${room}</option>`).join("")}</select></label><label class="label mt-4">Measurements & ideas<textarea data-board-note="${item.id}" rows="3" maxlength="300" class="field">${escape(item.note)}</textarea></label><div class="mt-5 flex flex-wrap gap-x-5 gap-y-3"><button type="button" data-board-add="${item.id}" class="text-link text-sm">Add to cart</button><button type="button" data-board-remove="${item.id}" class="text-link text-sm" aria-label="Remove from board: ${escape(product.name)}">Remove from board</button></div></article>`;
   }
   function boardTotal() {
     return board.items.reduce((sum, item) => sum + PRODUCT_MAP[item.id].price, 0);
@@ -626,36 +625,40 @@
     $("[data-print-board]").addEventListener("click", () => window.print());
   }
   function normalisePostcode(value) {
-    return cleanText(value, 10).toUpperCase().replace(/\s/g, "");
+    return cleanText(value, 10).replace(/\s/g, "");
   }
-  const POSTCODE_PATTERN = /^[A-Z]{1,2}\d[A-Z\d]?\d[A-Z]{2}$/;
-  // Routes the yard's van doesn't run: Northern Ireland, the Channel Islands, the Isle of Man, the
-  // Scottish Highlands and islands, the Isle of Wight (PO30–PO41) and the Isles of Scilly (TR21–TR25).
-  // These get an individual carrier quote instead of a guide price.
-  const INDIVIDUAL_AREAS = ["BT", "GY", "JE", "IM", "HS", "ZE", "KW", "IV"];
-  const INDIVIDUAL_DISTRICTS =
-    /^(PA(2\d|3\d|4\d|6\d|7[0-8])|PH(1[7-9]|2\d|3\d|4\d|50)|KA2[78]|PO(3\d|4[01])|TR2[1-5])$/;
+  // A 5-digit ZIP code with an optional +4.
+  const POSTCODE_PATTERN = /^(?!000)\d{5}(-?\d{4})?$/;
+  // Routes without a guide price: Puerto Rico and the US Virgin Islands (006-009), Hawaii and the
+  // Pacific territories (967-969), Alaska (995-999) and military addresses (090-098, 340, 962-966).
+  // These get an individual carrier quote instead.
+  const INDIVIDUAL_AREAS = ["006", "007", "008", "009", "340"];
+  const INDIVIDUAL_DISTRICTS = /^(09[0-8]|96[2-9]|99[5-9])/;
   function deliveryQuote(value, weight) {
     const postcode = normalisePostcode(value);
-    if (!POSTCODE_PATTERN.test(postcode)) return { error: "Enter a complete UK postcode, such as NE46 1AA." };
-    const area = postcode.match(/^[A-Z]+/)[0];
-    const outward = postcode.slice(0, -3);
+    if (!POSTCODE_PATTERN.test(postcode)) return { error: "Enter a 5-digit ZIP code, such as 12180." };
+    const area = postcode.slice(0, 3);
+    const outward = postcode.slice(0, 5);
     if (INDIVIDUAL_AREAS.includes(area) || INDIVIDUAL_DISTRICTS.test(outward))
       return {
         individual: true,
         area: outward,
-        message: `${outward} needs an individual carrier quote. Send us your postcode and the lot numbers below and we'll price it.`,
+        message: `${outward} needs an individual carrier quote. Send us your ZIP code and the lot numbers below and we'll price it.`,
       };
-    const band =
-      area === "NE" ? "local" : ["CA", "DH", "DL", "SR", "TS", "TD", "YO"].includes(area) ? "north" : "mainland";
+    // Local: the Capital Region. North: the Hudson Valley, the Adirondacks, the Berkshires and southern Vermont.
+    const band = ["120", "121", "122", "123"].includes(area)
+      ? "local"
+      : ["124", "125", "126", "127", "128", "129", "012", "052", "053"].includes(area)
+        ? "north"
+        : "mainland";
     const load = Math.max(0, Number(weight) || 0);
-    const extra = Math.max(0, Math.ceil((load - 40) / 40)) * DELIVERY.perHeavyBand;
+    const extra = Math.max(0, Math.ceil((load - 100) / 100)) * DELIVERY.perHeavyBand;
     return {
       price: DELIVERY[band] + extra,
       band,
       area: outward,
       weight: load,
-      note: "Guide only for one ground-floor stop with clear access. We confirm handling, route and price before you pay.",
+      note: "Guide only for one street-level stop with clear access. We confirm handling, route and price before you pay.",
     };
   }
   function initDelivery() {
@@ -663,7 +666,7 @@
     if (!form) return;
     form.addEventListener("submit", (event) => {
       event.preventDefault();
-      const weights = { small: 10, medium: 40, heavy: 100 };
+      const weights = { small: 20, medium: 100, heavy: 250 };
       const weight = own(weights, form.elements.load.value) ? weights[form.elements.load.value] : 10;
       const result = deliveryQuote(form.elements.postcode.value, weight);
       $("#delivery-error").textContent = result.error || "";
@@ -672,7 +675,7 @@
         ? ""
         : result.individual
           ? result.message
-          : `${money(result.price)} guide price to ${result.area} for up to ${weight} kg. ${result.note}`;
+          : `${money(result.price)} guide price to ${result.area} for up to ${weight} lb. ${result.note}`;
       if (result.error) form.elements.postcode.focus();
     });
   }
@@ -699,21 +702,38 @@
     if (!valid) $('[aria-invalid="true"]', form)?.focus();
     return valid;
   }
-  // Preview a date with ?now=YYYY-MM-DD or ?now=YYYY-MM-DDTHH:MM (read as London time); otherwise the real clock.
+  // Preview a date with ?now=YYYY-MM-DD or ?now=YYYY-MM-DDTHH:MM (read as New York time); otherwise the real clock.
   function now() {
     const value = new URLSearchParams(location.search).get("now");
     const match = /^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2}))?$/.exec(value || "");
     if (match) {
       const date = new Date(Date.UTC(+match[1], +match[2] - 1, +match[3], +(match[4] || 12), +(match[5] || 0)));
-      if (!Number.isNaN(date.getTime()) && date.getUTCDate() === +match[3]) return date;
+      if (!Number.isNaN(date.getTime()) && date.getUTCDate() === +match[3]) {
+        // How far New York's clock is from UTC at that moment, so the typed time is read as local.
+        const parts = Object.fromEntries(
+          new Intl.DateTimeFormat("en-US", {
+            timeZone: TIME_ZONE,
+            hourCycle: "h23",
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+          })
+            .formatToParts(date)
+            .map((part) => [part.type, part.value]),
+        );
+        const shown = Date.UTC(+parts.year, +parts.month - 1, +parts.day, +parts.hour, +parts.minute);
+        return new Date(date.getTime() - (shown - date.getTime()));
+      }
     }
     return new Date();
   }
-  // "Wed 21 Oct 2026"
+  // "Wed, Oct 21, 2026"
   const dayLabel = (date) =>
-    `${formatDate(date, { weekday: "short" })} ${formatDate(date, { day: "numeric", month: "short", year: "numeric" })}`;
+    `${formatDate(date, { weekday: "short" })}, ${formatDate(date, { day: "numeric", month: "short", year: "numeric" })}`;
   const formatDate = (date, options) =>
-    new Intl.DateTimeFormat("en-GB", { timeZone: TIME_ZONE, ...options }).format(date);
+    new Intl.DateTimeFormat("en-US", { timeZone: TIME_ZONE, ...options }).format(date);
   function readLastRequest() {
     const raw = readJSON(STORAGE_KEYS.lastRequest, null);
     if (!raw || typeof raw !== "object" || Array.isArray(raw)) return null;
@@ -728,7 +748,7 @@
   function lastRequestMarkup() {
     const last = readLastRequest();
     if (!last) return "";
-    return `<div class="mt-8 border-t border-line pt-5 text-sm"><p class="font-semibold">Your last reservation request: ${last.ref}</p><p class="mt-2 text-muted">${plural(last.items, "item")}, ${money(last.total)}, ${last.method === "collect" ? "for collection" : "for delivery"}. Requested on ${escape(last.when)}. If we haven't called within one working day, ring us on 01632 960742 and quote ${last.ref}.</p></div>`;
+    return `<div class="mt-8 border-t border-line pt-5 text-sm"><p class="font-semibold">Your last reservation request: ${last.ref}</p><p class="mt-2 text-muted">${plural(last.items, "item")}, ${money(last.total)}, ${last.method === "collect" ? "for pickup" : "for delivery"}. Requested on ${escape(last.when)}. If we haven't called within one business day, call us at (518) 555-0142 and mention ${last.ref}.</p></div>`;
   }
   // The checkout's delivery choice, for the summary and the confirmation.
   function checkoutDelivery(form) {
@@ -753,8 +773,8 @@
    *     headers: { Accept: "application/json" },
    *   }).then((response) => (response.ok ? showConfirmation(details) : showSendError()));
    *
-   * Only show the confirmation (and clear the basket) when the response is OK; on an error keep the
-   * form and the basket, and ask the customer to try again or ring the yard.
+   * Only show the confirmation (and clear the cart) when the response is OK; on an error keep the
+   * form and the cart, and ask the customer to try again or call the yard.
    */
   function initCheckout() {
     const form = $("[data-checkout-form]");
@@ -809,12 +829,11 @@
       const held = new Date(details.when.getTime() + HOLD_HOURS * 3600000);
       $("[data-done-title]").textContent = `Reservation request ${details.ref} received.`;
       $("[data-done-intro]").textContent =
-        `Thanks, ${details.first}. We'll call you on ${details.phone} within one working day to go through condition, measurements and ${details.plan}. The pieces are held for you until ${formatDate(
+        `Thanks, ${details.first}. We'll call you at ${details.phone} within one business day to go through condition, measurements and ${details.plan}. The pieces are held for you until ${formatDate(
           held,
           { weekday: "long", day: "numeric", month: "long", hour: "numeric", minute: "2-digit", hour12: true },
         )
-          .replace(" am", "am")
-          .replace(" pm", "pm")}.`;
+          .replace(/\s*(AM|PM)$/, (match, period) => period.toLowerCase())}.`;
       $("[data-done-lines]").innerHTML =
         lines.join("") +
         `<li class="flex justify-between gap-4 py-3 font-semibold"><span>${details.totalLabel}</span><span>${money(details.total)}</span></li>`;
@@ -841,8 +860,8 @@
       const delivery = form.elements.method.value === "delivery";
       const quote = delivery ? deliveryQuote(form.elements.postcode.value, basketWeight()) : {};
       const valid = validateContact(form, {
-        phone: validPhone(phone) ? "" : "Enter a phone number we can call, such as 07700 900123.",
-        postcode: !delivery || !quote.error ? "" : "Enter the delivery postcode, such as NE46 1AA.",
+        phone: validPhone(phone) ? "" : "Enter a phone number we can call, such as (518) 555-0164.",
+        postcode: !delivery || !quote.error ? "" : "Enter the delivery ZIP code, such as 12180.",
       });
       if (!valid || !basket.length) return;
       const goods = basketCost();
@@ -858,14 +877,14 @@
             ? `a carrier quote for delivery to ${quote.area}`
             : `delivery to ${quote.area}`
           : day
-            ? `collection on ${formatDate(day.date, { weekday: "long", day: "numeric", month: "long" })}`
-            : "a collection day",
+            ? `pickup on ${formatDate(day.date, { weekday: "long", day: "numeric", month: "long" })}`
+            : "a pickup day",
         total: delivery && quote.price ? goods + quote.price : goods,
         totalLabel: delivery
           ? quote.price
-            ? "Estimated total with delivery"
-            : "Goods total (delivery quoted separately)"
-          : "Total to pay on collection",
+            ? "Estimated total with delivery, before sales tax"
+            : "Subtotal before sales tax (delivery quoted separately)"
+          : "Total at pickup, before sales tax",
       };
       showConfirmation(details);
     });
@@ -902,7 +921,7 @@
         `<article class="min-w-0"><div class="relative overflow-hidden bg-wash"><img src="${person.portrait}" width="400" height="300" alt="${escape(person.look)}" class="w-full"><span class="absolute bottom-4 left-4 text-xs tracking-widest text-ink">Q / ${escape(person.initials)}</span></div><p class="eyebrow mt-6">${escape(person.role)}</p><h2 class="mt-3 text-3xl">${escape(person.name)}</h2><p class="mt-4 text-sm leading-relaxed text-muted">${escape(person.text)}</p></article>`,
     ).join("");
   }
-  // Dates are worked out as "YYYY-MM-DD" keys in London time, then handled as noon UTC.
+  // Dates are worked out as "YYYY-MM-DD" keys in New York time, then handled as noon UTC.
   const keyOf = (year, month, day) => `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
   const dateOf = (key) => new Date(`${key}T12:00:00Z`);
   const addDays = (key, days) => {
@@ -913,64 +932,49 @@
   const weekday = (key) => dateOf(key).getUTCDay();
   function londonKey(date) {
     const parts = Object.fromEntries(
-      new Intl.DateTimeFormat("en-GB", { timeZone: TIME_ZONE, year: "numeric", month: "2-digit", day: "2-digit" })
+      new Intl.DateTimeFormat("en-US", { timeZone: TIME_ZONE, year: "numeric", month: "2-digit", day: "2-digit" })
         .formatToParts(date)
         .filter((part) => part.type !== "literal")
         .map((part) => [part.type, part.value]),
     );
     return `${parts.year}-${parts.month}-${parts.day}`;
   }
-  // England and Wales bank holidays for any year, as { "YYYY-MM-DD": name }, with the substitute
-  // weekdays when New Year's Day, Christmas Day or Boxing Day fall at a weekend.
+  // US federal holidays for any year, as { "YYYY-MM-DD": name }. A fixed-date holiday that falls on a
+  // weekend is also marked on its observed weekday (Saturday to Friday, Sunday to Monday), and the yard
+  // stays shut on the date itself, since it opens on Saturdays.
   const holidayCache = Object.create(null);
   function bankHolidays(year) {
     if (holidayCache[year]) return holidayCache[year];
     const out = Object.create(null);
-    const mondayOnOrAfter = (key) => {
-      let next = key;
-      while (weekday(next) !== 1) next = addDays(next, 1);
-      return next;
+    const nthWeekday = (month, target, count) => {
+      let key = keyOf(year, month, 1);
+      while (weekday(key) !== target) key = addDays(key, 1);
+      return addDays(key, (count - 1) * 7);
     };
     const lastMonday = (month) => {
       let key = addDays(month === 12 ? keyOf(year + 1, 1, 1) : keyOf(year, month + 1, 1), -1);
       while (weekday(key) !== 1) key = addDays(key, -1);
       return key;
     };
-    out[mondayOnOrAfter(keyOf(year, 1, 1))] = "New Year’s Day";
-    // Easter Sunday (anonymous Gregorian computus)
-    const a = year % 19;
-    const b = Math.floor(year / 100);
-    const c = year % 100;
-    const d = Math.floor(b / 4);
-    const e = b % 4;
-    const f = Math.floor((b + 8) / 25);
-    const g = Math.floor((b - f + 1) / 3);
-    const h = (19 * a + b - d - g + 15) % 30;
-    const i = Math.floor(c / 4);
-    const k = c % 4;
-    const l = (32 + 2 * e + 2 * i - h - k) % 7;
-    const m = Math.floor((a + 11 * h + 22 * l) / 451);
-    const easter = keyOf(year, Math.floor((h + l - 7 * m + 114) / 31), ((h + l - 7 * m + 114) % 31) + 1);
-    out[addDays(easter, -2)] = "Good Friday";
-    out[addDays(easter, 1)] = "Easter Monday";
-    out[mondayOnOrAfter(keyOf(year, 5, 1))] = "Early May bank holiday";
-    out[lastMonday(5)] = "Spring bank holiday";
-    out[lastMonday(8)] = "Summer bank holiday";
-    const christmas = keyOf(year, 12, 25);
-    const day = weekday(christmas);
-    if (day === 6) {
-      out[keyOf(year, 12, 27)] = "Christmas Day (substitute day)";
-      out[keyOf(year, 12, 28)] = "Boxing Day (substitute day)";
-    } else if (day === 0) {
-      out[keyOf(year, 12, 26)] = "Boxing Day";
-      out[keyOf(year, 12, 27)] = "Christmas Day (substitute day)";
-    } else if (day === 5) {
-      out[christmas] = "Christmas Day";
-      out[keyOf(year, 12, 28)] = "Boxing Day (substitute day)";
-    } else {
-      out[christmas] = "Christmas Day";
-      out[keyOf(year, 12, 26)] = "Boxing Day";
-    }
+    const fixed = (month, day, name) => {
+      const key = keyOf(year, month, day);
+      out[key] = name;
+      if (weekday(key) === 6) out[addDays(key, -1)] = `${name} (observed)`;
+      if (weekday(key) === 0) out[addDays(key, 1)] = `${name} (observed)`;
+    };
+    fixed(1, 1, "New Year’s Day");
+    out[nthWeekday(1, 1, 3)] = "Martin Luther King Jr. Day";
+    out[nthWeekday(2, 1, 3)] = "Washington’s Birthday";
+    out[lastMonday(5)] = "Memorial Day";
+    fixed(6, 19, "Juneteenth");
+    fixed(7, 4, "Independence Day");
+    out[nthWeekday(9, 1, 1)] = "Labor Day";
+    out[nthWeekday(10, 1, 2)] = "Columbus Day";
+    fixed(11, 11, "Veterans Day");
+    out[nthWeekday(11, 4, 4)] = "Thanksgiving Day";
+    fixed(12, 25, "Christmas Day");
+    // When next New Year's Day is a Saturday, it's observed on December 31 of this year.
+    if (weekday(keyOf(year + 1, 1, 1)) === 6) out[keyOf(year, 12, 31)] = "New Year’s Day (observed)";
     holidayCache[year] = out;
     return out;
   }
@@ -1023,7 +1027,7 @@
   const CONTACT_TOPICS = {
     stock: "A piece in stock",
     selling: "Offering pieces to the yard",
-    delivery: "Delivery or collection",
+    delivery: "Delivery or pickup",
     other: "Something else",
   };
   /*
@@ -1064,7 +1068,7 @@
       $("[data-contact-thanks]").textContent = `Thanks, ${first}. Your message is with the yard.`;
       $("[data-contact-next]").textContent = selling
         ? "Lowenna looks through offers on Wednesdays and replies within a week, usually by email. If the pieces suit us, she'll arrange a visit to see them."
-        : "We reply within one working day, usually by email. If you gave a lot number, we'll check the piece on the shelf before we answer.";
+        : "We reply within one business day, usually by email. If you gave a lot number, we'll check the piece on the shelf before we answer.";
       form.hidden = true;
       result.hidden = false;
       result.focus();

@@ -7,6 +7,14 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-05
+
+### Changed
+
+- Set in Grand Rapids, Michigan, with American spelling, US dollars and local details.
+- Sales tax (a sample 6%) replaces VAT on the hero invoice and the pricing toggle, and times use a 12-hour clock in Eastern time.
+- The late-payment calculator now works from the interest rate and flat late fee in your own terms, since the US has no single statutory rate for late business invoices.
+
 ## [1.0.5] - 2026-11-05
 
 ### Changed

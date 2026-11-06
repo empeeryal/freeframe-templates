@@ -1,12 +1,12 @@
 /* Tally — site script
  * Vanilla JavaScript, no dependencies. Sections:
- *  1. Content and settings (plans, VAT, reminder copy, calculator rules, office hours)
+ *  1. Content and settings (plans, sales tax, reminder copy, calculator rules, office hours)
  *  2. Helpers (formatting, safe storage, URL parameters, announcements)
  *  3. Header, mobile menu, scroll reveal, count-up numbers
  *  4. Hero invoice demo (home page)
  *  5. Tabs (features product tour)
  *  6. Reminder writer (features page)
- *  7. Pricing: billing switch and VAT toggle
+ *  7. Pricing: billing switch and sales tax toggle
  *  8. Calculators: late-payment interest and time saved
  *  9. Filters and search (integrations, customers, changelog)
  * 10. Forms (validation, demo request, office hours)
@@ -21,13 +21,14 @@ document.documentElement.classList.add('js');
   /* ------------------------------------------------------------------
    * 1. Content and settings
    * ------------------------------------------------------------------ */
-  // Money is shown in euro with Irish formatting, e.g. "€1,800.00".
-  const LOCALE = 'en-IE';
-  const CURRENCY = 'EUR';
-  // Irish standard VAT rate, used by the hero invoice and the pricing VAT toggle.
-  const VAT_RATE = 0.23;
+  // Money is shown in US dollars, e.g. "$2,400.00".
+  const LOCALE = 'en-US';
+  const CURRENCY = 'USD';
+  // Sample sales tax rate (Michigan's 6%), used by the hero invoice and the pricing tax toggle.
+  // What is taxable depends on the state and the item: see DOCS.md.
+  const VAT_RATE = 0.06;
 
-  // Plan prices in euro, excluding VAT. `annual` is the price for a whole year (ten months for twelve).
+  // Plan prices in US dollars, excluding sales tax. `annual` is the price for a whole year (ten months for twelve).
   const PLANS = {
     solo: { name: 'Solo', monthly: 12, annual: 120 },
     studio: { name: 'Studio', monthly: 30, annual: 300 },
@@ -48,7 +49,7 @@ document.documentElement.classList.add('js');
     minQty: 1,
     maxQty: 9,
     stages: ['Draft', 'Sent', 'Viewed', 'Paid'],
-    viewedNote: 'Opened by Beara Outdoor Co. this morning. Reminder set for 3 days after the due date.',
+    viewedNote: 'Opened by Platte Outdoor Co. this morning. Reminder set for 3 days after the due date.',
     paidNote: 'Paid by card just now and matched to your bank feed. No reminder needed.'
   };
 
@@ -58,13 +59,13 @@ document.documentElement.classList.add('js');
   const INVOICE_DUE = null;
 
   // Reminder writer on features.html: subject and paragraphs per tone and stage.
-  // {amount}, {invoice}, {client}, {due} ('Friday 30 October') and {dueDay} ('Friday') are filled in from
+  // {amount}, {invoice}, {client}, {due} ('Friday, October 30') and {dueDay} ('Friday') are filled in from
   // REMINDER_SAMPLE; the two dates come from INVOICE_DUE.
-  const REMINDER_SAMPLE = { invoice: 'INV-0142', amount: '€4,329.60', due: 'Friday 30 October', dueDay: 'Friday', client: 'Nuala' };
+  const REMINDER_SAMPLE = { invoice: 'INV-0142', amount: '$5,766.40', due: 'Friday, October 30', dueDay: 'Friday', client: 'Gwen' };
   const REMINDER_TONES = {
     friendly: {
       before: { subject: 'Invoice {invoice} is due on {dueDay}', body: ['Hi {client},', 'A quick heads-up that invoice {invoice} for {amount} is due on {due}. You can pay by card or bank transfer from the link below.', 'Thanks again for the work, it was a pleasure.'] },
-      due: { subject: 'Invoice {invoice} is due today', body: ['Hi {client},', 'Just a friendly reminder that invoice {invoice} for {amount} is due today. The payment link is below if that’s handy.', 'Have a lovely weekend.'] },
+      due: { subject: 'Invoice {invoice} is due today', body: ['Hi {client},', 'Just a friendly reminder that invoice {invoice} for {amount} is due today. The payment link is below if that’s easier.', 'Have a lovely weekend.'] },
       late: { subject: 'Invoice {invoice} is now a week overdue', body: ['Hi {client},', 'I think invoice {invoice} for {amount} may have slipped through the cracks: it was due on {due}. Could you take a look when you get a moment?', 'If it’s already on its way, thank you and please ignore this.'] }
     },
     neutral: {
@@ -73,19 +74,19 @@ document.documentElement.classList.add('js');
       late: { subject: 'Overdue: invoice {invoice}', body: ['Hello {client},', 'Our records show that invoice {invoice} for {amount}, due on {due}, has not yet been paid.', 'Please arrange payment or let us know if there is a problem with the invoice.'] }
     },
     firm: {
-      before: { subject: 'Invoice {invoice}: payment due {due}', body: ['Dear {client},', 'Invoice {invoice} for {amount} falls due on {due}. Please make sure payment is made by that date.', 'Payment details and a card link are below.'] },
-      due: { subject: 'Invoice {invoice}: payment due today', body: ['Dear {client},', 'Payment of {amount} for invoice {invoice} is due today. Please pay using the link below.', 'Late payments may incur statutory interest and compensation.'] },
-      late: { subject: 'Overdue invoice {invoice}: please pay now', body: ['Dear {client},', 'Invoice {invoice} for {amount} was due on {due} and is now overdue.', 'Please pay in full within seven days. After that we may add statutory interest and fixed compensation under the late payment regulations.'] }
+      before: { subject: 'Invoice {invoice}: payment due {due}', body: ['Dear {client},', 'Invoice {invoice} for {amount} is due on {due}. Please make sure payment is made by that date.', 'Payment details and a card link are below.'] },
+      due: { subject: 'Invoice {invoice}: payment due today', body: ['Dear {client},', 'Payment of {amount} for invoice {invoice} is due today. Please pay using the link below.', 'Late payments may incur the late charges in our terms.'] },
+      late: { subject: 'Overdue invoice {invoice}: please pay now', body: ['Dear {client},', 'Invoice {invoice} for {amount} was due on {due} and is now overdue.', 'Please pay in full within seven days. After that we may add the interest and late fee set out in our terms.'] }
     }
   };
 
-  // Late-payment calculator. Statutory rate = reference rate + margin. Compensation by invoice amount.
+  // Late-payment calculator. Annual rate = the rate from your terms + margin. Flat late fee by invoice amount (an example, set yours).
   const LATE_PAYMENT = {
-    margin: 8,                      // percentage points added to the ECB reference rate
+    margin: 0,                      // percentage points added to the rate entered; 0 uses it as written
     daysInYear: 365,
     compensation: [                 // first tier whose `below` is above the amount applies
-      { below: 1000, amount: 40 },
-      { below: 10000, amount: 70 },
+      { below: 1000, amount: 25 },
+      { below: 10000, amount: 50 },
       { below: Infinity, amount: 100 }
     ]
   };
@@ -96,7 +97,7 @@ document.documentElement.classList.add('js');
   const CALC_FIELDS = {
     amount: { def: 2400, min: 1, max: 1000000 },
     days: { def: 45, min: 1, max: 365 },
-    rate: { def: 2.15, min: 0, max: 10 },
+    rate: { def: 12, min: 0, max: 36 },
     invoices: { def: 12, min: 1, max: 100 },
     minutes: { def: 20, min: 5, max: 60 },
     late: { def: 30, min: 0, max: 100 },
@@ -116,8 +117,8 @@ document.documentElement.classList.add('js');
     automation: 'Automation'
   };
 
-  // Office hours on contact.html, in Irish time. Days: 1 = Monday ... 5 = Friday.
-  const OFFICE = { timeZone: 'Europe/Dublin', city: 'Cork', days: [1, 2, 3, 4, 5], open: 9 * 60, close: 17 * 60 + 30 };
+  // Office hours on contact.html, in Eastern time. Days: 1 = Monday ... 5 = Friday.
+  const OFFICE = { timeZone: 'America/Detroit', city: 'Grand Rapids', days: [1, 2, 3, 4, 5], open: 9 * 60, close: 17 * 60 + 30 };
 
   /* ------------------------------------------------------------------
    * 2. Helpers
@@ -127,7 +128,7 @@ document.documentElement.classList.add('js');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const hasOwn = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
 
-  // "€1,800.00"; with whole = true, whole euro amounts drop the cents ("€10", but "€12.30").
+  // "$2,400.00"; with whole = true, whole dollar amounts drop the cents ("$10", but "$12.30").
   function money(n, whole) {
     const cents = Math.round(n * 100);
     const isWhole = cents % 100 === 0;
@@ -201,7 +202,7 @@ document.documentElement.classList.add('js');
     const iso = due.getFullYear() + '-' + String(due.getMonth() + 1).padStart(2, '0') + '-' + String(due.getDate()).padStart(2, '0');
     const fmt = (opts) => due.toLocaleDateString(LOCALE, opts);
     REMINDER_SAMPLE.dueDay = fmt({ weekday: 'long' });
-    REMINDER_SAMPLE.due = REMINDER_SAMPLE.dueDay + ' ' + fmt({ day: 'numeric', month: 'long' });
+    REMINDER_SAMPLE.due = REMINDER_SAMPLE.dueDay + ', ' + fmt({ day: 'numeric', month: 'long' });
     $$('time[data-invoice-due]').forEach((el) => {
       el.setAttribute('datetime', iso);
       el.textContent = fmt({ day: 'numeric', month: 'short', year: 'numeric' });
@@ -452,7 +453,7 @@ document.documentElement.classList.add('js');
   }
 
   /* ------------------------------------------------------------------
-   * 7. Pricing: billing switch and VAT toggle. Remembered in STORAGE_KEYS.pricing;
+   * 7. Pricing: billing switch and sales tax toggle. Remembered in STORAGE_KEYS.pricing;
    *    pricing.html?billing=monthly|annual overrides the saved choice.
    * ------------------------------------------------------------------ */
   function initPricing() {
@@ -473,7 +474,7 @@ document.documentElement.classList.add('js');
 
     function render(announceIt) {
       const factor = state.vat ? 1 + VAT_RATE : 1;
-      const vatWords = state.vat ? 'incl. VAT' : 'excl. VAT';
+      const vatWords = state.vat ? 'incl. sales tax' : 'excl. sales tax';
       cards.forEach((card) => {
         const key = card.getAttribute('data-plan');
         if (!hasOwn(PLANS, key)) return;
@@ -493,11 +494,11 @@ document.documentElement.classList.add('js');
       if (vatToggle) vatToggle.checked = state.vat;
       if (vatNote) {
         vatNote.textContent = state.vat
-          ? 'Prices include Irish VAT at 23%. VAT for customers elsewhere depends on where you’re based and is shown before you pay.'
-          : 'Prices exclude VAT. Irish customers pay VAT at 23%; VAT for customers elsewhere depends on where you’re based and is shown before you pay.';
+          ? 'Prices include a sample 6% sales tax. Whether tax applies depends on your state, and the exact amount is shown before you pay.'
+          : 'Prices exclude sales tax. Whether tax applies depends on your state, and any tax is shown before you pay.';
       }
       if (announceIt && status) {
-        status.textContent = 'Showing ' + state.billing + ' prices, ' + (state.vat ? 'including' : 'excluding') + ' VAT.';
+        status.textContent = 'Showing ' + state.billing + ' prices, ' + (state.vat ? 'including' : 'excluding') + ' sales tax.';
       }
     }
     function save() { store.set(STORAGE_KEYS.pricing, { billing: state.billing, vat: state.vat }); }
@@ -529,7 +530,7 @@ document.documentElement.classList.add('js');
   function compensationFor(amount) {
     return LATE_PAYMENT.compensation.find((t) => amount < t.below).amount;
   }
-  // Exposed for the docs and ports: the claim for an amount, days late and reference rate.
+  // Exposed for the docs and ports: the charges for an amount, days late and annual rate.
   function lateClaim(amount, days, rate) {
     const statutory = rate + LATE_PAYMENT.margin;
     const daily = amount * statutory / 100 / LATE_PAYMENT.daysInYear;
@@ -588,7 +589,7 @@ document.documentElement.classList.add('js');
       store.set(STORAGE_KEYS.calculator, Object.assign({}, values));
     }
 
-    // Late-payment chart: compensation as a flat band, interest growing on top, a marker at today.
+    // Late-payment chart: the flat late fee as a band, interest growing on top, a marker at today.
     function drawChart(amount, days, rate) {
       const svg = $('[data-late-chart]');
       if (!svg) return;
@@ -617,9 +618,9 @@ document.documentElement.classList.add('js');
       $$(':scope > :not(desc)', svg).forEach((n) => n.remove());
       svg.insertAdjacentHTML('beforeend', parts.join(''));
       const cap = $('[data-chart-caption]');
-      if (cap) cap.textContent = 'Interest plus compensation over the first ' + maxDays + ' days';
+      if (cap) cap.textContent = 'Interest plus late fee over the first ' + maxDays + ' days';
       const desc = $('[data-chart-desc]');
-      if (desc) desc.textContent = 'Your claim grows from ' + money(comp) + ' on the due date to ' + money(end.total) + ' by day ' + maxDays + '. At ' + plural(days, 'day', 'days') + ' it is ' + money(now.total) + '.';
+      if (desc) desc.textContent = 'Your charges grow from ' + money(comp) + ' on the due date to ' + money(end.total) + ' by day ' + maxDays + '. At ' + plural(days, 'day', 'days') + ' they are ' + money(now.total) + '.';
     }
 
     function renderLate() {
@@ -748,7 +749,7 @@ document.documentElement.classList.add('js');
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   function fieldMessage(field) {
-    if (field.type === 'checkbox') return field.checked ? '' : 'Please tick this box so we can reply.';
+    if (field.type === 'checkbox') return field.checked ? '' : 'Please check this box so we can reply.';
     const v = field.value.trim();
     const label = field.getAttribute('data-label') || 'This field';
     if (field.required && !v) return label + ' is required.';
@@ -876,16 +877,16 @@ document.documentElement.classList.add('js');
         const planText = hasOwn(PLANS, planKey) ? ' about the ' + PLANS[planKey].name + ' plan' : '';
         successSwap(form, '<div class="flex items-start gap-4"><span class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-mint-400 text-ink">' + CHECK_SVG + '</span><div>' +
           '<h2 class="text-2xl font-semibold tracking-[-0.02em]">Thanks, ' + escapeHtml(first) + '. Your demo request is in.</h2>' +
-          '<p class="mt-2 text-ink-soft">Niamh in Cork will email you a few times for a call' + escapeHtml(planText) + (topics ? ' covering the ' + plural(topics, 'topic', 'topics') + ' you picked' : '') + ', within two working hours if we’re in the office or first thing the next working day if not. Your reference is <span class="font-semibold text-ink">' + makeRef('TA') + '</span>.</p>' +
+          '<p class="mt-2 text-ink-soft">Noelle in Grand Rapids will email you a few times for a call' + escapeHtml(planText) + (topics ? ' covering the ' + plural(topics, 'topic', 'topics') + ' you picked' : '') + ', within two business hours if we’re in the office or first thing the next business day if not. Your reference is <span class="font-semibold text-ink">' + makeRef('TA') + '</span>.</p>' +
           '<p class="mt-4"><a href="calculator.html" class="link">Try the late-payment calculator while you wait</a></p></div></div>');
       });
     });
   }
 
-  // Office hours on contact.html, worked out in Irish time whatever the visitor's own time zone.
+  // Office hours on contact.html, worked out in Eastern time whatever the visitor's own time zone.
   function officeState(date) {
     const parts = {};
-    new Intl.DateTimeFormat('en-GB', { timeZone: OFFICE.timeZone, weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
+    new Intl.DateTimeFormat('en-US', { timeZone: OFFICE.timeZone, weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
       .formatToParts(date).forEach((p) => { parts[p.type] = p.value; });
     const day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(parts.weekday);
     const minutes = +parts.hour * 60 + +parts.minute;
@@ -893,11 +894,12 @@ document.documentElement.classList.add('js');
     const open = workday && minutes >= OFFICE.open && minutes < OFFICE.close;
     let next = '';
     if (!open) {
-      if (workday && minutes < OFFICE.open) next = 'after 9:00 this morning';
-      else if (day >= 1 && day <= 4) next = 'after 9:00 tomorrow';
-      else next = 'after 9:00 on Monday';
+      if (workday && minutes < OFFICE.open) next = 'after 9 a.m. this morning';
+      else if (day >= 1 && day <= 4) next = 'after 9 a.m. tomorrow';
+      else next = 'after 9 a.m. on Monday';
     }
-    return { open, time: parts.hour + ':' + parts.minute, next };
+    const hour = +parts.hour;
+    return { open, time: (hour % 12 || 12) + ':' + parts.minute + (hour < 12 ? ' a.m.' : ' p.m.'), next };
   }
   function initOfficeHours() {
     const text = $('[data-office-text]');
@@ -906,8 +908,8 @@ document.documentElement.classList.add('js');
     const render = () => {
       const s = officeState(new Date());
       text.textContent = s.open
-        ? 'It’s ' + s.time + ' in ' + OFFICE.city + ' and we’re in the office. Expect a reply within two working hours.'
-        : 'It’s ' + s.time + ' in ' + OFFICE.city + ', outside office hours (Monday to Friday, 9:00 to 17:30). We’ll reply ' + s.next + '.';
+        ? 'It’s ' + s.time + ' in ' + OFFICE.city + ' and we’re in the office. Expect a reply within two business hours.'
+        : 'It’s ' + s.time + ' in ' + OFFICE.city + ', outside office hours (Monday to Friday, 9 a.m. to 5:30 p.m.). We’ll reply ' + s.next + '.';
       if (dot) { dot.classList.toggle('bg-mint-500', s.open); dot.classList.toggle('bg-line-strong', !s.open); }
     };
     render();

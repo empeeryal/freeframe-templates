@@ -21,7 +21,7 @@
   --color-ink-2: #2d5141;   /* hover */
   --color-muted: #4b5b4f;   /* secondary text (AA on paper and card) */
 
-  /* Garden colours. */
+  /* Garden colors. */
   --color-leaf: #dbe3b8;    /* pale leaf panels */
   --color-moss: #6b8550;    /* decoration only */
   --color-rust: #a84325;    /* accent: italics, marks, focus */
@@ -111,7 +111,7 @@
   .field-error { @apply mt-1.5 text-sm font-semibold text-[#a1260f]; }
   .check { @apply size-5 shrink-0 accent-[#1f3a2e]; }
 
-  /* Session choice cards (enrolment step 1). */
+  /* Session choice cards (enrollment step 1). */
   .choice { @apply flex cursor-pointer items-start gap-3 border border-ink/30 bg-card p-4 transition-colors hover:border-ink; }
   .choice:has(input:checked) { @apply border-ink bg-leaf/60; box-shadow: inset 4px 0 0 var(--color-rust); }
   .choice:has(input:focus-visible) { outline: 3px solid var(--color-rust); outline-offset: 2px; }

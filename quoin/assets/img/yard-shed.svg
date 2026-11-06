@@ -18,7 +18,7 @@
   <path d="M232 382V300h26v82zm68-62h30v62h-30z" fill="#4e554a"/>
   <path d="M262 382v-52h32v52z" fill="#7a6248"/>
   <path d="M296 270h30v6h-30zm2 10h26v4h-26z" fill="#6a7066"/>
-  <!-- open timber door leaf -->
+  <!-- open wood door leaf -->
   <path d="M342 382V246l40 8v128z" fill="#7a5b3c" stroke="#514f3f" stroke-width="2" stroke-linejoin="round"/>
   <path d="M350 262v114m10-112v114m10-110v114" stroke="#5e452d"/>
   <!-- sign board -->
@@ -48,5 +48,5 @@
   <path d="M0 396h560v44H0z" fill="#d9d3c0"/>
   <g fill="#bdb6a0"><circle cx="40" cy="414" r="2"/><circle cx="96" cy="426" r="1.5"/><circle cx="170" cy="410" r="2"/><circle cx="250" cy="430" r="1.5"/><circle cx="330" cy="416" r="2"/><circle cx="420" cy="428" r="1.5"/><circle cx="500" cy="412" r="2"/></g>
   <path d="M0 396h560" stroke="#a69f88"/>
-  <text x="24" y="30" fill="#596450" font-family="Sarabun, Arial, sans-serif" font-size="12" letter-spacing="2">THE GOODS SHED / HAUGH LANE</text>
+  <text x="24" y="30" fill="#596450" font-family="Sarabun, Arial, sans-serif" font-size="12" letter-spacing="2">THE FREIGHT SHED / FERRY STREET</text>
 </svg>

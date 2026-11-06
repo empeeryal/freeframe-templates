@@ -4,7 +4,7 @@
 @source not "../*.md";
 @source not "../*.json";
 
-/* Mosaic brand tokens. Change these to re-skin the whole site (see DOCS.md, Brand and colours). */
+/* Mosaic brand tokens. Change these to re-skin the whole site (see DOCS.md, Brand and colors). */
 @theme {
   --font-sans: "Epilogue", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display: "Bagel Fat One", "Epilogue", ui-sans-serif, system-ui, sans-serif;
@@ -112,7 +112,7 @@
   .prose-mosaic ul { @apply mt-4 list-disc space-y-2 pl-5 text-ink/90 marker:text-vermilion; }
 }
 
-/* Torn-paper edge at the top of a coloured band: <div class="torn-top text-ink"> */
+/* Torn-paper edge at the top of a colored band: <div class="torn-top text-ink"> */
 .torn-top { position: relative; }
 .torn-top::before {
   content: ""; position: absolute; left: 0; right: 0; top: -13px; height: 14px; background: currentColor;

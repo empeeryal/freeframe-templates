@@ -3,14 +3,14 @@
 ## Overview
 
 Sprout is a multi-page website template for a practical gardening school, built for the fictional **Loamstead field
-school** on a walled plot in Pershore, Worcestershire. It has ten courses with their own pages and drawings, a filterable
-course list, a twelve-week timetable with places left, a three-step enrollment request, a bed planner that draws plants
-to scale, a saved shortlist, tutor profiles, and an access statement, booking terms and safeguarding note written the
+school** on a walled plot in Corvallis, Oregon. It has ten courses with their own pages and drawings, a filterable
+course list, a twelve-week schedule with places left, a three-step enrollment request, a bed planner that draws plants
+to scale, a saved shortlist, instructor profiles, and an accessibility statement, booking terms and student safety note written the
 way a real school would write them. The look is a field notebook: cream paper, graph-paper panels, deep green ink and a
 rust accent, with Vollkorn headings and Commissioner text.
 
 It is plain HTML, Tailwind CSS v4 and one vanilla JavaScript file, with no dependencies. This guide covers version
-**1.0.2** of the HTML version. The template page, with a live demo, is at
+**1.0.5** of the HTML version. The template page, with a live demo, is at
 [freeframe.dev/templates/sprout](https://freeframe.dev/templates/sprout).
 
 ## Quick start
@@ -32,16 +32,16 @@ aren't already used (see [Building and deploying](#building-and-deploying)).
 
 | File | Purpose | Notable sections and features |
 |------|---------|-------------------------------|
-| `index.html` | Home | Hero with the field drawing, the next five sessions, "In the garden this month", the three soonest courses, how enrollment works, bed planner teaser, tutors and learner quotes |
+| `index.html` | Home | Hero with the field drawing, the next five sessions, "In the garden this month", the three soonest courses, how enrollment works, bed planner teaser, instructors and student quotes |
 | `courses.html` | All courses | Level buttons, topic and season filters (kept in the URL), course cards with next date and places, Save buttons, level guide |
-| `course.html` | One course (`?course=<id>`) | Title, description and Open Graph tags set from the course; facts, drawing, session plan, what you take home, what to bring, next four dates with places, tutor, learner quote, related courses; an "unknown course" message for bad links |
-| `timetable.html` | Upcoming sessions | Every session starting in the next twelve weeks, grouped by month, filterable by course and level, with Enrol links |
+| `course.html` | One course (`?course=<id>`) | Title, description and Open Graph tags set from the course; facts, drawing, session plan, what you take home, what to bring, next four dates with places, instructor, student quote, related courses; an "unknown course" message for bad links |
+| `timetable.html` | Schedule of upcoming sessions | Every session starting in the next twelve weeks, grouped by month, filterable by course and level, with Enroll links |
 | `enrol.html` | Enrollment request | Three steps (date, who's coming, your details), inline validation, running total, confirmation with a reference |
 | `planner.html` | Bed planner | Bed size and crop, plant count, scale drawing with one mark per plant, too-small and corner-only messages, suggested course with Save |
 | `saved.html` | Shortlist | Saved courses with their next dates, enrollment requests made on this device, clear and remove buttons |
-| `about.html` | About the school | Founder's note, map of the plot, numbers, tutor cards, values |
-| `visit.html` | Visit and contact | Inquiry form, address, hours, sketch map, travel notes, access statement (`#access`), booking terms (`#terms`), safeguarding (`#safeguarding`), FAQ (`#faq`) |
-| `404.html` | Page not found | Links back to the home page, courses and timetable |
+| `about.html` | About the school | Founder's note, map of the plot, numbers, instructor cards, values |
+| `visit.html` | Visit and contact | Inquiry form, address, hours, sketch map, travel notes, accessibility statement (`#access`), booking terms (`#terms`), student safety (`#safeguarding`), FAQ (`#faq`) |
+| `404.html` | Page not found | Links back to the home page, courses and schedule |
 
 ## Project structure
 
@@ -51,11 +51,11 @@ sprout/
   planner.html, saved.html, about.html, visit.html, 404.html
   assets/
     css/style.css         compiled Tailwind CSS (generated; don't edit by hand)
-    js/main.js            all data and behaviour: courses, tutors, session rules, forms, planner, storage
+    js/main.js            all data and behavior: courses, instructors, session rules, forms, planner, storage
     img/favicon.svg       the seedling logo
     img/field.svg         hero drawing (tomato plant and living soil)
     img/plot-map.svg      map of the Walled Plot (about page)
-    img/directions.svg    sketch map of Pershore (visit page)
+    img/directions.svg    sketch map of South Corvallis (visit page)
     img/og-image.svg      social image source
     img/og-image.png      social image (1200 × 630) used by og:image
   src/input.css           Tailwind source: brand tokens and a few shared components
@@ -84,7 +84,7 @@ uses them, so changing a value changes it everywhere after a CSS rebuild.
 
 ```css
 @theme {
-  --color-ink: #1f3a2e;   /* change to recolour text, buttons and the footer */
+  --color-ink: #1f3a2e;   /* change to recolor text, buttons and the footer */
   --color-rust: #a84325;  /* the accent */
 }
 ```
@@ -116,20 +116,20 @@ Page text is in the HTML files. The school's data is in the first section of `as
 
 | Constant | What it holds |
 |----------|---------------|
-| `COURSES` | The ten courses: `id`, `name`, `level`, `topic`, `tutor`, `price` (pounds per person), `capacity`, `rule` (when it runs), `start`/`end` (UK local time), `tone` (drawing background), `summary`, `about`, `plan`, `takeaway`, `bring` |
+| `COURSES` | The ten courses: `id`, `name`, `level`, `topic`, `tutor`, `price` (dollars per person), `capacity`, `rule` (when it runs), `start`/`end` (Pacific local time), `tone` (drawing background), `summary`, `about`, `plan`, `takeaway`, `bring` |
 | `TUTORS` | Eudora Wickmere, Idris Pennock and Halima Fennimore: `name`, `role`, `bio`, `quote` |
 | `LEVELS`, `TOPICS`, `SEASONS` | Filter values and labels (`SEASONS` lists the months in each season) |
-| `QUOTES` | One learner quote per course: `course`, `name`, `place`, `text` |
-| `CROPS` | Planner crops: `name`, `spacing` (cm), `mark` (the plant drawing), `course` (the course suggested) |
+| `QUOTES` | One student quote per course: `course`, `name`, `place`, `text` |
+| `CROPS` | Planner crops: `name`, `spacing` (inches), `mark` (the plant drawing), `course` (the course suggested) |
 | `MONTH_NOTES` | Twelve "In the garden this month" notes: title, text and a course id |
-| `MIN_LEAD_DAYS`, `TIMETABLE_DAYS`, `SESSIONS_PER_COURSE`, `CLOSED`, `DEMO_TAKEN`, `MAX_PEOPLE` | Timetable and enrollment settings (see [Session dates](#session-dates)) |
+| `MIN_LEAD_DAYS`, `TIMETABLE_DAYS`, `SESSIONS_PER_COURSE`, `CLOSED`, `DEMO_TAKEN`, `MAX_PEOPLE` | Schedule and enrollment settings (see [Session dates](#session-dates)) |
 
 To add a course, add an object to `COURSES` with a new `id`, add a drawing to `ART` (or let it fall back to the first
 course's drawing), and add a quote to `QUOTES` if you have one:
 
 ```js
 {
-  id: 'herb-garden', name: 'A kitchen herb garden', level: 'beginner', topic: 'containers', tutor: 'halima', price: 45, capacity: 10,
+  id: 'herb-garden', name: 'A kitchen herb garden', level: 'beginner', topic: 'containers', tutor: 'halima', price: 55, capacity: 10,
   rule: { day: 6, every: 'month', nth: 4, months: [4, 5, 6, 7], parts: [0] }, start: '10:00', end: '12:30',
   tone: '#e4e9cf',
   summary: 'Grow the herbs you cook with, in pots or a small bed.',
@@ -150,7 +150,7 @@ All artwork is SVG drawn for the template; there are no photos.
 
 - **Course drawings** are built in `assets/js/main.js` (`ART`, one function per course id, drawn in a 320 × 220
   view box and shown at 16:11). To use a photo instead, replace `courseArt(c)` with an `<img>` of the same ratio.
-- **Tutor portraits** are `PORTRAIT` entries drawn by `portrait(id)`.
+- **Instructor portraits** are `PORTRAIT` entries drawn by `portrait(id)`.
 - **Planner marks** are `MARKS`, one small drawing per crop type, centered on 0,0.
 - `assets/img/field.svg` (600 × 660), `plot-map.svg` (640 × 480) and `directions.svg` (480 × 360) are plain SVG files
   used with `<img>`; keep the ratios or update the `width`/`height` attributes.
@@ -162,7 +162,7 @@ All artwork is SVG drawn for the template; there are no photos.
 
 The header and footer are repeated in every HTML file, so edit them in each page (a find-and-replace across the
 folder works well). The current page's link has `aria-current="page"`; `course.html` marks **Courses** as current, and
-`enrol.html` marks the **Enrol** button. The mobile menu (`#mobile-menu`) repeats the links. The footer holds the
+`enrol.html` marks the **Enroll** button. The mobile menu (`#mobile-menu`) repeats the links. The footer holds the
 address, phone, email and office hours, and the line "A fictional school from a Freeframe template", which you should
 delete for a real site.
 
@@ -171,12 +171,12 @@ delete for a real site.
 ### Session dates
 
 Session dates are never written down. Each course has a `rule`, and `sessionsFor(course)` works out its next dates
-from today's date **in UK time** (`TIME_ZONE = 'Europe/London'`), so the demo always shows upcoming sessions:
+from today's date **in Pacific time** (`TIME_ZONE = 'America/Los_Angeles'`), so the demo always shows upcoming sessions:
 
 | `rule` field | Meaning |
 |--------------|---------|
 | `day` | Weekday the course starts on: 0 Sunday … 6 Saturday |
-| `every` | `'week'`, `'fortnight'` (with `parity` 0 or 1 choosing which weeks) or `'month'` (with `nth`: 1st, 2nd or 3rd of that weekday in the month) |
+| `every` | `'week'`, `'fortnight'` (every other week, with `parity` 0 or 1 choosing which weeks) or `'month'` (with `nth`: 1st, 2nd or 3rd of that weekday in the month) |
 | `months` | The months it runs in (1–12): seasonal courses only appear in season |
 | `parts` | Day offsets of each meeting: `[0]` one day, `[0, 1]` a weekend, `[0, 21]` two Saturdays three weeks apart |
 
@@ -184,37 +184,37 @@ The rules as shipped:
 
 | Course | Rule | Time |
 |--------|------|------|
-| Your first growing bed | Saturdays, fortnightly (parity 0), March–October | 10am–2pm |
-| A harvest in small spaces | Sundays, fortnightly (parity 1), April–September | 10am–1pm |
+| Your first growing bed | Every other Saturday (parity 0), March–October | 10am–2pm |
+| A harvest in small spaces | Every other Sunday (parity 1), April–September | 10am–1pm |
 | Make living soil | First Saturday of every month | 2:30pm–5pm |
 | Seed to supper | Second Saturday, February–May, plus a Saturday 21 days later | 10am–1pm |
-| Winter fruit-tree pruning | Saturdays, fortnightly (parity 1), November–February | 10am–3pm |
-| Cordons and espaliers | Saturdays, fortnightly (parity 0), July–September | 10am–2pm |
+| Winter fruit-tree pruning | Every other Saturday (parity 1), November–February | 10am–3pm |
+| Cordons and espaliers | Every other Saturday (parity 0), July–September | 10am–2pm |
 | Cuttings and propagation | Every Wednesday, May–September | 6pm–8:30pm |
 | Hedge-laying weekend | Third Saturday and the Sunday after, November–February | 9am–3:30pm |
-| Setting up no-dig beds | Sundays, fortnightly (parity 0), February–March and September–November | 10am–3pm |
+| Setting up no-dig beds | Every other Sunday (parity 0), February–March and September–November | 10am–3pm |
 | Saving your own seed | Second Sunday, August–October | 2pm–4:30pm |
 
 Other rules:
 
 - The first bookable day is `MIN_LEAD_DAYS` (7) days after today, so the next session is always at least a week away.
-- No session starts or runs between `CLOSED.from` and `CLOSED.to` (20 December to 4 January). The visit page says the
+- No session starts or runs between `CLOSED.from` and `CLOSED.to` (December 20 to January 4). The visit page says the
   same in its hours list; change both together.
-- Fortnights count weeks from Monday 5 January 1970 (`weekIndex`); parity 0 and 1 alternate.
-- Course pages and the enrollment form offer the next `SESSIONS_PER_COURSE` (4) dates, however far ahead. The timetable
+- Every-other-week rules count weeks from Monday, January 5, 1970 (`weekIndex`); parity 0 and 1 alternate.
+- Course pages and the enrollment form offer the next `SESSIONS_PER_COURSE` (4) dates, however far ahead. The schedule
   lists every session starting within `TIMETABLE_DAYS` (84) days of the first bookable day. If a filtered course has
   nothing in that window (a seasonal course out of season), it says when the next date is and links to it.
-- Long dates add the year when it isn't the current year ("Saturday 6 March 2027").
+- Long dates add the year when it isn't the current year ("Saturday, March 6, 2027").
 
-For example, with today as Sunday 18 October 2026 the first bookable day is Sunday 25 October, and the home page
-lists: Your first growing bed, Saturday 31 October; Setting up no-dig beds, Sunday 1 November; Winter fruit-tree
-pruning and Make living soil, Saturday 7 November; Setting up no-dig beds, Sunday 15 November.
+For example, with today as Sunday, October 18, 2026 the first bookable day is Sunday, October 25, and the home page
+lists: Your first growing bed, Saturday, October 31; Setting up no-dig beds, Sunday, November 1; Winter fruit-tree
+pruning and Make living soil, Saturday, November 7; Setting up no-dig beds, Sunday, November 15.
 
 To use fixed dates on a real site, either set each course's `rule` to match your real pattern, or replace
 `sessionsFor()` with a function that returns your own list of `makeSession(course, 'YYYY-MM-DD')` objects.
 
 **Preview another date:** add `?now=YYYY-MM-DD` to any page (for example `timetable.html?now=2027-06-01`) to see the
-site as it will look on that day in the UK. The parameter is ignored unless it is a real calendar date.
+site as it will look on that day in Oregon. The parameter is ignored unless it is a real calendar date.
 
 ### Places left
 
@@ -222,7 +222,7 @@ Each session shows how many places are left: `capacity` minus a demo number of p
 requested on this device. The demo number comes from a stable hash of the course and date, so it doesn't change
 between visits: sessions within three weeks have up to about `DEMO_TAKEN` (75%) of their places taken, further-out
 sessions fewer, and at least two places are always left until a visitor requests them. With three or fewer left the badge turns straw
-colored ("Only 2 places left", "Last place"); a session with none left shows "Full" and a waiting-list link to the
+colored ("Only 2 places left", "Last place"); a session with none left shows "Full" and a waitlist link to the
 inquiry form. On a real site, replace the `taken` value in `makeSession()` with numbers from your booking system.
 
 ### Course list filters
@@ -240,9 +240,9 @@ against the courses' own ids. Without a parameter the page shows the first cours
 reads sensibly before the script runs). With an unknown id it says "We couldn't find that course" and lists every
 course instead of showing a wrong one.
 
-### Timetable
+### Schedule
 
-`timetable.html` groups sessions by month with a heading per month. Each row shows the date, course, time, tutor,
+`timetable.html` (the Schedule page) groups sessions by month with a heading per month. Each row shows the date, course, time, instructor,
 price, level and places left, and links to `enrol.html?course=<id>&session=<YYYY-MM-DD>`. The course and level
 filters are kept in the URL (`?course=…&level=…`).
 
@@ -251,12 +251,12 @@ filters are kept in the URL (`?course=…&level=…`).
 `enrol.html` is one form in three steps (`fieldset[data-step]`); **Continue** validates the current step before moving
 on and focuses the next step's heading. Step 1 picks a course and one of its next four dates (full dates are
 disabled); step 2 takes the number of people (1 to `MAX_PEOPLE`, and never more than the places left), how much
-growing they have done and optional access or other needs; step 3 takes name, email, an optional UK phone number and
+growing they have done and optional access or other needs; step 3 takes name, email, an optional US phone number and
 agreement to the booking terms. Errors appear under each field, the field gets `aria-invalid="true"` and focus moves
 to the first problem. The summary card shows the course drawing, date, time, people and total as you go.
 
 On submit the request is saved to `sprout:enrolments:v1` with a reference such as `LS-4821`, the places left on that
-date go down, and the confirmation says the request was received, that the office confirms places by email within one working day, and how
+date go down, and the confirmation says the request was received, that the office confirms places by email within one business day, and how
 to change something by phone quoting the reference. The request then appears on `saved.html`. If your booking system
 returns its own reference, show that instead (see [Forms](#forms)).
 
@@ -266,17 +266,17 @@ above the steps and lets the visitor choose again.
 ### Bed planner
 
 `planner.html` divides the bed into equal squares, one per plant, with the crop's `spacing` as the side: plants across
-= floor(width ÷ spacing), along = floor(length ÷ spacing). The default (1.2 m × 2.4 m, lettuce at 30 cm) gives 4 × 8 =
+= floor(width ÷ spacing), along = floor(length ÷ spacing). The default (4 ft × 8 ft, lettuce at 12 in) gives 4 × 8 =
 32 plants.
 
-- **Validation:** width and length must be numbers between 0.2 and 10 metres (`PLANNER_LIMITS`; a comma works as a
+- **Validation:** width and length must be numbers between 0.5 and 30 feet (`PLANNER_LIMITS`; a comma works as a
   decimal point). Errors are inline, with `aria-invalid` and focus on the first problem. The form has `novalidate`.
-- **Too small:** when a bed is narrower or shorter than one spacing, it explains why, for example "A 0.3 m × 2 m bed
-  is too narrow for kale at 45 cm spacing. Make it at least 0.45 m each way, or choose a crop that sits closer
+- **Too small:** when a bed is narrower or shorter than one spacing, it explains why, for example "A 1 ft × 6 ft bed
+  is too narrow for kale at 18 in spacing. Make it at least 1.5 ft each way, or choose a crop that sits closer
   together."
 - **Drawing:** the bed is drawn to scale with one plant mark per plant (a different drawing for each crop type in
   `MARKS`). Beds with more than 24 plants across or 30 along (`DRAW_MAX`) are drawn as one corner, with a dashed edge
-  and a note: "The drawing shows one corner of the bed (24 × 30 = 720 plants). The full bed holds 4800."
+  and a note: "The drawing shows one corner of the bed (24 × 30 = 720 plants). The full bed holds 5040."
 - **Suggested course:** each crop names a course (`CROPS[…].course`); the card links to it, gives its next date and
   has a Save button for the shortlist.
 - The result is a polite live region, and the last plan is remembered in `sprout:planner:v1`. `?crop=<id>` preselects
@@ -291,7 +291,7 @@ button. Changes are announced through a polite live region (`#announcer`).
 
 ### In the garden this month
 
-The home page note is `MONTH_NOTES[month - 1]` for the current UK month, with a link to that month's course.
+The home page note is `MONTH_NOTES[month - 1]` for the current month in Oregon, with a link to that month's course.
 
 ### Header, mobile menu and scroll reveal
 
@@ -305,16 +305,16 @@ copyright year is filled in by the script.
 None of the forms sends anything until you connect it: each shows its confirmation in the page and saves nothing to a
 server. The enrollment confirmation shows its `LS-4821` reference; the inquiry confirmation shows a reference such as
 `LS-7K2Q` (`LS-` and four characters from `makeRef()`, with no 0/O or 1/I). Both say what happens next ("within one
-working day", the reply time the visit page already promises); change them to match how you actually handle requests.
+business day", the reply time the visit page already promises); change them to match how you actually handle requests.
 
 | Form | Where | Validates |
 |------|-------|-----------|
-| Enrollment request | `enrol.html`, `[data-enrol-form]` | Course, date, people, experience, name, email, optional UK phone, terms |
+| Enrollment request | `enrol.html`, `[data-enrol-form]` | Course, date, people, experience, name, email, optional US phone, terms |
 | Inquiry | `visit.html`, `[data-enquiry-form]` | Name (2+ characters), email, message (10–1,500 characters); topic is a select |
-| Bed planner | `planner.html`, `[data-planner]` | Width and length (0.2–10 m), crop |
+| Bed planner | `planner.html`, `[data-planner]` | Width and length (0.5–30 ft), crop |
 
 `visit.html?topic=<course id>` (or `general`, `visit`, `access`, `group`) preselects the inquiry topic; course pages
-and waiting-list links use it.
+and waitlist links use it.
 
 To connect the inquiry form to a service such as [Formspree](https://formspree.io), set the form's `action` to your
 endpoint and replace the success branch in section 14 of `assets/js/main.js` with a request:
@@ -358,7 +358,7 @@ shortlist** and **Remove** on `saved.html`.
 | `level` | `timetable.html` | A key of `LEVELS` |
 | `crop` | `planner.html` | A key of `CROPS` |
 | `topic` | `visit.html` | A course id or `general`, `visit`, `access`, `group` |
-| `now` | any page | `YYYY-MM-DD`: preview the site on that UK date |
+| `now` | any page | `YYYY-MM-DD`: preview the site on that date in Oregon |
 
 Every value is checked with an own-key lookup (`Object.prototype.hasOwnProperty.call`), so values such as
 `?course=constructor` or `__proto__` are treated as unknown.
@@ -413,12 +413,12 @@ server code. `404.html` is picked up automatically by most static hosts.
 
 ## Troubleshooting
 
-- **The timetable shows different dates from the screenshots.** Dates are worked out from today in UK time. Use
+- **The schedule shows different dates from the screenshots.** Dates are worked out from today in Pacific time. Use
   `?now=YYYY-MM-DD` to see a particular day.
-- **A seasonal course has no dates in the timetable.** It is out of season in the next twelve weeks; its course page
-  and the enrollment form still show its next four dates, and the timetable says when it next runs.
+- **A seasonal course has no dates on the schedule.** It is out of season in the next twelve weeks; its course page
+  and the enrollment form still show its next four dates, and the schedule says when it next runs.
 - **New Tailwind classes have no effect.** Rebuild the CSS (`npm run build`). Classes put together from strings in
-  JavaScript (`'bg-' + colour`) aren't found by the scanner; write the full class name.
+  JavaScript (`'bg-' + color`) aren't found by the scanner; write the full class name.
 - **Saved courses disappear when I close the tab.** The browser is blocking storage (a private window or sandboxed
   preview), so the shortlist lives in memory for the page view. It persists on a normal site.
 - **A course link shows "We couldn't find that course".** The `?course=` value doesn't match an `id` in `COURSES`.
@@ -435,4 +435,4 @@ included in the download.
 
 Commissioner and Vollkorn are licensed under the SIL Open Font License.
 
-Loamstead field school, its tutors, learners, quotes and address are fictional.
+Loamstead field school, its instructors, students, quotes and address are fictional.

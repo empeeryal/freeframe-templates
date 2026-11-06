@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-11-05
+
+### Changed
+
+- Set in Staunton, Virginia, with American spelling, US dollars, US phone numbers and local details.
+- Times now show on a 12-hour clock, in Eastern time, and the ticket and workshop prices are set for a US theater.
+
 ## [1.0.1] - 2026-11-05
 
 ### Changed

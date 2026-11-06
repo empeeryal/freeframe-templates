@@ -2,7 +2,7 @@
 
 ## Overview
 
-Cuefold 1.0.1 is an HTML5 and Tailwind CSS v4 website for a fictional independent theater in Bridgnorth, Shropshire. Its ten pages combine a six-week performance program that stays current, detailed productions, saved visit planning, access preferences, and ticket and workshop requests. The [template page](https://freeframe.dev/templates/cuefold) links to the live preview and available downloads.
+Cuefold 1.0.2 is an HTML5 and Tailwind CSS v4 website for a fictional independent theater in Staunton, Virginia. Its ten pages combine a six-week performance program that stays current, detailed productions, saved visit planning, access preferences, and ticket and workshop requests. The [template page](https://freeframe.dev/templates/cuefold) links to the live preview and available downloads.
 
 ## Quick start
 
@@ -28,7 +28,7 @@ Node 24 and npm are needed only when rebuilding Tailwind after changing classes.
 | `planner.html`     | Build an evening            | Saved performances, overlaps, cost and date summaries, access notes and text download       |
 | `tickets.html`     | Ask the box office          | Production/date selection, live estimate, seating and a box-office reply with a reference   |
 | `access.html`      | Plan a comfortable visit    | Room diagram, practical access details, questions and saved preferences                     |
-| `participate.html` | Workshops and volunteering  | Three rule-dated workshops with their own art, steward information and a place request      |
+| `participate.html` | Workshops and volunteering  | Three rule-dated workshops with their own art, usher information and a spot request      |
 | `about.html`       | Meet the theater            | Building story, three team members and approach to programming                              |
 | `visit.html`       | Find the door               | Address, hours, travel guidance and arrival-time calculator                                 |
 | `404.html`         | Recover from a missing page | Program, home and box-office links                                                        |
@@ -40,13 +40,13 @@ Every file repeats the same header and footer. Every page has a static `h1`; on 
 ```text
 cuefold/
   index.html               Home page
-  programme.html           Programme search and filters
+  programme.html           Program search and filters
   show.html                Production detail shell
   planner.html             Saved visit plan
   tickets.html             Ticket request form and confirmation
   access.html              Access guide and preferences
-  participate.html         Workshops and enquiries
-  about.html               Theatre and team
+  participate.html         Workshops and inquiries
+  about.html               Theater and team
   visit.html               Travel and arrival timing
   404.html                 Missing-page recovery
   assets/
@@ -58,7 +58,7 @@ cuefold/
   README.md                Short introduction
   DOCS.md                  This guide
   CHANGELOG.md             Version history
-  LICENSE.txt              Included licence in the download
+  LICENSE.txt              Included license in the download
 ```
 
 `template.json` supplies gallery information in the source repository and is excluded from the public download. It lists pages, category, features and the template version.
@@ -90,7 +90,7 @@ For example, change the rust accent and rebuild:
 }
 ```
 
-Keep the changed color dark enough for text on paper and paper-colored text on the accent. Artwork contains its own explicit SVG colors; changing CSS tokens does not recolour the drawing files.
+Keep the changed color dark enough for text on paper and paper-colored text on the accent. Artwork contains its own explicit SVG colors; changing CSS tokens does not recolor the drawing files.
 
 ### Typography
 
@@ -113,10 +113,10 @@ Edit editorial copy directly in the HTML files. Repeated production data lives i
 | `id`                                 | Unique production key used by URLs, images and performance IDs                       |
 | `title`, `genre`, `summary`, `story` | Catalog and detail copy                                                            |
 | `duration`                           | Whole running time in minutes                                                        |
-| `price`                              | Standard price in pounds; concession is £3 less                                      |
+| `price`                              | Standard price in dollars; the discount ticket is $5 less                                      |
 | `age`                                | Recommended audience age text                                                        |
 | `warning`                            | Specific effects and theme information                                               |
-| `interval`                           | Whether the running time includes an interval                                        |
+| `interval`                           | Whether the running time includes an intermission                                        |
 | `dates`                              | Two performances, as `'YYYY-MM-DD HH:MM'` venue time                                 |
 | `relaxed`, `captioned`, `audio`      | Production access availability                                                       |
 | `room`, `company`, `kind`            | Room, company name and `A Cuefold production`, `Visiting company` or `Co-production` |
@@ -132,7 +132,7 @@ Use an existing object as the shape for an addition:
   title: "The Borrowed Staircase",
   genre: "Drama",
   duration: 105,
-  price: 18,
+  price: 30,
   age: "12+",
   dates: ["2026-10-21 19:45", "2026-10-22 19:45"],
 }
@@ -142,7 +142,7 @@ This is a short excerpt of the existing object, not a complete replacement. Incl
 
 `WORKSHOPS` holds the three workshop titles, week numbers (see Workshops below), times, durations, prices, leaders and image keys. The interests select, `choices` in `initInterest()` and URL validation must agree with the workshop IDs. The fourth inquiry option is `volunteer`.
 
-Contact information is repeated in HTML. `BOX_OFFICE` is the email address printed in the downloadable visit plan. Phone `01632 960743` and `.example` addresses are fictional; replace them consistently for a real theater.
+Contact information is repeated in HTML. `BOX_OFFICE` is the email address printed in the downloadable visit plan. Phone `(540) 555-0147` and `.example` addresses are fictional; replace them consistently for a real theater.
 
 ### Images and artwork
 
@@ -166,13 +166,13 @@ This design has a single light palette and intentionally does not store a theme 
 
 ### A program that stays current
 
-The calendar uses `LOCALE = 'en-GB'` and `TIMEZONE = 'Europe/London'`. `londonToday()` finds the current calendar day in that zone; calendar arithmetic uses midday UTC dates to avoid daylight-saving shifts.
+The calendar uses `LOCALE = 'en-US'` and `TIMEZONE = 'America/New_York'` (Eastern time). `londonToday()` (the name is kept for compatibility) finds the current calendar day in that zone; calendar arithmetic uses midday UTC dates to avoid daylight-saving shifts.
 
-Every performance has a real date and time in `SHOWS[].dates`, written for a six-week program from Tuesday 20 October 2026. With `KEEP_PROGRAMME_CURRENT = true`, a performance that has started moves forward by whole program cycles (`PROGRAMME_WEEKS = 6`, so 42 days): the weekday and time stay right and the program always runs about six weeks ahead, with something on in the next few days. Performances that haven't happened yet keep their dates, so on 20 October 2026 the page shows exactly the dates in the data.
+Every performance has a real date and time in `SHOWS[].dates`, written for a six-week program from Tuesday, Oct 20, 2026. With `KEEP_PROGRAMME_CURRENT = true`, a performance that has started moves forward by whole program cycles (`PROGRAMME_WEEKS = 6`, so 42 days): the weekday and time stay right and the program always runs about six weeks ahead, with something on in the next few days. Performances that haven't happened yet keep their dates, so on Oct 20, 2026 the page shows exactly the dates in the data.
 
 Set `KEEP_PROGRAMME_CURRENT = false` for a real program with fixed dates. Performances that have started then drop out of the listings, and a production with no performances left disappears from the program and says so on its detail page.
 
-`PERFORMANCES` contains the upcoming performances in date order, derived from `SHOWS`. Performance IDs (`staircase-a`) never change when a date rolls. `performanceById` and `showById` provide validated lookups. `dayLabel()`, `timeLabel()` and `performanceLabel()` format all visitor-facing dates and times. Copyright uses the current London year.
+`PERFORMANCES` contains the upcoming performances in date order, derived from `SHOWS`. Performance IDs (`staircase-a`) never change when a date rolls. `performanceById` and `showById` provide validated lookups. `dayLabel()`, `timeLabel()` and `performanceLabel()` format all visitor-facing dates and times. Copyright uses the current year at the venue. Times on the page use a 12-hour clock (`clockTime()`).
 
 Saved plans store each performance with the date it was saved for. A saved performance stays saved until it has started; after that it is removed from the plan and the planner says once which performances have taken place. Access preferences are separate and never expire.
 
@@ -190,7 +190,7 @@ The live result count announces changes. Clear filters resets the form and focus
 
 `initShow()` reads `?show=<id>`, validates the ID with an own-property check and falls back to the first production for unknown values. It replaces the static content (The Borrowed Staircase) and updates the page title, description, Open Graph title and description in the browser.
 
-Each production has a story, running time (with or without an interval), price, age guidance, effects notes, room, company, credits and two performances. The request link carries both the production and performance IDs into the ticket page.
+Each production has a story, running time (with or without an intermission), price, age guidance, effects notes, room, company, credits and two performances. The request link carries both the production and performance IDs into the ticket page.
 
 For production-specific social previews that do not execute JavaScript, publish individual HTML detail pages or add a server that writes the appropriate metadata per URL.
 
@@ -200,7 +200,7 @@ Every `data-save` button reads and writes through `safeStorage`. `updateSavedUI(
 
 `renderPlan()` lists saved performances in date order. `planConflicts()` compares their start and end times. The Studio and Main room sometimes play on the same evening (for example The Borrowed Staircase and When the Kettle Sings on the first Wednesday), which makes it possible to try the warning.
 
-The standard-ticket sum represents one standard ticket per saved performance. It excludes the per-request handling contribution, because a saved plan is not a ticket request. The days-out count is the number of distinct performance dates. Planner suggestions are the next three productions on.
+The standard-ticket sum represents one standard ticket per saved performance. It excludes the per-request handling fee, because a saved plan is not a ticket request. The days-out count is the number of distinct performance dates. Planner suggestions are the next three productions on.
 
 Removing a planner row moves focus to the next available Remove button, or to a suggestion when the list becomes empty. Download uses `downloadText()` and includes dates, venue contact details, access notes and any timing warning. It does not create a ticket or reservation.
 
@@ -216,21 +216,21 @@ Preferences are practical planning information rather than medical details. They
 
 `initTickets()` chooses an initial production from validated URL parameters, then a saved performance, then the first production with performances. The performance must belong to the selected production. Changing productions rebuilds the date options.
 
-`calculation()` reads catalog prices, never prices from the URL or storage. Each quantity box takes a whole number from 0 to 8 and the total must be 1–8. A box that breaks the rule is marked `aria-invalid` with the message under the quantity fields as soon as it is typed, and the estimate shows a dash rather than a number that differs from the field. A concession ticket is `CONCESSION_OFF` (£3) less than the standard ticket; cards show the concession price as "From".
+`calculation()` reads catalog prices, never prices from the URL or storage. Each quantity box takes a whole number from 0 to 8 and the total must be 1–8. A box that breaks the rule is marked `aria-invalid` with the message under the quantity fields as soon as it is typed, and the estimate shows a dash rather than a number that differs from the field. A discount ticket is `CONCESSION_OFF` ($5) less than the standard ticket; cards show the discount price as "From".
 
-`HANDLING_PENCE = 100` is added once per non-empty request. For The Borrowed Staircase, two standard tickets and one concession cost £18 + £18 + £15 + £1 = £52.
+`HANDLING_PENCE = 200` (in cents, $2) is added once per non-empty request. For The Borrowed Staircase, two standard tickets and one discount ticket cost $30 + $30 + $25 + $2 = $87.
 
-When the request is valid, the form is replaced by the box office's reply: "Request received · ref CF-1234", the performance, tickets, estimated total and access notes, and what happens next (seats held now, a confirmation email within a working day, payment by phone or at the box office). See Forms for connecting it to a real service.
+When the request is valid, the form is replaced by the box office's reply: "Request received · ref CF-1234", the performance, tickets, estimated total and access notes, and what happens next (seats held now, a confirmation email within one business day, payment by phone or at the box office). See Forms for connecting it to a real service.
 
 ### Workshops and inquiries
 
-Workshop dates follow a rule rather than fixed dates: the first Saturday at least `WORKSHOP_NOTICE_DAYS` (3) days ahead, then one a week in `WORKSHOPS` order (`week: 0, 1, 2`). Request a place selects the matching option in the form and moves focus to it.
+Workshop dates follow a rule rather than fixed dates: the first Saturday at least `WORKSHOP_NOTICE_DAYS` (3) days ahead, then one a week in `WORKSHOPS` order (`week: 0, 1, 2`). Request a spot selects the matching option in the form and moves focus to it.
 
-`initInterest()` validates name and email, then replaces the form with "Enquiry received · ref CF-1234" and the next step: a pencilled-in place with the workshop's date and price, or a welcome chat for stewards.
+`initInterest()` validates name and email, then replaces the form with "Inquiry received · ref CF-1234" and the next step: a penciled-in place with the workshop's date and price, or a welcome chat for ushers.
 
 ### Arrival-time calculator
 
-`initArrival()` accepts a local curtain time and a journey of zero to 360 minutes. It works backwards to arrival 30 minutes before the show, taking a seat 10 minutes before, and the recommended time to set off.
+`initArrival()` accepts a local curtain time and a journey of zero to 360 minutes. It works backward to arrival 30 minutes before the show, taking a seat 10 minutes before, and the recommended time to set off.
 
 If the set-off time crosses midnight, the result says “previous day”. The output is announced as a status. This is planning arithmetic, not live traffic or parking information; the visitor should allow extra time when needed.
 
@@ -244,7 +244,7 @@ The hidden announcement region reports saved-plan changes. Visible result and pr
 
 The ticket request and participation inquiry use `novalidate` with visible, field-specific JavaScript errors. Name needs 2–100 characters; email must have a complete address shape and be at most 160 characters. Ticket notes are limited to 800 characters; participation notes to 600. Ticket requests also require permission to reply.
 
-Both forms finish in `submitForm()` in `assets/js/main.js`, which shows the reply straight away. Until you connect a service, nothing reaches the theater. To connect one, create an endpoint and add it to the form:
+Both forms finish in `submitForm()` in `assets/js/main.js`, which shows the reply right away. Until you connect a service, nothing reaches the theater. To connect one, create an endpoint and add it to the form:
 
 ```html
 <form data-ticket-form action="https://formspree.io/f/YOUR_FORM_ID" method="post" novalidate></form>
@@ -293,7 +293,7 @@ Supported URL parameters are `show` and `performance` on tickets, `show` on deta
 Each HTML file has its own title, description, theme color, icon and Open Graph tags. Replace fictional business details, update the copy and use the real absolute social image URL after deployment:
 
 ```html
-<meta property="og:image" content="https://your-theatre.example/assets/img/og-image.png" />
+<meta property="og:image" content="https://your-theater.example/assets/img/og-image.png" />
 ```
 
 This address is an example to replace with your real site URL. The supplied relative path works in the downloaded site but social crawlers need an absolute public URL. Add a canonical link, `robots.txt` and a sitemap for your chosen host. The template does not ship unverified structured data.
@@ -353,7 +353,7 @@ Keep `TIMEZONE` as the venue’s real zone and preserve midday UTC calendar arit
 
 ### Seat or ticket totals seem wrong
 
-Prices come from `SHOWS`, with a £3 concession reduction and one £1 handling contribution per non-empty request. The planner totals one standard ticket per performance and omits handling. The box office must confirm any companion places or other arrangements.
+Prices come from `SHOWS`, with a $5 discount-ticket reduction and one $2 handling fee per non-empty request. The planner totals one standard ticket per performance and omits handling. The box office must confirm any companion places or other arrangements.
 
 ## License
 

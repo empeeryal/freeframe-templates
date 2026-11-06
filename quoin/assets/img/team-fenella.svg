@@ -25,7 +25,7 @@
   <path d="M184 168h32v30q-16 10-32 0z" fill="#d6a586"/>
   <ellipse cx="200" cy="120" rx="44" ry="52" fill="#e0b494"/>
   <ellipse cx="156" cy="124" rx="7" ry="11" fill="#d6a586"/><ellipse cx="244" cy="124" rx="7" ry="11" fill="#d6a586"/>
-  <!-- short grey curls -->
+  <!-- short gray curls -->
   <g fill="#a3a49a">
     <circle cx="162" cy="92" r="16"/><circle cx="178" cy="74" r="17"/><circle cx="200" cy="68" r="18"/><circle cx="222" cy="74" r="17"/><circle cx="238" cy="92" r="16"/><circle cx="152" cy="110" r="10"/><circle cx="248" cy="110" r="10"/><circle cx="190" cy="84" r="10"/><circle cx="212" cy="86" r="10"/>
   </g>

@@ -3,7 +3,7 @@
  *
  *  1. Settings (time zone, storage keys, demo dates)
  *  2. Helpers (escaping, plurals, money, URL parameters, storage, toast)
- *  3. Time (every date is UK time, Europe/London; Scottish bank holidays; working days)
+ *  3. Time (every date is Eastern time, America/New_York; US federal holidays; business days)
  *  4. Data lookups
  *  5. Keeping the demo current (KEEP_DEMO_CURRENT) and the booking calendar
  *  6. Artwork: every project's frames are drawn as SVG (ART)
@@ -15,7 +15,7 @@
  * 12. Services: the scope and fee estimator
  * 13. Journal
  * 14. About: collaborators
- * 15. Contact: the project enquiry
+ * 15. Contact: the project inquiry
  * 16. Start
  */
 (function () {
@@ -28,9 +28,9 @@
      1. Settings
      ====================================================================== */
   // Every date and time on the site (availability, reply dates, journal) is wall-clock time here.
-  var TIMEZONE = 'Europe/London';
-  var LOCALE = 'en-GB';
-  var CURRENCY = 'GBP';
+  var TIMEZONE = 'America/New_York';
+  var LOCALE = 'en-US';
+  var CURRENCY = 'USD';
   // localStorage keys. Both are validated on every read (see DOCS.md, "Saved data").
   //   shortlist: ['<project id>', ...]
   //   estimate:  { service, seconds, style, rounds, rush, addons: ['<add-on id>', ...] }
@@ -39,7 +39,7 @@
   var DEFAULT_PROJECT = 'season-of-tides';
   // Demo dates: the journal is written for the week of DEMO_ANCHOR. While KEEP_DEMO_CURRENT is
   // true, every note moves forward by the whole weeks that have passed since then, so the newest
-  // note is always less than a fortnight old and weekdays stay right. Set it to false when you
+  // note is always less than two weeks old and weekdays stay right. Set it to false when you
   // write real notes: they then keep their dates. Availability and reply dates are always worked
   // out from today (STUDIO.leadWeeks, STUDIO.replyWorkingDays in data.js).
   var KEEP_DEMO_CURRENT = true;
@@ -132,18 +132,18 @@
   /* ======================================================================
      3. Time (always in TIMEZONE)
      ====================================================================== */
-  var partsFmt = new Intl.DateTimeFormat('en-GB', { timeZone: TIMEZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' });
+  var partsFmt = new Intl.DateTimeFormat('en-US', { timeZone: TIMEZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' });
   function zoneParts(date) {
     var p = {};
     partsFmt.formatToParts(date).forEach(function (x) { p[x.type] = x.value; });
     return { y: +p.year, m: +p.month, d: +p.day, h: +p.hour % 24, mi: +p.minute, s: +p.second };
   }
-  // Milliseconds TIMEZONE is ahead of UTC at an instant (0 in winter, 1 h in summer).
+  // Milliseconds TIMEZONE is ahead of UTC at an instant (-5 h in winter, -4 h in summer).
   function offsetAt(ms) {
     var p = zoneParts(new Date(ms));
     return Date.UTC(p.y, p.m - 1, p.d, p.h, p.mi, p.s) - Math.floor(ms / 1000) * 1000;
   }
-  // ?now=2027-03-01 or ?now=2027-03-01T09:30 (UK time) previews the site on another date.
+  // ?now=2027-03-01 or ?now=2027-03-01T09:30 (Eastern time) previews the site on another date.
   var previewNow = (function () {
     var v = param('now');
     var m = v && /^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2}))?$/.exec(v);
@@ -165,48 +165,44 @@
   function fmtDay(n, opts) {
     return new Intl.DateTimeFormat(LOCALE, Object.assign({ timeZone: 'UTC' }, opts)).format(new Date(n * 864e5 + 12 * 36e5));
   }
-  // 'Monday 7 December' (the year is added when it isn't this year).
+  // 'Monday, December 7' (the year is added when it isn't this year).
   function longDay(n, withWeekday) {
     var opts = { day: 'numeric', month: 'long' };
     if (yearOf(n) !== zoneParts(now()).y) opts.year = 'numeric';
-    // Built in two parts: en-GB puts a comma after the weekday when a year is shown.
-    return (withWeekday !== false ? fmtDay(n, { weekday: 'long' }) + ' ' : '') + fmtDay(n, opts);
+    return (withWeekday !== false ? fmtDay(n, { weekday: 'long' }) + ', ' : '') + fmtDay(n, opts);
   }
   function monthName(n, withYear) { return fmtDay(n, withYear ? { month: 'long', year: 'numeric' } : { month: 'long' }); }
 
-  // Easter Sunday (Gregorian), as a day number.
-  function easter(y) {
-    var a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4;
-    var f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30;
-    var i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
-    var month = Math.floor((h + l - 7 * m + 114) / 31), day = ((h + l - 7 * m + 114) % 31) + 1;
-    return dayOf(y, month, day);
-  }
-  function firstMonday(y, m) { var n = dayOf(y, m, 1); while (weekday(n) !== 1) n++; return n; }
+  function nthWeekday(y, m, wd, nth) { var n = dayOf(y, m, 1); while (weekday(n) !== wd) n++; return n + (nth - 1) * 7; }
+  function firstMonday(y, m) { return nthWeekday(y, m, 1, 1); }
   function lastMonday(y, m) { var n = dayOf(y, m + 1, 1) - 1; while (weekday(n) !== 1) n--; return n; }
-  // A holiday on a weekend moves to the next weekday that isn't already a holiday.
-  function substitute(n, taken) {
-    while (weekday(n) === 0 || weekday(n) === 6 || taken.indexOf(n) !== -1) n++;
-    return n;
-  }
-  // Scottish bank holidays for any year, from the rules (not a list of dates).
+  // A holiday on a Saturday is observed the Friday before, one on a Sunday the Monday after.
+  function observed(n) { var w = weekday(n); return w === 6 ? n - 1 : w === 0 ? n + 1 : n; }
+  // US federal holidays for any year, from the rules (not a list of dates). The function keeps
+  // its original name so existing customizations still work.
   var holidayCache = {};
   function scottishBankHolidays(y) {
     if (has(holidayCache, String(y))) return holidayCache[y];
-    var list = [];
-    var newYear = substitute(dayOf(y, 1, 1), list); list.push(newYear);
-    list.push(substitute(dayOf(y, 1, 2), list));
-    list.push(easter(y) - 2); // Good Friday
-    list.push(firstMonday(y, 5));
-    list.push(lastMonday(y, 5));
-    list.push(firstMonday(y, 8));
-    list.push(substitute(dayOf(y, 11, 30), list)); // St Andrew's Day
-    var xmas = substitute(dayOf(y, 12, 25), list); list.push(xmas);
-    list.push(substitute(dayOf(y, 12, 26), list));
+    var list = [
+      observed(dayOf(y, 1, 1)), // New Year's Day
+      nthWeekday(y, 1, 1, 3), // Martin Luther King Jr. Day
+      nthWeekday(y, 2, 1, 3), // Washington's Birthday
+      lastMonday(y, 5), // Memorial Day
+      observed(dayOf(y, 6, 19)), // Juneteenth
+      observed(dayOf(y, 7, 4)), // Independence Day
+      firstMonday(y, 9), // Labor Day
+      nthWeekday(y, 10, 1, 2), // Columbus Day
+      observed(dayOf(y, 11, 11)), // Veterans Day
+      nthWeekday(y, 11, 4, 4), // Thanksgiving
+      observed(dayOf(y, 12, 25)) // Christmas
+    ];
+    // Next New Year's Day on a Saturday is observed on December 31 of this year.
+    var nextNewYear = observed(dayOf(y + 1, 1, 1));
+    if (yearOf(nextNewYear) === y) list.push(nextNewYear);
     holidayCache[y] = list;
     return list;
   }
-  // The studio's winter closure (STUDIO.winterClosure, e.g. 24 December to 4 January).
+  // The studio's winter closure (STUDIO.winterClosure, e.g. December 24 to January 4).
   function inWinterClosure(n) {
     var c = D.STUDIO.winterClosure, iso = isoFromDayNum(n).slice(5);
     return iso >= c[0] || iso <= c[1];
@@ -220,8 +216,8 @@
     while (count > 0) { d++; if (isWorkingDay(d)) count--; }
     return d;
   }
-  // Short zone label: browsers differ ("BST" or "GMT+1"), so London uses its own labels.
-  function zoneName(date) { return offsetAt(date.getTime()) ? 'BST' : 'GMT'; }
+  // Short zone label: browsers differ ("EDT" or "GMT-4"), so Eastern time uses its own labels.
+  function zoneName(date) { return offsetAt(date.getTime()) === -4 * 36e5 ? 'EDT' : 'EST'; }
 
   /* ======================================================================
      4. Data lookups
@@ -266,7 +262,7 @@
     return plural(Math.round(diff / 30.4), 'month') + ' ago';
   }
 
-  // The first Monday at least STUDIO.leadWeeks away that is a working day.
+  // The first Monday at least STUDIO.leadWeeks away that is a business day.
   function earliestStart() {
     var n = todayNum() + D.STUDIO.leadWeeks * 7;
     while (weekday(n) !== 1 || !isWorkingDay(n)) n++;
@@ -321,7 +317,7 @@
       }
       return s + rect(0, 168, W, 12, c[2], ' opacity=".9"');
     },
-    // Morrowfield: a nine-blade iris opening on a flood of colour.
+    // Morrowfield: a nine-blade iris opening on a flood of color.
     iris: function (t, c) {
       var id = 'iris' + (++uid), cx = 160, cy = 90, R = 74, r = 6 + 50 * t, rot = t * 120;
       var s = rect(0, 0, W, H, c[0]) + '<defs><clipPath id="' + id + '"><circle cx="160" cy="90" r="' + R + '"/></clipPath></defs>';
@@ -338,7 +334,7 @@
       }
       return s;
     },
-    // The Lowlight Hours: a tenement whose windows light one by one through the night.
+    // The Lowlight Hours: an apartment house whose windows light one by one through the night.
     windows: function (t, c) {
       var rnd = seeded(7), s = rect(0, 0, W, H, c[0]);
       s += circle(268, 34, 13, c[1]) + circle(274, 30, 12, c[0]);
@@ -366,7 +362,7 @@
       s += poly(roofs, '#000', ' opacity=".45"');
       return s + rect(110, 156, 6, 6, c[2]) + rect(214, 158, 6, 6, c[2], ' opacity="' + f(t) + '"');
     },
-    // How the Heat Gets Home: a drop of warm water travels from the river to the flats.
+    // How the Heat Gets Home: a drop of warm water travels from the river to the apartments.
     pipes: function (t, c) {
       var pts = [[30, 146], [96, 146], [96, 118], [150, 118], [150, 146], [212, 146], [212, 108], [276, 108]];
       var s = rect(0, 0, W, H, c[0]) + rect(0, 154, W, 26, c[1], ' opacity=".08"');
@@ -426,7 +422,7 @@
       s += '<g transform="translate(228 72) rotate(' + f(rot) + ')">' + circle(0, 0, 26, 'none', ' stroke="' + c[2] + '" stroke-width="4"') + rect(-26, -2, 52, 4, c[2]) + poly([[0, -26], [9, -8], [-9, -8]], c[2]) + '</g>';
       return s;
     },
-    // Ninefold: a three-by-three grid of savings pots filling up and trading places.
+    // Ninefold: a three-by-three grid of savings jars filling up and trading places.
     grid: function (t, c) {
       var s = rect(0, 0, W, H, c[0]), size = 36, gap = 9, x0 = 160 - (size * 1.5 + gap), y0 = 90 - (size * 1.5 + gap);
       var swap = clamp((t - 0.55) * 3, 0, 1);
@@ -499,7 +495,7 @@
       }
       return s + circle(px, py, 18, 'none', ' stroke="' + c[3] + '" stroke-width="2" opacity=".85"');
     },
-    // Ochil Lights: aurora ribbons, one per stem of the mix, over the hills.
+    // Talcott Lights: aurora ribbons, one per stem of the mix, over the hills.
     aurora: function (t, c) {
       var rnd = seeded(23), s = rect(0, 0, W, H, c[0]);
       for (var k = 0; k < 44; k++) s += circle(rnd() * W, rnd() * 110, rnd() * 0.9 + 0.3, c[1], ' opacity=".7"');
@@ -584,7 +580,7 @@
     trigger.addEventListener('blur', stop);
   }
 
-  // Collaborator portrait marks (about page): an abstract mark in each person's colour.
+  // Collaborator portrait marks (about page): an abstract mark in each person's color.
   function personMark(person) {
     var c = person.colour, s = '<rect width="96" height="96" fill="#24152f"/>', i;
     if (person.shape === 'wave') for (i = 0; i < 5; i++) s += '<path d="' + wavePath(28 + i * 10, 5, 0.12, i, 8, 88) + '" fill="none" stroke="' + c + '" stroke-width="2.5" opacity="' + f(1 - i * 0.15) + '"/>';
@@ -618,13 +614,13 @@
     window.addEventListener('resize', function () { if (window.innerWidth >= 1024 && btn.getAttribute('aria-expanded') === 'true') setOpen(false); });
   }
 
-  // The studio clock in the header and on the contact page: "14:32 GMT", plus open or closed.
+  // The studio clock in the header and on the contact page: "2:32 PM EST", plus open or closed.
   function initClock() {
     var els = $$('[data-local-clock]'), states = $$('[data-open-state]');
     if (!els.length && !states.length) return;
     function paint() {
       var d = now(), p = zoneParts(d);
-      var label = pad(p.h) + ':' + pad(p.mi) + ' ' + zoneName(d);
+      var label = (p.h % 12 || 12) + ':' + pad(p.mi) + (p.h < 12 ? ' AM ' : ' PM ') + zoneName(d);
       els.forEach(function (el) { el.textContent = label; });
       var n = dayOf(p.y, p.m, p.d), hours = D.STUDIO.hours[weekday(n)], hm = pad(p.h) + ':' + pad(p.mi);
       var open = isWorkingDay(n) && hours && hm >= hours[0] && hm < hours[1];
@@ -991,9 +987,9 @@
     // The scrubber: drag through the film; the frame and the timecode follow.
     var hero = $('[data-cs-hero]', root), scrub = $('#cs-scrub'), tc = $('[data-cs-tc]', root);
     function paintScrub() {
-      var t = +scrub.value / 1000, sec = t * p.runtime, frames = Math.round(sec * 25);
+      var t = +scrub.value / 1000, sec = t * p.runtime, frames = Math.round(sec * 24);
       hero.innerHTML = frameSVG(p, t, { label: 'Styleframe from ' + p.title + ' at ' + runtimeCode(Math.floor(sec)) });
-      var code = pad(Math.floor(frames / 1500)) + ':' + pad(Math.floor(frames / 25) % 60) + ':' + pad(frames % 25);
+      var code = pad(Math.floor(frames / 1440)) + ':' + pad(Math.floor(frames / 24) % 60) + ':' + pad(frames % 24);
       tc.textContent = code;
       scrub.setAttribute('aria-valuetext', runtimeLabel(Math.floor(sec)) + ' of ' + runtimeLabel(p.runtime));
     }
@@ -1035,7 +1031,7 @@
 
   /* ======================================================================
      12. Services: the scope and fee estimator. Prices live in data.js (SERVICES, STYLES,
-         ROUNDS, RUSH, ADD_ONS, DEPOSIT, VAT_RATE). URL: services.html?service=music
+         ROUNDS, RUSH, ADD_ONS, DEPOSIT). URL: services.html?service=music
      ====================================================================== */
   function readEstimate(raw) {
     if (!raw || typeof raw !== 'object') return null;
@@ -1065,7 +1061,7 @@
     // If production runs over the winter closure, add the two weeks the studio is shut.
     for (var n = start; n <= end; n++) if (inWinterClosure(n)) { closure = true; break; }
     if (closure) end += 14;
-    return { lines: lines, subtotal: subtotal, vat: Math.round(subtotal * D.VAT_RATE), total: subtotal + Math.round(subtotal * D.VAT_RATE), deposit: Math.round(subtotal * D.DEPOSIT), weeks: weeks, start: start, end: end, closure: closure };
+    return { lines: lines, subtotal: subtotal, deposit: Math.round(subtotal * D.DEPOSIT), weeks: weeks, start: start, end: end, closure: closure };
   }
   function fromPrice(key) {
     var svc = D.SERVICES[key];
@@ -1115,8 +1111,6 @@
         return '<tr class="border-t border-plum-line align-top"><th scope="row" class="py-3 pr-4 text-left font-normal"><span class="block text-lg text-card">' + esc(l.label) + '</span><span class="slate mt-1 block text-haze">' + esc(l.detail) + '</span></th><td class="py-3 text-right font-mono text-lg whitespace-nowrap text-card">' + money(l.amount) + '</td></tr>';
       }).join('');
       $('[data-est-subtotal]').textContent = money(r.subtotal);
-      $('[data-est-vat]').textContent = money(r.vat);
-      $('[data-est-total]').textContent = money(r.total);
       $('[data-est-deposit]').textContent = money(r.deposit);
       $('[data-est-weeks]').textContent = plural(r.weeks, 'week');
       $('[data-est-start]').textContent = longDay(r.start);
@@ -1229,7 +1223,7 @@
   }
 
   /* ======================================================================
-     15. Contact: the project enquiry. Nothing is sent until you connect it: see DOCS.md, "Forms".
+     15. Contact: the project inquiry. Nothing is sent until you connect it: see DOCS.md, "Forms".
      ====================================================================== */
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   function setError(input, msg) {
@@ -1298,7 +1292,7 @@
     for (var i = 0; i < 4; i++) ref += chars.charAt(Math.floor(Math.random() * chars.length));
     return ref;
   }
-  // Budget bands for a total excluding VAT.
+  // Budget bands for a total before sales tax.
   function budgetBand(total) {
     if (total < 5000) return 'under-5k';
     if (total < 10000) return '5k-10k';
@@ -1326,8 +1320,8 @@
       var r = calculate(estimate);
       var summary = D.SERVICES[estimate.service].name + ', ' + runtimeLabel(estimate.seconds) + ', ' + inSentence(D.STYLES[estimate.style].name) + (estimate.rush ? ', rush' : '');
       $('[data-estimate-summary]').textContent = summary;
-      $('[data-estimate-total]').textContent = money(r.subtotal) + ' + VAT';
-      $('#enq-estimate').value = summary + ': ' + money(r.subtotal) + ' excluding VAT';
+      $('[data-estimate-total]').textContent = money(r.subtotal) + ' before sales tax';
+      $('#enq-estimate').value = summary + ': ' + money(r.subtotal) + ' before sales tax';
       $('#enq-service').value = estimate.service;
       $('#enq-budget').value = budgetBand(r.subtotal);
     }
@@ -1339,7 +1333,7 @@
     });
     paintEstimate();
 
-    // Saved projects become references the enquiry can include.
+    // Saved projects become references the inquiry can include.
     var refs = $('[data-enquiry-refs]');
     function paintRefs() {
       var saved = shortlist.map(project).filter(Boolean);

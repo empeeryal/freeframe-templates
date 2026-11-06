@@ -3,14 +3,14 @@
 ## Overview
 
 Mosaic is a multi-page website template for a community arts center, gallery or makers' space. The demo is
-Mosaic, a fictional arts center in an old dye works on Market Street, Ulverston, Cumbria, with classes, gigs,
-film nights, family sessions, free exhibitions, room hire and volunteering. It is built with plain HTML,
-Tailwind CSS v4 and vanilla JavaScript (no frameworks, no build step needed to use it). This guide covers version 1.0.2.
+Mosaic, a fictional arts center in an old dye works on Race Street, Holyoke, Massachusetts, with classes, gigs,
+film nights, family sessions, free exhibitions, room rental and volunteering. It is built with plain HTML,
+Tailwind CSS v4 and vanilla JavaScript (no frameworks, no build step needed to use it). This guide covers version 1.0.5.
 See the template page at [freeframe.dev/templates/mosaic](https://freeframe.dev/templates/mosaic), which links
 to the live demo.
 
 The program has no fixed dates. Every date is worked out in the browser from rules such as "every Tuesday" or
-"last Friday of the month", in UK time, so the site is always current on any day you open it.
+"last Friday of the month", in Eastern time, so the site is always current on any day you open it.
 
 ## Quick start
 
@@ -26,11 +26,11 @@ You only need Node 24 if you change Tailwind classes or `src/input.css` and want
 
 | File | Purpose | Notable sections and features |
 |------|---------|-------------------------------|
-| `index.html` | Home | Hero collage, "This week at Mosaic" (next six sessions, one per listing), eight category tiles with live date counts, the current exhibition, how it works, quote and numbers, get involved and hire teasers |
+| `index.html` | Home | Hero collage, "This week at Mosaic" (next six sessions, one per listing), eight category tiles with live date counts, the current exhibition, how it works, quote and numbers, get involved and rental teasers |
 | `whats-on.html` | The program | Seven-day strip, filters (category, age, price, when, custom dates, saved only), list grouped into Today / This week / Next week / months, "Show three more weeks", winter break note |
 | `event.html` | One listing | Artwork, description, included and bring lists, upcoming dates to choose from, .ics download, booking request form or drop-in note, "More like this" |
 | `workshops.html` | Classes | Weekly timetable (Monday to Sunday), filterable class cards with next session, first-class steps, FAQ |
-| `hire.html` | Room hire | Four rooms with floor plans, live estimate (room, date, start, hours, people, layout, extras, community discount) and inquiry form, FAQ |
+| `hire.html` | Room rental | Four rooms with floor plans, live estimate (room, date, start, hours, people, layout, extras, community discount) and inquiry form, FAQ |
 | `get-involved.html` | Volunteering and support | On-page navigation, six volunteer roles, volunteer form, Friends membership tiers, teach / exhibit / start a group |
 | `about.html` | Our story | Story and timeline, values, team with cut-paper portraits, how the center is funded |
 | `visit.html` | Visiting | Live opening status, hours table with today highlighted, winter break note, illustrated map, getting here, access, contact form |
@@ -44,8 +44,8 @@ mosaic/
   get-involved.html, about.html, visit.html, 404.html
   assets/
     css/style.css        compiled Tailwind CSS (generated; do not edit by hand)
-    js/data.js           the programme, rooms, hours and settings (edit this)
-    js/main.js           all behaviour: dates, programme, artwork, filters, forms
+    js/data.js           the program, rooms, hours and settings (edit this)
+    js/main.js           all behavior: dates, program, artwork, filters, forms
     img/hero.svg         home page collage
     img/about.svg        about page collage
     img/favicon.svg      the tile logo
@@ -113,13 +113,14 @@ Page text is in the HTML files. The program, rooms and settings are in `assets/j
 | `CENTRE` | Name, address, phone, email and `uidDomain` (used in .ics UIDs) |
 | `HOURS` | Welcome desk hours by weekday (`0` = Sunday); `null` means closed |
 | `WINTER_BREAK` | The yearly closure, `{ from: { month: 12, day: 24 }, to: { month: 1, day: 1 } }` |
+| `HOLIDAYS` | Holidays the building also closes for, by rule: Thanksgiving (`{ month: 11, nth: 4, day: 4 }`, the fourth Thursday of November) and the Fourth of July (`{ month: 7, date: 4 }`) |
 | `CATEGORIES` | Program categories: `print`, `clay`, `textile`, `music`, `family`, `exhibition`, `film`, `studio`, each with a `label` and a color `tone` |
 | `AGES` | Who a listing is for: `all`, `under5`, `kids`, `teens`, `adults` |
 | `AGE_FILTERS` | The age filter options and which `AGES` each one shows |
 | `PRICE_FILTERS` | The price filter options: `any`, `free`, `under10`, `pwyc` |
-| `ROOMS` | Rooms in the building; rooms with `hire` (rate per hour, seated and standing capacity, size) appear on the hire page |
-| `HIRE_EXTRAS` | Flat-fee extras for hire: `projector` (£15), `pa` (£25), `kitchen` (£12), `clear` (£30) |
-| `HIRE` | Hire rules: `minHours` 2, `maxHours` 10, `firstStart` 8, `lastEnd` 22, `communityDiscount` 0.3, `eveningSurcharge` 0.15 from `eveningFrom` 18 |
+| `ROOMS` | Rooms in the building; rooms with `hire` (rate per hour, seated and standing capacity, size) appear on the rental page |
+| `HIRE_EXTRAS` | Flat-fee extras for rentals: `projector` ($25), `pa` ($40), `kitchen` ($20), `clear` ($50) |
+| `HIRE` | Rental rules: `minHours` 2, `maxHours` 10, `firstStart` 8, `lastEnd` 22, `communityDiscount` 0.3, `eveningSurcharge` 0.15 from `eveningFrom` 18 |
 | `LISTINGS` | The 20 listings in the program |
 | `GALLERY` | The order and length of exhibitions in the Foyer Gallery |
 
@@ -140,9 +141,9 @@ A listing looks like this:
 | `cat` | A key of `CATEGORIES` |
 | `workshop` | `true` to list it on `workshops.html` |
 | `rule` | When it repeats (see [Date rules](#date-rules)); exhibitions have none |
-| `start`, `end` | UK times, `HH:MM` |
+| `start`, `end` | Eastern times, 24-hour `HH:MM`; the site shows them on a 12-hour clock |
 | `room` | A key of `ROOMS` |
-| `price`, `per`, `pwyc` | Price in pounds (`0` = free), what it is per (`session`, `child`, `ticket`, `person`), and `pwyc: true` for pay what you can |
+| `price`, `per`, `pwyc` | Price in dollars (`0` = free), what it is per (`session`, `child`, `ticket`, `person`), and `pwyc: true` for pay what you can |
 | `ages` | A key of `AGES` |
 | `places`, `booking` | Places per session, and `'book'` (shows the booking form) or `'drop-in'` |
 | `summary`, `body`, `bring`, `included` | Text for cards and the event page |
@@ -153,7 +154,7 @@ home page, the event page and (with `workshop: true`) the workshops page and tim
 
 ### Date rules
 
-Every date is calculated from today in UK time (`TIMEZONE = 'Europe/London'` in `main.js`), so the demo never
+Every date is calculated from today in Eastern time (`TIMEZONE = 'America/New_York'` in `main.js`), so the demo never
 shows past events.
 
 | Rule | Meaning |
@@ -163,20 +164,20 @@ shows past events.
 | `{ every: 'month', nth: [2, 4], day: 0 }` | Second and fourth Sunday |
 | `{ every: 'month', nth: [-1], day: 5 }` | Last Friday of the month |
 
-- No sessions are listed during `WINTER_BREAK` (24 December to 1 January); the what's-on list and the visit
-  page show a note when the break is near.
+- No sessions are listed during `WINTER_BREAK` (December 24 to January 1) or on `HOLIDAYS`; the what's-on list
+  shows a note for each closure in its range, and the visit page shows a note when the winter break is near.
 - Sessions that have already finished today are hidden; the list always starts with today (or the next open
   day) and never skips the coming week.
 - **Exhibitions** take turns in the Foyer Gallery. `GALLERY.anchor` (`'2026-09-26'`, a Saturday) is when the
   first run in `GALLERY.runs` opened; each run lasts its `weeks`, opens on a Saturday, closes on a Sunday, and
   the next one opens the following Saturday. The cycle repeats forever. The Friday before each opening is a
-  free preview evening (`GALLERY.preview`, 18:00 to 20:00).
+  free preview evening (`GALLERY.preview`, 6:00 to 8:00 PM).
 
 For a real site with one-off dates, the simplest change is to keep using rules for regular sessions and add
 exhibitions to `GALLERY.runs` in the order you will show them, setting `GALLERY.anchor` to the first opening day.
 There is no switch to turn off: the rules are the program.
 
-The `?now=YYYY-MM-DDTHH:MM` URL parameter (UK time) previews any page on another date, for example
+The `?now=YYYY-MM-DDTHH:MM` URL parameter (Eastern time) previews any page on another date, for example
 `whats-on.html?now=2027-12-28T10:00` to see the winter break.
 
 ### Images and artwork
@@ -209,7 +210,7 @@ shows the saved count (`data-saved-count`).
 `main.js` section 4. `occurrences(from, to, filter)` returns every session, exhibition run and preview between
 two day numbers, sorted by date and time. `ruleText()` writes "Every Tuesday" or "Second and fourth Sunday of
 the month", `upcoming(listing, count)` returns the next dates of one listing, and `isClosed(day)` applies the
-winter break. Times are converted to real instants with `zonedToDate()` so calendar files are right in summer
+winter break and holidays. Times are converted to real instants with `zonedToDate()` so calendar files are right in summer
 and winter time.
 
 ### What's on
@@ -238,7 +239,7 @@ pressing the same day again clears it. The result count is a live region (`role=
 and `?date=` (one of the next eight sessions; otherwise the next one is selected and a notice explains why).
 Choosing a date updates the URL, the "Next date" panel, the booking form and the calendar download. Listings
 with `booking: 'book'` show a booking request form with a live total; drop-in listings and exhibitions show a
-"Just turn up" note instead.
+"Just show up" note instead.
 
 ### Calendar downloads
 
@@ -254,21 +255,21 @@ Press **Save** on any card, row or event page. Saved ids are stored under `mosai
 ### Workshops
 
 `initWorkshops()` lists every listing with `workshop: true`, with filters for type (`?type=`, a category that has
-workshops) and time (`?time=any|day|evening|weekend`). Weekday sessions starting at 17:00 or later count as
+workshops) and time (`?time=any|day|evening|weekend`). Weekday sessions starting at 5:00 PM or later count as
 evenings. The timetable shows every regular listing by weekday.
 
-### Hire estimate
+### Rental estimate
 
 `initHire()` recalculates on every `input` and `change` event. Hours before `HIRE.eveningFrom` use the room
 rate; later hours add `HIRE.eveningSurcharge` (15%). Extras are added, then the community discount (30%) is taken
 off the total. People over the room's seated (or standing, for the Standing layout) capacity show a note that
 suggests a bigger room. `?room=` preselects a room (`print-room`, `yard-room`, `snug`, `ground`). On submit the
-form also checks that the date is from tomorrow, within a year and not in the winter break, that the room is
-big enough and that the booking ends by 22:00.
+form also checks that the date is from tomorrow, within a year and not in the winter break or on a holiday, that the room is
+big enough and that the booking ends by 10:00 PM.
 
 ### Opening status
 
-`initStatus()` fills every `[data-open-status]` ("Open now until 17:00", "Closed now. Opens tomorrow at 10:00")
+`initStatus()` fills every `[data-open-status]` ("Open now until 5:00 PM", "Closed now. Opens tomorrow at 10:00 AM")
 from `HOURS` and highlights today's row in the visit page's hours table. A note about the winter break appears
 on the visit page when it is less than eight weeks away.
 
@@ -292,7 +293,7 @@ you connect them**. The forms are:
 | Form | Page | Checks |
 |------|------|--------|
 | `#booking-form` | event | Date, places, name, email |
-| `#hire-form` | hire | Room, date (tomorrow to a year ahead, not in the winter break), people within capacity, finish by 22:00, name, email, optional phone format, message of 20+ characters |
+| `#hire-form` | rent a space | Room, date (tomorrow to a year ahead, not in the winter break or on a holiday), people within capacity, finish by 10:00 PM, name, email, optional phone format, message of 20+ characters |
 | `#volunteer-form` | get involved | Name, email, role, at least one time (`fieldset[data-group]`), consent |
 | `#friends-form` | get involved | Membership tier, email |
 | `#contact-form` | visit | Name, email, message of 15+ characters |
@@ -320,7 +321,7 @@ Give every input a `name` attribute (they already have one) so it is included in
 Each success message confirms the request in the center's own words, says what happens next and, except for the
 newsletter, shows a short reference made in the browser by `makeRef()` (`MA-` and four characters, no 0/O or 1/I).
 If your booking system or form service returns its own reference, show that instead. The messages promise a reply
-within two working days (bookings, room hire and the contact form, as the hire and visit pages say), a call from the
+within two business days (bookings, room rentals and the contact form, as the rental and visit pages say), a call from the
 volunteer coordinator within a week, an email link to set up a Friends membership and a confirmation email for the
 newsletter: change them to match how you actually handle requests.
 
@@ -370,16 +371,16 @@ so the site also works from a sub-folder.
 
 ## Troubleshooting
 
-- **The program is empty or shows "Loading the programme…"**: JavaScript is off or `assets/js/data.js` didn't
+- **The program is empty or shows "Loading the program…"**: JavaScript is off or `assets/js/data.js` didn't
   load. Check that both scripts are present and that `data.js` is listed before `main.js`.
 - **A new listing doesn't appear**: check that `cat`, `room` and `ages` are existing keys, that `rule.day` is
   0 to 6, and that `start`/`end` use `HH:MM`.
-- **Dates are a day out**: the site always uses UK time. Change `TIMEZONE` in `main.js` if your center is
+- **Dates are a day out**: the site always uses Eastern time. Change `TIMEZONE` in `main.js` if your center is
   elsewhere, and the currency in `money()`.
 - **New Tailwind classes have no effect**: rebuild the CSS (`npm run build`). Classes built in JavaScript must be
   written out in full in a source file so Tailwind can find them.
 - **Saved events disappear**: the browser is blocking storage, so they are only kept in memory for the page view.
-- **The calendar file opens at the wrong time**: make sure the event's `start` and `end` are UK times; the file
+- **The calendar file opens at the wrong time**: make sure the event's `start` and `end` are Eastern times; the file
   stores UTC times and calendar apps convert them.
 
 ## License

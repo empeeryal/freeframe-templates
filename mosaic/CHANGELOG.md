@@ -5,6 +5,13 @@ All notable changes to the Mosaic HTML template are documented here. The format 
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-05
+
+### Changed
+
+- Set in Holyoke, Massachusetts, with American spelling, US dollars, US phone numbers and local details.
+- Times show on a 12-hour clock in Eastern time and dates use the US format. The building now also closes on Thanksgiving Day and the Fourth of July, worked out by rule, and the program and room-rental form respect those days.
+
 ## [1.0.4] - 2026-11-05
 
 ### Changed

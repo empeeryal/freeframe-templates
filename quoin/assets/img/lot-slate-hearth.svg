@@ -21,7 +21,7 @@
   <path d="M52 190l244 38" stroke="#b7c0bc" stroke-width="2" stroke-linecap="round" opacity=".8"/>
   <!-- top face; back edge rough-cut -->
   <path d="M46 186L96 128 106 128 116 131 127 129 137 137 147 138 158 136 168 136 178 137 188 139 198 147 209 149 219 148 229 146 240 149 250 156 260 158 270 156 280 158 291 158 301 157 311 163 322 163 332 162 342 168 L296 222z" fill="url(#top)" stroke="#2e3533" stroke-width="2" stroke-linejoin="round"/>
-  <!-- riven grain and colour patches -->
+  <!-- riven grain and color patches -->
   <g stroke="#a5afab" stroke-linecap="round" opacity=".45">
     <path d="M80 160q120 14 236 36"/><path d="M96 146q110 12 228 34"/><path d="M64 176q110 14 236 38"/><path d="M110 136q100 10 214 30"/>
   </g>
@@ -34,8 +34,8 @@
   <path d="M110 192l40 4m100 18 30 6" stroke="#cdd4d0" stroke-width="1" opacity=".6"/>
   <!-- dimension along the front -->
   <path d="M48 222l246 40m-246-46v12m246 28v12" stroke="#7e4035" stroke-width="1.5"/>
-  <text x="152" y="262" fill="#7e4035" font-family="Sarabun, Arial, sans-serif" font-size="12" letter-spacing="1" transform="rotate(9.2 152 262)">101 CM</text>
-  <text x="318" y="230" fill="#7e4035" font-family="Sarabun, Arial, sans-serif" font-size="12" letter-spacing="1">3 CM</text>
+  <text x="152" y="262" fill="#7e4035" font-family="Sarabun, Arial, sans-serif" font-size="12" letter-spacing="1" transform="rotate(9.2 152 262)">40 IN</text>
+  <text x="318" y="230" fill="#7e4035" font-family="Sarabun, Arial, sans-serif" font-size="12" letter-spacing="1">1¼ IN</text>
   <text x="200" y="98" fill="#596450" font-family="Sarabun, Arial, sans-serif" font-size="11" letter-spacing="1">ROUGH-CUT BACK EDGE</text>
   <path d="M224 104l-6 26" stroke="#596450"/>
 </svg>

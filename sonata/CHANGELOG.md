@@ -4,6 +4,13 @@ All notable changes to Sonata are recorded here.
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-11-05
+
+### Changed
+
+- Set in Bloomington, Indiana, with American spelling, US dollars, US phone numbers and local details.
+- Times show on a 12-hour clock in Eastern time and dates use the US format. The school now closes on US federal holidays, worked out by rule, and each term's mid-term break week starts on Presidents' Day, Memorial Day or Columbus Day.
+
 ## [1.0.2] - 2026-11-05
 
 ### Changed

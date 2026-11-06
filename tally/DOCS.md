@@ -3,13 +3,18 @@
 ## Overview
 
 Tally is a marketing website template for a SaaS or fintech product: invoicing, expenses and simple
-bookkeeping software for freelancers and small studios. The fictional company is Tally Software Ltd, based
-on Lapp’s Quay in Cork, Ireland, so prices are in euro, VAT is the Irish standard rate of 23% and the copy uses
-British/Irish spelling. It is plain HTML, Tailwind CSS v4 and one vanilla JavaScript file. This guide covers version 1.0.3.
+bookkeeping software for freelancers and small studios. The fictional company is Tally Software, Inc., based
+on Ionia Avenue in Grand Rapids, Michigan, so prices are in US dollars, exclude sales tax, and the copy uses
+American spelling. Times are Eastern (`America/Detroit`). It is plain HTML, Tailwind CSS v4 and one vanilla JavaScript file. This guide covers version 1.0.6.
 See the live demo at [freeframe.dev/templates/tally](https://freeframe.dev/templates/tally).
 
 Money and tax copy in the template is deliberately general ("not tax advice", no guaranteed savings). If you
 use it for a real product, have your own figures and claims checked.
+
+The 6% sales tax in the hero invoice and the pricing toggle is a sample: it is Michigan’s state rate, but what is
+taxable varies by state and by item, and many services and hosted software aren’t taxed in Michigan. Set `VAT_RATE`
+and the wording to what applies to you. Some internal names (`VAT_RATE`, `data-vat`, `data-vat-toggle`, the saved
+`vat` value, `#gdpr-title`) keep their original spelling so existing customizations keep working.
 
 ## Quick start
 
@@ -35,13 +40,13 @@ You only need Node if you add Tailwind classes that aren't already in `assets/cs
 |------|---------|-------------------------------|
 | `index.html` | Home | Live invoice hero (edit quantities, simulate payment), customer wordmarks, three product cards, dark dashboard band with an SVG cash flow chart, set-up steps, testimonials, calculator and pricing teasers, call to action |
 | `features.html` | Features | Product tour in ARIA tabs (invoicing, expenses, bookkeeping, reports), reminder email writer, grid of smaller features |
-| `pricing.html` | Pricing | Monthly / annual switch, VAT toggle, three plan cards, comparison table with a sticky header, billing and VAT FAQ |
-| `calculator.html` | Late-payment calculator | Statutory interest and compensation calculator with an SVG chart, time-saved estimate |
+| `pricing.html` | Pricing | Monthly / annual switch, sales tax toggle, three plan cards, comparison table with a sticky header, billing and sales tax FAQ |
+| `calculator.html` | Late-payment calculator | Late-charge calculator (interest from your terms plus a flat late fee) with an SVG chart, time-saved estimate |
 | `integrations.html` | Integrations | Category filters, search, result count, empty state, bank feed notes, API code sample |
 | `customers.html` | Customers | Featured story with before/after bars, six stories filterable by business type |
 | `security.html` | Security and trust | Key facts, six security practices, privacy notes, sub-processor table, responsible disclosure FAQ |
 | `changelog.html` | Changelog | Updates filterable by type (new, improved, fixed) |
-| `contact.html` | Book a demo | Validated demo request form, live office hours in Irish time, next steps, address |
+| `contact.html` | Book a demo | Validated demo request form, live office hours in Eastern time, next steps, address |
 | `404.html` | Not found | A "reconciliation" card and links to the main pages |
 
 ## Project structure
@@ -109,20 +114,20 @@ Text lives in the HTML pages. Data that the JavaScript uses sits at the top of `
 
 | Constant | What it holds |
 |----------|---------------|
-| `LOCALE`, `CURRENCY` | `'en-IE'` and `'EUR'`, used by `money()` to format every amount |
-| `VAT_RATE` | `0.23`, used by the hero invoice and the pricing VAT toggle |
-| `PLANS` | `solo`, `studio`, `practice`: `name`, `monthly` (per month) and `annual` (per year) prices in euro, excluding VAT |
+| `LOCALE`, `CURRENCY` | `'en-US'` and `'USD'`, used by `money()` to format every amount |
+| `VAT_RATE` | `0.06`, the sample sales tax rate used by the hero invoice and the pricing tax toggle |
+| `PLANS` | `solo`, `studio`, `practice`: `name`, `monthly` (per month) and `annual` (per year) prices in US dollars, excluding sales tax |
 | `BILLING_PERIODS`, `DEFAULT_BILLING` | Accepted billing values and the default (`'annual'`) |
 | `STORAGE_KEYS` | localStorage key names (see [Saved data](#saved-data-localstorage)) |
 | `INVOICE_DEMO` | Quantity limits (1–9), stage names and the notes under the hero invoice |
 | `INVOICE_DUE` | Due date of the sample invoice INV-0142 (`'YYYY-MM-DD'`). `null` (the default) is a rolling demo date: the Friday 7 to 13 days from today, so the demo invoice is never overdue |
 | `REMINDER_SAMPLE`, `REMINDER_TONES` | Sample values and the reminder emails per tone (`friendly`, `neutral`, `firm`) and stage (`before`, `due`, `late`) |
-| `LATE_PAYMENT` | Margin over the reference rate (8 points), days in a year and compensation tiers |
+| `LATE_PAYMENT` | Points added to the rate entered (`margin: 0`, so it is used as written), days in a year and the flat late-fee tiers (`compensation`) |
 | `TIME_ASSUMPTIONS` | Minutes per invoice with Tally (4) and the reduction in chasing (0.8) |
 | `CALC_FIELDS` | Default, minimum and maximum for every calculator input |
 | `CALC_URL_PARAMS` | Calculator fields read from and written to the URL (`amount`, `days`) |
 | `INTEGRATION_CATEGORIES` | Category keys accepted from `integrations.html?category=` |
-| `OFFICE` | Office hours on the contact page: `timeZone: 'Europe/Dublin'`, weekdays 1–5, 9:00 to 17:30 |
+| `OFFICE` | Office hours on the contact page: `timeZone: 'America/Detroit'`, weekdays 1–5, 9 a.m. to 5:30 p.m. |
 
 **Changing a price.** Edit `PLANS` and the starting values in the plan cards on `pricing.html` (the HTML shows
 the annual prices before JavaScript runs). Annual is ten months for twelve, so keep `annual = monthly × 10` if
@@ -149,7 +154,7 @@ A new category needs a pill (`<button class="pill" data-filter="your-key">`) and
 `INTEGRATION_CATEGORIES`. Customer stories and changelog entries use the same markup (`data-integration` and
 `data-category`) with their own pills.
 
-**Hero invoice lines.** Each row in `#invoice-demo` has `data-line` and `data-price` (unit price excluding VAT).
+**Hero invoice lines.** Each row in `#invoice-demo` has `data-line` and `data-price` (unit price excluding sales tax).
 Edit the name, price and starting quantity in the HTML; totals are recalculated on load.
 
 ### Images and artwork
@@ -173,11 +178,11 @@ footer.
 ### Hero invoice demo
 
 `index.html`, `#invoice-demo`; code in `initInvoiceDemo()` (section 4). The minus and plus buttons change a
-line's quantity between `INVOICE_DEMO.minQty` and `maxQty`; the subtotal, VAT (`VAT_RATE`, rounded to the
+line's quantity between `INVOICE_DEMO.minQty` and `maxQty`; the subtotal, sales tax (`VAT_RATE`, rounded to the
 cent) and total update and the total briefly flashes. **Simulate payment** moves the invoice from Viewed to
 Paid: the chip turns green, the progress track completes, a "Payment received" card appears and the
-quantities lock. The button then reads **Reset demo**. With the starting quantities the total is €4,329.60
-(€3,520.00 + €809.60 VAT). Changes are announced in a polite live region; the progress list marks the current
+quantities lock. The button then reads **Reset demo**. With the starting quantities the total is $5,766.40
+($5,440.00 + $326.40 sales tax). Changes are announced in a polite live region; the progress list marks the current
 stage with `aria-current="step"`.
 
 ### Product tour tabs
@@ -191,43 +196,44 @@ and scroll to it. Without JavaScript every panel is visible.
 
 `features.html#reminders`; `initReminders()` (section 6). Tone buttons (`data-tone`, `aria-pressed`) and stage
 radios (`name="reminder-stage"`) choose one of the nine emails in `REMINDER_TONES`; `{invoice}`, `{amount}`,
-`{due}`, `{dueDay}` and `{client}` are filled from `REMINDER_SAMPLE`; `{due}` ("Friday 30 October") and
+`{due}`, `{dueDay}` and `{client}` are filled from `REMINDER_SAMPLE`; `{due}` ("Friday, October 30") and
 `{dueDay}` ("Friday") come from `INVOICE_DUE`, like the "Due" date on the hero invoice (`time[data-invoice-due]`).
 The preview card is a polite live region.
 
-### Pricing switch and VAT toggle
+### Pricing switch and sales tax toggle
 
 `pricing.html`; `initPricing()` (section 7). The billing buttons (`data-billing`) show either the monthly
-price or the annual price divided by twelve, with "Billed €300 yearly" or "Billed monthly" underneath. The
-saving is `monthly × 12 − annual` per plan: €24, €60 and €120 a year. The checkbox `data-vat-toggle`
-multiplies everything by `1 + VAT_RATE` (Studio monthly becomes €36.90) and changes the VAT note. Whole euro
+price or the annual price divided by twelve, with "Billed $300 yearly" or "Billed monthly" underneath. The
+saving is `monthly × 12 − annual` per plan: $24, $60 and $120 a year. The checkbox `data-vat-toggle`
+multiplies everything by `1 + VAT_RATE` (Studio monthly becomes $31.80) and changes the tax note. Whole dollar
 amounts drop the cents (`money(n, true)`). The choice is saved (see below) and `?billing=monthly` or
 `?billing=annual` in the URL overrides it; clicking a billing button updates the URL. A status line announces
 the change to screen readers. The comparison table header is sticky below the site header.
 
 ### Late-payment calculator
 
-`calculator.html`; `initCalculators()` and `lateClaim()` (section 8). Inputs: amount (€1 to €1,000,000),
-days overdue (1 to 365, a slider) and the ECB reference rate (0 to 10%). The rules:
+`calculator.html`; `initCalculators()` and `lateClaim()` (section 8). Inputs: amount ($1 to $1,000,000),
+days overdue (1 to 365, a slider) and the annual interest rate in your terms (0 to 36%). The US has no single
+late-payment rate for businesses, so the calculator uses what the visitor’s own terms say. The rules:
 
-- statutory rate = reference rate + `LATE_PAYMENT.margin` (8 points);
-- interest = amount × statutory rate ÷ 100 × days ÷ 365, rounded to the cent;
-- compensation = €40 under €1,000, €70 from €1,000 to under €10,000, €100 from €10,000.
+- annual rate = rate entered + `LATE_PAYMENT.margin` (0 points);
+- interest = amount × annual rate ÷ 100 × days ÷ 365, rounded to the cent;
+- flat late fee (an example; set your own in `LATE_PAYMENT.compensation`) = $25 under $1,000, $50 from $1,000 to under $10,000, $100 from $10,000.
 
-With the defaults (€2,400, 45 days, 2.15%) the claim is €100.03: 10.15%, €30.03 interest, €0.67 a day, €70
-compensation. `calculator.html?amount=12000&days=1` gives €103.34. The chart is drawn in `drawChart()` as inline
-SVG: compensation as a flat band, interest on top, a marker at the chosen day, over 90 days or the next multiple
+With the defaults ($2,400, 45 days, 12%) the result is $85.51: 12.00%, $35.51 interest, $0.79 a day, $50
+late fee. `calculator.html?amount=12000&days=1` gives $103.95. The chart is drawn in `drawChart()` as inline
+SVG: the late fee as a flat band, interest on top, a marker at the chosen day, over 90 days or the next multiple
 of 30. Its text description (`data-chart-desc`) is rewritten each time. Out-of-range numbers mark the input
 `aria-invalid` and leave the last valid result. **Reset to the example** restores the defaults, clears the
-saved values and removes the URL parameters. Update the default reference rate in `CALC_FIELDS.rate.def` and
-the HTML when the ECB rate changes.
+saved values and removes the URL parameters. Change the default rate in `CALC_FIELDS.rate.def` and the HTML to
+match your own terms; state limits vary, so check them first.
 
 ### Time-saved estimate
 
 `calculator.html#time-saved`; `renderTime()` in section 8. Minutes today = invoices × minutes per invoice +
 late invoices × chasing minutes. With Tally = invoices × `TIME_ASSUMPTIONS.minutesPerInvoice` + late invoices
 × chasing × (1 − `chaseReduction`). The defaults give 6.7 hours today, 1.3 hours with Tally and 5.4 hours
-saved, worth €322 at €60 an hour. Hours read "1 hour" or "2.5 hours".
+saved, worth $322 at $60 an hour. Hours read "1 hour" or "2.5 hours".
 
 ### Filters and search
 
@@ -241,9 +247,9 @@ On the integrations page `data-url-param="category"` reads `?category=banking` (
 ### Office hours
 
 `contact.html`; `officeState()` and `initOfficeHours()` (section 10). The time is worked out in
-`OFFICE.timeZone` (`Europe/Dublin`) whatever the visitor's time zone, and refreshed every minute. Inside
-Monday–Friday 9:00–17:30 it reads "It’s 10:42 in Cork and we’re in the office"; outside, it says when the team
-replies ("after 9:00 this morning", "tomorrow" or "on Monday").
+`OFFICE.timeZone` (`America/Detroit`) whatever the visitor's time zone, and refreshed every minute. Inside
+Monday–Friday, 9 a.m. to 5:30 p.m., it reads "It’s 10:42 a.m. in Grand Rapids and we’re in the office"; outside, it says
+when the team replies ("after 9 a.m. this morning", "tomorrow" or "on Monday").
 
 ### Header, menu, reveals and back to top
 
@@ -265,8 +271,8 @@ first submit, fields re-validate as they are fixed.
 
 `contact.html?plan=studio` (or `solo`, `practice`) preselects the plan; the plan buttons on the pricing page
 link there. On success each form is replaced by an in-world confirmation: the newsletter asks the visitor to look
-out for a confirmation email, and the demo request thanks them by first name, says Niamh will email times for a
-call (within two working hours, as the office-hours note promises) and shows a short reference (`TA-` and four
+out for a confirmation email, and the demo request thanks them by first name, says Noelle will email times for a
+call (within two business hours, as the office-hours note promises) and shows a short reference (`TA-` and four
 characters, made in the browser by `makeRef()`; use your form service's own reference instead if it returns one).
 The forms send nothing until you connect them; if your reply times differ, change the message and the
 office-hours note together.
@@ -296,8 +302,8 @@ the browser blocks it (sandboxed iframes, strict privacy settings), so features 
 
 | Key | Shape | Validation on read |
 |-----|-------|--------------------|
-| `tally:pricing` | `{ "billing": "annual", "vat": false }` | `billing` must be an own key of `BILLING_PERIODS`, `vat` a boolean; anything else falls back to annual without VAT |
-| `tally:calculator` | `{ "amount": 2400, "days": 45, "rate": 2.15, "invoices": 12, "minutes": 20, "late": 30, "chase": 45, "hourly": 60 }` | Each field must be an own key of `CALC_FIELDS` and a number within its range; invalid fields keep their defaults |
+| `tally:pricing` | `{ "billing": "annual", "vat": false }` | `billing` must be an own key of `BILLING_PERIODS`, `vat` a boolean; anything else falls back to annual without sales tax |
+| `tally:calculator` | `{ "amount": 2400, "days": 45, "rate": 12, "invoices": 12, "minutes": 20, "late": 30, "chase": 45, "hourly": 60 }` | Each field must be an own key of `CALC_FIELDS` and a number within its range; invalid fields keep their defaults |
 
 URL parameters win over saved values: `pricing.html?billing=`, `calculator.html?amount=&days=`. Other URL
 parameters are `integrations.html?category=` and `contact.html?plan=`; every one is checked with
@@ -309,12 +315,12 @@ calls in sections 7 and 8.
 
 ## SEO and sharing
 
-Each page has its own `<title>`, meta description, Open Graph tags, `theme-color` and `lang="en-IE"`.
+Each page has its own `<title>`, meta description, Open Graph tags, `theme-color` and `lang="en-US"`.
 `og:image` points at `assets/img/og-image.png` with a relative URL; social sites need an absolute URL, so
 change it to your domain when you deploy:
 
 ```html
-<meta property="og:image" content="https://www.example.ie/assets/img/og-image.png">
+<meta property="og:image" content="https://www.tally.example/assets/img/og-image.png">
 ```
 
 Add a `sitemap.xml` listing the nine pages and a `robots.txt` pointing to it. There is no structured data;
@@ -357,7 +363,7 @@ server. There is no build step for the HTML.
   the link.
 - **Prices on the cards are wrong before the page finishes loading.** The HTML shows annual prices; update them
   in `pricing.html` as well as in `PLANS`.
-- **The office hours text looks wrong.** It uses Irish time (`OFFICE.timeZone`); change the time zone and hours
+- **The office hours text looks wrong.** It uses Eastern time (`OFFICE.timeZone`); change the time zone and hours
   in `OFFICE` for another location.
 - **Fonts look different.** Google Fonts is blocked or offline; the system sans-serif fallback is used. Host the
   fonts yourself if you need them offline.
@@ -369,4 +375,4 @@ MIT. The code and all included artwork (logo, wordmarks, integration tiles, avat
 
 Mona Sans and Azeret Mono are licensed under the SIL Open Font License.
 
-Tally, Tally Software Ltd and every business, person and integration named in the template are fictional placeholders.
+Tally, Tally Software, Inc. and every business, person and integration named in the template are fictional placeholders.

@@ -1,10 +1,10 @@
-/* Mosaic: site scripts for a community arts centre in Ulverston. Vanilla JavaScript, no dependencies.
- * The programme, rooms and settings live in assets/js/data.js.
+/* Mosaic: site scripts for a community arts center in Holyoke. Vanilla JavaScript, no dependencies.
+ * The program, rooms and settings live in assets/js/data.js.
  *
  *  1. Settings and data
  *  2. Helpers (escaping, plurals, money, URL parameters, safeStorage, toast, downloads)
- *  3. Time (every date and time is UK time, Europe/London)
- *  4. Programme rules: repeating sessions, the winter break, gallery runs
+ *  3. Time (every date and time is Eastern time, America/New_York)
+ *  4. Program rules: repeating sessions, the winter break, gallery runs
  *  5. Artwork: cut-paper SVG drawn per category
  *  6. Saved events
  *  7. Shared UI: header, menu, reveals, back to top, year, opening status
@@ -23,8 +23,8 @@
   var DATA = window.MOSAIC_DATA;
   if (!DATA) return;
   var CENTRE = DATA.CENTRE;
-  var TIMEZONE = 'Europe/London';
-  var LOCALE = 'en-GB';
+  var TIMEZONE = 'America/New_York';
+  var LOCALE = 'en-US';
   // localStorage key. Validated on every read: an array of listing ids from LISTINGS.
   var STORAGE_KEYS = { saved: 'mosaic-saved' };
   // What's on shows WINDOW_STEP days at first; "Show more" adds WINDOW_STEP more, up to WINDOW_MAX.
@@ -53,7 +53,7 @@
   }
   function plural(n, one, many) { return n + ' ' + (n === 1 ? one : (many || one + 's')); }
   function money(n) {
-    return new Intl.NumberFormat(LOCALE, { style: 'currency', currency: 'GBP', minimumFractionDigits: n % 1 ? 2 : 0 }).format(n);
+    return new Intl.NumberFormat(LOCALE, { style: 'currency', currency: 'USD', minimumFractionDigits: n % 1 ? 2 : 0 }).format(n);
   }
   function param(name) {
     try { return new URLSearchParams(window.location.search).get(name); } catch (e) { return null; }
@@ -130,21 +130,21 @@
 
   /* ======================================================================
      3. Time (always in TIMEZONE)
-     Days are whole numbers (days since 1970-01-01 on the UK calendar); times are minutes after midnight.
-     ?now=YYYY-MM-DDTHH:MM (UK time) previews the site on another date.
+     Days are whole numbers (days since 1970-01-01 on the local calendar); times are minutes after midnight.
+     ?now=YYYY-MM-DDTHH:MM (Eastern time) previews the site on another date.
      ====================================================================== */
-  var partsFmt = new Intl.DateTimeFormat('en-GB', { timeZone: TIMEZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' });
+  var partsFmt = new Intl.DateTimeFormat('en-US', { timeZone: TIMEZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' });
   function zoneParts(date) {
     var p = {};
     partsFmt.formatToParts(date).forEach(function (x) { p[x.type] = x.value; });
     return { y: +p.year, m: +p.month, d: +p.day, h: +p.hour % 24, mi: +p.minute, s: +p.second };
   }
-  // Milliseconds TIMEZONE is ahead of UTC at an instant (0 in winter, 1 hour in summer).
+  // Milliseconds TIMEZONE is ahead of UTC at an instant (negative: 5 hours behind in winter, 4 in summer).
   function offsetAt(ms) {
     var p = zoneParts(new Date(ms));
     return Date.UTC(p.y, p.m - 1, p.d, p.h, p.mi, p.s) - Math.floor(ms / 1000) * 1000;
   }
-  // A UK wall-clock time (day number + minutes) as a real instant.
+  // A local wall-clock time (day number + minutes) as a real instant.
   function zonedToDate(day, minutes) {
     var guess = day * 864e5 + minutes * 6e4;
     var t = guess - offsetAt(guess);
@@ -168,11 +168,20 @@
   function todayNum() { var p = zoneParts(now()); return Date.UTC(p.y, p.m - 1, p.d) / 864e5; }
   function nowMinutes() { var p = zoneParts(now()); return p.h * 60 + p.mi; }
   function mins(hhmm) { var m = /^(\d{2}):(\d{2})$/.exec(hhmm || ''); return m ? +m[1] * 60 + +m[2] : 0; }
-  function hhmm(minutes) { return String(Math.floor(minutes / 60)).padStart(2, '0') + ':' + String(minutes % 60).padStart(2, '0'); }
+  // Minutes after midnight as a display time: "7:00 PM".
+  function hhmm(minutes) {
+    var h = Math.floor(minutes / 60) % 24;
+    return (h % 12 || 12) + ':' + String(minutes % 60).padStart(2, '0') + (h < 12 ? ' AM' : ' PM');
+  }
+  // A range of display times: "7:00–9:00 PM", or "10:30 AM–12:00 PM" across noon.
+  function hhmmRange(a, b) {
+    var from = hhmm(a), to = hhmm(b);
+    return (from.slice(-2) === to.slice(-2) ? from.slice(0, -3) : from) + '–' + to;
+  }
   function fmtDay(n, opts) {
     return new Intl.DateTimeFormat(LOCALE, Object.assign({ timeZone: 'UTC' }, opts)).format(new Date(n * 864e5 + 432e5));
   }
-  // "Tue 20 Oct" (adds the year when it isn't this year).
+  // "Tue, Oct 20" (adds the year when it isn't this year).
   function shortDay(n) {
     var o = { weekday: 'short', day: 'numeric', month: 'short' };
     if (ymd(n).y !== ymd(todayNum()).y) o.year = 'numeric';
@@ -183,7 +192,7 @@
     if (ymd(n).y !== ymd(todayNum()).y) o.year = 'numeric';
     return fmtDay(n, o);
   }
-  // "Today", "Tomorrow" or "Tue 20 Oct".
+  // "Today", "Tomorrow" or "Tue, Oct 20".
   function relDay(n) {
     var t = todayNum();
     return n === t ? 'Today' : n === t + 1 ? 'Tomorrow' : shortDay(n);
@@ -191,13 +200,28 @@
   var WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   /* ======================================================================
-     4. Programme rules
+     4. Program rules
      ====================================================================== */
-  // The winter break (DATA.WINTER_BREAK): closed from 24 December to 1 January.
-  function isClosed(n) {
+  // The winter break (DATA.WINTER_BREAK): closed from December 24 to January 1.
+  function isWinterBreak(n) {
     var d = ymd(n), b = DATA.WINTER_BREAK;
     var md = d.m * 100 + d.d, from = b.from.month * 100 + b.from.day, to = b.to.month * 100 + b.to.day;
     return from <= to ? md >= from && md <= to : md >= from || md <= to;
+  }
+  // The holiday (DATA.HOLIDAYS) that falls on day n, if any.
+  function holidayOn(n) {
+    var d = ymd(n), hit = null;
+    DATA.HOLIDAYS.forEach(function (h) {
+      if (d.m === h.month && (h.date ? d.d === h.date : weekday(n) === h.day && Math.ceil(d.d / 7) === h.nth)) hit = h;
+    });
+    return hit;
+  }
+  function isClosed(n) { return isWinterBreak(n) || !!holidayOn(n); }
+  // What the building is closed for on day n: "the winter break", "Thanksgiving" or ''.
+  function closureName(n) {
+    if (isWinterBreak(n)) return 'the winter break';
+    var h = holidayOn(n);
+    return h ? h.name : '';
   }
   // The first open day after a closure.
   function reopensAfter(n) { while (isClosed(n)) n++; return n; }
@@ -221,7 +245,7 @@
     var list = words.length > 1 ? words.slice(0, -1).join(', ') + ' and ' + words[words.length - 1] : words[0];
     return list.charAt(0).toUpperCase() + list.slice(1) + ' ' + WEEKDAYS[r.day] + ' of the month';
   }
-  function timeText(l) { return l.start + '–' + l.end; }
+  function timeText(l) { return hhmmRange(mins(l.start), mins(l.end)); }
   function priceText(l, short) {
     if (l.pwyc && !l.price) return 'Pay what you can';
     if (!l.price) return 'Free';
@@ -298,7 +322,7 @@
     return occurrences(t, t + LOOKAHEAD, function (x) { return x === l; })
       .filter(function (o) { return o.kind !== 'preview'; }).slice(0, count);
   }
-  // "Tue 20 Oct, 19:00" or, for an exhibition, "Until Sun 1 Nov" / "Opens Sat 7 Nov".
+  // "Tue, Oct 20, 7:00 PM" or, for an exhibition, "Until Sun, Nov 1" / "Opens Sat, Nov 7".
   function whenText(o) {
     if (o.kind === 'run') return o.runStart <= todayNum() ? 'On now, until ' + shortDay(o.runEnd) : 'Opens ' + relDay(o.runStart) + ', until ' + shortDay(o.runEnd);
     return relDay(o.day) + ', ' + hhmm(o.start);
@@ -310,7 +334,7 @@
   var C = { paper: '#fffaf1', ink: '#1f1d36', violet: '#5b34a8', lilac: '#e9e0fa', vermilion: '#e0532f', blush: '#fbe0d5',
     ochre: '#f3b23a', ochreLight: '#fde8bd', rose: '#f2a7bf', roseLight: '#fbe3eb', teal: '#17685a', tealLight: '#d5ece4',
     sky: '#8ec5e6', skyLight: '#ddeef8', leaf: '#7fb069', leafLight: '#e3f0da', sand: '#efe4d0' };
-  // Tag colours per category tone. Class names are written out in full so Tailwind generates them.
+  // Tag colors per category tone. Class names are written out in full so Tailwind generates them.
   var TONES = {
     vermilion: { tag: 'bg-blush text-vermilion-dark', dot: 'bg-vermilion', bg: [C.blush, C.vermilion] },
     ochre: { tag: 'bg-ochre-light text-ochre-dark', dot: 'bg-ochre', bg: [C.ochreLight, C.ochre] },
@@ -564,17 +588,17 @@
   }
   function initYear() { $$('[data-year]').forEach(function (el) { el.textContent = String(ymd(todayNum()).y); }); }
 
-  // Opening status: "Open now until 17:00" / "Closed now, opens Tuesday at 10:00".
+  // Opening status: "Open now until 5:00 PM" / "Closed now. Opens Tuesday at 10:00 AM".
   function openStatus() {
     var t = todayNum(), m = nowMinutes();
     if (!isClosed(t)) {
       var h = DATA.HOURS[weekday(t)];
-      if (h && m >= mins(h.open) && m < mins(h.close)) return { open: true, text: 'Open now until ' + h.close };
-      if (h && m < mins(h.open)) return { open: false, text: 'Opens today at ' + h.open };
+      if (h && m >= mins(h.open) && m < mins(h.close)) return { open: true, text: 'Open now until ' + hhmm(mins(h.close)) };
+      if (h && m < mins(h.open)) return { open: false, text: 'Opens today at ' + hhmm(mins(h.open)) };
     }
     for (var n = t + 1; n < t + 14; n++) {
       var hh = DATA.HOURS[weekday(n)];
-      if (hh && !isClosed(n)) return { open: false, text: 'Closed now. Opens ' + (n === t + 1 ? 'tomorrow' : WEEKDAYS[weekday(n)]) + ' at ' + hh.open };
+      if (hh && !isClosed(n)) return { open: false, text: 'Closed now. Opens ' + (n === t + 1 ? 'tomorrow' : WEEKDAYS[weekday(n)]) + ' at ' + hhmm(mins(hh.open)) };
     }
     return { open: false, text: 'Closed now' };
   }
@@ -599,7 +623,7 @@
     // The next winter break, when it is less than eight weeks away (or now).
     var y = ymd(t).y, b = DATA.WINTER_BREAK;
     var start = Date.UTC(y, b.from.month - 1, b.from.day) / 864e5;
-    if (isClosed(t)) { start = t; while (isClosed(start - 1)) start--; }
+    if (isWinterBreak(t)) { start = t; while (isWinterBreak(start - 1)) start--; }
     var end = reopensAfter(start) - 1;
     $$('[data-winter-note]').forEach(function (el) {
       if (end >= t && start - t <= 56) {
@@ -638,7 +662,7 @@
     var dateBlock = o.kind === 'run'
       ? '<span class="text-[11px] font-extrabold uppercase tracking-wider">' + (o.runStart <= todayNum() ? 'On now' : 'Opens') + '</span><span class="font-display text-2xl leading-none">' + (o.runStart <= todayNum() ? '★' : ymd(o.runStart).d) + '</span><span class="text-xs font-bold">' + (o.runStart <= todayNum() ? 'Gallery' : fmtDay(o.runStart, { month: 'short' })) + '</span>'
       : '<span class="text-[11px] font-extrabold uppercase tracking-wider">' + fmtDay(o.day, { weekday: 'short' }) + '</span><span class="font-display text-3xl leading-none">' + ymd(o.day).d + '</span><span class="text-xs font-bold">' + fmtDay(o.day, { month: 'short' }) + '</span>';
-    var time = o.kind === 'run' ? (o.runStart <= todayNum() ? 'Until ' + longDay(o.runEnd) : longDay(o.runStart) + ' to ' + longDay(o.runEnd)) : hhmm(o.start) + '–' + hhmm(o.end);
+    var time = o.kind === 'run' ? (o.runStart <= todayNum() ? 'Until ' + longDay(o.runEnd) : longDay(o.runStart) + ' to ' + longDay(o.runEnd)) : hhmmRange(o.start, o.end);
     var title = o.kind === 'preview' ? 'Preview evening: ' + l.title : l.title;
     return '<li class="reveal relative grid grid-cols-[4.25rem_1fr] gap-4 rounded-2xl bg-card p-3 shadow-paper ring-1 ring-line transition hover:ring-violet/40 sm:grid-cols-[4.5rem_7.5rem_1fr_auto] sm:items-center sm:gap-5 sm:p-4" data-occurrence data-cat="' + esc(l.cat) + '">' +
       '<div class="flex flex-col items-center justify-center rounded-xl bg-ink py-2 text-center text-white">' + dateBlock + '</div>' +
@@ -672,7 +696,7 @@
   function icsStamp(d) { return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); }
   function icsFor(o) {
     var l = o.l, room = has(DATA.ROOMS, l.room) ? DATA.ROOMS[l.room].name : '';
-    var lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//' + CENTRE.name + '//Programme//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'BEGIN:VEVENT',
+    var lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//' + CENTRE.name + '//Program//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'BEGIN:VEVENT',
       'UID:' + l.id + '-' + o.kind + '-' + isoOf(o.kind === 'run' ? o.runStart : o.day) + '@' + CENTRE.uidDomain,
       'DTSTAMP:' + icsStamp(new Date())];
     if (o.kind === 'run') {
@@ -802,9 +826,14 @@
         cur.items.push(o);
       });
       var html = '';
-      // A note when the winter break falls inside the range.
-      var closedIn = 0;
-      for (var n = Math.max(r[0], todayNum()); n <= r[1]; n++) if (isClosed(n)) { closedIn = n; break; }
+      // A note for each closure (the winter break, a holiday) that falls inside the range.
+      var notes = '', noted = Object.create(null);
+      for (var n = Math.max(r[0], todayNum()); n <= r[1]; n++) {
+        var why = closureName(n);
+        if (!why || noted[why]) continue;
+        noted[why] = true;
+        notes += '<p class="mb-8 rounded-2xl bg-ochre-light p-4 text-sm font-semibold">We’re closed for ' + esc(why) + (n === todayNum() ? '' : (isWinterBreak(n) ? ' from ' : ' on ') + esc(longDay(n))) + '. Sessions start again on ' + esc(longDay(reopensAfter(n))) + '.</p>';
+      }
       var i = 0;
       groups.forEach(function (g) {
         var id = 'wo-g-' + g.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
@@ -812,10 +841,7 @@
           '<h2 id="' + id + '" class="font-display text-3xl">' + esc(g.name) + '</h2><p class="text-sm font-bold text-muted">' + plural(g.items.length, 'listing') + '</p></div>' +
           '<ul class="mt-4 space-y-3" role="list">' + g.items.map(function (o) { return rowHtml(o, i++); }).join('') + '</ul></section>';
       });
-      if (closedIn) {
-        html = '<p class="mb-8 rounded-2xl bg-ochre-light p-4 text-sm font-semibold">We’re closed for the winter break' + (closedIn === todayNum() ? '' : ' from ' + esc(longDay(closedIn))) + '. Sessions start again on ' + esc(longDay(reopensAfter(closedIn))) + '.</p>' + html;
-      }
-      list.innerHTML = html;
+      list.innerHTML = notes + html;
       revealNew(list);
       $('#wo-empty').hidden = occ.length > 0;
       var span = state.when === 'any' ? 'over the next ' + plural(Math.round(state.span / 7), 'week')
@@ -921,7 +947,7 @@
     var t = todayNum();
     var room = has(DATA.ROOMS, l.room) ? DATA.ROOMS[l.room].name : '';
     var t2 = tone(l.cat);
-    document.title = l.title + ' | Mosaic, Ulverston';
+    document.title = l.title + ' | Mosaic, Holyoke';
     var meta = $('meta[name="description"]');
     if (meta) meta.setAttribute('content', l.summary);
     var ogt = $('meta[property="og:title"]'); if (ogt) ogt.setAttribute('content', document.title);
@@ -947,7 +973,7 @@
     $('#ev-room').textContent = room;
     $('#ev-host').textContent = l.host;
     $('#ev-level').textContent = l.level;
-    $('#ev-booking').textContent = l.booking === 'book' ? 'Book ahead: ' + plural(l.places, 'place') + ' a session' : 'Drop in: no need to book';
+    $('#ev-booking').textContent = l.booking === 'book' ? 'Book ahead: ' + plural(l.places, 'spot') + ' a session' : 'Drop in: no need to book';
     var saveBtn = $('#ev-save');
     saveBtn.setAttribute('data-save', l.id);
     saveBtn.setAttribute('data-save-name', l.title);
@@ -977,14 +1003,14 @@
     function renderDates() {
       listEl.innerHTML = dates.map(function (o, i) {
         var label = o.kind === 'run' ? (o.runStart <= t ? 'On now until ' + longDay(o.runEnd) : longDay(o.runStart) + ' to ' + longDay(o.runEnd))
-          : o.kind === 'preview' ? 'Preview evening, ' + longDay(o.day) + ', ' + hhmm(o.start) + '–' + hhmm(o.end)
-            : longDay(o.day) + ', ' + hhmm(o.start) + '–' + hhmm(o.end);
+          : o.kind === 'preview' ? 'Preview evening, ' + longDay(o.day) + ', ' + hhmmRange(o.start, o.end)
+            : longDay(o.day) + ', ' + hhmmRange(o.start, o.end);
         return '<li><button type="button" data-date-index="' + i + '" aria-pressed="' + (i === sel) + '" class="flex w-full items-center justify-between gap-3 rounded-xl border-2 border-ink/10 bg-card px-4 py-3 text-left text-[15px] font-semibold transition hover:border-violet aria-pressed:border-ink aria-pressed:bg-ink aria-pressed:text-white">' +
           '<span>' + esc(label) + '</span>' + (i === 0 && o.kind === 'session' ? '<span class="shrink-0 rounded-full bg-ochre px-2 py-0.5 text-xs font-extrabold text-ink">Next</span>' : '') + '</button></li>';
       }).join('');
       var o = dates[sel];
       $('#ev-next').textContent = o ? (o.kind === 'run' ? (o.runStart <= t ? 'On now' : 'Opens ' + longDay(o.runStart)) : longDay(o.day)) : 'Dates to be announced';
-      $('#ev-time').textContent = o ? (o.kind === 'run' ? 'Until ' + longDay(o.runEnd) + ' · ' + GALLERY.hours : hhmm(o.start) + '–' + hhmm(o.end) + ' (UK time)') : '';
+      $('#ev-time').textContent = o ? (o.kind === 'run' ? 'Until ' + longDay(o.runEnd) + ' · ' + GALLERY.hours : hhmmRange(o.start, o.end) + ' (Eastern time)') : '';
       $('#ev-ics').disabled = !o;
       var bookDate = $('#bk-date');
       if (bookDate && o && o.kind === 'session') bookDate.value = isoOf(o.day);
@@ -1018,12 +1044,12 @@
       var places = $('#bk-places');
       var max = Math.min(6, l.places);
       places.innerHTML = '';
-      for (var k = 1; k <= max; k++) places.insertAdjacentHTML('beforeend', '<option value="' + k + '">' + plural(k, 'place') + '</option>');
-      var unit = l.per === 'child' ? 'child' : 'place';
-      $('#bk-places-label').textContent = l.per === 'child' ? 'How many children?' : 'How many places?';
+      for (var k = 1; k <= max; k++) places.insertAdjacentHTML('beforeend', '<option value="' + k + '">' + plural(k, 'spot') + '</option>');
+      var unit = l.per === 'child' ? 'child' : 'spot';
+      $('#bk-places-label').textContent = l.per === 'child' ? 'How many children?' : 'How many spots?';
       var updateTotal = function () {
         var n = +places.value || 1;
-        $('#bk-total').textContent = l.price ? money(l.price * n) + ' for ' + plural(n, unit, unit === 'child' ? 'children' : 'places') + (l.pwyc ? ' (suggested)' : '') : priceText(l);
+        $('#bk-total').textContent = l.price ? money(l.price * n) + ' for ' + plural(n, unit, unit === 'child' ? 'children' : 'spots') + (l.pwyc ? ' (suggested)' : '') : priceText(l);
       };
       places.addEventListener('change', updateTotal);
       bd.addEventListener('change', function () {
@@ -1034,14 +1060,14 @@
       initForm($('#booking-form'), function (form) {
         var day = dayNum(bd.value);
         var who = $('#bk-name').value.trim().split(/\s+/)[0];
-        return '<p class="font-display text-2xl">Thanks, ' + esc(who) + '.</p><p class="mt-2 leading-relaxed text-muted">Your request for ' + esc(plural(+places.value, unit, unit === 'child' ? 'children' : 'places')) + ' at ' + esc(l.title) + ' on ' + esc(longDay(day)) + ' is with the welcome desk. We’ll email to confirm your booking within two working days. Your reference is <strong class="text-ink">' + makeRef() + '</strong>.</p>';
+        return '<p class="font-display text-2xl">Thanks, ' + esc(who) + '.</p><p class="mt-2 leading-relaxed text-muted">Your request for ' + esc(plural(+places.value, unit, unit === 'child' ? 'children' : 'spots')) + ' at ' + esc(l.title) + ' on ' + esc(longDay(day)) + ' is with the welcome desk. We’ll email to confirm your booking within two business days. Your reference is <strong class="text-ink">' + makeRef() + '</strong>.</p>';
       });
     } else {
       bookWrap.hidden = true;
       dropWrap.hidden = false;
       $('#ev-dropin-text').textContent = l.cat === 'exhibition'
         ? 'Free entry, no need to book. The gallery is open ' + GALLERY.hours.toLowerCase() + '.'
-        : 'No need to book: just turn up. Sessions start on time, but you’re welcome to join late.';
+        : 'No need to book: just show up. Sessions start on time, but you’re welcome to join late.';
     }
 
     // More like this: other listings in the same category, then anything coming up soon.
@@ -1123,7 +1149,7 @@
         return '<li class="rounded-2xl bg-card p-4 shadow-paper ring-1 ring-line"><h3 class="font-display text-xl">' + WEEKDAYS[d] + '</h3><ul class="mt-3 space-y-2">' +
           (items.length ? items.map(function (l) {
             return '<li class="border-l-4 pl-3 ' + ({ vermilion: 'border-vermilion', ochre: 'border-ochre', rose: 'border-rose', violet: 'border-violet', sky: 'border-sky', teal: 'border-teal', ink: 'border-ink', leaf: 'border-leaf' })[DATA.CATEGORIES[l.cat].tone] + '"><a href="' + eventHref(l) + '" class="block text-sm font-bold leading-snug hover:text-violet">' + esc(l.title) + '</a>' +
-              '<span class="block text-xs text-muted">' + esc(l.start) + ' · ' + esc(l.rule.every === 'week' ? 'weekly' : ruleText(l).replace(/ of the month$/, '').replace(' ' + WEEKDAYS[d], '') + ' of the month') + '</span></li>';
+              '<span class="block text-xs text-muted">' + esc(hhmm(mins(l.start))) + ' · ' + esc(l.rule.every === 'week' ? 'weekly' : ruleText(l).replace(/ of the month$/, '').replace(' ' + WEEKDAYS[d], '') + ' of the month') + '</span></li>';
           }).join('') : '<li class="text-sm text-muted">Building closed</li>') + '</ul></li>';
       }).join('');
     }
@@ -1155,7 +1181,7 @@
       $$('input[name="extras"]:checked', form).forEach(function (x) {
         if (has(EXTRAS, x.value)) { lines.push([EXTRAS[x.value].label, EXTRAS[x.value].price]); total += EXTRAS[x.value].price; }
       });
-      if ($('#h-community').checked) { var off = Math.round(total * H.communityDiscount); lines.push(['Community and charity discount (' + Math.round(H.communityDiscount * 100) + '%)', -off]); total -= off; }
+      if ($('#h-community').checked) { var off = Math.round(total * H.communityDiscount); lines.push(['Community and nonprofit discount (' + Math.round(H.communityDiscount * 100) + '%)', -off]); total -= off; }
       return { lines: lines, total: total, id: id, hours: hours, start: start };
     }
     function capacityProblem() {
@@ -1175,11 +1201,11 @@
         return '<li class="flex justify-between gap-4"><span class="text-white/85">' + esc(x[0]) + '</span><span class="shrink-0 font-bold">' + (x[1] < 0 ? '−' + money(-x[1]) : money(x[1])) + '</span></li>';
       }).join('');
       $('#h-total').textContent = money(q.total);
-      $('#h-when').textContent = hhmm(q.start * 60) + '–' + hhmm((q.start + q.hours) * 60) + (dayNum(dateIn.value) >= t + 1 ? ' on ' + longDay(dayNum(dateIn.value)) : '');
+      $('#h-when').textContent = hhmmRange(q.start * 60, (q.start + q.hours) * 60) + (dayNum(dateIn.value) >= t + 1 ? ' on ' + longDay(dayNum(dateIn.value)) : '');
       var capErr = capacityProblem();
       $('#h-cap-note').textContent = capErr;
       var late = q.start + q.hours > H.lastEnd;
-      $('#h-late-note').textContent = late ? 'The building closes at ' + H.lastEnd + ':00, so the latest finish is ' + H.lastEnd + ':00.' : '';
+      $('#h-late-note').textContent = late ? 'The building closes at ' + hhmm(H.lastEnd * 60) + ', so the latest finish is ' + hhmm(H.lastEnd * 60) + '.' : '';
     }
     // Start times and durations, built from DATA.HIRE.
     for (var h = H.firstStart; h < H.lastEnd - 1; h++) startIn.insertAdjacentHTML('beforeend', '<option value="' + h + '"' + (h === 10 ? ' selected' : '') + '>' + hhmm(h * 60) + '</option>');
@@ -1190,17 +1216,17 @@
     initForm(form, function () {
       var q = quote();
       var who = $('#h-name').value.trim().split(/\s+/)[0];
-      return '<p class="font-display text-3xl">Thanks, ' + esc(who) + '.</p><p class="mt-3 leading-relaxed text-muted">Your enquiry for ' + esc(ROOMS[q.id].name) + ' on ' + esc(longDay(dayNum(dateIn.value))) + ', ' + esc(hhmm(q.start * 60) + '–' + hhmm((q.start + q.hours) * 60)) + ' (estimate ' + esc(money(q.total)) + ') is with our bookings team. They’ll reply within two working days to confirm availability and the final price. Your reference is <strong class="text-ink">' + makeRef() + '</strong>.</p>';
+      return '<p class="font-display text-3xl">Thanks, ' + esc(who) + '.</p><p class="mt-3 leading-relaxed text-muted">Your inquiry for ' + esc(ROOMS[q.id].name) + ' on ' + esc(longDay(dayNum(dateIn.value))) + ', ' + esc(hhmmRange(q.start * 60, (q.start + q.hours) * 60)) + ' (estimate ' + esc(money(q.total)) + ') is with our bookings team. They’ll reply within two business days to confirm availability and the final price. Your reference is <strong class="text-ink">' + makeRef() + '</strong>.</p>';
     }, function () {
       // Checks across fields: the date must be bookable, the room big enough and the finish in time.
       var errs = [];
       var d = dayNum(dateIn.value);
       if (!isNaN(d) && d <= t) errs.push([dateIn, 'Choose a date from tomorrow onwards.']);
       else if (!isNaN(d) && d > t + LOOKAHEAD) errs.push([dateIn, 'We take bookings up to a year ahead.']);
-      else if (!isNaN(d) && isClosed(d)) errs.push([dateIn, 'We’re closed for the winter break then. Choose a date from ' + longDay(reopensAfter(d)) + '.']);
+      else if (!isNaN(d) && isClosed(d)) errs.push([dateIn, 'We’re closed for ' + closureName(d) + ' then. Choose a date from ' + longDay(reopensAfter(d)) + '.']);
       var cap = capacityProblem();
       if (cap) errs.push([peopleIn, cap]);
-      if (+startIn.value + +hoursIn.value > H.lastEnd) errs.push([hoursIn, 'That runs past ' + H.lastEnd + ':00. Choose fewer hours or an earlier start.']);
+      if (+startIn.value + +hoursIn.value > H.lastEnd) errs.push([hoursIn, 'That runs past ' + hhmm(H.lastEnd * 60) + '. Choose fewer hours or an earlier start.']);
       return errs;
     });
   }
@@ -1227,7 +1253,7 @@
     initForm(form, function () {
       var who = $('#v-name').value.trim().split(/\s+/)[0];
       var role = has(ROLES, $('#v-role').value) ? ROLES[$('#v-role').value] : 'volunteering';
-      return '<p class="font-display text-3xl">Thank you, ' + esc(who) + '.</p><p class="mt-3 leading-relaxed text-muted">Wilf, our volunteer coordinator, will get in touch within a week to arrange a cup of tea and a look round, and to talk about ' + esc(role.toLowerCase()) + '. Your reference is <strong class="text-ink">' + makeRef() + '</strong>.</p>';
+      return '<p class="font-display text-3xl">Thank you, ' + esc(who) + '.</p><p class="mt-3 leading-relaxed text-muted">Ned, our volunteer coordinator, will get in touch within a week to arrange a cup of coffee and a look around, and to talk about ' + esc(role.toLowerCase()) + '. Your reference is <strong class="text-ink">' + makeRef() + '</strong>.</p>';
     });
     var friend = $('#friends-form');
     if (friend) initForm(friend, function () {
@@ -1245,7 +1271,7 @@
     if (has(TOPICS, p)) $('#c-topic').value = p;
     initForm(form, function () {
       var who = $('#c-name').value.trim().split(/\s+/)[0];
-      return '<p class="font-display text-3xl">Thanks, ' + esc(who) + '.</p><p class="mt-3 leading-relaxed text-muted">Your message is with the welcome desk and someone will reply within two working days. Your reference is <strong class="text-ink">' + makeRef() + '</strong>.</p>';
+      return '<p class="font-display text-3xl">Thanks, ' + esc(who) + '.</p><p class="mt-3 leading-relaxed text-muted">Your message is with the welcome desk and someone will reply within two business days. Your reference is <strong class="text-ink">' + makeRef() + '</strong>.</p>';
     });
   }
 
@@ -1267,7 +1293,7 @@
     if (v.valueMissing) {
       if (custom('required')) return custom('required');
       if (el.tagName === 'SELECT' || el.type === 'radio') return 'Please choose an option.';
-      if (el.type === 'checkbox') return 'Please tick this box to continue.';
+      if (el.type === 'checkbox') return 'Please check this box to continue.';
       if (el.type === 'date') return 'Please choose a date.';
       var name = fieldLabel(el);
       return name ? 'Please fill in “' + name + '”.' : 'Please fill in this field.';
@@ -1291,7 +1317,7 @@
     var group = el.closest('fieldset[data-group], fieldset[data-radio]');
     (group || el).setAttribute('aria-invalid', msg ? 'true' : 'false');
   }
-  // Groups of checkboxes that need at least one ticked: <fieldset data-group data-min="1">.
+  // Groups of checkboxes that need at least one checked: <fieldset data-group data-min="1">.
   function groupProblem(fs) {
     var min = +fs.getAttribute('data-min') || 0;
     var n = $$('input[type="checkbox"]:checked', fs).length;

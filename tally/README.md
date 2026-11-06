@@ -1,13 +1,13 @@
 # Tally — HTML + Tailwind CSS template
 
 A calm, trustworthy fintech SaaS website for **Tally**, a fictional invoicing, expenses and bookkeeping app for
-freelancers and small studios, made by Tally Software in Cork, Ireland: a home page with a live invoice whose
-totals and VAT update as you edit it, a features tour with a reminder email writer, pricing with a monthly /
-annual switch and a VAT toggle, a late-payment interest and time-saved calculator, a filterable integrations
+freelancers and small studios, made by Tally Software in Grand Rapids, Michigan: a home page with a live invoice whose
+totals and sales tax update as you edit it, a features tour with a reminder email writer, pricing with a monthly /
+annual switch and a sales tax toggle, a late-payment interest and time-saved calculator, a filterable integrations
 directory, customer stories, a security and trust page, a changelog, a demo request form and a 404 page. Plain
 HTML, Tailwind CSS v4 and vanilla JavaScript; every illustration is SVG or HTML.
 
-**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/tally)
 
 ## Quick start

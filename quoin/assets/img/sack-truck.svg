@@ -3,7 +3,7 @@
   <path d="M0 292h400" stroke="#c1c5b1"/>
   <path d="M24 300h70m40 0h60m60 0h120" stroke="#cfd0c0" stroke-dasharray="2 6"/>
   <ellipse cx="200" cy="294" rx="120" ry="9" fill="#cfcab8"/>
-  <!-- the sack truck frame -->
+  <!-- the hand truck frame -->
   <g stroke="#2f4335" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
     <path d="M118 40q-8 0-8 10v10q0 8 8 8"/>
     <path d="M118 40l26 238"/>
