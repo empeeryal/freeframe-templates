@@ -4,12 +4,12 @@ An editorial magazine for long-form writing, made for the fictional **The Ledger
 page, a long-form article with table of contents and reading progress, a searchable archive, topics,
 about and contact. Plain HTML, Tailwind CSS v4 and a small vanilla JavaScript file.
 
-**Version 1.1.8** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.1.9** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/ledger)
 
 ## Quick start
 
-Open `index.html` in a browser. It works straight away: no install or build step is needed.
+Open `index.html` in a browser. It works right away: no install or build step is needed.
 
 To rebuild the CSS after changing `src/input.css` or adding new Tailwind classes:
 

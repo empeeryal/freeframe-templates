@@ -26,7 +26,7 @@
   --color-brand-950: #1e1b4b;
 }
 
-/* Chart colours (read by assets/js/main.js through CSS variables). */
+/* Chart colors (read by assets/js/main.js through CSS variables). */
 :root {
   --chart-1: #6366f1;
   --chart-2: #06b6d4;

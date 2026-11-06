@@ -10,7 +10,7 @@
 /*
   Brand tokens. Change the values in :root (light) and .dark (dark) below,
   then run `npm run build`. Utilities like bg-surface, text-muted and
-  border-line pick the new colours up automatically.
+  border-line pick the new colors up automatically.
 */
 @theme {
   --color-bg: var(--d-bg);

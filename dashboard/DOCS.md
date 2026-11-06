@@ -6,7 +6,7 @@ Dashboard is a complete admin interface for the fictional outdoor-gear shop behi
 KPI cards and charts, analytics, a full orders table, customers with a detail panel, a product catalog
 with inventory, settings (profile, team, billing, notifications) and a sign-in screen, in light and dark
 themes. Every chart is SVG drawn by plain JavaScript; there are no frameworks or chart libraries. This is
-the HTML + Tailwind CSS v4 version, **version 1.1.7**. See it live at
+the HTML + Tailwind CSS v4 version, **version 1.1.11**. See it live at
 [freeframe.dev/templates/dashboard](https://freeframe.dev/templates/dashboard).
 
 ## Quick start
@@ -28,7 +28,7 @@ No build step is needed. Node.js 24 is only needed to rebuild the CSS (see
 | File | Page | What's on it |
 |------|------|--------------|
 | `index.html` | Overview | KPI cards with sparklines, revenue area chart (7 days / 30 days / 12 months), traffic-source donut, recent orders, activity feed |
-| `analytics.html` | Analytics | Visitors line chart, revenue bars, checkout funnel, order heatmap, top pages, countries |
+| `analytics.html` | Analytics | Visitors line chart, revenue bars, checkout funnel, order heatmap, top pages, states |
 | `orders.html` | Orders | Searchable, filterable, sortable and paginated orders table with row selection and bulk actions |
 | `customers.html` | Customers | Customer list with segments and search, slide-over detail panel with a notes form |
 | `products.html` | Products | Product catalog with category filter, grid/table view and inventory levels |
@@ -78,7 +78,7 @@ active navigation and focus rings:
 
 Chart colors are separate CSS variables, defined once for light mode and again for dark mode just below
 `@theme`: `--chart-1` to `--chart-5` (series colors), `--chart-grid`, `--chart-text` and
-`--chart-surface`. Charts read them at paint time, so changing a variable recolours every chart and they
+`--chart-surface`. Charts read them at paint time, so changing a variable recolors every chart and they
 follow the theme without re-rendering. Rebuild the CSS after editing.
 
 ### Typography

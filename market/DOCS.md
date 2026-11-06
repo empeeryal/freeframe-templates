@@ -6,7 +6,7 @@ Market is a complete storefront for **Kiln & Co.**, a fictional handmade-ceramic
 shop, product pages with glaze and size variants, a cart saved in the browser, a slide-out mini cart, a
 validated checkout, an about page and a searchable FAQ with a contact form. Product images are drawn in
 SVG from the product data, so there are no photos to replace before launch. This is the **HTML + Tailwind CSS
-v4** version, **version 1.1.10**, with vanilla JavaScript and no runtime dependencies. See it live at
+v4** version, **version 1.1.11**, with vanilla JavaScript and no runtime dependencies. See it live at
 [freeframe.dev/templates/market](https://freeframe.dev/templates/market).
 
 ## Quick start

@@ -6,6 +6,12 @@ All notable changes to the Smile HTML template are documented here. The format f
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-11-06
+
+### Changed
+
+- The sample copy uses American wording throughout: cleanings, office hours, business days, cell phone, "check all that apply", and American spelling in the guide and code comments.
+
 ## [1.0.6] - 2026-11-05
 
 ### Changed

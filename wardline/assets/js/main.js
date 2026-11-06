@@ -403,7 +403,7 @@
     });
   }
 
-  /* ---------- Control library maths (frameworks page, home, assessment) ---------- */
+  /* ---------- Control library math (frameworks page, home, assessment) ---------- */
 
   const controlsFor = (id) => CONTROLS.filter((control) => control[2].includes(FW[id].code));
   function overlap(a, b) {
@@ -1374,8 +1374,8 @@
     "America/Chicago": "Central (CT)",
     "America/Denver": "Mountain (MT)",
     "America/Los_Angeles": "Pacific (PT)",
-    "Europe/London": "London",
-    "Europe/Berlin": "Central Europe",
+    "America/Anchorage": "Alaska (AKT)",
+    "Pacific/Honolulu": "Hawaii (HT)",
   };
   function localZone() {
     try {

@@ -6,7 +6,7 @@ a filterable SDK directory, usage-based pricing with a volume calculator, a filt
 90-day uptime bars, a company and careers page, a sales form, an API key sign-up demo and a 404 page. Plain HTML,
 Tailwind CSS v4 and vanilla JavaScript; every diagram and illustration is SVG or CSS.
 
-**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/forge)
 
 ## Quick start

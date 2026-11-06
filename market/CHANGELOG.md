@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.11] - 2026-11-06
+
+### Changed
+
+- The home page no longer names a fixed season and year, so it doesn't look out of date.
+
 ## [1.1.10] - 2026-11-05
 
 ### Changed

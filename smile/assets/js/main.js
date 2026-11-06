@@ -4,7 +4,7 @@
 (function () {
   'use strict';
 
-  /* ---------- Practice: time zone, opening hours, closures ----------
+  /* ---------- Practice: time zone, office hours, closures ----------
      Times are wall-clock times in Boise. Day 0 is Sunday; null means closed.
      Keep these in step with the hours lists in the HTML (data-hours). */
   var PRACTICE = {
@@ -45,7 +45,7 @@
      who: clinicians who offer it, in the order "first available" tries them.
      notice: minimum minutes between now and the first bookable slot. */
   var REASONS = {
-    checkup: { label: 'Checkup & clean', minutes: 60, price: '$165, or included in Grin Club', who: ['kowalski', 'haddad', 'brooks'], notice: 240 },
+    checkup: { label: 'Checkup & cleaning', minutes: 60, price: '$165, or included in Grin Club', who: ['kowalski', 'haddad', 'brooks'], notice: 240 },
     'new': { label: 'New patient visit', minutes: 75, price: '$99 welcome offer without insurance', who: ['okafor', 'natarajan', 'lindqvist', 'reyes'], notice: 240 },
     emergency: { label: 'Toothache or emergency', minutes: 30, price: 'Emergency exam & x-ray $95', who: ['lindqvist', 'okafor', 'natarajan', 'reyes'], notice: 45 },
     kids: { label: 'Kids’ checkup', minutes: 45, price: '$95, first visit under 3 free', who: ['natarajan', 'haddad'], notice: 240 },
@@ -62,8 +62,8 @@
   /* ---------- Cost estimator (pricing.html) ----------
      price: pay-as-you-go fee in USD. included: what Grin Club covers per member per year. */
   var ESTIMATE_ITEMS = [
-    { id: 'checkup', name: 'Adult checkup & clean', price: 165, qty: 2, included: { per: 'adult', count: 2 } },
-    { id: 'kidscheck', name: 'Kids’ checkup & clean', price: 95, qty: 0, included: { per: 'kid', count: 2 } },
+    { id: 'checkup', name: 'Adult checkup & cleaning', price: 165, qty: 2, included: { per: 'adult', count: 2 } },
+    { id: 'kidscheck', name: 'Kids’ checkup & cleaning', price: 95, qty: 0, included: { per: 'kid', count: 2 } },
     { id: 'emergency', name: 'Emergency exam & x-ray', price: 95, qty: 0, included: { per: 'adult', count: 1 } },
     { id: 'filling', name: 'White filling', price: 180, qty: 1 },
     { id: 'sealant', name: 'Sealant (per tooth)', price: 48, qty: 0 },
@@ -99,9 +99,9 @@
         tip: 'Keep the crown or any pieces safe and bring them with you. Don’t glue a crown back yourself.' },
       bleeding: { label: 'Bleeding after a tooth was removed', ask: 'Has it kept bleeding through 30 minutes of firm pressure on gauze?', yes: 'call', no: 'self',
         tip: 'Bite firmly on clean, damp gauze for 30 minutes. Avoid rinsing hard, smoking or using a straw for a day.' },
-      braces: { label: 'Brace, wire or aligner problem', ask: 'Is it causing pain or an injury that you can’t ease yourself?', yes: 'today', no: 'self',
+      braces: { label: 'Braces, wire or aligner problem', ask: 'Is it causing pain or an injury that you can’t ease yourself?', yes: 'today', no: 'self',
         tip: 'Cover a poking wire with orthodontic wax. Lost or cracked aligner? Wear your previous set until we can see you.' },
-      sensitive: { label: 'Sensitivity to hot or cold', ask: 'Does the pain linger for more than a few seconds afterwards?', yes: 'today', no: 'self',
+      sensitive: { label: 'Sensitivity to hot or cold', ask: 'Does the pain linger for more than a few seconds afterward?', yes: 'today', no: 'self',
         tip: 'A toothpaste for sensitive teeth may help over a few weeks. Avoid very hot, cold or acidic drinks for now.' }
     },
     // Red flags: any 911 flag sends people to emergency services; 'call' flags to the phone.
@@ -126,7 +126,7 @@
       self: {
         title: 'Self-care for now, then a routine visit',
         lead: 'From what you’ve told us, this can usually wait for a regular appointment. Call us if anything changes or gets worse.',
-        steps: ['Book a routine visit at a time that suits you.', 'Call us if it gets worse, or if you notice swelling or a fever.']
+        steps: ['Book a routine visit at a time that works for you.', 'Call us if it gets worse, or if you notice swelling or a fever.']
       }
     }
   };
@@ -251,7 +251,7 @@
   /* ---------- Footer year ---------- */
   $$('[data-year]').forEach(function (el) { el.textContent = String(new Date().getFullYear()); });
 
-  /* ---------- Opening hours: today's row + live open-now badge ---------- */
+  /* ---------- Office hours: today's row + live open-now badge ---------- */
   function openStatus() {
     var now = practiceNow();
     var closedToday = CLOSED_DATES.indexOf(now.key) !== -1;
@@ -419,7 +419,7 @@
      data-phone, data-past-date. Errors are shown inline and linked with aria-describedby. */
   function fieldMessage(field) {
     var v = (field.value || '').trim(), label = field.getAttribute('data-label') || 'This field';
-    if (field.type === 'checkbox') return field.required && !field.checked ? (field.getAttribute('data-required-msg') || 'Please tick this box to continue.') : '';
+    if (field.type === 'checkbox') return field.required && !field.checked ? (field.getAttribute('data-required-msg') || 'Please check this box to continue.') : '';
     if (field.type === 'radio') {
       var group = $$('input[name="' + field.name + '"]', field.form);
       return field.required && !group.some(function (r) { return r.checked; }) ? (field.getAttribute('data-required-msg') || 'Please choose an option.') : '';
@@ -982,7 +982,7 @@
       var rows = [
         ['About you', 1, [['Name', val('firstName') + ' ' + val('lastName')], ['Date of birth', dob ? dateLabel(dob, { month: 'long', day: 'numeric', year: 'numeric' }) : ''], ['Email', val('email')], ['Phone', val('phone')], ['Contact me by', val('contactBy')]]],
         ['Your teeth', 2, [['Main reason', val('visitReason')], ['Last dental visit', val('lastVisit')], ['Concerns', val('concerns') || 'None'], ['How nervous', val('nerves')], ['Comfort options', val('comfort') || 'None']]],
-        ['Health', 3, [['Medical history', val('medical')], ['Medicines', val('medicines') || 'None listed'], ['Allergies', val('allergies') || 'None listed']]],
+        ['Health', 3, [['Medical history', val('medical')], ['Medications', val('medicines') || 'None listed'], ['Allergies', val('allergies') || 'None listed']]],
         ['Consent', 4, [['Signed as', val('signature')], ['Text reminders', form.elements.reminders.checked ? 'Yes' : 'No']]]
       ];
       $('[data-review]', form).innerHTML = rows.map(function (sec) {

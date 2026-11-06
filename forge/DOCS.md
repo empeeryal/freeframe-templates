@@ -3,13 +3,13 @@
 ## Overview
 
 Forge is a marketing and developer website for an API product, built for **Forge**, a fictional webhooks API made
-by Forge Systems B.V. (Rotterdam and Montréal). Developers send each event once; Forge signs it, fans it out to
+by Forge Systems, Inc. (Erie and Bellingham). Developers send each event once; Forge signs it, fans it out to
 every subscribed endpoint, retries and keeps a replayable log. The site has a home page with a self-typing code
 sample and an interactive API explorer, a quickstart, an SDK directory, usage-based pricing with a calculator, a
 changelog, a status page, a company page, a sales form and an API key sign-up. It is plain HTML with Tailwind
 CSS v4 and one vanilla JavaScript file, with no build step needed to use it. The design is terminal-inspired:
 near-black surfaces inside a framed hairline grid, IBM Plex Mono labels and a single amber accent. This guide
-covers version 1.0.3. See it live at [freeframe.dev/templates/forge](https://freeframe.dev/templates/forge).
+covers version 1.0.6. See it live at [freeframe.dev/templates/forge](https://freeframe.dev/templates/forge).
 
 ## Quick start
 

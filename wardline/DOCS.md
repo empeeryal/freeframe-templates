@@ -7,7 +7,7 @@ startups and mid-size companies prepare for SOC 2, ISO 27001, HIPAA, GDPR, PCI D
 control monitoring, evidence collection, policies, vendor risk, access reviews and a public trust center. The
 fictional company, Wardline, Inc., is based in Richmond, Virginia, and works in Eastern time
 (`America/New_York`). The site is plain HTML5 with Tailwind CSS v4 and one vanilla JavaScript file, version
-1.0.0. See the template page at <https://freeframe.dev/templates/wardline>, which links to the live demo.
+1.0.1. See the template page at <https://freeframe.dev/templates/wardline>, which links to the live demo.
 
 The copy is careful about what a compliance tool can claim: Wardline helps customers prepare, and independent
 auditors (a licensed CPA firm for SOC 2, an accredited certification body for ISO 27001) issue reports and

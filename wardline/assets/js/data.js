@@ -282,7 +282,7 @@ window.WARDLINE = (() => {
       name: "Staffloom",
       category: "hr",
       checks: 12,
-      summary: "Hires, leavers and managers, so onboarding and offboarding checks start on the right day.",
+      summary: "Hires, departures and managers, so onboarding and offboarding checks start on the right day.",
       access: "Employee directory read",
       minutes: 6,
     },
@@ -739,7 +739,7 @@ window.WARDLINE = (() => {
     {
       name: "Northvane Analytics",
       purpose: "Product usage analytics",
-      location: "Ireland",
+      location: "United States",
       data: "Pseudonymous usage events",
     },
   ];

@@ -89,7 +89,7 @@
 
   /* ---------- Article: reading time, progress bar, table of contents, sharing ---------- */
   // Words a reader reads: the essay's visible text, one text node at a time (so words in
-  // neighbouring tags never run together), leaving out the chart's SVG (its title, description
+  // neighboring tags never run together), leaving out the chart's SVG (its title, description
   // and labels), scripts, styles, anything hidden and the notes. Captions and code count.
   var SKIP_WORDS = 'svg, script, style, template, [hidden], [aria-hidden="true"], [aria-labelledby="notes-label"]';
   function countWords(root) {

@@ -2,10 +2,10 @@
 
 ## Overview
 
-Pocket is a launch website for a mobile app, built for **Pocket**, a fictional budgeting app from Bristol.
+Pocket is a launch website for a mobile app, built for **Pocket**, a fictional budgeting app from Tulsa.
 It has layered phone mockups, a scroll-driven feature tour, a screenshot carousel with a lightbox, pricing,
 release notes, a help center, a press kit and a privacy policy. Every phone screen is plain HTML and SVG, with no
-image files. This is the **HTML + Tailwind CSS v4** version, **1.0.5**: static pages and one vanilla JavaScript
+image files. This is the **HTML + Tailwind CSS v4** version, **1.0.7**: static pages and one vanilla JavaScript
 file, no build step needed to run it.
 
 Live demo: [freeframe.dev/templates/pocket](https://freeframe.dev/templates/pocket)
@@ -83,7 +83,7 @@ Change the green by replacing the `pine` scale (keep the 50–950 steps), then r
 ```
 
 The phone screens use **inline styles** with hex colors so each screen is self-contained. Search the HTML for
-`#0f7457` (the brand green) and other hex values to recolour them. The logos and favicon are SVG files you can
+`#0f7457` (the brand green) and other hex values to recolor them. The logos and favicon are SVG files you can
 edit in any vector editor or text editor.
 
 ### Typography
@@ -240,7 +240,7 @@ Forms with `data-validate` are checked with the browser's built-in constraints (
   `data-match="<id>"` and `data-match-message`.
 
 When valid, `onValid(form)` hides the form and shows the element named in `data-success`. The contact form's success
-message ("Thanks, message received.") promises a reply within one working day, as the help center and features pages
+message ("Thanks, message received.") promises a reply within one business day, as the help center and features pages
 say, and shows a short reference (`PO-` and four characters, made in the browser by `makeRef()` and written into the
 message's `[data-ref]` element; use your help desk's own reference instead if it returns one). It has a "Send another
 message" button whose `data-form-reset` holds the **form's** `id` (for example `data-form-reset="contact-form"`), not

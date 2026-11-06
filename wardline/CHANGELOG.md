@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-11-06
+
+### Changed
+
+- Wardline's copy uses American wording throughout: 12-hour times in the evidence mockup and "departed employees" instead of "leavers".
+- The "Show times in" list offers Alaska and Hawaii in place of London and Central Europe, and every subprocessor is in the United States. Visitors elsewhere still see times in their own zone.
+
 ## [1.0.0] - 2026-11-03
 
 ### Added

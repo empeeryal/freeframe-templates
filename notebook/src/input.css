@@ -9,7 +9,7 @@
 /* Dark mode follows the .dark class on <html> (set by the theme toggle). */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ---- Colour tokens: edit these to re-brand the whole site ---- */
+/* ---- Color tokens: edit these to re-brand the whole site ---- */
 :root {
   --paper: #f6f6f1;        /* page background (the notebook paper) */
   --surface: #ffffff;      /* cards and sheets */

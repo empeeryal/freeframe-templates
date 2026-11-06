@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.9] - 2026-11-06
+
+### Changed
+
+- The press page no longer shows a fixed update date, so it doesn't look out of date.
+
 ## [1.0.8] - 2026-11-05
 
 ### Changed

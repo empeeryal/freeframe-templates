@@ -4,7 +4,7 @@ A multi-page launch site for a mobile app (a fictional budgeting app): phone moc
 feature tour, screenshot carousel and lightbox, pricing, release notes, help center, press kit and privacy policy,
 with light and dark themes. Built with HTML5, Tailwind CSS v4 and vanilla JavaScript. A Next.js version of this template is also available.
 
-**Version 1.0.6** · see [CHANGELOG.md](CHANGELOG.md) for what changed.
+**Version 1.0.7** · see [CHANGELOG.md](CHANGELOG.md) for what changed.
 
 Live demo: [freeframe.dev/templates/pocket](https://freeframe.dev/templates/pocket)
 
@@ -27,4 +27,4 @@ listed in [CHANGELOG.md](CHANGELOG.md).
 ## License
 
 MIT. Free for personal and commercial use. See `LICENSE.txt` in the download. The privacy policy text is a
-placeholder: have it reviewed for your product and region before publishing.
+placeholder: have it reviewed for your product and state before publishing.

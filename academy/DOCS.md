@@ -313,7 +313,7 @@ Errors appear under each field (`fieldError()` sets `aria-invalid` and `aria-des
 first problem. On success the form shows a message. The teach and team quote messages include a short reference
 (`NA-` and four characters, made in the browser by `makeRef()` and written into `[data-ref]`; use your form
 service's own reference instead if it returns one) and say what happens next: the team quote promises a reply within
-one working day, as the form's intro does, and the teach application a reply within two weeks. The newsletter
+one business day, as the form's intro does, and the teach application a reply within two weeks. The newsletter
 message asks subscribers to look out for a confirmation email. Change these to match how you actually handle sign-ups
 and requests. **The forms don't send anything** until you connect them.
 

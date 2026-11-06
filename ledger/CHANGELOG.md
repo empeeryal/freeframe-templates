@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.9] - 2026-11-06
+
+### Changed
+
+- Set in Ann Arbor, Michigan, with American spelling and US places in the copy.
+
 ## [1.1.8] - 2026-11-05
 
 ### Changed

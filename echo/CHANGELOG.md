@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-06
+
+### Changed
+
+- Uses American spelling and words throughout, and guests' hometowns, measurements and temperatures read for US listeners.
+
 ## [1.0.4] - 2026-11-05
 
 ### Changed

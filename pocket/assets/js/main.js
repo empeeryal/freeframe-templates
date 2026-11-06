@@ -239,7 +239,7 @@
     billingBtns.forEach(function (b) { b.addEventListener('click', function () { setBilling(b.dataset.billing === 'annual'); }); });
   }
 
-  /* ---------- Accordions (FAQ, help centre) ---------- */
+  /* ---------- Accordions (FAQ, help center) ---------- */
   function setPanel(btn, open) {
     var panel = document.getElementById(btn.getAttribute('aria-controls'));
     btn.setAttribute('aria-expanded', String(open));
@@ -288,7 +288,7 @@
     applyFilters();
   }
 
-  /* ---------- Help centre search ---------- */
+  /* ---------- Help center search ---------- */
   var helpSearch = $('[data-help-search]');
   if (helpSearch) {
     var groups = $$('[data-help-group]');

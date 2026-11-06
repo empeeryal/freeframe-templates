@@ -4,7 +4,7 @@ A developer documentation site for **Relay**, a fictional JavaScript HTTP client
 start, installation, guides, examples, API reference, changelog and FAQ, with ⌘K search, code tabs and
 dark mode. Plain HTML, Tailwind CSS v4 and a single vanilla JavaScript file.
 
-**Version 1.1.10** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.1.11** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/docs)
 
 ## Quick start

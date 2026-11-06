@@ -3,13 +3,13 @@
 ## Overview
 
 Notebook is a personal developer blog. The demo belongs to **Imke Vos**, a fictional backend engineer in
-Rotterdam who writes long posts about databases, build tools and debugging. It has a home page with the
+Paducah who writes long posts about databases, build tools and debugging. It has a home page with the
 latest posts and featured series, a post layout made for technical writing (highlighted code with copy
 buttons, heading links, an outline that follows your reading, a progress bar and series navigation), an
 archive by year, a tag browser, instant search, a series page, projects, an about and now page and a
 subscribe page. The design is a sheet of graph paper with a red margin line and a yellow highlighter, in
 light and dark mode. It is built with HTML5, Tailwind CSS v4 and vanilla JavaScript, and needs no build
-step. This guide covers version 1.0.2.
+step. This guide covers version 1.0.3.
 
 Live demo: [freeframe.dev/templates/notebook](https://freeframe.dev/templates/notebook)
 
@@ -51,7 +51,7 @@ notebook/
     js/posts.js       the post index: every post's title, date, tags, series and address
     js/main.js        all interactive features
     img/              logo, favicon, illustrations, portrait and social image
-  src/input.css       Tailwind source: colour tokens, fonts and component classes
+  src/input.css       Tailwind source: color tokens, fonts and component classes
   package.json        scripts to rebuild the CSS
   README.md, DOCS.md, CHANGELOG.md
 ```
@@ -216,7 +216,7 @@ input. Change the address in that input.
 ### Scroll reveals
 
 Elements with the class `reveal` fade in when they scroll into view, and so does everything above them,
-so jumping to the end never leaves hidden content. With reduced motion they are visible straight away.
+so jumping to the end never leaves hidden content. With reduced motion they are visible right away.
 
 ### Mobile menu
 

@@ -7,7 +7,7 @@ fictional practice in Boise, Idaho, with four dentists, three hygienists and a p
 five-step booking flow whose time slots come from each clinician's schedule and the length of the visit, a pricing page
 with a cost estimator and a payment-plan calculator, an emergency symptom guide, a multi-step new patient form and
 filterable treatments and team pages. It's plain HTML5, Tailwind CSS v4 and one vanilla JavaScript file with no
-dependencies. This guide covers version 1.0.6 of the HTML version. Live demo:
+dependencies. This guide covers version 1.0.7 of the HTML version. Live demo:
 [freeframe.dev/templates/smile](https://freeframe.dev/templates/smile).
 
 All health content is general information written for a fictional practice. Have a qualified professional review
@@ -130,7 +130,7 @@ Page text lives in the HTML files. Practice data that drives interactive feature
 | Constant | What it holds |
 |----------|---------------|
 | `PRACTICE` | Name, time zone (`America/Boise`), time zone label, phone and address used in the booking flow and `.ics` file |
-| `HOURS` | Opening hours per weekday (0 = Sunday, `null` = closed), used by the open-now badge and the booking slots |
+| `HOURS` | Office hours per weekday (0 = Sunday, `null` = closed), used by the open-now badge and the booking slots |
 | `CLOSED_DATES` | Whole-practice closures as `YYYY-MM-DD` |
 | `LUNCH` | Lunch break applied on days longer than six hours |
 | `CLINICIANS` | Each clinician's name, short name, role, portrait and working weekdays |
@@ -139,7 +139,7 @@ Page text lives in the HTML files. Practice data that drives interactive feature
 | `ESTIMATE_ITEMS`, `MEMBERSHIP`, `FINANCE` | Cost estimator treatments and prices, Grin Club prices and discount, payment-plan terms |
 | `TRIAGE` | Symptom guide questions, red flags, tips and outcome wording |
 
-The opening hours also appear as plain HTML lists (`<dl data-hours>`) in the footer and on the home, emergency and
+The office hours also appear as plain HTML lists (`<dl data-hours>`) in the footer and on the home, emergency and
 contact pages. When you change `HOURS`, update those lists too.
 
 **Add a clinician.** Add an entry to `CLINICIANS`, list their id in the `who` array of each visit type they offer,
@@ -151,7 +151,7 @@ var CLINICIANS = {
   park: { name: 'Dr. Grace Park', short: 'Dr. Park', role: 'Dentist', img: 'assets/img/dr-park.svg', days: [1, 3, 5] }
 };
 var REASONS = {
-  checkup: { label: 'Checkup & clean', minutes: 60, price: '$165, or included in Grin Club', who: ['kowalski', 'haddad', 'brooks', 'park'], notice: 240 },
+  checkup: { label: 'Checkup & cleaning', minutes: 60, price: '$165, or included in Grin Club', who: ['kowalski', 'haddad', 'brooks', 'park'], notice: 240 },
   // ...
 };
 ```
@@ -283,7 +283,7 @@ against `data-langs`, an `aria-live` status message, live counts on each chip, a
 chip value is kept in the URL using the parameter named by `data-filter-param` (`category` or `role`), so filtered
 views can be shared.
 
-### Opening hours and open-now badge
+### Office hours and open-now badge
 
 `renderHours()` highlights today's row in every `[data-hours]` list and adds "(today)" for screen readers. Every
 `[data-open-status]` badge shows "Open now · until 5:00 pm" or "Closed · opens tomorrow 8:00 am", calculated in the
@@ -310,7 +310,7 @@ Every form validates in the browser and shows a success state, but **nothing is 
 connect it**, even though the confirmation screens read as if it had been. They show a short reference (`GL-` and
 four characters) made in the browser by `makeRef()` in `main.js`; if your PMS or form service returns its own
 reference, show that instead. Check that the promises on those screens (a confirming text within an hour, a reply
-within one working day, answers going to the patient record) match how your practice works.
+within one business day, answers going to the patient record) match how your practice works.
 
 Validation is driven by attributes, handled by `validateFields()` and `fieldMessage()` in `main.js`:
 
@@ -455,7 +455,7 @@ connected.
 - **The open-now badge looks wrong.** It uses `PRACTICE.timeZone` and `HOURS` in `main.js`, not the HTML hours lists
   and not the visitor's clock. Check both and keep them in step.
 - **The booking calendar shows no times.** Check that the visit type's `who` clinicians work on days that are open
-  in `HOURS`, that the visit `minutes` fit inside the opening hours, and that the dates aren't in `CLOSED_DATES` or
+  in `HOURS`, that the visit `minutes` fit inside the office hours, and that the dates aren't in `CLOSED_DATES` or
   beyond `BOOKING.daysAhead`. Late in the day, today may have no times because of the visit's `notice`.
 - **Times in the downloaded .ics file are an hour off.** `wallToInstant()` converts practice time to UTC using
   `PRACTICE.timeZone`. Make sure it's a valid IANA zone such as `America/Denver`.

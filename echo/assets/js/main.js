@@ -49,7 +49,7 @@
     credits: 'Overtone is produced by Rosa Lindgren and edited by Kit Harlow. Music by Kit Harlow. Recorded at the Piano Shop, Frankford Avenue, Philadelphia.'
   };
 
-  // id is used in URLs (episodes.html?topic=sound). dot is the Tailwind class for the colour dot.
+  // id is used in URLs (episodes.html?topic=sound). dot is the Tailwind class for the color dot.
   var TOPICS = [
     { id: 'design', label: 'Design', dot: 'bg-lilac', blurb: 'Type, objects, interfaces, cities' },
     { id: 'science', label: 'Science', dot: 'bg-sky', blurb: 'Labs, fieldwork and the people in them' },
@@ -58,7 +58,7 @@
     { id: 'sound', label: 'Sound', dot: 'bg-mint', blurb: 'Instruments, rooms and the noise between' }
   ];
 
-  // Cover colours per season: bg is the cover background, ink the artwork on top.
+  // Cover colors per season: bg is the cover background, ink the artwork on top.
   var SEASONS = [
     { id: 1, label: 'Season 1', years: '2023', bg: '#ff6b4a', ink: '#0e0c13' },
     { id: 2, label: 'Season 2', years: '2023–24', bg: '#b9a4ff', ink: '#0e0c13' },
@@ -70,13 +70,13 @@
   // episodes without a src are played by a simulated clock (see DOCS.md, The player).
   var EPISODES = [
     { id: 1, season: 1, title: "The Chair That Took Nine Years", guest: "Hollis Wren", role: "Furniture designer", topic: 'design', date: '2023-03-01', duration: 4669,
-      summary: "Hollis drew the first sketch of the Arc chair in 2013 and shipped it in 2022. We talk about the ninety prototypes in between, and why the final change was two millimetres.",
-      quote: "The last two millimetres took longer than the first nine hundred." },
+      summary: "Hollis drew the first sketch of the Arc chair in 2013 and shipped it in 2022. We talk about the ninety prototypes in between, and why the final change was two millimeters.",
+      quote: "The last two millimeters took longer than the first nine hundred." },
     { id: 2, season: 1, title: "Why Bridges Hum", guest: "Dr. Amara Celik", role: "Structural acoustics engineer", topic: 'engineering', date: '2023-03-15', duration: 3213,
       summary: "Some bridges sing in the wind and a few of them shake themselves apart. Amara listens to them for a living and explains what the hum is telling her.",
       quote: "A bridge is an instrument nobody meant to tune." },
     { id: 3, season: 1, title: "Teaching Bread to Rise on Mars", guest: "Priya Ramaswamy", role: "Food scientist", topic: 'science', date: '2023-03-29', duration: 3328,
-      summary: "Low pressure, strange flour and no second chances. Priya on baking for a crew that can’t pop out for groceries.",
+      summary: "Low pressure, strange flour and no second chances. Priya on baking for a crew that can’t run out for groceries.",
       quote: "Yeast is the most patient member of any mission." },
     { id: 4, season: 1, title: "A Typeface for Highway Signs", guest: "Joaquín Sola", role: "Type designer", topic: 'design', date: '2023-04-12', duration: 4739,
       summary: "You read it at 70 miles an hour, at night, in the rain. Joaquín on drawing letters that work when nobody is really looking.",
@@ -88,7 +88,7 @@
       summary: "Most of the sea floor is mapped worse than the surface of Mars. Tomasz on sonar, patience and the mountain range nobody has seen.",
       quote: "Every ping is a question we ask the dark." },
     { id: 7, season: 1, title: "Designing a Hospital You Can Get Lost In (Less)", guest: "Femi Adeyemi", role: "Wayfinding designer", topic: 'design', date: '2023-05-24', duration: 3180,
-      summary: "Colour-coded lines on the floor, landmarks instead of room numbers and the art of the perfect arrow. Femi on helping frightened people find their way.",
+      summary: "Color-coded lines on the floor, landmarks instead of room numbers and the art of the perfect arrow. Femi on helping frightened people find their way.",
       quote: "Nobody walks into a hospital in a good mood. The signs have to make up for it." },
     { id: 8, season: 1, title: "How a Synthesizer Learns to Sing", guest: "Lena Hart", role: "Instrument designer", topic: 'sound', date: '2023-06-07', duration: 4047,
       summary: "Lena builds synthesizers in a former laundromat. We get into oscillators, formants and the strange joy of a machine that sounds like breath.",
@@ -112,7 +112,7 @@
       summary: "The hosts go back through season one: corrections, listener letters, the guest who changed both their minds and the episode they almost never released.",
       quote: "We got a lot of email about knots." },
     { id: 15, season: 2, title: "Clocks That Run for 10,000 Years", guest: "Gabriel Osei", role: "Horologist", topic: 'engineering', date: '2023-10-04', duration: 3688,
-      summary: "Gabriel builds clocks meant to outlive the language they’re labelled in. On mechanisms, deep time and designing for people you will never meet.",
+      summary: "Gabriel builds clocks meant to outlive the language they’re labeled in. On mechanisms, deep time and designing for people you will never meet.",
       quote: "The hardest user to design for is the one born in the year 9000." },
     { id: 16, season: 2, title: "The Color of Money", guest: "Sofia Marchetti", role: "Banknote designer", topic: 'design', date: '2023-10-18', duration: 3000,
       summary: "Security threads, micro-lettering and a portrait that has to look trustworthy. Sofia on the most counterfeited canvas in the world.",
@@ -136,19 +136,19 @@
       summary: "Why the elevator never comes when you’re late. Victor on dispatch algorithms, rush hours and the placebo of the close-door button.",
       quote: "The button works. Whether it does anything is a different question." },
     { id: 23, season: 2, title: "A Museum for Sounds That Are Disappearing", guest: "Ama Owusu", role: "Sound archivist", topic: 'sound', date: '2024-01-24', duration: 3775,
-      summary: "Dial-up modems, typewriter bells, a particular Lagos market at dawn. Ama records sounds before they vanish and plays us a few.",
+      summary: "Dial-up modems, typewriter bells, a particular Cincinnati market at dawn. Ama records sounds before they vanish and plays us a few.",
       quote: "Nobody thinks to record a sound until it’s gone." },
     { id: 24, season: 2, title: "The Map That Fits in Your Pocket", guest: "Henrik Dahl", role: "Cartographer", topic: 'design', date: '2024-02-07', duration: 3615,
-      summary: "Henrik designs folding maps for national parks. On generalisation, what to leave out, and the art of a fold that never tears.",
+      summary: "Henrik designs folding maps for national parks. On generalization, what to leave out, and the art of a fold that never tears.",
       quote: "A map is a list of everything I chose to ignore." },
     { id: 25, season: 2, title: "Fermentation as a Design Tool", guest: "Dr. Lucia Ortega", role: "Microbiologist", topic: 'science', date: '2024-02-21', duration: 3958,
-      summary: "Lucia works with chefs and textile dyers, using microbes to make colour and flavour. On cultures, patience and controlled rot.",
+      summary: "Lucia works with chefs and textile dyers, using microbes to make color and flavor. On cultures, patience and controlled rot.",
       quote: "Every jar in my lab is a tiny city with its own politics." },
     { id: 26, season: 2, title: "Quiet Cars", guest: "Beatrice Moll", role: "Automotive NVH engineer", topic: 'sound', date: '2024-03-06', duration: 3558,
       summary: "Electric cars removed the engine noise and revealed every rattle behind it. Beatrice spends her days hunting squeaks.",
       quote: "Silence is the loudest thing we ever shipped." },
     { id: 27, season: 2, title: "Making Ceramics That Survive Space", guest: "Dr. Raj Patel", role: "Aerospace materials engineer", topic: 'engineering', date: '2024-03-20', duration: 3046,
-      summary: "Heat shields, re-entry and tiles that glow at 1,600°C. Raj on the oldest material we know doing the newest job.",
+      summary: "Heat shields, re-entry and tiles that glow at 2,900°F. Raj on the oldest material we know doing the newest job.",
       quote: "Pottery is the original high-temperature technology." },
     { id: 28, season: 2, title: "The Unwritten Rules of a Kitchen Knife", guest: "Hiro Matsuda", role: "Bladesmith", topic: 'craft', date: '2024-04-03', duration: 4756,
       summary: "Hiro forges knives in a converted garage in Portland. On steel, grind angles, and why the handle matters more than anyone thinks.",
@@ -171,7 +171,7 @@
     { id: 34, season: 3, title: "Restoring a 1920s Theater Organ", guest: "Walter Pryce", role: "Organ builder", topic: 'sound', date: '2024-10-23', duration: 3124,
       summary: "Twelve hundred pipes, a leaking wind chest and a theater that hadn’t heard it since 1962. Walter on bringing a giant back to life.",
       quote: "An organ is a building that breathes." },
-    { id: 35, season: 3, title: "Trains on Time", guest: "Chiara Rossi", role: "Railway timetable planner", topic: 'engineering', date: '2024-11-06', duration: 2720,
+    { id: 35, season: 3, title: "Trains on Time", guest: "Chiara Rossi", role: "Railroad timetable planner", topic: 'engineering', date: '2024-11-06', duration: 2720,
       summary: "Chiara builds timetables for a network of 900 trains a day. On buffers, cascades and why a two-minute delay in the morning ruins the evening.",
       quote: "A timetable is a promise made a year in advance." },
     { id: 36, season: 3, title: "Stitching a Spacesuit", guest: "Delphine Moreau", role: "Spacesuit seamstress", topic: 'craft', date: '2024-11-20', duration: 3808,
@@ -190,7 +190,7 @@
       summary: "Heat, gravity and timing. Ingrid on reading molten glass and the hundredth of a second between a vase and a mess.",
       quote: "The glass tells you what it wants. You have about four seconds to listen." },
     { id: 41, season: 3, title: "Why Microphones Sound Different", guest: "Oskar Lindahl", role: "Microphone designer", topic: 'sound', date: '2025-01-29', duration: 3386,
-      summary: "Oskar designs microphones in Malmö. We put four of his on the table and record the same sentence through each. You’ll hear it.",
+      summary: "Oskar designs microphones in Knoxville. We put four of his on the table and record the same sentence through each. You’ll hear it.",
       quote: "Every microphone has an opinion about your voice." },
     { id: 42, season: 3, title: "Inventing a New Apple", guest: "Dr. Hannah Weiss", role: "Fruit breeder", topic: 'science', date: '2025-02-12', duration: 4678,
       summary: "It takes twenty years and about 10,000 seedlings to release one new apple. Hannah on taste panels, patience and the one that got away.",
@@ -198,7 +198,7 @@
     { id: 43, season: 3, title: "Signs for a City Without Words", guest: "Kenji Mori", role: "Pictogram designer", topic: 'design', date: '2025-02-26', duration: 4373,
       summary: "Kenji designs pictograms for international events. On drawing a toilet that everyone on Earth understands.",
       quote: "A pictogram has to work for a tired person in a foreign country." },
-    { id: 44, season: 3, title: "The Stone Wall Without Mortar", guest: "Callum Fraser", role: "Dry stone waller", topic: 'craft', date: '2025-03-12', duration: 2824,
+    { id: 44, season: 3, title: "The Stone Wall Without Mortar", guest: "Callum Fraser", role: "Dry stone mason", topic: 'craft', date: '2025-03-12', duration: 2824,
       summary: "Callum builds walls with nothing but stone and gravity. Some on his hillside have stood for three hundred years.",
       quote: "Every stone has one place where it wants to be." },
     { id: 45, season: 3, title: "Turning Wind into Light", guest: "Dr. Ayesha Karim", role: "Turbine aerodynamicist", topic: 'engineering', date: '2025-03-26', duration: 4290,
@@ -229,7 +229,7 @@
       summary: "Elise studies how clouds form in a chamber the size of a room. On seeding, rain and the ethics of changing the weather.",
       quote: "A cloud is a very slow decision made by billions of droplets." },
     { id: 54, season: 4, title: "Weaving with Recycled Fishing Nets", guest: "Thandiwe Dube", role: "Textile designer", topic: 'craft', date: '2026-06-17', duration: 4769,
-      summary: "Thandiwe turns abandoned fishing nets into rugs. On sorting, cleaning, spinning and the colours you can only get from the sea.",
+      summary: "Thandiwe turns abandoned fishing nets into rugs. On sorting, cleaning, spinning and the colors you can only get from the sea.",
       quote: "Every rug starts on a beach." },
     { id: 55, season: 4, title: "The Acoustics of a Library", guest: "Pablo Herrera", role: "Architectural acoustician", topic: 'sound', date: '2026-07-01', duration: 3161,
       summary: "How quiet is quiet enough? Pablo on designing reading rooms where you can hear a page turn but not a phone call.",
@@ -250,7 +250,7 @@
       summary: "Every repair must be reversible. Giulia on fixing 18th-century chairs so that the next restorer can undo her work.",
       quote: "My best work is invisible, and my second-best work can be removed." },
     { id: 61, season: 4, title: "A Better Bike Lane", guest: "Marisol Vega", role: "Street designer", topic: 'design', date: '2026-09-23', duration: 2999,
-      summary: "Paint is not protection. Marisol on kerbs, planters, signal timing and the bike lane that a ten-year-old would actually use.",
+      summary: "Paint is not protection. Marisol on curbs, planters, signal timing and the bike lane that a ten-year-old would actually use.",
       quote: "Design the street for an eight-year-old and an eighty-year-old and everyone else fits." },
     { id: 62, season: 4, title: "The Quietest Room on Earth", guest: "Sven Aaltonen", role: "Anechoic chamber engineer", topic: 'sound', date: '2026-10-07', duration: 3476,
       summary: "Sven builds rooms that swallow 99.99% of sound. We spend twenty minutes inside one, then ask him what silence actually does to a person.",
@@ -262,7 +262,7 @@
   // t values are seconds from the start.
   var DETAILS = {
     62: {
-      bio: 'Sven Aaltonen designs and tunes anechoic chambers for universities and audio companies across Europe. He trained as a mechanical engineer in Espoo and has built eleven chambers, the quietest measuring below minus 20 decibels.',
+      bio: 'Sven Aaltonen designs and tunes anechoic chambers for universities and audio companies across the country. He trained as a mechanical engineer in Houghton, Michigan and has built eleven chambers, the quietest measuring below minus 20 decibels.',
       links: [['Aaltonen Acoustics (website)', 'https://example.com/aaltonen-acoustics'], ['Sven’s paper on wedge geometry', 'https://example.com/wedge-geometry']],
       chapters: [
         { t: 0, title: 'Cold open: twenty minutes of nothing' },
@@ -275,9 +275,9 @@
         { t: 3330, title: 'Thanks and credits' }
       ],
       notes: [
-        'In the basement of a lab outside Helsinki, Sven Aaltonen has built a room that absorbs 99.99% of the sound that reaches its walls. We spent twenty minutes inside it with a recorder running, and then sat down with Sven to ask what he has learned from a career spent building nothing.',
+        'In the basement of a lab in northern Michigan, Sven Aaltonen has built a room that absorbs 99.99% of the sound that reaches its walls. We spent twenty minutes inside it with a recorder running, and then sat down with Sven to ask what he has learned from a career spent building nothing.',
         { h: 'In this episode' },
-        { ul: ['Why the chamber floor is a trampoline of steel cable', 'The fibreglass wedges, and why their length sets the lowest note the room can swallow', 'What happens to your balance in the dark when nothing echoes', 'How car makers, hearing aid designers and choirs use the room', 'Sven’s favourite sound in the world (it is not silence)'] },
+        { ul: ['Why the chamber floor is a trampoline of steel cable', 'The fiberglass wedges, and why their length sets the lowest note the room can swallow', 'What happens to your balance in the dark when nothing echoes', 'How car makers, hearing aid designers and choirs use the room', 'Sven’s favorite sound in the world (it is not silence)'] },
         { h: 'Mentioned' },
         { links: [['Episode 41: Why Microphones Sound Different', 'episode.html?id=41'], ['Episode 55: The Acoustics of a Library', 'episode.html?id=55'], ['Episode 26: Quiet Cars', 'episode.html?id=26'], ['Aaltonen Acoustics', 'https://example.com/aaltonen-acoustics']] }
       ],
@@ -294,18 +294,18 @@
         [548, 'Sven', 'No. It is a measuring instrument. If you want to know exactly what sound a microphone or a hearing aid or a car door makes, you need a room that adds nothing of its own.'],
         [1180, 'Nadia', 'We went in. Describe what we were sitting on, because it moved.'],
         [1188, 'Sven', 'A net of steel cable, stretched over a pit full of wedges. The wedges are below you, above you, on every wall. You are floating in the middle of a very large, very soft hedgehog.'],
-        [1820, 'Eli', 'People talk about going a bit mad in there. Is that real?'],
+        [1820, 'Eli', 'People talk about going a little crazy in there. Is that real?'],
         [1828, 'Sven', 'It is mostly real, but it is not the silence. It is that your brain never stops listening. When the world gives it nothing, it turns to you. After ten minutes you hear your own blood. After twenty, you hear your joints.'],
         [2135, 'Nadia', 'I heard my stomach and decided not to mention it.'],
         [2490, 'Eli', 'Let’s talk about the wedges. Why are they that shape?'],
-        [2498, 'Sven', 'A sound wave arriving at a wedge gets trapped between the faces and loses a little energy each time it bounces. The longer the wedge, the lower the frequency it can catch. Ours are one point two metres.'],
-        [3010, 'Nadia', 'Lightning round. Favourite sound?'],
-        [3014, 'Sven', 'Rain on a tin roof at my summer cottage. It is very loud and I love it.'],
+        [2498, 'Sven', 'A sound wave arriving at a wedge gets trapped between the faces and loses a little energy each time it bounces. The longer the wedge, the lower the frequency it can catch. Ours are about four feet long.'],
+        [3010, 'Nadia', 'Lightning round. Favorite sound?'],
+        [3014, 'Sven', 'Rain on a tin roof at my summer cabin. It is very loud and I love it.'],
         [3330, 'Eli', 'That’s our show. Thanks to Sven Aaltonen. Overtone is produced by Rosa Lindgren and edited by Kit Harlow. See you in two weeks.']
       ]
     },
     41: {
-      bio: 'Oskar Lindahl designs studio microphones in Malmö, Sweden. Before starting his own workshop he spent nine years repairing vintage ribbon and condenser microphones for broadcasters.',
+      bio: 'Oskar Lindahl designs studio microphones in Knoxville, Tennessee. Before starting his own workshop he spent nine years repairing vintage ribbon and condenser microphones for broadcasters.',
       links: [['Lindahl Audio (website)', 'https://example.com/lindahl-audio']],
       chapters: [
         { t: 0, title: 'Cold open: one sentence, four microphones' },
@@ -342,7 +342,7 @@
       ]
     },
     18: {
-      bio: 'Adaeze Nwosu is a violin maker and restorer in Ithaca, New York. She trained at a violin-making school in Cremona and has made 64 instruments, including one from a 200-year-old maple that fell in her street.',
+      bio: 'Adaeze Nwosu is a violin maker and restorer in Ithaca, New York. She trained at a violin-making school in Indiana and has made 64 instruments, including one from a 200-year-old maple that fell on her street.',
       links: [['Nwosu Violins (website)', 'https://example.com/nwosu-violins']],
       chapters: [
         { t: 0, title: 'Cold open: the storm' },
@@ -356,7 +356,7 @@
       notes: [
         'In the spring of 2022 a storm brought down a 200-year-old sugar maple on Adaeze Nwosu’s street. She asked the city if she could keep a piece. Eighteen months later it became a violin, and she brought it to the studio.',
         { h: 'In this episode' },
-        { ul: ['Splitting a log so the grain runs straight', 'Why violin makers tap wood and listen', 'Carving a top plate to within a tenth of a millimetre', 'The varnish recipe Adaeze will not share', 'The first note, played live in the studio'] },
+        { ul: ['Splitting a log so the grain runs straight', 'Why violin makers tap wood and listen', 'Carving a top plate to within a tenth of a millimeter', 'The varnish recipe Adaeze will not share', 'The first note, played live in the studio'] },
         { h: 'Mentioned' },
         { links: [['Episode 34: Restoring a 1920s Theater Organ', 'episode.html?id=34'], ['Episode 5: The Last Bell Foundry in Ohio', 'episode.html?id=5'], ['Nwosu Violins', 'https://example.com/nwosu-violins']] }
       ],
@@ -372,7 +372,7 @@
         [2656, 'Adaeze', 'I will talk about it. I will not tell you what is in it.'],
         [3480, 'Eli', 'Will you play it for us?'],
         [3490, 'Adaeze', 'Just a scale. Then something my grandmother used to sing.'],
-        [4200, 'Nadia', 'Lightning round. Favourite tool?'],
+        [4200, 'Nadia', 'Lightning round. Favorite tool?'],
         [4204, 'Adaeze', 'A small brass thumb plane my teacher gave me. It is older than both of you combined.']
       ]
     }
@@ -476,7 +476,7 @@
   /* ------------------------------------------------------------------
    * 3. Artwork: covers, waveforms and avatars
    * ------------------------------------------------------------------ */
-  // Square cover art: season colour, a motif for the topic and the episode number.
+  // Square cover art: season color, a motif for the topic and the episode number.
   function cover(ep) {
     var s = seasonOf(ep), ink = s.ink, r = seeded(hash('cover' + ep.id)), m = '';
     if (ep.topic === 'sound') {
@@ -555,7 +555,7 @@
     return '<svg class="wave-layer ' + cls + '" viewBox="0 0 ' + count * 4 + ' 100" preserveAspectRatio="none" fill="currentColor" aria-hidden="true">' + rects + '</svg>';
   }
 
-  // Guest avatar: initials on the season colour with a ring of sound arcs.
+  // Guest avatar: initials on the season color with a ring of sound arcs.
   function avatar(ep) {
     var s = seasonOf(ep);
     var initials = ep.guest.replace(/^Dr\.\s+/, '').split(/\s+&\s+|\s+/).filter(Boolean).map(function (w) { return w[0]; }).join('').slice(0, 2);
@@ -1193,7 +1193,7 @@
       [ch[4].t + 7, g, 'The waiting. Most of it is testing, waiting and starting again. The exciting part is maybe five percent of the time.'],
       [ch[ch.length - 1].t - 40, 'Nadia', 'If listeners remember one thing from today, what should it be?'],
       [ch[ch.length - 1].t - 32, g, ep.quote],
-      [ch[ch.length - 1].t, 'Eli', 'Lightning round. Favourite tool?']
+      [ch[ch.length - 1].t, 'Eli', 'Lightning round. Favorite tool?']
     ] };
   }
 
@@ -1435,7 +1435,7 @@
   }
 
   /* ------------------------------------------------------------------
-   * 10. Forms: newsletter, advertise enquiry and guest pitch
+   * 10. Forms: newsletter, advertise inquiry and guest pitch
    *     Every form[data-validate] is checked on submit, with inline errors.
    *     To connect a form, see onValid() below and DOCS.md (Forms).
    * ------------------------------------------------------------------ */
@@ -1446,7 +1446,7 @@
   }
   function fieldMessage(f) {
     var name = f.getAttribute('data-label') || 'this field';
-    if (f.type === 'checkbox') return f.required && !f.checked ? (f.getAttribute('data-msg') || 'Please tick this box.') : '';
+    if (f.type === 'checkbox') return f.required && !f.checked ? (f.getAttribute('data-msg') || 'Please check this box.') : '';
     var v = f.value.trim();
     if (f.required && !v) {
       if (f.type === 'email') return 'Enter your email address.';
@@ -1567,7 +1567,7 @@
       $$('input[name="' + parts[0] + '"]', form).forEach(function (r) { r.addEventListener('change', upd); });
       upd();
     });
-    // sponsor.html?format=season preselects an ad format in the enquiry form.
+    // sponsor.html?format=season preselects an ad format in the inquiry form.
     var fmt = new URLSearchParams(window.location.search).get('format');
     var box = fmt && $('input[name="formats"][value="' + fmt.replace(/[^a-z-]/g, '') + '"]');
     if (box) box.checked = true;

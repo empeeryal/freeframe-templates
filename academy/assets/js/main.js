@@ -1,6 +1,6 @@
 /* Academy — site scripts. Vanilla JavaScript, no dependencies.
    Course, instructor and path data live in DATA below: edit it to make the
-   catalogue your own. Every page reads from the same data. */
+   catalog your own. Every page reads from the same data. */
 (function () {
   'use strict';
 
@@ -78,7 +78,7 @@
     product:  { name: 'Product',  bg: '#d4f5ec', fg: '#16a085', deep: '#0b4d40', alt: '#a7ead8' }
   };
 
-  // Topic label colours (AA contrast in light and dark).
+  // Topic label colors (AA contrast in light and dark).
   var TOPIC_TEXT = {
     design: 'text-[#9a3412] dark:text-[#ffb59c]',
     frontend: 'text-[#1d4ed8] dark:text-[#a8c4ff]',
@@ -111,13 +111,13 @@
   var COURSES = [
     { id: 'design-systems', title: 'Design Systems from Figma to Code', topic: 'design', level: 'Intermediate', hours: 9, price: 89, rating: 4.9, reviews: 2140, students: 18400, instructor: 'amara', badge: 'Bestseller', updated: 'Sep 2026',
       summary: 'Build a design system your team will actually use: tokens, components and documentation, from Figma all the way to production code.',
-      outcomes: ['Define colour, type and spacing tokens that scale', 'Design flexible components with variants and states', 'Hand off to code with tokens in CSS and React', 'Document, version and govern a living system'],
+      outcomes: ['Define color, type and spacing tokens that scale', 'Design flexible components with variants and states', 'Hand off to code with tokens in CSS and React', 'Document, version and govern a living system'],
       modules: ['Foundations and audit', 'Design tokens', 'Components that flex', 'From Figma to code', 'Documentation and adoption'],
-      lessons: [['Why design systems fail', 'Running a UI audit', 'Choosing your scope', 'Setting up the Figma file'], ['Colour tokens', 'Type scales', 'Spacing and sizing', 'Naming that lasts', 'Theming and dark mode'], ['Anatomy of a button', 'Variants and properties', 'Forms and inputs', 'Layout components', 'States and edge cases'], ['Exporting tokens', 'Tokens in CSS', 'Building components in React', 'Visual regression tests'], ['Writing usage guidelines', 'Versioning and releases', 'Measuring adoption', 'Your capstone system']] },
+      lessons: [['Why design systems fail', 'Running a UI audit', 'Choosing your scope', 'Setting up the Figma file'], ['Color tokens', 'Type scales', 'Spacing and sizing', 'Naming that lasts', 'Theming and dark mode'], ['Anatomy of a button', 'Variants and properties', 'Forms and inputs', 'Layout components', 'States and edge cases'], ['Exporting tokens', 'Tokens in CSS', 'Building components in React', 'Visual regression tests'], ['Writing usage guidelines', 'Versioning and releases', 'Measuring adoption', 'Your capstone system']] },
     { id: 'ui-foundations', title: 'UI Design Foundations', topic: 'design', level: 'Beginner', hours: 6, price: 0, rating: 4.8, reviews: 3810, students: 52100, instructor: 'amara', badge: 'Free', updated: 'Aug 2026',
-      summary: 'Learn the fundamentals of layout, typography, colour and hierarchy by redesigning three real screens.',
-      outcomes: ['Use grids and spacing with confidence', 'Pick and pair typefaces', 'Build accessible colour palettes', 'Critique and iterate on your own work'],
-      modules: ['Seeing like a designer', 'Layout and spacing', 'Typography', 'Colour', 'Your first redesign'] },
+      summary: 'Learn the fundamentals of layout, typography, color and hierarchy by redesigning three real screens.',
+      outcomes: ['Use grids and spacing with confidence', 'Pick and pair typefaces', 'Build accessible color palettes', 'Critique and iterate on your own work'],
+      modules: ['Seeing like a designer', 'Layout and spacing', 'Typography', 'Color', 'Your first redesign'] },
     { id: 'modern-css', title: 'Modern CSS Layout', topic: 'frontend', level: 'Beginner', hours: 5, price: 49, rating: 4.8, reviews: 1920, students: 21300, instructor: 'leo', updated: 'Sep 2026',
       summary: 'Flexbox, grid, container queries and fluid type, taught through ten small layouts you will reuse forever.',
       outcomes: ['Choose between flexbox and grid', 'Build intrinsic, responsive layouts', 'Use container queries and clamp()', 'Debug layout with browser tools'],
@@ -136,15 +136,15 @@
       modules: ['API design', 'Routing and validation', 'Data and persistence', 'Auth and security', 'Testing and deployment'] },
     { id: 'sql-essentials', title: 'SQL Essentials', topic: 'data', level: 'Beginner', hours: 3, price: 0, rating: 4.8, reviews: 4020, students: 61800, instructor: 'hana', badge: 'Free', updated: 'Sep 2026',
       summary: 'Go from zero to confident queries: filtering, joins, grouping and window functions on real datasets.',
-      outcomes: ['Query and filter tables', 'Join data from many tables', 'Summarise with GROUP BY', 'Use window functions'],
+      outcomes: ['Query and filter tables', 'Join data from many tables', 'Summarize with GROUP BY', 'Use window functions'],
       modules: ['Your first query', 'Filtering and sorting', 'Joins', 'Aggregation', 'Window functions'] },
-    { id: 'data-viz', title: 'Data Visualisation that Tells a Story', topic: 'data', level: 'Intermediate', hours: 7, price: 79, rating: 4.8, reviews: 990, students: 11900, instructor: 'hana', updated: 'Aug 2026',
+    { id: 'data-viz', title: 'Data Visualization that Tells a Story', topic: 'data', level: 'Intermediate', hours: 7, price: 79, rating: 4.8, reviews: 990, students: 11900, instructor: 'hana', updated: 'Aug 2026',
       summary: 'Choose the right chart, remove the clutter and write the headline: visual storytelling for analysts and designers.',
       outcomes: ['Pick the right chart for the question', 'Design clear, accessible charts', 'Write headlines that land', 'Build a dashboard people use'],
-      modules: ['Seeing data', 'Choosing charts', 'Design and colour', 'Narrative and headlines', 'Dashboards'] },
+      modules: ['Seeing data', 'Choosing charts', 'Design and color', 'Narrative and headlines', 'Dashboards'] },
     { id: 'python-data', title: 'Python for Data Analysis', topic: 'data', level: 'Beginner', hours: 14, price: 109, rating: 4.7, reviews: 2450, students: 27600, instructor: 'hana', updated: 'Jun 2026',
       summary: 'Learn Python the analyst’s way: notebooks, pandas, cleaning messy data and answering real business questions.',
-      outcomes: ['Write Python with confidence', 'Clean and reshape data with pandas', 'Analyse and visualise datasets', 'Share reproducible notebooks'],
+      outcomes: ['Write Python with confidence', 'Clean and reshape data with pandas', 'Analyze and visualize datasets', 'Share reproducible notebooks'],
       modules: ['Python basics', 'Working with pandas', 'Cleaning data', 'Analysis', 'Communicating results'] },
     { id: 'product-discovery', title: 'Product Discovery in Practice', topic: 'product', level: 'Intermediate', hours: 5, price: 69, rating: 4.6, reviews: 640, students: 7300, instructor: 'sofia', updated: 'Aug 2026',
       summary: 'Find problems worth solving with continuous discovery: interviews, opportunity trees and quick experiments.',
@@ -152,7 +152,7 @@
       modules: ['Discovery as a habit', 'Interviewing', 'Opportunity mapping', 'Experiments', 'Deciding and sharing'] },
     { id: 'ux-research', title: 'UX Research Methods', topic: 'product', level: 'Beginner', hours: 4, price: 59, rating: 4.7, reviews: 760, students: 8900, instructor: 'sofia', updated: 'May 2026',
       summary: 'Plan and run usability tests, surveys and interviews, then turn findings into decisions your team acts on.',
-      outcomes: ['Choose the right research method', 'Plan and run usability tests', 'Synthesise findings quickly', 'Present research that drives action'],
+      outcomes: ['Choose the right research method', 'Plan and run usability tests', 'Synthesize findings quickly', 'Present research that drives action'],
       modules: ['Research questions', 'Usability testing', 'Interviews and surveys', 'Synthesis', 'Sharing insights'] },
     { id: 'system-design', title: 'System Design for Web Engineers', topic: 'backend', level: 'Advanced', hours: 16, price: 129, rating: 4.8, reviews: 980, students: 10400, instructor: 'marcus', badge: 'New', updated: 'Oct 2026',
       summary: 'Design systems that survive real traffic: caching, queues, databases, consistency and the trade-offs between them.',
@@ -163,7 +163,7 @@
   var PATHS = [
     { id: 'product-designer', name: 'Product Designer', topic: 'design', weeks: 12, blurb: 'From design fundamentals to shipping a design system, with research and accessibility along the way.', courses: ['ui-foundations', 'ux-research', 'accessible-web', 'design-systems'] },
     { id: 'frontend-developer', name: 'Frontend Developer', topic: 'frontend', weeks: 14, blurb: 'Modern CSS, accessible components and React, finished with a design system you build yourself.', courses: ['modern-css', 'accessible-web', 'react-from-scratch', 'design-systems'] },
-    { id: 'data-analyst', name: 'Data Analyst', topic: 'data', weeks: 10, blurb: 'Query, analyse and visualise data with SQL and Python, then tell the story behind the numbers.', courses: ['sql-essentials', 'python-data', 'data-viz'] },
+    { id: 'data-analyst', name: 'Data Analyst', topic: 'data', weeks: 10, blurb: 'Query, analyze and visualize data with SQL and Python, then tell the story behind the numbers.', courses: ['sql-essentials', 'python-data', 'data-viz'] },
     { id: 'fullstack-engineer', name: 'Full-stack Engineer', topic: 'backend', weeks: 18, blurb: 'Build the whole thing: layouts, React apps, APIs and the system design to keep them running.', courses: ['modern-css', 'react-from-scratch', 'node-apis', 'system-design'] }
   ];
 
@@ -624,7 +624,7 @@
     });
   });
 
-  // Search forms send you to the catalogue.
+  // Search forms send you to the catalog.
   $$('[data-search-form]').forEach(function (form) {
     form.addEventListener('submit', function (e) {
       var q = $('input', form).value.trim();
@@ -776,7 +776,7 @@
       var k = el.dataset.bind;
       var v = { title: course.title, summary: course.summary, topic: t.name, level: course.level, rating: course.rating.toFixed(1), reviews: fmt(course.reviews), students: fmt(course.students),
         hours: course.hours + ' hours', lessons: total + ' lessons', modules: mods.length + ' modules', updated: course.updated, instructor: inst.name, 'instructor-role': inst.role,
-        'instructor-bio': inst.bio, price: priceLabel(course), cta: course.price ? 'Enrol for $' + course.price : 'Enrol for free' }[k];
+        'instructor-bio': inst.bio, price: priceLabel(course), cta: course.price ? 'Enroll for $' + course.price : 'Enroll for free' }[k];
       if (v !== undefined) el.textContent = v;
     });
     $$('[data-bind-href="instructor"]').forEach(function (a) { a.href = 'instructor.html?id=' + inst.id; });
@@ -826,7 +826,7 @@
       dialog.addEventListener('click', function (e) { if (e.target === dialog) dialog.close(); });
     }
 
-    // Enrol: saved in this browser (demo — no payment is taken).
+    // Enroll: saved in this browser (demo — no payment is taken).
     var progress = loadProgress();
     function syncEnrol() {
       var p = courseProgress(progress, course);
@@ -975,7 +975,7 @@
     });
     update();
 
-    // Team enquiry form.
+    // Team inquiry form.
     var form = $('[data-team-form]');
     if (form) {
       form.addEventListener('submit', function (e) {
@@ -1112,7 +1112,7 @@
           return '<li><a href="lesson.html?course=' + course.id + '&amp;lesson=' + l.id + '"' + (cur ? ' aria-current="page"' : '') +
             ' class="flex items-start gap-3 rounded-xl px-3 py-2 text-sm hover:bg-ink/5 aria-[current=page]:bg-leaf-100 aria-[current=page]:font-bold dark:hover:bg-white/5 dark:aria-[current=page]:bg-leaf-400/15">' +
             '<span class="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full ' + (ok ? 'bg-leaf-700 text-white dark:bg-leaf-300 dark:text-night' : 'ring-2 ring-ink/20 dark:ring-white/25') + '" aria-hidden="true">' + (ok ? '<svg class="size-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 0 1 0 1.4l-8 8a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.4L8 12.6l7.3-7.3a1 1 0 0 1 1.4 0Z" clip-rule="evenodd"/></svg>' : '') + '</span>' +
-            '<span class="min-w-0 flex-1">' + esc(l.title) + (ok ? '<span class="sr-only"> (completed)</span>' : '') + (locked ? '<span class="sr-only"> (enrol to unlock)</span>' : '') + '</span>' +
+            '<span class="min-w-0 flex-1">' + esc(l.title) + (ok ? '<span class="sr-only"> (completed)</span>' : '') + (locked ? '<span class="sr-only"> (enroll to unlock)</span>' : '') + '</span>' +
             '<span class="shrink-0 text-xs muted">' + (locked ? '<svg class="inline size-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 2a4 4 0 0 0-4 4v2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-1V6a4 4 0 0 0-4-4Zm2 6V6a2 2 0 1 0-4 0v2h4Z" clip-rule="evenodd"/></svg> ' : '') + l.min + 'm</span></a></li>';
         }).join('') + '</ul></li>';
       }).join(''));

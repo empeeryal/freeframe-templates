@@ -5,7 +5,7 @@ product pages with variants, a cart saved in the browser, a slide-out mini cart,
 about, FAQ with contact form and a 404 page. Product images are drawn in SVG, so there are no photos to
 replace. Plain HTML, Tailwind CSS v4 and vanilla JavaScript.
 
-**Version 1.1.10** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.1.11** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/market)
 
 ## Quick start

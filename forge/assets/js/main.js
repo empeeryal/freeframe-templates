@@ -64,7 +64,7 @@ document.documentElement.classList.add('js');
   -d '{
     "type": "invoice.paid",
     "tenant": "acme-co",
-    "data": { "invoice_id": "in_8812", "amount": 4900, "currency": "eur" }
+    "data": { "invoice_id": "in_8812", "amount": 4900, "currency": "usd" }
   }'`
     },
     node: {
@@ -76,7 +76,7 @@ const forge = new Forge(process.env.FORGE_KEY);
 const event = await forge.events.send({
   type: "invoice.paid",
   tenant: "acme-co",
-  data: { invoice_id: "in_8812", amount: 4900, currency: "eur" },
+  data: { invoice_id: "in_8812", amount: 4900, currency: "usd" },
 }, { idempotencyKey: "ord_8812-paid" });
 
 console.log(event.status); // "queued"`
@@ -91,7 +91,7 @@ forge = Forge(os.environ["FORGE_KEY"])
 event = forge.events.send(
     type="invoice.paid",
     tenant="acme-co",
-    data={"invoice_id": "in_8812", "amount": 4900, "currency": "eur"},
+    data={"invoice_id": "in_8812", "amount": 4900, "currency": "usd"},
     idempotency_key="ord_8812-paid",
 )
 print(event.status)  # "queued"`
@@ -104,7 +104,7 @@ event, err := client.Events.Send(ctx, &forge.EventParams{
 	Type:   "invoice.paid",
 	Tenant: "acme-co",
 	Data: map[string]any{
-		"invoice_id": "in_8812", "amount": 4900, "currency": "eur",
+		"invoice_id": "in_8812", "amount": 4900, "currency": "usd",
 	},
 	IdempotencyKey: "ord_8812-paid",
 })
@@ -458,7 +458,7 @@ if err != nil {
     selectLang(currentLang, false);
   }
 
-  // Static code blocks: <code data-highlight="node"> is coloured on load (text stays plain for copying).
+  // Static code blocks: <code data-highlight="node"> is colored on load (text stays plain for copying).
   function initHighlight() {
     $$('code[data-highlight]').forEach((el) => { el.innerHTML = highlight(el.textContent, el.dataset.highlight); });
   }
@@ -629,7 +629,7 @@ if err != nil {
       }
       const now = new Date().toISOString();
       if (current.id === 'send') {
-        const data = v.type === 'customer.created' ? { customer_id: 'cus_' + randomId(8), amount: Number(v.amount) } : { invoice_id: 'in_' + rand(1000, 9999), amount: Number(v.amount), currency: 'eur' };
+        const data = v.type === 'customer.created' ? { customer_id: 'cus_' + randomId(8), amount: Number(v.amount) } : { invoice_id: 'in_' + rand(1000, 9999), amount: Number(v.amount), currency: 'usd' };
         return { status: 202, text: 'Accepted', body: { id: 'evt_' + randomId(12), object: 'event', type: v.type, tenant: v.tenant, data, status: 'queued', endpoints: v.type === 'subscription.canceled' ? 2 : 3, created_at: now } };
       }
       if (current.id === 'get' || current.id === 'replay') {
@@ -710,7 +710,7 @@ if err != nil {
     tablistKeys(tabs[0].parentElement, pick);
 
     renderParams();
-    // Show a first response straight away so the panel is never empty.
+    // Show a first response right away so the panel is never empty.
     send(true);
   }
 

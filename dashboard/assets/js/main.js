@@ -85,7 +85,7 @@
     return out;
   }
 
-  // Avatar colours, picked by name so each person keeps the same colour.
+  // Avatar colors, picked by name so each person keeps the same color.
   var AVATAR = ['bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300',
     'bg-cyan-100 text-cyan-700 dark:bg-cyan-500/20 dark:text-cyan-300',
     'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300',
@@ -109,14 +109,14 @@
     var d = m ? new Date(+m[1], +m[2] - 1, +m[3]) : new Date();
     return new Date(d.getFullYear(), d.getMonth(), d.getDate());
   })();
-  // A date `n` calendar days before TODAY (calendar maths, so daylight-saving changes don't repeat a day).
+  // A date `n` calendar days before TODAY (calendar math, so daylight-saving changes don't repeat a day).
   function daysAgo(n) { return new Date(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate() - n); }
   var NAMES = ['Olivia Martin', 'Jackson Lee', 'Isabella Nguyen', 'William Kim', 'Sofia Davis', 'Liam Johnson',
     'Ava Patel', 'Noah Garcia', 'Mia Thompson', 'Ethan Brown', 'Amelia Wilson', 'Lucas Anderson', 'Harper Clark',
     'Mason Rodriguez', 'Evelyn Lewis', 'Logan Walker', 'Aria Hall', 'Elijah Young', 'Chloe King', 'James Wright',
     'Layla Scott', 'Benjamin Green', 'Zoe Adams', 'Henry Baker'];
-  var CITIES = ['Portland, US', 'Austin, US', 'Toronto, CA', 'London, UK', 'Berlin, DE', 'Melbourne, AU',
-    'Denver, US', 'Dublin, IE', 'Seattle, US', 'Amsterdam, NL', 'Vancouver, CA', 'Oslo, NO'];
+  var CITIES = ['Portland, OR', 'Austin, TX', 'Boise, ID', 'Raleigh, NC', 'Madison, WI', 'Tampa, FL',
+    'Denver, CO', 'Savannah, GA', 'Seattle, WA', 'Minneapolis, MN', 'Spokane, WA', 'Burlington, VT'];
   var STATUSES = [['Paid', 'badge-green'], ['Pending', 'badge-amber'], ['Refunded', 'badge-zinc'], ['Failed', 'badge-red']];
   var CHANNELS = ['Online store', 'Mobile app', 'Wholesale', 'Marketplace'];
 
@@ -503,7 +503,7 @@
   }
 
   /* ===================================================================
-   * 7. Charts. Every chart is SVG; colours come from CSS variables, so
+   * 7. Charts. Every chart is SVG; colors come from CSS variables, so
    *    they follow light/dark mode without re-rendering.
    * ================================================================= */
   var uid = 0;

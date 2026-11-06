@@ -279,7 +279,7 @@
   .faq-body { padding: 0 1.35rem 1.3rem; max-width: 68ch; }
   .faq-body p + p { margin-top: .75rem; }
 
-  /* Opening hours */
+  /* Office hours */
   .open-pill { display: inline-flex; align-items: center; gap: .5rem; border-radius: 999px; padding: .3rem .85rem .3rem .65rem; font-weight: 800; font-size: .88rem; }
   .open-pill[data-open="true"] { background: var(--color-mint-100); color: var(--color-mint-800); }
   .open-pill[data-open="false"] { background: var(--color-bubble-100); color: var(--color-bubble-800); }

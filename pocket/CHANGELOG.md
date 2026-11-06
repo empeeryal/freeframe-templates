@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-11-06
+
+### Changed
+
+- Set in Tulsa, Oklahoma, with American spelling, a US company name and address, and US places, banks and privacy contacts in the copy.
+
 ## [1.0.6] - 2026-11-05
 
 ### Changed

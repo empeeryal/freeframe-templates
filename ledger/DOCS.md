@@ -7,7 +7,7 @@ fictional independent magazine of essays about software, design, craft and atten
 front page, a long-form article layout with an automatic table of contents and reading progress, a
 searchable archive, topic pages, a masthead and a contact page, with typography tuned for reading in light
 and dark mode. It is built with HTML5, Tailwind CSS v4 and vanilla JavaScript, and needs no build step.
-This guide covers version 1.1.8.
+This guide covers version 1.1.9.
 
 Live demo: [freeframe.dev/templates/ledger](https://freeframe.dev/templates/ledger)
 
@@ -44,7 +44,7 @@ ledger/
 │   ├── css/style.css      compiled Tailwind CSS (generated)
 │   ├── js/main.js         theme, menu, reveals, article tools, archive, forms, back to top
 │   └── img/               cover-*.svg art, avatar-*.svg writers, favicon, social image
-├── src/input.css          Tailwind source: light and dark colour variables and component classes
+├── src/input.css          Tailwind source: light and dark color variables and component classes
 ├── package.json           scripts to rebuild the CSS
 ├── template.json          template metadata used by freeframe.dev
 ├── README.md

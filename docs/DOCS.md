@@ -6,7 +6,7 @@ Manual is a developer documentation site with search, code tabs and dark mode. T
 **Relay**, a fictional JavaScript HTTP client (`@relayhttp/relay`), with a docs home, quick start,
 installation guide, a long concepts guide, examples, an API reference, a changelog and an FAQ. It is built
 with HTML5, Tailwind CSS v4 and a single vanilla JavaScript file, and needs no build step. This guide
-covers version 1.1.5.
+covers version 1.1.11.
 
 Live demo: [freeframe.dev/templates/docs](https://freeframe.dev/templates/docs)
 
@@ -48,7 +48,7 @@ docs/
 │   ├── css/style.css      compiled Tailwind CSS (generated)
 │   ├── js/main.js         search index, theme, sidebar, highlighting, tabs, outline, search, back to top
 │   └── img/               favicon, social image
-├── src/input.css          Tailwind source: light and dark colour variables and component classes
+├── src/input.css          Tailwind source: light and dark color variables and component classes
 ├── package.json           scripts to rebuild the CSS
 ├── template.json          template metadata used by freeframe.dev
 ├── README.md

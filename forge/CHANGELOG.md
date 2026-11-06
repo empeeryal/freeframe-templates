@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-06
+
+### Changed
+
+- Set in Erie, Pennsylvania, and Bellingham, Washington, with American spelling, US dollars in the code samples and US billing options.
+
 ## [1.0.5] - 2026-11-05
 
 ### Changed
