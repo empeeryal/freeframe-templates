@@ -29,8 +29,8 @@ document.documentElement.classList.add('js');
     days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     short: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     labels: { am: 'AM', pm: 'PM', off: 'Off', '': '' },
-    times: { am: '7–3', pm: '2–10', off: 'Leave', '': '' },
-    spoken: { am: 'morning shift, 7:00 to 15:00', pm: 'evening shift, 14:00 to 22:00', off: 'approved time off', '': 'no shift' }
+    times: { am: '7–3', pm: '2–10', off: 'PTO', '': '' },
+    spoken: { am: 'morning shift, 7 am to 3 pm', pm: 'evening shift, 2 pm to 10 pm', off: 'approved time off', '': 'no shift' }
   };
 
   // Paid plan prices in US dollars per month: a fee per location plus a fee per employee.
@@ -44,7 +44,7 @@ document.documentElement.classList.add('js');
 
   // Sales routing on contact.html, keyed by the team-size radio values.
   const CONTACT_ROUTES = {
-    small: { avatar: 'fergus', name: 'Fergus, Customer success', role: 'Sets up small teams every day', text: 'Teams your size are usually up and running the same day. Fergus will send a short walkthrough and help you import your current rota.', time: 'Replies within 4 working hours', trial: true },
+    small: { avatar: 'fergus', name: 'Fergus, Customer success', role: 'Sets up small teams every day', text: 'Teams your size are usually up and running the same day. Fergus will send a short walkthrough and help you import your current schedule.', time: 'Replies within 4 working hours', trial: true },
     mid: { avatar: 'amara', name: 'Amara, Sales', role: 'Twelve years running hotel and restaurant floors', text: 'A 20-minute demo built around a schedule like yours, and help moving your team over from spreadsheets.', time: 'Replies within 1 business day', trial: false },
     large: { avatar: 'amara', name: 'Amara, Sales', role: 'Multi-site rollouts across hospitality', text: 'A demo with your locations already set up, an integration check for your POS and payroll, and a rollout plan.', time: 'Replies within 1 business day', trial: false },
     enterprise: { avatar: 'siobhan', name: 'Siobhan, Co-founder', role: 'Joins every enterprise call', text: 'Volume pricing, single sign-on, a security review pack and a named success manager. We’ll bring an engineer to the first call.', time: 'Replies within 2 working hours', trial: false }
@@ -856,7 +856,7 @@ document.documentElement.classList.add('js');
       const first = String(data.get('name') || '').trim().split(/\s+/)[0];
       const business = String(data.get('business') || '').trim();
       const planKey = String(data.get('plan'));
-      const ends = new Date(Date.now() + TRIAL_DAYS * 864e5).toLocaleDateString('en-GB', { day: 'numeric', month: 'long' });
+      const ends = new Date(Date.now() + TRIAL_DAYS * 864e5).toLocaleDateString('en-US', { day: 'numeric', month: 'long' });
       const invites = String(data.get('invites') || '').split(/[\s,;]+/).filter(Boolean).length;
       const email = String(data.get('email') || '').trim();
       const box = successSwap(card, '<div class="flex items-start gap-4">' + tick + '<div>' +

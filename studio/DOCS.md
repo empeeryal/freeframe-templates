@@ -3,11 +3,11 @@
 ## Overview
 
 Studio is a complete website for a small design studio, built for the fictional **Raster**, a five-person studio in
-Zürich that works across identity, digital product, editorial and wayfinding. The design is deliberately restrained:
+Saint Paul that works across identity, digital product, editorial and wayfinding. The design is deliberately restrained:
 a strict 12-column grid, one typeface family in several weights plus a mono face for labels, a monochrome palette and
 a single red accent. Project imagery is drawn in SVG, so there are no photos to license. It has a work index with
 filters and grid/list views, nine data-driven case studies, a services page with a brief estimator, a studio page, a
-journal and a five-step project inquiry. This is the HTML + Tailwind CSS v4 version, **version 1.0.3**. See it live at
+journal and a five-step project inquiry. This is the HTML + Tailwind CSS v4 version, **version 1.0.6**. See it live at
 [freeframe.dev/templates/studio](https://freeframe.dev/templates/studio).
 
 ## Quick start
@@ -139,24 +139,24 @@ A project in `PROJECTS` looks like this (shortened):
 ```js
 {
   id: 'seeline',                       // used in project.html?id=seeline and the cover file name
-  client: 'Seeline',
+  client: 'Wakeline',
   title: 'A calmer identity for the lake ferries',
   disciplines: ['identity', 'wayfinding'], // keys of DISCIPLINES
   year: 2025,
   sector: 'Public transport',
-  location: 'Zürich',
+  location: 'Excelsior',
   duration: '14 months',
   services: ['Identity system', 'Wayfinding', 'Timetable design', 'Livery'],
   summary: '…',
   challenge: '…',
   approach: [{ title: 'Audit every touchpoint', text: '…' }, …],   // three steps
   results: [{ value: '−38%', label: '…' }, …],                     // three results
-  quote: { text: '…', name: 'Andrea Lutz', role: 'Head of customer experience, Seeline' },
+  quote: { text: '…', name: 'Andrea Lutz', role: 'Head of customer experience, Wakeline' },
   credits: ['Noemi Imhof', 'Selin Karaca', 'Céline Odermatt'],
   palette: { bg: '#1d3b57', ink: '#f1efe7', accent: '#ff7a3d', soft: '#8fb3c9' },
   mark: '<circle cx="50" cy="50" r="38" …/>',  // SVG in a 100×100 box, filled with currentColor
-  poster: { lines: ['Summer', 'timetable'], sub: '1 May – 30 Sept 2025' },
-  sign: ['3', 'Departures', 'Rapperswil · Thalwil · Küsnacht'],
+  poster: { lines: ['Summer', 'timetable'], sub: 'May 1 – Sep 30, 2025' },
+  sign: ['3', 'Departures', 'Wayzata · Excelsior · Tonka Bay'],
   gallery: [
     { kind: 'board', caption: '…' },     // the first image is wide (16:9)
     { kind: 'signage', caption: '…' },   // the next two are tall (4:5)
@@ -200,7 +200,7 @@ tiles; replace each `<div … aria-hidden="true">` with an `<img>` at 4:5 if you
 **Rolling dates.** The availability dates are `<span data-months-ahead="n">`: the script shows the month n
 months from now and its year, so they never go stale. On the home page "From Feb 2027" (`4`, with
 `data-month-format="short"`) and "Booking projects from February 2027" (`4`); in the jobs list on `studio.html` the
-start dates "From January 2027" (`3`) and "From March 2027" (`5`) and the internship deadline "15 December 2026"
+start dates "From January 2027" (`3`) and "From March 2027" (`5`) and the internship deadline "December 15, 2026"
 (`2`, with `data-day="15"`). The dates in the HTML are shown without JavaScript. To show a fixed date, replace the
 span with plain text.
 
@@ -278,7 +278,7 @@ var URGENCY = { relaxed: { label: 'Relaxed', mult: 0.95, pace: 1.2 }, standard: 
 ```
 
 - **Budget** = the sum of the selected services' `cost` × `SCALE.mult` × `URGENCY.mult`, low rounded down and high
-  rounded up to CHF 1’000, shown with a Swiss thousands separator (`CHF 63’000–105’000`).
+  rounded up to $1,000, shown with a comma thousands separator (`$63,000–$105,000`).
 - **Duration** = the longest selected service plus half of the others (phases overlap), × `SCALE.pace` ×
   `URGENCY.pace`, rounded to whole weeks.
 - **Breakdown** lists each selected service and the combined multiplier.
@@ -311,7 +311,7 @@ note" button toggles `aria-expanded` and the `hidden` body. Opening `journal.htm
 
 ### Clock, studio status and small extras
 
-- **Zürich clock.** Any `<time data-clock>` shows the current time in Zürich, updated every 15 seconds.
+- **Saint Paul clock.** Any `<time data-clock>` shows the current time in Saint Paul, updated every 15 seconds.
 - **Studio status.** `[data-studio-status]` on `contact.html` says whether the studio is open now, using
   `STUDIO_HOURS` (`days` with 0 = Sunday, `open` and `close` in 24-hour decimals, `tz`). Keep it in step with the
   hours written on the page.
@@ -341,7 +341,7 @@ delete the last block of `main.js` and the `.back-to-top` styles in `src/input.c
 There are two forms. Neither sends anything until you connect it, although their success messages read as if it had.
 The inquiry confirmation shows a short reference (`RA-` and four characters, made in the browser by `makeRef()` in
 `main.js`; show your form service's own reference instead if it returns one) and repeats the reply time the contact page
-already promises (within two working days, usually to suggest a 30-minute call). The newsletter confirmation asks the
+already promises (within two business days, usually to suggest a 30-minute call). The newsletter confirmation asks the
 visitor to look out for a confirmation email. Change either if yours differs.
 
 | Form | Page | Validates |
@@ -381,7 +381,7 @@ Errors appear under each field (`.field-error`), are linked with `aria-described
 
 The newsletter form works the same way: replace the lines after "Demo only: connect your newsletter provider here"
 with a request to your provider (Buttondown, Mailchimp and others accept a form POST), then check the
-`[data-newsletter-done]` text matches your provider (most send a confirmation email for double opt-in). Checkbox groups submit one `services` value per ticked box.
+`[data-newsletter-done]` text matches your provider (most send a confirmation email for double opt-in). Checkbox groups submit one `services` value per checked box.
 
 ## Saved data (localStorage)
 
@@ -405,7 +405,7 @@ SEO (copy `project.html` and paste in the rendered output).
 change it on every page:
 
 ```html
-<meta property="og:image" content="https://www.your-studio.ch/assets/img/og-image.png">
+<meta property="og:image" content="https://www.your-studio.example/assets/img/og-image.png">
 ```
 
 Add a `sitemap.xml` listing the eight pages (and `robots.txt` pointing to it), and consider `Organization` or

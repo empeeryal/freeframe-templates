@@ -6,6 +6,13 @@ All notable changes to the Studio HTML template are documented here. The format 
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-05
+
+### Changed
+
+- Set in Saint Paul, MN, with American spelling, US dollars, US phone numbers and local details.
+- The header clock and the rolling dates use the 12-hour clock and US date format, in America/Chicago time.
+
 ## [1.0.5] - 2026-11-05
 
 ### Changed

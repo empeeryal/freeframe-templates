@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.12] - 2026-11-05
+
+### Changed
+
+- Set in Bellevue, Washington, with American spelling, US dollars, US phone numbers and local details.
+- Event times run on Pacific time (America/Los_Angeles, UTC-7 in April) and show on a 12-hour clock, dates read in US order, and the checkout says prices exclude sales tax.
+
 ## [1.1.11] - 2026-11-05
 
 ### Changed

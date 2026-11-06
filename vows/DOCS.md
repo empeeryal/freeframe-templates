@@ -2,12 +2,11 @@
 
 ## Overview
 
-Vows is a wedding website for **Amara & Theo**, a fictional couple marrying at Hollowmere House on Saturday 19
-June 2027. Guests can find their invitation by code or name and RSVP for everyone on it (meal choices, dietary
+Vows is a wedding website for **Amara & Theo**, a fictional couple marrying at Hollowridge House on Saturday, June 19, 2027. Guests can find their invitation by code or name and RSVP for everyone on it (meal choices, dietary
 needs, plus-ones, song requests). It has a live countdown, a weekend schedule with add-to-calendar `.ics` files, a
 travel page with an illustrated map and room blocks, a registry with reservations and a honeymoon fund, an
 illustrated gallery with a lightbox and a searchable FAQ. All artwork is botanical SVG, no photos needed. This is the
-**HTML + Tailwind CSS v4** version, **1.0.9**: static pages plus two vanilla JavaScript files, no build step needed
+**HTML + Tailwind CSS v4** version, **1.0.12**: static pages plus two vanilla JavaScript files, no build step needed
 to run it.
 
 Live demo: [freeframe.dev/templates/vows](https://freeframe.dev/templates/vows)
@@ -125,7 +124,7 @@ Some values also appear as text in the HTML, so change both together:
   written on the pages.
 - **Schedule:** each event's text in `schedule.html` and its entry in `events` (used for the calendar files). Each
   "Add to calendar" button has `data-ics="<event id>"`.
-- **Fund:** `fund.goal` and `fund.raised`, the "£1,840 raised of £3,000" text, the progress bar's `aria-valuemax`,
+- **Fund:** `fund.goal` and `fund.raised`, the "$3,100 raised of $5,000" text, the progress bar's `aria-valuemax`,
   `aria-valuenow` and width in `registry.html`, and the amount buttons (`data-amount`).
 - **Gallery:** the grid in `gallery.html` (each button's `data-photo` is its index in `gallery`) and the `gallery`
   list.
@@ -151,17 +150,17 @@ within the invitation:
 { "id": "teapot", "name": "Stoneware teapot", "category": "Kitchen", "price": 48, "needed": 1, "reserved": 0, "icon": "pot", "note": "For long Sunday breakfasts." }
 ```
 
-Times include their UTC offset (`+01:00` is British Summer Time), so calendar files show the right local time for
+Times include their UTC offset (`-04:00` is Eastern Daylight Time), so calendar files show the right local time for
 guests anywhere. Use your venue's offset on the wedding date.
 
 #### Demo dates
 
-The demo is written for the weekend of 18–20 June 2027. While `keepDemoCurrent` in `data.js` is `true` and that
+The demo is written for the weekend of June 18–20, 2027. While `keepDemoCurrent` in `data.js` is `true` and that
 weekend is over (after the last event in `events` ends), the script moves every date to the same weekend of the next
-year, by whole weeks so weekdays never change (Saturday 19 June 2027 becomes Saturday 17 June 2028): the countdown,
+year, by whole weeks so weekdays never change (Saturday, June 19, 2027 becomes Saturday, June 17, 2028): the countdown,
 the events and calendar files, `couple.ceremony_iso`, `date_long` and `date_short`, every `<time datetime>`, the text
-of `data-date="2027-04-01"` spans ("1 April 2027"; with `data-date-format="dm"` "18 June"), `data-edition="year"`
-and `data-edition="short"` ("19.06.27"), and the date in the page title. The RSVP deadline and room-block dates move
+of `data-date="2027-04-01"` spans ("April 1, 2027"; with `data-date-format="dm"` "June 18"), `data-edition="year"`
+and `data-edition="short"` ("06.19.27"), and the date in the page title. The RSVP deadline and room-block dates move
 with it. Before the weekend is over nothing changes. **Set `keepDemoCurrent` to `false` once you enter your real
 dates.**
 
@@ -186,7 +185,7 @@ the mobile menu and the footer in every page. Mark the current page's link with 
 
 ### Countdown
 
-`index.html` has `<div data-countdown="2027-06-19T15:00:00+01:00" role="timer">` with four
+`index.html` has `<div data-countdown="2027-06-19T15:00:00-04:00" role="timer">` with four
 `<span data-unit="days|hours|minutes|seconds">`. The "Countdown" block in `main.js` updates it every second; at zero
 it stops and shows `data-countdown-done` ("Today's the day"). Without JavaScript the placeholders stay.
 
@@ -195,7 +194,7 @@ it stops and shows `data-countdown-done` ("Today's the day"). Without JavaScript
 Any element with `data-ics="<event id>"` downloads a calendar file for that event; `data-ics="all"` downloads the
 whole weekend. `buildIcs()` in `main.js` writes an RFC 5545 file from `VOWS.events`:
 
-- `DTSTART`/`DTEND` in UTC (`20270619T140000Z`), converted from the offsets in `data.js`.
+- `DTSTART`/`DTEND` in UTC (`20270619T190000Z`), converted from the offsets in `data.js`.
 - Commas, semicolons, backslashes and new lines escaped; lines folded at 75 octets.
 - `SUMMARY` is "`couple.names`: event title", `LOCATION` the `address`, and `DESCRIPTION` the `body` plus the dress
   code.
@@ -243,9 +242,9 @@ a shared list, store them on a server or link each gift to your gift-list provid
 ### Honeymoon fund
 
 `registry.html` (`data-fund-form`) and the "Honeymoon fund" block. Guests choose a preset amount (`data-amount`,
-`aria-pressed`) or type a whole amount from £5 to £5,000, and give their name (required) and an optional message.
+`aria-pressed`) or type a whole amount from $5 to $5,000, and give their name (required) and an optional message.
 On success the raised total and progress bar update for this visit and a thank-you appears, naming the treat that
-amount matches in `fund.amounts`, with an `AT-` reference and a note that the transfer details are on the card
+amount matches in `fund.amounts`, with an `AT-` reference and a note that the payment details are on the card
 inside the invitation. **No payment is taken** on the site; change that sentence in the submit handler to match how
 you collect gifts, or send guests to your payment page or provider there.
 
@@ -290,7 +289,7 @@ photo.
 | Form | Where | Validates | Where to connect it |
 | --- | --- | --- | --- |
 | RSVP | `rsvp.html` | See [RSVP](#rsvp) | The `data-rsvp-send` click handler in `main.js` (the comment starting `// To connect it`) |
-| Honeymoon fund | `registry.html` | Amount (preset or £5–£5,000 whole), name | The `data-fund-form` submit handler |
+| Honeymoon fund | `registry.html` | Amount (preset or $5–$5,000 whole), name | The `data-fund-form` submit handler |
 | Gift reservations | `registry.html` | Capacity (`needed`) | The `data-reserve` click handler |
 
 The RSVP sends `state`, a plain object:
@@ -348,7 +347,7 @@ To reset, delete the keys in the browser's developer tools (Application → Loca
 ## SEO and sharing
 
 - Each page has its own `<title>`, meta description, Open Graph tags and a `summary_large_image` Twitter card, and
-  `<html lang="en-GB">`.
+  `<html lang="en-US">`.
 - `og:image` is the relative path `assets/img/og-image.png`. Social networks need an absolute URL, so change it on
   every page when you deploy:
 
@@ -394,8 +393,7 @@ left out. Serve it over `https://` so copy buttons work.
 
 - **"We couldn't find that invitation."** The code or full name doesn't match an entry in `invites`; names must be
   the full name as written in `data.js` (accents and case don't matter).
-- **Calendar events are an hour out.** Check the UTC offset on each `start` and `end` in `events` (`+01:00` in
-  British summer, `+00:00` in winter).
+- **Calendar events are an hour out.** Check the UTC offset on each `start` and `end` in `events` (`-04:00` in Eastern summer, `-05:00` in winter).
 - **The countdown shows the old date.** Update the `data-countdown` attribute in `index.html` as well as
   `couple.ceremony_iso`.
 - **A guest's restored reply is missing answers.** Drafts are validated against the current guest list; renamed

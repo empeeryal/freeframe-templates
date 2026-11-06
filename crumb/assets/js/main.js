@@ -28,13 +28,13 @@ document.documentElement.classList.add('js');
    * ------------------------------------------------------------------ */
   const SHOP = {
     name: 'Bramble & Rye',
-    address: '27 St Benedicts Street, Norwich NR2 4PG',
-    phone: '01632 960 284',
+    address: '27 Phila Street, Saratoga Springs, NY 12866',
+    phone: '(518) 555-0129',
     email: 'hello@brambleandrye.example'
   };
-  const TIMEZONE = 'Europe/London';
-  const LOCALE = 'en-GB';
-  const CURRENCY = 'GBP';
+  const TIMEZONE = 'America/New_York';
+  const LOCALE = 'en-US';
+  const CURRENCY = 'USD';
 
   const HOURS = [
     ['09:00', '14:00'], // Sunday
@@ -46,11 +46,11 @@ document.documentElement.classList.add('js');
     ['08:00', '16:00']  // Saturday
   ];
 
-  // Click and collect rules.
-  //  cutoff: order before this time for collection the next day we're open
-  //  slotStep: minutes between collection slots
+  // Pickup rules.
+  //  cutoff: order before this time for pickup the next day we're open
+  //  slotStep: minutes between pickup slots
   //  lastSlotBeforeClose: the last slot is this many minutes before closing
-  //  daysAhead: how far ahead people can book a collection
+  //  daysAhead: how far ahead people can book a pickup
   const PICKUP = {
     cutoff: '14:00',
     slotStep: 30,
@@ -70,14 +70,14 @@ document.documentElement.classList.add('js');
    * ------------------------------------------------------------------ */
   const CATEGORIES = [
     { id: 'bread', label: 'Bread', blurb: 'Long-fermented loaves, shaped by hand' },
-    { id: 'pastry', label: 'Pastries', blurb: 'Laminated with Norfolk butter' },
+    { id: 'pastry', label: 'Pastries', blurb: 'Laminated with Fish Creek butter' },
     { id: 'bakes', label: 'Cakes & bakes', blurb: 'Slices, cookies and things with custard' },
     { id: 'whole', label: 'Whole cakes', blurb: 'Two days’ notice, boxed and ribboned' }
   ];
 
   const ALLERGENS = {
     gluten: 'gluten', milk: 'milk', egg: 'egg', nuts: 'tree nuts', sesame: 'sesame',
-    soya: 'soya', sulphites: 'sulphites', mustard: 'mustard'
+    soya: 'soy', sulphites: 'sulfites', mustard: 'mustard'
   };
   const DIETS = {
     vegan: { label: 'Vegan', short: 'VG' },
@@ -88,74 +88,74 @@ document.documentElement.classList.add('js');
 
   const PRODUCTS = [
     // Bread
-    { id: 'country-sourdough', name: 'Country sourdough', category: 'bread', price: 5.2, unit: '800g loaf', days: null, max: 4,
-      blurb: 'Our everyday loaf: Marsham Mill white and a little wholemeal, fermented for 36 hours. Blistered crust, custardy crumb.',
+    { id: 'country-sourdough', name: 'Country sourdough', category: 'bread', price: 9, unit: '1¾ lb loaf', days: null, max: 4,
+      blurb: 'Our everyday loaf: Greenfield Mill white and a little wholemeal, fermented for 36 hours. Blistered crust, custardy crumb.',
       allergens: ['gluten'], diet: ['vegan'], art: { kind: 'boule', crust: '#c98744', top: '#dea468' } },
-    { id: 'seeded-rye', name: 'Seeded Norfolk rye', category: 'bread', price: 5.8, unit: '900g tin', days: [4, 6], max: 3,
+    { id: 'seeded-rye', name: 'Seeded Saratoga rye', category: 'bread', price: 10, unit: '2 lb pan loaf', days: [4, 6], max: 3,
       blurb: 'Dark, dense and keeps for a week. Rye sour, sunflower, linseed and toasted sesame, baked low and slow.',
       allergens: ['gluten', 'sesame'], diet: ['vegan'], art: { kind: 'tin', crust: '#7b4a2b', top: '#946038', seeds: true } },
-    { id: 'baguette', name: 'Bramble baguette', category: 'bread', price: 2.6, unit: 'each', days: null, max: 6,
+    { id: 'baguette', name: 'Bramble baguette', category: 'bread', price: 4.5, unit: 'each', days: null, max: 6,
       blurb: 'Poolish baguette with a thin, shattering crust. Best eaten on the walk home.',
       allergens: ['gluten'], diet: ['vegan'], art: { kind: 'baguette', crust: '#d08f4a', top: '#e6b06d' } },
-    { id: 'focaccia', name: 'Rosemary focaccia', category: 'bread', price: 4.5, unit: 'slab, serves 4', days: [0, 5, 6], max: 4,
-      blurb: 'Bubbly, olive-oil-soaked and crisp underneath, with rosemary from the yard and flaky Maldon salt.',
+    { id: 'focaccia', name: 'Rosemary focaccia', category: 'bread', price: 8, unit: 'slab, serves 4', days: [0, 5, 6], max: 4,
+      blurb: 'Bubbly, olive-oil-soaked and crisp underneath, with rosemary from the yard and flaky sea salt.',
       allergens: ['gluten'], diet: ['vegan'], art: { kind: 'focaccia' } },
-    { id: 'spelt-honey', name: 'Spelt & honey loaf', category: 'bread', price: 5.4, unit: '700g loaf', days: [2, 5], max: 3,
-      blurb: 'Nutty wholegrain spelt sweetened with honey from Mousehold Heath hives. Lovely toasted with butter.',
+    { id: 'spelt-honey', name: 'Spelt & honey loaf', category: 'bread', price: 9.5, unit: '1½ lb loaf', days: [2, 5], max: 3,
+      blurb: 'Nutty wholegrain spelt sweetened with honey from Loughberry Lake hives. Great toasted with butter.',
       allergens: ['gluten'], diet: ['vegetarian'], art: { kind: 'tin', crust: '#b8763f', top: '#cf9156', oats: true } },
-    { id: 'apple-rye', name: 'Apple & cider rye', category: 'bread', price: 6.2, unit: '750g loaf', days: [5, 6], max: 2, special: 'Autumn special',
-      blurb: 'Rye and wheat sour with Kettle Lane Bramleys and a splash of dry Norfolk cider. Only while the apples last.',
+    { id: 'apple-rye', name: 'Apple & cider rye', category: 'bread', price: 11, unit: '1½ lb loaf', days: [5, 6], max: 2, special: 'Fall special',
+      blurb: 'Rye and wheat sour with Kettle Lane Northern Spies and a splash of dry New York cider. Only while the apples last.',
       allergens: ['gluten', 'sulphites'], diet: ['vegan'], art: { kind: 'boule', crust: '#a9683a', top: '#c3824b', score: 'leaf' } },
 
     // Pastries
-    { id: 'croissant', name: 'Butter croissant', category: 'pastry', price: 2.8, unit: 'each', days: null, max: 12,
-      blurb: 'Three days from dough to oven, 81 layers of Wensum Valley butter.',
+    { id: 'croissant', name: 'Butter croissant', category: 'pastry', price: 4.5, unit: 'each', days: null, max: 12,
+      blurb: 'Three days from dough to oven, 81 layers of Fish Creek butter.',
       allergens: ['gluten', 'milk', 'egg'], diet: ['vegetarian'], art: { kind: 'croissant' } },
-    { id: 'pain-au-chocolat', name: 'Pain au chocolat', category: 'pastry', price: 3.1, unit: 'each', days: null, max: 12,
+    { id: 'pain-au-chocolat', name: 'Pain au chocolat', category: 'pastry', price: 5, unit: 'each', days: null, max: 12,
       blurb: 'Croissant dough wrapped around two batons of 70% dark chocolate.',
       allergens: ['gluten', 'milk', 'egg', 'soya'], diet: ['vegetarian'], art: { kind: 'painchoc' } },
-    { id: 'cardamom-bun', name: 'Cardamom knot', category: 'pastry', price: 3.2, unit: 'each', days: null, max: 12,
+    { id: 'cardamom-bun', name: 'Cardamom knot', category: 'pastry', price: 5, unit: 'each', days: null, max: 12,
       blurb: 'Swedish-style knot, freshly ground cardamom and a crunch of pearl sugar. Our bestseller.',
       allergens: ['gluten', 'milk', 'egg'], diet: ['vegetarian'], art: { kind: 'knot' } },
-    { id: 'cinnamon-bun', name: 'Cinnamon bun', category: 'pastry', price: 3.2, unit: 'each', days: null, max: 12,
-      blurb: 'Soft, sticky and properly spiced, finished with a brown-butter glaze.',
+    { id: 'cinnamon-bun', name: 'Cinnamon bun', category: 'pastry', price: 5, unit: 'each', days: null, max: 12,
+      blurb: 'Soft, sticky and well spiced, finished with a brown-butter glaze.',
       allergens: ['gluten', 'milk', 'egg'], diet: ['vegetarian'], art: { kind: 'bun' } },
-    { id: 'almond-croissant', name: 'Almond croissant', category: 'pastry', price: 3.6, unit: 'each', days: [0, 3, 6], max: 8,
+    { id: 'almond-croissant', name: 'Almond croissant', category: 'pastry', price: 5.75, unit: 'each', days: [0, 3, 6], max: 8,
       blurb: 'Yesterday’s croissants, soaked in syrup and baked again with frangipane and flaked almonds.',
       allergens: ['gluten', 'milk', 'egg', 'nuts'], diet: ['vegetarian'], art: { kind: 'croissant', almonds: true } },
-    { id: 'pumpkin-bun', name: 'Pumpkin morning bun', category: 'pastry', price: 3.4, unit: 'each', days: [0, 6], max: 8, special: 'Autumn special',
+    { id: 'pumpkin-bun', name: 'Pumpkin morning bun', category: 'pastry', price: 5.5, unit: 'each', days: [0, 6], max: 8, special: 'Fall special',
       blurb: 'Laminated bun rolled with roast pumpkin, brown sugar and nutmeg, tossed in orange sugar.',
       allergens: ['gluten', 'milk', 'egg'], diet: ['vegetarian'], art: { kind: 'bun', dough: '#e3a04f', swirl: '#b8692c' } },
-    { id: 'cheddar-scone', name: 'Leek & cheddar scone', category: 'pastry', price: 3.0, unit: 'each', days: null, max: 8,
-      blurb: 'Savoury, buttery and generous, with Baron Bigod rind and a little English mustard.',
+    { id: 'cheddar-scone', name: 'Leek & cheddar scone', category: 'pastry', price: 4.75, unit: 'each', days: null, max: 8,
+      blurb: 'Savory, buttery and generous, with sharp New York cheddar and a little hot mustard.',
       allergens: ['gluten', 'milk', 'egg', 'mustard'], diet: ['vegetarian'], art: { kind: 'scone' } },
 
     // Cakes & bakes
-    { id: 'plum-tart', name: 'Plum & frangipane tart', category: 'bakes', price: 4.2, unit: 'slice', days: [3, 4, 5, 6, 0], max: 8, special: 'This week only',
-      blurb: 'Sweet pastry, almond frangipane and Victoria plums from Kettle Lane, glazed with their own jam.',
+    { id: 'plum-tart', name: 'Plum & frangipane tart', category: 'bakes', price: 6.5, unit: 'slice', days: [3, 4, 5, 6, 0], max: 8, special: 'This week only',
+      blurb: 'Sweet pastry, almond frangipane and Stanley plums from Kettle Lane, glazed with their own jam.',
       allergens: ['gluten', 'milk', 'egg', 'nuts'], diet: ['vegetarian'], art: { kind: 'tart' } },
-    { id: 'lemon-drizzle', name: 'Lemon drizzle loaf', category: 'bakes', price: 15, unit: 'whole loaf, serves 8', days: null, max: 2,
+    { id: 'lemon-drizzle', name: 'Lemon glaze loaf', category: 'bakes', price: 24, unit: 'whole loaf, serves 8', days: null, max: 2,
       blurb: 'Sharp, sticky and soaked right through. Feeds an office, or two people for a week.',
       allergens: ['gluten', 'milk', 'egg'], diet: ['vegetarian'], art: { kind: 'loafcake' } },
-    { id: 'brown-butter-cookie', name: 'Brown butter cookie', category: 'bakes', price: 2.5, unit: 'each', days: null, max: 12,
+    { id: 'brown-butter-cookie', name: 'Brown butter cookie', category: 'bakes', price: 3.75, unit: 'each', days: null, max: 12,
       blurb: 'Crisp edges, chewy middle, dark chocolate chunks and a pinch of sea salt.',
       allergens: ['gluten', 'milk', 'egg', 'soya'], diet: ['vegetarian'], art: { kind: 'cookie' } },
-    { id: 'buckwheat-brownie', name: 'Buckwheat brownie', category: 'bakes', price: 3.4, unit: 'each', days: null, max: 12,
+    { id: 'buckwheat-brownie', name: 'Buckwheat brownie', category: 'bakes', price: 4.75, unit: 'each', days: null, max: 12,
       blurb: 'Fudgy and made without gluten, with buckwheat flour and a crackly top.',
       allergens: ['milk', 'egg', 'soya'], diet: ['vegetarian', 'gf'], art: { kind: 'brownie' } },
 
     // Whole cakes (two days' notice)
-    { id: 'victoria-sponge', name: 'Victoria sponge', category: 'whole', price: 32, unit: '8-inch, serves 12', days: null, max: 2, leadDays: 2,
-      blurb: 'Vanilla sponge, raspberry jam, vanilla buttercream and fresh berries. A classic for a reason.',
+    { id: 'victoria-sponge', name: 'Vanilla berry cake', category: 'whole', price: 58, unit: '8-inch, serves 12', days: null, max: 2, leadDays: 2,
+      blurb: 'Vanilla cake, raspberry jam, vanilla buttercream and fresh berries. A classic for a reason.',
       allergens: ['gluten', 'milk', 'egg'], diet: ['vegetarian'], art: { kind: 'layercake', sponge: '#f3d38b', frosting: '#fff6e8', filling: '#c2334d', top: 'berries' } },
-    { id: 'carrot-cake', name: 'Carrot & walnut cake', category: 'whole', price: 36, unit: '8-inch, serves 14', days: null, max: 2, leadDays: 2,
+    { id: 'carrot-cake', name: 'Carrot & walnut cake', category: 'whole', price: 62, unit: '8-inch, serves 14', days: null, max: 2, leadDays: 2,
       blurb: 'Spiced and moist, with cream cheese frosting and candied walnuts.',
       allergens: ['gluten', 'milk', 'egg', 'nuts'], diet: ['vegetarian'], art: { kind: 'layercake', sponge: '#c88447', frosting: '#fbf0dc', filling: '#fbf0dc', top: 'walnuts' } },
-    { id: 'chocolate-cake', name: 'Chocolate fudge cake', category: 'whole', price: 36, unit: '8-inch, serves 14', days: null, max: 2, leadDays: 2,
-      blurb: 'Three layers of dark sponge, salted caramel and a glossy ganache drip.',
+    { id: 'chocolate-cake', name: 'Chocolate fudge cake', category: 'whole', price: 62, unit: '8-inch, serves 14', days: null, max: 2, leadDays: 2,
+      blurb: 'Three layers of dark chocolate cake, salted caramel and a glossy ganache drip.',
       allergens: ['gluten', 'milk', 'egg', 'soya'], diet: ['vegetarian'], art: { kind: 'layercake', sponge: '#5c3424', frosting: '#7a4a35', filling: '#d99a4e', top: 'drip' } },
-    { id: 'vegan-lemon-cake', name: 'Lemon & elderflower cake', category: 'whole', price: 34, unit: '8-inch, serves 12', days: null, max: 2, leadDays: 2,
-      blurb: 'Fully plant-based: lemon sponge, elderflower syrup and a whipped coconut lemon frosting.',
+    { id: 'vegan-lemon-cake', name: 'Lemon & elderflower cake', category: 'whole', price: 60, unit: '8-inch, serves 12', days: null, max: 2, leadDays: 2,
+      blurb: 'Fully plant-based: lemon cake, elderflower syrup and a whipped coconut lemon frosting.',
       allergens: ['gluten', 'soya'], diet: ['vegan'], art: { kind: 'layercake', sponge: '#f1d36b', frosting: '#fdf6d8', filling: '#f2c94c', top: 'flowers' } }
   ];
 
@@ -186,32 +186,32 @@ document.documentElement.classList.add('js');
    *    diet: any of 'vegan', 'vegetarian', 'gf', 'df' (see DIETS).
    * ------------------------------------------------------------------ */
   const CAFE_MENU = [
-    { id: 'coffee', title: 'Coffee', note: 'Wherry Coffee espresso, roasted in Norwich. Oat milk at no extra cost.', items: [
-      { name: 'Espresso', price: 2.4, desc: 'Double shot of our house blend, chocolatey and round.', diet: ['vegan', 'gf', 'df'] },
-      { name: 'Flat white', price: 3.4, desc: 'Double shot, silky milk.', diet: ['vegetarian', 'gf'] },
-      { name: 'Cappuccino', price: 3.5, desc: 'With a dusting of cocoa if you ask nicely.', diet: ['vegetarian', 'gf'] },
-      { name: 'Batch brew', price: 2.8, desc: 'Rotating single origin, ask what’s on today.', diet: ['vegan', 'gf', 'df'] },
-      { name: 'Cardamom latte', price: 3.9, desc: 'Our own cardamom and brown sugar syrup.', diet: ['vegetarian', 'gf'] }
+    { id: 'coffee', title: 'Coffee', note: 'High Rock Coffee espresso, roasted in Saratoga Springs. Oat milk at no extra cost.', items: [
+      { name: 'Espresso', price: 3.5, desc: 'Double shot of our house blend, chocolatey and round.', diet: ['vegan', 'gf', 'df'] },
+      { name: 'Flat white', price: 4.75, desc: 'Double shot, silky milk.', diet: ['vegetarian', 'gf'] },
+      { name: 'Cappuccino', price: 4.75, desc: 'With a dusting of cocoa if you ask nicely.', diet: ['vegetarian', 'gf'] },
+      { name: 'Batch brew', price: 3.5, desc: 'Rotating single origin, ask what’s on today.', diet: ['vegan', 'gf', 'df'] },
+      { name: 'Cardamom latte', price: 5.5, desc: 'Our own cardamom and brown sugar syrup.', diet: ['vegetarian', 'gf'] }
     ] },
-    { id: 'tea', title: 'Tea & other things', note: 'Loose-leaf tea in proper pots.', items: [
-      { name: 'Pot of breakfast tea', price: 2.9, desc: 'Strong Assam blend, serves two cups.', diet: ['vegan', 'gf', 'df'] },
-      { name: 'Fresh mint & lemon', price: 2.8, desc: 'Leaves from the back yard planters.', diet: ['vegan', 'gf', 'df'] },
-      { name: 'Proper hot chocolate', price: 3.8, desc: 'Melted 70% chocolate, whole milk, a pinch of salt.', diet: ['vegetarian', 'gf'] },
-      { name: 'Apple & ginger press', price: 3.2, desc: 'Cold-pressed Kettle Lane apples with fresh ginger.', diet: ['vegan', 'gf', 'df'] }
+    { id: 'tea', title: 'Tea & other things', note: 'Loose-leaf tea in real teapots.', items: [
+      { name: 'Pot of breakfast tea', price: 4.5, desc: 'Strong Assam blend, serves two cups.', diet: ['vegan', 'gf', 'df'] },
+      { name: 'Fresh mint & lemon', price: 4, desc: 'Leaves from the back yard planters.', diet: ['vegan', 'gf', 'df'] },
+      { name: 'Real hot chocolate', price: 5, desc: 'Melted 70% chocolate, whole milk, a pinch of salt.', diet: ['vegetarian', 'gf'] },
+      { name: 'Apple & ginger press', price: 5.5, desc: 'Cold-pressed Kettle Lane apples with fresh ginger.', diet: ['vegan', 'gf', 'df'] }
     ] },
     { id: 'brunch', title: 'Brunch', note: 'Served 9am to 2pm, Tuesday to Sunday.', items: [
-      { name: 'Sourdough toast & cultured butter', price: 4.5, desc: 'Two thick slices with jam from the shelf.', diet: ['vegetarian'] },
-      { name: 'Eggs on toast', price: 8.5, desc: 'Linnet Farm eggs, soft scrambled, on country sourdough. Add bacon £2.5.', diet: ['vegetarian'] },
-      { name: 'Mushrooms on rye', price: 9.5, desc: 'Garlicky mushrooms, white bean purée, herbs and chilli oil.', diet: ['vegan', 'df'] },
-      { name: 'Welsh rarebit', price: 9.0, desc: 'Baron Bigod and ale on toasted sourdough, pickled shallots.', diet: ['vegetarian'] },
-      { name: 'Seasonal granola bowl', price: 7.5, desc: 'Buckwheat granola, poached plums, yoghurt and honey.', diet: ['vegetarian', 'gf'] },
-      { name: 'Focaccia sandwich', price: 8.0, desc: 'Roast squash, whipped feta, rocket and pickled chilli. Fri to Sun.', diet: ['vegetarian'] }
+      { name: 'Sourdough toast & cultured butter', price: 6.5, desc: 'Two thick slices with jam from the shelf.', diet: ['vegetarian'] },
+      { name: 'Eggs on toast', price: 12, desc: 'Wren Hollow Farm eggs, soft scrambled, on country sourdough. Add bacon $4.', diet: ['vegetarian'] },
+      { name: 'Mushrooms on rye', price: 14, desc: 'Garlicky mushrooms, white bean purée, herbs and chili oil.', diet: ['vegan', 'df'] },
+      { name: 'Cheddar rarebit', price: 13.5, desc: 'New York cheddar and ale on toasted sourdough, pickled shallots.', diet: ['vegetarian'] },
+      { name: 'Seasonal granola bowl', price: 11, desc: 'Buckwheat granola, poached plums, yogurt and honey.', diet: ['vegetarian', 'gf'] },
+      { name: 'Focaccia sandwich', price: 13, desc: 'Roast squash, whipped feta, arugula and pickled chili. Fri to Sun.', diet: ['vegetarian'] }
     ] },
     { id: 'sweet', title: 'Sweet things', note: 'Anything on the counter, plus these.', items: [
-      { name: 'Cardamom knot & a coffee', price: 6.2, desc: 'Our bestseller with any espresso drink.', diet: ['vegetarian'] },
-      { name: 'Cinnamon French toast', price: 8.5, desc: 'Yesterday’s brioche, brown butter apples, crème fraîche.', diet: ['vegetarian'] },
-      { name: 'Buckwheat brownie', price: 3.4, desc: 'Fudgy, crackly top, made without gluten.', diet: ['vegetarian', 'gf'] },
-      { name: 'Vegan banana bread', price: 3.6, desc: 'Toasted, with maple and a sprinkle of salt.', diet: ['vegan', 'df'] }
+      { name: 'Cardamom knot & a coffee', price: 8.75, desc: 'Our bestseller with any espresso drink.', diet: ['vegetarian'] },
+      { name: 'Cinnamon French toast', price: 13, desc: 'Yesterday’s brioche, brown butter apples, crème fraîche.', diet: ['vegetarian'] },
+      { name: 'Buckwheat brownie', price: 4.75, desc: 'Fudgy, crackly top, made without gluten.', diet: ['vegetarian', 'gf'] },
+      { name: 'Vegan banana bread', price: 5, desc: 'Toasted, with maple and a sprinkle of salt.', diet: ['vegan', 'df'] }
     ] }
   ];
 
@@ -223,32 +223,32 @@ document.documentElement.classList.add('js');
     messageMax: 30,    // characters piped on the plaque
     maxPerOrder: 2,
     sizes: [
-      { id: '6in', label: '6-inch', serves: '8–10', price: 38, factor: 1, tiers: [6] },
-      { id: '8in', label: '8-inch', serves: '14–16', price: 52, factor: 1.3, tiers: [8] },
-      { id: '10in', label: '10-inch', serves: '24–28', price: 72, factor: 1.7, tiers: [10] },
-      { id: 'two-tier', label: 'Two tiers', serves: '35–40', price: 125, factor: 2.4, tiers: [9, 6] },
-      { id: 'three-tier', label: 'Three tiers', serves: '60–70', price: 195, factor: 3.4, tiers: [10, 8, 6] }
+      { id: '6in', label: '6-inch', serves: '8–10', price: 68, factor: 1, tiers: [6] },
+      { id: '8in', label: '8-inch', serves: '14–16', price: 88, factor: 1.3, tiers: [8] },
+      { id: '10in', label: '10-inch', serves: '24–28', price: 125, factor: 1.7, tiers: [10] },
+      { id: 'two-tier', label: 'Two tiers', serves: '35–40', price: 225, factor: 2.4, tiers: [9, 6] },
+      { id: 'three-tier', label: 'Three tiers', serves: '60–70', price: 350, factor: 3.4, tiers: [10, 8, 6] }
     ],
     sponges: [
       { id: 'vanilla', label: 'Vanilla bean', price: 0, colour: '#f2d48f', diet: ['vegetarian'] },
       { id: 'chocolate', label: 'Dark chocolate', price: 0, colour: '#5f3626', diet: ['vegetarian'] },
       { id: 'lemon', label: 'Lemon & poppy seed', price: 0, colour: '#f3dc7a', diet: ['vegetarian'] },
-      { id: 'carrot', label: 'Carrot & walnut', price: 4, colour: '#c98a4c', diet: ['vegetarian'] },
-      { id: 'vegan-choc', label: 'Vegan chocolate', price: 5, colour: '#55301f', diet: ['vegan'] }
+      { id: 'carrot', label: 'Carrot & walnut', price: 6, colour: '#c98a4c', diet: ['vegetarian'] },
+      { id: 'vegan-choc', label: 'Vegan chocolate', price: 8, colour: '#55301f', diet: ['vegan'] }
     ],
     fillings: [
       { id: 'raspberry', label: 'Raspberry jam & vanilla buttercream', price: 0, colour: '#c43c58' },
       { id: 'caramel', label: 'Salted caramel', price: 0, colour: '#d39448' },
       { id: 'lemon-curd', label: 'Lemon curd & mascarpone', price: 0, colour: '#f2cf4a' },
       { id: 'ganache', label: 'Chocolate ganache', price: 0, colour: '#4a2a1d' },
-      { id: 'blackberry', label: 'Blackberry & bay (seasonal)', price: 3, colour: '#5d2346' }
+      { id: 'blackberry', label: 'Blackberry & bay (seasonal)', price: 5, colour: '#5d2346' }
     ],
     finishes: [
       { id: 'naked', label: 'Naked', note: 'A thin scrape of buttercream, layers on show', price: 0, colour: false },
-      { id: 'smooth', label: 'Smooth buttercream', note: 'Piped border, in your colour', price: 6, colour: true },
-      { id: 'drip', label: 'Chocolate drip', note: 'Glossy ganache running down the sides', price: 10, colour: true },
-      { id: 'flowers', label: 'Pressed flowers', note: 'Edible violas and cornflowers', price: 14, colour: true },
-      { id: 'sprinkles', label: 'Sprinkles', note: 'Hand-mixed, no glitter', price: 5, colour: true }
+      { id: 'smooth', label: 'Smooth buttercream', note: 'Piped border, in your color', price: 10, colour: true },
+      { id: 'drip', label: 'Chocolate drip', note: 'Glossy ganache running down the sides', price: 15, colour: true },
+      { id: 'flowers', label: 'Pressed flowers', note: 'Edible violas and cornflowers', price: 20, colour: true },
+      { id: 'sprinkles', label: 'Sprinkles', note: 'Hand-mixed, no glitter', price: 8, colour: true }
     ],
     colours: [
       { id: 'cream', label: 'Cream', hex: '#fbf1dc' },
@@ -269,7 +269,7 @@ document.documentElement.classList.add('js');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const round2 = (n) => Math.round(n * 100) / 100;
   const money = new Intl.NumberFormat(LOCALE, { style: 'currency', currency: CURRENCY });
-  // £5.20, but whole pounds without pence (£32).
+  // $9.50, but whole dollars without cents ($58).
   function price(n) {
     return Number.isInteger(n) ? money.format(n).replace(/\.00$/, '') : money.format(n);
   }
@@ -364,7 +364,7 @@ document.documentElement.classList.add('js');
       return { date: preview.slice(0, 10), day: dayOf(preview.slice(0, 10)), mins: toMins(preview.slice(11)) };
     }
     const parts = {};
-    new Intl.DateTimeFormat('en-GB', { timeZone: TIMEZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
+    new Intl.DateTimeFormat('en-US', { timeZone: TIMEZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
       .formatToParts(new Date()).forEach((p) => { parts[p.type] = p.value; });
     const date = parts.year + '-' + parts.month + '-' + parts.day;
     return { date: date, day: dayOf(date), mins: (+parts.hour % 24) * 60 + +parts.minute };
@@ -380,7 +380,7 @@ document.documentElement.classList.add('js');
     return new Intl.DateTimeFormat(LOCALE, Object.assign({ weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' }, opts || {}))
       .format(new Date(isoDate + 'T12:00:00Z'));
   }
-  // "Tomorrow", "Today", or "Saturday 17 October" (short: "Sat 17 Oct").
+  // "Tomorrow", "Today", or "Saturday, October 17" (short: "Sat, Oct 17").
   function dateLabel(isoDate, short) {
     const today = shopNow().date;
     const rel = isoDate === today ? 'Today' : isoDate === addDays(today, 1) ? 'Tomorrow' : '';
@@ -423,7 +423,7 @@ document.documentElement.classList.add('js');
     const names = idx.map((i) => name(i) + (short ? '' : 's'));
     return names.length === 1 ? names[0] + ' only' : names.slice(0, -1).join(', ') + ' & ' + names[names.length - 1];
   }
-  // Earliest collection date for a lead time in days, honouring the cutoff
+  // Earliest pickup date for a lead time in days, honoring the cutoff
   // (order before PICKUP.cutoff for the next open day) and closed days.
   function earliestDate(leadDays) {
     const now = shopNow();
@@ -433,7 +433,7 @@ document.documentElement.classList.add('js');
     for (let i = 0; i < 7 && !isOpenDay(d); i++) d = addDays(d, 1);
     return d;
   }
-  // The collection dates on offer for a basket's lines: open days from the earliest
+  // The pickup dates on offer for a basket's lines: open days from the earliest
   // possible to PICKUP.daysAhead (CAKE.daysAhead when there's a celebration cake).
   function pickupDates(lines) {
     const first = earliestDate(leadOf(lines));
@@ -442,7 +442,7 @@ document.documentElement.classList.add('js');
     for (let d = first; d <= last; d = addDays(d, 1)) if (isOpenDay(d)) out.push(d);
     return out;
   }
-  // Collection slots on a date, in minutes: opening time to PICKUP.lastSlotBeforeClose before closing.
+  // Pickup slots on a date, in minutes: opening time to PICKUP.lastSlotBeforeClose before closing.
   function pickupSlots(isoDate) {
     const h = HOURS[dayOf(isoDate)];
     if (!h) return [];
@@ -450,7 +450,7 @@ document.documentElement.classList.add('js');
     for (let m = toMins(h[0]); m <= toMins(h[1]) - PICKUP.lastSlotBeforeClose; m += PICKUP.slotStep) out.push(m);
     return out;
   }
-  // "Order in the next 2h 14m to collect tomorrow" style countdown to the cutoff.
+  // "Order in the next 2h 14m for pickup tomorrow" style countdown to the cutoff.
   function cutoffText() {
     const now = shopNow();
     const next = earliestDate(1);
@@ -458,14 +458,14 @@ document.documentElement.classList.add('js');
     const left = toMins(PICKUP.cutoff) - now.mins;
     if (left > 0 && next === addDays(now.date, 1)) {
       const h = Math.floor(left / 60), m = left % 60;
-      return 'Order in the next ' + (h ? h + 'h ' : '') + m + 'm to collect tomorrow';
+      return 'Order in the next ' + (h ? h + 'h ' : '') + m + 'm for pickup tomorrow';
     }
     return 'Preorders open for ' + nextName + ', ' + fmtDate(next, { weekday: undefined, day: 'numeric', month: 'long' });
   }
 
   /* ------------------------------------------------------------------
    * 6. Bake artwork. Each bake is drawn as inline SVG from its art
-   *    settings (PRODUCTS[].art.kind plus colours), in an inked, hand-made
+   *    settings (PRODUCTS[].art.kind plus colors), in an inked, hand-made
    *    style. Art.bake(art) returns a 120×120 drawing; Art.cake(config)
    *    draws a celebration cake from the cake builder's choices.
    * ------------------------------------------------------------------ */
@@ -707,7 +707,7 @@ document.documentElement.classList.add('js');
       return '<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"' + (title ? ' role="img" aria-label="' + title + '"' : ' aria-hidden="true" focusable="false"') + '>' + fn(art || {}, rand) + '</svg>';
     }
 
-    // A celebration cake drawn from the builder's choices. All colours come
+    // A celebration cake drawn from the builder's choices. All colors come
     // from CAKE; cfg = { tiers: [inches…], sponge, filling, finish, colour, message }.
     function cake(cfg, title) {
       const W = 360, base = 272;
@@ -838,7 +838,7 @@ document.documentElement.classList.add('js');
     const p = cakeParts(cfg);
     const extra = (n) => Math.round(n * p.size.factor);
     const rows = [[p.size.label + ' (serves ' + p.size.serves + ')', p.size.price]];
-    if (p.sponge.price) rows.push([p.sponge.label + ' sponge', extra(p.sponge.price)]);
+    if (p.sponge.price) rows.push([p.sponge.label + ' cake', extra(p.sponge.price)]);
     if (p.filling.price) rows.push([p.filling.label.replace(/ \(seasonal\)/, ''), extra(p.filling.price)]);
     if (p.finish.price) rows.push([p.finish.label + ' finish', extra(p.finish.price)]);
     return { rows: rows, total: rows.reduce((t, r) => t + r[1], 0) };
@@ -946,13 +946,13 @@ document.documentElement.classList.add('js');
     return pickupDates(lines).find((d) => d >= (from || '') && !conflictsOn(lines, d).length) || null;
   }
 
-  // Add one of a product. If it isn't baked on the chosen collection day, the
-  // collection moves to the next day that suits the whole basket.
+  // Add one of a product. If it isn't baked on the chosen pickup day, the
+  // pickup moves to the next day that suits the whole basket.
   function addProduct(id) {
     const p = findProduct(id);
     if (!p) return;
     const current = qtyOf(id);
-    if (current >= p.max) return toast('You can preorder up to ' + p.max + ' of the ' + escapeHtml(p.name.toLowerCase()) + ' per order. For more, call us on ' + SHOP.phone + '.');
+    if (current >= p.max) return toast('You can preorder up to ' + p.max + ' of the ' + escapeHtml(p.name.toLowerCase()) + ' per order. For more, call us at ' + SHOP.phone + '.');
     const lines = basket.lines.map((l) => Object.assign({}, l));
     const same = lines.find((l) => l.id === id);
     if (same) same.qty++;
@@ -967,7 +967,7 @@ document.documentElement.classList.add('js');
     }
     saveBasket({ lines: lines, date: date, time: moved ? null : basket.time, notes: basket.notes });
     pop();
-    toast('<strong class="font-bold">' + escapeHtml(p.name) + '</strong> added.' + (moved ? ' Collection moved to <strong class="font-bold">' + escapeHtml(dateLabel(date)) + '</strong>, the next day we bake it.' : ''), true);
+    toast('<strong class="font-bold">' + escapeHtml(p.name) + '</strong> added.' + (moved ? ' Pickup moved to <strong class="font-bold">' + escapeHtml(dateLabel(date)) + '</strong>, the next day we bake it.' : ''), true);
   }
   function setQty(index, qty) {
     const l = basket.lines[index];
@@ -1033,7 +1033,7 @@ document.documentElement.classList.add('js');
     });
   }
 
-  // <span data-open-status></span> → "Open now until 4pm" with a coloured dot.
+  // <span data-open-status></span> → "Open now until 4pm" with a colored dot.
   function renderStatuses() {
     const st = shopStatus();
     $$('[data-open-status]').forEach((el) => {
@@ -1113,7 +1113,7 @@ document.documentElement.classList.add('js');
       '<button type="button" data-qty="' + index + '" data-delta="1" data-fk="' + fk + '-inc" aria-label="One more ' + escapeHtml(info.name) + '"' + (info.qty >= info.max ? ' disabled' : '') + '>+</button></div>';
   }
 
-  // Date and time pickers for collection. prefix keeps ids unique (drawer / checkout).
+  // Date and time pickers for pickup. prefix keeps ids unique (drawer / checkout).
   function pickupFieldsHtml(prefix, b) {
     const dates = pickupDates(b.lines);
     const slots = pickupSlots(b.date);
@@ -1123,14 +1123,14 @@ document.documentElement.classList.add('js');
     }).join('');
     const h = HOURS[dayOf(b.date)];
     return '<div class="grid gap-3 sm:grid-cols-2">' +
-      '<div><label class="field-label" for="' + prefix + '-date">Collection day</label>' +
+      '<div><label class="field-label" for="' + prefix + '-date">Pickup day</label>' +
       '<select id="' + prefix + '-date" class="field" data-pickup-date data-fk="' + prefix + '-date">' + opts + '</select></div>' +
       '<div><label class="field-label" for="' + prefix + '-time">Time slot</label>' +
       '<select id="' + prefix + '-time" class="field" data-pickup-time data-fk="' + prefix + '-time" data-label="A time slot" required>' +
       '<option value="">Choose a time</option>' +
       slots.map((m) => '<option value="' + hhmm(m) + '"' + (hhmm(m) === b.time ? ' selected' : '') + '>' + clock(m) + '–' + clock(m + PICKUP.slotStep) + '</option>').join('') +
       '</select></div></div>' +
-      '<p class="hint">' + escapeHtml(DAY_NAMES[dayOf(b.date)]) + ': we’re open ' + hoursLabel(h) + '. Your order waits on the collection shelf by the door.</p>';
+      '<p class="hint">' + escapeHtml(DAY_NAMES[dayOf(b.date)]) + ': we’re open ' + hoursLabel(h) + '. Your order waits on the pickup shelf by the door.</p>';
   }
 
   function conflictHtml(b) {
@@ -1139,7 +1139,7 @@ document.documentElement.classList.add('js');
     const names = bad.map((l) => findProduct(l.id).name);
     const better = firstDateFor(b.lines, b.date) || firstDateFor(b.lines);
     return '<div class="rounded-2xl bg-blush p-4 text-[15px] text-blush-deep" role="alert"><p class="font-bold">' + escapeHtml(listText(names)) + (bad.length === 1 ? ' isn’t' : ' aren’t') + ' baked on ' + escapeHtml(DAY_NAMES[dayOf(b.date)]) + 's.</p>' +
-      '<p class="mt-1 text-ink">' + (better ? 'Collect on <button type="button" class="link" data-set-date="' + better + '" data-fk="fix-date">' + escapeHtml(dateLabel(better, true)) + '</button> instead, or remove ' + (bad.length === 1 ? 'it' : 'them') + '.' : 'Remove ' + (bad.length === 1 ? 'it' : 'them') + ' to carry on.') + '</p></div>';
+      '<p class="mt-1 text-ink">' + (better ? 'Pick up on <button type="button" class="link" data-set-date="' + better + '" data-fk="fix-date">' + escapeHtml(dateLabel(better, true)) + '</button> instead, or remove ' + (bad.length === 1 ? 'it' : 'them') + '.' : 'Remove ' + (bad.length === 1 ? 'it' : 'them') + ' to carry on.') + '</p></div>';
   }
 
   function drawerLineHtml(l, i) {
@@ -1175,7 +1175,7 @@ document.documentElement.classList.add('js');
     foot.hidden = false;
     rerender(body, '<ul class="divide-y divide-line px-5 sm:px-6">' + basket.lines.map(drawerLineHtml).join('') + '</ul>' +
       '<section class="mx-5 mb-6 mt-2 rounded-[1.5rem] bg-paper p-5 ring-1 ring-ink/10 sm:mx-6" aria-labelledby="drawer-pickup-title">' +
-      '<h3 id="drawer-pickup-title" class="flex items-center gap-2 font-display text-xl"><svg viewBox="0 0 24 24" class="size-5 text-bramble" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1 12H6Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>Collect from the shop</h3>' +
+      '<h3 id="drawer-pickup-title" class="flex items-center gap-2 font-display text-xl"><svg viewBox="0 0 24 24" class="size-5 text-bramble" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1 12H6Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>Pick up from the shop</h3>' +
       '<p class="mt-1 text-sm text-muted">' + escapeHtml(SHOP.address) + '</p>' +
       '<div class="mt-4">' + pickupFieldsHtml('drawer', basket) + '</div>' +
       '<div class="mt-3">' + conflictHtml(basket) + '</div>' +
@@ -1185,8 +1185,8 @@ document.documentElement.classList.add('js');
       '</section>');
     const bad = conflictsOn(basket.lines, basket.date).length;
     foot.innerHTML = '<div class="flex items-baseline justify-between"><span class="font-bold">Subtotal</span><span class="font-display text-2xl tabular-nums">' + price(basketTotal()) + '</span></div>' +
-      '<p class="mt-1 text-sm text-muted">Collecting <strong class="text-ink">' + escapeHtml(dateLabel(basket.date, true)) + (basket.time ? ', ' + clock(toMins(basket.time)) : '') + '</strong>. No charge until checkout.</p>' +
-      (bad ? '<button type="button" class="btn-primary mt-4 w-full" disabled>Fix your collection day to continue</button>'
+      '<p class="mt-1 text-sm text-muted">Picking up <strong class="text-ink">' + escapeHtml(dateLabel(basket.date, true)) + (basket.time ? ', ' + clock(toMins(basket.time)) : '') + '</strong>. No charge until checkout.</p>' +
+      (bad ? '<button type="button" class="btn-primary mt-4 w-full" disabled>Fix your pickup day to continue</button>'
         : '<a href="checkout.html" class="btn-primary mt-4 w-full py-3.5 text-base">' + (basket.time ? 'Checkout' : 'Choose a time at checkout') + ' <span aria-hidden="true">→</span></a>');
   }
 
@@ -1281,7 +1281,7 @@ document.documentElement.classList.add('js');
     }).join('') + '</span><span class="sr-only">Baked ' + escapeHtml(bakeDaysText(p)) + '.</span>';
   }
 
-  // The add button or quantity stepper for a product on the current collection day.
+  // The add button or quantity stepper for a product on the current pickup day.
   function cardActionHtml(p) {
     const i = basket.lines.findIndex((l) => l.id === p.id);
     if (i !== -1) {
@@ -1294,7 +1294,7 @@ document.documentElement.classList.add('js');
     if (fits) return '<button type="button" class="btn-primary w-full" data-add="' + p.id + '" data-fk="c' + p.id + '-add">Add to basket<span class="sr-only">: ' + escapeHtml(p.name) + '</span></button>';
     const next = firstDateFor(lines, basket.date) || firstDateFor(lines);
     if (!next) return '<p class="rounded-full bg-oat px-4 py-3 text-center text-sm font-bold text-muted">Not available with your basket</p>';
-    return '<button type="button" class="btn-soft w-full" data-add="' + p.id + '" data-fk="c' + p.id + '-add">Add for ' + escapeHtml(dateLabel(next, true)) + '<span class="sr-only"> (moves your collection): ' + escapeHtml(p.name) + '</span></button>';
+    return '<button type="button" class="btn-soft w-full" data-add="' + p.id + '" data-fk="c' + p.id + '-add">Add for ' + escapeHtml(dateLabel(next, true)) + '<span class="sr-only"> (moves your pickup): ' + escapeHtml(p.name) + '</span></button>';
   }
 
   function productCard(p, opts) {
@@ -1381,7 +1381,7 @@ document.documentElement.classList.add('js');
   }
 
   /* ------------------------------------------------------------------
-   * 12. Preorder page: category filter (?category=), collection day,
+   * 12. Preorder page: category filter (?category=), pickup day,
    *     "baked that day" toggle, grouped product grid
    * ------------------------------------------------------------------ */
   function initShop() {
@@ -1427,10 +1427,10 @@ document.documentElement.classList.add('js');
           (c.id === 'whole' ? '<a href="cakes.html" class="reveal group relative flex min-h-[22rem] flex-col justify-end overflow-hidden rounded-[1.6rem] bg-bramble p-6 text-paper on-dark">' +
             '<span class="art absolute -right-6 -top-4 w-[78%] rotate-6 transition duration-500 group-hover:rotate-3">' + Art.cake({ tiers: [9, 6], finish: 'flowers', spongeHex: '#f2d48f', fillingHex: '#c43c58', colourHex: '#f4c9c4', message: '' }) + '</span>' +
             '<span class="relative hand text-2xl text-butter">Something bigger?</span><span class="relative mt-1 font-display text-3xl leading-tight">Design a celebration cake</span>' +
-            '<span class="relative mt-2 text-paper/85">Choose tiers, sponge, filling and finish, add a message and see it drawn as you go. ' + CAKE.leadDays + ' days’ notice.</span>' +
+            '<span class="relative mt-2 text-paper/85">Choose tiers, flavor, filling and finish, add a message and see it drawn as you go. ' + CAKE.leadDays + ' days’ notice.</span>' +
             '<span class="relative mt-4 inline-flex items-center gap-2 font-bold underline decoration-paper/40 underline-offset-4 group-hover:decoration-paper">Open the cake builder <span aria-hidden="true">→</span></span></a>' : '') +
           '</div>' +
-          (!items.length ? '<p class="mt-6 rounded-[1.5rem] bg-oat p-6 text-muted">Nothing from this shelf is baked on ' + escapeHtml(DAY_NAMES[dayOf(basket.date)]) + '. Try another collection day, or <button type="button" class="link" data-show-all>show every bake</button>.</p>' : '') +
+          (!items.length ? '<p class="mt-6 rounded-[1.5rem] bg-oat p-6 text-muted">Nothing from this shelf is baked on ' + escapeHtml(DAY_NAMES[dayOf(basket.date)]) + '. Try another pickup day, or <button type="button" class="link" data-show-all>show every bake</button>.</p>' : '') +
           '</section>';
       });
       if (!total && category === 'all') html = '<p class="rounded-[1.5rem] bg-oat p-6 text-muted">Nothing is baked on that day.</p>';
@@ -1548,7 +1548,7 @@ document.documentElement.classList.add('js');
       const pr = cakePrice(cfg);
       const coloured = parts.finish.colour;
       $$('input[name="colour"]', form).forEach((el) => { el.disabled = !coloured; });
-      $('[data-colour-note]').textContent = coloured ? 'Buttercream colour: ' + (parts.colour ? parts.colour.label : '') : 'A naked cake shows off its sponge, so there’s no colour to choose.';
+      $('[data-colour-note]').textContent = coloured ? 'Buttercream color: ' + (parts.colour ? parts.colour.label : '') : 'A naked cake shows off its layers, so there’s no color to choose.';
       const desc = parts.size.label + ' ' + parts.sponge.label.toLowerCase() + ' cake with ' + parts.filling.label.toLowerCase().replace(/ \(seasonal\)/, '') + ', ' + parts.finish.label.toLowerCase() + ' finish' + (parts.colour ? ' in ' + parts.colour.label.toLowerCase() : '') + (cfg.message ? ', with the message “' + cfg.message + '”' : '');
       preview.innerHTML = Art.cake(cakeArtConfig(cfg), desc);
       $('#cake-price').textContent = price(pr.total);
@@ -1566,7 +1566,7 @@ document.documentElement.classList.add('js');
       const cakes = basket.lines.filter((l) => l.id === 'cake').length;
       if (cakes >= CAKE.maxPerOrder) {
         showError(dateEl, '');
-        return toast('One order can hold ' + CAKE.maxPerOrder + ' celebration cakes. Call us on ' + SHOP.phone + ' for more.');
+        return toast('One order can hold ' + CAKE.maxPerOrder + ' celebration cakes. Call us at ' + SHOP.phone + ' for more.');
       }
       const cfg = config();
       const lines = basket.lines.concat([{ id: 'cake', key: 'c-' + Date.now().toString(36), cake: cfg, qty: 1 }]);
@@ -1589,8 +1589,8 @@ document.documentElement.classList.add('js');
   }
 
   /* ------------------------------------------------------------------
-   * 15. Checkout (demo): collection, details, payment, confirmation
-   *     with an order number and a calendar (.ics) file for collection.
+   * 15. Checkout (demo): pickup, details, payment, confirmation
+   *     with an order number and a calendar (.ics) file for pickup.
    *     Nothing is sent and no payment is taken.
    * ------------------------------------------------------------------ */
   // The last order, checked before use (crumb-last-order).
@@ -1611,7 +1611,7 @@ document.documentElement.classList.add('js');
     };
   }
 
-  // A calendar file for the collection slot, in the bakery's time zone.
+  // A calendar file for the pickup slot, in the bakery's time zone.
   function icsFor(order) {
     const esc = (s) => String(s).replace(/\\/g, '\\\\').replace(/([,;])/g, '\\$1').replace(/\n/g, '\\n');
     const stamp = (d, mins) => d.replace(/-/g, '') + 'T' + hhmm(mins).replace(':', '') + '00';
@@ -1620,15 +1620,15 @@ document.documentElement.classList.add('js');
     return [
       'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//' + esc(SHOP.name) + '//Preorders//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
       'BEGIN:VTIMEZONE', 'TZID:' + TIMEZONE,
-      'BEGIN:DAYLIGHT', 'TZOFFSETFROM:+0000', 'TZOFFSETTO:+0100', 'TZNAME:BST', 'DTSTART:19700329T010000', 'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU', 'END:DAYLIGHT',
-      'BEGIN:STANDARD', 'TZOFFSETFROM:+0100', 'TZOFFSETTO:+0000', 'TZNAME:GMT', 'DTSTART:19701025T020000', 'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU', 'END:STANDARD',
+      'BEGIN:DAYLIGHT', 'TZOFFSETFROM:-0500', 'TZOFFSETTO:-0400', 'TZNAME:EDT', 'DTSTART:19700308T020000', 'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU', 'END:DAYLIGHT',
+      'BEGIN:STANDARD', 'TZOFFSETFROM:-0400', 'TZOFFSETTO:-0500', 'TZNAME:EST', 'DTSTART:19701101T020000', 'RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU', 'END:STANDARD',
       'END:VTIMEZONE',
       'BEGIN:VEVENT',
       'UID:' + order.number + '@brambleandrye.example',
       'DTSTAMP:' + now,
       'DTSTART;TZID=' + TIMEZONE + ':' + stamp(order.date, start),
       'DTEND;TZID=' + TIMEZONE + ':' + stamp(order.date, start + PICKUP.slotStep),
-      'SUMMARY:' + esc('Collect ' + SHOP.name + ' order ' + order.number),
+      'SUMMARY:' + esc('Pick up ' + SHOP.name + ' order ' + order.number),
       'LOCATION:' + esc(SHOP.address),
       'DESCRIPTION:' + esc(order.lines.map((l) => l.qty + ' × ' + l.name).join('\n') + '\n\nOrder ' + order.number + '. Questions? ' + SHOP.phone),
       'END:VEVENT', 'END:VCALENDAR'
@@ -1657,7 +1657,7 @@ document.documentElement.classList.add('js');
       const last = readLastOrder();
       $('[data-last-order]', empty).innerHTML = last
         ? '<div class="ticket mx-auto mt-8 max-w-md bg-paper p-5 text-left"><p class="text-sm font-bold uppercase tracking-[0.16em] text-muted">Your last order</p>' +
-          '<p class="mt-1 font-display text-2xl">' + escapeHtml(last.number) + '</p><p class="mt-1 text-muted">Collect ' + escapeHtml(fmtDate(last.date)) + ', ' + slotText(last.time) + '</p>' +
+          '<p class="mt-1 font-display text-2xl">' + escapeHtml(last.number) + '</p><p class="mt-1 text-muted">Pick up ' + escapeHtml(fmtDate(last.date)) + ', ' + slotText(last.time) + '</p>' +
           icsLink(last, 'btn-soft mt-4') + '</div>'
         : '';
     }
@@ -1674,9 +1674,9 @@ document.documentElement.classList.add('js');
         }).join('') + '</ul>' +
         '<div class="stitch mt-2"></div>' +
         '<dl class="mt-4 space-y-2 text-[15px]"><div class="flex justify-between"><dt class="text-muted">Subtotal</dt><dd class="tabular-nums">' + price(t) + '</dd></div>' +
-        '<div class="flex justify-between"><dt class="text-muted">Click and collect</dt><dd>Free</dd></div>' +
+        '<div class="flex justify-between"><dt class="text-muted">Pickup</dt><dd>Free</dd></div>' +
         '<div class="flex items-baseline justify-between border-t border-line pt-3"><dt class="font-bold">Total</dt><dd class="font-display text-2xl tabular-nums">' + price(t) + '</dd></div></dl>' +
-        '<p class="mt-4 rounded-2xl bg-oat p-4 text-sm text-muted"><strong class="text-ink">Collecting ' + escapeHtml(dateLabel(basket.date)) + (basket.time ? ', ' + slotText(basket.time) : '') + '.</strong> ' + escapeHtml(SHOP.address) + '</p>' +
+        '<p class="mt-4 rounded-2xl bg-oat p-4 text-sm text-muted"><strong class="text-ink">Picking up ' + escapeHtml(dateLabel(basket.date)) + (basket.time ? ', ' + slotText(basket.time) : '') + '.</strong> ' + escapeHtml(SHOP.address) + '</p>' +
         '<button type="button" data-basket-open aria-controls="basket-drawer" aria-expanded="false" class="mt-4 text-sm font-bold text-bramble underline underline-offset-4">Edit basket</button>';
       $('[data-place-total]').textContent = price(t);
     }
@@ -1718,7 +1718,7 @@ document.documentElement.classList.add('js');
 
     setupValidation(form, () => {
       if (conflictsOn(basket.lines, basket.date).length) {
-        $('[data-form-status]', form).textContent = 'Some items aren’t baked on your collection day. Change the day or remove them.';
+        $('[data-form-status]', form).textContent = 'Some items aren’t baked on your pickup day. Change the day or remove them.';
         $('#co-date').focus();
         return;
       }
@@ -1750,18 +1750,18 @@ document.documentElement.classList.add('js');
         '<div class="mx-auto w-40">' + emptyBagSvg(true) + '</div>' +
         '<p class="hand mt-4 text-3xl text-bramble">It’s on the list!</p>' +
         '<h2 class="h-display mt-2 text-4xl sm:text-5xl">Thank you' + (first ? ', ' + escapeHtml(first) : '') + '</h2>' +
-        '<p class="mx-auto mt-4 max-w-lg text-lg text-muted">We’ll bake your order fresh and pop it on the collection shelf by the door. Just give your name or order number at the counter.</p></div>' +
+        '<p class="mx-auto mt-4 max-w-lg text-lg text-muted">We’ll bake your order fresh and put it on the pickup shelf by the door. Just give your name or order number at the counter.</p></div>' +
         '<div class="ticket mx-auto mt-10 max-w-2xl bg-paper p-6 sm:p-8">' +
         '<div class="flex flex-wrap items-start justify-between gap-4"><div><p class="text-sm font-bold uppercase tracking-[0.16em] text-muted">Order number</p><p class="font-display text-3xl">' + escapeHtml(order.number) + '</p></div>' +
-        '<div class="sm:text-right"><p class="text-sm font-bold uppercase tracking-[0.16em] text-muted">Collect</p><p class="font-bold">' + escapeHtml(fmtDate(order.date)) + '</p><p class="text-muted">' + slotText(order.time) + '</p></div></div>' +
+        '<div class="sm:text-right"><p class="text-sm font-bold uppercase tracking-[0.16em] text-muted">Pick up</p><p class="font-bold">' + escapeHtml(fmtDate(order.date)) + '</p><p class="text-muted">' + slotText(order.time) + '</p></div></div>' +
         '<div class="stitch my-5"></div>' +
         '<ul class="space-y-2">' + order.lines.map((l) => '<li class="flex justify-between gap-4"><span><span class="font-bold tabular-nums">' + l.qty + ' ×</span> ' + escapeHtml(l.name) +
           (l.message ? ' <span class="hand text-lg text-bramble">“' + escapeHtml(l.message) + '”</span>' : '') + '</span><span class="tabular-nums">' + price(l.total) + '</span></li>').join('') + '</ul>' +
         '<div class="mt-4 flex justify-between border-t border-line pt-4 font-bold"><span>Total</span><span class="tabular-nums">' + price(order.total) + '</span></div>' +
-        '<p class="mt-3 text-[15px] text-muted">' + (order.payment === 'card' ? 'Paid by card.' : 'Pay at the counter when you collect, by card or cash.') + '</p>' +
+        '<p class="mt-3 text-[15px] text-muted">' + (order.payment === 'card' ? 'Paid by card.' : 'Pay at the counter when you pick up, by card or cash.') + '</p>' +
         (order.notes ? '<p class="mt-2 text-[15px] text-muted">Your note: “' + escapeHtml(order.notes) + '”</p>' : '') +
         '<div class="mt-6 flex flex-wrap gap-3">' + icsLink(order, 'btn-primary') + '<a href="index.html" class="btn-line">Back to the bakery</a></div></div>' +
-        '<p class="mx-auto mt-6 max-w-2xl text-center text-sm text-muted">Your confirmation is on its way to your inbox. Need to change something? Call us on ' + escapeHtml(SHOP.phone) + ' and quote ' + escapeHtml(order.number) + '.</p>';
+        '<p class="mx-auto mt-6 max-w-2xl text-center text-sm text-muted">Your confirmation is on its way to your inbox. Need to change something? Call us at ' + escapeHtml(SHOP.phone) + ' and quote ' + escapeHtml(order.number) + '.</p>';
       done.focus();
       window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
     }
@@ -1787,14 +1787,14 @@ document.documentElement.classList.add('js');
   function fieldMessage(el) {
     const v = el.value.trim();
     const label = el.getAttribute('data-label') || 'This field';
-    if (el.type === 'checkbox') return el.required && !el.checked ? (el.getAttribute('data-msg') || 'Please tick this box.') : '';
+    if (el.type === 'checkbox') return el.required && !el.checked ? (el.getAttribute('data-msg') || 'Please check this box.') : '';
     if (el.required && !v) return el.getAttribute('data-required-msg') || label + ' is required.';
     if (!v) return '';
     const rule = el.getAttribute('data-validate') || el.type;
     if (rule === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return 'Enter an email address like name@example.com.';
     if (rule === 'tel') {
       const digits = v.replace(/\D/g, '');
-      if (!/^[+()\d\s.-]+$/.test(v) || digits.length < 10 || digits.length > 13) return 'Enter a phone number we can call, like 07700 900 123.';
+      if (!/^[+()\d\s.-]+$/.test(v) || digits.length < 10 || digits.length > 13) return 'Enter a phone number we can call, like (518) 555-0123.';
     }
     if (rule === 'name' && v.length < 2) return 'Enter your name so we know whose bag it is.';
     if (rule === 'card') {
@@ -1933,9 +1933,9 @@ document.documentElement.classList.add('js');
     $$('[data-form="wholesale"]').forEach((form) => setupValidation(form, () => {
       const first = $('#w-name').value.trim().split(/\s+/)[0];
       const business = $('#w-business').value.trim();
-      successSwap(form, '<p class="hand text-3xl text-pistachio-deep">Lovely, thank you!</p>' +
+      successSwap(form, '<p class="hand text-3xl text-pistachio-deep">Wonderful, thank you!</p>' +
         '<p class="mt-2 font-display text-2xl">Thanks, ' + escapeHtml(first) + '.</p>' +
-        '<p class="mt-3 leading-relaxed">Ruth has your enquiry for <strong>' + escapeHtml(business) + '</strong> and will reply within two working days with a price list and a tasting box date.</p>' +
+        '<p class="mt-3 leading-relaxed">Ruth has your inquiry for <strong>' + escapeHtml(business) + '</strong> and will reply within two business days with a price list and a tasting box date.</p>' +
         '<p class="mt-3 text-sm text-muted">Your reference is <strong class="text-ink">' + makeRef('BR') + '</strong>. Quote it if you call us.</p>');
     }));
     // Dates with data-min-days: the minimum is that many days from today in the shop's time zone.

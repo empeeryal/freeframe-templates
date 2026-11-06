@@ -26,7 +26,7 @@
   --color-fog: #bdb5a6;       /* secondary text on ink */
   --color-haze: #9c9485;      /* meta on ink */
 
-  /* Riso inks. Pink is the brand colour; cobalt and sun are supporting inks. */
+  /* Riso inks. Pink is the brand color; cobalt and sun are supporting inks. */
   --color-pink: #ff4d94;      /* fills, with ink text on top */
   --color-pink-deep: #c4155f; /* pink text and links on paper */
   --color-pink-soft: #ffc2da;

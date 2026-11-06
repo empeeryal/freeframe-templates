@@ -1,5 +1,5 @@
 /* Vows — Tailwind CSS v4 source.
-   Change the colours and fonts in @theme, then rebuild with `npm run build`. */
+   Change the colors and fonts in @theme, then rebuild with `npm run build`. */
 @import "tailwindcss";
 
 /* Docs and metadata are not markup: keep their words out of the generated CSS. */

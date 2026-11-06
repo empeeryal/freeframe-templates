@@ -94,7 +94,7 @@
   .h-card { @apply font-display text-xl leading-snug font-semibold tracking-[-0.015em]; }
   .lead { @apply text-lg leading-relaxed text-ink-soft text-pretty sm:text-xl; }
 
-  /* Small rounded label above headings. Colour it with a pastel modifier class. */
+  /* Small rounded label above headings. Color it with a pastel modifier class. */
   .eyebrow {
     @apply inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-[13px] font-semibold text-ink-soft shadow-[0_0_0_1px_var(--color-line)];
   }

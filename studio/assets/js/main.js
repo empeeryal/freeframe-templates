@@ -1,6 +1,6 @@
-/* Studio (Raster, Zürich) — site scripts. Vanilla JavaScript, no dependencies.
+/* Studio (Raster, Saint Paul) — site scripts. Vanilla JavaScript, no dependencies.
    Sections: data, helpers, header, clock, reveals, work index, case study, estimator,
-   enquiry form, journal, small extras, back to top. */
+   inquiry form, journal, small extras, back to top. */
 (function () {
   'use strict';
 
@@ -51,19 +51,19 @@
   var PROJECTS = [
     {
       id: 'seeline',
-      client: 'Seeline',
+      client: 'Wakeline',
       title: 'A calmer identity for the lake ferries',
       disciplines: ['identity', 'wayfinding'],
       year: 2025,
       sector: 'Public transport',
-      location: 'Zürich',
+      location: 'Excelsior',
       duration: '14 months',
       services: ['Identity system', 'Wayfinding', 'Timetable design', 'Livery'],
-      summary: 'Seeline runs eleven passenger ferries on Lake Zürich. We rebuilt its identity around a single ring-and-wave mark and a timetable system that works on a phone, a pier and a paper fold-out.',
-      challenge: 'Seeline had grown out of three older operators, and it showed: four logos, two typefaces on the same pier and timetables that changed format from boat to boat. Tourists missed the last ferry home; regulars ignored the signs altogether. The brief was to make one ferry company out of three, without losing the warmth people felt for the old boats.',
+      summary: 'Wakeline runs eleven passenger ferries on Lake Minnetonka. We rebuilt its identity around a single ring-and-wave mark and a timetable system that works on a phone, a pier and a paper fold-out.',
+      challenge: 'Wakeline had grown out of three older operators, and it showed: four logos, two typefaces on the same pier and timetables that changed format from boat to boat. Tourists missed the last ferry home; regulars ignored the signs altogether. The brief was to make one ferry company out of three, without losing the warmth people felt for the old boats.',
       approach: [
-        { title: 'Audit every touchpoint', text: 'We photographed all 23 piers and catalogued 412 signs, tickets and notices. Two thirds carried information that was already out of date.' },
-        { title: 'One mark, one grid', text: 'The ring-and-wave mark reads at 8 mm on a ticket and at three metres on a bow. Everything else sits on a single eight-column grid shared by print, signs and screens.' },
+        { title: 'Audit every touchpoint', text: 'We photographed all 23 piers and catalogd 412 signs, tickets and notices. Two thirds carried information that was already out of date.' },
+        { title: 'One mark, one grid', text: 'The ring-and-wave mark reads at a third of an inch on a ticket and at ten feet on a bow. Everything else sits on a single eight-column grid shared by print, signs and screens.' },
         { title: 'Timetables first', text: 'We designed the departure board before the logo. Times are set large in tabular figures, with the last boat of the day marked in buoy orange.' }
       ],
       results: [
@@ -71,16 +71,16 @@
         { value: '23', label: 'Piers re-signed in one winter shutdown' },
         { value: '1', label: 'Grid shared by print, signage and the app' }
       ],
-      quote: { text: 'People tell us the boats feel newer. They are not. They are just easier to understand now.', name: 'Andrea Lutz', role: 'Head of customer experience, Seeline' },
+      quote: { text: 'People tell us the boats feel newer. They are not. They are just easier to understand now.', name: 'Andrea Lutz', role: 'Head of customer experience, Wakeline' },
       credits: ['Noemi Imhof', 'Selin Karaca', 'Céline Odermatt'],
       palette: { bg: '#1d3b57', ink: '#f1efe7', accent: '#ff7a3d', soft: '#8fb3c9' },
       mark: '<circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="11"/><path d="M12 56c13-11 25-11 38 0s25 11 38 0" fill="none" stroke="currentColor" stroke-width="11"/>',
-      poster: { lines: ['Summer', 'timetable'], sub: '1 May – 30 Sept 2025' },
-      sign: ['3', 'Departures', 'Rapperswil · Thalwil · Küsnacht'],
+      poster: { lines: ['Summer', 'timetable'], sub: 'May 1 – Sep 30, 2025' },
+      sign: ['3', 'Departures', 'Wayzata · Excelsior · Tonka Bay'],
       gallery: [
-        { kind: 'board', caption: 'Identity board: the ring-and-wave mark, wordmark and four-colour palette.' },
+        { kind: 'board', caption: 'Identity board: the ring-and-wave mark, wordmark and four-color palette.' },
         { kind: 'signage', caption: 'Pier signage puts departures first and everything else second.' },
-        { kind: 'poster', caption: 'Summer timetable poster for the piers and the old town.' }
+        { kind: 'poster', caption: 'Summer timetable poster for the piers and downtown Excelsior.' }
       ]
     },
     {
@@ -90,10 +90,10 @@
       disciplines: ['digital'],
       year: 2025,
       sector: 'Fintech',
-      location: 'Zürich',
+      location: 'Saint Paul',
       duration: '9 months',
       services: ['Product strategy', 'UX and UI design', 'Design system', 'App store assets'],
-      summary: 'Fondo helps young households in Switzerland put money aside automatically. We designed its iOS and Android app and the design system its in-house team now builds on.',
+      summary: 'Fondo helps young households in Minnesota put money aside automatically. We designed its iOS and Android app and the design system its in-house team now builds on.',
       challenge: 'Fondo’s first app was accurate and unreadable. Every screen carried six numbers of equal weight, and the most common support question was “how much do I actually have?” The team needed an app that answered that at a glance, and a system its four developers could extend without a designer in the room.',
       approach: [
         { title: 'One number per screen', text: 'Each screen leads with a single figure set large in tabular numerals. Everything else is one tap away.' },
@@ -109,59 +109,59 @@
       credits: ['Matteo Sutter', 'Tobias Wyss', 'Céline Odermatt'],
       palette: { bg: '#e9e3d6', ink: '#1b1b19', accent: '#2f6b4f', soft: '#c9d8c5' },
       mark: '<rect x="16" y="16" width="68" height="18"/><rect x="16" y="41" width="46" height="18"/><rect x="16" y="66" width="24" height="18"/>',
-      ui: { headline: 'Your savings', figure: '12’480' },
+      ui: { headline: 'Your savings', figure: '$12,480' },
       poster: { lines: ['Put a little', 'aside.'], sub: 'Saving on autopilot' },
       gallery: [
         { kind: 'screens', caption: 'The overview and goals screens, one figure each.' },
         { kind: 'mark', caption: 'The app icon, built from three stacked bars.' },
-        { kind: 'poster', caption: 'Launch poster for the Zürich tram network.' }
+        { kind: 'poster', caption: 'Launch poster for Twin Cities light-rail platforms.' }
       ]
     },
     {
       id: 'halle-neun',
-      client: 'Halle Neun',
+      client: 'Hall Nine',
       title: 'An identity that changes with every show',
       disciplines: ['identity', 'editorial'],
       year: 2024,
       sector: 'Culture',
-      location: 'Winterthur',
+      location: 'Two Harbors',
       duration: '7 months',
-      services: ['Identity system', 'Exhibition graphics', 'Catalogues', 'Website art direction'],
-      summary: 'Halle Neun is a contemporary art space in a former locomotive hall. Its identity is a fixed numeral and a flexible grid that each exhibition fills differently.',
+      services: ['Identity system', 'Exhibition graphics', 'Catalogs', 'Website art direction'],
+      summary: 'Hall Nine is a contemporary art space in a former locomotive shop. Its identity is a fixed numeral and a flexible grid that each exhibition fills differently.',
       challenge: 'The hall shows six exhibitions a year, each with a different curator and artist. A rigid identity would fight the art, and no identity at all had left the space invisible in its own city. It needed one constant that could step back whenever the work needed it to.',
       approach: [
         { title: 'A numeral, not a logo', text: 'The 9 is drawn from one circle and one stroke. It is the only element that never changes.' },
-        { title: 'A grid each show fills', text: 'Every exhibition gets its own colour and image crop on the same nine-unit grid, so the posters change and still read as a series.' },
-        { title: 'Catalogues on the same system', text: 'The catalogue template uses two type sizes only. The hall’s own team now lays out a 96-page catalogue in three weeks.' }
+        { title: 'A grid each show fills', text: 'Every exhibition gets its own color and image crop on the same nine-unit grid, so the posters change and still read as a series.' },
+        { title: 'Catalogs on the same system', text: 'The catalog template uses two type sizes only. The hall’s own team now lays out a 96-page catalog in three weeks.' }
       ],
       results: [
         { value: '+61%', label: 'Visitors in the first year' },
         { value: '6', label: 'Exhibitions a year, one system' },
-        { value: '3 wks', label: 'To lay out a 96-page catalogue' }
+        { value: '3 wks', label: 'To lay out a 96-page catalog' }
       ],
-      quote: { text: 'Every artist we have shown since has wanted to be on one of those posters.', name: 'Vera Gasser', role: 'Director, Halle Neun' },
+      quote: { text: 'Every artist we have shown since has wanted to be on one of those posters.', name: 'Vera Gasser', role: 'Director, Hall Nine' },
       credits: ['Noemi Imhof', 'Selin Karaca'],
       palette: { bg: '#f2f0ea', ink: '#111111', accent: '#f2c230', soft: '#d3cec2' },
       mark: '<circle cx="46" cy="38" r="24" fill="none" stroke="currentColor" stroke-width="14"/><rect x="63" y="38" width="14" height="52"/>',
-      poster: { lines: ['Material', 'Memory'], sub: 'Spring exhibition · 14.3.–2.6.2024' },
-      spread: { title: 'Material Memory', sub: 'Catalogue no. 31' },
+      poster: { lines: ['Material', 'Memory'], sub: 'Spring exhibition · Mar 14–Jun 2, 2024' },
+      spread: { title: 'Material Memory', sub: 'Catalog no. 31' },
       gallery: [
-        { kind: 'spread', caption: 'Exhibition catalogue, 96 pages, Swiss-bound.' },
+        { kind: 'spread', caption: 'Exhibition catalog, 96 pages, lay-flat bound.' },
         { kind: 'poster', caption: 'Poster for the spring show, on the nine-unit grid.' },
         { kind: 'mark', caption: 'The numeral, drawn from one circle and one stroke.' }
       ]
     },
     {
       id: 'archiv-ost',
-      client: 'Archiv Ost',
+      client: 'Northland Archive',
       title: 'Forty years of climate records, findable',
       disciplines: ['digital'],
       year: 2024,
       sector: 'Research',
-      location: 'St. Gallen',
+      location: 'Bemidji',
       duration: '11 months',
-      services: ['UX research', 'Interface design', 'Data visualisation', 'Front-end build'],
-      summary: 'Archiv Ost holds weather and snow measurements from 140 stations in eastern Switzerland. We designed the public portal that lets researchers, journalists and schools find and download them.',
+      services: ['UX research', 'Interface design', 'Data visualization', 'Front-end build'],
+      summary: 'Northland Archive holds weather and snow measurements from 140 stations in northern Minnesota. We designed the public portal that lets researchers, journalists and schools find and download them.',
       challenge: 'The records were complete and nearly impossible to reach. Finding one station’s snow depth for one winter took eleven clicks and a PDF manual. The archive’s funding now depends on public use, so it had to work for people who are not climatologists.',
       approach: [
         { title: 'Start from questions', text: 'We interviewed 24 users and found that almost every search began with a place and a year, not a dataset name. Search now works that way.' },
@@ -173,11 +173,11 @@
         { value: '×4', label: 'Monthly downloads after launch' },
         { value: '0.8 s', label: 'Median page load' }
       ],
-      quote: { text: 'For the first time, teachers are using our data in class. That was the whole point.', name: 'Dr. Peter Rohner', role: 'Head of archive, Archiv Ost' },
+      quote: { text: 'For the first time, teachers are using our data in class. That was the whole point.', name: 'Dr. Peter Rohner', role: 'Head of archive, Northland Archive' },
       credits: ['Matteo Sutter', 'Tobias Wyss'],
       palette: { bg: '#1f2a26', ink: '#e6ede8', accent: '#9fd3b4', soft: '#47584f' },
       mark: '<circle cx="22" cy="22" r="9"/><circle cx="50" cy="22" r="9"/><circle cx="78" cy="22" r="9"/><circle cx="22" cy="50" r="9"/><circle cx="50" cy="50" r="14"/><circle cx="78" cy="50" r="9"/><circle cx="22" cy="78" r="9"/><circle cx="50" cy="78" r="9"/><circle cx="78" cy="78" r="4"/>',
-      ui: { headline: 'Säntis · snow depth', figure: '1985–2024' },
+      ui: { headline: 'Eagle Mountain · snow depth', figure: '1985–2024' },
       poster: { lines: ['Forty', 'winters'], sub: 'Open data from 140 stations' },
       gallery: [
         { kind: 'screens', caption: 'Station search and the series preview, before any download.' },
@@ -187,133 +187,133 @@
     },
     {
       id: 'moraene',
-      client: 'Moräne',
+      client: 'Moraine',
       title: 'Outdoor gear, without the shouting',
       disciplines: ['identity'],
       year: 2023,
       sector: 'Retail',
-      location: 'Chur',
+      location: 'Ely',
       duration: '6 months',
       services: ['Brand strategy', 'Identity system', 'Packaging', 'Retail graphics'],
-      summary: 'Moräne makes repairable outdoor clothing in Graubünden. We gave it a quiet, durable identity that sits as comfortably on a care label as on a shopfront.',
-      challenge: 'Outdoor brands compete by shouting: summit photography, extreme claims, neon. Moräne’s customers buy a jacket to keep it for fifteen years, and the brand needed to sound like that: calm, specific and honest about materials.',
+      summary: 'Moraine makes repairable outdoor clothing in northern Minnesota. We gave it a quiet, durable identity that sits as comfortably on a care label as on a storefront.',
+      challenge: 'Outdoor brands compete by shouting: summit photography, extreme claims, neon. Moraine’s customers buy a jacket to keep it for fifteen years, and the brand needed to sound like that: calm, specific and honest about materials.',
       approach: [
         { title: 'Name the material', text: 'Every label leads with what the garment is made of and how to repair it. The brand voice grew out of those labels.' },
-        { title: 'A mark from the landscape', text: 'The mark is the profile of a glacial moraine, reduced to a single shape that survives embroidery at 12 mm.' },
-        { title: 'Stone, not neon', text: 'The palette is taken from the rock around Chur. Rust is used once per surface, never more.' }
+        { title: 'A mark from the landscape', text: 'The mark is the profile of a glacial moraine, reduced to a single shape that survives embroidery at half an inch.' },
+        { title: 'Stone, not neon', text: 'The palette is taken from the rock around Ely. Rust is used once per surface, never more.' }
       ],
       results: [
         { value: '+44%', label: 'Online sales in the first year' },
         { value: '1 in 5', label: 'Orders that now include a repair kit' },
-        { value: '12 mm', label: 'Smallest embroidered mark' }
+        { value: '½ in', label: 'Smallest embroidered mark' }
       ],
-      quote: { text: 'Customers say the labels are the best thing about the jackets. We are choosing to take that as a compliment.', name: 'Gian Casutt', role: 'Co-founder, Moräne' },
+      quote: { text: 'Customers say the labels are the best thing about the jackets. We are choosing to take that as a compliment.', name: 'Gus Nyberg', role: 'Co-founder, Moraine' },
       credits: ['Noemi Imhof', 'Selin Karaca', 'Céline Odermatt'],
       palette: { bg: '#c8c3b7', ink: '#24221f', accent: '#a3492a', soft: '#e4e0d6' },
       mark: '<path d="M6 84 38 26l18 32 10-16 28 42Z"/>',
-      poster: { lines: ['Made to', 'be mended.'], sub: 'Autumn / Winter 2023' },
+      poster: { lines: ['Made to', 'be mended.'], sub: 'Fall / Winter 2023' },
       sign: ['M', 'Repairs', 'Workshop open Tue–Sat'],
       gallery: [
         { kind: 'board', caption: 'Identity board with the moraine mark and the stone palette.' },
-        { kind: 'poster', caption: 'Cover of the autumn catalogue.' },
-        { kind: 'signage', caption: 'Blade sign for the repair workshop in Chur.' }
+        { kind: 'poster', caption: 'Cover of the fall catalog.' },
+        { kind: 'signage', caption: 'Blade sign for the repair workshop in Ely.' }
       ]
     },
     {
       id: 'kino-riff',
-      client: 'Kino Riff',
-      title: 'A cinema you can find in the dark',
+      client: 'Cine Riff',
+      title: 'A movie theater you can find in the dark',
       disciplines: ['identity', 'wayfinding'],
       year: 2023,
       sector: 'Culture',
-      location: 'Basel',
+      location: 'Minneapolis',
       duration: '8 months',
-      services: ['Identity system', 'Wayfinding', 'Ticketing UI', 'Print programme'],
-      summary: 'Kino Riff is a three-screen independent cinema in a former printworks. We designed its identity, its monthly programme and a wayfinding system that works with the house lights down.',
-      challenge: 'The screens are spread across two floors of an old printworks, and latecomers regularly walked into the wrong film. The previous signs were beautiful and unlit. The owners wanted the building’s character kept and the confusion removed.',
+      services: ['Identity system', 'Wayfinding', 'Ticketing UI', 'Print program'],
+      summary: 'Cine Riff is a three-screen independent movie theater in a former printing plant. We designed its identity, its monthly program and a wayfinding system that works with the house lights down.',
+      challenge: 'The screens are spread across two floors of an old printing plant, and latecomers regularly walked into the wrong film. The previous signs were beautiful and unlit. The owners wanted the building’s character kept and the confusion removed.',
       approach: [
-        { title: 'Light as material', text: 'Screen numbers are back-lit and sized to be read from the far end of each corridor at 5 lux.' },
+        { title: 'Light as material', text: 'Screen numbers are back-lit and sized to be read from the far end of each hallway at 5 lux.' },
         { title: 'One arrow', text: 'A single arrow, cut from the mark, does all of the directional work on walls, floors and tickets.' },
-        { title: 'A programme you keep', text: 'The monthly programme folds out into a poster. People pin it up at home, which is the best advertising a small cinema can get.' }
+        { title: 'A program you keep', text: 'The monthly program folds out into a poster. People pin it up at home, which is the best advertising a small theater can get.' }
       ],
       results: [
         { value: '0', label: 'Wrong-screen walk-ins reported in 2024' },
-        { value: '3’000', label: 'Programme posters printed each month' },
+        { value: '3,000', label: 'Program posters printed each month' },
         { value: '5 lux', label: 'Light level the signs are designed for' }
       ],
-      quote: { text: 'Our ushers used to spend half the evening redirecting people. Now they actually get to watch the films.', name: 'Lou Graber', role: 'Programmer and co-owner, Kino Riff' },
+      quote: { text: 'Our ushers used to spend half the evening redirecting people. Now they actually get to watch the films.', name: 'Lou Graber', role: 'Programmer and co-owner, Cine Riff' },
       credits: ['Noemi Imhof', 'Tobias Wyss', 'Céline Odermatt'],
       palette: { bg: '#3b1016', ink: '#f6e9dc', accent: '#ff5a3c', soft: '#6d2a30' },
       mark: '<path d="M14 14h72v72H14Z" fill="none" stroke="currentColor" stroke-width="10"/><path d="M38 32 66 50 38 68Z"/>',
-      poster: { lines: ['Kino', 'Riff'], sub: 'Programme · November 2023' },
-      sign: ['2', 'Saal Zwei', 'Upstairs, then left'],
+      poster: { lines: ['Cine', 'Riff'], sub: 'Program · November 2023' },
+      sign: ['2', 'Screen Two', 'Upstairs, then left'],
       gallery: [
         { kind: 'board', caption: 'Identity board: the play mark, its arrow and the night palette.' },
         { kind: 'signage', caption: 'Back-lit screen sign on the second floor.' },
-        { kind: 'poster', caption: 'The monthly programme, folded out.' }
+        { kind: 'poster', caption: 'The monthly program, folded out.' }
       ]
     },
     {
       id: 'edition-hohl',
-      client: 'Edition Hohl',
-      title: 'A paperback series in 24 colours',
+      client: 'Hohl Editions',
+      title: 'A paperback series in 24 colors',
       disciplines: ['editorial'],
       year: 2022,
       sector: 'Publishing',
-      location: 'Zürich',
+      location: 'Saint Paul',
       duration: '5 months',
       services: ['Series design', 'Typography', 'Cover system', 'Production'],
-      summary: 'Edition Hohl publishes translated Central European fiction. We designed a paperback series where every title gets its own colour and nothing else changes.',
-      challenge: 'A small publisher cannot afford an illustrated cover for every book, and bookshops shelve translated fiction spine-out at the back. The series had to be recognisable from across a shop and cheap to produce, twelve titles a year.',
+      summary: 'Hohl Editions publishes translated Central European fiction. We designed a paperback series where every title gets its own color and nothing else changes.',
+      challenge: 'A small publisher cannot afford an illustrated cover for every book, and bookstores shelve translated fiction spine-out at the back. The series had to be recognizable from across a store and cheap to produce, twelve titles a year.',
       approach: [
-        { title: 'Colour is the cover', text: 'Each title gets one of 24 colours from a fixed set, so the shelf always looks like a series.' },
+        { title: 'Color is the cover', text: 'Each title gets one of 24 colors from a fixed set, so the shelf always looks like a series.' },
         { title: 'Type does the rest', text: 'Author and title are set in one size, top left, in the same position on every book. The translator is credited on the front.' },
         { title: 'A template, not a designer', text: 'The editors now produce covers themselves from a template with locked styles.' }
       ],
       results: [
         { value: '24', label: 'Titles in the series so far' },
         { value: '−70%', label: 'Cover cost per title' },
-        { value: '31', label: 'Bookshops that gave the series its own shelf' }
+        { value: '31', label: 'Bookstores that gave the series its own shelf' }
       ],
-      quote: { text: 'Readers collect the colours. We did not plan that, but we are not complaining.', name: 'Miriam Hohl', role: 'Publisher, Edition Hohl' },
+      quote: { text: 'Readers collect the colors. We did not plan that, but we are not complaining.', name: 'Miriam Hohl', role: 'Publisher, Hohl Editions' },
       credits: ['Selin Karaca', 'Noemi Imhof'],
       palette: { bg: '#efe8da', ink: '#1d1d1b', accent: '#3c5a8a', soft: '#b9c9a4' },
       mark: '<rect x="16" y="16" width="14" height="68"/><path d="M42 16a34 34 0 0 1 0 68Z"/>',
       poster: { lines: ['The Salt', 'Hours'], sub: 'Novel · translated from the Czech' },
-      spread: { title: 'The Salt Hours', sub: 'Edition Hohl · no. 17' },
+      spread: { title: 'The Salt Hours', sub: 'Hohl Editions · no. 17' },
       gallery: [
         { kind: 'spread', caption: 'Title spread: one size of type, generous margins.' },
-        { kind: 'poster', caption: 'A cover from the series, colour no. 17.' },
+        { kind: 'poster', caption: 'A cover from the series, color no. 17.' },
         { kind: 'mark', caption: 'The half-moon colophon on every spine.' }
       ]
     },
     {
       id: 'taktwerk',
-      client: 'Taktwerk',
+      client: 'Beatwork',
       title: 'Lesson planning for forty music schools',
       disciplines: ['digital'],
       year: 2022,
       sector: 'Education',
-      location: 'Bern',
+      location: 'Rochester',
       duration: '10 months',
       services: ['UX research', 'Interface design', 'Design system', 'Usability testing'],
-      summary: 'Taktwerk is the scheduling platform used by 40 public music schools. We redesigned the web app teachers use to plan lessons, rooms and recitals.',
-      challenge: 'Music teachers plan around rooms, instruments and the school timetables of hundreds of children. The old tool was a spreadsheet with a login. Teachers kept paper diaries alongside it, and two schools were close to leaving.',
+      summary: 'Beatwork is the scheduling platform used by 40 community music schools. We redesigned the web app teachers use to plan lessons, rooms and recitals.',
+      challenge: 'Music teachers plan around rooms, instruments and the school schedules of hundreds of children. The old tool was a spreadsheet with a login. Teachers kept paper planners alongside it, and two schools were close to leaving.',
       approach: [
         { title: 'Sit in on lessons', text: 'We spent two weeks in four schools, watching how teachers actually plan, including in the five minutes between lessons.' },
-        { title: 'The week is the interface', text: 'Everything happens on one week view. Dragging a lesson checks the room, the instrument and the pupil’s school day in one move.' },
-        { title: 'Test with real timetables', text: 'Every iteration was tested on a copy of a real school’s data, clashes and all.' }
+        { title: 'The week is the interface', text: 'Everything happens on one week view. Dragging a lesson checks the room, the instrument and the student’s school day in one move.' },
+        { title: 'Test with real schedules', text: 'Every iteration was tested on a copy of a real school’s data, clashes and all.' }
       ],
       results: [
-        { value: '−6 h', label: 'Planning time per teacher, per term' },
+        { value: '−6 h', label: 'Planning time per teacher, per semester' },
         { value: '40', label: 'Schools, none lost since launch' },
         { value: '92%', label: 'Of teachers use it every week' }
       ],
-      quote: { text: 'Our teachers stopped carrying two diaries. I did not know that was possible.', name: 'Rahel Wenger', role: 'Director, Musikschule Aaretal' },
+      quote: { text: 'Our teachers stopped carrying two planners. I did not know that was possible.', name: 'Rachel Wenger', role: 'Director, River Valley School of Music' },
       credits: ['Matteo Sutter', 'Tobias Wyss', 'Selin Karaca'],
       palette: { bg: '#d8d2f3', ink: '#18162a', accent: '#4b3bd1', soft: '#f2f0fb' },
       mark: '<rect x="12" y="40" width="12" height="44"/><rect x="34" y="16" width="12" height="68"/><rect x="56" y="52" width="12" height="32"/><rect x="78" y="28" width="12" height="56"/>',
-      ui: { headline: 'Week 46', figure: '28 lessons' },
+      ui: { headline: 'Week of Nov 9', figure: '28 lessons' },
       poster: { lines: ['Recital', 'season'], sub: 'Template for 40 schools' },
       gallery: [
         { kind: 'screens', caption: 'The week view on desktop and on a teacher’s phone.' },
@@ -323,42 +323,42 @@
     },
     {
       id: 'ostwind-velo',
-      client: 'Ostwind Velo',
+      client: 'Eastwind Bikes',
       title: 'A co-op identity built from a wheel',
       disciplines: ['identity'],
       year: 2021,
       sector: 'Mobility',
-      location: 'Zürich',
+      location: 'Saint Paul',
       duration: '4 months',
       services: ['Identity system', 'Signage', 'Stencils and stamps', 'Website design'],
-      summary: 'Ostwind Velo is a worker-owned bicycle repair co-op with two workshops. We designed an identity the members apply themselves with a stencil, a stamp and one typeface.',
+      summary: 'Eastwind Bikes is a worker-owned bicycle repair co-op with two workshops. We designed an identity the members apply themselves with a stencil, a stamp and one typeface.',
       challenge: 'The co-op had no budget for a print shop and nine members with opinions. The identity had to be cheap to reproduce by hand, hard to get wrong, and agreed on by all nine.',
       approach: [
         { title: 'Design the tools', text: 'We designed the stencil, the rubber stamp and the sticker before the guidelines. If it could not be made by hand in the workshop, it was not part of the identity.' },
-        { title: 'Decide together', text: 'Three workshops with all nine members and one vote at the end. It passed nine to nil.' },
-        { title: 'Green, cream, one yellow', text: 'Three colours, chosen to survive a photocopier and a muddy bike.' }
+        { title: 'Decide together', text: 'Three workshops with all nine members and one vote at the end. It passed nine to nothing.' },
+        { title: 'Green, cream, one yellow', text: 'Three colors, chosen to survive a photocopier and a muddy bike.' }
       ],
       results: [
         { value: '9–0', label: 'The members’ vote' },
-        { value: 'CHF 340', label: 'Cost of the stencil and stamp set' },
+        { value: '$380', label: 'Cost of the stencil and stamp set' },
         { value: '2', label: 'Workshops re-signed by the members themselves' }
       ],
-      quote: { text: 'It is the only logo I have ever seen that our mechanics actually like.', name: 'Fatima Berisha', role: 'Member, Ostwind Velo' },
+      quote: { text: 'It is the only logo I have ever seen that our mechanics actually like.', name: 'Fatima Berisha', role: 'Member, Eastwind Bikes' },
       credits: ['Noemi Imhof', 'Matteo Sutter'],
       palette: { bg: '#2e5a3c', ink: '#f3f1e8', accent: '#e6c84a', soft: '#8aa88f' },
       mark: '<circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="9"/><path d="M50 12v76M12 50h76M23 23l54 54M77 23 23 77" stroke="currentColor" stroke-width="5"/><circle cx="50" cy="50" r="11"/>',
-      poster: { lines: ['Spring', 'service'], sub: 'From CHF 65 · both workshops' },
+      poster: { lines: ['Spring', 'tune-up'], sub: 'From $75 · both workshops' },
       gallery: [
-        { kind: 'board', caption: 'Identity board: the wheel mark, stencil letters and the three colours.' },
+        { kind: 'board', caption: 'Identity board: the wheel mark, stencil letters and the three colors.' },
         { kind: 'mark', caption: 'The wheel mark, cut as a stencil.' },
-        { kind: 'poster', caption: 'Spring service poster, printed on a borrowed risograph.' }
+        { kind: 'poster', caption: 'Spring tune-up poster, printed on a borrowed risograph.' }
       ]
     }
   ];
 
   /* ---------- Brief estimator (services.html) ----------
-     Indicative ranges in Swiss francs (CHF) and weeks. Edit these to match your studio.
-     The same keys are used by the enquiry form (contact.html?services=identity,website). */
+     Indicative ranges in US dollars and weeks. Edit these to match your studio.
+     The same keys are used by the inquiry form (contact.html?services=identity,website). */
   var SCOPE = {
     strategy: { label: 'Brand strategy', cost: [12000, 18000], weeks: [3, 4] },
     identity: { label: 'Identity system', cost: [28000, 45000], weeks: [6, 9] },
@@ -377,18 +377,18 @@
     standard: { label: 'Standard', mult: 1, pace: 1 },
     priority: { label: 'Priority', mult: 1.2, pace: 0.8 }
   };
-  /* Budget bands offered in the enquiry form; the estimator picks one from its midpoint. */
+  /* Budget bands offered in the inquiry form; the estimator picks one from its midpoint. */
   var BUDGETS = [
-    { key: 'under-30', label: 'Under CHF 30’000', max: 30000 },
-    { key: '30-60', label: 'CHF 30’000–60’000', max: 60000 },
-    { key: '60-120', label: 'CHF 60’000–120’000', max: 120000 },
-    { key: '120-plus', label: 'Over CHF 120’000', max: Infinity }
+    { key: 'under-30', label: 'Under $30,000', max: 30000 },
+    { key: '30-60', label: '$30,000–$60,000', max: 60000 },
+    { key: '60-120', label: '$60,000–$120,000', max: 120000 },
+    { key: '120-plus', label: 'Over $120,000', max: Infinity }
   ];
   var DEFAULT_BRIEF = { scope: ['identity', 'website'], scale: 'standard', urgency: 'standard' };
 
-  /* Studio hours for the open/closed note on the contact page (Europe/Zurich time).
+  /* Studio hours for the open/closed note on the contact page (America/Chicago time).
      Day 0 is Sunday; hours are 24-hour decimals. */
-  var STUDIO_HOURS = { tz: 'Europe/Zurich', days: [1, 2, 3, 4], open: 9, close: 18 };
+  var STUDIO_HOURS = { tz: 'America/Chicago', days: [1, 2, 3, 4], open: 9, close: 18 };
 
   /* localStorage keys */
   var VIEW_KEY = 'studio-work-view';
@@ -402,14 +402,14 @@
     return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
   }
   function plural(n, one, many) { return n === 1 ? one : many; }
-  // A short reference for the enquiry confirmation, like RA-7K2Q (no 0/O or 1/I to misread).
+  // A short reference for the inquiry confirmation, like RA-7K2Q (no 0/O or 1/I to misread).
   function makeRef(prefix) {
     var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', out = '';
     for (var i = 0; i < 4; i++) out += chars.charAt(Math.floor(Math.random() * chars.length));
     return prefix + '-' + out;
   }
-  // 41000 -> "41’000" (Swiss thousands separator)
-  function chf(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '’'); }
+  // 41000 -> "41,000" (comma thousands separator)
+  function chf(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
   function store(key, value) { try { safeStorage.setItem(key, value); } catch (e) {} }
   function read(key) { try { return safeStorage.getItem(key); } catch (e) { return null; } }
   function setParams(params) {
@@ -648,24 +648,25 @@
   }
 
   /* =====================================================================
-     ZÜRICH CLOCK: <span data-clock>14:32</span> anywhere on the page
+     SAINT PAUL CLOCK: <span data-clock>2:32 PM</span> anywhere on the page
      ===================================================================== */
   var clocks = $$('[data-clock]');
   var openNote = document.querySelector('[data-studio-status]');
   if (clocks.length || openNote) {
-    var timeFmt = new Intl.DateTimeFormat('en-GB', { timeZone: STUDIO_HOURS.tz, hour: '2-digit', minute: '2-digit', hour12: false });
+    var timeFmt = new Intl.DateTimeFormat('en-US', { timeZone: STUDIO_HOURS.tz, hour: 'numeric', minute: '2-digit', hour12: true });
+    var attrFmt = new Intl.DateTimeFormat('en-US', { timeZone: STUDIO_HOURS.tz, hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
     var partsFmt = new Intl.DateTimeFormat('en-US', { timeZone: STUDIO_HOURS.tz, weekday: 'short', hour: 'numeric', minute: 'numeric', hour12: false });
     var DAYS = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
     var tickClock = function () {
       var now = new Date();
       var t = timeFmt.format(now);
-      clocks.forEach(function (el) { el.textContent = t; el.setAttribute('datetime', t); });
+      clocks.forEach(function (el) { el.textContent = t; el.setAttribute('datetime', attrFmt.format(now)); });
       if (openNote) {
         var parts = {};
         partsFmt.formatToParts(now).forEach(function (pt) { parts[pt.type] = pt.value; });
         var hour = (Number(parts.hour) % 24) + Number(parts.minute) / 60;
         var open = STUDIO_HOURS.days.indexOf(DAYS[parts.weekday]) !== -1 && hour >= STUDIO_HOURS.open && hour < STUDIO_HOURS.close;
-        openNote.textContent = open ? 'The studio is open now. We usually reply within a working day.' : 'The studio is closed right now. We’ll reply on the next working day.';
+        openNote.textContent = open ? 'The studio is open now. We usually reply within a business day.' : 'The studio is closed right now. We’ll reply on the next business day.';
         openNote.setAttribute('data-open', String(open));
       }
     };
@@ -853,7 +854,7 @@
     }
     return b;
   }
-  /* Budget: sum of the selected services × scale × urgency, rounded out to CHF 1’000.
+  /* Budget: sum of the selected services × scale × urgency, rounded out to $1,000.
      Duration: the longest service plus half of the others (work overlaps), × scale and urgency pace. */
   function estimateBrief(b) {
     if (!b.scope.length) return null;
@@ -903,7 +904,7 @@
         out.live.textContent = 'No services selected.';
         return;
       }
-      out.budget.textContent = 'CHF ' + chf(est.low) + '–' + chf(est.high);
+      out.budget.textContent = '$' + chf(est.low) + '–$' + chf(est.high);
       out.weeks.textContent = est.weeks[0] + '–' + est.weeks[1] + ' weeks';
       // Keep the breakdown in the order the services are listed on the page.
       out.lines.innerHTML = Object.keys(SCOPE).filter(function (k) { return brief.scope.indexOf(k) !== -1; }).map(function (k) {
@@ -916,7 +917,7 @@
       q.set('budget', est.band);
       q.set('timeline', brief.urgency);
       out.cta.setAttribute('href', 'contact.html?' + q.toString().replace(/%2C/g, ','));
-      out.live.textContent = 'Estimate updated: CHF ' + chf(est.low) + ' to ' + chf(est.high) + ', ' + est.weeks[0] + ' to ' + est.weeks[1] + ' weeks.';
+      out.live.textContent = 'Estimate updated: $' + chf(est.low) + ' to $' + chf(est.high) + ', ' + est.weeks[0] + ' to ' + est.weeks[1] + ' weeks.';
     };
     estRoot.addEventListener('change', function () {
       brief.scope = $$('input[name="scope"]:checked', estRoot).map(function (cb) { return cb.value; });
@@ -958,7 +959,7 @@
   function checkField(field) {
     var v = (field.value || '').trim();
     var msg = '';
-    if (field.type === 'checkbox') { if (field.required && !field.checked) msg = 'Please tick this box to continue.'; }
+    if (field.type === 'checkbox') { if (field.required && !field.checked) msg = 'Please check this box to continue.'; }
     else if (field.required && !v) msg = field.tagName === 'SELECT' ? 'Please choose an option.' : 'Please fill in this field.';
     else if (field.type === 'email' && v && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) msg = 'Enter an email address like name@example.com.';
     else if (field.type === 'url' && v && !/^https?:\/\/[^\s/$.?#][^\s]*\.[^\s]{2,}$/i.test(v)) msg = 'Enter a full link starting with https://';
@@ -1052,7 +1053,7 @@
       var timeline = enquiry.querySelector('input[name="timeline"]:checked');
       var src = enquiry.elements.source;
       var rows = [
-        [1, 'Organisation', val('organisation')],
+        [1, 'Organization', val('organisation')],
         [1, 'Services', services],
         [2, 'Budget', budget ? labelOf(budget) : ''],
         [2, 'Timeline', timeline ? labelOf(timeline) : ''],
@@ -1110,7 +1111,7 @@
         steps[i].hidden = true;
         if (!ok) { goTo(i, true); validate(steps[i]); return; }
       }
-      // Demo only: nothing is sent. To receive enquiries, POST new FormData(enquiry) to your
+      // Demo only: nothing is sent. To receive inquiries, POST new FormData(enquiry) to your
       // form service here (see DOCS.md, "Forms"), then show the success message.
       enquiry.parentElement.hidden = true;
       success.querySelector('[data-success-name]').textContent = enquiry.elements.name.value.trim().split(/\s+/)[0];
@@ -1237,15 +1238,15 @@
   }
 
   /* Rolling dates: [data-months-ahead="n"] shows the month n months from now ("November 2026"; "Feb 2027"
-     with data-month-format="short"; "15 December 2026" with data-day="15"), so availability, start dates and
+     with data-month-format="short"; "December 15, 2026" with data-day="15"), so availability, start dates and
      deadlines never go stale. Replace the span with plain text to show a fixed date. */
   document.querySelectorAll('[data-months-ahead]').forEach(function (el) {
     var n = parseInt(el.getAttribute('data-months-ahead'), 10);
     if (!(n >= 0 && n <= 36)) return;
     var now = new Date(), d = new Date(now.getFullYear(), now.getMonth() + n, 1);
     var day = parseInt(el.getAttribute('data-day'), 10);
-    var month = d.toLocaleDateString('en-GB', { month: el.getAttribute('data-month-format') === 'short' ? 'short' : 'long' });
-    el.textContent = (day >= 1 && day <= 28 ? day + ' ' : '') + month + ' ' + d.getFullYear();
+    var month = d.toLocaleDateString('en-US', { month: el.getAttribute('data-month-format') === 'short' ? 'short' : 'long' });
+    el.textContent = month + (day >= 1 && day <= 28 ? ' ' + day + ',' : '') + ' ' + d.getFullYear();
   });
 
   $$('[data-current-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });

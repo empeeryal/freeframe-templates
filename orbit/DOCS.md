@@ -3,13 +3,13 @@
 ## Overview
 
 Orbit is a bright, product-led SaaS marketing website for **Orbit**, a fictional shift-scheduling app made by
-Orbit Works Ltd (Manchester and Lisbon) for restaurants, cafés, hotels and shops. The home page opens on a live
+Orbit Works, Inc. (Overland Park and Lenexa, Kansas) for restaurants, cafés, hotels and shops. The home page opens on a live
 schedule demo that visitors can click, drag and auto-fill, and the site continues with feature deep-dives,
 pricing with a calculator, an integrations directory, customer stories, a changelog, a company and careers
 page, a sales form and a three-step trial sign-up. It is plain HTML with Tailwind CSS v4 and one vanilla
 JavaScript file, with no build step needed to use it. The design is light and friendly: warm paper
 backgrounds, pastel panels, a coral accent, rounded UI and the Gabarito display face. This guide covers
-version 1.0.4. See it live at [freeframe.dev/templates/orbit](https://freeframe.dev/templates/orbit).
+version 1.0.5. See it live at [freeframe.dev/templates/orbit](https://freeframe.dev/templates/orbit).
 
 ## Quick start
 
@@ -118,7 +118,7 @@ For example, a new changelog entry:
 <li id="tips-report" data-filter-item="changelog" data-tags="new" class="relative pb-12 last:pb-0">
   <span class="absolute top-1.5 -left-[2.05rem] h-4 w-4 rounded-full border-[3px] border-paper bg-coral-500 ring-2 ring-coral-200 sm:-left-[3.05rem]" aria-hidden="true"></span>
   <article class="reveal">
-    <p class="flex flex-wrap items-center gap-2 text-sm"><time datetime="2026-11-02" class="font-semibold text-ink-soft">2 November 2026</time><span class="chip bg-mint text-mint-ink">New</span></p>
+    <p class="flex flex-wrap items-center gap-2 text-sm"><time datetime="2026-11-02" class="font-semibold text-ink-soft">November 2, 2026</time><span class="chip bg-mint text-mint-ink">New</span></p>
     <h2 class="mt-3 font-display text-2xl font-bold tracking-[-0.02em]"><a href="#tips-report" class="hover:underline">Tips report by shift</a></h2>
     <div class="mt-3 grid max-w-2xl gap-3 text-[16px] leading-relaxed text-ink-soft"><p>What changed and why it matters.</p></div>
   </article>
@@ -171,7 +171,7 @@ The hero of `index.html` has a week schedule (`#schedule-demo`) for five people.
 - **Code:** `initScheduleDemo()` in section 4 of `assets/js/main.js`. The starting schedule is read from the HTML
   (`data-shift` on each cell), so edit the table to change it; change `DEMO.needs` to change what counts as
   covered.
-- **Accessibility:** cells have labels such as "Maya, Friday: evening shift, 14:00 to 22:00"; the table has a
+- **Accessibility:** cells have labels such as "Maya, Friday: evening shift, 2 pm to 10 pm"; the table has a
   caption with the keyboard instructions; the coverage note is a polite live region, and drag moves are
   announced. Drag is an extra, everything also works by click or keyboard.
 

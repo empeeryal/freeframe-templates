@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-05
+
+### Changed
+
+- Set in Overland Park, Kansas, with American spelling, US dollars, US phone numbers and local details.
+- The schedule mock-ups, kiosk and availability use a 12-hour clock, and the Skycast weather rule uses Fahrenheit.
+
 ## [1.0.4] - 2026-11-05
 
 ### Changed

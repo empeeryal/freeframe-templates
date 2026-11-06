@@ -8,12 +8,12 @@ window.VOWS = {
     "a": "Amara",
     "b": "Theo",
     "names": "Amara & Theo",
-    "date_long": "Saturday 19 June 2027",
-    "date_short": "19.06.27",
-    "venue": "Hollowmere House",
-    "place": "Hollowmere, Westbury Vale",
-    "ceremony_iso": "2027-06-19T15:00:00+01:00",
-    "rsvp_by": "1 April 2027",
+    "date_long": "Saturday, June 19, 2027",
+    "date_short": "06.19.27",
+    "venue": "Hollowridge House",
+    "place": "Rhinebeck, New York",
+    "ceremony_iso": "2027-06-19T15:00:00-04:00",
+    "rsvp_by": "April 1, 2027",
     "hashtag": "#AmaraAndTheoSayIDo",
     "email": "hello@example.com"
   },
@@ -22,21 +22,21 @@ window.VOWS = {
       "id": "welcome-drinks",
       "day": "fri",
       "title": "Welcome drinks",
-      "start": "2027-06-18T19:00:00+01:00",
-      "end": "2027-06-18T22:30:00+01:00",
-      "place": "The Swan Inn, Hollowmere",
-      "address": "The Swan Inn, High Street, Hollowmere",
+      "start": "2027-06-18T19:00:00-04:00",
+      "end": "2027-06-18T22:30:00-04:00",
+      "place": "The Swan Inn, Rhinebeck",
+      "address": "The Swan Inn, Market Street, Rhinebeck, NY",
       "dress": "Relaxed",
-      "body": "Arrive whenever suits you. Pizzas from the wood oven, local cider and a first hello before the big day. Everyone is welcome, including little ones."
+      "body": "Arrive whenever works for you. Pizzas from the wood oven, local hard cider and a first hello before the big day. Everyone is welcome, including little ones."
     },
     {
       "id": "ceremony",
       "day": "sat",
       "title": "The ceremony",
-      "start": "2027-06-19T15:00:00+01:00",
-      "end": "2027-06-19T15:45:00+01:00",
-      "place": "The Walled Garden, Hollowmere House",
-      "address": "Hollowmere House, Mill Lane, Hollowmere",
+      "start": "2027-06-19T15:00:00-04:00",
+      "end": "2027-06-19T15:45:00-04:00",
+      "place": "The Walled Garden, Hollowridge House",
+      "address": "Hollowridge House, Mill Road, Rhinebeck, NY",
       "dress": "Garden formal",
       "body": "Please take your seats by 2:40pm. The ceremony is outdoors on the lawn; in rain we move into the Orangery next door."
     },
@@ -44,21 +44,21 @@ window.VOWS = {
       "id": "drinks",
       "day": "sat",
       "title": "Drinks & canapés",
-      "start": "2027-06-19T15:45:00+01:00",
-      "end": "2027-06-19T17:30:00+01:00",
-      "place": "The Orchard, Hollowmere House",
-      "address": "Hollowmere House, Mill Lane, Hollowmere",
+      "start": "2027-06-19T15:45:00-04:00",
+      "end": "2027-06-19T17:30:00-04:00",
+      "place": "The Orchard, Hollowridge House",
+      "address": "Hollowridge House, Mill Road, Rhinebeck, NY",
       "dress": "Garden formal",
       "body": "Elderflower spritz, lawn games and a string trio under the apple trees while we steal away for photos."
     },
     {
       "id": "dinner",
       "day": "sat",
-      "title": "Wedding breakfast",
-      "start": "2027-06-19T17:30:00+01:00",
-      "end": "2027-06-19T20:00:00+01:00",
-      "place": "The Long Barn, Hollowmere House",
-      "address": "Hollowmere House, Mill Lane, Hollowmere",
+      "title": "Wedding dinner",
+      "start": "2027-06-19T17:30:00-04:00",
+      "end": "2027-06-19T20:00:00-04:00",
+      "place": "The Long Barn, Hollowridge House",
+      "address": "Hollowridge House, Mill Road, Rhinebeck, NY",
       "dress": "Garden formal",
       "body": "Three courses from the kitchen garden, speeches (short ones, we promise) and the cutting of a very tall lemon cake."
     },
@@ -66,42 +66,42 @@ window.VOWS = {
       "id": "dancing",
       "day": "sat",
       "title": "Dancing",
-      "start": "2027-06-19T20:00:00+01:00",
-      "end": "2027-06-20T00:30:00+01:00",
-      "place": "The Long Barn, Hollowmere House",
-      "address": "Hollowmere House, Mill Lane, Hollowmere",
-      "dress": "Bring flat shoes",
-      "body": "First dance at 8pm, then a live band until 11 and a DJ playing your song requests until carriages at half past midnight."
+      "start": "2027-06-19T20:00:00-04:00",
+      "end": "2027-06-20T00:30:00-04:00",
+      "place": "The Long Barn, Hollowridge House",
+      "address": "Hollowridge House, Mill Road, Rhinebeck, NY",
+      "dress": "Bring flats",
+      "body": "First dance at 8pm, then a live band until 11 and a DJ playing your song requests until the last song at 12:30am."
     },
     {
       "id": "brunch",
       "day": "sun",
       "title": "Farewell brunch",
-      "start": "2027-06-20T11:00:00+01:00",
-      "end": "2027-06-20T14:00:00+01:00",
-      "place": "The Orangery, Hollowmere House",
-      "address": "Hollowmere House, Mill Lane, Hollowmere",
+      "start": "2027-06-20T11:00:00-04:00",
+      "end": "2027-06-20T14:00:00-04:00",
+      "place": "The Orangery, Hollowridge House",
+      "address": "Hollowridge House, Mill Road, Rhinebeck, NY",
       "dress": "Whatever you slept in",
-      "body": "Bacon rolls, pastries, strong coffee and tired, happy faces before everyone heads home."
+      "body": "Bacon, egg and cheese rolls, pastries, strong coffee and tired, happy faces before everyone heads home."
     }
   ],
   "days": [
     {
       "id": "fri",
       "label": "Friday",
-      "date": "18 June",
+      "date": "June 18",
       "title": "Arrive & unwind"
     },
     {
       "id": "sat",
       "label": "Saturday",
-      "date": "19 June",
+      "date": "June 19",
       "title": "The wedding day"
     },
     {
       "id": "sun",
       "label": "Sunday",
-      "date": "20 June",
+      "date": "June 20",
       "title": "Slow morning"
     }
   ],
@@ -114,7 +114,7 @@ window.VOWS = {
     {
       "id": "hake",
       "label": "Pan-roasted hake",
-      "note": "Samphire, brown butter, capers"
+      "note": "Sea beans, brown butter, capers"
     },
     {
       "id": "risotto",
@@ -130,7 +130,7 @@ window.VOWS = {
   "kidsMeal": {
     "id": "kids",
     "label": "Little ones' plate",
-    "note": "Chicken goujons or buttered pasta, garden veg"
+    "note": "Chicken tenders or buttered pasta, garden vegetables"
   },
   "invites": [
     {
@@ -211,7 +211,7 @@ window.VOWS = {
       "id": "casserole",
       "name": "Cast-iron casserole",
       "category": "Kitchen",
-      "price": 185,
+      "price": 285,
       "needed": 1,
       "reserved": 0,
       "icon": "pot",
@@ -221,17 +221,17 @@ window.VOWS = {
       "id": "plates",
       "name": "Hand-thrown dinner plates (set of 6)",
       "category": "Kitchen",
-      "price": 96,
+      "price": 120,
       "needed": 2,
       "reserved": 1,
       "icon": "plate",
-      "note": "From a potter in the next village; ours are all chipped."
+      "note": "From a potter in the next town; ours are all chipped."
     },
     {
       "id": "knife",
       "name": "Chef's knife",
       "category": "Kitchen",
-      "price": 120,
+      "price": 150,
       "needed": 1,
       "reserved": 0,
       "icon": "knife",
@@ -241,17 +241,17 @@ window.VOWS = {
       "id": "linen",
       "name": "Washed linen bedding",
       "category": "Home",
-      "price": 140,
+      "price": 220,
       "needed": 1,
       "reserved": 0,
       "icon": "bed",
-      "note": "Double, in a colour called \"oat\". We are those people now."
+      "note": "Queen, in a color called \"oat\". We are those people now."
     },
     {
       "id": "throw",
       "name": "Wool throw",
       "category": "Home",
-      "price": 68,
+      "price": 95,
       "needed": 2,
       "reserved": 0,
       "icon": "throw",
@@ -261,7 +261,7 @@ window.VOWS = {
       "id": "records",
       "name": "Record player",
       "category": "Home",
-      "price": 260,
+      "price": 300,
       "needed": 1,
       "reserved": 1,
       "icon": "record",
@@ -271,17 +271,17 @@ window.VOWS = {
       "id": "apple-tree",
       "name": "Apple tree for the garden",
       "category": "Garden",
-      "price": 45,
+      "price": 60,
       "needed": 3,
       "reserved": 1,
       "icon": "tree",
-      "note": "Heritage varieties. We'll name each one after its giver."
+      "note": "Heirloom varieties. We'll name each one after its giver."
     },
     {
       "id": "bench",
       "name": "Oak garden bench",
       "category": "Garden",
-      "price": 210,
+      "price": 350,
       "needed": 1,
       "reserved": 0,
       "icon": "bench",
@@ -291,7 +291,7 @@ window.VOWS = {
       "id": "herbs",
       "name": "Herb planter & tools",
       "category": "Garden",
-      "price": 38,
+      "price": 45,
       "needed": 2,
       "reserved": 0,
       "icon": "sprout",
@@ -301,31 +301,31 @@ window.VOWS = {
       "id": "cooking-class",
       "name": "Pasta class for two",
       "category": "Experiences",
-      "price": 120,
+      "price": 180,
       "needed": 1,
       "reserved": 0,
       "icon": "class",
-      "note": "Hand-rolled pici and a long lunch afterwards."
+      "note": "Hand-rolled pici and a long lunch afterward."
     },
     {
       "id": "observatory",
       "name": "Night at the observatory",
       "category": "Experiences",
-      "price": 90,
+      "price": 120,
       "needed": 1,
       "reserved": 0,
       "icon": "star",
-      "note": "A proper telescope this time, and somewhere warm to sit."
+      "note": "A real telescope this time, and somewhere warm to sit."
     },
     {
       "id": "hamper",
-      "name": "Picnic hamper for walks",
+      "name": "Picnic basket for walks",
       "category": "Experiences",
-      "price": 75,
+      "price": 95,
       "needed": 1,
       "reserved": 0,
       "icon": "basket",
-      "note": "Plates, flask and a blanket for the oak tree walk."
+      "note": "Plates, thermos and a blanket for the oak tree walk."
     }
   ],
   "categories": [
@@ -337,8 +337,8 @@ window.VOWS = {
   "fund": {
     "title": "Honeymoon fund",
     "destination": "the Amalfi Coast",
-    "goal": 3000,
-    "raised": 1840,
+    "goal": 5000,
+    "raised": 3100,
     "amounts": [
       {
         "value": 25,
@@ -362,7 +362,7 @@ window.VOWS = {
     {
       "slug": "golden-hour",
       "title": "Golden hour",
-      "caption": "The Hollowmere fields, the evening we came to see the venue.",
+      "caption": "The Hollowridge fields, the evening we came to see the venue.",
       "shape": "tall"
     },
     {
@@ -380,13 +380,13 @@ window.VOWS = {
     {
       "slug": "lake",
       "title": "The lake",
-      "caption": "Wild swimming, one cold toe at a time.",
+      "caption": "Lake swimming, one cold toe at a time.",
       "shape": "tall"
     },
     {
       "slug": "first-flat",
-      "title": "Our first flat",
-      "caption": "Fourth floor, no lift, eleven plants and counting.",
+      "title": "Our first apartment",
+      "caption": "Fourth floor, no elevator, eleven plants and counting.",
       "shape": "wide"
     },
     {
@@ -404,7 +404,7 @@ window.VOWS = {
     {
       "slug": "picnic",
       "title": "The engagement picnic",
-      "caption": "Champagne in a flask and Rosie stealing the strawberries.",
+      "caption": "Champagne in a thermos and Rosie stealing the strawberries.",
       "shape": "wide"
     },
     {

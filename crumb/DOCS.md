@@ -2,13 +2,13 @@
 
 ## Overview
 
-Crumb is a website for a neighborhood bakery and café with click-and-collect preorders, built for
-**Bramble & Rye**, a fictional bakery on St Benedicts Street in Norwich. It has a live "fresh out of the
+Crumb is a website for a neighborhood bakery and café with order-ahead pickup, built for
+**Bramble & Rye**, a fictional bakery on Phila Street in Saratoga Springs. It has a live "fresh out of the
 oven" board, a preorder catalog with per-day availability and quantity limits, a basket drawer with a
-collection day, time slot and order cut-off, a click-and-collect checkout with an order number and a calendar file, a
+pickup day, time slot and order cut-off, a pickup checkout with an order number and a calendar file, a
 celebration cake builder with a live drawing and price, a café menu with diet filters, an about page and a
 visit page with a wholesale form. It is plain HTML with Tailwind CSS v4 and one vanilla JavaScript file, with
-no build step needed to use it. This guide covers version 1.0.4. See it live at
+no build step needed to use it. This guide covers version 1.0.7. See it live at
 [freeframe.dev/templates/crumb](https://freeframe.dev/templates/crumb).
 
 ## Quick start
@@ -31,10 +31,10 @@ bakery's clock), add `?now=` to any page URL, for example `index.html?now=2026-1
 | File | Purpose | Notable sections and features |
 |------|---------|-------------------------------|
 | `index.html` | Home | Hero with the shop-window illustration and "Preorder for pickup", live bake board, how preordering works, this week's specials (from the product data), celebration cake teaser, café teaser, reviews, visit us with open-now badge, hours and map |
-| `shop.html` | Preorder | Shelf filters with counts (`shop.html?category=bread`), collection-day picker, "only that day's bakes" toggle, product cards grouped by shelf, add buttons and steppers, allergen note |
-| `cakes.html` | Celebration cakes | Builder for size, sponge, filling, finish, color, message and collection date; live SVG preview, price breakdown and allergens; recent cakes; cake FAQ |
+| `shop.html` | Preorder | Shelf filters with counts (`shop.html?category=bread`), pickup-day picker, "only that day's bakes" toggle, product cards grouped by shelf, add buttons and steppers, allergen note |
+| `cakes.html` | Celebration cakes | Builder for size, flavor, filling, finish, color, message and pickup date; live SVG preview, price breakdown and allergens; recent cakes; cake FAQ |
 | `cafe.html` | Café menu | Coffee, tea, brunch and sweet things with diet filters (`cafe.html?diet=vegan,gf`), café notes |
-| `checkout.html` | Checkout | Collection day and slot, notes, contact details, pay at collection or by card (test mode), order summary, confirmation with order number and `.ics` file, empty state with the last order |
+| `checkout.html` | Checkout | Pickup day and slot, notes, contact details, pay at pickup or by card (test mode), order summary, confirmation with order number and `.ics` file, empty state with the last order |
 | `about.html` | Our story | Story, timeline, the 36-hour sourdough process, suppliers, team, waste figures |
 | `visit.html` | Visit & wholesale | Illustrated map, hours with today highlighted, contact, getting here, wholesale inquiry form (`visit.html#wholesale`), FAQ |
 | `404.html` | Not found | Links back to home, preorder and café |
@@ -88,7 +88,7 @@ To change the brand color, edit the tokens and rebuild the CSS:
 ```
 
 The illustrations use fixed colors inside `assets/js/main.js` (section 6) and inline SVG in the pages, so a
-new brand color doesn't recolour the bakes. The category tile colors are `CATEGORY_TINT` in `main.js`.
+new brand color doesn't recolor the bakes. The category tile colors are `CATEGORY_TINT` in `main.js`.
 
 ### Typography
 
@@ -110,7 +110,7 @@ Text lives in the HTML files. Everything the scripts work from is at the top of 
 | Constant | What it holds |
 |----------|---------------|
 | `SHOP` | Name, address, phone and email used in the drawer, toasts and calendar file |
-| `TIMEZONE`, `LOCALE`, `CURRENCY` | `Europe/London`, `en-GB`, `GBP` |
+| `TIMEZONE`, `LOCALE`, `CURRENCY` | `America/New_York`, `en-US`, `USD` |
 | `HOURS` | Opening hours per weekday, Sunday first, `['07:30', '16:00']` or `null` for closed |
 | `PICKUP` | `cutoff` (`'14:00'`), `slotStep` (30), `lastSlotBeforeClose` (30), `daysAhead` (14), `notesMax` (200) |
 | `CATEGORIES` | The shelves: `bread`, `pastry`, `bakes`, `whole` |
@@ -123,7 +123,7 @@ Text lives in the HTML files. Everything the scripts work from is at the top of 
 Add a bake by adding an object to `PRODUCTS`:
 
 ```js
-{ id: 'rye-bun', name: 'Caraway rye bun', category: 'bread', price: 1.6, unit: 'each', days: [5, 6], max: 12,
+{ id: 'rye-bun', name: 'Caraway rye bun', category: 'bread', price: 2.75, unit: 'each', days: [5, 6], max: 12,
   blurb: 'Soft rye buns with caraway, made for sandwiches.',
   allergens: ['gluten'], diet: ['vegan'], art: { kind: 'boule', crust: '#8c5532', top: '#a8693d' } },
 ```
@@ -132,7 +132,7 @@ Add a bake by adding an object to `PRODUCTS`:
 |-------|---------|
 | `id` | Unique, used in the basket and in `data-add` buttons |
 | `category` | One of the `CATEGORIES` ids |
-| `price` | In pounds; whole numbers show without pence (`£32`) |
+| `price` | In dollars; whole numbers show without cents (`$58`) |
 | `days` | Weekdays it's baked (`0` Sunday to `6` Saturday), or `null` for every day you're open |
 | `max` | The most one order can hold |
 | `leadDays` | Optional days' notice (default 1: order before the cut-off the day before) |
@@ -187,8 +187,7 @@ file. Mark the current page's links with `aria-current="page"`. Each page's `<bo
 
 All times use the bakery's clock (`TIMEZONE`) via `shopNow()`, so a visitor abroad sees the shop's real
 state. Elements with `data-open-status` show "Open now until 4pm" or "Closed · opens Tuesday 7:30am" with a
-colored dot; `data-cutoff` shows the countdown to the order cut-off ("Order in the next 2h 14m to collect
-tomorrow"); `data-hours-list` lists the week with today highlighted. They refresh every 30 seconds. Add
+colored dot; `data-cutoff` shows the countdown to the order cut-off ("Order in the next 2h 14m for pickup tomorrow"); `data-hours-list` lists the week with today highlighted. They refresh every 30 seconds. Add
 `?now=YYYY-MM-DDTHH:MM` to a URL to test any time.
 
 ### Bake board
@@ -202,11 +201,11 @@ never looks empty. It refreshes every minute. Each card links to its shelf on th
 ### Preorder catalog
 
 `initShop()` renders `PRODUCTS` grouped by shelf. The chips filter by shelf and update the URL
-(`?category=pastry`); the collection-day picker is the basket's day; "Only that day's bakes" hides anything
+(`?category=pastry`); the pickup-day picker is the basket's day; "Only that day's bakes" hides anything
 not baked then. Cards show the bake days as a Monday-first week strip, diet tags, allergens and an action:
 
 - **Add to basket** when it fits the chosen day.
-- **Add for Sat 17 Oct** when it doesn't: adding it moves the collection to the next day that suits the
+- **Add for Sat, Oct 17** when it doesn't: adding it moves the pickup to the next day that suits the
   whole basket, and a toast says so.
 - A quantity stepper once it's in the basket, capped at `max`.
 
@@ -216,10 +215,10 @@ Filters are buttons with `aria-pressed`, and the result count is a live region.
 
 The basket button in the header opens `#basket-drawer`, a modal dialog with a focus trap; Esc, the close
 button or the backdrop close it and focus returns to the button. It lists each line with a stepper and
-remove button, then the collection details:
+remove button, then the pickup details:
 
-- **Collection day**: open days from the earliest possible (`earliestDate()`) up to `PICKUP.daysAhead`
-  (`CAKE.daysAhead` when there's a celebration cake). Orders before `PICKUP.cutoff` can collect the next
+- **Pickup day**: open days from the earliest possible (`earliestDate()`) up to `PICKUP.daysAhead`
+  (`CAKE.daysAhead` when there's a celebration cake). Orders before `PICKUP.cutoff` can pick up the next
   open day; after it, the day after. Whole cakes add their `leadDays`, celebration cakes `CAKE.leadDays`.
 - **Time slot**: half-hour slots from opening time until `lastSlotBeforeClose` minutes before closing.
 - **Conflicts**: if something isn't baked on the chosen day, the drawer says so, offers the next day that
@@ -229,10 +228,10 @@ remove button, then the collection details:
 ### Celebration cake builder
 
 `initCakes()` builds the radio cards from `CAKE` and redraws the cake and price on every change. The price is
-the size's `price` plus sponge, filling and finish extras multiplied by the size's `factor`, rounded to
-whole pounds (`cakePrice()`). The color swatches are disabled for the naked finish. The message is limited
+the size's `price` plus flavor, filling and finish extras multiplied by the size's `factor`, rounded to
+whole dollars (`cakePrice()`). The color swatches are disabled for the naked finish. The message is limited
 to `CAKE.messageMax` characters with a live counter. The date input's minimum is `CAKE.leadDays` days ahead
-(after the cut-off) and closed days are rejected. Adding the cake puts it in the basket, sets the collection
+(after the cut-off) and closed days are rejected. Adding the cake puts it in the basket, sets the pickup
 to that date and shows a toast; one order holds up to `CAKE.maxPerOrder` cakes.
 
 ### Café menu filters
@@ -242,11 +241,11 @@ vegetarian and dairy-free), update the URL (`?diet=vegan,gf`) and show an empty 
 
 ### Checkout and calendar file
 
-`initCheckout()` shows the collection picker, contact fields, payment choice and summary. "Pay now by card"
-reveals a card form in test mode (Luhn-checked number, `MM / YY` expiry, CVC). On a valid submit it creates an order
+`initCheckout()` shows the pickup picker, contact fields, payment choice and summary. "Pay now by card"
+reveals a card form in test mode (Luhn-checked number, `MM / YY` expiration, CVC). On a valid submit it creates an order
 number (`BR-` and five digits), saves the order to `crumb-last-order`, empties the basket and shows a
-confirmation with an **Add to calendar (.ics)** link built by `icsFor()`: a 30-minute event at the collection
-slot in `Europe/London`, with the items in the description. The confirmation says a confirmation email is on
+confirmation with an **Add to calendar (.ics)** link built by `icsFor()`: a 30-minute event at the pickup
+slot in `America/New_York`, with the items in the description. The confirmation says a confirmation email is on
 its way and gives the shop phone number (`SHOP.phone`) for changes, quoting the order number. The empty
 checkout shows the last order and its calendar link.
 
@@ -261,8 +260,8 @@ the `.back-to-top` styles in `src/input.css` to drop it.
 |------|-------|-----------|
 | Bake list sign-up (`data-form="newsletter"`) | Footer, every page | Email |
 | Wholesale inquiry (`data-form="wholesale"`) | `visit.html` | Business, type, name, email, optional phone, loaves a day (10–400), at least one interest, start date at least 7 days ahead, message up to 600 characters |
-| Cake builder (`#cake-form`) | `cakes.html` | Collection date (lead time, open day), message length |
-| Checkout (`#checkout-form`) | `checkout.html` | Time slot, name, email, UK phone, allergen confirmation, card fields when paying now |
+| Cake builder (`#cake-form`) | `cakes.html` | Pickup date (lead time, open day), message length |
+| Checkout (`#checkout-form`) | `checkout.html` | Time slot, name, email, US phone, allergen confirmation, card fields when paying now |
 
 Validation is inline: errors appear under each field on blur and submit (`fieldMessage()` in section 17), the
 first invalid field gets focus, and a success panel replaces the form. The wholesale confirmation shows a short
@@ -306,7 +305,7 @@ relative path `assets/img/og-image.png`; social sites need an absolute URL, so c
 you know your domain:
 
 ```html
-<meta property="og:image" content="https://www.example.co.uk/assets/img/og-image.png">
+<meta property="og:image" content="https://www.example.com/assets/img/og-image.png">
 ```
 
 Also consider adding `<link rel="canonical">`, a `sitemap.xml` listing the pages (leave out `404.html` and

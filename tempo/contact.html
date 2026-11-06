@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en-US">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Contact — Marigold Static booking, press and general enquiries</title>
+  <title>Contact — Marigold Static booking, press and general inquiries</title>
   <meta name="description" content="Contact Marigold Static. Pick a topic (booking, press, sync, orders or anything else) and your message goes straight to the right person.">
   <meta name="theme-color" content="#f4efe6">
   <meta name="color-scheme" content="light">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Marigold Static">
-  <meta property="og:title" content="Contact — Marigold Static booking, press and general enquiries">
+  <meta property="og:title" content="Contact — Marigold Static booking, press and general inquiries">
   <meta property="og:description" content="Contact Marigold Static. Pick a topic (booking, press, sync, orders or anything else) and your message goes straight to the right person.">
   <meta property="og:image" content="assets/img/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -25,7 +25,7 @@
   <div class="on-ink bg-ink text-paper">
     <p class="container-x flex min-h-10 items-center justify-center gap-2 py-2 text-center text-sm">
       <span class="font-mono text-[0.72rem] font-bold tracking-[0.12em] text-sun uppercase">New album</span>
-      <span><span class="hidden sm:inline" data-release-note>Weather for Two is out 13 November. </span><a href="music.html?release=weather-for-two#release" class="font-bold underline decoration-pink decoration-2 underline-offset-4 hover:text-pink" data-release-cta="listen-now">Hear the first single</a></span>
+      <span><span class="hidden sm:inline" data-release-note>Weather for Two is out November 13. </span><a href="music.html?release=weather-for-two#release" class="font-bold underline decoration-pink decoration-2 underline-offset-4 hover:text-pink" data-release-cta="listen-now">Hear the first single</a></span>
     </p>
   </div>
   <header id="site-header" class="sticky top-0 z-50 border-b-2 border-transparent bg-paper transition-colors duration-300">
@@ -77,7 +77,7 @@
       <div class="container-x pt-12 pb-14 sm:pt-16 lg:pb-16">
         <p class="eyebrow">Get in touch</p>
         <h1 id="page-title" class="h-page mt-5">Contact</h1>
-        <p class="lead mt-6 max-w-2xl">Booking a show, writing a piece, licensing a song or chasing an order? Pick a topic and your message goes straight to the person who can help.</p>
+        <p class="lead mt-6 max-w-2xl">Booking a show, writing a piece, licensing a song or tracking down an order? Pick a topic and your message goes straight to the person who can help.</p>
       </div>
     </section>
 
@@ -91,8 +91,8 @@
               <div class="mt-4 grid gap-2.5 sm:grid-cols-2">
                 <label class="choice"><input type="radio" name="topic" value="booking" class="check" required data-required-msg="Choose a topic so we can route your message." aria-describedby="topic-error"><span><span class="block font-bold">Booking</span><span class="text-sm text-soft">Shows, festivals, private events</span></span></label>
                 <label class="choice"><input type="radio" name="topic" value="press" class="check"><span><span class="block font-bold">Press and interviews</span><span class="text-sm text-soft">Features, reviews, radio, premieres</span></span></label>
-                <label class="choice"><input type="radio" name="topic" value="sync" class="check"><span><span class="block font-bold">Sync and licensing</span><span class="text-sm text-soft">Film, TV, games, adverts</span></span></label>
-                <label class="choice"><input type="radio" name="topic" value="merch" class="check"><span><span class="block font-bold">Orders and merch</span><span class="text-sm text-soft">Returns, sizes, missing parcels</span></span></label>
+                <label class="choice"><input type="radio" name="topic" value="sync" class="check"><span><span class="block font-bold">Sync and licensing</span><span class="text-sm text-soft">Film, TV, games, ads</span></span></label>
+                <label class="choice"><input type="radio" name="topic" value="merch" class="check"><span><span class="block font-bold">Orders and merch</span><span class="text-sm text-soft">Returns, sizes, missing packages</span></span></label>
                 <label class="choice sm:col-span-2"><input type="radio" name="topic" value="general" class="check"><span><span class="block font-bold">Something else</span><span class="text-sm text-soft">Fan mail, collaborations, saying hello</span></span></label>
               </div>
               <p id="topic-error" class="field-error"></p>
@@ -121,16 +121,16 @@
                   <label for="c-region" class="field-label">Where is the show?</label>
                   <select id="c-region" name="booking_region" class="field" data-required data-name="The region" aria-describedby="c-region-error">
                     <option value="">Choose a region</option>
+                    <option value="na">North America</option>
                     <option value="uk">UK &amp; Ireland</option>
                     <option value="europe">Europe</option>
-                    <option value="na">North America</option>
                     <option value="other">Somewhere else</option>
                   </select>
                   <p id="c-region-error" class="field-error"></p>
                 </div>
                 <div data-field>
                   <label for="c-date" class="field-label">Date of the event</label>
-                  <input id="c-date" name="event_date" type="date" class="field" data-required data-future data-name="The date" data-min-msg="Choose a date from today onwards." aria-describedby="c-date-error">
+                  <input id="c-date" name="event_date" type="date" class="field" data-required data-future data-name="The date" data-min-msg="Choose a date from today onward." aria-describedby="c-date-error">
                   <p id="c-date-error" class="field-error"></p>
                 </div>
                 <div data-field>
@@ -158,7 +158,7 @@
                 </div>
                 <div data-field>
                   <label for="c-deadline" class="field-label">Deadline <span class="font-normal text-subtle">(optional)</span></label>
-                  <input id="c-deadline" name="deadline" type="date" class="field" data-future data-min-msg="Choose a date from today onwards." aria-describedby="c-deadline-error">
+                  <input id="c-deadline" name="deadline" type="date" class="field" data-future data-min-msg="Choose a date from today onward." aria-describedby="c-deadline-error">
                   <p id="c-deadline-error" class="field-error"></p>
                 </div>
               </div>
@@ -219,7 +219,7 @@
           </div>
           <div class="card p-6">
             <p class="meta">Post</p>
-            <address class="mt-2 not-italic leading-relaxed">Marigold Static<br>c/o Lantern House Records<br>41 Albert Road<br>Glasgow G42 8DN</address>
+            <address class="mt-2 not-italic leading-relaxed">Marigold Static<br>c/o Lantern House Records<br>1147 G Street<br>Lincoln, NE 68508</address>
           </div>
         </aside>
       </div>
@@ -230,7 +230,7 @@
       <div class="grid gap-12 lg:grid-cols-[1.2fr_2fr]">
         <div>
           <a href="index.html" class="inline-flex items-center gap-2.5 text-paper" aria-label="Marigold Static home"><svg viewBox="0 0 32 32" class="h-9 w-9 shrink-0" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="2.2 3"/><circle cx="16" cy="16" r="9" fill="#ff4d94" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="16" r="2.4" fill="currentColor"/></svg><span class="poster text-3xl leading-none">Marigold Static</span></a>
-          <p class="mt-5 max-w-sm text-fog">A four-piece from the Southside of Glasgow, making synth-lit indie rock about weather, night buses and the people you wait out the rain with.</p>
+          <p class="mt-5 max-w-sm text-fog">A four-piece from Lincoln, Nebraska, making synth-lit indie rock about weather, night buses and the people you wait out the rain with.</p>
           <p class="mt-6 inline-flex items-center gap-2 rounded-full border-2 border-paper/30 px-3.5 py-1.5 text-sm text-fog"><span class="h-2.5 w-2.5 rounded-full bg-pink" aria-hidden="true"></span>On tour: November to February</p>
         </div>
         <div class="grid grid-cols-2 gap-10 sm:grid-cols-3">
@@ -266,7 +266,7 @@
       <p class="poster mt-16 text-[clamp(3rem,13.4vw,12.5rem)] leading-[0.8] whitespace-nowrap text-paper select-none" aria-hidden="true">Marigold <span class="text-pink">Static</span></p>
       <div class="mt-8 flex flex-col gap-3 border-t-2 border-paper/20 pt-6 text-sm text-haze sm:flex-row sm:items-center sm:justify-between">
         <p>&copy; <span data-year>2026</span> Marigold Static. Released by Lantern House Records.</p>
-        <p>Made in Glasgow, mostly in the rain.</p>
+        <p>Made in Lincoln, mostly in the wind.</p>
       </div>
     </div>
   </footer>
@@ -304,7 +304,7 @@
       </div>
       <div class="flex min-h-0 flex-1 flex-col" data-cart-view="bag">
         <div class="border-b-2 border-ink bg-paper-2 px-5 py-3">
-          <p class="text-sm font-bold" data-ship aria-live="polite">Spend £50 more for free UK shipping.</p>
+          <p class="text-sm font-bold" data-ship aria-live="polite">Spend $60 more for free US shipping.</p>
           <div class="mt-2 h-2.5 overflow-hidden rounded-full border-2 border-ink bg-card"><span class="block h-full bg-pink transition-[width] duration-500" data-ship-bar style="width:0%"></span></div>
         </div>
         <div class="min-h-0 flex-1 overflow-y-auto px-5">
@@ -318,11 +318,11 @@
         </div>
         <div class="border-t-2 border-ink px-5 py-5" data-cart-footer hidden>
           <dl class="space-y-1.5 text-sm">
-            <div class="flex justify-between"><dt>Subtotal</dt><dd class="font-mono font-bold" data-cart-subtotal>£0</dd></div>
-            <div class="flex justify-between"><dt>UK shipping</dt><dd class="font-mono" data-cart-shipping>£4.50</dd></div>
+            <div class="flex justify-between"><dt>Subtotal</dt><dd class="font-mono font-bold" data-cart-subtotal>$0</dd></div>
+            <div class="flex justify-between"><dt>US shipping</dt><dd class="font-mono" data-cart-shipping>$6</dd></div>
           </dl>
           <button type="button" class="btn-primary btn-lg mt-4 w-full" data-checkout>Checkout</button>
-          <p class="mt-3 text-center text-xs text-subtle">Taxes included. International shipping is calculated at checkout.</p>
+          <p class="mt-3 text-center text-xs text-subtle">Prices exclude sales tax. International shipping is calculated at checkout.</p>
         </div>
       </div>
       <div class="min-h-0 flex-1 overflow-y-auto px-5 py-6" data-cart-view="checkout" hidden>
@@ -330,13 +330,13 @@
         <h3 class="mt-3 font-display text-3xl font-extrabold uppercase">Order summary</h3>
         <ul class="mt-4 divide-y divide-ink/15 border-y-2 border-ink text-sm" data-checkout-lines></ul>
         <dl class="mt-4 space-y-1.5 text-sm">
-          <div class="flex justify-between"><dt>Subtotal</dt><dd class="font-mono" data-cart-subtotal>£0</dd></div>
-          <div class="flex justify-between"><dt>UK shipping</dt><dd class="font-mono" data-cart-shipping>£0</dd></div>
-          <div class="flex justify-between border-t-2 border-ink pt-2 text-base font-bold"><dt>Total</dt><dd class="font-mono" data-cart-total>£0</dd></div>
+          <div class="flex justify-between"><dt>Subtotal</dt><dd class="font-mono" data-cart-subtotal>$0</dd></div>
+          <div class="flex justify-between"><dt>US shipping</dt><dd class="font-mono" data-cart-shipping>$0</dd></div>
+          <div class="flex justify-between border-t-2 border-ink pt-2 text-base font-bold"><dt>Total</dt><dd class="font-mono" data-cart-total>$0</dd></div>
         </dl>
         <div class="mt-6 rounded-xl border-2 border-dashed border-ink bg-sun/40 p-4 text-sm leading-relaxed">
-          <p class="font-bold">Packed in Glasgow.</p>
-          <p class="mt-1">UK orders ship within three working days. Pre-orders ship together on release week.</p>
+          <p class="font-bold">Packed in Lincoln.</p>
+          <p class="mt-1">US orders ship within three business days. Pre-orders ship together on release week.</p>
         </div>
         <button type="button" class="btn-primary btn-lg mt-6 w-full" data-place-order>Place order</button>
         <button type="button" class="btn-ghost mt-3 w-full" data-back-to-bag>Back to bag</button>
@@ -344,7 +344,7 @@
       <div class="flex-1 px-5 py-10 text-center" data-cart-view="done" hidden>
         <svg viewBox="0 0 120 120" class="mx-auto h-24 w-24" aria-hidden="true"><circle cx="60" cy="60" r="50" fill="#ff4d94" stroke="#15130f" stroke-width="3"/><path d="m38 62 15 15 30-32" fill="none" stroke="#15130f" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <p class="poster mt-5 text-4xl">Order placed</p>
-        <p class="mx-auto mt-3 max-w-xs text-soft">Thanks! Your order reference is <strong class="text-ink" data-order-ref></strong>. UK orders ship within three working days; pre-orders ship together on release week. Quote the reference if you need to get in touch.</p>
+        <p class="mx-auto mt-3 max-w-xs text-soft">Thanks! Your order reference is <strong class="text-ink" data-order-ref></strong>. US orders ship within three business days; pre-orders ship together on release week. Mention the reference if you need to get in touch.</p>
         <button type="button" class="btn-dark mt-6" data-cart-close>Keep browsing</button>
       </div>
     </div>

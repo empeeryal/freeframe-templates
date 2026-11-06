@@ -1,17 +1,17 @@
 # Tempo: free HTML5 + Tailwind CSS band and musician website template
 
 A complete website for a band or solo artist, built for the fictional **Marigold Static**, a four-piece
-indie band from Glasgow with a new album on the way: a home page with a release countdown and pre-save, a
+indie band from Lincoln with a new album on the way: a home page with a release countdown and pre-save, a
 discography with a working track player, tour dates with filters and calendar downloads, a merch store with
 a cart, an about page, an electronic press kit and a contact form that routes messages by topic. Plain HTML,
 Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.7** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.8** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/tempo)
 
 ## Quick start
 
-Open `index.html` in a browser. It works straight away: no install or build step is needed.
+Open `index.html` in a browser. It works right away: no install or build step is needed.
 
 To rebuild the CSS after changing `src/input.css` or adding new Tailwind classes (Node.js 24):
 

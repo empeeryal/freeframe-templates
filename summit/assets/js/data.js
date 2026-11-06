@@ -1,7 +1,7 @@
 // Summit content: speakers, sessions and ticket prices.
 // Edit here to update the speaker modal, speaker pages, schedule stars, and ticket prices and totals
 // (`tickets`: price and early-bird price per ticket id; tickets.html cards use the same ids).
-// Times are local event time (Copenhagen, UTC+2 in April).
+// Times are local event time (Bellevue, UTC-7 in April).
 // keepDemoCurrent: demo only. Once the edition in `days` is over, every date on the site moves on to the same
 // week of the next year (by whole weeks, so weekdays stay the same) and the edition year follows, so the demo
 // never shows a conference that has passed. Set it to false when you enter your real dates.
@@ -18,19 +18,19 @@ window.SUMMIT = {
     {
       "id": "wed",
       "date": "2027-04-14",
-      "label": "Wed 14 Apr",
+      "label": "Wed, Apr 14",
       "title": "Workshop day"
     },
     {
       "id": "thu",
       "date": "2027-04-15",
-      "label": "Thu 15 Apr",
+      "label": "Thu, Apr 15",
       "title": "Conference day 1"
     },
     {
       "id": "fri",
       "date": "2027-04-16",
-      "label": "Fri 16 Apr",
+      "label": "Fri, Apr 16",
       "title": "Conference day 2"
     }
   ],
@@ -44,7 +44,7 @@ window.SUMMIT = {
       "track": "design",
       "bio": "Amara leads a 60-person design org shipping tools used by four million people a day. She writes about calm software and teaches interaction design at the Royal College of Art.",
       "twitter": "amaraosei",
-      "site": "amaraosei.design"
+      "site": "amaraosei.example"
     },
     {
       "id": "lukas-brandt",
@@ -66,7 +66,7 @@ window.SUMMIT = {
       "track": "ai",
       "bio": "Mei's team trains small, efficient language models for on-device use. Before Kumo she spent six years in academic NLP research and still reviews for ACL.",
       "twitter": "meitanaka",
-      "site": "meitanaka.ai"
+      "site": "meitanaka.example"
     },
     {
       "id": "sofia-reyes",
@@ -84,11 +84,11 @@ window.SUMMIT = {
       "name": "Jonas Lind",
       "role": "Creative Technologist",
       "company": "Studio Fjord",
-      "city": "Copenhagen",
+      "city": "Bergen",
       "track": "design",
       "bio": "Jonas sits between design and code, building prototypes and motion systems for Nordic brands. His interactive installations have been shown in Oslo, Seoul and São Paulo.",
       "twitter": "jonaslind",
-      "site": "jonaslind.dk"
+      "site": "jonaslind.example"
     },
     {
       "id": "priya-nair",
@@ -132,7 +132,7 @@ window.SUMMIT = {
       "track": "design",
       "bio": "Hana runs the design system behind 30 Globex products and an accessibility guild of 200 volunteers. She speaks often about tokens, documentation and governance.",
       "twitter": "hanakim",
-      "site": "hanakim.kr"
+      "site": "hanakim.example"
     },
     {
       "id": "marco-bellini",
@@ -143,7 +143,7 @@ window.SUMMIT = {
       "track": "engineering",
       "bio": "Marco has shaved seconds off some of Europe's busiest shopping sites. He maintains a popular performance budget tool and runs a monthly web-vitals clinic.",
       "twitter": "marcobellini",
-      "site": "bellini.perf"
+      "site": "bellini.example"
     },
     {
       "id": "nora-hansen",
@@ -165,7 +165,7 @@ window.SUMMIT = {
       "track": "ai",
       "bio": "Sam designs interfaces for AI products, from first prompt to failure states. Their work on explainable recommendations has been adopted by three major streaming apps.",
       "twitter": "samwu",
-      "site": "samwu.design"
+      "site": "samwu.example"
     }
   ],
   "sessions": [
@@ -268,10 +268,10 @@ window.SUMMIT = {
       "day": "wed",
       "start": "17:30",
       "end": "20:00",
-      "title": "Welcome drinks on the harbour",
+      "title": "Welcome drinks on the bay",
       "speakers": [],
       "track": "general",
-      "room": "Harbour Terrace",
+      "room": "Bay Terrace",
       "level": "",
       "kind": "social"
     },
@@ -487,7 +487,7 @@ window.SUMMIT = {
       "title": "The Summit Party",
       "speakers": [],
       "track": "general",
-      "room": "Refshaleøen Warehouse",
+      "room": "Bel-Red Warehouse",
       "level": "",
       "kind": "social"
     },
@@ -642,7 +642,7 @@ window.SUMMIT = {
       "kind": "keynote"
     }
   ],
-  "earlyBirdEnds": "2026-12-31T23:59:59+01:00",
+  "earlyBirdEnds": "2026-12-31T23:59:59-08:00",
   "teamDiscount": {
     "minTickets": 5,
     "percent": 15
@@ -651,26 +651,26 @@ window.SUMMIT = {
     {
       "id": "workshop",
       "name": "Workshop day",
-      "price": 340,
-      "early": 290
+      "price": 349,
+      "early": 299
     },
     {
       "id": "conference",
       "name": "Conference pass",
-      "price": 690,
-      "early": 490
+      "price": 799,
+      "early": 599
     },
     {
       "id": "full",
       "name": "Full pass",
-      "price": 890,
-      "early": 690
+      "price": 999,
+      "early": 799
     },
     {
       "id": "student",
       "name": "Student pass",
-      "price": 190,
-      "early": 190
+      "price": 199,
+      "early": 199
     }
   ]
 };

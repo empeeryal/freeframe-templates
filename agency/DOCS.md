@@ -3,11 +3,11 @@
 ## Overview
 
 Agency is a complete website for a creative or digital agency, built for the fictional **Northbound
-Studio** (London, Lisbon and New York). It has a big-type home page with a rotating word, marquee and
+Studio** (Birmingham, AL, Oakland and New York). It has a big-type home page with a rotating word, marquee and
 testimonial carousel, services with engagement models and price ranges, a filterable work page, a full
 case study with a before/after slider, an about page with team portraits, a careers page with filterable
 roles and an application form, and a detailed project-brief contact form. This is the HTML + Tailwind CSS
-v4 version, **version 1.1.7**. See it live at
+v4 version, **version 1.1.8**. See it live at
 [freeframe.dev/templates/agency](https://freeframe.dev/templates/agency).
 
 ## Quick start
@@ -123,7 +123,7 @@ All text is in the HTML files; there is no separate data file.
   department must match a `data-filter` button (`design`, `engineering`, `strategy`, `operations`). The
   "Apply for this role" link has `data-apply="Role name"`; that exact text must also be an `<option>` in
   the `#apply-role` select so it can be preselected.
-- **Office clocks**: any element with `data-tz="Europe/Lisbon"` (an IANA time zone) shows that city's
+- **Office clocks**: any element with `data-tz="America/Los_Angeles"` (an IANA time zone) shows that city's
   current time, updated every 30 seconds.
 
 ### Images and artwork
@@ -237,7 +237,7 @@ box. A valid form hides itself and shows the `[data-success]` panel next to it; 
 brings the form back. The panel's `[data-ref]` shows a short reference (`NS-` and four characters, made in
 the browser by `makeRef()`; use your form service's own reference instead if it returns one). The panels say
 what happens next, using the reply times the pages already promise (a partner replies to inquiries within
-two working days, applications get a reply within ten working days): change both if yours differ.
+two business days, applications get a reply within ten business days): change both if yours differ.
 
 | Form | Page | Fields and rules |
 |------|------|------------------|

@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-11-05
+
+### Changed
+
+- Set in Saratoga Springs, New York, with American spelling, US dollars, US phone numbers and local details.
+- The calendar file uses America/New_York with US daylight saving rules, dates read in US order and the checkout's phone hint shows a US number.
+
 ## [1.0.6] - 2026-11-05
 
 ### Changed

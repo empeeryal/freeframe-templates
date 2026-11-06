@@ -209,7 +209,7 @@
   function tick() {
     clocks.forEach(function (el) {
       try {
-        el.textContent = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: el.dataset.tz }).format(new Date());
+        el.textContent = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit', timeZone: el.dataset.tz }).format(new Date());
       } catch (e) { /* unknown time zone: keep the placeholder */ }
     });
   }
@@ -229,7 +229,7 @@
   }
   function messageFor(field) {
     var v = field.validity;
-    if (v.valueMissing) return field.type === 'checkbox' ? 'Please tick this box to continue.' : 'Please fill in this field.';
+    if (v.valueMissing) return field.type === 'checkbox' ? 'Please check this box to continue.' : 'Please fill in this field.';
     if (v.typeMismatch && field.type === 'email') return 'Please enter a valid email address, like name@company.example.';
     if (v.typeMismatch && field.type === 'url') return 'Please enter a full link, starting with https://';
     if (v.tooShort) return 'Please write at least ' + field.minLength + ' characters.';

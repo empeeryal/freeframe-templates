@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.12] - 2026-11-05
+
+### Changed
+
+- Set in Rhinebeck, New York, with American spelling, US dollars, US phone numbers and local details.
+- Dates read in US order (June 19, 2027 and 06.19.27), times use Eastern Daylight Time in the schedule, countdown and calendar files, and Rhinecliff station moves to the southwest on the travel map to match the real place.
+
 ## [1.0.11] - 2026-11-05
 
 ### Changed

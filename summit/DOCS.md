@@ -5,8 +5,8 @@
 Summit is a vibrant website for a conference or event: a live countdown, speakers with pop-up profiles,
 a three-day schedule with tracks and a personal "My schedule", ticket selection with a team discount, the
 venue and sponsors. The demo event is **Summit 2027**, a fictional design, engineering and AI conference
-in Copenhagen (14–16 April 2027) with 12 speakers and 35 sessions. It is built with HTML5, Tailwind CSS
-v4 and vanilla JavaScript, and needs no build step. This guide covers version 1.1.9.
+in Bellevue, WA (April 14–16, 2027) with 12 speakers and 35 sessions. It is built with HTML5, Tailwind CSS
+v4 and vanilla JavaScript, and needs no build step. This guide covers version 1.1.12.
 
 Live demo: [freeframe.dev/templates/summit](https://freeframe.dev/templates/summit)
 
@@ -100,10 +100,10 @@ without JavaScript). Change both when you edit the program.
 |-----|----------|
 | `keepDemoCurrent` | `true` in the demo: once the edition is over, every date moves on a year (see [Demo dates](#demo-dates)). Set it to `false` when you enter your real dates |
 | `tracks` | Track ids and labels: `design`, `engineering`, `ai`, `leadership`, `general` |
-| `days` | `{ "id": "wed", "date": "2027-04-14", "label": "Wed 14 Apr", "title": "Workshop day" }` |
+| `days` | `{ "id": "wed", "date": "2027-04-14", "label": "Wed, Apr 14", "title": "Workshop day" }` |
 | `speakers` | `{ "id", "name", "role", "company", "city", "track", "bio", "twitter", "site" }` |
-| `sessions` | `{ "id", "day", "start", "end", "title", "speakers": [ids], "track", "room", "level", "kind" }` |
-| `earlyBirdEnds` | When early-bird pricing ends, e.g. `"2026-12-31T23:59:59+01:00"` |
+| `sessions` | `{ "id", "day", "start", "end", "title", "speakers": [ids], "track", "room", "level", "kind" }`. `start` and `end` are 24-hour in the data and show on a 12-hour clock. |
+| `earlyBirdEnds` | When early-bird pricing ends, e.g. `"2026-12-31T23:59:59-08:00"` |
 | `teamDiscount` | `{ "minTickets": 5, "percent": 15 }` |
 | `tickets` | Ticket ids, names and prices (reference only; see below) |
 
@@ -124,7 +124,7 @@ What reads which source:
 panel in `schedule.html`, with the same id and timing attributes:
 
 ```html
-<li class="session grid gap-4 p-5 sm:grid-cols-[8.5rem_1fr_auto] sm:p-6"
+<li class="session grid gap-4 p-5 sm:grid-cols-[10rem_1fr_auto] sm:p-6"
     data-session="s36" data-track="ai" data-day="thu"
     data-start="2027-04-15T16:00" data-end="2027-04-15T16:40">
   <!-- copy the inner markup of an existing session: time, title, speakers, room, star button -->
@@ -139,18 +139,18 @@ and a card on `speakers.html` (a list item with `data-track` and a button with `
 
 ### Demo dates
 
-The demo is written for 14–16 April 2027. While `SUMMIT.keepDemoCurrent` is `true` and that edition is over
+The demo is written for April 14–16, 2027. While `SUMMIT.keepDemoCurrent` is `true` and that edition is over
 (the event-local date is after the last day in `SUMMIT.days`), the script moves every date to the same week of
-the next year, by whole weeks so weekdays never change (Wed 14 April 2027 becomes Wed 12 April 2028), so the
+the next year, by whole weeks so weekdays never change (Wed, April 14, 2027 becomes Wed, April 12, 2028), so the
 countdown, ticket prices, schedule and "live" state always point at an upcoming conference. The year of the
 edition follows. It updates:
 
 - `SUMMIT.days` (dates and labels), `SUMMIT.earlyBirdEnds`, the countdown target and every `data-start` and
   `data-end`;
-- `data-edition` text: `dates` ("14–16 April 2027"), `year` ("2027"), `year-1`, `year+1`, `yy` ("’27") and
+- `data-edition` text: `dates` ("April 14–16, 2027"), `year` ("2027"), `year-1`, `year+1`, `yy` ("’27") and
   `yy-plain` ("27", in the hotel code);
-- `data-date="2027-04-01"` text, written as `dmy` ("1 April 2027", the default), `dm` ("1 March") or `dmon`
-  ("31 Dec") with `data-date-format`;
+- `data-date="2027-04-01"` text, written as `dmy` ("April 1, 2027", the default), `dm` ("March 1") or `dmon`
+  ("Dec 31") with `data-date-format`;
 - `data-day-label="wed"` (the schedule's day tabs), the page title and `aria-label`s that contain the year.
 
 Before the edition is over nothing is changed, so a preview such as `?now=2027-04-15T10:45` still shows the
@@ -160,9 +160,9 @@ once early-bird pricing has ended, whatever the setting.
 
 ### Time zone
 
-Event times are written in Copenhagen summer time. `eventTime()` in `assets/js/main.js` appends `+02:00`
+Event times are written in Pacific daylight time (`America/Los_Angeles`, UTC-7 in April). `eventTime()` in `assets/js/main.js` appends `-07:00`
 to every time, and the schedule picks "today's" day tab from the event-local date (`now()` shifted by
-`2 * 3600 * 1000` ms, i.e. UTC+2). Change both offsets (and the note at the top of `data.js`) for an
+`-7 * 3600 * 1000` ms, i.e. UTC-7). Change both offsets (and the note at the top of `data.js`) for an
 event elsewhere, for example `-04:00` and `-4 * 3600 * 1000` for New York in summer.
 
 ### Images and artwork
@@ -183,7 +183,7 @@ content inside `<main>`, and add the link to the desktop and mobile menus on eve
 
 ### Countdown
 
-The element with `data-countdown="2027-04-14T09:00:00+02:00"` counts down days, hours, minutes and
+The element with `data-countdown="2027-04-14T09:00:00-07:00"` counts down days, hours, minutes and
 seconds into its `[data-unit="days"]`, `"hours"`, `"minutes"` and `"seconds"` children. It has
 `role="timer"`, and stops at zero.
 
@@ -226,8 +226,8 @@ Prices come from `SUMMIT.tickets` in `assets/js/data.js`, matched to each card b
 
 ```js
 "tickets": [
-  { "id": "workshop", "name": "Workshop day", "price": 340, "early": 290 },
-  { "id": "conference", "name": "Conference pass", "price": 690, "early": 490 }
+  { "id": "workshop", "name": "Workshop day", "price": 349, "early": 299 },
+  { "id": "conference", "name": "Conference pass", "price": 799, "early": 599 }
 ]
 ```
 
@@ -360,8 +360,8 @@ Pages or any web host. No build command is needed on the host.
 - **A speaker pop-up is empty or missing.** The button's `data-speaker` must match an `id` in
   `SUMMIT.speakers`.
 - **A ticket card disappeared.** Its `data-ticket` id must match an `id` in `SUMMIT.tickets`.
-- **Times are an hour or more off.** Change the `+02:00` offset in `eventTime()` (and the matching
-  `2 * 3600 * 1000` shift for the schedule's day tab) to your event's offset.
+- **Times are an hour or more off.** Change the `-07:00` offset in `eventTime()` (and the matching
+  `-7 * 3600 * 1000` shift for the schedule's day tab) to your event's offset.
 - **New Tailwind classes have no effect.** Rebuild the CSS.
 - **Forms "send" but nothing arrives.** Connect them as described in [Forms](#forms).
 

@@ -3,10 +3,10 @@
 ## Overview
 
 Lens is an image-led portfolio for wedding, portrait and travel photographers, built for **Ines Morrow
-Photography**, a fictional photographer in Lisbon. It has a full-bleed slideshow home page, filterable galleries
+Photography**, a fictional photographer in Monterey, California. It has a full-bleed slideshow home page, filterable galleries
 with a masonry layout and a lightbox, photo stories, packages with a live price calculator, a client proofing page
 for choosing album favorites and an inquiry form. The 49 "photographs" are original SVG illustrations ready to be
-swapped for your own. This is the **HTML + Tailwind CSS v4** version, **1.0.6**: static pages and one vanilla
+swapped for your own. This is the **HTML + Tailwind CSS v4** version, **1.0.10**: static pages and one vanilla
 JavaScript file, no build step needed to run it.
 
 Live demo: [freeframe.dev/templates/lens](https://freeframe.dev/templates/lens)
@@ -107,7 +107,7 @@ of `assets/js/main.js`:
 | `galleries` | `{ slug, title, category, location, date, summary, photos: { id, w, h, caption, alt }[] }` | `gallery.html` and its lightbox |
 | `packages` | `{ <id>: { name, price, hours, kind } }` (`kind` is `"Wedding"` or `"Portrait"`) | Calculator, contact prefill |
 | `included` | `{ <package id>: [addon values] }` | Add-ons a package already includes |
-| `extraHour` | `280` | Price per extra hour |
+| `extraHour` | `350` | Price per extra hour |
 | `deposit` | `0.3` | Deposit share of the total |
 | `proofLimit` | `15` | Maximum proofing selections |
 | `proofIds` | photo ids | Ids accepted on the proofing page |
@@ -120,29 +120,29 @@ of `assets/js/main.js`:
 
 ```js
 {
-  "slug": "lisbon-portraits",
-  "title": "Lisbon Portraits",
+  "slug": "monterey-portraits",
+  "title": "Monterey Portraits",
   "category": "Portraits",
-  "location": "Lisbon, Portugal",
+  "location": "Monterey, California",
   "date": "May 2026",
-  "summary": "Street portraits in Alfama on a bright spring morning.",
+  "summary": "Street portraits on Cannery Row on a bright spring morning.",
   "photos": [
-    { "id": "lisbon-portraits-01", "w": 960, "h": 1200, "caption": "Ana, painter.", "alt": "A woman in a doorway lit by morning sun" }
+    { "id": "monterey-portraits-01", "w": 960, "h": 1200, "caption": "Ana, painter.", "alt": "A woman in a doorway lit by morning sun" }
   ]
 }
 ```
 
 2. Add a card to `portfolio.html` (copy an `<article data-category="portraits">`, link it to
-   `gallery.html?g=lisbon-portraits`) and update the counts in the filter buttons. The `data-category` value must
+   `gallery.html?g=monterey-portraits`) and update the counts in the filter buttons. The `data-category` value must
    match a `data-filter` button (`weddings`, `portraits` or `travel`).
 
 `gallery.html` contains the first gallery as plain HTML, so crawlers see real content;
 other galleries replace it when the page loads. If you change the first gallery in `LENS`, update that HTML too.
 
 **Packages:** the cards and the add-on list are in `packages.html`; each add-on is
-`<input type="checkbox" name="addon" value="album" data-price="680">` with a `data-addon-note="album"` line.
+`<input type="checkbox" name="addon" value="album" data-price="850">` with a `data-addon-note="album"` line.
 Prices in the calculation come from `LENS.packages` and the add-ons' `data-price`, but the prices shown on the
-cards, the "(€280 each)" label, "Deposit to book (30%)" and the package options in `contact.html` are text, so
+cards, the "($350 each)" label, "Deposit to book (30%)" and the package options in `contact.html` are text, so
 update them together.
 
 **Stories:** `stories.html` lists the cards and `story.html` is the one story layout. Every card links to
@@ -213,15 +213,15 @@ renders the photos into `.masonry` (`data-gallery`) with `loading="lazy"`, and p
 A native `<dialog class="lightbox" data-lightbox>` in `gallery.html`. Clicking a photo (`data-lightbox-open`)
 opens it with `showModal()`, so focus is trapped and Escape closes it; focus starts on Close and returns to the
 photo afterwards. Left/Right arrows, the previous/next buttons and a 50px swipe (touch and pen) move through the
-photos, wrapping round; the counter (`data-lb-counter`) is a live region; clicking the dark area around the photo
+photos, wrapping around; the counter (`data-lb-counter`) is a live region; clicking the dark area around the photo
 closes it. The next photo is preloaded.
 
 ### Package calculator
 
 `packages.html` (`<form data-calculator>`) and the "Package calculator" block. Choosing a package card (a radio
 `name="package"`) sets the base price and hours; the − / + buttons (`data-hours-step`) add 0–6 extra hours
-(`MAX_EXTRA`) at `LENS.extraHour`; ticked add-ons add their `data-price`. Add-ons in `LENS.included[package]` are
-ticked, disabled and labeled "Included in …", and aren't charged. The summary, total (`data-calc-total`, live
+(`MAX_EXTRA`) at `LENS.extraHour`; checked add-ons add their `data-price`. Add-ons in `LENS.included[package]` are
+checked, disabled and labeled "Included in …", and aren't charged. The summary, total (`data-calc-total`, live
 region) and deposit (`total × LENS.deposit`) update on every change. **Inquire with this estimate**
 (`data-calc-enquire`) links to `contact.html?package=…&hours=…&addons=…`.
 
@@ -262,7 +262,7 @@ The block at the end of `main.js` adds a square button after you scroll about on
 ## Forms
 
 **The inquiry form doesn't send anything until you connect it.** `contact.html` has
-`<form data-enquiry novalidate>`, validated by the "Enquiry form" block in `main.js`:
+`<form data-enquiry novalidate>`, validated by the "Inquiry form" block in `main.js`:
 
 | Field | Rule |
 | --- | --- |
@@ -278,7 +278,7 @@ The block at the end of `main.js` adds a square button after you scroll about on
 Errors appear under each field (`aria-invalid`, `aria-describedby`) on submit and when leaving a filled field; the
 first invalid field gets focus. On success the `data-success` box is shown and focused, with a short reference in its
 `data-ref` element (`IM-` and four characters, made in the browser by `makeRef()`; show your form service's own
-reference instead if it returns one). It promises a reply within two working days, like the intro on the page: change
+reference instead if it returns one). It promises a reply within two business days, like the intro on the page: change
 both if yours differs. **Send another inquiry** (`data-reset`) clears the form.
 
 To receive inquiries with Formspree, replace the comment in the submit handler (after the `if (!ok)` line) with:
@@ -295,7 +295,7 @@ fetch('https://formspree.io/f/your-form-id', {
   success.classList.remove('hidden');
   success.focus();
 }).catch(function () {
-  alert('Sorry, your enquiry could not be sent. Please email the studio.');
+  alert('Sorry, your inquiry could not be sent. Please email the studio.');
 });
 ```
 

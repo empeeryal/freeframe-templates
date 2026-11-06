@@ -4,7 +4,7 @@ A vibrant website for a conference or event, made for the fictional **Summit 202
 speakers with pop-up profiles, a three-day schedule with tracks and "My schedule", tickets with a team
 discount, venue and sponsors. Plain HTML, Tailwind CSS v4 and vanilla JavaScript.
 
-**Version 1.1.11** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.1.12** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/summit)
 
 ## Quick start

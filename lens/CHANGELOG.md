@@ -6,6 +6,13 @@ All notable changes to the Lens template are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.0.10] - 2026-11-05
+
+### Changed
+
+- Set in Monterey, California, with American spelling, US dollars and local details.
+- Prices are now set for a US photographer, and story dates read like Sep 28, 2026.
+
 ## [1.0.9] - 2026-11-05
 
 ### Changed

@@ -5,7 +5,7 @@ home, services, filterable work, a full case study with a before/after slider, a
 application form, a project-brief contact form and a 404 page. Plain HTML, Tailwind CSS v4 and a small
 vanilla JavaScript file.
 
-**Version 1.1.7** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.1.8** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/agency)
 
 ## Quick start

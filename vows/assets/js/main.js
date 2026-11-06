@@ -1,4 +1,4 @@
-/* Vows — all interactive behaviour. Vanilla JavaScript, no dependencies.
+/* Vows — all interactive behavior. Vanilla JavaScript, no dependencies.
    Content (events, guest list, registry, gallery) lives in assets/js/data.js. */
 (function () {
   'use strict';
@@ -122,7 +122,7 @@
   /* ---------- Demo dates ----------
      The wedding weekend is written for the dates in V.events. While V.keepDemoCurrent is true and the
      weekend is over (after the last event ends), every date moves on to the same weekend of a later year,
-     by whole weeks so weekdays never change (Saturday 19 June 2027 becomes Saturday 17 June 2028): the
+     by whole weeks so weekdays never change (Saturday, June 19, 2027 becomes Saturday, June 17, 2028): the
      countdown, schedule, calendar files, RSVP and room-block deadlines and the year. The page text is
      updated through data-date, data-edition and <time datetime> (see DOCS.md, "Demo dates"). */
   (function () {
@@ -139,14 +139,14 @@
     }
     if (!shift) return;
     var move = function (iso) { return isoOf(dayNum(iso) + shift) + iso.slice(10); };
-    var fmt = function (iso, opts) { return new Date(iso.slice(0, 10) + 'T12:00:00Z').toLocaleDateString('en-GB', Object.assign({ timeZone: 'UTC' }, opts)); };
+    var fmt = function (iso, opts) { return new Date(iso.slice(0, 10) + 'T12:00:00Z').toLocaleDateString('en-US', Object.assign({ timeZone: 'UTC' }, opts)); };
     var ceremony = move((V.couple || {}).ceremony_iso || events[0].start);
     var year = +ceremony.slice(0, 4);
     events.forEach(function (ev) { ev.start = move(ev.start); ev.end = move(ev.end); });
     if (V.couple) {
       V.couple.ceremony_iso = ceremony;
       V.couple.date_long = fmt(ceremony, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-      V.couple.date_short = ceremony.slice(8, 10) + '.' + ceremony.slice(5, 7) + '.' + ceremony.slice(2, 4);
+      V.couple.date_short = ceremony.slice(5, 7) + '.' + ceremony.slice(8, 10) + '.' + ceremony.slice(2, 4);
     }
     $$('[data-countdown]').forEach(function (el) { el.setAttribute('data-countdown', move(el.getAttribute('data-countdown'))); });
     $$('time[datetime]').forEach(function (el) { el.setAttribute('datetime', move(el.getAttribute('datetime'))); });
@@ -157,11 +157,11 @@
     $$('[data-edition]').forEach(function (el) {
       var k = el.getAttribute('data-edition');
       if (k === 'year') el.textContent = String(year);
-      else if (k === 'short') el.textContent = ceremony.slice(8, 10) + '.' + ceremony.slice(5, 7) + '.' + ceremony.slice(2, 4);
+      else if (k === 'short') el.textContent = ceremony.slice(5, 7) + '.' + ceremony.slice(8, 10) + '.' + ceremony.slice(2, 4);
     });
-    // The page title: "… · 19 June 2027" and the like.
+    // The page title: "… · June 19, 2027" and the like.
     var MONTHS = 'January February March April May June July August September October November December'.split(' ');
-    document.title = document.title.replace(new RegExp('\\b(\\d{1,2}) (' + MONTHS.join('|') + ') (' + base + ')\\b', 'g'), function (m, d, mo) {
+    document.title = document.title.replace(new RegExp('\\b(' + MONTHS.join('|') + ') (\\d{1,2}), (' + base + ')\\b', 'g'), function (m, mo, d) {
       return fmt(move(base + '-' + String(MONTHS.indexOf(mo) + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0')), { day: 'numeric', month: 'long', year: 'numeric' });
     });
   })();
@@ -566,7 +566,7 @@
         '<div class="relative mx-auto grid size-36 place-items-center text-terra"><img src="assets/img/wreath.svg" alt="" class="absolute inset-0 size-full" width="144" height="144">' +
         '<svg class="relative size-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.6-9 9-9 9Z"/></svg></div>' +
         '<h2 class="mt-4 font-serif text-4xl" tabindex="-1" data-step-heading>Thank you, ' + esc(nameList) + '</h2>' +
-        '<p class="lead mx-auto mt-4 max-w-md">' + (coming.length ? 'We can\'t wait to celebrate with you in the garden.' : 'We\'ll miss you, and we\'ll raise a glass in your honour.') + '</p>' +
+        '<p class="lead mx-auto mt-4 max-w-md">' + (coming.length ? 'We can\'t wait to celebrate with you in the garden.' : 'We\'ll miss you, and we\'ll raise a glass in your honor.') + '</p>' +
         '<p class="mx-auto mt-6 max-w-md rounded-xl bg-linen p-4 text-sm text-muted" role="status">Your reply is in, and a confirmation is on its way to <span class="font-medium text-ink break-all">' + esc(state.email) + '</span>. Your reference is <span class="font-medium text-ink" data-ref>' + makeRef('AT') + '</span>. If anything changes, reply again with the code on your invitation.</p>' +
         '<div class="mt-8 flex flex-wrap justify-center gap-3">' + (coming.length ? '<button type="button" class="btn btn-sage" data-ics="all">Add the weekend to your calendar</button>' : '') +
         '<a href="schedule.html" class="btn btn-ghost">See the schedule</a></div>' +
@@ -650,7 +650,7 @@
     }
     var mine = readReserved();
 
-    function money(n) { return '£' + n.toLocaleString('en-GB'); }
+    function money(n) { return '$' + n.toLocaleString('en-US'); }
     function card(g) {
       var taken = g.reserved + (mine.indexOf(g.id) !== -1 ? 1 : 0);
       var full = taken >= g.needed;
@@ -724,9 +724,9 @@
       var amount = selected;
       var msg = '';
       if (!amount) {
-        var raw = custom.value.trim().replace(/^£/, '');
+        var raw = custom.value.trim().replace(/^\$/, '');
         if (!raw) msg = 'Choose an amount or enter your own.';
-        else if (!/^\d{1,4}$/.test(raw) || Number(raw) < 5 || Number(raw) > 5000) msg = 'Enter a whole amount between £5 and £5,000.';
+        else if (!/^\d{1,4}$/.test(raw) || Number(raw) < 5 || Number(raw) > 5000) msg = 'Enter a whole amount between $5 and $5,000.';
         else amount = Number(raw);
       }
       error.textContent = msg;
@@ -738,15 +738,15 @@
       if (msg) { custom.focus(); return; } // no amount chosen: the error is on the custom field
       if (nameMsg) { name.focus(); return; }
       raised += amount;
-      $('[data-fund-raised]').textContent = '£' + raised.toLocaleString('en-GB');
+      $('[data-fund-raised]').textContent = '$' + raised.toLocaleString('en-US');
       var bar = $('[data-fund-bar]');
       bar.setAttribute('aria-valuenow', String(raised));
       $('span', bar).style.width = Math.min(100, Math.round(raised / fund.goal * 100)) + '%';
       var match = fund.amounts.find(function (a) { return a.value === amount; });
       var success = $('[data-fund-success]', form);
       success.innerHTML = '<p class="font-serif text-2xl">Thank you, ' + esc(name.value.trim().split(' ')[0]) + '!</p>' +
-        '<p class="mt-1 text-muted">£' + amount.toLocaleString('en-GB') + (match ? ' for ' + esc(match.label.charAt(0).toLowerCase() + match.label.slice(1)) : ' towards our honeymoon') + '. ' +
-        'Your gift is noted under reference <span class="font-medium text-ink" data-ref>' + makeRef('AT') + '</span>. Use it as the reference on your transfer (our details are on the card inside your invitation), and look out for a postcard from the coast.</p>';
+        '<p class="mt-1 text-muted">$' + amount.toLocaleString('en-US') + (match ? ' for ' + esc(match.label.charAt(0).toLowerCase() + match.label.slice(1)) : ' toward our honeymoon') + '. ' +
+        'Your gift is noted under reference <span class="font-medium text-ink" data-ref>' + makeRef('AT') + '</span>. Use it as the memo on your payment (our details are on the card inside your invitation), and look out for a postcard from the coast.</p>';
       success.classList.remove('hidden');
       success.focus();
       form.reset();

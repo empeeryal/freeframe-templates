@@ -1,13 +1,13 @@
 # Crumb — HTML + Tailwind CSS template
 
-A website for **Bramble & Rye**, a fictional neighborhood bakery and café in Norwich: home with a live
+A website for **Bramble & Rye**, a fictional neighborhood bakery and café in Saratoga Springs, New York: home with a live
 “fresh out of the oven” board, a preorder catalog with per-day availability, a basket drawer with
-collection day and time slot, a demo checkout with an order number and calendar file, a celebration cake
+pickup day and time slot, a demo checkout with an order number and calendar file, a celebration cake
 builder with a live drawing and price, a café menu with diet filters, our story, visit & wholesale and a 404
 page. Every bake is drawn in SVG from the product data, so there are no photos to replace. Plain HTML,
 Tailwind CSS v4 and vanilla JavaScript.
 
-**Version 1.0.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.7** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/crumb)
 
 ## Quick start

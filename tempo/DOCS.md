@@ -3,14 +3,14 @@
 ## Overview
 
 Tempo is a website template for a band or solo musician, built for **Marigold Static**, a fictional
-four-piece indie band from the Southside of Glasgow (Isla Carrick, Reuben Oyelaran, Fenna de Wit and Callum
+four-piece indie band from Lincoln, Nebraska (Isla Carrick, Reuben Oyelaran, Fenna de Wit and Callum
 Shiach) whose second album, *Weather for Two*, is about to come out on the fictional Lantern House Records.
 The site has a home page with a release countdown and pre-save, a discography with a working track player,
 tour dates, a merch store with a cart, an about page, an electronic press kit (EPK) and a contact form that
 routes messages by topic. It is plain HTML with Tailwind CSS v4 and one vanilla JavaScript file, with no
 build step needed to use it. The look is a printed gig poster: warm paper, black ink, fluorescent pink,
 cobalt and sun-yellow "riso" inks, condensed Big Shoulders Display headlines and SVG artwork throughout.
-This guide covers version 1.0.5. See it live at
+This guide covers version 1.0.8. See it live at
 [freeframe.dev/templates/tempo](https://freeframe.dev/templates/tempo).
 
 ## Quick start
@@ -37,7 +37,7 @@ This guide covers version 1.0.5. See it live at
 | `merch.html` | Store | Category filter (`merch.html?cat=apparel`), product cards with color and size options (`#p-<product id>`), shipping and sizing |
 | `about.html` | About | Group illustration, story and stats, band members, timeline, press quotes |
 | `press.html` | Press kit | Fact sheet, short/medium/long bio tabs with copy, downloads (`#downloads`), tech rider, press quotes, contacts (`#contacts`) |
-| `contact.html` | Contact | Topic-routed form (`contact.html?topic=booking`), direct contacts, postal address |
+| `contact.html` | Contact | Topic-routed form (`contact.html?topic=booking`), direct contacts, mailing address |
 | `404.html` | Not found | "Not on the record" page with links back into the site |
 
 The header (with the bag button), the footer, the player bar, the cart drawer and the toast are repeated
@@ -88,7 +88,7 @@ To rebrand, change the inks and rebuild the CSS:
 ```css
 @theme {
   --color-pink: #ff7a1a;      /* fills, used with ink text */
-  --color-pink-deep: #b34700; /* the same colour dark enough for text on paper */
+  --color-pink-deep: #b34700; /* the same color dark enough for text on paper */
 }
 ```
 
@@ -120,17 +120,17 @@ Page text lives in the HTML files. Everything that is listed, filtered or played
 |----------|---------------|
 | `BAND` | Name, site URL, email, `currency` and `locale` for prices and dates, `freeShippingFrom`, `shipping`, `keepDemoDatesFresh` |
 | `RELEASES` | Every release, newest first: `id`, `type` (`album`, `ep`, `single`), `title`, `date`, `label`, `cat`, `art`, `merch`, `blurb`, `credits`, `tracks` |
-| `REGIONS`, `TOUR` | Tour regions and shows: `id`, `date`, `time` (doors), `city`, `country`, `region`, `venue`, `status`, `onSale`, `note`, `support`, optional `tickets` |
+| `REGIONS`, `TOUR` | Tour regions and shows: `id`, `date`, `time` (doors, 24-hour; `19:00` shows as 7:00 PM), `city`, `country`, `region`, `venue`, `status`, `onSale`, `note`, `support`, optional `tickets` |
 | `PRODUCTS`, `MERCH_CATS` | Merch: `id`, `name`, `cat`, `kind`, `price`, `badge`, `desc`, optional `release`, `colours`, `sizes`, `soldOut` |
 | `CONTACT_TOPICS` | Contact form topics, who each one goes to and the reply time |
 
 Add a release by putting a new object at the start of `RELEASES`:
 
 ```js
-{ id: 'harbour-ep', type: 'ep', title: 'Harbour', date: '2027-05-07', label: 'Lantern House Records', cat: 'LHR034',
+{ id: 'bluestem-ep', type: 'ep', title: 'Bluestem', date: '2027-05-07', label: 'Lantern House Records', cat: 'LHR034',
   art: { bg: '#c9cff7', a: '#ff4d94', b: '#15130f', ink: '#15130f', motif: 'moons' },
-  blurb: 'Four songs recorded on a ferry.', credits: 'Produced by Ailsa Braid.',
-  tracks: [{ title: 'Harbour', len: '3:40', early: true }, { title: 'Tide Tables', len: '4:05' }] }
+  blurb: 'Four songs recorded in a grain elevator.', credits: 'Produced by Ailsa Braid.',
+  tracks: [{ title: 'Bluestem', len: '3:40', early: true }, { title: 'Storm Cellar', len: '4:05' }] }
 ```
 
 The first release in the list is the "new release" the home page counts down to. A release dated in the
@@ -151,11 +151,11 @@ in by the script; update the numbers in the HTML too if you want them right with
 
 **Demo dates:** `BAND.keepDemoDatesFresh` moves the whole tour, and the new album (the release with
 `campaign: true`), forward to the same weeks of the next year once every tour date has passed, by whole weeks so
-weekdays never change (Friday 13 November 2026 becomes Friday 12 November 2027). The demo then has an album on the
+weekdays never change (Friday, November 13, 2026 becomes Friday, November 12, 2027). The demo then has an album on the
 way and upcoming shows again. Set it to `false` on your real site.
 
 The dates written in the pages follow `RELEASES` and `TOUR` (`initDemoText()`): the banner's
-`[data-release-note]` ("Weather for Two is out 13 November", then "is out now"), `[data-release-day]` (the press
+`[data-release-note]` ("Weather for Two is out November 13", then "is out now"), `[data-release-day]` (the press
 kit and the about timeline, with `[data-release-year]`, and the home page title), `[data-tour-years]` ("2026–27",
 also in the tour page title) and `[data-tour-from]` ("November 2026"). Once the new album is out, links with `data-release-cta` (the
 "Pre-save" buttons, "Hear the first single", "Pre-order the LP") read their text from `RELEASE_CTA` instead
@@ -294,7 +294,7 @@ fact sheet, and `rider` saves `#rider-text`. The band illustration is a plain `d
 
 The header gets a border once you scroll. On screens under 1024 px the menu button opens a full-height menu
 (`aria-expanded`, Esc closes it and returns focus). Elements with `.reveal` fade in as they scroll into view
-(revealing one also reveals everything above it); with reduced motion they are visible straight away and
+(revealing one also reveals everything above it); with reduced motion they are visible right away and
 the ticker, equalizers and vinyl stop moving. The back-to-top button appears after one screen, lifts itself
 above the player bar and toasts, and moves focus to the main content. Remove its block at the end of
 `main.js` and the `.back-to-top` styles to drop it.
@@ -313,7 +313,7 @@ error messages come from `data-name`; checkbox and radio messages from `data-req
 
 **Contact routing:** choosing a topic shows that topic's fields (`data-topic-fields`) and says who the
 message goes to, from `CONTACT_TOPICS`. Booking is routed by the "Where is the show?" select: North America
-goes to the US agent, everything else to the UK and Europe agent. Fields marked `data-required` are only
+goes to the North American agent, everything else to the UK and Europe agent. Fields marked `data-required` are only
 required while their topic is selected; dates marked `data-future` can't be in the past.
 
 **The forms don't send anything** until you connect them. Submissions end in `onValid()` in `main.js`. To

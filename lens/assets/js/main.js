@@ -62,7 +62,7 @@ var LENS = {
      "id": "amalfi-vows-08",
      "w": 1200,
      "h": 800,
-     "caption": "The last ferry leaving the harbour.",
+     "caption": "The last ferry leaving the harbor.",
      "alt": "The coastline at dusk with lights reflecting on the water"
     },
     {
@@ -94,7 +94,7 @@ var LENS = {
      "w": 800,
      "h": 1200,
      "caption": "Walking up to the ceremony spot.",
-     "alt": "A couple walking across moorland under grey cloud"
+     "alt": "A couple walking across moorland under gray cloud"
     },
     {
      "id": "highland-elopement-03",
@@ -135,7 +135,7 @@ var LENS = {
      "id": "highland-elopement-08",
      "w": 960,
      "h": 1200,
-     "caption": "Tea from a flask, the best reception.",
+     "caption": "Tea from a thermos, the best reception.",
      "alt": "The couple sheltering together on a mountainside"
     }
    ]
@@ -144,7 +144,7 @@ var LENS = {
    "slug": "studio-portraits",
    "title": "Studio Portraits",
    "category": "Portraits",
-   "location": "Lisbon studio",
+   "location": "Monterey studio",
    "date": "2025–2026",
    "summary": "Window-lit portraits for writers, founders and musicians. One light, one backdrop, and time to get comfortable.",
    "photos": [
@@ -153,7 +153,7 @@ var LENS = {
      "w": 960,
      "h": 1200,
      "caption": "Marta, novelist.",
-     "alt": "Portrait silhouette of a woman lit from the side against a warm grey backdrop"
+     "alt": "Portrait silhouette of a woman lit from the side against a warm gray backdrop"
     },
     {
      "id": "studio-portraits-02",
@@ -174,7 +174,7 @@ var LENS = {
      "w": 960,
      "h": 1200,
      "caption": "Joon, architect.",
-     "alt": "Portrait against a lilac grey backdrop with soft rim light"
+     "alt": "Portrait against a lilac gray backdrop with soft rim light"
     },
     {
      "id": "studio-portraits-05",
@@ -210,9 +210,9 @@ var LENS = {
    "slug": "fieldwork",
    "title": "Fieldwork",
    "category": "Portraits",
-   "location": "Alentejo, Portugal",
+   "location": "Salinas Valley, California",
    "date": "July 2026",
-   "summary": "Outdoor portraits shot in the last hour of light, in fields of dry wheat outside Évora.",
+   "summary": "Outdoor portraits shot in the last hour of light, in fields of dry wheat outside King City.",
    "photos": [
     {
      "id": "fieldwork-01",
@@ -232,7 +232,7 @@ var LENS = {
      "id": "fieldwork-03",
      "w": 960,
      "h": 1200,
-     "caption": "Sun flare over the Alentejo.",
+     "caption": "Sun flare over the Salinas Valley.",
      "alt": "A sun flare over a wheat field at sunset"
     },
     {
@@ -344,7 +344,7 @@ var LENS = {
    "category": "Travel",
    "location": "Morocco",
    "date": "March 2026",
-   "summary": "From the kasbahs of the Atlas to the dunes of Erg Chebbi: ten days of colour, dust and enormous skies.",
+   "summary": "From the kasbahs of the Atlas to the dunes of Erg Chebbi: ten days of color, dust and enormous skies.",
    "photos": [
     {
      "id": "atlas-and-erg-01",
@@ -378,7 +378,7 @@ var LENS = {
      "id": "atlas-and-erg-05",
      "w": 1000,
      "h": 1000,
-     "caption": "Walls the colour of the ground.",
+     "caption": "Walls the color of the ground.",
      "alt": "Close view of earthen kasbah walls and towers"
     },
     {
@@ -408,25 +408,25 @@ var LENS = {
  "packages": {
   "essentials": {
    "name": "Essentials",
-   "price": 2400,
+   "price": 2900,
    "hours": 6,
    "kind": "Wedding"
   },
   "signature": {
    "name": "Signature",
-   "price": 3900,
+   "price": 4800,
    "hours": 9,
    "kind": "Wedding"
   },
   "collection": {
    "name": "Collection",
-   "price": 5600,
+   "price": 6800,
    "hours": 12,
    "kind": "Wedding"
   },
   "portrait": {
    "name": "Portrait session",
-   "price": 450,
+   "price": 650,
    "hours": 2,
    "kind": "Portrait"
   }
@@ -442,7 +442,7 @@ var LENS = {
    "album"
   ]
  },
- "extraHour": 280,
+ "extraHour": 350,
  "deposit": 0.3,
  "proofLimit": 15,
  "proofIds": [
@@ -506,7 +506,7 @@ var LENS = {
   var $ = function (sel, el) { return (el || document).querySelector(sel); };
   var $$ = function (sel, el) { return Array.prototype.slice.call((el || document).querySelectorAll(sel)); };
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var euro = function (n) { return '€' + Math.round(n).toLocaleString('en-GB'); };
+  var euro = function (n) { return '$' + Math.round(n).toLocaleString('en-US'); };
   var esc = function (s) {
     return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
   };
@@ -738,7 +738,7 @@ var LENS = {
       addons.forEach(function (a) {
         var inc = included.indexOf(a.value) !== -1;
         if (inc) a.checked = true;
-        // Untick add-ons that were only ticked because the previous package included them.
+        // Uncheck add-ons that were only checked because the previous package included them.
         else if (a.dataset.auto === 'true') a.checked = false;
         a.dataset.auto = String(inc);
         a.disabled = inc;
@@ -846,7 +846,7 @@ var LENS = {
     renderProof();
   }
 
-  /* ---------- Enquiry form ---------- */
+  /* ---------- Inquiry form ---------- */
   var form = $('[data-enquiry]');
   if (form) {
     var params = new URLSearchParams(location.search);
@@ -897,7 +897,7 @@ var LENS = {
       e.preventDefault();
       var ok = fields.map(check).every(Boolean);
       if (!ok) { $('[aria-invalid="true"]', form).focus(); return; }
-      // To receive enquiries, send the data to your form service here, e.g.
+      // To receive inquiries, send the data to your form service here, e.g.
       // fetch('https://formspree.io/f/your-id', { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
       var success = $('[data-success]', form);
       $('[data-ref]', success).textContent = makeRef('IM');

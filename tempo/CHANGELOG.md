@@ -6,6 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.8] - 2026-11-05
+
+### Changed
+
+- Set in Lincoln, Nebraska, with American spelling, US dollars and local details.
+- The tour now opens with a Midwest run: the `uk` tour region became `midwest` (`?region=midwest`), the `na` region reads "Coasts & Canada", and doors times show in 12-hour time. The release id `clyde-in-winter` became `creek-in-winter`. Prices exclude sales tax, and US shipping is $6, free over $60.
+
 ## [1.0.7] - 2026-11-05
 
 ### Changed

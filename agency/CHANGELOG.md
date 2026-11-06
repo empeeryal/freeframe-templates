@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.8] - 2026-11-05
+
+### Changed
+
+- Set in Birmingham, Alabama, with American spelling, US dollars, US phone numbers and local details.
+- Studio clocks show US time zones in 12-hour time, the second studio moved from Lisbon to Oakland, and the about page no longer claims B Corp certification.
+
 ## [1.1.7] - 2026-11-05
 
 ### Changed

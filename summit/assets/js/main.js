@@ -1,4 +1,4 @@
-/* Summit — site behaviour. Vanilla JavaScript, no dependencies.
+/* Summit — site behavior. Vanilla JavaScript, no dependencies.
    Content (speakers, sessions, ticket prices) lives in assets/js/data.js. */
 (function () {
   'use strict';
@@ -53,8 +53,8 @@
       safeStorage.setItem(key, JSON.stringify(value));
     } catch (e) { return null; }
   }
-  // Event times are written in Copenhagen local time (CEST, UTC+2).
-  function eventTime(local) { return new Date(local + ':00+02:00'); }
+  // Event times are written in Bellevue local time (Pacific daylight time, UTC-7).
+  function eventTime(local) { return new Date(local + ':00-07:00'); }
   // Add ?now=2027-04-15T10:45 to any page to preview the "live" schedule state.
   function now() {
     var p = new URLSearchParams(location.search).get('now');
@@ -64,7 +64,7 @@
   /* ---------------------------------------------------------- demo dates
      The conference is written for the days in DATA.days. While DATA.keepDemoCurrent is true and that
      edition is over, every date moves on to the same week of a later year, by whole weeks so weekdays never
-     change (Wed 14 April 2027 becomes Wed 12 April 2028), and the edition year follows. The page text is
+     change (Wed, April 14, 2027 becomes Wed, April 12, 2028), and the edition year follows. The page text is
      updated through data-edition, data-date and data-day-label (see DOCS.md, "Demo dates"). */
   function dayNum(iso) { return Math.round(Date.parse(iso.slice(0, 10) + 'T00:00:00Z') / 86400000); }
   function isoOf(day) { return new Date(day * 86400000).toISOString().slice(0, 10); }
@@ -72,7 +72,7 @@
   var SHIFT = (function () {
     if (!DATA.keepDemoCurrent || !DATA.days.length) return 0;
     var first = DATA.days[0].date, last = DATA.days[DATA.days.length - 1].date;
-    var today = dayNum(new Date(now().getTime() + 2 * 3600 * 1000).toISOString());
+    var today = dayNum(new Date(now().getTime() - 7 * 3600 * 1000).toISOString());
     var shift = 0;
     for (var y = 1; dayNum(last) + shift < today && y < 100; y++) {
       shift = Math.round((dayNum((BASE_YEAR + y) + first.slice(4)) - dayNum(first)) / 7) * 7;
@@ -82,7 +82,12 @@
   // "2027-04-14T09:30" (or any ISO string) moved on by SHIFT days; the time part is kept.
   function shiftIso(iso) { return SHIFT ? isoOf(dayNum(iso) + SHIFT) + iso.slice(10) : iso; }
   function utcDate(iso) { return new Date(iso.slice(0, 10) + 'T12:00:00Z'); }
-  function fmtDate(iso, opts) { return utcDate(iso).toLocaleDateString('en-GB', Object.assign({ timeZone: 'UTC' }, opts)); }
+  function fmtDate(iso, opts) { return utcDate(iso).toLocaleDateString('en-US', Object.assign({ timeZone: 'UTC' }, opts)); }
+  // Session times are 24-hour in the data and shown on a 12-hour clock: "9:30 – 10:15 AM", "11:40 AM – 12:20 PM".
+  function clockOf(hm) { var h = +hm.slice(0, 2); return (h % 12 || 12) + ':' + hm.slice(3); }
+  function periodOf(hm) { return +hm.slice(0, 2) < 12 ? 'AM' : 'PM'; }
+  function timeStart(x) { return clockOf(x.start) + (periodOf(x.start) === periodOf(x.end) ? '' : '\u00a0' + periodOf(x.start)); }
+  function timeEnd(x) { return clockOf(x.end) + '\u00a0' + periodOf(x.end); }
   var EDITION_YEAR = BASE_YEAR + (SHIFT ? +shiftIso(DATA.days[0].date).slice(0, 4) - BASE_YEAR : 0);
   if (SHIFT) {
     var yearRe = new RegExp('\\b' + BASE_YEAR + '\\b', 'g');
@@ -102,7 +107,7 @@
     });
     var first = DATA.days[0].date, last = DATA.days[DATA.days.length - 1].date;
     var dates = first.slice(0, 7) === last.slice(0, 7)
-      ? fmtDate(first, { day: 'numeric' }) + '–' + fmtDate(last, { day: 'numeric', month: 'long', year: 'numeric' })
+      ? fmtDate(first, { month: 'long', day: 'numeric' }) + '–' + fmtDate(last, { day: 'numeric' }) + ', ' + fmtDate(last, { year: 'numeric' })
       : fmtDate(first, { day: 'numeric', month: 'long' }) + ' – ' + fmtDate(last, { day: 'numeric', month: 'long', year: 'numeric' });
     var EDITION = {
       dates: dates,
@@ -238,7 +243,7 @@
     return talksFor(id).map(function (x) {
       return '<li class="rounded-2xl border border-edge p-4">' +
         '<div class="flex flex-wrap items-center gap-2 text-sm text-haze">' + trackTag(x.track) +
-        '<span>' + esc(dayOf(x).label) + ' · ' + x.start + '–' + x.end + ' · ' + esc(x.room) + '</span></div>' +
+        '<span>' + esc(dayOf(x).label) + ' · ' + timeStart(x) + '–' + timeEnd(x) + ' · ' + esc(x.room) + '</span></div>' +
         '<p class="mt-2 font-display text-lg font-bold tracking-tight">' + esc(x.title) + '</p></li>';
     }).join('');
   }
@@ -260,10 +265,10 @@
       return '<a href="speaker.html?id=' + p.id + '" class="inline-flex items-center gap-2 rounded-full border border-edge py-1 pr-3 pl-1 text-sm hover:border-haze">' +
         '<img src="assets/img/speakers/' + p.id + '.svg" alt="" width="28" height="28" class="size-7 rounded-full">' + esc(p.name) + '</a>';
     }).join('');
-    return '<li class="session ' + (isBreak ? 'session-break ' : '') + 'grid gap-4 p-5 sm:grid-cols-[8.5rem_1fr_auto] sm:p-6" data-session="' + x.id + '" data-track="' + x.track +
+    return '<li class="session ' + (isBreak ? 'session-break ' : '') + 'grid gap-4 p-5 sm:grid-cols-[10rem_1fr_auto] sm:p-6" data-session="' + x.id + '" data-track="' + x.track +
         '" data-day="' + x.day + '" data-start="' + date + 'T' + x.start + '" data-end="' + date + 'T' + x.end + '">' +
       '<div class="flex items-center gap-3 sm:block">' +
-        '<p class="font-display text-lg font-bold tabular-nums">' + x.start + '<span class="text-haze"> – ' + x.end + '</span></p>' +
+        '<p class="font-display text-lg font-bold tabular-nums">' + timeStart(x) + '<span class="text-haze"> – ' + timeEnd(x) + '</span></p>' +
         '<p class="flex items-center gap-1.5 text-sm text-haze sm:mt-1">' + PIN_ICON + ' ' + esc(x.room) + '</p>' +
         '<p class="live-badge mt-2 hidden text-xs font-bold tracking-wider uppercase"></p>' +
       '</div>' +
@@ -393,9 +398,9 @@
     var filterEmpty = $('[data-filter-empty]');
 
     // Open the day the event is currently on (or the day in the URL hash).
-    // "Today" is the event-local (UTC+2) date, so late-evening visits open the right day.
+    // "Today" is the event-local (UTC-7) date, so late-evening visits open the right day.
     var hashDay = location.hash.replace('#', '');
-    var today = new Date(now().getTime() + 2 * 3600 * 1000).toISOString().slice(0, 10);
+    var today = new Date(now().getTime() - 7 * 3600 * 1000).toISOString().slice(0, 10);
     DATA.days.forEach(function (d) { if (d.date === today) activeDay = d.id; });
     if (tabs.some(function (t) { return t.dataset.dayTab === hashDay; })) activeDay = hashDay;
 
@@ -523,7 +528,7 @@
     var early = now() < new Date(DATA.earlyBirdEnds);
     var team = DATA.teamDiscount;
     var qty = {};
-    var euro = function (n) { return '€' + Math.round(n).toLocaleString('en-US'); };
+    var euro = function (n) { return '$' + Math.round(n).toLocaleString('en-US'); };
     // Prices come from DATA.tickets (assets/js/data.js), matched by each card's data-ticket id.
     var TICKETS = new Map();
     (DATA.tickets || []).forEach(function (t) { TICKETS.set(t.id, t); });

@@ -1,13 +1,13 @@
 # Studio: free HTML5 + Tailwind CSS design studio website template
 
 A minimal, Swiss-style website for a small design studio, built for the fictional **Raster**, a five-person studio in
-Zürich working across identity, digital product, editorial and wayfinding. A strict 12-column grid, one typeface family
+Saint Paul working across identity, digital product, editorial and wayfinding. A strict 12-column grid, one typeface family
 in several weights, a monochrome palette with a single red accent, and drawn SVG project artwork. It includes a work
 index with filters and grid/list views, data-driven case studies, a services page with a brief estimator, a studio page
 with team and open roles, a journal and a five-step project inquiry. Plain HTML, Tailwind CSS v4 and one vanilla
 JavaScript file.
 
-**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/studio)
 
 ## Quick start

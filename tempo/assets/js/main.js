@@ -3,7 +3,7 @@
  *  1. Band data: BAND, RELEASES, TOUR, PRODUCTS, CONTACT_TOPICS
  *  2. Helpers (formatting, storage, toast, downloads)
  *  3. Artwork: release covers and merch mock-ups drawn as SVG
- *  4. Audio: previews synthesised in the browser and the player engine
+ *  4. Audio: previews synthesized in the browser and the player engine
  *  5. Player interfaces: player bar, track buttons, keyboard shortcuts
  *  6. Home page: release countdown, pre-save, next shows, video poster, merch preview
  *  7. Music page: discography filter and release detail with track list
@@ -24,10 +24,10 @@
     name: 'Marigold Static',
     site: 'https://marigoldstatic.example',
     email: 'hello@marigoldstatic.example',
-    currency: 'GBP',
-    locale: 'en-GB',
-    freeShippingFrom: 50,   // free UK shipping threshold, in the currency above
-    shipping: 4.5,          // flat shipping below the threshold
+    currency: 'USD',
+    locale: 'en-US',
+    freeShippingFrom: 60,   // free US shipping threshold, in the currency above
+    shipping: 6,          // flat shipping below the threshold
     // Demo only: when every tour date is in the past, move the tour and the new album (releases with
     // campaign: true) forward to the same weeks of the next year, by whole weeks so weekdays never change,
     // so the demo always has an album on the way and upcoming shows. Set to false on your real site.
@@ -37,22 +37,22 @@
   // Every release, newest first. type is 'album', 'ep' or 'single' (used by music.html?type=).
   // date is the release date (YYYY-MM-DD); a release dated in the future shows as "Out <date>" with a
   // countdown and pre-save, and only its tracks marked `early: true` can be played before then.
-  // art picks the cover colours and motif (see cover() below). Track lengths are the full lengths
+  // art picks the cover colors and motif (see cover() below). Track lengths are the full lengths
   // shown in the track list; the demo plays a 30-second preview generated in the browser.
   // Add `src: 'audio/glasshouse.mp3'` to a track to play a real file instead.
   var RELEASES = [
     { id: 'weather-for-two', type: 'album', title: 'Weather for Two', date: '2026-11-13', campaign: true, label: 'Lantern House Records', cat: 'LHR031',
       art: { bg: '#2b3fd6', a: '#ff4d94', b: '#ffcf33', ink: '#15130f', motif: 'weather' }, merch: 'wft-lp',
-      blurb: 'The second album: eleven songs written over one wet winter in a Govanhill flat, recorded live to tape in nine days at Gartnavel Hall with producer Ailsa Braid. Bigger synths, closer vocals, and the first song Callum has ever sung.',
-      credits: 'Produced by Ailsa Braid. Recorded at Gartnavel Hall, Glasgow. Mixed by Tomás Reyes. Mastered at Southbank Lacquer. Strings on 4 and 11 arranged by Fenna de Wit.',
+      blurb: 'The second album: eleven songs written over one long winter in a Near South apartment, recorded live to tape in nine days at Antelope Hall with producer Ailsa Braid. Bigger synths, closer vocals, and the first song Callum has ever sung.',
+      credits: 'Produced by Ailsa Braid. Recorded at Antelope Hall, Lincoln. Mixed by Tomás Reyes. Mastered at Salt Valley Lacquer. Strings on 4 and 11 arranged by Fenna de Wit.',
       tracks: [
         { title: 'Forecast', len: '1:48' },
         { title: 'Glasshouse', len: '3:41', early: true },
         { title: 'Low Pressure', len: '4:12' },
         { title: 'Weather for Two', len: '3:58' },
-        { title: 'Saltcoats in March', len: '3:27' },
+        { title: 'Platte in March', len: '3:27' },
         { title: 'Isobars', len: '2:54' },
-        { title: 'Under the Kingston Bridge', len: '4:36' },
+        { title: 'Under the Harris Overpass', len: '4:36' },
         { title: 'Static on the Line', len: '3:19' },
         { title: 'Second Summer', len: '3:44' },
         { title: 'Night Shift Radio', len: '4:05' },
@@ -60,33 +60,33 @@
       ] },
     { id: 'glasshouse', type: 'single', title: 'Glasshouse', date: '2026-09-18', label: 'Lantern House Records', cat: 'LHR030',
       art: { bg: '#ff4d94', a: '#2b3fd6', b: '#f4efe6', ink: '#15130f', motif: 'glass' }, merch: 'glasshouse-tee',
-      blurb: 'The first single from Weather for Two: a song about growing tomatoes on a fire escape and pretending it counts as a garden. Backed with a live take from the empty Govanhill Baths.',
-      credits: 'Produced by Ailsa Braid. B-side recorded live by Kirsty Moffat at Govanhill Baths.',
+      blurb: 'The first single from Weather for Two: a song about growing tomatoes on a fire escape and pretending it counts as a garden. Backed with a live take from the empty Near South Pool.',
+      credits: 'Produced by Ailsa Braid. B-side recorded live by Kirsty Moffat at Near South Pool.',
       tracks: [
         { title: 'Glasshouse', len: '3:41' },
-        { title: 'Glasshouse (Govanhill Baths session)', len: '4:02' }
+        { title: 'Glasshouse (Near South Pool session)', len: '4:02' }
       ] },
-    { id: 'clyde-in-winter', type: 'single', title: 'Clyde in Winter', date: '2025-12-05', label: 'Lantern House Records', cat: 'LHR027',
+    { id: 'creek-in-winter', type: 'single', title: 'Creek in Winter', date: '2025-12-05', label: 'Lantern House Records', cat: 'LHR027',
       art: { bg: '#15130f', a: '#c9cff7', b: '#ff4d94', ink: '#f4efe6', motif: 'river' },
-      blurb: 'A standalone winter single, written on the walk home along the river after the last show of 2025.',
+      blurb: 'A standalone winter single, written on the walk home along Salt Creek after the last show of 2025.',
       credits: 'Produced by Marigold Static and Ailsa Braid.',
       tracks: [
-        { title: 'Clyde in Winter', len: '3:33' },
-        { title: 'Clyde in Winter (voice memo demo)', len: '3:10' }
+        { title: 'Creek in Winter', len: '3:33' },
+        { title: 'Creek in Winter (voice memo demo)', len: '3:10' }
       ] },
     { id: 'lowland-signal', type: 'album', title: 'Lowland Signal', date: '2024-04-19', label: 'Lantern House Records', cat: 'LHR019',
       art: { bg: '#ffcf33', a: '#2b3fd6', b: '#ff4d94', ink: '#15130f', motif: 'signal' }, merch: 'lowland-lp',
-      blurb: 'The debut album. Ten songs about late trains, tenement light and the radio left on in the next room, shortlisted for the Scottish Independent Album of the Year.',
-      credits: 'Produced by Ailsa Braid. Recorded at Lanark Road Studios, Blantyre. Mixed by Tomás Reyes.',
+      blurb: 'The debut album. Ten songs about late freight trains, grain-elevator light and the radio left on in the next room, shortlisted for the Great Plains Independent Album of the Year.',
+      credits: 'Produced by Ailsa Braid. Recorded at Cornhusker Road Studios, Waverly. Mixed by Tomás Reyes.',
       tracks: [
         { title: 'Lowland Signal', len: '3:52' },
-        { title: 'Tenement Light', len: '3:29' },
+        { title: 'Elevator Light', len: '3:29' },
         { title: 'Overpass Choir', len: '4:18' },
         { title: 'Satellite Town', len: '3:06' },
         { title: 'Small Hours', len: '4:44' },
-        { title: 'Ferry Lights', len: '3:37' },
+        { title: 'Rail Yard Lights', len: '3:37' },
         { title: 'Copper & Rain', len: '3:12' },
-        { title: 'The Long Way Home from Partick', len: '4:51' },
+        { title: 'The Long Way Home from Havelock', len: '4:51' },
         { title: 'Signal Fade', len: '2:48' },
         { title: 'Everything Hums', len: '5:09' }
       ] },
@@ -100,54 +100,54 @@
       ] },
     { id: 'night-bus-hymns', type: 'ep', title: 'Night Bus Hymns', date: '2022-03-11', label: 'Self-released', cat: 'MS004',
       art: { bg: '#15130f', a: '#ffcf33', b: '#ff4d94', ink: '#f4efe6', motif: 'bus' }, merch: 'nbh-cassette',
-      blurb: 'Five songs written on the N44 between rehearsals and night shifts. Recorded in a weekend at the band’s rehearsal room above a launderette.',
+      blurb: 'Five songs written on Route 44 between rehearsals and night shifts. Recorded in a weekend at the band’s rehearsal room above a laundromat.',
       credits: 'Recorded and mixed by Reuben Oyelaran. Mastered by Ines Kowal.',
       tracks: [
-        { title: 'N44', len: '3:15' },
+        { title: 'Route 44', len: '3:15' },
         { title: 'Night Bus Hymn', len: '4:02' },
         { title: 'Sodium Halo', len: '3:41' },
-        { title: 'Last Orders', len: '3:22' },
+        { title: 'Last Call', len: '3:22' },
         { title: 'Home by Four', len: '4:30' }
       ] },
     { id: 'sodium-light', type: 'ep', title: 'Sodium Light', date: '2020-06-26', label: 'Self-released', cat: 'MS002',
       art: { bg: '#ff4d94', a: '#ffcf33', b: '#15130f', ink: '#15130f', motif: 'sun' },
-      blurb: 'The first EP, finished in lockdown with every part recorded in a different flat.',
+      blurb: 'The first EP, finished in lockdown with every part recorded in a different apartment.',
       credits: 'Recorded at home by Marigold Static. Mixed by Reuben Oyelaran.',
       tracks: [
         { title: 'Sodium Light', len: '3:38' },
-        { title: 'Southside', len: '3:04' },
+        { title: 'Near South', len: '3:04' },
         { title: 'Burnt Orange', len: '3:51' },
         { title: 'Tape Hiss Lullaby', len: '4:16' }
       ] },
     { id: 'overpass', type: 'single', title: 'Overpass', date: '2019-02-15', label: 'Self-released', cat: 'MS001',
       art: { bg: '#f4efe6', a: '#2b3fd6', b: '#ff4d94', ink: '#15130f', motif: 'grid' },
       blurb: 'The debut single, pressed as 300 lathe-cut 7-inches and sold out at the launch show.',
-      credits: 'Recorded live at the Hug and Pint back room.',
+      credits: 'Recorded live in the back room at the Starlite Tap.',
       tracks: [
         { title: 'Overpass', len: '3:47' },
-        { title: 'Kelvin', len: '2:59' }
+        { title: 'Holdrege', len: '2:59' }
       ] }
   ];
 
   var TYPES = { album: 'Album', ep: 'EP', single: 'Single' };
 
-  // Tour regions (tour.html?region=uk) and dates. status: 'on-sale', 'low' (last tickets), 'sold-out'
-  // or 'soon' (tickets not on sale yet; onSale is the date they go on sale). time is the doors time.
+  // Tour regions (tour.html?region=midwest) and dates. status: 'on-sale', 'low' (last tickets), 'sold-out'
+  // or 'soon' (tickets not on sale yet; onSale is the date they go on sale). time is the doors time, 24-hour (shown as 7:00 PM).
   var REGIONS = [
-    { id: 'uk', label: 'UK & Ireland' },
+    { id: 'midwest', label: 'Midwest' },
     { id: 'europe', label: 'Europe' },
-    { id: 'na', label: 'North America' }
+    { id: 'na', label: 'Coasts & Canada' }
   ];
   var TOUR = [
-    { id: 'glasgow-1', date: '2026-11-13', time: '19:00', city: 'Glasgow', country: 'United Kingdom', region: 'uk', venue: 'Gallowgate Ballroom', status: 'sold-out', note: 'Album launch', support: 'Hazel Okafor' },
-    { id: 'glasgow-2', date: '2026-11-14', time: '19:00', city: 'Glasgow', country: 'United Kingdom', region: 'uk', venue: 'Gallowgate Ballroom', status: 'low', note: 'Second night added', support: 'Hazel Okafor' },
-    { id: 'edinburgh', date: '2026-11-17', time: '19:00', city: 'Edinburgh', country: 'United Kingdom', region: 'uk', venue: 'Leith Assembly Rooms', status: 'on-sale', support: 'Hazel Okafor' },
-    { id: 'manchester', date: '2026-11-19', time: '19:00', city: 'Manchester', country: 'United Kingdom', region: 'uk', venue: 'Ancoats Electric', status: 'low', support: 'Hazel Okafor' },
-    { id: 'leeds', date: '2026-11-20', time: '19:30', city: 'Leeds', country: 'United Kingdom', region: 'uk', venue: 'The Wharf Room', status: 'on-sale', support: 'Hazel Okafor' },
-    { id: 'bristol', date: '2026-11-22', time: '19:00', city: 'Bristol', country: 'United Kingdom', region: 'uk', venue: 'Harbourside Hall', status: 'on-sale', support: 'Hazel Okafor' },
-    { id: 'london', date: '2026-11-24', time: '19:00', city: 'London', country: 'United Kingdom', region: 'uk', venue: 'Kingsland Assembly', status: 'sold-out', support: 'Hazel Okafor' },
-    { id: 'dublin', date: '2026-11-28', time: '19:30', city: 'Dublin', country: 'Ireland', region: 'uk', venue: 'Smithfield Sound House', status: 'on-sale', support: 'Hazel Okafor' },
-    { id: 'belfast', date: '2026-11-29', time: '19:00', city: 'Belfast', country: 'United Kingdom', region: 'uk', venue: 'The Linen Rooms', status: 'on-sale', support: 'Hazel Okafor' },
+    { id: 'lincoln-1', date: '2026-11-13', time: '19:00', city: 'Lincoln, NE', country: 'United States', region: 'midwest', venue: 'Haymarket Ballroom', status: 'sold-out', note: 'Album launch', support: 'Hazel Okafor' },
+    { id: 'lincoln-2', date: '2026-11-14', time: '19:00', city: 'Lincoln, NE', country: 'United States', region: 'midwest', venue: 'Haymarket Ballroom', status: 'low', note: 'Second night added', support: 'Hazel Okafor' },
+    { id: 'omaha', date: '2026-11-17', time: '19:00', city: 'Omaha, NE', country: 'United States', region: 'midwest', venue: 'Benson Assembly Rooms', status: 'on-sale', support: 'Hazel Okafor' },
+    { id: 'kansas-city', date: '2026-11-19', time: '19:00', city: 'Kansas City, MO', country: 'United States', region: 'midwest', venue: 'Crossroads Electric', status: 'low', support: 'Hazel Okafor' },
+    { id: 'des-moines', date: '2026-11-20', time: '19:30', city: 'Des Moines, IA', country: 'United States', region: 'midwest', venue: 'The Ingersoll Room', status: 'on-sale', support: 'Hazel Okafor' },
+    { id: 'minneapolis', date: '2026-11-22', time: '19:00', city: 'Minneapolis, MN', country: 'United States', region: 'midwest', venue: 'Riverfront Hall', status: 'on-sale', support: 'Hazel Okafor' },
+    { id: 'chicago', date: '2026-11-24', time: '19:00', city: 'Chicago, IL', country: 'United States', region: 'midwest', venue: 'The Ravenswood', status: 'sold-out', support: 'Hazel Okafor' },
+    { id: 'milwaukee', date: '2026-11-28', time: '19:30', city: 'Milwaukee, WI', country: 'United States', region: 'midwest', venue: 'Third Ward Sound House', status: 'on-sale', support: 'Hazel Okafor' },
+    { id: 'madison', date: '2026-11-29', time: '19:00', city: 'Madison, WI', country: 'United States', region: 'midwest', venue: 'The Willy Street Rooms', status: 'on-sale', support: 'Hazel Okafor' },
     { id: 'amsterdam', date: '2026-12-03', time: '20:00', city: 'Amsterdam', country: 'Netherlands', region: 'europe', venue: 'Het Pakhuis', status: 'low', support: 'Twin Ferries' },
     { id: 'brussels', date: '2026-12-04', time: '19:30', city: 'Brussels', country: 'Belgium', region: 'europe', venue: 'La Serre', status: 'on-sale', support: 'Twin Ferries' },
     { id: 'berlin', date: '2026-12-06', time: '20:00', city: 'Berlin', country: 'Germany', region: 'europe', venue: 'Kesselhaus Nord', status: 'on-sale', support: 'Twin Ferries' },
@@ -157,7 +157,7 @@
     { id: 'toronto', date: '2027-02-18', time: '19:00', city: 'Toronto', country: 'Canada', region: 'na', venue: 'Ossington Ballroom', status: 'on-sale', support: 'Lake Effect Choir' },
     { id: 'brooklyn', date: '2027-02-20', time: '19:00', city: 'Brooklyn, NY', country: 'United States', region: 'na', venue: 'Kent Avenue Hall', status: 'low', support: 'Lake Effect Choir' },
     { id: 'philadelphia', date: '2027-02-21', time: '19:00', city: 'Philadelphia, PA', country: 'United States', region: 'na', venue: 'The Foundry Room', status: 'on-sale', support: 'Lake Effect Choir' },
-    { id: 'chicago', date: '2027-02-24', time: '19:00', city: 'Chicago, IL', country: 'United States', region: 'na', venue: 'The Ravenswood', status: 'on-sale', support: 'Lake Effect Choir' },
+    { id: 'washington-dc', date: '2027-02-24', time: '19:00', city: 'Washington, DC', country: 'United States', region: 'na', venue: 'The H Street Room', status: 'on-sale', support: 'Lake Effect Choir' },
     { id: 'los-angeles', date: '2027-02-27', time: '19:00', city: 'Los Angeles, CA', country: 'United States', region: 'na', venue: 'The Glassell Room', status: 'soon', onSale: '2026-10-23', support: 'Lake Effect Choir' },
     { id: 'san-francisco', date: '2027-02-28', time: '19:00', city: 'San Francisco, CA', country: 'United States', region: 'na', venue: 'Mission Assembly', status: 'soon', onSale: '2026-10-23', support: 'Lake Effect Choir' }
   ];
@@ -167,41 +167,41 @@
   // Merch. price is in BAND.currency. colours: name + swatch hex; sizes: list, soldOut: sizes that can't be bought.
   // kind picks the SVG mock-up: 'lp', 'cd', 'cassette', 'tee', 'hoodie', 'poster', 'tote' or 'pins'.
   var PRODUCTS = [
-    { id: 'wft-lp', name: 'Weather for Two — LP', cat: 'music', kind: 'lp', release: 'weather-for-two', price: 27, badge: 'Pre-order',
+    { id: 'wft-lp', name: 'Weather for Two — LP', cat: 'music', kind: 'lp', release: 'weather-for-two', price: 32, badge: 'Pre-order',
       desc: '180g vinyl in a gatefold sleeve with a 12-page lyric zine. Ships the week of release.',
       colours: [{ name: 'Cobalt blue', hex: '#2b3fd6' }, { name: 'Black', hex: '#15130f' }] },
-    { id: 'wft-cd', name: 'Weather for Two — CD', cat: 'music', kind: 'cd', release: 'weather-for-two', price: 12, badge: 'Pre-order',
-      desc: 'Six-panel digipak with fold-out poster. Signed by the band while stocks last.' },
-    { id: 'lowland-lp', name: 'Lowland Signal — LP', cat: 'music', kind: 'lp', release: 'lowland-signal', price: 24,
+    { id: 'wft-cd', name: 'Weather for Two — CD', cat: 'music', kind: 'cd', release: 'weather-for-two', price: 15, badge: 'Pre-order',
+      desc: 'Six-panel digipak with fold-out poster. Signed by the band while supplies last.' },
+    { id: 'lowland-lp', name: 'Lowland Signal — LP', cat: 'music', kind: 'lp', release: 'lowland-signal', price: 28,
       desc: 'The debut album on sun-yellow vinyl, with a download code.',
       colours: [{ name: 'Sun yellow', hex: '#ffcf33' }] },
-    { id: 'nbh-cassette', name: 'Night Bus Hymns — Cassette', cat: 'music', kind: 'cassette', release: 'night-bus-hymns', price: 9, badge: 'Last 30',
+    { id: 'nbh-cassette', name: 'Night Bus Hymns — Cassette', cat: 'music', kind: 'cassette', release: 'night-bus-hymns', price: 12, badge: 'Last 30',
       desc: 'Pink-shell cassette with a hand-numbered J-card. Includes a download code.' },
-    { id: 'glasshouse-tee', name: 'Glasshouse tee', cat: 'apparel', kind: 'tee', price: 25,
-      desc: 'Heavyweight organic cotton with a two-colour riso-style print. Relaxed fit.',
+    { id: 'glasshouse-tee', name: 'Glasshouse tee', cat: 'apparel', kind: 'tee', price: 30,
+      desc: 'Heavyweight organic cotton with a two-color riso-style print. Relaxed fit.',
       colours: [{ name: 'Bone', hex: '#f4efe6' }, { name: 'Ink', hex: '#15130f' }, { name: 'Pink', hex: '#ff4d94' }],
       sizes: ['S', 'M', 'L', 'XL', 'XXL'], soldOut: ['XXL'] },
-    { id: 'static-hoodie', name: 'Static Club hoodie', cat: 'apparel', kind: 'hoodie', price: 48,
+    { id: 'static-hoodie', name: 'Static Club hoodie', cat: 'apparel', kind: 'hoodie', price: 55,
       desc: 'Brushed-back fleece with an embroidered sun on the chest and the tour dates on the back.',
       colours: [{ name: 'Ink', hex: '#15130f' }, { name: 'Cobalt', hex: '#2b3fd6' }],
       sizes: ['S', 'M', 'L', 'XL'], soldOut: ['S'] },
-    { id: 'tour-poster', name: 'Tour poster (A2 riso print)', cat: 'accessories', kind: 'poster', price: 18,
-      desc: 'Three-colour risograph print on 170gsm recycled stock. Each one is slightly different.' },
-    { id: 'tote', name: 'Weather tote bag', cat: 'accessories', kind: 'tote', price: 14,
+    { id: 'tour-poster', name: 'Tour poster (18×24 riso print)', cat: 'accessories', kind: 'poster', price: 25,
+      desc: 'Three-color risograph print on 65 lb recycled stock. Each one is slightly different.' },
+    { id: 'tote', name: 'Weather tote bag', cat: 'accessories', kind: 'tote', price: 18,
       desc: 'Heavy canvas tote, big enough for twelve records and a raincoat.',
       colours: [{ name: 'Natural', hex: '#e9dcc1' }, { name: 'Ink', hex: '#15130f' }] },
-    { id: 'pins', name: 'Enamel pin set', cat: 'accessories', kind: 'pins', price: 10,
-      desc: 'Three hard-enamel pins: the sun, a raincloud and the N44 night bus.' }
+    { id: 'pins', name: 'Enamel pin set', cat: 'accessories', kind: 'pins', price: 12,
+      desc: 'Three hard-enamel pins: the sun, a raincloud and the Route 44 night bus.' }
   ];
   var MERCH_CATS = { music: 'Music', apparel: 'Apparel', accessories: 'Accessories' };
 
   // Contact form topics (contact.html?topic=booking). Each one says where the message goes.
   // Booking is routed by region: the region <select> in the booking fields picks the agent.
   var CONTACT_TOPICS = {
-    booking: { label: 'Booking', to: { uk: 'Jonah Ekwueme, Northpoint Agency (UK & Europe)', na: 'Priya Desai, Wide Sky Touring (North America)' }, reply: 'Replies within three working days.' },
-    press: { label: 'Press and interviews', to: 'Hollie Grant, Paper Plane PR', reply: 'Replies within two working days. Tell us your deadline.' },
+    booking: { label: 'Booking', to: { uk: 'Jonah Ekwueme, Northpoint Agency (UK & Europe)', na: 'Priya Desai, Wide Sky Touring (North America)' }, reply: 'Replies within three business days.' },
+    press: { label: 'Press and interviews', to: 'Hollie Grant, Paper Plane PR', reply: 'Replies within two business days. Tell us your deadline.' },
     sync: { label: 'Sync and licensing', to: 'The sync team at Lantern House Records', reply: 'Replies within a week.' },
-    merch: { label: 'Orders and merch', to: 'The Marigold Static shop', reply: 'Replies within two working days.' },
+    merch: { label: 'Orders and merch', to: 'The Marigold Static shop', reply: 'Replies within two business days.' },
     general: { label: 'Something else', to: 'The band (Isla reads these)', reply: 'We read everything, but can’t always reply.' }
   };
 
@@ -227,6 +227,8 @@
   function secs(len) { var p = len.split(':'); return Number(p[0]) * 60 + Number(p[1]); }
   function parseDate(iso) { var p = iso.split('-'); return new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2])); }
   function fmtDate(iso, opts) { return parseDate(iso).toLocaleDateString(BAND.locale, opts || { day: 'numeric', month: 'long', year: 'numeric' }); }
+  // Doors time for visitors: '19:00' in the data reads '7:00 PM'.
+  function doorsTime(t) { var p = t.split(':'), h = Number(p[0]); return (h % 12 || 12) + ':' + p[1] + (h < 12 ? ' AM' : ' PM'); }
   function money(n) { return new Intl.NumberFormat(BAND.locale, { style: 'currency', currency: BAND.currency, minimumFractionDigits: n % 1 ? 2 : 0 }).format(n); }
   function today() { var d = new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
   function isOut(rel) { return parseDate(rel.date) <= today(); }
@@ -327,7 +329,7 @@
 
   // Release and tour dates written in the pages: [data-release-note] (the banner), [data-release-cta] (pre-save
   // and pre-order links, which read RELEASE_CTA[their data-release-cta] once the album is out), [data-release-day]
-  // ("13 November 2026", or "13 November" with ="dm"), [data-release-year], [data-tour-years] ("2026–27") and
+  // ("November 13, 2026", or "November 13" with ="dm"), [data-release-year], [data-tour-years] ("2026–27") and
   // [data-tour-from] ("November 2026"). They follow the dates in RELEASES and TOUR, including the demo shift.
   var RELEASE_CTA = { listen: 'Listen', 'listen-album': 'Listen to the album', 'listen-now': 'Listen now', 'buy-lp': 'Buy the LP' };
   function initDemoText() {
@@ -340,8 +342,8 @@
       el.textContent = fmtDate(rel.date, el.getAttribute('data-release-day') === 'dm' ? { day: 'numeric', month: 'long' } : { day: 'numeric', month: 'long', year: 'numeric' });
     });
     $$('[data-release-year]').forEach(function (el) { el.textContent = rel.date.slice(0, 4); });
-    // The home page title ends "…, out 13 November".
-    document.title = document.title.replace(/out \d{1,2} [A-Z][a-z]+$/, out ? 'out now' : 'out ' + fmtDate(rel.date, { day: 'numeric', month: 'long' }));
+    // The home page title ends "…, out November 13".
+    document.title = document.title.replace(/out [A-Z][a-z]+ \d{1,2}$/, out ? 'out now' : 'out ' + fmtDate(rel.date, { day: 'numeric', month: 'long' }));
     if (TOUR.length) {
       var dates = TOUR.map(function (s) { return s.date; }).sort();
       var years = tourYearsText();
@@ -365,7 +367,7 @@
    * 3. Artwork
    * ------------------------------------------------------------------ */
   // Square release cover. Each motif is a small riso-style composition: two inks multiplied over a
-  // paper colour, a halftone layer and the title set in the display face.
+  // paper color, a halftone layer and the title set in the display face.
   var coverSeq = 0;
   function cover(rel, opts) {
     opts = opts || {};
@@ -401,7 +403,7 @@
         m = '<g' + mult + '><rect x="40" y="120" width="320" height="130" rx="22" fill="' + a.a + '"/></g>' +
           '<g fill="' + a.ink + '">' + [0, 1, 2, 3, 4].map(function (i) { return '<rect x="' + (58 + i * 60) + '" y="140" width="44" height="40" rx="6" fill="' + a.ink + '"/>'; }).join('') + '</g>' +
           '<g fill="' + a.b + '"><circle cx="110" cy="256" r="26"/><circle cx="290" cy="256" r="26"/></g>' +
-          '<text x="330" y="232" text-anchor="end" font-family="Big Shoulders Display, Arial Narrow, sans-serif" font-weight="900" font-size="40" fill="' + a.ink + '">N44</text>';
+          '<text x="330" y="232" text-anchor="end" font-family="Big Shoulders Display, Arial Narrow, sans-serif" font-weight="900" font-size="40" fill="' + a.ink + '">44</text>';
         break;
       case 'sun':
         m = '<circle cx="200" cy="200" r="96" fill="' + a.a + '"' + mult + '/>' +
@@ -430,7 +432,7 @@
     });
   }
 
-  // Merch mock-ups, drawn for the selected colour.
+  // Merch mock-ups, drawn for the selected color.
   function productArt(p, colour) {
     var hex = colour ? colour.hex : '#15130f';
     var dark = /^#(15|2b)/.test(hex);
@@ -494,7 +496,7 @@
   }
 
   /* ------------------------------------------------------------------
-   * 4. Audio. Each track's preview is a short piece of music synthesised in the browser (a pad, bass,
+   * 4. Audio. Each track's preview is a short piece of music synthesized in the browser (a pad, bass,
    * arpeggio and drums in a key, tempo and chord progression picked from the track id), encoded as
    * a WAV file and played with a normal <audio> element. Nothing is downloaded.
    * ------------------------------------------------------------------ */
@@ -893,7 +895,7 @@
       '<div class="min-w-0"><p class="sr-only">' + esc(fmtDate(s.date, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })) + '</p>' +
       '<h3 class="font-display text-[1.9rem] leading-none font-extrabold uppercase sm:text-[2.2rem]">' + esc(s.city) + '</h3>' +
       '<p class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-soft"><span class="font-bold text-ink">' + esc(s.venue) + '</span><span>' + esc(s.country) + '</span>' + status + (s.note ? '<span class="chip chip-pink">' + esc(s.note) + '</span>' : '') + '</p>' +
-      (compact ? '' : '<p class="mt-1 text-sm text-subtle">Doors ' + esc(s.time) + ' · with ' + esc(s.support) + '</p>') + '</div>' +
+      (compact ? '' : '<p class="mt-1 text-sm text-subtle">Doors ' + esc(doorsTime(s.time)) + ' · with ' + esc(s.support) + '</p>') + '</div>' +
       '<div class="show-actions">' + (compact ? '' : '<button type="button" class="btn-ghost btn-sm" data-ics="' + esc(s.id) + '" aria-label="Add ' + esc(label) + ' to your calendar"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4M12 13v4M10 15h4"/></svg>Calendar</button>') + action + '</div></li>';
   }
 
@@ -995,7 +997,7 @@
         '<div><dt class="meta">Released</dt><dd class="mt-1 font-bold">' + (out ? '' : 'Out ') + esc(fmtDate(r.date)) + '</dd></div>' +
         '<div><dt class="meta">Format</dt><dd class="mt-1 font-bold">' + TYPES[r.type] + ' · ' + r.tracks.length + ' tracks</dd></div>' +
         '<div><dt class="meta">Label</dt><dd class="mt-1 font-bold">' + esc(r.label) + '</dd></div>' +
-        '<div><dt class="meta">Catalogue</dt><dd class="mt-1 font-mono font-bold">' + esc(r.cat) + '</dd></div></dl></div>' +
+        '<div><dt class="meta">Catalog</dt><dd class="mt-1 font-mono font-bold">' + esc(r.cat) + '</dd></div></dl></div>' +
         '<div class="min-w-0"><p class="eyebrow">' + TYPES[r.type] + ' · ' + (out ? parseDate(r.date).getFullYear() : 'Out ' + esc(fmtDate(r.date, { day: 'numeric', month: 'long' }))) + '</p>' +
         '<h2 id="release-title" tabindex="-1" class="h-section mt-4 focus:outline-none">' + esc(r.title) + '</h2>' +
         '<p class="lead mt-5 max-w-2xl">' + esc(r.blurb) + '</p>' +
@@ -1056,7 +1058,7 @@
       'DTSTAMP:' + stamp, 'DTSTART:' + start, 'DTEND:' + end,
       'SUMMARY:' + e(BAND.name + ' at ' + s.venue),
       'LOCATION:' + e(s.venue + ', ' + s.city + ', ' + s.country),
-      'DESCRIPTION:' + e('Doors ' + s.time + '. Support from ' + s.support + '. Tickets: ' + ticketUrl(s)),
+      'DESCRIPTION:' + e('Doors ' + doorsTime(s.time) + '. Support from ' + s.support + '. Tickets: ' + ticketUrl(s)),
       'URL:' + ticketUrl(s), 'END:VEVENT', 'END:VCALENDAR'].join('\r\n') + '\r\n';
   }
   function initIcs() {
@@ -1202,7 +1204,7 @@
     }).join('');
     $$('[data-cart-subtotal]', drawer).forEach(function (el) { el.textContent = money(sub); });
     var left = BAND.freeShippingFrom - sub, ship = $('[data-ship]', drawer);
-    ship.textContent = left > 0 ? 'Spend ' + money(left) + ' more for free UK shipping.' : 'You’ve unlocked free UK shipping.';
+    ship.textContent = left > 0 ? 'Spend ' + money(left) + ' more for free US shipping.' : 'You’ve unlocked free US shipping.';
     $('[data-ship-bar]', drawer).style.width = clamp(sub / BAND.freeShippingFrom * 100, 0, 100) + '%';
     var shipCost = left > 0 ? BAND.shipping : 0;
     $$('[data-cart-shipping]', drawer).forEach(function (el) { el.textContent = shipCost ? money(shipCost) : 'Free'; });
@@ -1267,9 +1269,9 @@
     grid.innerHTML = PRODUCTS.map(function (p) {
       var c0 = p.colours ? p.colours[0] : null;
       var colours = p.colours && p.colours.length > 1
-        ? '<fieldset class="mt-4"><legend class="meta">Colour: <span class="font-bold text-ink" data-colour-name>' + esc(c0.name) + '</span></legend><div class="mt-2 flex flex-wrap gap-2.5">' +
+        ? '<fieldset class="mt-4"><legend class="meta">Color: <span class="font-bold text-ink" data-colour-name>' + esc(c0.name) + '</span></legend><div class="mt-2 flex flex-wrap gap-2.5">' +
           p.colours.map(function (c, i) { return '<label class="swatch" style="--sw:' + c.hex + '"><input type="radio" class="sr-only" name="colour" value="' + esc(c.name) + '"' + (i === 0 ? ' checked' : '') + '><span class="sr-only">' + esc(c.name) + '</span></label>'; }).join('') + '</div></fieldset>'
-        : (c0 ? '<p class="meta mt-4">Colour: <span class="font-bold text-ink">' + esc(c0.name) + '</span></p>' : '');
+        : (c0 ? '<p class="meta mt-4">Color: <span class="font-bold text-ink">' + esc(c0.name) + '</span></p>' : '');
       var sizes = p.sizes
         ? '<fieldset class="mt-4"><legend class="meta">Size</legend><div class="mt-2 flex flex-wrap gap-2">' +
           p.sizes.map(function (s) { var out = (p.soldOut || []).indexOf(s) >= 0; return '<label class="pill"><input type="radio" class="sr-only" name="size" value="' + s + '"' + (out ? ' disabled' : '') + ' aria-describedby="err-' + p.id + '"><span>' + s + '</span>' + (out ? '<span class="sr-only"> (sold out)</span>' : '') + '</label>'; }).join('') +
