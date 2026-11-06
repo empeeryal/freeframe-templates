@@ -1,11 +1,11 @@
 # Wander: free HTML5 + Tailwind CSS travel and tour company website template
 
 A complete website for a small-group tour operator, built for the fictional **Saltwind Journeys**, a
-Sheffield company running trips of twelve travelers or fewer across six regions: a trip finder, tours with
+Flagstaff company running trips of twelve travelers or fewer across six regions: a trip finder, tours with
 filters, tour pages with itineraries, route maps, departure dates and a live-priced inquiry, a seasonality
 chart, a journal and an about page. Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.4** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/wander)
 
 ## Quick start

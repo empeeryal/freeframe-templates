@@ -3,13 +3,13 @@
 ## Overview
 
 Solstice is a sunny, poster-style website for an outdoor food and music festival: a live countdown, a
-filterable line-up with artist pop-ups, a multi-stage timetable where visitors build their own plan (with
+filterable lineup with artist pop-ups, a multi-stage schedule where visitors build their own plan (with
 clash warnings and a calendar export), a ticket shop with early-bird prices and a group discount, a food
 village with dietary filters and a map, and a visitor guide with an interactive site map and a searchable
-FAQ. The demo event is **Solstice 2027**, a fictional three-day festival at Abbey Park, Leicester
-(Friday 25 – Sunday 27 June 2027) with 40 acts on four stages and 16 food and drink traders. It is built
+FAQ. The demo event is **Solstice 2027**, a fictional three-day festival at Birch Bluff Farm, Traverse City, Michigan
+(Friday – Sunday, June 25–27, 2027) with 40 acts on four stages and 16 food and drink vendors. It is built
 with HTML5, Tailwind CSS v4 and vanilla JavaScript, and needs no build step. This guide covers version
-1.0.3.
+1.0.7
 
 Live demo: [freeframe.dev/templates/solstice](https://freeframe.dev/templates/solstice)
 
@@ -31,13 +31,13 @@ Add `?now=2027-06-25T21:30` to any page's URL to preview it at a given festival 
 
 | File | Purpose | Notable sections |
 |------|---------|------------------|
-| `index.html` | Home | Poster hero with countdown and early-bird sticker, scrolling tape, poster-style line-up by day, "What's on" tiles, ticket preview, numbers, FAQ teaser, visitor guide card, line-up alerts sign-up |
-| `lineup.html` | Line-up | Day, stage and genre filters (kept in the URL), "My plan only", artist cards with generated artwork, artist pop-up |
-| `schedule.html` | Timetable | Day tabs, grid and list views, "My plan only", My plan panel with clashes, `.ics` export and clear, opening times |
+| `index.html` | Home | Poster hero with countdown and early-bird sticker, scrolling tape, poster-style lineup by day, "What's on" tiles, ticket preview, numbers, FAQ teaser, visitor guide card, lineup alerts sign-up |
+| `lineup.html` | Lineup | Day, stage and genre filters (kept in the URL), "My plan only", artist cards with generated artwork, artist pop-up |
+| `schedule.html` | Schedule | Day tabs, grid and list views, "My plan only", My plan panel with clashes, `.ics` export and clear, opening times |
 | `tickets.html` | Tickets | Day, weekend and add-on rows with steppers, order summary with fees and group discount, three-step checkout with an order reference, good-to-know cards |
-| `food.html` | Food & drink | Food/sweet/drink and dietary filters, search, trader cards, food village map with numbered pins |
+| `food.html` | Food & drink | Food/sweet/drink and dietary filters, search, vendor cards, food village map with numbered pins |
 | `info.html` | Plan your visit | Site map with layer toggles and a text version, getting there, accessibility, families, what to bring, searchable FAQ |
-| `contact.html` | Get involved | Contact form that routes volunteer, trader, press and visitor inquiries, direct contacts |
+| `contact.html` | Get involved | Contact form that routes volunteer, vendor, press and visitor inquiries, direct contacts |
 | `404.html` | Not found | Error page with links back |
 
 ## Project structure
@@ -47,7 +47,7 @@ solstice/
 ├── index.html, lineup.html, schedule.html, tickets.html, food.html, info.html, contact.html, 404.html
 ├── assets/
 │   ├── css/style.css      compiled Tailwind CSS (generated, do not edit by hand)
-│   ├── js/data.js         festival content: days, stages, genres, artists, traders, tickets, add-ons
+│   ├── js/data.js         festival content: days, stages, genres, artists, vendors, tickets, add-ons
 │   ├── js/main.js         every interactive feature, forms, reveals and the back-to-top button
 │   └── img/
 │       ├── hero-sun.svg   striped sunset sun with slowly turning rays
@@ -117,45 +117,45 @@ Festival content lives in `assets/js/data.js` as `window.SOLSTICE`:
 | Key | What it holds |
 |-----|---------------|
 | `keepDemoCurrent` | `true` in the demo: once the festival is over, every date moves on a year (see [Demo dates](#demo-dates)). Set it to `false` when you enter your real dates |
-| `gatesOpen`, `utcOffset` | Opening time and the festival's UTC offset (`+01:00` for BST) |
+| `gatesOpen`, `utcOffset` | Opening time and the festival's UTC offset (`-04:00` for Eastern Daylight Time) |
 | `days` | `id`, `label`, `short`, `date`, `gates`, `curfew` |
-| `stages` | `id`, `name`, `blurb` (order = timetable column order) |
+| `stages` | `id`, `name`, `blurb` (order = schedule column order) |
 | `genres` | Genre id → label |
 | `artists` | One entry per act and set (see below) |
-| `diets`, `vendors` | Dietary labels and the food village traders |
+| `diets`, `vendors` | Dietary labels and the food village vendors |
 | `tickets`, `addons` | Ticket types and extras with prices |
 | `earlyBirdEnds`, `groupSize`, `groupDiscount`, `fee`, `maxPerType`, `currency` | Ticket rules |
 
-Add an artist by adding an object to `artists`. Times are local festival time, 24-hour:
+Add an artist by adding an object to `artists`. Times are local festival time, 24-hour; the pages show them on the 12-hour clock:
 
 ```js
 { id: 'paper-moons', name: 'Paper Moons', day: 'sat', stage: 'orchard', start: '19:15', end: '20:00',
-  genre: 'folk', tier: 3, from: 'Loughborough',
+  genre: 'folk', tier: 3, from: 'Ann Arbor',
   bio: 'Three-part harmonies and a borrowed double bass.', art: ['waves', '#8fd0ee', '#24122e'] }
 ```
 
 - `id` must be unique; it is used in URLs (`lineup.html?artist=paper-moons`), the plan and the calendar.
 - `tier` is 1 for headliners (red "Headliner" badge, listed first), 2 for special guests, 3 for the rest.
 - `art` is `[motif, background, foreground]`. Motifs: `sun`, `waves`, `rings`, `stripes`, `burst`, `hills`.
-- Sets should finish by midnight; the timetable grid spans from the earliest start to the latest end of
+- Sets should finish by midnight; the schedule grid spans from the earliest start to the latest end of
   each day.
 
-The line-up and timetable are drawn from this data automatically. The poster-style line-up on the home
+The lineup and schedule are drawn from this data automatically. The poster-style lineup on the home
 page (`index.html`, "Three days. Forty acts.") is plain HTML so search engines can read it: update it
 by hand when you change headliners.
 
-Add a trader to `vendors`:
+Add a vendor to `vendors`:
 
 ```js
-{ id: 'pie-minister', name: 'Pie Minister', kind: 'food', cuisine: 'British pies',
-  dish: 'Steak and ale or mushroom pies with mash', price: '£9–£12',
+{ id: 'pie-minister', name: 'Pie Minister', kind: 'food', cuisine: 'Savory pies',
+  dish: 'Steak or mushroom pies with mashed potatoes', price: '$12–$16',
   diets: ['vegetarian'], pin: [62, 44] }
 ```
 
 `kind` is `food`, `sweet` or `drink` (pin color and the "Show" filter). `diets` uses the keys of `diets`.
-`pin` is the position on the food village map in percent (x, y). Trader numbers follow the array order.
+`pin` is the position on the food village map in percent (x, y). Vendor numbers follow the array order.
 
-Ticket prices are in `tickets` (`price` and `early`, in pounds) and `addons` (`price`). The ticket rows
+Ticket prices are in `tickets` (`price` and `early`, in dollars) and `addons` (`price`). The ticket rows
 in `tickets.html` show the same names and prices; prices on every page are refreshed from `data.js`
 when the page loads (elements with `data-price-of="<ticket id>"` and `data-full-of="<ticket id>"`), so
 `data.js` is the source of truth. If you add a ticket type, copy one of the rows in `tickets.html` and
@@ -189,7 +189,7 @@ are saved.
 
 ### Countdown
 
-`index.html` has `<div data-countdown="2027-06-25T14:00:00+01:00">` with four `[data-unit]` cells
+`index.html` has `<div data-countdown="2027-06-25T14:00:00-04:00">` with four `[data-unit]` cells
 (days, hours, minutes, seconds). Change the attribute to move the target. When it reaches zero, the
 cells are hidden and `[data-countdown-done]` is shown. The countdown has `role="timer"`.
 
@@ -199,16 +199,16 @@ cells are hidden and `[data-countdown-done]` is shown. The countdown has `role="
 prices show with the full price struck through and `[data-early-only]` elements (such as the hero
 sticker) are shown; afterwards, full prices show and `[data-early-hide]` elements appear instead.
 
-### Line-up filters and artist pop-up
+### Lineup filters and artist pop-up
 
-The code is in the "line-up page" section of `main.js`. Day buttons (`[data-day-filter]`), the stage and
+The code is in the "lineup page" section of `main.js`. Day buttons (`[data-day-filter]`), the stage and
 genre selects (`#filter-stage`, `#filter-genre`) and "My plan only" (`[data-plan-only]`) filter the
 cards; the result count is announced through an `aria-live` region. Filters are written back to the URL
 with `history.replaceState`, so `lineup.html?day=sat&stage=meadow&genre=indie` can be shared or
 bookmarked. `lineup.html?artist=<id>` opens that artist's pop-up on load.
 
 Clicking an artist name opens a native `<dialog>` (`[data-artist-modal]`) with the artwork, stage, set
-time, bio, a clash warning if relevant, "Add to my plan" and "See in timetable". Esc, the close button or
+time, bio, a clash warning if relevant, "Add to my plan" and "See in schedule". Esc, the close button or
 a click on the backdrop closes it, and focus returns to the card.
 
 ### My plan and clash detection
@@ -218,7 +218,7 @@ uses `aria-pressed`. The plan is saved in `localStorage` (see [Saved data](#save
 shared by all pages and synced between open tabs. `clashes()` in `main.js` marks two planned sets as
 clashing when they are on the same day and their times overlap.
 
-### Timetable
+### Schedule
 
 `schedule.html` shows one day at a time with keyboard-friendly tabs (Left/Right, Home/End). The day is
 kept in the URL (`schedule.html?day=sun`); without it, the page opens on the current festival day or
@@ -242,28 +242,28 @@ Steppers (`[data-qty]` with `[data-step="-1"]` and `[data-step="1"]`) change qua
 
 - **Group discount**: `groupDiscount` (10%) off the ticket subtotal when an order has `groupSize` (6) or
   more tickets. Add-ons are not discounted. A hint shows how many more tickets unlock it.
-- **Booking fee**: `fee` (£1.75) per ticket; add-ons have no fee.
-- **Rules**: a campervan pitch needs a Weekend + camping or Family weekend ticket per van, and a bell tent
+- **Service fee**: `fee` ($4.50) per ticket; add-ons have no fee.
+- **Rules**: a RV site needs a Weekend + camping or Family weekend ticket per RV, and a bell tent
   needs at least one of those tickets. The summary explains the problem and disables "Continue".
 
-The basket is saved on the device. "Continue to details" shows step 2, a validated form (name, email, UK
-postcode, two required checkboxes); a valid submit shows step 3, "Order … is confirmed", with an order reference
+The cart is saved on the device. "Continue to details" shows step 2, a validated form (name, email, ZIP
+code, two required checkboxes); a valid submit shows step 3, "Order … is confirmed", with an order reference
 (`SO-` and four characters, from `makeRef()`; use your ticketing provider's own reference instead if it returns
-one), the total and a note that the e-tickets are on their way by email, hides the order summary so the confirmation spans the full width (`data-step="done"` on `[data-checkout-layout]`), and empties the basket. Nothing is charged or sent. To sell real tickets, link the "Continue"
-button to your ticketing provider, or send the basket to your own checkout from the `solstice:valid`
+one), the total and a note that the e-tickets are on their way by email, hides the order summary so the confirmation spans the full width (`data-step="done"` on `[data-checkout-layout]`), and empties the cart. Nothing is charged or sent. To sell real tickets, link the "Continue"
+button to your ticketing provider, or send the cart to your own checkout from the `solstice:valid`
 listener in the "tickets page" section of `main.js`.
 
 ### Food village filters and map
 
 "Show" buttons (`[data-kind]`) filter by food, sweet or drink; dietary chips (`[data-diet]`) can be
-combined and traders must match all of them; the search box matches name, cuisine and dish. Matching pins
-on the map stay bright, others fade. "Show on map" highlights a trader's pin; clicking a pin (or pressing
-Enter on it) highlights the trader's card. `food.html?diet=vegan,gluten-free` preselects dietary filters.
+combined and vendors must match all of them; the search box matches name, cuisine and dish. Matching pins
+on the map stay bright, others fade. "Show on map" highlights a vendor's pin; clicking a pin (or pressing
+Enter on it) highlights the vendor's card. `food.html?diet=vegan,gluten-free` preselects dietary filters.
 
 ### Site map layers
 
 Each layer of the `info.html` map is a `<g class="map-layer" data-layer-group="...">` (`stages`, `food`,
-`toilets`, `firstaid`, `water`, `access`). The buttons with the same `data-layer` toggle it with
+`toilets` (the Restrooms layer), `firstaid`, `water`, `access`). The buttons with the same `data-layer` toggle it with
 `aria-pressed`, and "Show all" turns every layer back on. Each symbol has a `<title>` tooltip, and the
 "Read the map as a list" section gives the same information as text. To add a symbol, put a new `<g>` with
 a `<title>` inside the right layer group.
@@ -277,8 +277,8 @@ hooks.
 
 ### Contact routing
 
-The topic radios on `contact.html` show the matching `[data-topic-panel]` (volunteer, trader, press,
-general), disable the fields of the others (so they are neither validated nor submitted) and say where the
+The topic radios on `contact.html` show the matching `[data-topic-panel]` (`volunteer`, `trader`, `press`,
+`general`), disable the fields of the others (so they are neither validated nor submitted) and say where the
 message goes. `contact.html?topic=trader` preselects a topic. Team names and addresses are in `ROUTES` in
 the "contact" section of `main.js`.
 
@@ -291,17 +291,16 @@ button appears after one screen of scrolling; it steps aside for the sticky orde
 
 ### Demo dates
 
-The demo is written for 25–27 June 2027. While `keepDemoCurrent` in `data.js` is `true` and that edition is over
+The demo is written for June 25–27, 2027. While `keepDemoCurrent` in `data.js` is `true` and that edition is over
 (after the last day's curfew), the script moves every date to the same week of the next year, by whole weeks so
-weekdays never change (Friday 25 June 2027 becomes Friday 23 June 2028), so the countdown, early-bird prices,
-timetable and calendar export always point at an upcoming festival. The year of the edition follows. It updates:
+weekdays never change (Friday, June 25, 2027 becomes Friday, June 23, 2028), so the countdown, early-bird prices,
+schedule and calendar export always point at an upcoming festival. The year of the edition follows. It updates:
 
 - `days` dates, `gatesOpen`, `earlyBirdEnds`, the countdown target and years and dates in the artist bios;
-- `data-edition` text: `dates` ("25–27 June 2027"), `dates-noyear`, `dates-long` ("Friday 25 – Sunday 27 June
-  2027"), `dates-long-noyear`, `year` and `year+1`;
-- `data-date="2027-06-01"` text ("1 June 2027"; `data-date-format="dm"` leaves out the year, and
-  `data-date-end` makes a range such as "19–24 June");
-- `data-day-label="fri"` ("Friday 25 June"), the page title, `aria-label`s and `data-error` messages.
+- `data-edition` text: `dates` ("June 25–27, 2027"), `dates-noyear`, `dates-long` ("Friday – Sunday, June 25–27, 2027"), `dates-long-noyear`, `year` and `year+1`;
+- `data-date="2027-06-01"` text ("June 1, 2027"; `data-date-format="dm"` leaves out the year, and
+  `data-date-end` makes a range such as "June 19–24");
+- `data-day-label="fri"` ("Friday, June 25"), the page title, `aria-label`s and `data-error` messages.
 
 Before the edition is over nothing is changed, so `?now=2027-06-26T21:40` still previews the festival weekend.
 **Set `keepDemoCurrent` to `false` once you enter your real dates.**
@@ -320,11 +319,11 @@ first problem. Groups of checkboxes or radios use `<fieldset data-group-required
 
 | Form | Page | Validates |
 |------|------|-----------|
-| Line-up alerts (`data-form="alerts"`) | `index.html` | Email, at least one alert type |
-| Checkout (`data-form="checkout"`) | `tickets.html` | Name, email, UK postcode pattern, age and terms checkboxes |
+| Lineup alerts (`data-form="alerts"`) | `index.html` | Email, at least one alert type |
+| Checkout (`data-form="checkout"`) | `tickets.html` | Name, email, ZIP code pattern (5 digits, optional +4), age and terms checkboxes |
 | Contact (`data-form="contact"`) | `contact.html` | Topic, name, email, topic fields, message of 20+ characters |
 
-Each form finishes with an in-world confirmation. The line-up alerts ask subscribers to look out for a
+Each form finishes with an in-world confirmation. The lineup alerts ask subscribers to look out for a
 confirmation email. The contact form says which team the message reached, repeats that team's reply time from
 `ROUTES` (the same times the page shows before sending) and shows a reference (`SO-` and four characters, made
 in the browser by `makeRef()` in `main.js`; use your form service's own reference instead if it returns one).
@@ -354,10 +353,10 @@ can try again.
 | Key | Shape | Validation |
 |-----|-------|------------|
 | `solstice-plan` | Array of artist ids, e.g. `["halcyon-bloom","kemi-sunday"]` | Non-strings, duplicates and unknown ids are dropped and storage is repaired |
-| `solstice-cart` | `{ "tickets": { "camping": 2 }, "addons": { "parking": 1 } }` | Unknown ids are dropped, quantities are clamped to 0–`maxPerType`; removed when the basket is empty |
+| `solstice-cart` | `{ "tickets": { "camping": 2 }, "addons": { "parking": 1 } }` | Unknown ids are dropped, quantities are clamped to 0–`maxPerType`; removed when the cart is empty |
 
 If storage is unavailable (private mode), everything still works for the current page. Visitors can reset
-by clearing the plan on the timetable or the site data in their browser; in code, call
+by clearing the plan on the schedule or the site data in their browser; in code, call
 `localStorage.removeItem('solstice-plan')`.
 
 ## SEO and sharing
@@ -381,7 +380,7 @@ can add `schema.org/MusicEvent` or `Festival` structured data (name, dates, loca
 - Mobile menu with `aria-expanded`, closed with Esc.
 - Filters and toggles use `aria-pressed`; day tabs use the tabs pattern; the artist pop-up is a native
   `<dialog>` that returns focus; counts and totals are announced with `aria-live`.
-- The timetable has a list view, each grid column is labeled with its stage, and the site map has a text
+- The schedule has a list view, each grid column is labeled with its stage, and the site map has a text
   version.
 - Reduced motion turns off reveals, the tape, the turning sun and hover lifts.
 
@@ -408,14 +407,14 @@ Cloudflare Pages, Vercel or your own server. No server-side code is needed.
 
 - **New Tailwind classes have no effect.** Run `npm run build`; only classes found in the files are
   generated.
-- **The line-up or timetable is empty.** `data.js` must load before `main.js`, and must not have a
+- **The lineup or schedule is empty.** `data.js` must load before `main.js`, and must not have a
   syntax error (check the browser console, a missing comma is the usual cause).
 - **A set shows in the wrong place.** Check `day`, `stage` (must match a stage `id`) and `HH:MM` times in
   24-hour format.
 - **Prices show the full price before the early-bird date.** Check `earlyBirdEnds` (ISO date with a time
   zone) and remove any `?now=` from the URL.
 - **The calendar file has the wrong times.** Set `utcOffset` to your festival's offset during the event
-  (`+01:00` for British Summer Time, `+02:00` for central Europe in summer).
+  (`-04:00` for Eastern Daylight Time, `-07:00` for Pacific Daylight Time).
 - **Saved plans contain removed artists.** They are dropped automatically the next time a page loads.
 - **The social preview shows no image.** Use an absolute `og:image` URL and the PNG, not the SVG.
 

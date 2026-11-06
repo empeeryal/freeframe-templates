@@ -8,16 +8,16 @@
     <path d="M70 214h500v80H70Z" fill="#9fb8ad"/>
     <path d="M70 226c40-6 70 6 110 0s70-6 110 0 70 6 110 0 80-6 150 0" stroke="#dfe9e2" stroke-width="3" fill="none" opacity=".7"/>
     <path d="M70 252c50-6 80 6 120 0s80-6 120 0 80 6 120 0 70-4 140 0" stroke="#dfe9e2" stroke-width="3" fill="none" opacity=".5"/>
-    <!-- cranes -->
-    <g fill="none" stroke="#2c473b" stroke-width="5" stroke-linejoin="round">
-      <path d="M150 214V112l22 0v102M150 112l-60 0M172 112l50 0M150 140l22-28M150 168l22-28M150 196l22-28M200 112v50"/>
-      <path d="M300 214v-80h18v80M300 134h-48M318 134h40M300 156l18-22M300 180l18-22M340 134v36"/>
+    <!-- downtown Dayton across the river -->
+    <g fill="#2c473b">
+      <rect x="92" y="150" width="44" height="64"/><rect x="140" y="118" width="38" height="96"/><rect x="182" y="136" width="50" height="78"/>
+      <rect x="238" y="98" width="34" height="116"/><path d="M238 98l17-24 17 24Z"/><rect x="278" y="146" width="46" height="68"/><rect x="330" y="128" width="38" height="86"/>
     </g>
-    <!-- ship -->
-    <path d="M380 190h150l-14 26H392Z" fill="#13221c"/>
-    <rect x="404" y="168" width="22" height="22" fill="#d4eb5c"/><rect x="428" y="168" width="22" height="22" fill="#fffdf8"/><rect x="452" y="168" width="22" height="22" fill="#2c473b"/>
-    <rect x="428" y="148" width="22" height="20" fill="#2c473b"/><rect x="452" y="148" width="22" height="20" fill="#d4eb5c"/>
-    <rect x="490" y="160" width="22" height="30" fill="#fffdf8"/><rect x="496" y="166" width="10" height="6" fill="#13221c"/>
+    <g fill="#d4eb5c"><rect x="104" y="162" width="8" height="10"/><rect x="118" y="182" width="8" height="10"/><rect x="150" y="132" width="8" height="10"/><rect x="164" y="160" width="8" height="10"/><rect x="194" y="150" width="8" height="10"/><rect x="214" y="176" width="8" height="10"/><rect x="250" y="112" width="8" height="10"/><rect x="250" y="146" width="8" height="10"/><rect x="292" y="160" width="8" height="10"/><rect x="342" y="144" width="8" height="10"/></g>
+    <g fill="#fffdf8"><rect x="118" y="162" width="8" height="10"/><rect x="164" y="132" width="8" height="10"/><rect x="214" y="150" width="8" height="10"/><rect x="250" y="180" width="8" height="10"/><rect x="306" y="182" width="8" height="10"/><rect x="342" y="176" width="8" height="10"/></g>
+    <!-- bridge over the Great Miami River -->
+    <path d="M378 190h192v10h-8c-9-14-23-14-32 0h-32c-9-14-23-14-32 0h-32c-9-14-23-14-32 0h-24Z" fill="#13221c"/>
+    <path d="M378 200v14M408 200v14M472 200v14M536 200v14" stroke="#13221c" stroke-width="6"/>
   </g>
   <rect x="70" y="44" width="500" height="250" rx="6" fill="none" stroke="#13221c" stroke-width="10"/>
   <path d="M320 44v250M70 169h500" stroke="#13221c" stroke-width="6"/>

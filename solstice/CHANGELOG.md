@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-11-05
+
+### Changed
+
+- Set in Traverse City, Michigan, with American spelling, US dollars, US phone numbers and local details.
+- The checkout takes a US ZIP code (5 digits, optional +4), and set times show on the 12-hour clock in Eastern time.
+
 ## [1.0.6] - 2026-11-05
 
 ### Changed

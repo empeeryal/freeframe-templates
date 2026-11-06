@@ -1,4 +1,4 @@
-/* Kinetic (Fenline Performance) — site scripts. Vanilla JavaScript, no dependencies.
+/* Kinetic (Foothill Performance) — site scripts. Vanilla JavaScript, no dependencies.
    All studio data (hours, coaches, sessions, prices, chart data, plan-builder rules) lives at
    the top of this file. Keep it in step with the HTML pages; see DOCS.md, "Content". */
 (function () {
@@ -29,15 +29,15 @@
   })();
 
   /* ---------- Studio: time zone, opening hours, closures ----------
-     Times are 24-hour wall-clock times in Cambridge (UK time). Day 0 is Sunday; null means closed.
+     Times are 24-hour wall-clock times in Colorado Springs (Mountain Time). Day 0 is Sunday; null means closed.
      Keep these in step with the hours lists in the HTML (data-hours). */
   var STUDIO = {
-    name: 'Fenline Performance',
-    timeZone: 'Europe/London',
-    zoneName: 'UK time',
-    phone: '07700 900418',
-    email: 'hello@fenlineperformance.example',
-    address: 'Unit 3, Ribbon Works, 14 Coldham’s Lane, Cambridge CB1 3EW'
+    name: 'Foothill Performance',
+    timeZone: 'America/Denver',
+    zoneName: 'Mountain Time',
+    phone: '(719) 555-0146',
+    email: 'hello@foothillperformance.example',
+    address: 'Suite 3, Carriage Works, 2418 W. Cucharras St, Colorado Springs, CO 80904'
   };
   var HOURS = {
     0: null,
@@ -48,8 +48,8 @@
     5: ['06:00', '20:30'],
     6: ['07:00', '13:00']
   };
-  // Days the studio is closed (YYYY-MM-DD, UK date): Christmas and bank holidays.
-  var CLOSED_DATES = ['2026-12-24', '2026-12-25', '2026-12-26', '2026-12-28', '2027-01-01', '2027-03-26', '2027-03-29', '2027-05-03', '2027-05-31', '2027-08-30'];
+  // One-off closures (YYYY-MM-DD, studio date). December 24–28 and US federal holidays are worked out in isClosedDate().
+  var CLOSED_DATES = [];
 
   /* ---------- Coaches ----------
      shifts: the hours each coach takes 1:1 sessions, by weekday (0 = Sunday). */
@@ -80,11 +80,11 @@
      screen: true if a "yes" to any health question turns the booking into a call-back request. */
   var SESSIONS = {
     consult: { label: 'Free consultation', minutes: 30, price: 0, priceLabel: 'Free', coaches: ['ffion', 'yusuf'], notice: 120, screen: false },
-    pt60: { label: '1:1 personal training', minutes: 60, price: 62, priceLabel: '£62', coaches: ['ffion', 'yusuf'], notice: 720, screen: true },
-    pt45: { label: '1:1 express session', minutes: 45, price: 48, priceLabel: '£48', coaches: ['ffion', 'yusuf'], notice: 720, screen: true },
-    partner: { label: 'Partner training', minutes: 60, price: 84, priceLabel: '£84 for two', coaches: ['ffion', 'yusuf'], notice: 720, screen: true },
-    mobility: { label: 'Movement screen & mobility', minutes: 45, price: 40, priceLabel: '£40', coaches: ['yusuf'], notice: 720, screen: true },
-    group: { label: 'Small-group taster', minutes: 60, price: 15, priceLabel: '£15', coaches: ['ffion', 'yusuf'], notice: 180, screen: true, fixed: true }
+    pt60: { label: '1:1 personal training', minutes: 60, price: 90, priceLabel: '$90', coaches: ['ffion', 'yusuf'], notice: 720, screen: true },
+    pt45: { label: '1:1 express session', minutes: 45, price: 70, priceLabel: '$70', coaches: ['ffion', 'yusuf'], notice: 720, screen: true },
+    partner: { label: 'Partner training', minutes: 60, price: 124, priceLabel: '$124 for two', coaches: ['ffion', 'yusuf'], notice: 720, screen: true },
+    mobility: { label: 'Movement screen & mobility', minutes: 45, price: 65, priceLabel: '$65', coaches: ['yusuf'], notice: 720, screen: true },
+    group: { label: 'Small-group trial', minutes: 60, price: 25, priceLabel: '$25', coaches: ['ffion', 'yusuf'], notice: 180, screen: true, fixed: true }
   };
   var BOOKING = {
     slotStep: 30,          // minutes between 1:1 start times
@@ -92,40 +92,40 @@
     demoBusyShare: 0.45    // share of slots shown as taken so the demo looks real. Set to 0 when connected.
   };
 
-  /* ---------- Goals (home goal picker, programme filters, plan builder) ---------- */
+  /* ---------- Goals (home goal picker, program filters, plan builder) ---------- */
   var GOALS = {
     strength: 'Strength',
     fatloss: 'Fat loss',
     mobility: 'Mobility',
     sport: 'Sport',
-    postnatal: 'Postnatal'
+    postnatal: 'Postpartum'
   };
 
   /* ---------- Pricing calculator (pricing.html) ----------
      payg: pay-per-session price by session length. packs: session packs (valid 12 weeks).
      member: per-session rate on a monthly membership, for 1, 2, 3 and 4 sessions a week. */
   var PRICING = {
-    payg: { 45: 48, 60: 62 },
-    packs: { 45: [{ size: 10, price: 430 }, { size: 20, price: 810 }], 60: [{ size: 10, price: 560 }, { size: 20, price: 1060 }] },
+    payg: { 45: 70, 60: 90 },
+    packs: { 45: [{ size: 10, price: 630 }, { size: 20, price: 1190 }], 60: [{ size: 10, price: 810 }, { size: 20, price: 1540 }] },
     packWeeks: 12,
-    member: { 45: [42, 39, 37, 35], 60: [54, 50, 47, 45] },
+    member: { 45: [62, 58, 55, 52], 60: [80, 74, 70, 66] },
     weeksPerMonth: 52 / 12
   };
 
   /* ---------- Client progress charts (index.html, results.html) ----------
      unit 'time' values are seconds. better: 'down' flips the axis so progress always rises. */
   var RESULTS = {
-    deadlift: { label: 'Trap-bar deadlift', unit: 'kg', x: ['Wk 1', 'Wk 4', 'Wk 8', 'Wk 12', 'Wk 16'], y: [60, 72.5, 85, 97.5, 110], better: 'up' },
-    fivek: { label: '5 km time', unit: 'time', x: ['Wk 1', 'Wk 3', 'Wk 6', 'Wk 9', 'Wk 12'], y: [1872, 1790, 1715, 1650, 1588], better: 'down' },
+    deadlift: { label: 'Trap-bar deadlift', unit: 'lb', x: ['Wk 1', 'Wk 4', 'Wk 8', 'Wk 12', 'Wk 16'], y: [135, 160, 185, 215, 245], better: 'up' },
+    fivek: { label: '5K time', unit: 'time', x: ['Wk 1', 'Wk 3', 'Wk 6', 'Wk 9', 'Wk 12'], y: [1872, 1790, 1715, 1650, 1588], better: 'down' },
     steps: { label: 'Average daily steps', unit: 'steps', x: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], y: [4200, 5600, 6900, 7800, 8900, 9400], better: 'up' },
-    reach: { label: 'Toe-touch reach', unit: 'cm', x: ['Wk 1', 'Wk 3', 'Wk 6', 'Wk 9', 'Wk 12'], y: [-14, -9, -5, -1, 3], better: 'up' },
-    goblet: { label: 'Goblet squat working weight', unit: 'kg', x: ['Wk 2', 'Wk 6', 'Wk 10', 'Wk 14', 'Wk 18'], y: [6, 8, 10, 14, 16], better: 'up' },
+    reach: { label: 'Toe-touch reach', unit: 'in', x: ['Wk 1', 'Wk 3', 'Wk 6', 'Wk 9', 'Wk 12'], y: [-5.5, -3.5, -2, -0.5, 1], better: 'up' },
+    goblet: { label: 'Goblet squat working weight', unit: 'lb', x: ['Wk 2', 'Wk 6', 'Wk 10', 'Wk 14', 'Wk 18'], y: [15, 20, 25, 30, 35], better: 'up' },
     pushups: { label: 'Full push-ups in one set', unit: 'reps', x: ['Wk 1', 'Wk 4', 'Wk 8', 'Wk 12'], y: [0, 3, 7, 12], better: 'up' }
   };
 
   /* ---------- Plan builder (tools.html) ----------
      Each exercise is [full gym, dumbbells at home, bodyweight only]. Sessions show 3, 4 or 5
-     exercises for 30, 45 or 60 minutes. Illustrative only: not a personalised programme. */
+     exercises for 30, 45 or 60 minutes. Illustrative only: not a personalized program. */
   var EQUIPMENT = { gym: 0, dumbbells: 1, bodyweight: 2 };
   var FOCUS = {
     fullA: { name: 'Full body A', ex: [['Goblet squat', 'Goblet squat', 'Tempo squat'], ['Romanian deadlift', 'Dumbbell Romanian deadlift', 'Single-leg hip hinge'], ['Bench press', 'Dumbbell floor press', 'Push-up (incline if needed)'], ['Seated cable row', 'One-arm dumbbell row', 'Prone Y-T raise'], ['Dead bug', 'Dead bug', 'Dead bug']] },
@@ -162,7 +162,7 @@
   function $(sel, root) { return (root || document).querySelector(sel); }
   function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
-  function money(n, pence) { return '£' + Number(n).toLocaleString('en-GB', { minimumFractionDigits: pence ? 2 : 0, maximumFractionDigits: pence ? 2 : 0 }); }
+  function money(n, pence) { return '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: pence ? 2 : 0, maximumFractionDigits: pence ? 2 : 0 }); }
   function store(key, value) { try { if (value === null) safeStorage.removeItem(key); else safeStorage.setItem(key, JSON.stringify(value)); } catch (e) { /* storage unavailable */ } }
   function read(key) { try { return JSON.parse(safeStorage.getItem(key)); } catch (e) { return null; } }
   // Own-key lookups, so URL or stored values like "constructor" never match built-in properties.
@@ -184,10 +184,10 @@
 
   /* ---------- Time helpers (everything is in the studio's time zone) ---------- */
   function toMin(hhmm) { var p = hhmm.split(':'); return Number(p[0]) * 60 + Number(p[1]); }
-  function hhmm(mins) { return String(Math.floor(mins / 60)).padStart(2, '0') + ':' + String(mins % 60).padStart(2, '0'); }
+  function hhmm(mins) { var h = Math.floor(mins / 60) % 24; return (h % 12 || 12) + ':' + String(mins % 60).padStart(2, '0') + (h < 12 ? ' AM' : ' PM'); }
   function partsIn(date, zone) {
     var out = {};
-    new Intl.DateTimeFormat('en-GB', { timeZone: zone, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' })
+    new Intl.DateTimeFormat('en-US', { timeZone: zone, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' })
       .formatToParts(date).forEach(function (p) { if (p.type !== 'literal') out[p.type] = parseInt(p.value, 10); });
     if (out.hour === 24) out.hour = 0;
     return out;
@@ -205,7 +205,7 @@
   function mondayOf(key) { return addDays(key, -((weekday(key) + 6) % 7)); }
   function dateLabel(key, opts) {
     var d = key.split('-').map(Number);
-    return new Date(Date.UTC(d[0], d[1] - 1, d[2], 12)).toLocaleDateString('en-GB', Object.assign({ timeZone: 'UTC' }, opts));
+    return new Date(Date.UTC(d[0], d[1] - 1, d[2], 12)).toLocaleDateString('en-US', Object.assign({ timeZone: 'UTC' }, opts));
   }
   function longDate(key) { return dateLabel(key, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); }
   function studioNow() {
@@ -283,15 +283,37 @@
   $$('[data-year]').forEach(function (el) { el.textContent = String(new Date().getFullYear()); });
 
   /* ---------- Studio hours: today's row + live open-now badge ---------- */
-  function isClosedDate(key) { return CLOSED_DATES.indexOf(key) !== -1; }
+  /* Closed by rule, for any year: December 24–28 and US federal holidays. A holiday on a Saturday or
+     Sunday also closes the studio on the Friday before or the Monday after, the day it's observed. */
+  function nthWeekday(y, m, day, n) {
+    if (n > 0) return keyOf(y, m, 1 + (day - weekday(keyOf(y, m, 1)) + 7) % 7 + (n - 1) * 7);
+    var end = new Date(Date.UTC(y, m, 0)).getUTCDate();
+    return keyOf(y, m, end - (weekday(keyOf(y, m, end)) - day + 7) % 7);
+  }
+  function federalHolidays(y) {
+    var out = [nthWeekday(y, 1, 1, 3), nthWeekday(y, 2, 1, 3), nthWeekday(y, 5, 1, -1), nthWeekday(y, 9, 1, 1), nthWeekday(y, 10, 1, 2), nthWeekday(y, 11, 4, 4)];
+    [[1, 1], [6, 19], [7, 4], [11, 11], [12, 25]].forEach(function (d) {
+      var key = keyOf(y, d[0], d[1]), wd = weekday(key);
+      out.push(key);
+      if (wd === 6) out.push(addDays(key, -1));
+      if (wd === 0) out.push(addDays(key, 1));
+    });
+    return out;
+  }
+  function isClosedDate(key) {
+    var y = Number(key.slice(0, 4)), md = key.slice(5);
+    if (CLOSED_DATES.indexOf(key) !== -1 || (md >= '12-24' && md <= '12-28')) return true;
+    // New Year's Day on a Saturday is observed on December 31 of the year before.
+    return federalHolidays(y).indexOf(key) !== -1 || (md === '12-31' && weekday(keyOf(y + 1, 1, 1)) === 6);
+  }
   function hoursOn(key) { return isClosedDate(key) ? null : HOURS[weekday(key)]; }
   function openStatus() {
     var now = studioNow(), h = hoursOn(now.key);
-    if (h && now.mins >= toMin(h[0]) && now.mins < toMin(h[1])) return { open: true, text: 'Open now · until ' + h[1] };
+    if (h && now.mins >= toMin(h[0]) && now.mins < toMin(h[1])) return { open: true, text: 'Open now · until ' + hhmm(toMin(h[1])) };
     for (var i = 0; i < 8; i++) {
       var key = addDays(now.key, i), hh = hoursOn(key);
       if (!hh || (i === 0 && now.mins >= toMin(hh[0]))) continue;
-      return { open: false, text: 'Closed · opens ' + (i === 0 ? '' : i === 1 ? 'tomorrow ' : dateLabel(key, { weekday: 'short' }) + ' ') + hh[0] };
+      return { open: false, text: 'Closed · opens ' + (i === 0 ? '' : i === 1 ? 'tomorrow ' : dateLabel(key, { weekday: 'short' }) + ' ') + hhmm(toMin(hh[0])) };
     }
     return { open: false, text: 'Closed now' };
   }
@@ -389,7 +411,7 @@
     show(start, false);
   });
 
-  /* ---------- Filters (programmes and results by goal) ----------
+  /* ---------- Filters (programs and results by goal) ----------
      [data-filter] holds chip buttons [data-filter-value] and items [data-goals="a b"].
      With data-filter-url the choice is kept in ?goal= so filtered views can be shared. */
   $$('[data-filter]').forEach(function (root) {
@@ -430,8 +452,8 @@
      <figure data-chart="deadlift"> gets an inline SVG line chart drawn from RESULTS. */
   function fmt(v, unit) {
     if (unit === 'time') { var m = Math.floor(v / 60), s = Math.round(v % 60); return m + ':' + String(s).padStart(2, '0'); }
-    if (unit === 'steps') return Math.round(v).toLocaleString('en-GB');
-    if (unit === 'cm') return (v > 0 ? '+' : '') + v + ' cm';
+    if (unit === 'steps') return Math.round(v).toLocaleString('en-US');
+    if (unit === 'in') return (v > 0 ? '+' : '') + v + ' in';
     if (unit === 'reps') return v + ' reps';
     return v + ' ' + unit;
   }
@@ -497,7 +519,7 @@
     if (field.required && !v) return field.getAttribute('data-required-msg') || label + ' is required.';
     if (!v) return '';
     if (field.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return 'Please enter an email address like name@example.com.';
-    if (field.hasAttribute('data-phone') && v.replace(/\D/g, '').length < 10) return 'Please enter a phone number with the area code, like 07700 900123.';
+    if (field.hasAttribute('data-phone') && v.replace(/\D/g, '').length < 10) return 'Please enter a phone number with the area code, like (719) 555-0123.';
     if (field.minLength > 0 && v.length < field.minLength) return label + ' needs at least ' + field.minLength + ' characters.';
     return '';
   }
@@ -734,7 +756,7 @@
     var custom = $('[data-pace-custom]', form);
     function km() {
       var d = form.elements.distance.value;
-      return d === 'custom' ? parseFloat(form.elements.km.value) : DISTANCES[d];
+      return d === 'custom' ? parseFloat(form.elements.km.value) * 1.609344 : DISTANCES[d];
     }
     function calc() {
       custom.hidden = form.elements.distance.value !== 'custom';
@@ -749,8 +771,8 @@
       var perKm = total / dist;
       out('km').textContent = clock(perKm) + ' /km';
       out('mile').textContent = clock(perKm * 1.609344) + ' /mile';
-      out('speed').textContent = (dist / (total / 3600)).toFixed(1) + ' km/h';
-      out('table').innerHTML = [['5 km', 5], ['10 km', 10], ['Half marathon', 21.0975], ['Marathon', 42.195]].map(function (row) {
+      out('speed').textContent = (dist / 1.609344 / (total / 3600)).toFixed(1) + ' mph';
+      out('table').innerHTML = [['5K', 5], ['10K', 10], ['Half marathon', 21.0975], ['Marathon', 42.195]].map(function (row) {
         return '<tr class="border-t border-line"><td class="py-2 pr-3 font-bold text-ink">' + row[0] + '</td><td class="py-2 tnum">' + clock(perKm * row[1]) + '</td></tr>';
       }).join('');
     }
@@ -965,14 +987,14 @@
       if (!t || !s) return;
       var start = wallToInstant(s.key, s.mins), end = new Date(start.getTime() + t.minutes * 60000);
       var stamp = function (d) { return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); };
-      var lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Fenline Performance//Booking//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'BEGIN:VEVENT',
-        'UID:' + stamp(start) + '-' + s.coach + '@fenlineperformance.example', 'DTSTAMP:' + stamp(new Date()), 'DTSTART:' + stamp(start), 'DTEND:' + stamp(end),
-        'SUMMARY:' + t.label + ' with ' + COACHES[s.coach].short + ' (Fenline)', 'LOCATION:' + STUDIO.address.replace(/,/g, '\\,'),
-        'DESCRIPTION:Reference ' + state.ref + '. Wear comfortable kit and bring water. To change or cancel\\, call ' + STUDIO.phone + ' at least 24 hours before.', 'END:VEVENT', 'END:VCALENDAR'];
+      var lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Foothill Performance//Booking//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'BEGIN:VEVENT',
+        'UID:' + stamp(start) + '-' + s.coach + '@foothillperformance.example', 'DTSTAMP:' + stamp(new Date()), 'DTSTART:' + stamp(start), 'DTEND:' + stamp(end),
+        'SUMMARY:' + t.label + ' with ' + COACHES[s.coach].short + ' (Foothill)', 'LOCATION:' + STUDIO.address.replace(/,/g, '\\,'),
+        'DESCRIPTION:Reference ' + state.ref + '. Wear comfortable workout clothes and bring water. To change or cancel\\, call ' + STUDIO.phone + ' at least 24 hours before.', 'END:VEVENT', 'END:VCALENDAR'];
       var blob = new Blob([lines.join('\r\n')], { type: 'text/calendar' });
       var a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = 'fenline-session.ics';
+      a.download = 'foothill-session.ics';
       document.body.appendChild(a);
       a.click();
       setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 0);

@@ -3,12 +3,12 @@
 ## Overview
 
 Slice is a website for a pizzeria or takeout with online ordering, built for **Crust Club**, a fictional
-sourdough pizzeria with two shops in Manchester (Ancoats and Chorlton). It has a filterable menu with a
-pizza customizer, a cart drawer on every page, a postcode delivery checker, set deals and a bundle builder, a
+sourdough pizzeria with two shops in New Haven (Wooster Square and Westville). It has a filterable menu with a
+pizza customizer, a cart drawer on every page, a ZIP code delivery checker, set deals and a bundle builder, a
 checkout with time slots worked out from the opening hours, an animated order tracker, a locations page
 with a delivery-zone map, an about page and a catering page with a pizza calculator and inquiry form. It is
 plain HTML with Tailwind CSS v4 and one vanilla JavaScript file, with no build step needed to use it. This
-guide covers version 1.0.3. See it live at
+guide covers version 1.0.6. See it live at
 [freeframe.dev/templates/slice](https://freeframe.dev/templates/slice).
 
 ## Quick start
@@ -23,7 +23,7 @@ guide covers version 1.0.3. See it live at
 3. You only need Node.js 24 or newer if you change the CSS classes (see
    [Building and deploying](#building-and-deploying)).
 
-Try an order: check the postcode `M4 6AJ` on the home page, add a pizza from the menu, apply the code
+Try an order: check the ZIP code `06511` on the home page, add a pizza from the menu, apply the code
 `SLICE10` in the cart and place the order. Nothing is sent or charged until you connect the checkout (see
 [Forms](#forms)).
 
@@ -31,11 +31,11 @@ Try an order: check the postcode `M4 6AJ` on the home page, add a pizza from the
 
 | File | Purpose | Notable sections and features |
 |------|---------|-------------------------------|
-| `index.html` | Home | Hero with delivery / pickup switch and postcode checker, bestsellers (from the menu data), deals, how ordering works, dough story, reviews, both shops with open-now badges |
+| `index.html` | Home | Hero with delivery / pickup switch and ZIP code checker, bestsellers (from the menu data), deals, how ordering works, dough story, reviews, both shops with open-now badges |
 | `menu.html` | Menu | Sticky section nav with scrollspy, vegan / vegetarian / gluten-free / spicy filters, live count, empty state, item customizer, allergen guide (`menu.html#allergens`) |
 | `deals.html` | Deals & bundles | Three set deals with a picker dialog, build-your-bundle with discount tiers (`deals.html#bundle`), demo promo codes with copy buttons |
 | `checkout.html` | Checkout | Delivery or pickup, ASAP or scheduled slot, contact and address, demo payment, order summary with promo code, confirmation with order tracker, empty state |
-| `locations.html` | Locations & delivery | SVG delivery-zone map, postcode checker, zones table, both shops with full hours (today highlighted) and open-now, delivery FAQ |
+| `locations.html` | Locations & delivery | SVG delivery-zone map, ZIP code checker, zones table, both shops with full hours (today highlighted) and open-now, delivery FAQ |
 | `about.html` | Our story | Timeline, the four dough steps, suppliers, team, values |
 | `catering.html` | Catering & party orders | Packages, pizza calculator, party-order inquiry form, FAQ |
 | `404.html` | Not found | Links to the menu, home and locations |
@@ -115,9 +115,9 @@ Text lives in the HTML pages. Everything you can order lives in data at the top 
 
 | Constant | What it holds |
 |----------|---------------|
-| `STORES` | Shops: `id`, `name`, `address`, `phone`, `hours` (Sunday first, `['12:00', '22:00']` or `null`), `pickupMins`, `deliveryMins` |
-| `ZONES` | Delivery zones: postcode `districts`, the `store` that serves them, `fee`, `min` order and `eta` range in minutes |
-| `FREE_DELIVERY_OVER` | Subtotal (after promo) that makes delivery free (`35`) |
+| `STORES` | Shops: `id`, `name`, `address`, `phone`, `hours` (Sunday first, 24-hour here and shown in 12-hour time, `['12:00', '22:00']` or `null`), `pickupMins`, `deliveryMins` |
+| `ZONES` | Delivery zones: ZIP codes in `districts`, the `store` that serves them, `fee`, `min` order and `eta` range in minutes |
+| `FREE_DELIVERY_OVER` | Subtotal (after promo) that makes delivery free (`50`) |
 | `PROMOS` | Demo promo codes (see [Promo codes](#promo-codes)) |
 | `SECTIONS` | Menu sections in order, with the blurb under each heading |
 | `SIZES` | Pizza sizes: `delta` from the Regular price and `extra` (price of each extra topping) |
@@ -127,7 +127,7 @@ Text lives in the HTML pages. Everything you can order lives in data at the top 
 | `DEALS` | Set deals with their `slots` |
 | `BUNDLE_TIERS` | Bundle discount tiers |
 
-Other settings: `TIMEZONE` (`'Europe/London'`), `LOCALE` and `CURRENCY` (prices are formatted with
+Other settings: `TIMEZONE` (`'America/New_York'`), `LOCALE` and `CURRENCY` (prices are formatted with
 `Intl.NumberFormat`), `SLOT_STEP` (minutes between time slots), `SCHEDULE_DAYS`, `MAX_QTY` and
 `TRACKER_STEP_SECONDS`.
 
@@ -180,23 +180,22 @@ badges and hours tables are filled from `STORES`. If you change an address or ph
 
 ### Delivery checker
 
-Any `<div data-zone-checker></div>` becomes a Delivery / Pickup switch with a postcode check (delivery) or
+Any `<div data-zone-checker></div>` becomes a Delivery / Pickup switch with a ZIP code check (delivery) or
 shop picker (pickup). Add `data-variant="compact"` for the small version used in the cart drawer. It's on
 the home page, locations page, checkout and in the drawer, and every copy stays in sync.
 
-`checkPostcode()` reads the district from a UK postcode (`M4 6AJ` → `M4`, a bare `M21` also works) and finds
+`checkPostcode()` reads the 5-digit ZIP code (with an optional +4, `06511-1234` → `06511`) and finds
 the zone in `ZONES` that lists it. The result shows the shop, fee, minimum and delivery time, and warns
-when that shop is closed. A valid postcode outside every zone gets a "we don't deliver there yet" message.
+when that shop is closed. A valid ZIP code outside every zone gets a "we don't deliver there yet" message.
 The choice is saved (see [Saved data](#saved-data-localstorage)) and shown in the header.
 
-When a postcode is checked, the element fires a `zonechange` event with the result in `event.detail`; the
-locations page uses it to highlight the zone on the map. Press Enter in the postcode field to check.
+When a ZIP code is checked, the element fires a `zonechange` event with the result in `event.detail`; the
+locations page uses it to highlight the zone on the map. Press Enter in the ZIP code field to check.
 
 ### Open now and opening hours
 
 `storeStatus()` compares the current time in `TIMEZONE` (not the visitor's clock) with `STORES[].hours`.
-It fills any element with `data-store-status="<store id>"` ("Open until 22:00", "Closing soon, last orders
-22:00", "Opens today 16:00" or "Opens Tuesday 16:00"), `data-today-hours="<store id>"` and
+It fills any element with `data-store-status="<store id>"` ("Open until 10:00 PM", "Closing soon, last orders 10:00 PM", "Opens today 4:00 PM" or "Opens Tuesday 4:00 PM"), `data-today-hours="<store id>"` and
 `<tbody data-hours="<store id>">` (a row per day, Monday first, today highlighted). They refresh every
 minute.
 
@@ -219,7 +218,7 @@ Rules come from the data:
 
 - Crusts with `sizes` (gluten-free is Small only, stuffed crust is Regular and Large) switch the size for
   you, with a note explaining why; picking a size the crust doesn't come in switches back to classic.
-- Half and half is Regular and Large only and is charged at the dearer half (`pizzaUnit()`).
+- Half and half is Regular and Large only and is charged at the pricier half (`pizzaUnit()`).
 - Extras add `SIZES[].extra` each; meat, fish, dairy and honey extras remove the vegan / vegetarian tags
   (`pizzaDiet()`), and their allergens are added (`pizzaAllergens()`).
 
@@ -235,7 +234,7 @@ The cart opens from the header button, the mobile "View your order" bar and any 
 It shows the delivery checker, each line with picture, options, quantity stepper, **Edit** (pizzas and
 deals reopen their dialog) and **Remove**, notes for the kitchen (200 characters), a promo code field and
 the totals. Above the checkout button it shows a minimum-order warning for the zone, free-delivery
-progress, or a prompt to add a postcode; the checkout button is disabled until the order can go through.
+progress, or a prompt to add a ZIP code; the checkout button is disabled until the order can go through.
 
 `totals()` works out everything: subtotal, promo discount, delivery fee (free over `FREE_DELIVERY_OVER`
 or with a delivery code; pickup is always free), the zone minimum and the total. The drawer traps focus,
@@ -249,7 +248,7 @@ closes on Esc or the backdrop, and keeps focus on the same control when lines ch
 |------|------|--------|
 | `SLICE10` | `percent` | 10% off menu items (not deals or bundles) |
 | `FREEDELIVERY` | `delivery` | Free delivery |
-| `FIRSTSLICE` | `amount` | £5 off orders of £25 or more |
+| `FIRSTSLICE` | `amount` | $5 off orders of $30 or more |
 
 One code at a time. Unknown codes show an inline error. Codes are checked in the browser, so anyone can see
 them in the source: a real shop must validate codes on its server.
@@ -276,21 +275,24 @@ steps:
    today; otherwise "Schedule for later" is chosen. `timeSlots()` builds slots every `SLOT_STEP` minutes
    for today and the next days (`SCHEDULE_DAYS`): the first slot is opening time plus the lead time
    (`pickupMins` or `deliveryMins`), or now plus the lead time for today, and the last is closing time.
-3. **Your details**: name, mobile, email, and for delivery a street address and rider instructions.
-4. **Payment**: card (number in groups of four, expiry `MM / YY`, CVC) or pay on delivery / at the
+3. **Your details**: name, cell number, email, and for delivery a street address and rider instructions.
+4. **Payment**: card (number in groups of four, expiration date `MM / YY`, CVC) or pay on delivery / at the
    counter. A note says no payment is taken on the site and any 16-digit number will do; remove it once you
    connect a payment provider.
 
 On submit the fields are validated with inline errors and the order is checked against the delivery
-minimum and postcode. A valid order is saved as the latest order, the cart is cleared and the confirmation
+minimum and ZIP code. A valid order is saved as the latest order, the cart is cleared and the confirmation
 is shown. Nothing is sent: see [Forms](#forms) for where to connect a real order system.
+
+Prices and totals don’t include sales tax, and the note under the checkout button says so. Add your rate when you
+connect a real order system, or change the note if your prices include it.
 
 ### Order tracker
 
 The confirmation shows the order number (`CC-` and four characters, made in the browser by `makeRef()`; use
 your ordering system's own number instead if it returns one), a summary, a note that the receipt is on its
 way by email (the checkout asks for an email "for your receipt") and a tracker with four stages (received, in the oven,
-out for delivery, delivered; for pickup the last two are "Boxed & ready" and "Collected"). In the demo each
+out for delivery, delivered; for pickup the last two are "Boxed & ready" and "Picked up"). In the demo each
 stage lasts `TRACKER_STEP_SECONDS` (8 seconds) from the time the order was placed, so it keeps its place if
 you reload. A rider (or bag) icon moves along the bar, the current stage pulses and the status line is a live
 region for screen readers. Stages are in `STAGES`; to show real progress, replace the timer in
@@ -300,7 +302,7 @@ region for screen readers. Stages are in `STAGES`; to show real progress, replac
 
 The map on `locations.html` is inline SVG. Each zone is a `<path data-map-zone="<zone id>">`; its `fill` is
 also used for the swatch in the zones table, which is built from `ZONES`. Hovering a row or zone highlights
-it, and a checked postcode highlights its zone. The map is decorative (it has a text description); the
+it, and a checked ZIP code highlights its zone. The map is decorative (it has a text description); the
 table carries the same information. To draw your own area, replace the paths and pins and keep the
 `data-map-zone` ids in step with `ZONES`.
 
@@ -322,7 +324,7 @@ appears after one screen; it lifts above toasts and the mobile order bar. Remove
 ## Forms
 
 All forms validate in the browser with inline messages (`fieldMessage()` in `main.js`) and finish with an
-in-world confirmation. The catering inquiry confirms the party order, promises a reply within one working day
+in-world confirmation. The catering inquiry confirms the party order, promises a reply within one business day
 with a menu and a fixed quote (as the catering page says; change both if yours differs) and shows a reference
 (`CC-` and four characters, from `makeRef()`; use your form service's own reference instead if it returns
 one). The newsletter asks subscribers to look out for a confirmation email. **None of them send anything**
@@ -331,8 +333,8 @@ until you connect them.
 | Form | Where | Validates |
 |------|-------|-----------|
 | Newsletter (`data-form="newsletter"`) | Footer of every page | Email |
-| Catering inquiry (`data-form="catering"`) | `catering.html` | Name, email, phone, guests 10–300, date at least two days ahead (in the shop's time zone), time 11:00–22:00, delivery or pickup, delivery postcode (UK format, only when delivering), consent |
-| Checkout (`#checkout-form`) | `checkout.html` | Delivery postcode in a zone, minimum order, a time slot, name, phone, email, address (delivery), card fields (card payment) |
+| Catering inquiry (`data-form="catering"`) | `catering.html` | Name, email, phone, guests 10–300, date at least two days ahead (in the shop's time zone), time 11:00 AM–10:00 PM, delivery or pickup, delivery ZIP code (5 digits, optional +4, only when delivering), consent |
+| Checkout (`#checkout-form`) | `checkout.html` | Delivery ZIP code in a zone, minimum order, a time slot, name, phone, email, address (delivery), card fields (card payment) |
 
 To connect the newsletter or catering form to a form service such as [Formspree](https://formspree.io),
 replace the `successSwap(...)` call in its `setupValidation()` callback in section 18 of `main.js`:
@@ -345,7 +347,7 @@ $$('[data-form="catering"]').forEach((form) => {
       body: new FormData(form),
       headers: { Accept: 'application/json' }
     }).then((r) => {
-      if (r.ok) successSwap(form, '<p class="h-display text-3xl">Thanks!</p><p class="mt-3">We’ll reply within one working day.</p>');
+      if (r.ok) successSwap(form, '<p class="h-display text-3xl">Thanks!</p><p class="mt-3">We’ll reply within one business day.</p>');
       else $('[data-form-status]', form).textContent = 'Sorry, that didn’t send. Please try again or call us.';
     });
   });
@@ -361,7 +363,7 @@ when it succeeds. Never trust prices from the browser: recalculate them on the s
 
 | Key | Shape | Notes |
 |-----|-------|-------|
-| `crustclub-order` | `{ mode: 'delivery' \| 'pickup', postcode: 'M4 6AJ', store: 'ancoats' }` | Delivery or pickup choice. The zone is worked out again from the postcode on every read. |
+| `crustclub-order` | `{ mode: 'delivery' \| 'pickup', postcode: '06511', store: 'ancoats' }` | Delivery or pickup choice. The zone is worked out again from the ZIP code on every read. |
 | `crustclub-cart` | `{ lines: [...], promo: 'SLICE10', notes: '...' }` | Lines are `{ type: 'pizza', id, size, crust, half, extras, qty }`, `{ type: 'item', id, qty }`, `{ type: 'deal', id, picks, qty }` or `{ type: 'bundle', items: [{ id, qty }], qty }`. |
 | `crustclub-last-order` | The confirmation: number, time placed, mode, summary, lines and totals | Shown on `checkout.html` for six hours while the cart is empty. |
 
@@ -381,7 +383,7 @@ sites need an absolute URL for the image, so once the site is live, change
 <meta property="og:image" content="assets/img/og-image.png">
 ```
 
-to the full address, for example `https://your-pizzeria.co.uk/assets/img/og-image.png`, on every page. Add a
+to the full address, for example `https://your-pizzeria.example/assets/img/og-image.png`, on every page. Add a
 `sitemap.xml` and `robots.txt` at the root of your host. For local search, consider adding `Restaurant`
 structured data (JSON-LD) with each shop's address, phone, `openingHours` and `hasMenu`.
 
@@ -395,7 +397,7 @@ if you need the menu in the raw HTML, copy the rendered cards into `menu.html`.
 - The mobile menu button has `aria-expanded` and closes on Esc.
 - The customizer and deal pickers use the native `<dialog>`; the cart drawer is `role="dialog"` with
   `aria-modal`, a focus trap and Esc to close.
-- Filter chips are toggle buttons (`aria-pressed`); the result count, postcode result, bundle hint, toasts
+- Filter chips are toggle buttons (`aria-pressed`); the result count, ZIP code result, bundle hint, toasts
   and tracker status are live regions.
 - Quantity steppers have labeled buttons ("One more Margherita"), and remove / edit buttons include the
   item name for screen readers.
@@ -431,9 +433,9 @@ are relative.
 - **New classes have no effect.** Rebuild the CSS with `npm run build`. Classes built from pieces in
   JavaScript (`'bg-' + color`) aren't found by Tailwind; write the full class name.
 - **"Open now" is wrong.** Hours are in `TIMEZONE`. Check `STORES[].hours` (Sunday first) and set
-  `TIMEZONE` to your shop's zone, for example `'America/New_York'`.
-- **My postcode isn't recognized.** Zones match UK postcode districts. For other countries, change
-  `postcodeDistrict()` and `checkPostcode()` to read your format (for example a 5-digit ZIP) and list those
+  `TIMEZONE` to your shop's zone, for example `'America/Chicago'`.
+- **My ZIP code isn’t recognized.** Zones match 5-digit ZIP codes: add it to `ZONES[].districts`. For other countries, change
+  `postcodeDistrict()` and `checkPostcode()` to read your format and list those
   codes in `ZONES[].districts`.
 - **The cart shows old items or totals after I changed the menu.** Lines whose item, size or topping no
   longer exists are removed on the next read. Clear `crustclub-cart` to start fresh.

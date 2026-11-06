@@ -13,7 +13,7 @@
   'use strict';
 
   /* ------------------------------------------------------------------
-   * 1. Data. Edit trips here. Prices are per person, in pounds.
+   * 1. Data. Edit trips here. Prices are per person, in US dollars.
    * ------------------------------------------------------------------ */
 
   // season: one value per month, January to December. 0 = avoid, 1 = possible, 2 = good, 3 = best.
@@ -48,11 +48,11 @@
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   var SEASON_LABEL = ['Avoid', 'Possible', 'Good', 'Best'];
 
-  var PRICE_MIN = 1500;          // budget slider range on tours.html
-  var PRICE_MAX = 5000;
-  var PEAK_SUPPLEMENT = 150;     // added per person to departures in a region's best months
-  var DEPOSIT = 300;             // per person, shown in the booking summary
-  var MAX_TRAVELLERS = 8;        // most travellers in one enquiry
+  var PRICE_MIN = 2000;          // budget slider range on tours.html
+  var PRICE_MAX = 6500;
+  var PEAK_SUPPLEMENT = 200;     // added per person to departures in a region's best months
+  var DEPOSIT = 400;             // per person, shown in the booking summary
+  var MAX_TRAVELLERS = 8;        // most travelers in one inquiry
   var BOOKING_CUTOFF = 21;       // departures closer than this many days are not offered
   var DEPARTURE_DAYS = [4, 18];  // tours leave on the first Saturday on or after these dates
 
@@ -66,13 +66,13 @@
   var EXCLUDED = [
     'International flights (we can recommend routes)',
     'Travel insurance, which is required',
-    'Tips for local crews (about £5 a day is plenty)'
+    'Tips for local crews (about $10 a day is plenty)'
   ];
 
   var TOURS = [
     {
       id: 'atlas-sahara', name: 'Atlas to the Sahara', region: 'morocco', country: 'Morocco', style: 'culture',
-      days: 10, price: 2190, single: 290, rating: 4.9, reviews: 212, group: 12, level: 'Moderate', badge: 'Most loved',
+      days: 10, price: 2990, single: 390, rating: 4.9, reviews: 212, group: 12, level: 'Moderate', badge: 'Most loved',
       months: [3, 4, 5, 9, 10, 11], scene: 'dunes', time: 'dusk', featured: 1,
       summary: 'From the souks of Marrakech over the High Atlas to a desert camp in the dunes of Erg Chebbi.',
       highlights: ['A night in a desert camp under the stars', 'Cooking class in a Berber family home', 'Walks through the Dades and Todra gorges'],
@@ -91,37 +91,37 @@
     },
     {
       id: 'toubkal-trek', name: 'High Atlas & Toubkal', region: 'morocco', country: 'Morocco', style: 'hiking',
-      days: 8, price: 1490, single: 180, rating: 4.8, reviews: 96, group: 12, level: 'Challenging',
+      days: 8, price: 1990, single: 250, rating: 4.8, reviews: 96, group: 12, level: 'Challenging',
       months: [4, 5, 6, 9, 10], scene: 'mountains', time: 'day',
-      summary: 'Mule trails, walnut-shaded villages and a dawn summit of North Africa’s highest peak, 4,167 metres.',
+      summary: 'Mule trails, walnut-shaded villages and a dawn summit of North Africa’s highest peak, 13,671 feet.',
       highlights: ['Summit of Jebel Toubkal at sunrise', 'Nights in village guesthouses', 'Mules carry your bags'],
       includes: ['Mountain guide and mule team', 'All meals on the trek'],
       excludes: [],
       stops: [[20, 30, 'Marrakech'], [42, 52, 'Imlil'], [56, 66, 'Toubkal refuge'], [66, 78, 'Toubkal summit'], [80, 50, 'Tacheddirt']],
       itinerary: [
-        { d: '1', t: 'Arrive in Marrakech', x: 'Welcome dinner and a kit check with your guide, Youssef.', stay: 'Riad Kniza, Marrakech' },
+        { d: '1', t: 'Arrive in Marrakech', x: 'Welcome dinner and a gear check with your guide, Youssef.', stay: 'Riad Kniza, Marrakech' },
         { d: '2', t: 'Up to Imlil', x: 'A ninety-minute drive into the mountains and an afternoon warm-up walk to the shrine of Sidi Chamharouch.', stay: 'Dar Imlil guesthouse' },
         { d: '3–4', t: 'Villages of the Azzaden valley', x: 'Two days on mule trails between terraced fields, sleeping in family homes.', stay: 'Village gîtes' },
-        { d: '5', t: 'To the Toubkal refuge', x: 'A steady climb to 3,207 metres and an early night.', stay: 'Toubkal refuge' },
-        { d: '6', t: 'Summit day', x: 'Leave by headtorch, reach the top for sunrise, and descend all the way to Imlil for a hot shower.', stay: 'Dar Imlil guesthouse' },
+        { d: '5', t: 'To the Toubkal refuge', x: 'A steady climb to 10,522 feet and an early night.', stay: 'Toubkal refuge' },
+        { d: '6', t: 'Summit day', x: 'Leave by headlamp, reach the top for sunrise, and descend all the way to Imlil for a hot shower.', stay: 'Dar Imlil guesthouse' },
         { d: '7', t: 'Back to Marrakech', x: 'A free afternoon in the medina and a farewell dinner.', stay: 'Riad Kniza, Marrakech' },
         { d: '8', t: 'Departure', x: 'Transfers to Marrakech airport.', stay: '' }
       ]
     },
     {
       id: 'inca-trail', name: 'Sacred Valley & the Inca Trail', region: 'andes', country: 'Peru', style: 'hiking',
-      days: 12, price: 3290, single: 390, rating: 4.9, reviews: 184, group: 10, level: 'Challenging', badge: 'Groups of 10',
+      days: 12, price: 4490, single: 530, rating: 4.9, reviews: 184, group: 10, level: 'Challenging', badge: 'Groups of 10',
       months: [4, 5, 6, 7, 8, 9, 10], scene: 'mountains', time: 'dawn', featured: 2,
-      summary: 'Acclimatise in the villages of the Sacred Valley, then walk the classic four-day trail to the Sun Gate at Machu Picchu.',
+      summary: 'Acclimatize in the villages of the Sacred Valley, then walk the classic four-day trail to the Sun Gate at Machu Picchu.',
       highlights: ['Four days on the classic Inca Trail', 'Sunrise through the Sun Gate', 'Weaving cooperative in Chinchero'],
-      includes: ['Inca Trail permits (we book them early)', 'Porters, cooks and camping kit'],
-      excludes: ['Sleeping bag hire (£25)'],
+      includes: ['Inca Trail permits (we book them early)', 'Porters, cooks and camping gear'],
+      excludes: ['Sleeping bag rental ($35)'],
       stops: [[16, 62, 'Lima'], [56, 70, 'Cusco'], [50, 50, 'Pisac'], [40, 40, 'Ollantaytambo'], [30, 26, 'Machu Picchu']],
       itinerary: [
         { d: '1', t: 'Lima', x: 'Arrive in Lima and meet the group for ceviche in Barranco.', stay: 'Casa Republica, Lima' },
-        { d: '2–3', t: 'Cusco, slowly', x: 'Fly to Cusco at 3,400 metres. Gentle days in San Blas and the market to let your body adjust.', stay: 'Hotel Arqueólogo, Cusco' },
+        { d: '2–3', t: 'Cusco, slowly', x: 'Fly to Cusco at 11,150 feet. Gentle days in San Blas and the market to let your body adjust.', stay: 'Hotel Arqueólogo, Cusco' },
         { d: '4–5', t: 'The Sacred Valley', x: 'Pisac ruins, the Chinchero weavers and a farm lunch with a pachamanca earth oven.', stay: 'Las Qolqas, Urubamba' },
-        { d: '6–9', t: 'The Inca Trail', x: 'Four days and 42 kilometres over Dead Woman’s Pass to the cloud-forest ruins of Wiñay Wayna and the Sun Gate.', stay: 'Trail camps' },
+        { d: '6–9', t: 'The Inca Trail', x: 'Four days and 26 miles over Dead Woman’s Pass to the cloud-forest ruins of Wiñay Wayna and the Sun Gate.', stay: 'Trail camps' },
         { d: '10', t: 'Machu Picchu', x: 'A guided morning in the citadel, then the train back through the valley.', stay: 'Hotel Arqueólogo, Cusco' },
         { d: '11', t: 'Free day in Cusco', x: 'Rest, shop for alpaca, or ride out to the Rainbow Mountain.', stay: 'Hotel Arqueólogo, Cusco' },
         { d: '12', t: 'Departure', x: 'Transfers to Cusco airport for flights home via Lima.', stay: '' }
@@ -129,7 +129,7 @@
     },
     {
       id: 'peru-taste', name: 'Peru by Taste', region: 'andes', country: 'Peru', style: 'culture',
-      days: 9, price: 2640, single: 320, rating: 4.7, reviews: 58, group: 12, level: 'Easy',
+      days: 9, price: 3590, single: 430, rating: 4.7, reviews: 58, group: 12, level: 'Easy',
       months: [3, 4, 5, 6, 9, 10, 11], scene: 'mountains', time: 'day',
       summary: 'Markets, potato farms, Amazonian cacao and Lima’s great kitchens, with Machu Picchu by train.',
       highlights: ['Market tour and lunch with a Lima chef', 'Potato park in the Andes', 'Machu Picchu by train'],
@@ -147,7 +147,7 @@
     },
     {
       id: 'lofoten-peaks', name: 'Lofoten Peaks & Fjords', region: 'nordics', country: 'Norway', style: 'hiking',
-      days: 7, price: 2350, single: 340, rating: 4.8, reviews: 77, group: 12, level: 'Moderate',
+      days: 7, price: 3290, single: 460, rating: 4.8, reviews: 77, group: 12, level: 'Moderate',
       months: [6, 7, 8, 9], scene: 'fjord', time: 'day', featured: 3,
       summary: 'Ridge walks above white beaches under the midnight sun, with nights in red fishermen’s cabins.',
       highlights: ['Reinebringen and Ryten ridge walks', 'Sea kayaking in the fjords', 'Rorbu cabin stays'],
@@ -165,12 +165,12 @@
     },
     {
       id: 'arctic-lights', name: 'Arctic Lights of Tromsø', region: 'nordics', country: 'Norway', style: 'wildlife',
-      days: 6, price: 2180, single: 300, rating: 4.9, reviews: 131, group: 12, level: 'Easy', badge: 'Winter trip',
+      days: 6, price: 2950, single: 400, rating: 4.9, reviews: 131, group: 12, level: 'Easy', badge: 'Winter trip',
       months: [1, 2, 3, 11, 12], scene: 'fjord', time: 'night',
       summary: 'Chase the northern lights away from the city glow, watch whales in the fjords and mush your own husky team.',
       highlights: ['Three nights of aurora hunting', 'Husky sledding in the Lyngen Alps', 'Whale safari by small boat'],
       includes: ['Thermal suits and boots', 'Husky and whale safaris'],
-      excludes: ['Snowmobile option (£180)'],
+      excludes: ['Snowmobile option ($240)'],
       stops: [[30, 60, 'Tromsø'], [48, 40, 'Kvaløya'], [70, 50, 'Lyngen Alps'], [58, 74, 'Ersfjord']],
       itinerary: [
         { d: '1', t: 'Tromsø', x: 'Arrive, collect thermal gear, and take the cable car up Fjellheisen at dusk.', stay: 'Clarion The Edge, Tromsø' },
@@ -182,15 +182,15 @@
     },
     {
       id: 'cyclades-sail', name: 'Cyclades Island Sail', region: 'aegean', country: 'Greece', style: 'coast',
-      days: 8, price: 1890, single: 360, rating: 4.8, reviews: 143, group: 10, level: 'Easy',
+      days: 8, price: 2590, single: 490, rating: 4.8, reviews: 143, group: 10, level: 'Easy',
       months: [5, 6, 7, 8, 9, 10], scene: 'coast', time: 'day', featured: 4,
       summary: 'A week on a wooden caïque between quiet Cycladic islands, swimming off the boat in coves no ferry reaches.',
       highlights: ['Sleep aboard a traditional caïque', 'Swim stops twice a day', 'Village tavernas on Sifnos and Milos'],
-      includes: ['Skipper, cook and boat fuel', 'Snorkel kit'],
-      excludes: ['Harbour dinners ashore'],
+      includes: ['Skipper, cook and boat fuel', 'Snorkel gear'],
+      excludes: ['Harbor dinners ashore'],
       stops: [[20, 30, 'Athens'], [44, 52, 'Kythnos'], [56, 64, 'Sifnos'], [42, 78, 'Milos'], [70, 72, 'Folegandros']],
       itinerary: [
-        { d: '1', t: 'Lavrio harbour', x: 'Board the caïque Agia Eleni, meet captain Nikos and sail at sunset to Kea.', stay: 'On board' },
+        { d: '1', t: 'Lavrio harbor', x: 'Board the caïque Agia Eleni, meet captain Nikos and sail at sunset to Kea.', stay: 'On board' },
         { d: '2', t: 'Kythnos', x: 'The sandbar beach of Kolona and hot springs at Loutra.', stay: 'On board' },
         { d: '3–4', t: 'Sifnos', x: 'Pottery villages, a walk to the cliff chapel of Chrysopigi and the best chickpea stew in Greece.', stay: 'On board' },
         { d: '5–6', t: 'Milos', x: 'The white rocks of Sarakiniko, sea caves of Kleftiko and a sunset in Plaka.', stay: 'On board' },
@@ -200,7 +200,7 @@
     },
     {
       id: 'lycian-way', name: 'The Lycian Way', region: 'aegean', country: 'Turkey', style: 'hiking',
-      days: 9, price: 1690, single: 220, rating: 4.7, reviews: 64, group: 12, level: 'Moderate',
+      days: 9, price: 2290, single: 300, rating: 4.7, reviews: 64, group: 12, level: 'Moderate',
       months: [3, 4, 5, 10, 11], scene: 'coast', time: 'dusk',
       summary: 'The best stretches of Turkey’s coastal path: pine forest, Lycian tombs and turquoise coves, with your bags sent ahead.',
       highlights: ['Six days on the coastal path', 'Swims in Butterfly Valley', 'Sunken city of Kekova by boat'],
@@ -208,9 +208,9 @@
       excludes: [],
       stops: [[18, 40, 'Fethiye'], [30, 58, 'Faralya'], [48, 72, 'Kalkan'], [64, 62, 'Kaş'], [82, 70, 'Kekova']],
       itinerary: [
-        { d: '1', t: 'Fethiye', x: 'Arrive and meet the group by the harbour.', stay: 'Yacht Classic, Fethiye' },
+        { d: '1', t: 'Fethiye', x: 'Arrive and meet the group by the harbor.', stay: 'Yacht Classic, Fethiye' },
         { d: '2–3', t: 'Ölüdeniz to Faralya', x: 'Climb above the lagoon and walk the cliffs to the village above Butterfly Valley.', stay: 'George House, Faralya' },
-        { d: '4–5', t: 'Kabak and Patara', x: 'Pine forest, a ruined Lycian city and twelve kilometres of empty beach.', stay: 'Patara Viewpoint' },
+        { d: '4–5', t: 'Kabak and Patara', x: 'Pine forest, a ruined Lycian city and seven miles of empty beach.', stay: 'Patara Viewpoint' },
         { d: '6–7', t: 'Kalkan to Kaş', x: 'Coastal path past rock tombs to the old town of Kaş.', stay: 'Hideaway Hotel, Kaş' },
         { d: '8', t: 'Kekova by boat', x: 'Swim over the sunken city and walk up to Simena castle.', stay: 'Hideaway Hotel, Kaş' },
         { d: '9', t: 'Departure', x: 'Transfers to Dalaman airport.', stay: '' }
@@ -218,7 +218,7 @@
     },
     {
       id: 'kumano-kodo', name: 'Kyoto & the Kumano Kodo', region: 'japan', country: 'Japan', style: 'hiking',
-      days: 11, price: 3850, single: 480, rating: 4.9, reviews: 88, group: 12, level: 'Moderate',
+      days: 11, price: 5190, single: 650, rating: 4.9, reviews: 88, group: 12, level: 'Moderate',
       months: [3, 4, 5, 10, 11], scene: 'fuji', time: 'dawn',
       summary: 'Temples and tea houses in Kyoto, then four days on the ancient pilgrim trail through cedar forests to Hongū.',
       highlights: ['Four days on the Kumano Kodo', 'Onsen ryokan every night on the trail', 'Dawn at Fushimi Inari'],
@@ -236,7 +236,7 @@
     },
     {
       id: 'japan-table', name: 'Japan, Street to Ryokan', region: 'japan', country: 'Japan', style: 'culture',
-      days: 13, price: 4290, single: 560, rating: 4.8, reviews: 102, group: 12, level: 'Easy', badge: 'New',
+      days: 13, price: 5790, single: 760, rating: 4.8, reviews: 102, group: 12, level: 'Easy', badge: 'New',
       months: [3, 4, 5, 9, 10, 11], scene: 'fuji', time: 'dusk',
       summary: 'Tokyo’s alleys, Hakone’s hot springs, Kanazawa’s markets and Kyoto’s kitchens, by bullet train.',
       highlights: ['Izakaya night with a Tokyo local', 'Ryokan with a view of Mount Fuji', 'Omicho market breakfast in Kanazawa'],
@@ -253,12 +253,12 @@
     },
     {
       id: 'serengeti-migration', name: 'Serengeti Migration Safari', region: 'africa', country: 'Tanzania', style: 'wildlife',
-      days: 10, price: 4650, single: 540, rating: 4.9, reviews: 69, group: 8, level: 'Easy', badge: 'Groups of 8',
+      days: 10, price: 6190, single: 730, rating: 4.9, reviews: 69, group: 8, level: 'Easy', badge: 'Groups of 8',
       months: [1, 2, 6, 7, 8, 9, 10], scene: 'savannah', time: 'dusk',
       summary: 'Follow the great migration across the Serengeti in open-roof vehicles, with nights in small tented camps.',
       highlights: ['Five game drives in the Serengeti', 'A day in the Ngorongoro Crater', 'Walking safari with Maasai guides'],
       includes: ['Park fees and game drives', 'All meals on safari'],
-      excludes: ['Balloon flight (£520)'],
+      excludes: ['Balloon flight ($700)'],
       stops: [[22, 70, 'Arusha'], [40, 54, 'Tarangire'], [52, 46, 'Ngorongoro'], [70, 28, 'Serengeti']],
       itinerary: [
         { d: '1', t: 'Arusha', x: 'Arrive at Kilimanjaro airport and settle in at a coffee farm lodge.', stay: 'Arusha Coffee Lodge' },
@@ -271,18 +271,18 @@
     },
     {
       id: 'zanzibar-spice', name: 'Kilimanjaro Views & Zanzibar', region: 'africa', country: 'Tanzania', style: 'coast',
-      days: 14, price: 3980, single: 450, rating: 4.7, reviews: 41, group: 12, level: 'Easy',
+      days: 14, price: 5390, single: 610, rating: 4.7, reviews: 41, group: 12, level: 'Easy',
       months: [1, 2, 6, 7, 8, 9, 10, 12], scene: 'savannah', time: 'day',
       summary: 'Village walks under Kilimanjaro, a short safari, then a slow week on Zanzibar’s spice farms and white beaches.',
       highlights: ['Coffee and banana farm walk on Kilimanjaro’s slopes', 'Spice tour and Stone Town food market', 'Dhow sail at sunset'],
       includes: ['Flight to Zanzibar', 'Two game drives'],
-      excludes: ['Diving (from £60 a dive)'],
+      excludes: ['Diving (from $80 a dive)'],
       stops: [[24, 30, 'Moshi'], [34, 50, 'Arusha'], [48, 62, 'Tarangire'], [76, 74, 'Stone Town'], [86, 60, 'Matemwe']],
       itinerary: [
         { d: '1–3', t: 'Under Kilimanjaro', x: 'Coffee farm walks, a waterfall swim and a Chagga family lunch near Moshi.', stay: 'Kaliwa Lodge, Moshi' },
         { d: '4–5', t: 'Tarangire safari', x: 'Two game drives among baobabs and elephants.', stay: 'Tarangire tented camp' },
         { d: '6–8', t: 'Stone Town', x: 'Fly to Zanzibar. Carved doors, the spice farms and the Forodhani night market.', stay: 'Emerson Spice, Stone Town' },
-        { d: '9–13', t: 'Matemwe beach', x: 'Slow days on the east coast: snorkelling, a dhow sail and the seaweed farms at low tide.', stay: 'Matemwe Lodge' },
+        { d: '9–13', t: 'Matemwe beach', x: 'Slow days on the east coast: snorkeling, a dhow sail and the seaweed farms at low tide.', stay: 'Matemwe Lodge' },
         { d: '14', t: 'Departure', x: 'Transfers to Zanzibar airport.', stay: '' }
       ]
     }
@@ -296,7 +296,7 @@
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
   }
-  function money(n) { return '£' + Math.round(n).toLocaleString('en-GB'); }
+  function money(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
   function byId(list, id) { return list.filter(function (x) { return x.id === id; })[0] || null; }
   function findTour(id) { return byId(TOURS, String(id || '').toLowerCase()); }
   function findRegion(id) { return byId(REGIONS, String(id || '').toLowerCase()); }
@@ -315,8 +315,8 @@
   }
   function todayUTC() { var n = new Date(); return new Date(Date.UTC(n.getFullYear(), n.getMonth(), n.getDate())); }
   function addDays(d, n) { var c = new Date(d.getTime()); c.setUTCDate(c.getUTCDate() + n); return c; }
-  var fmtShort = new Intl.DateTimeFormat('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
-  var fmtLong = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
+  var fmtShort = new Intl.DateTimeFormat('en-US', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+  var fmtLong = new Intl.DateTimeFormat('en-US', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
 
   // A small, stable hash so demo availability is the same on every visit.
   function hash(str) {
@@ -354,7 +354,7 @@
     dusk:  { top: '#e2603f', bottom: '#f9b867', sun: '#fff0c8', glow: '#ffc98a' },
     night: { top: '#0c2236', bottom: '#1c4b5c', sun: '#f4efd8', glow: '#2c6a72' }
   };
-  // Layer colours per scene and time, from the farthest to the nearest.
+  // Layer colors per scene and time, from the farthest to the nearest.
   var LAYERS = {
     dunes:     { dawn: ['#f1b48d', '#e2925f', '#c8703f', '#a3532d'], day: ['#f4ce8f', '#eab067', '#d98f46', '#bd7031'],
                  dusk: ['#ee9a5e', '#d8733d', '#b5532a', '#7f3519'], night: ['#3b5a6b', '#2e4a5a', '#223a48', '#172b37'] },
@@ -514,7 +514,7 @@
       '<text x="40" y="476" font-size="17" fill="#66523f" font-family="Outfit, sans-serif">Illustrative map, not to scale</text></svg>';
   }
 
-  // Avatars for guides and travellers: data-avatar="skin,hair,style,background" (style: short, long, bun, curly, bald).
+  // Avatars for guides and travelers: data-avatar="skin,hair,style,background" (style: short, long, bun, curly, bald).
   function avatar(spec, label) {
     var p = String(spec || '').split(',');
     var skin = p[0] || '#c68a5e', hair = p[1] || '#2b1d14', style = p[2] || 'short', bg = p[3] || '#f4a62a';
@@ -581,7 +581,7 @@
     if (dep.guaranteed) return { text: 'Guaranteed', cls: 'badge-ok' };
     return { text: dep.left + ' places', cls: 'badge-open' };
   }
-  // The live price for an enquiry. room: 'share' or 'own'.
+  // The live price for an inquiry. room: 'share' or 'own'.
   function quote(tour, dep, travellers, room) {
     var n = Math.max(1, Math.min(MAX_TRAVELLERS, travellers | 0));
     var base = dep.price * n;
@@ -659,7 +659,7 @@
 
   /* ------------------------------------------------------------------
    * 7. Tours page: filters, sort, result count and URL
-   *    tours.html?region=morocco,japan&style=hiking&duration=medium&month=5&max=3000&sort=price-asc
+   *    tours.html?region=morocco,japan&style=hiking&duration=medium&month=5&max=4000&sort=price-asc
    * ------------------------------------------------------------------ */
   var SORTS = {
     recommended: function (a, b) { return (a.featured || 99) - (b.featured || 99) || b.rating - a.rating; },
@@ -754,7 +754,7 @@
       empty.hidden = list.length > 0;
       grid.hidden = list.length === 0;
       rangeOut.textContent = state.max >= PRICE_MAX ? 'Any price' : 'Up to ' + money(state.max);
-      // Counts next to each option: how many trips you'd see if you ticked it, given the other filters.
+      // Counts next to each option: how many trips you'd see if you checked it, given the other filters.
       $$('[data-count-for]', form).forEach(function (el) {
         var parts = el.getAttribute('data-count-for').split(':');
         var probe = JSON.parse(JSON.stringify(state));
@@ -920,7 +920,7 @@
       }).join('');
     }
 
-    // Booking widget: departure + travellers + room → live total
+    // Booking widget: departure + travelers + room → live total
     var widget = $('#booking-widget');
     if (!widget) return;
     var sel = $('#dep-select', widget);
@@ -957,10 +957,10 @@
       $('[data-q="deposit"]', widget).textContent = money(q.deposit);
       $('[data-q="note"]', widget).textContent = dep.left <= 3
         ? 'Only ' + plural(dep.left, 'place', 'places') + ' left on this departure.'
-        : (dep.guaranteed ? 'This departure is guaranteed to run.' : 'Runs with 4 or more travellers. We confirm 8 weeks before.');
+        : (dep.guaranteed ? 'This departure is guaranteed to run.' : 'Runs with 4 or more travelers. We confirm 8 weeks before.');
       $$('[data-dep]', tbody).forEach(function (r) { r.classList.toggle('is-selected', r.getAttribute('data-dep') === dep.start); });
       var sum = $('[data-enquiry-summary]');
-      if (sum) sum.textContent = tour.name + ' · ' + departureLabel(dep) + ' · ' + plural(q.travellers, 'traveller', 'travellers') + (room === 'own' ? ', own rooms' : ', sharing') + ' · ' + money(q.total);
+      if (sum) sum.textContent = tour.name + ' · ' + departureLabel(dep) + ' · ' + plural(q.travellers, 'traveler', 'travelers') + (room === 'own' ? ', own rooms' : ', sharing') + ' · ' + money(q.total);
       var form = $('#enquiry-form');
       if (form) {
         form.elements.tour.value = tour.name;
@@ -1056,7 +1056,7 @@
   }
   function fieldMessage(f) {
     var name = f.getAttribute('data-label') || 'this field';
-    if (f.type === 'checkbox') return f.required && !f.checked ? (f.getAttribute('data-msg') || 'Please tick this box.') : '';
+    if (f.type === 'checkbox') return f.required && !f.checked ? (f.getAttribute('data-msg') || 'Please check this box.') : '';
     var v = f.value.trim();
     if (f.required && !v) {
       if (f.type === 'email') return 'Enter your email address.';
@@ -1125,7 +1125,7 @@
         form.hidden = false;
         var first = $('input:not([type="hidden"]), textarea, select', form);
         if (first) first.focus();
-        // The tour page's enquiry form carries the booking summary in hidden fields: refill them.
+        // The tour page's inquiry form carries the booking summary in hidden fields: refill them.
         var sel = $('#dep-select');
         if (sel) sel.dispatchEvent(new Event('change'));
       });

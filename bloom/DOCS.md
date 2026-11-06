@@ -3,11 +3,11 @@
 ## Overview
 
 Bloom is a nine-page website for a hair salon and day spa. The demo brand is Bloom Hair & Spa, a fictional independent
-salon at 48 Orchard Lane, Bristol. It's built with plain HTML5, Tailwind CSS v4 and one vanilla JavaScript file with
-no dependencies. Highlights are a five-step booking wizard that works out real time slots from opening hours, staff
-working days and treatment length, level-based pricing (stylist, senior, director), a gift card builder with a live
+salon at 48 Burns Court, Sarasota, Florida. It's built with plain HTML5, Tailwind CSS v4 and one vanilla JavaScript file with
+no dependencies. Highlights are a five-step booking wizard that works out real time slots from business hours, staff
+business days and treatment length, level-based pricing (stylist, senior, director), a gift card builder with a live
 preview, filterable service and team pages, a gallery with saved looks and a lightbox, a before/after slider and a live
-"Open now" status. This guide covers version 1.0.6. Live demo:
+"Open now" status. This guide covers version 1.0.9. Live demo:
 [freeframe.dev/templates/bloom](https://freeframe.dev/templates/bloom).
 
 ## Quick start
@@ -30,12 +30,12 @@ You only need Node.js 24 if you change the styles and rebuild the CSS (see
 |------|------|-------------------------------|
 | `index.html` | Home | Hero, signature treatments, before/after slider, team, reviews, gift cards, newsletter |
 | `services.html` | Services and prices | Full menu by category, category filter with count, "Book" links per treatment |
-| `team.html` | Team | Specialty filter, working days, pricing levels, "Book with" links |
+| `team.html` | Team | Specialty filter, business days, pricing levels, "Book with" links |
 | `book.html` | Book online | Five-step booking wizard with a running summary |
 | `gift-cards.html` | Gift cards | Amount, design, message and delivery date with a live card preview |
 | `gallery.html` | Gallery | Look filters, saved looks, lightbox with "Book with" link |
 | `about.html` | About | Story, values and milestones |
-| `contact.html` | Visit and contact | Map, opening hours with today highlighted, open-now status, contact form |
+| `contact.html` | Visit and contact | Map, business hours with today highlighted, open-now status, contact form |
 | `404.html` | Not found | Links back into the site |
 
 Every page shares the header, footer (with an open-now badge and the newsletter form) and the back-to-top button.
@@ -123,7 +123,7 @@ Page text is plain HTML. The data the scripts use is the `BLOOM` object at the t
 
 | Key | What it holds | Used by the script for |
 |-----|---------------|------------------------|
-| `salon` | Name, address, phone, email, `currency` (ISO code, e.g. `GBP`), `locale` (e.g. `en-GB`) | Price formatting in the booking wizard and gift cards; otherwise reference only (the pages have their own copy) |
+| `salon` | Name, address, phone, email, `currency` (ISO code, e.g. `USD`), `locale` (e.g. `en-US`) | Price formatting in the booking wizard and gift cards; otherwise reference only (the pages have their own copy) |
 | `hours` | Seven entries, `day` 0 (Sunday) to 6, with `open`/`close` as `"HH:MM"` or `null` when closed | Open-now status, booking slots |
 | `categories` | Service categories: `id`, `label`, `blurb` | Services filter count label |
 | `services` | `id`, `cat`, `name`, `mins`, `price`, `desc`, optional `signature` | Booking durations, prices, summary |
@@ -137,27 +137,27 @@ The comment says the data is "generated from one source shared with the Next.js 
 pages themselves are not built from it: the service menu, the booking checkboxes, the team cards, the gallery and the
 hours tables are written out in HTML. When you change the data, change the HTML to match.
 
-To add a treatment, for example a fringe trim:
+To add a treatment, for example a bang trim:
 
 1. Add it to `BLOOM.services`:
 
 ```js
 {
-  "id": "fringe-trim",
+  "id": "bang-trim",
   "cat": "hair",
-  "name": "Fringe trim",
+  "name": "Bang trim",
   "mins": 15,
-  "price": 12,
-  "desc": "A quick tidy between cuts."
+  "price": 15,
+  "desc": "A quick cleanup between cuts."
 }
 ```
 
 2. Add a row to the matching `data-service-group` section in `services.html`, with a link to
-   `book.html?service=fringe-trim`.
+   `book.html?service=bang-trim`.
 3. Add a checkbox to step 1 of `book.html` inside the right category `<fieldset>`, copying an existing one:
 
 ```html
-<label class="option"><input type="checkbox" name="services" value="fringe-trim" class="option-input"><span class="option-body">…</span></label>
+<label class="option"><input type="checkbox" name="services" value="bang-trim" class="option-input"><span class="option-body">…</span></label>
 ```
 
 The checkbox `value` must equal the service `id`; the script reads name, duration and price from `BLOOM.services`.
@@ -166,8 +166,8 @@ To add a team member, add an entry to `BLOOM.team` (`days` uses 0 for Sunday to 
 categories they can do), add `assets/img/team/<id>.svg` (the booking wizard loads the portrait from that path), and add
 their card to `team.html` with `data-team-member data-cats="hair colour"`.
 
-Contact details are repeated in every page and in `BLOOM.salon`. Search and replace `+44 117 496 0123`,
-`+441174960123` (used in `tel:` links), `hello@bloomhairspa.example` and `48 Orchard Lane`.
+Contact details are repeated in every page and in `BLOOM.salon`. Search and replace `(941) 555-0173`,
+`+19415550173` (used in `tel:` links), `hello@bloomhairspa.example` and `48 Burns Court`.
 
 ### Images and artwork
 
@@ -211,7 +211,7 @@ steps, a progress list (`.steps` with `data-step-indicator`) and a running summa
 | 1. Treatments | Checkboxes `name="services"` | At least one |
 | 2. Stylist | Radio list built by `renderStylists()`: "Anyone available" plus everyone who can do all the chosen treatments | None |
 | 3. Date and time | 21 day buttons from today (`renderDates()`), then time buttons (`renderSlots()`) | A time is chosen |
-| 4. Your details | Name, email, mobile, notes, first visit, remember details, cancellation policy | Name 2+ characters, valid email, 10–15 digit phone, policy ticked |
+| 4. Your details | Name, email, cell phone, notes, first visit, remember details, cancellation policy | Name 2+ characters, valid email, 10–15 digit phone, policy ticked |
 | 5. Review | Rows with "Change" buttons that jump back to a step | None |
 
 "Continue" validates the current step and moves on; on step 5 it becomes "Confirm booking" and calls `confirm()`, which
@@ -231,18 +231,18 @@ Changing the treatments clears the chosen date and time.
 
 `slotsFor(date, serviceIds, stylist, now)` in section 2 of `main.js` returns the bookable start times. The rules:
 
-- **Opening hours:** from `BLOOM.hours[date.getDay()]`. A day with `open: null` has no slots (Monday in the demo).
+- **Business hours:** from `BLOOM.hours[date.getDay()]`. A day with `open: null` has no slots (Monday in the demo).
 - **Length:** the sum of the chosen services' `mins`. A slot must finish by closing time, so a 180-minute balayage on a
-  Thursday (09:00–20:00) can start at 17:00 at the latest.
+  Thursday (9:00 AM–8:00 PM) can start at 5:00 PM at the latest.
 - **Step:** start times every 15 minutes.
-- **Today:** the earliest start is at least an hour from now, rounded up to the next 15 minutes (at 10:07 the first slot
-  is 11:15).
+- **Today:** the earliest start is at least an hour from now, rounded up to the next 15 minutes (at 10:07 AM the first slot
+  is 11:15 AM).
 - **Who can do it:** `eligibleMembers()` returns team members whose `cats` include every chosen category. With
   "Anyone available", each start time is offered if any eligible member is free; the slot remembers who
   (`data-member`), and the summary and confirmation name them.
 - **Working days:** a member is only considered on days listed in their `days`.
-- **Diary:** `isBusy(memberId, dateKey, block)` marks about one in five 30-minute blocks as already booked, using a
-  deterministic hash so the same diary appears on every visit. A member is free only if every block the treatment
+- **Schedule:** `isBusy(memberId, dateKey, block)` marks about one in five 30-minute blocks as already booked, using a
+  deterministic hash so the same schedule appears on every visit. A member is free only if every block the treatment
   touches is free.
 - **Mixed treatments:** if nobody can do all the chosen categories (for example a cut and a gel manicure), the wizard
   books "Best available team" back to back. `teamPlan()` takes the treatments in menu order and gives each one to the
@@ -253,7 +253,7 @@ Changing the treatments clears the chosen date and time.
 To connect real availability, replace `isBusy()` (or `memberFree()`) with a lookup of your booking system's busy times:
 
 ```js
-// busy = { "theo|2026-10-08": [20, 21, 26] } -> 30-minute block numbers (block 20 = 10:00)
+// busy = { "theo|2026-10-08": [20, 21, 26] } -> 30-minute block numbers (block 20 = 10:00 AM)
 function isBusy(memberId, key, block) {
   var list = busy[memberId + '|' + key];
   return Boolean(list && list.indexOf(block) !== -1);
@@ -267,27 +267,26 @@ change the `21` in `renderDates()`.
 ### Level-based pricing
 
 `priceFor(service, levelId)` multiplies the base `price` by the team member's level `multiplier`, but only for the
-`hair` and `colour` categories. Nails, skin and massage cost the same with anyone. Results are rounded to whole pounds.
+`hair` and `colour` categories. Nails, skin and massage cost the same with anyone. Results are rounded to whole dollars.
 
 | Treatment | Stylist | Senior (×1.2) | Director (×1.4) |
 |-----------|---------|---------------|-----------------|
-| Signature cut & finish (£68) | £68 | £82 | £95 |
-| Balayage (£210) | £210 | £252 | £294 |
-
+| Signature cut & finish ($85) | $85 | $102 | $119 |
+| Balayage ($260) | $260 | $312 | $364 |
 Until a stylist or a time (and so a team member) is chosen, the summary shows hair and color prices and the total as
 "from" the stylist price. To change the levels, edit `BLOOM.levels`; to make another category scale with level, add it
 to the check in `priceFor()` and to the matching `scaled` checks in `paintSummary()`. The prices printed on
 `services.html` and `team.html` are HTML; update them by hand.
 
-### Opening hours and open now
+### Business hours and open now
 
 Section 5 of `main.js` reads `BLOOM.hours`:
 
-- Every `[data-open-now]` badge gets text such as "Open now · until 19:00" or "Closed · opens tomorrow at 09:00" in its
+- Every `[data-open-now]` badge gets text such as "Open now · until 7:00 PM" or "Closed · opens tomorrow at 9:00 AM" in its
   `[data-open-text]` child, and the class `is-closed` when closed.
 - In any `.hours-table`, the `<tr data-day="N">` for today gets the class `is-today` and `aria-current="date"`.
 
-It runs on load and every minute. It uses the visitor's clock and time zone, so a visitor abroad sees the status for
+It runs on load and every minute. It uses the visitor's clock and time zone, so a visitor in another time zone sees the status for
 their local time. The rows in the hours tables are HTML; keep them in step with `BLOOM.hours`.
 
 ### Services filter
@@ -327,7 +326,7 @@ To add a look, add it to `BLOOM.looks` (with `by` set to a team id and `cat` to 
 On `gift-cards.html`, `[data-gift]` contains `<form id="gift-form">` and a preview (`[data-gift-preview]`):
 
 - **Amount:** radios `name="amount"` (50, 75, 100, 150, 250 or `custom`). A custom amount must be a whole number from
-  £25 to £500.
+  $25 to $500.
 - **Design:** radios `name="design"` (`petal`, `sage`, `noir`); the preview gets the class `gift-<design>`.
 - **To, recipient email, from, your email, message:** the message has a 160-character counter.
 - **Delivery:** `now` or `later`; later shows a date input limited to today through one year ahead.
@@ -375,7 +374,7 @@ Each form ends with an in-world confirmation. The booking, gift card and contact
 made in the browser (`BL-` and four characters, from `makeRef()` in `main.js`; if your booking system, payment provider
 or form service returns its own reference, show that instead), and the newsletter asks subscribers to look out for a
 confirmation email. The booking confirmation says a confirmation email follows "shortly" and the contact confirmation
-promises a reply "within one working day", as the contact page does; change them to match how you actually reply.
+promises a reply "within one business day", as the contact page does; change them to match how you actually reply.
 
 None of the forms send anything until you connect them. Each has a comment at the point to connect it:
 
@@ -419,7 +418,7 @@ data.append('time', hhmm(state.slot));
 fetch('https://formspree.io/f/your-form-id', { method: 'POST', body: data, headers: { Accept: 'application/json' } });
 ```
 
-A form service only delivers the request; it doesn't block the time in a diary. For real bookings, send the same data
+A form service only delivers the request; it doesn't block the time in a schedule. For real bookings, send the same data
 to your booking system's API and use its availability in `isBusy()`. For gift cards, create a checkout session on your
 server (for example Stripe Checkout) and redirect to it instead of showing the code straight away.
 
@@ -453,7 +452,7 @@ Social networks need an absolute image URL. When you deploy, change `og:image` o
 ```
 
 There is no structured data, sitemap or `robots.txt`. For a salon, consider adding a `HairSalon` or `BeautySalon`
-JSON-LD block to `index.html` with your address, phone, opening hours and booking URL, a `sitemap.xml` listing the
+JSON-LD block to `index.html` with your address, phone, business hours and booking URL, a `sitemap.xml` listing the
 pages, and a `robots.txt` that points to it.
 
 ## Accessibility
@@ -468,7 +467,7 @@ Built in:
 - Live regions for the services, team and gallery counts.
 - Wizard steps with focusable headings, `aria-current="step"` on the progress list and focus on the confirmation.
 - Form errors next to each field with `aria-invalid`, focus on the first error.
-- Today's opening hours row marked with `aria-current="date"`.
+- Today's business hours row marked with `aria-current="date"`.
 - Native `<dialog>` lightbox with focus return, and a native range input for the before/after slider.
 - Reduced motion: no reveal animations and instant scrolling.
 
@@ -509,7 +508,7 @@ leave out `src/`, `package.json` and the Markdown files when uploading.
 - **The booking breaks when a new treatment is ticked.** The checkbox `value` has no matching service in
   `BLOOM.services`. Check spelling.
 - **No times appear for a day.** The salon is closed that day in `BLOOM.hours`, nobody eligible works it (`days`), or
-  every slot is taken in the demo diary. Try "Anyone available".
+  every slot is taken in the demo schedule. Try "Anyone available".
 - **A stylist link opens with "Anyone available".** The `?stylist=` id doesn't exist, or that person can't do the
   chosen treatments.
 - **The "Open now" badge looks wrong.** It uses the visitor's local time and `BLOOM.hours`. Update `BLOOM.hours` when you

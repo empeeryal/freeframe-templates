@@ -6,6 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.11] - 2026-11-05
+
+### Changed
+
+- Set in Newport, Rhode Island, with American spelling, US dollars, US phone numbers and local details.
+- Room sizes are in square feet and times use a 12-hour clock. Rates now exclude tax: the total adds an estimated 14% Rhode Island sales and hotel tax, replacing VAT and city tax.
+
 ## [1.0.10] - 2026-11-05
 
 ### Changed

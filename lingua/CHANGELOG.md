@@ -6,6 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-11-05
+
+### Changed
+
+- Set in San Antonio, Texas, with American spelling, US dollars, US phone numbers and local details.
+- Class times use a 12-hour clock, dates read like Jan 11 and January 11, 2027, the demo term rolls over on San Antonio's date (America/Chicago), and prices are set for a US school.
+
 ## [1.0.6] - 2026-11-05
 
 ### Changed

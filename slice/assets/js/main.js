@@ -5,11 +5,11 @@
  *  3. Helpers
  *  4. Opening hours and time slots (in the shop's time zone)
  *  5. Pizza and food artwork (SVG drawn from the menu data)
- *  6. Saved order: mode, postcode, cart (localStorage)
+ *  6. Saved order: mode, ZIP code, cart (localStorage)
  *  7. Prices and totals
  *  8. Header, mobile menu, reveal, open-now badges
  *  9. Delivery checker
- * 10. Item customiser and deal dialogs
+ * 10. Item customizer and deal dialogs
  * 11. Cart drawer, toast and mobile order bar
  * 12. Menu page            15. Locations page
  * 13. Home page            16. Checkout and order tracker
@@ -27,39 +27,39 @@ document.documentElement.classList.add('js');
    *    in 24-hour time, or null when closed. Times are in TIMEZONE.
    * ------------------------------------------------------------------ */
   const SHOP_NAME = 'Crust Club';
-  const TIMEZONE = 'Europe/London';
-  const LOCALE = 'en-GB';
-  const CURRENCY = 'GBP';
+  const TIMEZONE = 'America/New_York';
+  const LOCALE = 'en-US';
+  const CURRENCY = 'USD';
 
   const STORES = [
     {
       id: 'ancoats',
-      name: 'Ancoats',
-      address: '42 Blossom Street, Manchester M4 6AJ',
-      phone: '0161 496 0418',
+      name: 'Wooster Square',
+      address: '42 Franklin Street, New Haven, CT 06511',
+      phone: '(203) 555-0118',
       hours: [['12:00', '21:00'], ['12:00', '22:00'], ['12:00', '22:00'], ['12:00', '22:00'], ['12:00', '22:00'], ['12:00', '23:00'], ['12:00', '23:00']],
-      pickupMins: 20,   // kitchen lead time for collection orders
+      pickupMins: 20,   // kitchen lead time for pickup orders
       deliveryMins: 35  // kitchen + ride lead time for the first delivery slot
     },
     {
       id: 'chorlton',
-      name: 'Chorlton',
-      address: '317 Barlow Moor Road, Manchester M21 8AY',
-      phone: '0161 496 0732',
+      name: 'Westville',
+      address: '317 Fountain Street, New Haven, CT 06515',
+      phone: '(203) 555-0132',
       hours: [['12:00', '21:00'], null, ['16:00', '22:00'], ['16:00', '22:00'], ['16:00', '22:00'], ['16:00', '23:00'], ['12:00', '23:00']],
       pickupMins: 20,
       deliveryMins: 35
     }
   ];
 
-  // Delivery zones by postcode district. Each zone is served by one shop.
+  // Delivery zones by ZIP code. Each zone is served by one shop.
   const ZONES = [
-    { id: 'city', store: 'ancoats', name: 'City centre & Ancoats', districts: ['M1', 'M2', 'M3', 'M4'], fee: 1.99, min: 15, eta: [25, 35] },
-    { id: 'north', store: 'ancoats', name: 'Salford Quays, Hulme & east', districts: ['M8', 'M11', 'M12', 'M13', 'M15', 'M40', 'M50'], fee: 2.99, min: 20, eta: [35, 50] },
-    { id: 'chorlton', store: 'chorlton', name: 'Chorlton & Whalley Range', districts: ['M16', 'M21'], fee: 1.99, min: 15, eta: [25, 35] },
-    { id: 'south', store: 'chorlton', name: 'Didsbury, Withington & Stretford', districts: ['M14', 'M20', 'M32'], fee: 2.99, min: 20, eta: [35, 50] }
+    { id: 'city', store: 'ancoats', name: 'Downtown & Wooster Square', districts: ['06510', '06511'], fee: 2.99, min: 20, eta: [25, 35] },
+    { id: 'north', store: 'ancoats', name: 'Hamden, Fair Haven & The Hill', districts: ['06512', '06513', '06514', '06517', '06518', '06519'], fee: 4.99, min: 25, eta: [35, 50] },
+    { id: 'chorlton', store: 'chorlton', name: 'Westville & Woodbridge', districts: ['06515', '06525'], fee: 2.99, min: 20, eta: [25, 35] },
+    { id: 'south', store: 'chorlton', name: 'West Haven, Allingtown & Orange', districts: ['06477', '06516'], fee: 4.99, min: 25, eta: [35, 50] }
   ];
-  const FREE_DELIVERY_OVER = 35;  // subtotal (after promo) that makes delivery free
+  const FREE_DELIVERY_OVER = 50;  // subtotal (after promo) that makes delivery free
   const SLOT_STEP = 15;           // minutes between scheduled time slots
   const SCHEDULE_DAYS = 3;        // today plus the next two days
   const MAX_QTY = 20;
@@ -68,13 +68,13 @@ document.documentElement.classList.add('js');
   const PROMOS = {
     SLICE10: { type: 'percent', value: 10, label: '10% off menu items' },
     FREEDELIVERY: { type: 'delivery', label: 'Free delivery' },
-    FIRSTSLICE: { type: 'amount', value: 5, min: 25, label: '£5 off orders over £25' }
+    FIRSTSLICE: { type: 'amount', value: 5, min: 30, label: '$5 off orders over $30' }
   };
 
   // Order tracker demo: seconds each stage lasts on the confirmation page.
   const TRACKER_STEP_SECONDS = 8;
 
-  // A short reference for orders and enquiries, like CC-7K2Q (no 0/O or 1/I to misread over the phone).
+  // A short reference for orders and inquiries, like CC-7K2Q (no 0/O or 1/I to misread over the phone).
   function makeRef() {
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     let out = '';
@@ -90,8 +90,8 @@ document.documentElement.classList.add('js');
    *    | 'vegan', toppings are keys of the artwork drawers in section 5.
    * ------------------------------------------------------------------ */
   const ALLERGENS = {
-    gluten: 'Gluten', milk: 'Milk', egg: 'Egg', nuts: 'Tree nuts', soya: 'Soya',
-    mustard: 'Mustard', celery: 'Celery', sulphites: 'Sulphites', fish: 'Fish', sesame: 'Sesame'
+    gluten: 'Gluten', milk: 'Milk', egg: 'Egg', nuts: 'Tree nuts', soya: 'Soy',
+    mustard: 'Mustard', celery: 'Celery', sulphites: 'Sulfites', fish: 'Fish', sesame: 'Sesame'
   };
   const DIETS = {
     vegan: { label: 'Vegan', short: 'VG' },
@@ -101,23 +101,23 @@ document.documentElement.classList.add('js');
   };
 
   const SECTIONS = [
-    { id: 'pizzas', name: 'Pizzas', blurb: '48-hour sourdough, baked for 90 seconds at 450°C. Every pizza comes in three sizes.' },
+    { id: 'pizzas', name: 'Pizzas', blurb: '48-hour sourdough, baked for 90 seconds at 850°F. Every pizza comes in three sizes.' },
     { id: 'sides', name: 'Sides', blurb: 'For sharing, in theory.' },
     { id: 'dips', name: 'Dips', blurb: 'Crusts were made for dunking. All dips are made in-house.' },
     { id: 'desserts', name: 'Desserts', blurb: 'Room for one more?' },
-    { id: 'drinks', name: 'Drinks', blurb: 'Cold cans, our house pale and proper lemonade.' }
+    { id: 'drinks', name: 'Drinks', blurb: 'Cold cans, our house pale and real lemonade.' }
   ];
 
   const SIZES = [
-    { id: 'small', label: 'Small', inches: 10, delta: -2, extra: 1.0 },
-    { id: 'regular', label: 'Regular', inches: 12, delta: 0, extra: 1.5 },
-    { id: 'large', label: 'Large', inches: 16, delta: 4.5, extra: 2.0 }
+    { id: 'small', label: 'Small', inches: 10, delta: -3, extra: 2.0 },
+    { id: 'regular', label: 'Regular', inches: 12, delta: 0, extra: 2.5 },
+    { id: 'large', label: 'Large', inches: 16, delta: 6, extra: 3.0 }
   ];
   const CRUSTS = [
     { id: 'sourdough', label: 'Classic sourdough', note: 'Puffy, blistered, chewy', price: 0 },
     { id: 'thin', label: 'Thin & crispy', note: 'Rolled thin, extra crunch', price: 0 },
-    { id: 'stuffed', label: 'Garlic-butter stuffed crust', note: 'Mozzarella-filled rim', price: 2.5, sizes: ['regular', 'large'], allergens: ['milk'], notVegan: true },
-    { id: 'gf', label: 'Gluten-free base', note: 'Small only, made in a kitchen that handles gluten', price: 2.5, sizes: ['small'], glutenFree: true }
+    { id: 'stuffed', label: 'Garlic-butter stuffed crust', note: 'Mozzarella-filled rim', price: 3, sizes: ['regular', 'large'], allergens: ['milk'], notVegan: true },
+    { id: 'gf', label: 'Gluten-free base', note: 'Small only, made in a kitchen that handles gluten', price: 3, sizes: ['small'], glutenFree: true }
   ];
   // kind: 'veg' keeps a pizza vegan, 'dairy'/'honey' keep it vegetarian, 'meat'/'fish' make it neither.
   const TOPPINGS = [
@@ -136,138 +136,138 @@ document.documentElement.classList.add('js');
     { id: 'jalapeno', name: 'Pickled jalapeños', kind: 'veg', spicy: true },
     { id: 'pineapple', name: 'Pineapple', kind: 'veg' },
     { id: 'tomato', name: 'Cherry tomatoes', kind: 'veg' },
-    { id: 'rocket', name: 'Rocket', kind: 'veg' },
+    { id: 'rocket', name: 'Arugula', kind: 'veg' },
     { id: 'honey', name: 'Scotch bonnet hot honey', kind: 'honey', spicy: true },
-    { id: 'chilli', name: 'Chilli flakes', kind: 'veg', spicy: true }
+    { id: 'chilli', name: 'Red pepper flakes', kind: 'veg', spicy: true }
   ];
 
   const MENU = [
     // Pizzas — price is the Regular (12") price.
-    { id: 'margherita', section: 'pizzas', name: 'Margherita', price: 9.5, best: true,
+    { id: 'margherita', section: 'pizzas', name: 'Margherita', price: 15, best: true,
       desc: 'Tomato, fior di latte, basil, a good glug of olive oil. The one we judge every new pizzaiolo on.',
       diet: ['vegetarian', 'gf'], allergens: ['gluten', 'milk'],
       art: { sauce: 'tomato', cheese: true, toppings: ['basil'] } },
-    { id: 'marinara', section: 'pizzas', name: 'Marinara', price: 8,
+    { id: 'marinara', section: 'pizzas', name: 'Marinara', price: 13,
       desc: 'Tomato, garlic slivers, oregano and Sicilian olive oil. No cheese, no regrets.',
       diet: ['vegan', 'vegetarian', 'gf'], allergens: ['gluten'],
       art: { sauce: 'tomato', cheese: false, toppings: ['garlic', 'oregano'] } },
-    { id: 'pepperoni', section: 'pizzas', name: 'Pepperoni Party', price: 12.5, best: true,
+    { id: 'pepperoni', section: 'pizzas', name: 'Pepperoni Party', price: 18, best: true,
       desc: 'A double layer of cup-and-char pepperoni on tomato and fior di latte. Crispy edges, little pools of joy.',
       diet: ['gf'], allergens: ['gluten', 'milk'],
       art: { sauce: 'tomato', cheese: true, toppings: ['pepperoni', 'pepperoni'] } },
-    { id: 'hot-honey', section: 'pizzas', name: 'Hot Honey Pep', price: 13.5, best: true,
-      desc: 'Pepperoni, fior di latte and tomato, finished with Scotch bonnet hot honey and chilli flakes.',
+    { id: 'hot-honey', section: 'pizzas', name: 'Hot Honey Pep', price: 19, best: true,
+      desc: 'Pepperoni, fior di latte and tomato, finished with Scotch bonnet hot honey and red pepper flakes.',
       diet: ['gf', 'spicy'], allergens: ['gluten', 'milk'],
       art: { sauce: 'tomato', cheese: true, toppings: ['pepperoni', 'honey', 'chilli'] } },
-    { id: 'nduja', section: 'pizzas', name: 'The Big Nduja', price: 13.5,
+    { id: 'nduja', section: 'pizzas', name: 'The Big Nduja', price: 19,
       desc: 'Spicy Calabrian nduja, red onion, fior di latte, tomato and a cooling blob of ricotta.',
       diet: ['gf', 'spicy'], allergens: ['gluten', 'milk'],
       art: { sauce: 'tomato', cheese: true, toppings: ['nduja', 'red-onion', 'ricotta'] } },
-    { id: 'sausage', section: 'pizzas', name: 'Sausage & Friarielli', price: 13,
+    { id: 'sausage', section: 'pizzas', name: 'Sausage & Friarielli', price: 18.5,
       desc: 'Fennel sausage, bitter Neapolitan broccoli, smoked scamorza and garlic on a white base.',
       diet: ['gf'], allergens: ['gluten', 'milk', 'sulphites'],
       art: { sauce: 'bianca', cheese: true, toppings: ['sausage', 'greens', 'garlic'] } },
-    { id: 'funghi', section: 'pizzas', name: 'Funghi Bianca', price: 12,
-      desc: 'Garlic cream, roasted chestnut mushrooms, thyme, fior di latte and a drizzle of truffle oil.',
+    { id: 'funghi', section: 'pizzas', name: 'Funghi Bianca', price: 17,
+      desc: 'Garlic cream, roasted cremini mushrooms, thyme, fior di latte and a drizzle of truffle oil.',
       diet: ['vegetarian', 'gf'], allergens: ['gluten', 'milk'],
       art: { sauce: 'bianca', cheese: true, toppings: ['mushroom', 'thyme'] } },
-    { id: 'green-machine', section: 'pizzas', name: 'Green Machine', price: 12, best: true,
-      desc: 'Nut-free basil pesto, courgette, cherry tomatoes, vegan mozzarella and a handful of rocket.',
+    { id: 'green-machine', section: 'pizzas', name: 'Green Machine', price: 17, best: true,
+      desc: 'Nut-free basil pesto, zucchini, cherry tomatoes, vegan mozzarella and a handful of arugula.',
       diet: ['vegan', 'vegetarian', 'gf'], allergens: ['gluten', 'soya'],
       art: { sauce: 'pesto', cheese: 'vegan', toppings: ['courgette', 'tomato', 'rocket'] } },
-    { id: 'controversial', section: 'pizzas', name: 'The Controversial One', price: 12.5,
+    { id: 'controversial', section: 'pizzas', name: 'The Controversial One', price: 18,
       desc: 'Ham, pineapple, pickled jalapeños, fior di latte, tomato. We said what we said.',
       diet: ['gf', 'spicy'], allergens: ['gluten', 'milk'],
       art: { sauce: 'tomato', cheese: true, toppings: ['ham', 'pineapple', 'jalapeno'] } },
-    { id: 'four-cheese', section: 'pizzas', name: 'Quattro Formaggi', price: 12.5,
+    { id: 'four-cheese', section: 'pizzas', name: 'Quattro Formaggi', price: 17.5,
       desc: 'Fior di latte, gorgonzola, smoked scamorza and vegetarian Italian hard cheese, black pepper, white base.',
       diet: ['vegetarian', 'gf'], allergens: ['gluten', 'milk'],
       art: { sauce: 'bianca', cheese: true, toppings: ['gorgonzola', 'pepper'] } },
-    { id: 'veg-out', section: 'pizzas', name: 'Veg Out', price: 11.5,
+    { id: 'veg-out', section: 'pizzas', name: 'Veg Out', price: 16.5,
       desc: 'Roasted peppers, red onion, mushrooms, Kalamata olives, fior di latte and tomato.',
       diet: ['vegetarian', 'gf'], allergens: ['gluten', 'milk'],
       art: { sauce: 'tomato', cheese: true, toppings: ['peppers', 'red-onion', 'mushroom', 'olive'] } },
-    { id: 'vegan-diavola', section: 'pizzas', name: 'Vegan Diavola', price: 12.5,
-      desc: 'Smoky red-pepper “nduja”, vegan mozzarella, jalapeños, chilli oil and tomato.',
+    { id: 'vegan-diavola', section: 'pizzas', name: 'Vegan Diavola', price: 17.5,
+      desc: 'Smoky red-pepper “nduja”, vegan mozzarella, jalapeños, chili oil and tomato.',
       diet: ['vegan', 'vegetarian', 'gf', 'spicy'], allergens: ['gluten', 'soya'],
       art: { sauce: 'tomato', cheese: 'vegan', toppings: ['nduja', 'jalapeno', 'chilli'] } },
 
     // Sides
-    { id: 'garlic-knots', section: 'sides', name: 'Garlic Knots', price: 4.5, best: false,
+    { id: 'garlic-knots', section: 'sides', name: 'Garlic Knots', price: 7, best: false,
       desc: 'Six knots of pizza dough, brushed with garlic butter and parsley. Comes with garlic mayo.',
       diet: ['vegetarian'], allergens: ['gluten', 'milk', 'egg', 'mustard'], art: { type: 'knots' } },
-    { id: 'cheesy-bread', section: 'sides', name: 'Cheesy Garlic Bread', price: 5.5,
-      desc: 'A 10" sourdough base with garlic butter and a ridiculous amount of mozzarella, cut into soldiers.',
+    { id: 'cheesy-bread', section: 'sides', name: 'Cheesy Garlic Bread', price: 8.5,
+      desc: 'A 10" sourdough base with garlic butter and a ridiculous amount of mozzarella, cut into strips.',
       diet: ['vegetarian'], allergens: ['gluten', 'milk'], art: { type: 'bread' } },
-    { id: 'wings', section: 'sides', name: 'Hot Honey Wings', price: 7,
+    { id: 'wings', section: 'sides', name: 'Hot Honey Wings', price: 13,
       desc: 'Eight free-range chicken wings, roasted in the pizza oven and tossed in Scotch bonnet hot honey.',
       diet: ['gf', 'spicy'], allergens: ['celery'], art: { type: 'wings' } },
-    { id: 'burrata', section: 'sides', name: 'Burrata & Tomatoes', price: 7.5,
-      desc: 'A whole burrata, marinated heritage tomatoes, basil oil and flaky salt.',
+    { id: 'burrata', section: 'sides', name: 'Burrata & Tomatoes', price: 12,
+      desc: 'A whole burrata, marinated heirloom tomatoes, basil oil and flaky salt.',
       diet: ['vegetarian', 'gf'], allergens: ['milk'], art: { type: 'burrata' } },
-    { id: 'potatoes', section: 'sides', name: 'Rosemary Potatoes', price: 4,
+    { id: 'potatoes', section: 'sides', name: 'Rosemary Potatoes', price: 6.5,
       desc: 'Crispy roast potatoes with rosemary salt and garlic.',
       diet: ['vegan', 'vegetarian', 'gf'], allergens: [], art: { type: 'potatoes' } },
-    { id: 'salad', section: 'sides', name: 'Big Green Salad', price: 5,
-      desc: 'Little gem, cucumber, fennel, herbs and a mustardy lemon dressing.',
+    { id: 'salad', section: 'sides', name: 'Big Green Salad', price: 9,
+      desc: 'Little gem lettuce, cucumber, fennel, herbs and a mustardy lemon dressing.',
       diet: ['vegan', 'vegetarian', 'gf'], allergens: ['mustard'], art: { type: 'salad' } },
 
     // Dips
-    { id: 'garlic-mayo', section: 'dips', name: 'Garlic Mayo', price: 0.9,
+    { id: 'garlic-mayo', section: 'dips', name: 'Garlic Mayo', price: 1.25,
       desc: 'Roasted and raw garlic, whipped into mayo.', diet: ['vegetarian', 'gf'], allergens: ['egg', 'mustard'],
       art: { type: 'dip', color: '#fbf0cf', swirl: '#efd9a0' } },
-    { id: 'vegan-garlic', section: 'dips', name: 'Vegan Garlic Dip', price: 0.9,
+    { id: 'vegan-garlic', section: 'dips', name: 'Vegan Garlic Dip', price: 1.25,
       desc: 'Aquafaba garlic mayo. Tastes like the other one.', diet: ['vegan', 'vegetarian', 'gf'], allergens: ['soya', 'mustard'],
       art: { type: 'dip', color: '#f7f2dc', swirl: '#d8e6b4' } },
-    { id: 'hot-honey-dip', section: 'dips', name: 'Hot Honey', price: 0.9,
+    { id: 'hot-honey-dip', section: 'dips', name: 'Hot Honey', price: 1.25,
       desc: 'Wildflower honey steeped with Scotch bonnet.', diet: ['vegetarian', 'gf', 'spicy'], allergens: [],
       art: { type: 'dip', color: '#f2a516', swirl: '#c7461b' } },
-    { id: 'nduja-mayo', section: 'dips', name: 'Nduja Mayo', price: 0.9,
+    { id: 'nduja-mayo', section: 'dips', name: 'Nduja Mayo', price: 1.25,
       desc: 'Spicy, smoky, very orange.', diet: ['gf', 'spicy'], allergens: ['egg', 'mustard'],
       art: { type: 'dip', color: '#e9733a', swirl: '#c2421d' } },
-    { id: 'ranch', section: 'dips', name: 'Buttermilk Ranch', price: 0.9,
+    { id: 'ranch', section: 'dips', name: 'Buttermilk Ranch', price: 1.25,
       desc: 'Cool, herby and made for the Hot Honey Pep.', diet: ['vegetarian', 'gf'], allergens: ['milk', 'egg', 'mustard'],
       art: { type: 'dip', color: '#f4f1e6', swirl: '#8fb46a' } },
 
     // Desserts
-    { id: 'nutella-knots', section: 'desserts', name: 'Nutella Knots', price: 5,
-      desc: 'Warm dough knots, cinnamon sugar and a pot of Nutella for dunking.',
+    { id: 'nutella-knots', section: 'desserts', name: 'Nutella Knots', price: 8,
+      desc: 'Warm dough knots, cinnamon sugar and a cup of Nutella for dunking.',
       diet: ['vegetarian'], allergens: ['gluten', 'milk', 'nuts', 'soya'], art: { type: 'sweet-knots' } },
-    { id: 'tiramisu', section: 'desserts', name: 'Tiramisu Pot', price: 5.5,
+    { id: 'tiramisu', section: 'desserts', name: 'Tiramisu Cup', price: 8,
       desc: 'Espresso-soaked savoiardi, mascarpone and a heavy dusting of cocoa.',
       diet: ['vegetarian'], allergens: ['gluten', 'milk', 'egg'], art: { type: 'tiramisu' } },
-    { id: 'cookie', section: 'desserts', name: 'Salted Choc Cookie', price: 3,
+    { id: 'cookie', section: 'desserts', name: 'Salted Chocolate Cookie', price: 5,
       desc: 'Big, gooey and vegan. Baked in the pizza oven to order.',
       diet: ['vegan', 'vegetarian'], allergens: ['gluten', 'soya'], art: { type: 'cookie' } },
-    { id: 'gelato', section: 'desserts', name: 'Pistachio Gelato', price: 4.5,
-      desc: 'A 120 ml tub from a gelateria down the road in Chorlton.',
+    { id: 'gelato', section: 'desserts', name: 'Pistachio Gelato', price: 6.5,
+      desc: 'A 4 oz tub from a gelateria down the road in Westville.',
       diet: ['vegetarian', 'gf'], allergens: ['milk', 'nuts'], art: { type: 'gelato' } },
 
     // Drinks
-    { id: 'cola', section: 'drinks', name: 'Cola', price: 1.8,
-      desc: '330 ml can.', diet: ['vegan', 'vegetarian', 'gf'], allergens: [], art: { type: 'can', color: '#c8281a', band: '#2a1209' } },
-    { id: 'lemonade', section: 'drinks', name: 'Sicilian Lemonade', price: 2.2,
-      desc: '330 ml can, properly sharp.', diet: ['vegan', 'vegetarian', 'gf'], allergens: [], art: { type: 'can', color: '#ffd23f', band: '#1d6b3c' } },
-    { id: 'blood-orange', section: 'drinks', name: 'Blood Orange Soda', price: 2.2,
-      desc: '330 ml can.', diet: ['vegan', 'vegetarian', 'gf'], allergens: [], art: { type: 'can', color: '#e8622c', band: '#7a1d10' } },
-    { id: 'water', section: 'drinks', name: 'Still Water', price: 1.5,
-      desc: '500 ml bottle.', diet: ['vegan', 'vegetarian', 'gf'], allergens: [], art: { type: 'bottle', color: '#9fd3e6', band: '#2f7fa3' } },
-    { id: 'pale', section: 'drinks', name: 'Club Pale Ale', price: 4.5,
-      desc: 'Our house pale, 4.5%, brewed two streets away in Ancoats. 18+, ID checked on delivery.',
+    { id: 'cola', section: 'drinks', name: 'Cola', price: 2.5,
+      desc: '12 oz can.', diet: ['vegan', 'vegetarian', 'gf'], allergens: [], art: { type: 'can', color: '#c8281a', band: '#2a1209' } },
+    { id: 'lemonade', section: 'drinks', name: 'Sicilian Lemonade', price: 3,
+      desc: '12 oz can, nice and tart.', diet: ['vegan', 'vegetarian', 'gf'], allergens: [], art: { type: 'can', color: '#ffd23f', band: '#1d6b3c' } },
+    { id: 'blood-orange', section: 'drinks', name: 'Blood Orange Soda', price: 3,
+      desc: '12 oz can.', diet: ['vegan', 'vegetarian', 'gf'], allergens: [], art: { type: 'can', color: '#e8622c', band: '#7a1d10' } },
+    { id: 'water', section: 'drinks', name: 'Still Water', price: 2,
+      desc: '16.9 oz bottle.', diet: ['vegan', 'vegetarian', 'gf'], allergens: [], art: { type: 'bottle', color: '#9fd3e6', band: '#2f7fa3' } },
+    { id: 'pale', section: 'drinks', name: 'Club Pale Ale', price: 7,
+      desc: 'Our house pale, 4.5%, brewed a few blocks away in Wooster Square. 21+, ID checked on delivery.',
       diet: ['vegan', 'vegetarian'], allergens: ['gluten'], art: { type: 'bottle', color: '#c97b22', band: '#fff4e2' } }
   ];
 
   // Fixed deals. art: pizzas drawn on the deal card. Each slot is either a choice ('pizza' at a size, or a menu section)
   // or a fixed item. Deal pizzas come on the classic crust with no extras.
   const DEALS = [
-    { id: 'lunch', name: 'Solo Lunch', price: 7.5, tagline: 'Any small pizza and a cold drink',
-      when: 'Every day until 4pm, pickup or delivery', color: 'cheese', art: ['margherita'],
+    { id: 'lunch', name: 'Solo Lunch', price: 12, tagline: 'Any small pizza and a cold drink',
+      when: 'Every day until 4 PM, pickup or delivery', color: 'cheese', art: ['margherita'],
       slots: [{ choose: 'pizzas', size: 'small', label: 'Your pizza' }, { choose: 'drinks', label: 'Your drink' }] },
-    { id: 'date-night', name: 'Date Night Duo', price: 21.5, tagline: 'Two regular pizzas, garlic knots and two dips', popular: true,
+    { id: 'date-night', name: 'Date Night Duo', price: 34, tagline: 'Two regular pizzas, garlic knots and two dips', popular: true,
       when: 'Any day, all day', color: 'tomato', art: ['pepperoni', 'green-machine'],
       slots: [{ choose: 'pizzas', size: 'regular', label: 'Pizza one' }, { choose: 'pizzas', size: 'regular', label: 'Pizza two' },
         { item: 'garlic-knots' }, { choose: 'dips', label: 'Dip one' }, { choose: 'dips', label: 'Dip two' }] },
-    { id: 'family', name: 'Family Feast', price: 36, tagline: 'Two large pizzas, two sides, four dips and a dessert',
+    { id: 'family', name: 'Family Feast', price: 56, tagline: 'Two large pizzas, two sides, four dips and a dessert',
       when: 'Any day, all day', color: 'basil', art: ['hot-honey', 'veg-out'],
       slots: [{ choose: 'pizzas', size: 'large', label: 'Large pizza one' }, { choose: 'pizzas', size: 'large', label: 'Large pizza two' },
         { choose: 'sides', label: 'Side one' }, { choose: 'sides', label: 'Side two' },
@@ -368,12 +368,17 @@ document.documentElement.classList.add('js');
   const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const toMins = (hhmm) => { const p = hhmm.split(':'); return +p[0] * 60 + +p[1]; };
   const pad = (n) => String(n).padStart(2, '0');
-  const clock = (mins) => pad(Math.floor(mins / 60) % 24) + ':' + pad(mins % 60);
+  const clock = (mins) => {
+    const h = Math.floor(mins / 60) % 24;
+    return (h % 12 || 12) + ':' + pad(mins % 60) + (h < 12 ? ' AM' : ' PM');
+  };
+  // "22:00" (how hours are written in the data) -> "10:00 PM".
+  const clockOf = (hhmm) => clock(toMins(hhmm));
 
   // Today in the shop's time zone: { date: 'YYYY-MM-DD', day: 0-6, mins: minutes since midnight }.
   function shopNow(at) {
     const parts = {};
-    new Intl.DateTimeFormat('en-GB', { timeZone: TIMEZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23', weekday: 'short' })
+    new Intl.DateTimeFormat('en-US', { timeZone: TIMEZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23', weekday: 'short' })
       .formatToParts(at || new Date()).forEach((p) => { parts[p.type] = p.value; });
     const date = parts.year + '-' + parts.month + '-' + parts.day;
     const day = new Date(Date.UTC(+parts.year, +parts.month - 1, +parts.day)).getUTCDay();
@@ -390,20 +395,20 @@ document.documentElement.classList.add('js');
     if (isoDate === addDays(today, 1)) return 'Tomorrow';
     return new Intl.DateTimeFormat(LOCALE, { weekday: 'long', day: 'numeric', month: 'short', timeZone: 'UTC' }).format(new Date(isoDate + 'T12:00:00Z'));
   }
-  function hoursLabel(h) { return h ? h[0] + '–' + h[1] : 'Closed'; }
+  function hoursLabel(h) { return h ? clockOf(h[0]) + '–' + clockOf(h[1]) : 'Closed'; }
 
-  // { open: bool, text: 'Open until 22:00' | 'Opens 16:00' | 'Opens Tuesday 16:00' }
+  // { open: bool, text: 'Open until 10:00 PM' | 'Opens 4:00 PM' | 'Opens Tuesday 4:00 PM' }
   function storeStatus(store, at) {
     const now = shopNow(at);
     const h = store.hours[now.day];
     if (h && now.mins >= toMins(h[0]) && now.mins < toMins(h[1])) {
       const left = toMins(h[1]) - now.mins;
-      return { open: true, closingSoon: left <= 45, text: left <= 45 ? 'Closing soon, last orders ' + h[1] : 'Open until ' + h[1] };
+      return { open: true, closingSoon: left <= 45, text: left <= 45 ? 'Closing soon, last orders ' + clockOf(h[1]) : 'Open until ' + clockOf(h[1]) };
     }
-    if (h && now.mins < toMins(h[0])) return { open: false, text: 'Opens today ' + h[0] };
+    if (h && now.mins < toMins(h[0])) return { open: false, text: 'Opens today ' + clockOf(h[0]) };
     for (let i = 1; i <= 7; i++) {
       const d = (now.day + i) % 7;
-      if (store.hours[d]) return { open: false, text: 'Opens ' + (i === 1 ? 'tomorrow' : DAY_NAMES[d]) + ' ' + store.hours[d][0] };
+      if (store.hours[d]) return { open: false, text: 'Opens ' + (i === 1 ? 'tomorrow' : DAY_NAMES[d]) + ' ' + clockOf(store.hours[d][0]) };
     }
     return { open: false, text: 'Closed' };
   }
@@ -426,7 +431,7 @@ document.documentElement.classList.add('js');
   /* ------------------------------------------------------------------
    * 5. Pizza and food artwork. Pizzas are drawn from their art settings
    *    (sauce, cheese, toppings), so a new pizza in MENU gets its own
-   *    picture and the customiser preview follows the extras you pick.
+   *    picture and the customizer preview follows the extras you pick.
    * ------------------------------------------------------------------ */
   /* ART:START */
   const Art = (function () {
@@ -751,22 +756,19 @@ document.documentElement.classList.add('js');
   const CART_KEY = 'crustclub-cart';
   const LAST_ORDER_KEY = 'crustclub-last-order';
 
-  // UK postcode → district ("m4 6aj" → "M4"). Returns null when it doesn't look like one.
+  // ZIP code, with or without +4 ("06511-1234" keeps "06511" as the zone key). Returns null when it doesn’t look like one.
   function postcodeDistrict(raw) {
-    const v = String(raw || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
-    if (!v) return null;
-    const full = v.match(/^([A-Z]{1,2}\d[A-Z\d]?)(\d[A-Z]{2})$/);
-    if (full) return { district: full[1], postcode: full[1] + ' ' + full[2] };
-    if (/^[A-Z]{1,2}\d[A-Z\d]?$/.test(v)) return { district: v, postcode: v };
-    return null;
+    const m = String(raw || '').trim().match(/^(\d{5})(?:[-\s]?(\d{4}))?$/);
+    if (!m) return null;
+    return { district: m[1], postcode: m[2] ? m[1] + '-' + m[2] : m[1] };
   }
   // { ok, zone, district, postcode, message }
   function checkPostcode(raw) {
     const p = postcodeDistrict(raw);
-    if (!String(raw || '').trim()) return { ok: false, message: 'Enter your postcode to check delivery.' };
-    if (!p) return { ok: false, message: 'That doesn’t look like a UK postcode. Try something like M4 6AJ.' };
+    if (!String(raw || '').trim()) return { ok: false, message: 'Enter your ZIP code to check delivery.' };
+    if (!p) return { ok: false, message: 'That doesn’t look like a ZIP code. Try something like 06511.' };
     const zone = ZONES.find((z) => z.districts.indexOf(p.district) !== -1);
-    if (!zone) return { ok: false, district: p.district, postcode: p.postcode, message: 'Sorry, we don’t deliver to ' + p.district + ' yet. You can still collect from either shop.' };
+    if (!zone) return { ok: false, district: p.district, postcode: p.postcode, message: 'Sorry, we don’t deliver to ' + p.district + ' yet. You can still pick up from either shop.' };
     return { ok: true, zone: zone, district: p.district, postcode: p.postcode };
   }
 
@@ -895,7 +897,7 @@ document.documentElement.classList.add('js');
     const half = cfg.half ? findItem(cfg.half) : null;
     const size = findSize(cfg.size);
     const crust = findCrust(cfg.crust);
-    // Half-and-half is charged at the dearer of the two halves.
+    // Half-and-half is charged at the pricier of the two halves.
     const base = half ? Math.max(item.price, half.price) : item.price;
     return round2(base + size.delta + crust.price + cfg.extras.length * size.extra);
   }
@@ -1090,7 +1092,7 @@ document.documentElement.classList.add('js');
 
   $$('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
 
-  // <span data-store-status="ancoats"></span> → "● Open until 22:00"
+  // <span data-store-status="ancoats"></span> → "● Open until 10:00 PM"
   function statusBadge(store) {
     const s = storeStatus(store);
     return '<span class="open-dot ' + (s.open ? (s.closingSoon ? 'bg-cheese' : 'bg-[#2fa35a]') : 'bg-tomato') + '" aria-hidden="true"></span><span>' + escapeHtml(s.text) + '</span>';
@@ -1126,7 +1128,7 @@ document.documentElement.classList.add('js');
 
   /* ------------------------------------------------------------------
    * 9. Delivery checker: <div data-zone-checker></div> anywhere becomes a
-   *    Delivery / Pickup switch with a postcode check and shop picker.
+   *    Delivery / Pickup switch with a ZIP code check and shop picker.
    *    data-variant="compact" makes the small version used in the cart.
    * ------------------------------------------------------------------ */
   let zcCount = 0;
@@ -1142,7 +1144,7 @@ document.documentElement.classList.add('js');
     return '<span class="flex items-start gap-2"><svg viewBox="0 0 20 20" class="mt-0.5 size-4 shrink-0 text-basil" fill="currentColor" aria-hidden="true"><path d="M10 1.8a8.2 8.2 0 1 1 0 16.4 8.2 8.2 0 0 1 0-16.4Zm3.7 5.3a1 1 0 0 0-1.4.1l-3.2 3.9-1.5-1.5a1 1 0 1 0-1.4 1.4l2.3 2.3a1 1 0 0 0 1.5-.1l3.9-4.7a1 1 0 0 0-.2-1.4Z"/></svg>' +
       '<span><strong class="font-extrabold">We deliver to ' + escapeHtml(check.district) + '</strong> from ' + escapeHtml(store.name) + '. ' +
       fmt(z.fee) + ' delivery (free over ' + fmt(FREE_DELIVERY_OVER) + '), ' + fmt(z.min) + ' minimum, about ' + z.eta[0] + '–' + z.eta[1] + ' min.' +
-      (st.open ? '' : ' <span class="font-semibold text-tomato-deep">' + escapeHtml(store.name) + ' is closed right now (' + escapeHtml(st.text.toLowerCase()) + '), so you can order ahead.</span>') + '</span></span>';
+      (st.open ? '' : ' <span class="font-semibold text-tomato-deep">' + escapeHtml(store.name) + ' is closed right now (' + escapeHtml(st.text.charAt(0).toLowerCase() + st.text.slice(1)) + '), so you can order ahead.</span>') + '</span></span>';
   }
 
   function zoneCheckerHtml(compact) {
@@ -1158,14 +1160,14 @@ document.documentElement.classList.add('js');
         '<label><input type="radio" class="sr-only" name="zc-mode-' + n + '" value="pickup">' + ICON_BAG + 'Pickup</label>' +
       '</div></fieldset>' +
       '<div data-zc-panel="delivery" class="' + (compact ? 'mt-3' : 'mt-5') + '">' +
-        '<label for="zc-postcode-' + n + '" class="' + (compact ? 'sr-only' : 'field-label') + '">Your postcode</label>' +
-        '<div class="flex gap-2"><input id="zc-postcode-' + n + '" type="text" inputmode="text" autocomplete="postal-code" autocapitalize="characters" spellcheck="false" maxlength="9" placeholder="Postcode, e.g. M4 6AJ" class="field min-w-0 uppercase placeholder:normal-case' + (compact ? ' py-2.5' : '') + '">' +
+        '<label for="zc-postcode-' + n + '" class="' + (compact ? 'sr-only' : 'field-label') + '">Your ZIP code</label>' +
+        '<div class="flex gap-2"><input id="zc-postcode-' + n + '" type="text" inputmode="numeric" autocomplete="postal-code" autocapitalize="characters" spellcheck="false" maxlength="10" placeholder="ZIP code, e.g. 06511" class="field min-w-0 uppercase placeholder:normal-case' + (compact ? ' py-2.5' : '') + '">' +
         '<button type="button" data-zc-check class="btn-ink shrink-0 ' + (compact ? 'px-4 py-2.5' : '') + '">Check</button></div>' +
         '<p data-zc-result aria-live="polite" class="mt-3 text-sm leading-relaxed empty:hidden"></p>' +
       '</div>' +
-      '<div data-zc-panel="pickup" class="' + (compact ? 'mt-3' : 'mt-5') + '"><fieldset><legend class="' + (compact ? 'sr-only' : 'field-label') + '">Collect from</legend>' +
+      '<div data-zc-panel="pickup" class="' + (compact ? 'mt-3' : 'mt-5') + '"><fieldset><legend class="' + (compact ? 'sr-only' : 'field-label') + '">Pick up from</legend>' +
         '<div class="grid gap-2 grid-cols-2">' + storeOptions + '</div></fieldset>' +
-        (compact ? '' : '<p class="mt-3 text-sm text-cocoa">Collection orders are usually ready in about 20 minutes.</p>') +
+        (compact ? '' : '<p class="mt-3 text-sm text-cocoa">Pickup orders are usually ready in about 20 minutes.</p>') +
       '</div>';
   }
 
@@ -1204,7 +1206,7 @@ document.documentElement.classList.add('js');
   }
 
   /* ------------------------------------------------------------------
-   * 10. Item customiser and deal dialogs. One <dialog> is created on
+   * 10. Item customizer and deal dialogs. One <dialog> is created on
    *     every page, so items can be added or edited from anywhere.
    * ------------------------------------------------------------------ */
   const ICON_CLOSE = '<svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>';
@@ -1239,7 +1241,7 @@ document.documentElement.classList.add('js');
     }));
   }
   function allergenText(list, gfBase) {
-    return '<span class="font-bold">Allergens:</span> ' + (list.length ? list.map((a) => ALLERGENS[a]).join(', ') : 'none of the 14 major allergens') + '.' +
+    return '<span class="font-bold">Allergens:</span> ' + (list.length ? list.map((a) => ALLERGENS[a]).join(', ') : 'none of the major food allergens') + '.' +
       (gfBase ? ' Gluten-free bases are made in a kitchen that handles flour.' : '');
   }
 
@@ -1249,7 +1251,7 @@ document.documentElement.classList.add('js');
     { label: 'Veg & finishes', kinds: ['veg', 'honey'], not: ['vegan-mozz'] }
   ];
 
-  // Open the pizza customiser. editIndex: cart line being edited, or undefined to add.
+  // Open the pizza customizer. editIndex: cart line being edited, or undefined to add.
   function openCustomiser(id, editIndex, preset) {
     const item = findItem(id);
     if (!isPizza(item)) return;
@@ -1287,7 +1289,7 @@ document.documentElement.classList.add('js');
             '<fieldset class="mt-6"><legend class="text-sm font-extrabold">Crust</legend><div class="mt-2 grid gap-2 sm:grid-cols-2">' + crusts + '</div></fieldset>' +
             '<p data-sheet-note role="status" class="mt-3 rounded-2xl bg-tomato-soft px-4 py-3 text-sm font-semibold text-tomato-deep empty:hidden"></p>' +
             '<fieldset class="mt-6 rounded-3xl bg-flour p-4"><legend class="sr-only">Half and half</legend>' +
-              '<label class="flex cursor-pointer items-center justify-between gap-4"><span><span class="block font-extrabold">Make it half &amp; half</span><span class="block text-sm text-cocoa" data-half-hint>Two pizzas on one base, charged at the dearer half.</span></span>' +
+              '<label class="flex cursor-pointer items-center justify-between gap-4"><span><span class="block font-extrabold">Make it half &amp; half</span><span class="block text-sm text-cocoa" data-half-hint>Two pizzas on one base, charged at the pricier half.</span></span>' +
                 '<input type="checkbox" name="half-on" class="peer sr-only"><span class="relative h-7 w-12 shrink-0 rounded-full bg-ink/20 transition after:absolute after:left-1 after:top-1 after:size-5 after:rounded-full after:bg-paper after:shadow after:transition peer-checked:bg-basil peer-checked:after:translate-x-5 peer-focus-visible:outline-3 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ink peer-disabled:opacity-40" aria-hidden="true"></span></label>' +
               '<div data-half-pick class="mt-3"><label for="half-select" class="field-label">Other half</label><select id="half-select" name="half" class="field">' +
                 others.map((p) => '<option value="' + p.id + '">' + escapeHtml(p.name) + ' (' + fmt(p.price) + ')</option>').join('') + '</select></div>' +
@@ -1316,7 +1318,7 @@ document.documentElement.classList.add('js');
       SIZES.forEach((s) => { $('[data-size-price="' + s.id + '"]', form).textContent = fmt(pizzaUnit(Object.assign({}, cfg, { size: s.id, crust: (findCrust(cfg.crust).sizes || [s.id]).indexOf(s.id) === -1 ? 'sourdough' : cfg.crust, half: s.id === 'small' ? null : cfg.half }))); });
       halfOn.checked = !!cfg.half;
       halfOn.disabled = cfg.size === 'small';
-      $('[data-half-hint]', form).textContent = cfg.size === 'small' ? 'Available on Regular and Large pizzas.' : 'Two pizzas on one base, charged at the dearer half.';
+      $('[data-half-hint]', form).textContent = cfg.size === 'small' ? 'Available on Regular and Large pizzas.' : 'Two pizzas on one base, charged at the pricier half.';
       $('[data-half-pick]', form).hidden = !cfg.half;
       const unit = pizzaUnit(cfg);
       $('[data-sheet-price]', form).textContent = fmt(unit * cfg.qty);
@@ -1496,7 +1498,7 @@ document.documentElement.classList.add('js');
     const row = (label, value, cls) => '<div class="flex justify-between gap-4 ' + (cls || '') + '"><dt>' + label + '</dt><dd class="tabular-nums">' + value + '</dd></div>';
     let delivery;
     if (order.mode === 'pickup') delivery = row('Pickup from ' + escapeHtml(findStore(order.store).name), 'Free');
-    else if (t.needsPostcode) delivery = row('Delivery', '<span class="text-cocoa">Add postcode</span>');
+    else if (t.needsPostcode) delivery = row('Delivery', '<span class="text-cocoa">Add ZIP code</span>');
     else delivery = row('Delivery to ' + escapeHtml(order.postcode), t.delivery ? fmt(t.delivery) : '<span class="font-bold text-basil">Free</span>');
     return '<dl class="space-y-1.5 text-[15px]">' + row('Subtotal', fmt(t.subtotal)) +
       (t.discount ? row('Promo ' + escapeHtml(t.promoCode), '−' + fmt(t.discount), 'font-semibold text-basil') : '') +
@@ -1506,7 +1508,7 @@ document.documentElement.classList.add('js');
   // Warnings and free-delivery progress shown above the checkout button.
   function deliveryNotice(t, order) {
     if (!t.count) return '';
-    if (order.mode === 'delivery' && t.needsPostcode) return '<p class="rounded-2xl bg-cheese-soft px-4 py-3 text-sm font-semibold">Check your postcode to see delivery fees, or switch to pickup.</p>';
+    if (order.mode === 'delivery' && t.needsPostcode) return '<p class="rounded-2xl bg-cheese-soft px-4 py-3 text-sm font-semibold">Check your ZIP code to see delivery fees, or switch to pickup.</p>';
     if (t.short > 0) return '<p class="rounded-2xl bg-tomato-soft px-4 py-3 text-sm font-semibold text-tomato-deep">The minimum for delivery to ' + escapeHtml(t.zone.name) + ' is ' + fmt(t.zone.min) + '. Add ' + fmt(t.short) + ' more, or switch to pickup.</p>';
     if (order.mode === 'delivery' && t.freeIn > 0) {
       const pct = Math.max(4, Math.min(100, (1 - t.freeIn / FREE_DELIVERY_OVER) * 100));
@@ -1555,7 +1557,7 @@ document.documentElement.classList.add('js');
     $('[data-drawer-totals]', foot).innerHTML = totalsHtml(t, order);
     const go = $('[data-drawer-checkout]', foot);
     go.setAttribute('aria-disabled', String(t.blocked));
-    $('[data-drawer-checkout-label]', go).textContent = t.blocked ? (order.mode === 'delivery' && t.needsPostcode ? 'Add your postcode to continue' : 'Add ' + fmt(t.short) + ' to continue') : 'Checkout · ' + fmt(t.total);
+    $('[data-drawer-checkout-label]', go).textContent = t.blocked ? (order.mode === 'delivery' && t.needsPostcode ? 'Add your ZIP code to continue' : 'Add ' + fmt(t.short) + ' to continue') : 'Checkout · ' + fmt(t.total);
   }
 
   let toastTimer;
@@ -1945,15 +1947,15 @@ document.documentElement.classList.add('js');
   const STAGES = {
     delivery: [
       { label: 'Order received', note: 'The kitchen has your ticket.' },
-      { label: 'In the oven', note: '90 seconds at 450°C. Don’t blink.' },
+      { label: 'In the oven', note: '90 seconds at 850°F. Don’t blink.' },
       { label: 'Out for delivery', note: 'Your rider is on the way.' },
       { label: 'Delivered', note: 'Enjoy it while it’s hot.' }
     ],
     pickup: [
       { label: 'Order received', note: 'The kitchen has your ticket.' },
-      { label: 'In the oven', note: '90 seconds at 450°C. Don’t blink.' },
+      { label: 'In the oven', note: '90 seconds at 850°F. Don’t blink.' },
       { label: 'Boxed & ready', note: 'It’s on the shelf by the door with your name on it.' },
-      { label: 'Collected', note: 'Enjoy it while it’s hot.' }
+      { label: 'Picked up', note: 'Enjoy it while it’s hot.' }
     ]
   };
 
@@ -2023,7 +2025,7 @@ document.documentElement.classList.add('js');
           (order.totals.discount ? '<div class="flex justify-between text-basil"><dt>Promo ' + escapeHtml(order.totals.promoCode) + '</dt><dd class="tabular-nums">−' + fmt(order.totals.discount) + '</dd></div>' : '') +
           '<div class="flex justify-between"><dt>' + (order.mode === 'delivery' ? 'Delivery' : 'Pickup') + '</dt><dd class="tabular-nums">' + (order.totals.delivery ? fmt(order.totals.delivery) : 'Free') + '</dd></div>' +
           '<div class="flex justify-between text-lg font-extrabold"><dt>Total</dt><dd class="tabular-nums">' + fmt(order.totals.total) + '</dd></div></dl></div>' +
-        '<div class="card flex flex-col p-6 sm:p-8"><h3 class="text-xl font-extrabold">Need anything?</h3><p class="mt-2 text-cocoa">Call ' + escapeHtml(order.storeName) + ' on <a class="link" href="tel:' + escapeHtml(order.storePhone.replace(/\s/g, '')) + '">' + escapeHtml(order.storePhone) + '</a> and quote ' + escapeHtml(order.number) + '.</p>' +
+        '<div class="card flex flex-col p-6 sm:p-8"><h3 class="text-xl font-extrabold">Need anything?</h3><p class="mt-2 text-cocoa">Call ' + escapeHtml(order.storeName) + ' at <a class="link" href="tel:+1' + escapeHtml(order.storePhone.replace(/\D/g, '')) + '">' + escapeHtml(order.storePhone) + '</a> and quote ' + escapeHtml(order.number) + '.</p>' +
           '<p class="mt-4 text-sm text-cocoa">Your receipt is on its way to your inbox.</p>' +
           '<div class="flex flex-wrap gap-3 pt-6"><a href="menu.html" class="btn-primary">Order something else</a><button type="button" id="new-order" class="btn-ghost">Start a new order</button></div></div>' +
       '</div>';
@@ -2080,7 +2082,7 @@ document.documentElement.classList.add('js');
         if (msg && !firstBad) firstBad = el;
       });
       if (t.blocked) {
-        status.textContent = order.mode === 'delivery' && t.needsPostcode ? 'Check your delivery postcode first, or switch to pickup.' : 'Your order is under the delivery minimum.';
+        status.textContent = order.mode === 'delivery' && t.needsPostcode ? 'Check your delivery ZIP code first, or switch to pickup.' : 'Your order is under the delivery minimum.';
         const pc = $('[data-zone-checker] input[type="text"]', form);
         (order.mode === 'delivery' && t.needsPostcode && pc ? pc : $('[data-zone-checker]', form)).scrollIntoView({ block: 'center' });
         if (pc && t.needsPostcode) pc.focus();
@@ -2093,7 +2095,7 @@ document.documentElement.classList.add('js');
       const now = shopNow();
       const zone = t.zone;
       let summary;
-      const placeLabel = order.mode === 'delivery' ? 'Delivering to ' + $('#co-address').value.trim() + ', ' + order.postcode : 'Collect from ' + store.name + ', ' + store.address.split(',')[0];
+      const placeLabel = order.mode === 'delivery' ? 'Delivering to ' + $('#co-address').value.trim() + ', ' + order.postcode : 'Pick up from ' + store.name + ', ' + store.address.split(',')[0];
       if (asap) {
         const mins = order.mode === 'delivery' ? zone.eta[1] : store.pickupMins;
         summary = placeLabel + '. ' + (order.mode === 'delivery' ? 'Arriving by about ' : 'Ready at about ') + clock(now.mins + mins) + '.';
@@ -2195,7 +2197,7 @@ document.documentElement.classList.add('js');
       const vegan = Math.max(1, Math.round(pizzas * 0.15));
       const veggie = Math.max(1, Math.round(pizzas * 0.35));
       const sides = Math.ceil(n / 8);
-      const worth = pizzas * avgLarge + sides * 5;
+      const worth = pizzas * avgLarge + sides * 8;
       const tier = CATERING_DISCOUNT.find((d) => pizzas >= d.pizzas);
       const price = worth * (1 - (tier ? tier.off : 0) / 100);
       $('#cat-pizzas').textContent = pizzas;
@@ -2225,13 +2227,13 @@ document.documentElement.classList.add('js');
   function fieldMessage(el) {
     const v = el.value.trim();
     const label = el.getAttribute('data-label') || 'This field';
-    if (el.type === 'checkbox') return el.required && !el.checked ? (el.getAttribute('data-msg') || 'Please tick this box.') : '';
+    if (el.type === 'checkbox') return el.required && !el.checked ? (el.getAttribute('data-msg') || 'Please check this box.') : '';
     if (el.required && !v) return label + ' is required.';
     if (!v) return '';
     const rule = el.getAttribute('data-validate') || el.type;
     if (rule === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return 'Enter an email address like name@example.com.';
-    if (rule === 'tel' && !/^[+()\d\s.-]{10,20}$/.test(v)) return 'Enter a phone number we can call, like 07700 900123.';
-    if (rule === 'postcode' && !postcodeDistrict(v)) return 'Enter a UK postcode, like M21 8AY.';
+    if (rule === 'tel' && !/^[+()\d\s.-]{10,20}$/.test(v)) return 'Enter a phone number we can call, like (203) 555-0147.';
+    if (rule === 'postcode' && !postcodeDistrict(v)) return 'Enter a 5-digit ZIP code, like 06515.';
     if (rule === 'card' && !/^\d{16}$/.test(v.replace(/\s/g, ''))) return 'Enter the 16-digit card number.';
     if (rule === 'expiry') {
       const m = v.match(/^(\d{2})\s*\/\s*(\d{2})$/);
@@ -2248,7 +2250,7 @@ document.documentElement.classList.add('js');
       if (el.min && v < el.min) return el.getAttribute('data-min-msg') || 'Choose a later date.';
       if (el.max && v > el.max) return 'Choose a date before ' + el.max + '.';
     }
-    if (el.type === 'time' && ((el.min && v < el.min) || (el.max && v > el.max))) return 'Choose a time between ' + el.min + ' and ' + el.max + '.';
+    if (el.type === 'time' && ((el.min && v < el.min) || (el.max && v > el.max))) return 'Choose a time between ' + clockOf(el.min) + ' and ' + clockOf(el.max) + '.';
     const min = +el.getAttribute('minlength');
     if (min && v.length < min) return label + ' needs at least ' + min + ' characters.';
     return '';
@@ -2313,7 +2315,7 @@ document.documentElement.classList.add('js');
   function setupValidation(form, onValid) {
     form.setAttribute('novalidate', '');
     // Listen on the form rather than on each field, so fields that are hidden when the page
-    // loads (the catering form's delivery postcode) are checked as you type once they show.
+    // loads (the catering form's delivery ZIP code) are checked as you type once they show.
     form.addEventListener('focusout', (e) => {
       const el = e.target;
       if (isField(el) && (el.value.trim() || el.hasAttribute('aria-invalid'))) showError(el, fieldMessage(el));
@@ -2346,7 +2348,7 @@ document.documentElement.classList.add('js');
     successSwap(form, '<p class="font-extrabold">Nearly there.</p><p class="mt-1 text-sm text-mozz/85">Look out for a confirmation email; once you click the link, you’re on the list for The Pizza Post.</p>', true);
   }));
   $$('[data-form="catering"]').forEach((form) => {
-    // Delivery needs a postcode; pickup shows the shop choice.
+    // Delivery needs a ZIP code; pickup shows the shop choice.
     const sync = () => {
       const service = (form.querySelector('input[name="service"]:checked') || {}).value;
       $$('[data-service="delivery"]', form).forEach((el) => { el.hidden = service !== 'delivery'; });
@@ -2359,7 +2361,7 @@ document.documentElement.classList.add('js');
       const date = $('#c-date').value;
       const when = new Intl.DateTimeFormat(LOCALE, { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' }).format(new Date(date + 'T12:00:00Z'));
       successSwap(form, '<p class="h-display text-3xl">Thanks, ' + escapeHtml(name) + '!</p>' +
-        '<p class="mt-3 leading-relaxed">We’ve got your party order for <strong>' + escapeHtml(guests) + ' guests on ' + escapeHtml(when) + '</strong>. Our events team will reply within one working day with a menu and a fixed quote.</p>' +
+        '<p class="mt-3 leading-relaxed">We’ve got your party order for <strong>' + escapeHtml(guests) + ' guests on ' + escapeHtml(when) + '</strong>. Our events team will reply within one business day with a menu and a fixed quote.</p>' +
         '<p class="mt-3 text-sm text-cocoa">Your reference is <strong class="text-ink">' + makeRef() + '</strong>.</p>');
     });
   });

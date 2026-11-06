@@ -2,14 +2,14 @@
 
 ## Overview
 
-Brief is a website template for a solo lawyer, solicitor or attorney. The demo content is for **Pennington
-Employment Law**, the fictional Southampton practice of independent employment solicitor Tessa Pennington, who
-advises employees and senior staff on settlement agreements, redundancy, dismissal, discrimination and
+Brief is a website template for a solo lawyer or attorney. The demo content is for **Pennington
+Employment Law**, the fictional Dayton, Ohio, practice of independent employment attorney Tessa Pennington, who
+advises employees and senior staff on severance agreements, layoffs, wrongful termination, discrimination and
 problems at work, mostly for fixed fees. It is built with plain HTML5, Tailwind CSS v4 and one vanilla
-JavaScript file with no dependencies. This is version 1.0.3 (see [CHANGELOG.md](CHANGELOG.md)). Live demo:
+JavaScript file with no dependencies. This is version 1.0.6 (see [CHANGELOG.md](CHANGELOG.md)). Live demo:
 [freeframe.dev/templates/brief](https://freeframe.dev/templates/brief).
 
-The sample copy is general information about employment law in England and Wales, written for a fictional
+The sample copy is general information about employment law in Ohio and under federal law, written for a fictional
 practice. Before you publish, have a qualified lawyer in your jurisdiction review every legal statement, fee,
 time limit and regulatory detail, and replace the placeholders (registration number, insurance, complaints
 procedure) with your own.
@@ -33,8 +33,8 @@ procedure) with your own.
 |------|---------|-------------------------------|
 | `index.html` | Home | Hero with the plain-English promise, portrait and "Book a free 15-minute call", credentials strip, four areas of help, four-step "how working together works", fixed-fee teaser, client reviews with a disclaimer, FAQ accordion, call to action |
 | `services.html` | Services | Eight services with what's included, typical timeline and fee; filter chips by area with live counts and a shareable `?area=` URL |
-| `fees.html` | Fees | Fee estimator (matter, complexity, VAT, employer contribution, payment plan), full fee table, staged tribunal fees, employer contributions, payment plans and insurance |
-| `check.html` | Check your options | Branching questionnaire with plain-English results, and a tribunal deadline calculator |
+| `fees.html` | Fees | Fee estimator (matter, complexity, employer contribution, payment plan), full fee table, staged lawsuit fees, employer contributions, payment plans and insurance |
+| `check.html` | Check your options | Branching questionnaire with plain-English results, and a claim deadline calculator |
 | `resources.html` | Guides | Featured guide, topic filters, search, empty state, shareable `?tag=` and `?q=` URLs |
 | `article.html` | Sample guide | Long-form article with breadcrumb, reading progress bar, sticky table of contents, not-legal-advice notices, author box and related guides |
 | `about.html` | About | Story, three promises, credentials timeline, office illustration and hours, regulation, insurance, complaints and confidentiality (`#regulation`) |
@@ -54,7 +54,7 @@ brief/
     img/og-image.svg       social sharing image source (1200 x 630)
     img/og-image.png       the same image as PNG, referenced by og:image
     img/tessa-portrait.svg illustrated portrait (480 x 560)
-    img/office.svg         office and harbour illustration on the about page (640 x 460)
+    img/office.svg         office and river illustration on the about page (640 x 460)
   src/input.css            Tailwind source: brand tokens (@theme) and component classes
   package.json             npm scripts to rebuild the CSS
   README.md, DOCS.md, CHANGELOG.md
@@ -112,9 +112,8 @@ Most text lives directly in the HTML pages. The data that drives the interactive
 
 | Constant | What it holds | Used by |
 |----------|---------------|---------|
-| `MATTERS` | Each matter's name, area, timeline, whether an employer contribution applies, three `levels` (`[min, max]` in pounds, excluding VAT) and three `hints` | Fee estimator, options check results, booking topics |
+| `MATTERS` | Each matter's name, area, timeline, whether an employer contribution applies, three `levels` (`[min, max]` in US dollars) and three `hints` | Fee estimator, options check results, booking topics |
 | `LEVELS` | `['straightforward', 'standard', 'complex']`, the `?level=` values | Fee estimator |
-| `VAT_RATE` | `0.2` | Fee estimator |
 | `PLAN` | `{ minFee: 1000, months: 3 }` | Payment plan in the estimator |
 | `CHECK_STEPS` | The questions of the options check | Options check |
 | `CHECK_RESULTS` | The 15 result screens | Options check |
@@ -125,7 +124,7 @@ Most text lives directly in the HTML pages. The data that drives the interactive
 To add a matter, add an entry to `MATTERS`:
 
 ```js
-holiday: { name: 'Holiday pay claim', area: 'Claims and disputes', timeline: '1–2 weeks', contribution: false, levels: [[300, 300], [450, 450], [600, 900]],
+vacation: { name: 'Vacation pay claim', area: 'Claims and disputes', timeline: '1–2 weeks', contribution: false, levels: [[300, 300], [1250, 1250], [1000, 2500]],
   hints: ['Checking your figures', 'Plus a letter to your employer', 'Several years of underpayment'] },
 ```
 
@@ -173,12 +172,10 @@ On `fees.html` (`#estimator`), inside `[data-estimator]`. Code: `initEstimator()
   show the matter's `hints`.
 - When `min` equals `max` the result shows a fixed fee with a "Fixed fee" tag; otherwise a range with a
   "Range: fixed in writing before work starts" tag.
-- **Show prices including VAT** multiplies by `1 + VAT_RATE`. The breakdown always lists the fee, VAT and the
-  total including VAT.
-- **My employer is contributing** only appears for matters with `contribution: true` (settlement agreements
-  and exit negotiations). The amount (default 500, excluding VAT) is deducted from the fee, never below zero.
-- **I'd like to spread the cost** shows `PLAN.months` equal payments when the amount you pay (after any
-  contribution, excluding VAT) is at least `PLAN.minFee`, and otherwise explains why it isn't available.
+- The breakdown always lists the fee, any employer contribution and what you pay.
+- **My employer is contributing** only appears for matters with `contribution: true` (severance agreements
+  and exit negotiations). The amount (default 500) is deducted from the fee, never below zero.
+- **I'd like to spread the cost** shows `PLAN.months` equal payments when the amount you pay (after any contribution) is at least `PLAN.minFee`, and otherwise explains why it isn't available.
 - The matter and level are written to the URL (`fees.html?matter=tribunal&level=complex`), so links such as
   "Estimate this fee" on the services page open the right estimate.
 
@@ -203,7 +200,7 @@ their answers.
 To add a branch, add a step and point an option at it:
 
 ```js
-'tupe-stage': { q: 'Has the transfer happened yet?', hint: '', options: [
+'warn-stage': { q: 'Has the layoff happened yet?', hint: '', options: [
   { label: 'Not yet', result: 'general' },
   { label: 'Yes', result: 'general' }] },
 ```
@@ -215,14 +212,10 @@ buttons styled as cards. A missing answer shows an inline error with `role="aler
 
 On `check.html` (`#deadline`), inside `[data-deadline]`. Code: `deadlineFrom()` and the block after it.
 
-It applies the "three months less one day" rule: the last day is the day before the same date three months
-later (15 March gives 14 June). If the later month has no such date (31 August to November), the last day is
-the final day of that month. `DEADLINE_RULES` sets the months per claim type; statutory redundancy pay uses
-six. The result shows the date, the number of days left ("1 day", "12 days"), and warnings when the date is
+Each claim type in `DEADLINE_RULES` has `days` or `months`. A rule in days counts from the date (300 days from March 15 is January 9). A rule in months ends the day before the same date that many months later, or on the final day of that month if it has no such date. The two 300-day rules follow the EEOC charge deadline in Ohio; the two-year rules follow the Ohio Civil Rights Commission and federal wage limits. The result shows the date, the number of days left ("1 day", "12 days"), and warnings when the date is
 21 days away or less, today, or has passed. Dates must be within the last two years or the next six months.
 
-This is an estimate only and says so on screen. It doesn't model early conciliation extensions, continuing
-acts or late-claim discretion, and it doesn't store anything.
+This is an estimate only and says so on screen. It doesn’t model continuing violations, tolling or late-claim exceptions, and it doesn't store anything.
 
 ### Booking flow
 
@@ -230,8 +223,9 @@ On `book.html`, inside `[data-booking]`. Code: `initBooking()`.
 
 1. **Call type** from `CALL_TYPES`. `book.html?type=advice` preselects one.
 2. **Date and time**: a month calendar (Monday first) and time slots generated from `AVAILABILITY`: weekly
-   `hours` windows in UK time, `slotStep` minutes apart, at least `minNoticeHours` from now, up to
-   `daysAhead` days ahead, skipping `closed` dates. `demoBusyShare` hides a stable share of slots so the demo
+   `hours` windows in Eastern time, `slotStep` minutes apart, at least `minNoticeHours` from now, up to
+   `daysAhead` days ahead, skipping
+   US federal holidays (worked out for any year by `federalHolidays()`) and any `closed` dates. `demoBusyShare` hides a stable share of slots so the demo
    looks realistic; set it to `0` when you connect a real calendar.
 3. **Details**: name, email, optional phone, topic (`book.html?topic=settlement` preselects it), the
    conflict-check fields (employer, required; anyone else involved, optional), an optional deadline, a short
@@ -239,12 +233,12 @@ On `book.html`, inside `[data-booking]`. Code: `initBooking()`.
 4. **Confirmation** with a summary, a short reference (see [Forms](#forms)), what to do to change the time and a
    **Save a calendar hold (.ics)** button.
 
-Times are always generated in `Europe/London`, so they follow UK daylight saving. If the visitor's device is
+Times are always generated in `America/New_York`, so they follow US daylight saving time. If the visitor's device is
 in another time zone, each slot also shows their local time, and so do the summary and confirmation.
 
 The calendar is a table of buttons with a roving `tabindex`: arrow keys move by day and week, Home and End to
 the start and end of the week, Page Up and Page Down by four weeks. Unavailable days are `aria-disabled`, the
-chosen day is `aria-pressed`, and each day has a full label such as "Tuesday 20 October 2026, 9 times
+chosen day is `aria-pressed`, and each day has a full label such as "Tuesday, October 20, 2026, 9 times
 available". Each step's heading receives focus when the step opens.
 
 ### Filters and search
@@ -281,7 +275,7 @@ while the footer's "Back to top" link is visible.
 There are three forms. None of them sends anything until you connect it, even though the booking confirmation
 and the message form's thank-you read as if it had been. Both show a short reference (`PE-` and four characters)
 made in the browser by `makeRef()` in `main.js`; if your form service or booking tool returns its own reference,
-show that instead. They promise a reply or confirmation within one working day, as the rest of `book.html` does:
+show that instead. They promise a reply or confirmation within one business day, as the rest of `book.html` does:
 change them all if yours differs.
 
 | Form | Where | Validates |
@@ -328,7 +322,7 @@ data.append('call_type', state.type);
 data.append('start', state.slot.at.toISOString());
 ```
 
-Set `AVAILABILITY.demoBusyShare` to `0`, and keep `closed` up to date with your holidays.
+Set `AVAILABILITY.demoBusyShare` to `0`, and add any other days off to `closed`.
 
 Because inquiries can contain sensitive personal information, use a form service that stores data in a
 suitable region, and say in your privacy notice how you handle it.
@@ -357,7 +351,7 @@ need an absolute URL, so once you know your domain change it on every page:
 
 Also consider adding a `sitemap.xml` listing the eight content pages, a `robots.txt`, a canonical link on each
 page, and `LegalService` structured data (JSON-LD) on the home page with your real name, address, phone and
-opening hours. Check your regulator's rules on advertising, reviews and how fees must be published.
+business hours. Check your state bar’s rules on advertising, reviews and how fees must be published.
 
 ## Accessibility
 
@@ -405,7 +399,7 @@ harmless. Most hosts serve `404.html` automatically for missing pages.
   `CHECK_KEY` after changing the questions.
 - **The booking calendar has no free days.** Check `AVAILABILITY.hours` (day 0 is Sunday), `minNoticeHours`,
   `daysAhead` and `closed`, and that `demoBusyShare` is below 1.
-- **Booking times look an hour out.** Slots are in `Europe/London` and follow UK daylight saving. Change
+- **Booking times look an hour out.** Slots are in `America/New_York` and follow US daylight saving time. Change
   `AVAILABILITY.timeZone` and `zoneName` if you practice elsewhere.
 - **A form shows its thank-you message but nothing arrives.** It sends nothing until you connect it; see
   [Forms](#forms).

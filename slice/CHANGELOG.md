@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-05
+
+### Changed
+
+- Set in New Haven, Connecticut, with American spelling, US dollars, US phone numbers and local details.
+- The delivery checker and catering form take US ZIP codes (5 digits, optional +4) instead of UK postcodes, opening hours and time slots show a 12-hour clock in Eastern time, menu prices and delivery fees are set for the US, and the checkout says prices and totals don't include sales tax.
+
 ## [1.0.5] - 2026-11-05
 
 ### Changed

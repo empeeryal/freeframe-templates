@@ -1,4 +1,4 @@
-/* Kinetic (Fenline Performance) — Tailwind CSS v4 source.
+/* Kinetic (Foothill Performance) — Tailwind CSS v4 source.
    Edit the brand tokens below, then rebuild with `npm run build`. */
 @import "tailwindcss";
 
@@ -24,7 +24,7 @@
   --color-cobalt-900: #1a2470;
   --color-cobalt-950: #10163f;
 
-  /* Flare: the energy colour. Fills, stripes and shadows; 700 for text on light backgrounds. */
+  /* Flare: the energy color. Fills, stripes and shadows; 700 for text on light backgrounds. */
   --color-flare-50: #fff3ee;
   --color-flare-100: #ffe3d8;
   --color-flare-200: #ffc4ae;

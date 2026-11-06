@@ -6,6 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-05
+
+### Changed
+
+- Set in Flagstaff, Arizona, with American spelling, US dollars, US phone numbers and local details.
+- Trip prices, supplements, the deposit and the budget filter's range are set in US dollars, heights and distances are in feet and miles, and dates and office hours use US formats.
+
 ## [1.0.4] - 2026-11-05
 
 ### Changed

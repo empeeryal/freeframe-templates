@@ -175,7 +175,7 @@
   .gift-noir { @apply bg-ink text-shell; }
   .gift-noir::after { background-image: linear-gradient(135deg, transparent 62%, rgb(165 128 79 / .55) 62.4%, transparent 63%), linear-gradient(135deg, transparent 70%, rgb(165 128 79 / .3) 70.3%, transparent 70.8%); }
 
-  /* Opening hours */
+  /* Hours */
   .open-badge { @apply inline-flex items-center gap-2 rounded-full bg-sage/15 px-3 py-1.5 text-sm; }
   .open-dot { @apply h-2 w-2 rounded-full bg-sage; }
   .open-badge.is-closed { @apply bg-plum/10; }

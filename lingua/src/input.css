@@ -22,7 +22,7 @@
   --color-sun: #f6bf3f;         /* highlights (with ink text) */
   --color-mint: #bfe5d1;
 
-  /* One colour pair per language (chips, cards, timetable). */
+  /* One color pair per language (chips, cards, timetable). */
   --color-es: #fde3da;  --color-es-ink: #962e15;  --color-es-solid: #e25c3c;
   --color-fr: #e1e5fb;  --color-fr-ink: #2a389a;  --color-fr-solid: #2f3fb0;
   --color-it: #d6efe1;  --color-it-ink: #1b6542;  --color-it-solid: #2f9a68;

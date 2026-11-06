@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.9] - 2026-11-05
+
+### Changed
+
+- Set in Sarasota, Florida, with American spelling, US dollars, US phone numbers and local details.
+- Times use a 12-hour clock and dates read like Thu, Oct 8. Gift cards no longer expire.
+
 ## [1.0.8] - 2026-11-05
 
 ### Changed

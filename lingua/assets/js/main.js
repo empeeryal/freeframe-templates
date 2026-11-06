@@ -6,9 +6,9 @@
  *  4. Course page (course.html?id=…)
  *  5. Tabs (course page, fees)
  *  6. Teacher filter (teachers.html)
- *  7. Timetable filters (timetable.html)
+ *  7. Schedule filters (timetable.html)
  *  8. Placement test (placement.html)
- *  9. Enrolment form (enrol.html)
+ *  9. Enrollment form (enrol.html)
  * 10. Contact and newsletter forms, ?topic= prefill
  * 11. Header, mobile menu, scroll reveal, year
  *
@@ -61,43 +61,43 @@
     {"id":"b2","code":"B2","name":"Upper intermediate","about":"You speak with some ease and want to sound natural on any topic."},
     {"id":"c1","code":"C1","name":"Advanced","about":"You're fluent and want nuance, idiom and confidence in fast conversation."}
   ];
-  // Demo dates: COURSES are written for the winter term in TERM (UK dates). While KEEP_DEMO_CURRENT is true
+  // Demo dates: COURSES are written for the winter term in TERM (US dates). While KEEP_DEMO_CURRENT is true
   // and that term has started, the term and every course start move on to the same term the next year, in
-  // whole weeks so weekdays never change (11 January 2027 becomes 10 January 2028), so the demo always
+  // whole weeks so weekdays never change (January 11, 2027 becomes January 10, 2028), so the demo always
   // offers an upcoming term. Set it to false once COURSES and TERM hold your real dates.
   var KEEP_DEMO_CURRENT = true;
   var TERM = { starts: '2027-01-11', ends: '2027-03-26' };
   var DAYS = ["Mon","Tue","Wed","Thu","Fri","Sat"];
-  // days: 0 = Monday … 5 = Saturday. starts: the first class (YYYY-MM-DD). fee: pounds per term.
+  // days: 0 = Monday … 5 = Saturday. starts: the first class (YYYY-MM-DD). fee: dollars per term.
   var COURSES = [
-    {"id":"es-a1-evening","lang":"spanish","level":"a1","format":"in-person","title":"Spanish for Beginners","days":[0,2],"start":"18:30","end":"20:00","weeks":10,"starts":"2027-01-11","fee":295,"teacher":"lucia-ferrer","seats":4,"room":"Room 2","summary":"Your first ten weeks of Spanish: real conversations from the very first evening.","description":"A friendly evening class for complete beginners. You'll learn to introduce yourself, order, ask the way and talk about your week, with grammar introduced as you need it and plenty of speaking in pairs."},
-    {"id":"es-a2-online","lang":"spanish","level":"a2","format":"online","title":"Spanish Elementary","days":[1,3],"start":"19:00","end":"20:30","weeks":10,"starts":"2027-01-12","fee":265,"teacher":"tomas-ibarra","seats":6,"room":"Online","summary":"Build on the basics with stories, travel Spanish and a lot more confidence.","description":"For learners who know the present tense and want to tell stories, travel with ease and understand more of what they hear. Classes are live on video with breakout rooms for pair work."},
-    {"id":"es-b1-evening","lang":"spanish","level":"b1","format":"in-person","title":"Intermediate Spanish","days":[1,3],"start":"18:30","end":"20:00","weeks":10,"starts":"2027-01-12","fee":295,"teacher":"lucia-ferrer","seats":2,"room":"Room 1","summary":"Say what you really think: opinions, plans and the news, in Spanish.","description":"You can get by; now you want to explain, argue and plan. Expect short news items, role plays and a talk of your own by the end of term."},
-    {"id":"es-b2-conversation","lang":"spanish","level":"b2","format":"in-person","title":"Spanish Conversation Club","days":[5],"start":"10:00","end":"12:00","weeks":8,"starts":"2027-01-16","fee":210,"teacher":"beatriz-lima","seats":7,"room":"The Library","summary":"Two hours of lively discussion every Saturday morning, with coffee.","description":"A conversation class for confident speakers. Each week has a theme, a short text or clip and a lot of talking, with feedback on the mistakes that matter."},
-    {"id":"fr-a1-evening","lang":"french","level":"a1","format":"in-person","title":"French for Beginners","days":[0,2],"start":"18:30","end":"20:00","weeks":10,"starts":"2027-01-11","fee":295,"teacher":"julien-mbaye","seats":5,"room":"Room 3","summary":"Start speaking French with confidence, two evenings a week.","description":"Our most popular course. From bonjour to booking a table, you'll learn the French you need for a first trip, with music, short clips and a lot of practice."},
-    {"id":"fr-a2-lunchtime","lang":"french","level":"a2","format":"online","title":"Lunchtime French","days":[1,3],"start":"12:30","end":"13:30","weeks":10,"starts":"2027-01-12","fee":220,"teacher":"camille-roussel","seats":8,"room":"Online","summary":"An hour of French in your lunch break, live online.","description":"Short, focused classes for people with a little French and not much time. Each hour has one goal, from describing your weekend to sorting out a problem on holiday."},
-    {"id":"fr-c1-culture","lang":"french","level":"c1","format":"in-person","title":"Advanced French: Culture and Debate","days":[3],"start":"19:00","end":"21:00","weeks":10,"starts":"2027-01-14","fee":260,"teacher":"camille-roussel","seats":3,"room":"The Library","summary":"Films, essays and debate for fluent speakers who want more.","description":"A seminar-style class built around a film or essay each week. You'll work on nuance, idiom and register, and finish the term with a full-length debate."},
-    {"id":"it-a1-online","lang":"italian","level":"a1","format":"online","title":"Italian for Beginners","days":[0],"start":"19:00","end":"21:00","weeks":10,"starts":"2027-01-11","fee":230,"teacher":"giulia-conti","seats":6,"room":"Online","summary":"One relaxed evening a week of Italian, live from your sofa.","description":"A two-hour weekly class for complete beginners. Pronunciation, everyday phrases and the grammar behind them, taught by a Bolognese translator with a lot of patience."},
-    {"id":"it-b1-saturday","lang":"italian","level":"b1","format":"in-person","title":"Italian Intermediate","days":[5],"start":"10:00","end":"12:30","weeks":10,"starts":"2027-01-16","fee":270,"teacher":"giulia-conti","seats":5,"room":"Room 2","summary":"Saturday mornings of conversation, reading and real Italian.","description":"For learners who can manage a conversation and want to go further. Each session mixes speaking, a short reading and one grammar point, and the term ends with lunch in Italian."},
-    {"id":"de-a1-intensive","lang":"german","level":"a1","format":"in-person","title":"German Intensive Beginners","days":[0,1,2,3,4],"start":"09:30","end":"12:30","weeks":2,"starts":"2027-02-01","fee":390,"teacher":"anke-weber","seats":6,"room":"Room 1","summary":"A whole beginner level in two weeks of weekday mornings.","description":"Thirty hours of German over ten mornings: ideal before a move, a new job or a long trip. Small group, daily homework and a lot of speaking."},
-    {"id":"de-b2-online","lang":"german","level":"b2","format":"online","title":"Upper-intermediate German","days":[1,3],"start":"07:30","end":"08:30","weeks":10,"starts":"2027-01-12","fee":220,"teacher":"anke-weber","seats":4,"room":"Online","summary":"Early-morning German for professionals, before the working day.","description":"Two focused hours a week for confident speakers. Business vocabulary, meetings, emails and the news, with individual feedback on your writing."},
-    {"id":"ja-a1-evening","lang":"japanese","level":"a1","format":"in-person","title":"Japanese for Beginners","days":[2],"start":"18:30","end":"20:30","weeks":12,"starts":"2027-01-13","fee":320,"teacher":"haruka-sato","seats":3,"room":"Room 3","summary":"Speak, listen and read your first hiragana and katakana.","description":"A weekly evening class for complete beginners. You'll learn everyday Japanese for greetings, shopping and travel, and read both kana scripts by the end of term."},
-    {"id":"pt-a2-online","lang":"portuguese","level":"a2","format":"online","title":"Portuguese Elementary","days":[2],"start":"19:00","end":"20:30","weeks":10,"starts":"2027-01-13","fee":195,"teacher":"beatriz-lima","seats":6,"room":"Online","summary":"Brazilian and European Portuguese, side by side, live online.","description":"For learners with the basics who want to talk about their lives, travel and plans. You'll hear and practise both Brazilian and European Portuguese."}
+    {"id":"es-a1-evening","lang":"spanish","level":"a1","format":"in-person","title":"Spanish for Beginners","days":[0,2],"start":"18:30","end":"20:00","weeks":10,"starts":"2027-01-11","fee":395,"teacher":"lucia-ferrer","seats":4,"room":"Room 2","summary":"Your first ten weeks of Spanish: real conversations from the very first evening.","description":"A friendly evening class for complete beginners. You'll learn to introduce yourself, order, ask for directions and talk about your week, with grammar introduced as you need it and plenty of speaking in pairs."},
+    {"id":"es-a2-online","lang":"spanish","level":"a2","format":"online","title":"Spanish Elementary","days":[1,3],"start":"19:00","end":"20:30","weeks":10,"starts":"2027-01-12","fee":355,"teacher":"tomas-ibarra","seats":6,"room":"Online","summary":"Build on the basics with stories, travel Spanish and a lot more confidence.","description":"For learners who know the present tense and want to tell stories, travel with ease and understand more of what they hear. Classes are live on video with breakout rooms for pair work."},
+    {"id":"es-b1-evening","lang":"spanish","level":"b1","format":"in-person","title":"Intermediate Spanish","days":[1,3],"start":"18:30","end":"20:00","weeks":10,"starts":"2027-01-12","fee":395,"teacher":"lucia-ferrer","seats":2,"room":"Room 1","summary":"Say what you really think: opinions, plans and the news, in Spanish.","description":"You can get by; now you want to explain, argue and plan. Expect short news items, role plays and a talk of your own by the end of term."},
+    {"id":"es-b2-conversation","lang":"spanish","level":"b2","format":"in-person","title":"Spanish Conversation Club","days":[5],"start":"10:00","end":"12:00","weeks":8,"starts":"2027-01-16","fee":280,"teacher":"beatriz-lima","seats":7,"room":"The Library","summary":"Two hours of lively discussion every Saturday morning, with coffee.","description":"A conversation class for confident speakers. Each week has a theme, a short text or clip and a lot of talking, with feedback on the mistakes that matter."},
+    {"id":"fr-a1-evening","lang":"french","level":"a1","format":"in-person","title":"French for Beginners","days":[0,2],"start":"18:30","end":"20:00","weeks":10,"starts":"2027-01-11","fee":395,"teacher":"julien-mbaye","seats":5,"room":"Room 3","summary":"Start speaking French with confidence, two evenings a week.","description":"Our most popular course. From bonjour to booking a table, you'll learn the French you need for a first trip, with music, short clips and a lot of practice."},
+    {"id":"fr-a2-lunchtime","lang":"french","level":"a2","format":"online","title":"Lunchtime French","days":[1,3],"start":"12:30","end":"13:30","weeks":10,"starts":"2027-01-12","fee":295,"teacher":"camille-roussel","seats":8,"room":"Online","summary":"An hour of French in your lunch break, live online.","description":"Short, focused classes for people with a little French and not much time. Each hour has one goal, from describing your weekend to sorting out a problem on vacation."},
+    {"id":"fr-c1-culture","lang":"french","level":"c1","format":"in-person","title":"Advanced French: Culture and Debate","days":[3],"start":"19:00","end":"21:00","weeks":10,"starts":"2027-01-14","fee":345,"teacher":"camille-roussel","seats":3,"room":"The Library","summary":"Films, essays and debate for fluent speakers who want more.","description":"A seminar-style class built around a film or essay each week. You'll work on nuance, idiom and register, and finish the term with a full-length debate."},
+    {"id":"it-a1-online","lang":"italian","level":"a1","format":"online","title":"Italian for Beginners","days":[0],"start":"19:00","end":"21:00","weeks":10,"starts":"2027-01-11","fee":310,"teacher":"giulia-conti","seats":6,"room":"Online","summary":"One relaxed evening a week of Italian, live from your couch.","description":"A two-hour weekly class for complete beginners. Pronunciation, everyday phrases and the grammar behind them, taught by a Bolognese translator with a lot of patience."},
+    {"id":"it-b1-saturday","lang":"italian","level":"b1","format":"in-person","title":"Italian Intermediate","days":[5],"start":"10:00","end":"12:30","weeks":10,"starts":"2027-01-16","fee":360,"teacher":"giulia-conti","seats":5,"room":"Room 2","summary":"Saturday mornings of conversation, reading and real Italian.","description":"For learners who can manage a conversation and want to go further. Each session mixes speaking, a short reading and one grammar point, and the term ends with lunch in Italian."},
+    {"id":"de-a1-intensive","lang":"german","level":"a1","format":"in-person","title":"German Intensive Beginners","days":[0,1,2,3,4],"start":"09:30","end":"12:30","weeks":2,"starts":"2027-02-01","fee":525,"teacher":"anke-weber","seats":6,"room":"Room 1","summary":"A whole beginner level in two weeks of weekday mornings.","description":"Thirty hours of German over ten mornings: ideal before a move, a new job or a long trip. Small group, daily homework and a lot of speaking."},
+    {"id":"de-b2-online","lang":"german","level":"b2","format":"online","title":"Upper-intermediate German","days":[1,3],"start":"07:30","end":"08:30","weeks":10,"starts":"2027-01-12","fee":295,"teacher":"anke-weber","seats":4,"room":"Online","summary":"Early-morning German for professionals, before the business day.","description":"Two focused hours a week for confident speakers. Business vocabulary, meetings, emails and the news, with individual feedback on your writing."},
+    {"id":"ja-a1-evening","lang":"japanese","level":"a1","format":"in-person","title":"Japanese for Beginners","days":[2],"start":"18:30","end":"20:30","weeks":12,"starts":"2027-01-13","fee":425,"teacher":"haruka-sato","seats":3,"room":"Room 3","summary":"Speak, listen and read your first hiragana and katakana.","description":"A weekly evening class for complete beginners. You'll learn everyday Japanese for greetings, shopping and travel, and read both kana scripts by the end of term."},
+    {"id":"pt-a2-online","lang":"portuguese","level":"a2","format":"online","title":"Portuguese Elementary","days":[2],"start":"19:00","end":"20:30","weeks":10,"starts":"2027-01-13","fee":265,"teacher":"beatriz-lima","seats":6,"room":"Online","summary":"Brazilian and European Portuguese, side by side, live online.","description":"For learners with the basics who want to talk about their lives, travel and plans. You'll hear and practice both Brazilian and European Portuguese."}
   ];
   var TEACHERS = [
-    {"id":"lucia-ferrer","name":"Lucía Ferrer","role":"Head of Spanish","from":"Valencia","years":14,"bio":"Lucía taught in Valencia and Edinburgh before helping to found Lingua. She believes in talking from the first minute, and in learning the grammar once you need it.","quote":"Mistakes are the sound of someone learning."},
-    {"id":"tomas-ibarra","name":"Tomás Ibarra","role":"Spanish teacher","from":"Bilbao","years":8,"bio":"Tomás grew up between Bilbao and São Paulo. He teaches our online Spanish groups and loves a good debate about football, food or film.","quote":"Every class should have at least one good laugh."},
+    {"id":"lucia-ferrer","name":"Lucía Ferrer","role":"Head of Spanish","from":"Valencia","years":14,"bio":"Lucía taught in Valencia and Houston before helping to found Lingua. She believes in talking from the first minute, and in learning the grammar once you need it.","quote":"Mistakes are the sound of someone learning."},
+    {"id":"tomas-ibarra","name":"Tomás Ibarra","role":"Spanish teacher","from":"Bilbao","years":8,"bio":"Tomás grew up between Bilbao and São Paulo. He teaches our online Spanish groups and loves a good debate about soccer, food or film.","quote":"Every class should have at least one good laugh."},
     {"id":"beatriz-lima","name":"Beatriz Lima","role":"Portuguese and Spanish teacher","from":"Porto","years":11,"bio":"Beatriz runs the Saturday conversation club and our Portuguese course. Before teaching she was a radio presenter in Porto.","quote":"Listen first. The words will follow."},
-    {"id":"camille-roussel","name":"Camille Roussel","role":"Director of studies, French","from":"Lyon","years":19,"bio":"Camille co-founded Lingua in 2009. She trains our teachers, writes our level descriptors and still teaches the advanced French class every Thursday.","quote":"A language is a way of seeing, not a list of rules."},
+    {"id":"camille-roussel","name":"Camille Roussel","role":"Academic director, French","from":"Lyon","years":19,"bio":"Camille co-founded Lingua in 2009. She trains our teachers, writes our level descriptors and still teaches the advanced French class every Thursday.","quote":"A language is a way of seeing, not a list of rules."},
     {"id":"julien-mbaye","name":"Julien Mbaye","role":"French teacher","from":"Dakar and Marseille","years":6,"bio":"Julien teaches beginners and brings French from Dakar, Montréal and Marseille into class through music, podcasts and news.","quote":"French has many accents. You'll hear all of them."},
     {"id":"giulia-conti","name":"Giulia Conti","role":"Head of Italian","from":"Bologna","years":12,"bio":"Giulia is a translator as well as a teacher. Her Saturday group ends each term with a long lunch, ordered entirely in Italian.","quote":"Gesture counts. So does pronunciation."},
     {"id":"anke-weber","name":"Anke Weber","role":"German teacher","from":"Hamburg","years":10,"bio":"Anke designed our two-week German intensive. She also teaches early-morning online classes for people who learn best before work.","quote":"Small steps, every day, add up fast."},
-    {"id":"haruka-sato","name":"Haruka Sato","role":"Japanese teacher","from":"Sendai","years":9,"bio":"Haruka teaches speaking and the two kana scripts side by side, with plenty of practice from manga, menus and train timetables.","quote":"Read a little every day. Kana become friends."}
+    {"id":"haruka-sato","name":"Haruka Sato","role":"Japanese teacher","from":"Sendai","years":9,"bio":"Haruka teaches speaking and the two kana scripts side by side, with plenty of practice from manga, menus and train schedules.","quote":"Read a little every day. Kana become friends."}
   ];
   // Five modules per level (shared by every language), and what learners can do at the end.
   var SYLLABUS = {
     a1: [["First conversations","Greetings, introducing yourself, numbers and spelling your name."],["Everyday life","Days, times and routines; talking about home, family and work."],["Out and about","Ordering food and drink, shopping and asking about prices."],["Getting around","Directions, transport and places in town."],["Plans and memories","Making plans and saying what you did last weekend."]],
-    a2: [["People and places","Describing people, homes and the places you know."],["Telling stories","Past tenses for holidays, anecdotes and life events."],["Travel with confidence","Booking, checking in and solving small problems on a trip."],["Health and services","The doctor, the pharmacy, the bank and the post office."],["Making arrangements","Invitations, phone calls and messages."]],
+    a2: [["People and places","Describing people, homes and the places you know."],["Telling stories","Past tenses for vacations, anecdotes and life events."],["Travel with confidence","Booking, checking in and solving small problems on a trip."],["Health and services","The doctor, the pharmacy, the bank and the post office."],["Making arrangements","Invitations, phone calls and messages."]],
     b1: [["Opinions and reasons","Agreeing, disagreeing and explaining why."],["Work and study","Talking about your job, your plans and your experience."],["In the news","Following short news items and discussing them."],["What if…","Hypotheticals, wishes and advice."],["Your topic","Preparing and giving a short talk to the group."]],
     b2: [["Debate","Persuading, conceding and keeping a discussion going."],["Film, books and media","Reviews, recommendations and talking about stories."],["Society and change","Longer discussions on the issues people care about."],["Formal and informal","Changing register for emails, meetings and friends."],["Fluency workshop","Speed, rhythm and sounding natural."]],
     c1: [["Nuance and idiom","The expressions native speakers use without thinking."],["Long reads","Essays, columns and fiction, read and discussed in depth."],["Culture and history","The ideas behind the language, from cinema to politics."],["Speaking at work","Presentations, negotiations and difficult conversations."],["The final debate","A full-length debate on a topic the group chooses."]]
@@ -107,10 +107,10 @@
     a2: ["Tell a short story in the past","Handle most travel situations","Describe people and places in detail","Make and change arrangements by phone"],
     b1: ["Give and defend an opinion","Follow the main points of the news","Talk about your work in some depth","Give a short presentation"],
     b2: ["Hold your own in a debate","Watch films and series with little help","Write clear formal emails","Switch between formal and informal registers"],
-    c1: ["Understand humour, irony and idiom","Read long articles and fiction with ease","Speak spontaneously in fast conversation","Present and negotiate at work"]
+    c1: ["Understand humor, irony and idiom","Read long articles and fiction with ease","Speak spontaneously in fast conversation","Present and negotiate at work"]
   };
   var PLACEMENT_QUESTIONS = 10;
-  var BOOK_PRICE = 24; // pounds
+  var BOOK_PRICE = 28; // dollars
   var CONCESSION = 0.15; // 15% off the course fee
 
   var DRAFT_KEY = 'lingua:enrol:v1';
@@ -118,7 +118,7 @@
   // Placement score (0–20) needed for each level after A1: A2, B1, B2, C1.
   var PLACEMENT_BANDS = [5, 9, 13, 17];
   var EXPERIENCE = { none: 'Never', some: 'A little', lots: 'For a year or more' };
-  var PLANS = { full: 'Pay in full', instalments: 'Three monthly instalments' };
+  var PLANS = { full: 'Pay in full', instalments: 'Three monthly installments' };
   var HEARD = ['friend', 'search', 'social', 'poster', 'work'];
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -168,8 +168,8 @@
 
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   // Dates are plain strings ("2027-01-11"), formatted without Date objects so time zones never matter.
-  function shortDate(iso) { var p = iso.split('-'); return +p[2] + ' ' + MONTHS[+p[1] - 1].slice(0, 3); }
-  function longDate(iso) { var p = iso.split('-'); return +p[2] + ' ' + MONTHS[+p[1] - 1] + ' ' + p[0]; }
+  function shortDate(iso) { var p = iso.split('-'); return MONTHS[+p[1] - 1].slice(0, 3) + ' ' + +p[2]; }
+  function longDate(iso) { var p = iso.split('-'); return MONTHS[+p[1] - 1] + ' ' + +p[2] + ', ' + p[0]; }
 
   // KEEP_DEMO_CURRENT: once TERM has started, move it and every course start on to the same term in a later
   // year, by whole weeks (the nearest date with the same weekday), so the demo never offers a past term.
@@ -179,7 +179,7 @@
     if (!KEEP_DEMO_CURRENT) return 0;
     var today;
     try {
-      today = dayNum(new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/London', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()));
+      today = dayNum(new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()));
     } catch (e) { today = dayNum(new Date().toISOString().slice(0, 10)); }
     var start = dayNum(TERM.starts), shift = 0;
     for (var y = 1; start + shift <= today && y < 100; y++) {
@@ -196,15 +196,20 @@
     if (days.length === 5 && days[0] === 0 && days[4] === 4) return 'Mon to Fri';
     return days.map(function (d) { return DAYS[d]; }).join(' & ');
   }
-  function timeLabel(c) { return c.start + '–' + c.end; }
+  // "18:30" → "6:30"; a range shows AM or PM once when both ends share it.
+  function clock12(t) { var p = t.split(':'); return (+p[0] % 12 || 12) + ':' + p[1]; }
+  function timeLabel(c) {
+    var a = +c.start.slice(0, 2) < 12 ? 'AM' : 'PM', b = +c.end.slice(0, 2) < 12 ? 'AM' : 'PM';
+    return clock12(c.start) + (a === b ? '' : ' ' + a) + '–' + clock12(c.end) + ' ' + b;
+  }
   function scheduleLabel(c) { return daysLabel(c.days) + ', ' + timeLabel(c); }
   function minutes(t) { var p = t.split(':'); return +p[0] * 60 + +p[1]; }
   function totalHours(c) { return (minutes(c.end) - minutes(c.start)) * c.days.length * c.weeks / 60; }
-  function placesLabel(c) { return c.seats === 1 ? 'Last place left' : c.seats <= 3 ? 'Only ' + c.seats + ' places left' : c.seats + ' places left'; }
+  function placesLabel(c) { return c.seats === 1 ? 'Last seat left' : c.seats <= 3 ? 'Only ' + c.seats + ' seats left' : c.seats + ' seats left'; }
   function formatLine(c) { return c.format === 'online' ? 'Live online' : 'In person · ' + c.room; }
   function levelLabel(c) { var l = find(LEVELS, c.level); return l.code + ' · ' + l.name; }
-  // Money in pence → "£274.75".
-  function pounds(pence) { return '£' + (pence / 100).toFixed(2); }
+  // Money in cents → "$274.75".
+  function pounds(pence) { return '$' + (pence / 100).toFixed(2); }
 
   var ICONS = {
     clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
@@ -233,7 +238,7 @@
       '<li class="flex items-center gap-2.5">' + icon('calendar', 'size-4 shrink-0 text-brand') + '<span>' + c.weeks + ' weeks from ' + shortDate(c.starts) + '</span></li>' +
       '</ul>' +
       '<div class="mt-auto pt-6"><div class="flex items-end justify-between gap-4 border-t-2 border-dashed border-ink/15 pt-5">' +
-      '<p><span class="font-display text-2xl">£' + c.fee + '</span> <span class="text-sm text-muted">a term</span></p>' +
+      '<p><span class="font-display text-2xl">$' + c.fee + '</span> <span class="text-sm text-muted">a term</span></p>' +
       '<p class="text-sm font-medium ' + (c.seats <= 3 ? 'text-tomato-ink' : 'text-muted') + '">' + placesLabel(c) + '</p>' +
       '</div></div></article>';
   }
@@ -327,7 +332,7 @@
       title: c.title, lang: l.name, level: levelLabel(c), format: c.format === 'online' ? 'Live online' : 'In person',
       summary: c.summary, schedule: scheduleLabel(c), starts: longDate(c.starts),
       length: c.weeks + ' weeks, ' + totalHours(c) + ' hours', where: formatLine(c), teacher: t.name,
-      description: c.description, fee: '£' + c.fee, per: 'for ' + c.weeks + ' weeks'
+      description: c.description, fee: '$' + c.fee, per: 'for ' + c.weeks + ' weeks'
     };
     Object.keys(text).forEach(function (k) {
       $$('[data-course-field="' + k + '"]').forEach(function (el) { el.textContent = text[k]; });
@@ -412,7 +417,7 @@
   }
 
   /* ------------------------------------------------------------------
-   * 7. Timetable filters: language, format and time of day (?lang=&format=&time=)
+   * 7. Schedule filters: language, format and time of day (?lang=&format=&time=)
    * ------------------------------------------------------------------ */
   function initTimetable() {
     var form = $('[data-timetable-filters]');
@@ -529,7 +534,7 @@
       $('[data-result-courses]', result).innerHTML = recs.map(function (c) { return courseCardHTML(c, 'h3'); }).join('');
       var enrol = $('[data-result-enrol]', result);
       enrol.href = 'enrol.html?course=' + recs[0].id + '#enrol';
-      enrol.textContent = 'Enrol on ' + recs[0].title;
+      enrol.textContent = 'Enroll in ' + recs[0].title;
       var all = $('[data-result-all]', result);
       all.href = 'courses.html?lang=' + lang.id;
       all.textContent = 'See all ' + lang.name + ' courses';
@@ -588,7 +593,7 @@
   }
 
   /* ------------------------------------------------------------------
-   * 9. Enrolment: four steps (course, details, options, review) with a
+   * 9. Enrollment: four steps (course, details, options, review) with a
    *    live fee summary. The draft is saved on every change and checked
    *    on every read: unknown courses, bad values and junk are dropped.
    * ------------------------------------------------------------------ */
@@ -618,7 +623,7 @@
     return d;
   }
 
-  // Fees in pence: course fee, concession, book, total and the three instalments.
+  // Fees in cents: course fee, discount, book, total and the three installments.
   function enrolQuote(d) {
     var c = findCourse(d.course);
     if (!c) return null;
@@ -681,7 +686,7 @@
         '<p class="text-sm text-muted">' + esc(formatLine(c)) + ', from ' + longDate(c.starts) + '</p>' +
         '<dl class="mt-5 space-y-2 border-t-2 border-dashed border-ink/15 pt-4 text-sm">' +
         row('Course fee', pounds(q.fee)) +
-        (q.discount ? row('Concession (15%)', '−' + pounds(q.discount)) : '') +
+        (q.discount ? row('Discount (15%)', '−' + pounds(q.discount)) : '') +
         (q.book ? row('Course book', pounds(q.book)) : '') +
         row('Total', pounds(q.total), ' border-t-2 border-ink pt-3 text-base font-semibold') +
         '</dl>' +
@@ -698,7 +703,7 @@
         ['Phone', draft.phone ? esc(draft.phone) : 'Not given'],
         ['Studied before', EXPERIENCE[draft.experience]],
         ['Payment', PLANS[draft.plan]],
-        ['Concession rate', draft.concession ? 'Yes' : 'No'],
+        ['Discount rate', draft.concession ? 'Yes' : 'No'],
         ['Course book', draft.book ? 'Yes' : 'No'],
         ['Total', pounds(q.total)]
       ];
@@ -739,7 +744,7 @@
         else li.removeAttribute('aria-current');
       });
       back.hidden = n === 1;
-      next.innerHTML = n === 4 ? 'Confirm enrolment' : 'Continue ' + icon('arrow-right', 'size-4');
+      next.innerHTML = n === 4 ? 'Confirm enrollment' : 'Continue ' + icon('arrow-right', 'size-4');
       if (n === 4) renderReview();
       if (focus) $('[data-step-title]', panels[n - 1]).focus();
     }
@@ -763,15 +768,15 @@
       var bad = validate(step);
       if (bad) { bad.focus(); return; }
       if (step < 4) { show(step + 1, true); return; }
-      // To send for real, post the enrolment to your booking system here, e.g.
+      // To send for real, post the enrollment to your booking system here, e.g.
       // fetch('https://formspree.io/f/your-id', { method: 'POST', body: new FormData(form) })
       var c = findCourse(draft.course);
       $('[data-done-title]', done).textContent = 'Thank you, ' + draft.first.trim() + '!';
-      $('[data-done-text]', done).textContent = 'Your enrolment on ' + c.title + ', starting ' + longDate(c.starts) + ', has reached us. We\'ll email ' + draft.email.trim() + ' within one working day to confirm your place and explain how to pay.';
+      $('[data-done-text]', done).textContent = 'Your enrollment in ' + c.title + ', starting ' + longDate(c.starts) + ', has reached us. We\'ll email ' + draft.email.trim() + ' within one business day to confirm your spot and explain how to pay.';
       $('[data-ref]', done).textContent = makeRef('LI');
       storageRemove(DRAFT_KEY);
       form.hidden = true;
-      $('ol[aria-label="Enrolment steps"]', root).hidden = true;
+      $('ol[aria-label="Enrollment steps"]', root).hidden = true;
       done.classList.remove('hidden');
       done.focus();
     });
@@ -783,7 +788,7 @@
       $$('[aria-invalid]', form).forEach(function (f) { f.removeAttribute('aria-invalid'); });
       $$('.field-error', form).forEach(function (p) { p.textContent = ''; });
       form.hidden = false;
-      $('ol[aria-label="Enrolment steps"]', root).hidden = false;
+      $('ol[aria-label="Enrollment steps"]', root).hidden = false;
       done.classList.add('hidden');
       renderInfo();
       renderSummary();
@@ -879,11 +884,11 @@
     $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 
     // Term and course dates written in the pages (see KEEP_DEMO_CURRENT): data-term="year", "starts"
-    // ("11 January") or "ends" ("26 March 2027"), and data-course-from="<course id>" ("10 weeks from 11 Jan").
+    // ("January 11") or "ends" ("March 26, 2027"), and data-course-from="<course id>" ("10 weeks from Jan 11").
     $$('[data-term]').forEach(function (el) {
       var k = el.getAttribute('data-term');
       if (k === 'year') el.textContent = TERM.starts.slice(0, 4);
-      else if (k === 'starts') el.textContent = longDate(TERM.starts).replace(/ \d{4}$/, TERM.starts.slice(0, 4) === TERM.ends.slice(0, 4) ? '' : ' ' + TERM.starts.slice(0, 4));
+      else if (k === 'starts') el.textContent = longDate(TERM.starts).replace(/, \d{4}$/, TERM.starts.slice(0, 4) === TERM.ends.slice(0, 4) ? '' : ', ' + TERM.starts.slice(0, 4));
       else if (k === 'ends') el.textContent = longDate(TERM.ends);
     });
     $$('[data-course-from]').forEach(function (el) {

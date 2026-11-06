@@ -1,10 +1,10 @@
 /* Bloom Hair & Spa — all template JavaScript. Vanilla, no dependencies.
  *
- *  1. Data            services, team, opening hours and looks (edit here)
+ *  1. Data            services, team, hours and looks (edit here)
  *  2. Helpers         DOM, storage, dates and the booking time-slot logic
  *  3. Header          sticky shadow and accessible mobile menu
  *  4. Reveal          fade content in as it scrolls into view
- *  5. Opening hours   "Open now" badges and today's row in hours tables
+ *  5. Hours          "Open now" badges and today's row in hours tables
  *  6. Before/after    comparison slider
  *  7. Services        category filter
  *  8. Team            specialty filter
@@ -24,13 +24,13 @@
     "salon": {
       "name": "Bloom Hair & Spa",
       "short": "Bloom",
-      "street": "48 Orchard Lane",
-      "city": "Harbourside, Bristol BS1 5QA",
-      "phone": "+44 117 496 0123",
-      "phoneHref": "+441174960123",
+      "street": "48 Burns Court",
+      "city": "Sarasota, FL 34236",
+      "phone": "(941) 555-0173",
+      "phoneHref": "+19415550173",
       "email": "hello@bloomhairspa.example",
-      "currency": "GBP",
-      "locale": "en-GB"
+      "currency": "USD",
+      "locale": "en-US"
     },
     "hours": [
       {
@@ -80,12 +80,12 @@
       {
         "id": "hair",
         "label": "Hair",
-        "blurb": "Precision cuts and soft, lived-in shapes, finished with a blow-dry."
+        "blurb": "Precision cuts and soft, lived-in shapes, finished with a blowout."
       },
       {
         "id": "colour",
-        "label": "Colour",
-        "blurb": "Hand-painted balayage, glossing and grey blending with low-ammonia colour."
+        "label": "Color",
+        "blurb": "Hand-painted balayage, glossing and gray blending with low-ammonia color."
       },
       {
         "id": "nails",
@@ -109,8 +109,8 @@
         "cat": "hair",
         "name": "Signature cut & finish",
         "mins": 60,
-        "price": 68,
-        "desc": "Consultation, wash with scalp massage, precision cut and a lasting blow-dry.",
+        "price": 85,
+        "desc": "Consultation, wash with scalp massage, precision cut and a lasting blowout.",
         "signature": true
       },
       {
@@ -118,15 +118,15 @@
         "cat": "hair",
         "name": "Restyle consultation & cut",
         "mins": 75,
-        "price": 85,
+        "price": 110,
         "desc": "For a big change: a longer consultation, a new shape and styling lesson."
       },
       {
         "id": "blow-dry",
         "cat": "hair",
-        "name": "Blow-dry & style",
+        "name": "Blowout & style",
         "mins": 45,
-        "price": 45,
+        "price": 55,
         "desc": "Smooth, bouncy or undone waves that hold for days."
       },
       {
@@ -134,15 +134,15 @@
         "cat": "hair",
         "name": "Short cut & clipper work",
         "mins": 30,
-        "price": 38,
-        "desc": "Crops, fades and tidy-ups, finished with a styling product."
+        "price": 45,
+        "desc": "Crops, fades and cleanups, finished with a styling product."
       },
       {
         "id": "event-styling",
         "cat": "hair",
         "name": "Bridal & event styling",
         "mins": 90,
-        "price": 140,
+        "price": 175,
         "desc": "Updos and soft waves for weddings and occasions, with a trial on request."
       },
       {
@@ -150,16 +150,16 @@
         "cat": "colour",
         "name": "Balayage",
         "mins": 180,
-        "price": 210,
-        "desc": "Hand-painted, sun-kissed brightness that grows out softly. Includes gloss and blow-dry.",
+        "price": 260,
+        "desc": "Hand-painted, sun-kissed brightness that grows out softly. Includes gloss and blowout.",
         "signature": true
       },
       {
         "id": "full-colour",
         "cat": "colour",
-        "name": "Full colour",
+        "name": "Full color",
         "mins": 105,
-        "price": 118,
+        "price": 145,
         "desc": "All-over tint from root to tip, with a bond-building treatment."
       },
       {
@@ -167,15 +167,15 @@
         "cat": "colour",
         "name": "Root touch-up",
         "mins": 75,
-        "price": 82,
-        "desc": "Regrowth and grey coverage up to 3 cm."
+        "price": 95,
+        "desc": "Regrowth and gray coverage up to 1 inch."
       },
       {
         "id": "half-highlights",
         "cat": "colour",
-        "name": "Half head highlights",
+        "name": "Partial highlights",
         "mins": 120,
-        "price": 135,
+        "price": 165,
         "desc": "Foil highlights through the top and sides for brightness around the face."
       },
       {
@@ -183,15 +183,15 @@
         "cat": "colour",
         "name": "Gloss & tone",
         "mins": 45,
-        "price": 55,
-        "desc": "Refreshes faded colour and adds mirror shine between appointments."
+        "price": 65,
+        "desc": "Refreshes faded color and adds mirror shine between appointments."
       },
       {
         "id": "gel-manicure",
         "cat": "nails",
         "name": "Gel manicure",
         "mins": 50,
-        "price": 48,
+        "price": 50,
         "desc": "Shape, cuticle care and a chip-free gel finish that lasts two weeks.",
         "signature": true
       },
@@ -200,7 +200,7 @@
         "cat": "nails",
         "name": "Classic manicure",
         "mins": 40,
-        "price": 36,
+        "price": 35,
         "desc": "Shape, buff, hand massage and your choice of polish."
       },
       {
@@ -208,7 +208,7 @@
         "cat": "nails",
         "name": "Spa pedicure",
         "mins": 55,
-        "price": 52,
+        "price": 65,
         "desc": "Warm soak, exfoliation, callus care, massage and polish."
       },
       {
@@ -224,7 +224,7 @@
         "cat": "skin",
         "name": "Bloom signature facial",
         "mins": 60,
-        "price": 95,
+        "price": 130,
         "desc": "Double cleanse, enzyme peel, extractions, sculpting massage and mask.",
         "signature": true
       },
@@ -233,7 +233,7 @@
         "cat": "skin",
         "name": "Hydrating facial",
         "mins": 45,
-        "price": 72,
+        "price": 100,
         "desc": "A plumping hyaluronic treatment for tired or dehydrated skin."
       },
       {
@@ -241,7 +241,7 @@
         "cat": "skin",
         "name": "Brow shape & tint",
         "mins": 30,
-        "price": 32,
+        "price": 40,
         "desc": "Mapping, wax and tint for full, natural-looking brows."
       },
       {
@@ -249,7 +249,7 @@
         "cat": "skin",
         "name": "Lash lift & tint",
         "mins": 50,
-        "price": 65,
+        "price": 85,
         "desc": "Lifted, darker lashes for six to eight weeks, no extensions needed."
       },
       {
@@ -257,7 +257,7 @@
         "cat": "massage",
         "name": "Swedish massage, 60 min",
         "mins": 60,
-        "price": 90,
+        "price": 110,
         "desc": "Flowing full-body massage with warm oils to release tension."
       },
       {
@@ -265,7 +265,7 @@
         "cat": "massage",
         "name": "Swedish massage, 90 min",
         "mins": 90,
-        "price": 125,
+        "price": 155,
         "desc": "The full-body ritual with extra time for back, neck and scalp."
       },
       {
@@ -273,7 +273,7 @@
         "cat": "massage",
         "name": "Hot stone massage",
         "mins": 75,
-        "price": 115,
+        "price": 140,
         "desc": "Heated basalt stones melt deep muscle tension.",
         "signature": false
       },
@@ -282,7 +282,7 @@
         "cat": "massage",
         "name": "Scalp, neck & shoulder",
         "mins": 30,
-        "price": 45,
+        "price": 55,
         "desc": "A quick reset for desk-bound shoulders. Easy to add to any visit."
       }
     ],
@@ -291,13 +291,13 @@
         "id": "stylist",
         "label": "Stylist",
         "multiplier": 1.0,
-        "blurb": "Fully qualified, at least two years on the floor."
+        "blurb": "Fully licensed, at least two years on the floor."
       },
       {
         "id": "senior",
         "label": "Senior",
         "multiplier": 1.2,
-        "blurb": "Five years or more, with advanced colour or cutting training."
+        "blurb": "Five years or more, with advanced color or cutting training."
       },
       {
         "id": "director",
@@ -323,10 +323,10 @@
           5,
           6
         ],
-        "bio": "Founded Bloom in 2016 after a decade in Paris salons. Known for soft, swingy bobs and colour that looks like you were born with it.",
+        "bio": "Founded Bloom in 2016 after a decade in Paris salons. Known for soft, swingy bobs and color that looks like you were born with it.",
         "specialties": [
           "Precision bobs",
-          "Lived-in colour",
+          "Lived-in color",
           "Bridal hair"
         ]
       },
@@ -346,7 +346,7 @@
           5,
           6
         ],
-        "bio": "Theo loves texture: shags, curtain fringes and cuts that dry naturally with almost no styling.",
+        "bio": "Theo loves texture: shags, curtain bangs and cuts that dry naturally with almost no styling.",
         "specialties": [
           "Shags & layers",
           "Curly cuts",
@@ -356,7 +356,7 @@
       {
         "id": "amara",
         "name": "Amara Okoye",
-        "role": "Colour Specialist",
+        "role": "Color Specialist",
         "level": "senior",
         "cats": [
           "colour",
@@ -369,11 +369,11 @@
           5,
           6
         ],
-        "bio": "A balayage obsessive who paints every head by hand. Amara also leads our colour-correction clinic.",
+        "bio": "A balayage obsessive who paints every head by hand. Amara also leads our color-correction clinic.",
         "specialties": [
           "Balayage",
-          "Colour correction",
-          "Grey blending"
+          "Color correction",
+          "Gray blending"
         ]
       },
       {
@@ -390,9 +390,9 @@
           5,
           6
         ],
-        "bio": "Lucia joined from our apprentice academy and has a gift for long, glossy blow-dries and event hair.",
+        "bio": "Lucia joined from our apprentice academy and has a gift for long, glossy blowouts and event hair.",
         "specialties": [
-          "Blow-dries",
+          "Blowouts",
           "Event styling",
           "Long layers"
         ]
@@ -436,7 +436,7 @@
           5,
           6
         ],
-        "bio": "A qualified aesthetician and sports massage therapist. Saoirse's signature facial is our most rebooked treatment.",
+        "bio": "A licensed esthetician and sports massage therapist. Saoirse's signature facial is our most rebooked treatment.",
         "specialties": [
           "Facials",
           "Lash lifts",
@@ -484,7 +484,7 @@
       {
         "id": "french-bob",
         "cat": "cuts",
-        "title": "French bob with fringe",
+        "title": "French bob with bangs",
         "by": "ines",
         "palette": [
           "#1c1411",
@@ -593,7 +593,7 @@
     "lookCategories": [
       {
         "id": "colour",
-        "label": "Colour"
+        "label": "Color"
       },
       {
         "id": "cuts",
@@ -695,12 +695,12 @@
   var memberById = {}; BLOOM.team.forEach(function (t) { memberById[t.id] = t; });
   var levelById = {}; BLOOM.levels.forEach(function (l) { levelById[l.id] = l; });
 
-  // Prices in the salon's currency and locale (BLOOM.salon), e.g. "£45" or "£45.50".
+  // Prices in the salon's currency and locale (BLOOM.salon), e.g. "$55" or "$55.50".
   function money(n) {
     var whole = Math.round(n * 100) % 100 === 0;
     return new Intl.NumberFormat(BLOOM.salon.locale, { style: 'currency', currency: BLOOM.salon.currency, minimumFractionDigits: whole ? 0 : 2, maximumFractionDigits: 2 }).format(n);
   }
-  // "No amount yet" in the same currency and locale, e.g. "£—": money(0) with the number replaced by a dash.
+  // "No amount yet" in the same currency and locale, e.g. "$—": money(0) with the number replaced by a dash.
   function noAmount() {
     var dashed = false;
     return new Intl.NumberFormat(BLOOM.salon.locale, { style: 'currency', currency: BLOOM.salon.currency, maximumFractionDigits: 0 }).formatToParts(0).map(function (p) {
@@ -716,19 +716,19 @@
     return h ? h + ' hr' : mm + ' min';
   }
   function toMin(hhmm) { var p = hhmm.split(':'); return +p[0] * 60 + +p[1]; }
-  function hhmm(min) { return String(Math.floor(min / 60)).padStart(2, '0') + ':' + String(min % 60).padStart(2, '0'); }
+  function hhmm(min) { var h = Math.floor(min / 60); return (h % 12 || 12) + ':' + String(min % 60).padStart(2, '0') + (h < 12 ? ' AM' : ' PM'); }
   function dateKey(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
   var DAY = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   var MONTH = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  function longDate(d) { return DAY[d.getDay()] + ' ' + d.getDate() + ' ' + MONTH[d.getMonth()]; }
+  function longDate(d) { return DAY[d.getDay()] + ', ' + MONTH[d.getMonth()] + ' ' + d.getDate(); }
 
-  // Price of a service with a team member of a given level (hair and colour scale by level).
+  // Price of a service with a team member of a given level (hair and color scale by level).
   function priceFor(service, levelId) {
     var mult = (service.cat === 'hair' || service.cat === 'colour') ? levelById[levelId || 'stylist'].multiplier : 1;
     return Math.round(service.price * mult);
   }
 
-  // Deterministic "already booked" blocks so the diary looks realistic. Replace with your
+  // Deterministic "already booked" blocks so the schedule looks realistic. Replace with your
   // booking system's availability. FNV-1a hash of member + date + 30-minute block, with a
   // final mix so neighbouring blocks don't fall into a repeating pattern.
   function hash(str) {
@@ -797,7 +797,7 @@
     var out = [];
     for (var t = earliest; t + mins <= close; t += 15) {
       if (team) {
-        // Treatments span specialists: book a small team back to back, checking each person's diary.
+        // Treatments span specialists: book a small team back to back, checking each person's schedule.
         var plan = teamPlan(date, key, serviceIds, t);
         if (plan) out.push({ start: t, member: null, team: plan });
         continue;
@@ -861,20 +861,20 @@
   }
 
   /* ------------------------------------------------------------------
-   * 5. Opening hours
+   * 5. Hours
    * ------------------------------------------------------------------ */
   function openStatus(now) {
     var today = BLOOM.hours[now.getDay()];
     var mins = now.getHours() * 60 + now.getMinutes();
     if (today.open && mins >= toMin(today.open) && mins < toMin(today.close)) {
-      return { open: true, text: 'Open now · until ' + today.close };
+      return { open: true, text: 'Open now · until ' + hhmm(toMin(today.close)) };
     }
     for (var i = 0; i < 8; i++) {
       var d = new Date(now); d.setDate(now.getDate() + i);
       var h = BLOOM.hours[d.getDay()];
       if (!h.open || (i === 0 && mins >= toMin(h.open))) continue;
       var when = i === 0 ? 'today' : i === 1 ? 'tomorrow' : DAY[d.getDay()];
-      return { open: false, text: 'Closed · opens ' + when + ' at ' + h.open };
+      return { open: false, text: 'Closed · opens ' + when + ' at ' + hhmm(toMin(h.open)) };
     }
     return { open: false, text: 'Closed' };
   }
@@ -1125,7 +1125,7 @@
       if (state.stylist !== 'any' && !eligible.some(function (m) { return m.id === state.stylist; })) state.stylist = 'any';
       var help = $('[data-stylist-help]', form);
       help.textContent = eligible.length
-        ? 'Everyone below can do all of your treatments. Hair and colour prices depend on level.'
+        ? 'Everyone below can do all of your treatments. Hair and color prices depend on level.'
         : 'Your treatments need more than one specialist, so we\'ll book a small team back to back.';
       var options = [{ id: 'any', name: eligible.length ? 'Anyone available' : 'Best available team', meta: eligible.length ? 'Fastest way to get a time' : 'Specialists for each treatment' }]
         .concat(eligible.map(function (m) { return { id: m.id, name: m.name, meta: m.role + ' · ' + levelById[m.level].label }; }));
@@ -1240,7 +1240,7 @@
         var name = f.name.value.trim(), email = f.email.value.trim(), phone = f.phone.value.replace(/[\s()+-]/g, '');
         check('name', name.length < 2 ? 'Please enter your full name.' : '');
         check('email', !email ? 'Please enter your email address.' : !EMAIL.test(email) ? 'Enter an email like name@example.com.' : '');
-        check('phone', !phone ? 'Please enter a mobile number.' : !/^\d{10,15}$/.test(phone) ? 'Enter a valid mobile number (10 to 15 digits).' : '');
+        check('phone', !phone ? 'Please enter a cell phone number.' : !/^\d{10,15}$/.test(phone) ? 'Enter a valid cell phone number (10 to 15 digits).' : '');
         check('policy', f.policy.checked ? '' : 'Please agree to the cancellation policy.');
         if (first) first.focus();
         return ok;

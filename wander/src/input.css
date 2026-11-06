@@ -95,7 +95,7 @@
   /* Postage stamp with perforated edges */
   .stamp {
     @apply inline-block bg-postcard p-[7px] text-ink;
-    /* Solid centre plus a row of half-circle bites along every edge. */
+    /* Solid center plus a row of half-circle bites along every edge. */
     -webkit-mask: linear-gradient(#000 0 0) content-box, radial-gradient(circle at 5px 5px, transparent 3.2px, #000 3.6px) -5px -5px / 10px 10px;
     mask: linear-gradient(#000 0 0) content-box, radial-gradient(circle at 5px 5px, transparent 3.2px, #000 3.6px) -5px -5px / 10px 10px;
   }

@@ -3,12 +3,12 @@
 ## Overview
 
 Kinetic is a complete website template for an independent personal trainer or a small personal training studio.
-The demo content is for **Fenline Performance**, a fictional two-coach studio in Romsey, Cambridge (UK), run by
+The demo content is for **Foothill Performance**, a fictional two-coach studio in Old Colorado City, Colorado Springs, Colorado, run by
 Ffion Beckett and Yusuf Dacre. It is plain HTML5, Tailwind CSS v4 and one vanilla JavaScript file with no
-dependencies. This guide covers version 1.0.3 (see `template.json`). Live demo:
+dependencies. This guide covers version 1.0.6 (see `template.json`). Live demo:
 [freeframe.dev/templates/kinetic](https://freeframe.dev/templates/kinetic).
 
-The copy uses British English, pounds sterling, 24-hour times and the `Europe/London` time zone. All health content
+The copy uses American English, US dollars, a 12-hour clock and the `America/Denver` time zone (Mountain Time). All health content
 is general and carefully worded; review it with a qualified professional before you publish your own site.
 
 ## Quick start
@@ -112,9 +112,9 @@ Text lives in the HTML pages. Data used by scripts lives at the top of `assets/j
 
 | Constant | What it holds |
 |----------|---------------|
-| `STUDIO` | Name, time zone (`Europe/London`), phone, email and address (used in `.ics` files) |
-| `HOURS` | Opening hours by weekday (`0` = Sunday, `null` = closed), 24-hour `HH:MM` strings |
-| `CLOSED_DATES` | Bank holidays and closures as `YYYY-MM-DD` |
+| `STUDIO` | Name, time zone (`America/Denver`), phone, email and address (used in `.ics` files) |
+| `HOURS` | Opening hours by weekday (`0` = Sunday, `null` = closed), 24-hour `HH:MM` strings (shown on a 12-hour clock by `hhmm()`) |
+| `CLOSED_DATES` | One-off closures as `YYYY-MM-DD`. December 24–28 and US federal holidays are worked out by rule in `isClosedDate()`, so they stay right every year |
 | `COACHES` | Each coach's name, short name, role, portrait and `shifts` (1:1 hours by weekday) |
 | `GROUP_CLASSES`, `GROUP_SIZE` | Small-group classes (weekday, start time, coach, name) and the class size |
 | `SESSIONS` | Bookable session types: label, minutes, price, price label, coaches, notice and whether health answers trigger a call-back |
@@ -150,7 +150,7 @@ var COACHES = {
 `book.html`:
 
 ```js
-assessment: { label: 'Fitness assessment', minutes: 60, price: 55, priceLabel: '£55', coaches: ['yusuf'], notice: 1440, screen: true }
+assessment: { label: 'Fitness assessment', minutes: 60, price: 85, priceLabel: '$85', coaches: ['yusuf'], notice: 1440, screen: true }
 ```
 
 **Add a program.** Copy an `<article>` on `programmes.html`. Its `data-goals` attribute lists the goal ids it
@@ -168,7 +168,7 @@ should appear under, separated by spaces (`data-goals="strength sport"`). Filter
 plank: { label: 'Plank hold', unit: 'reps', x: ['Wk 1', 'Wk 4', 'Wk 8'], y: [20, 45, 70], better: 'up' }
 ```
 
-`unit` can be `kg`, `cm`, `reps`, `steps` or `time` (values in seconds, shown as `m:ss`). With
+`unit` can be `lb`, `kg`, `in`, `reps`, `steps` or `time` (values in seconds, shown as `m:ss`). With
 `better: 'down'` the axis is flipped so improvement still rises.
 
 ### Images and artwork
@@ -215,13 +215,13 @@ choosing a goal also updates `kinetic-goal`.
 
 `renderChart()` in `main.js` draws each `<figure data-chart="id">` from `RESULTS` as an inline SVG line chart with
 grid lines, axis labels, an area fill and a highlighted final value. Each SVG has `role="img"` and an `aria-label`
-summary such as "5 km time: 31:12 at Wk 1, 26:28 at Wk 12 (lower is better)." The line draws in when scrolled into
+summary such as "5K time: 31:12 at Wk 1, 26:28 at Wk 12 (lower is better)." The line draws in when scrolled into
 view; with reduced motion it appears immediately.
 
 ### Next free consult
 
 `[data-next-consult]` on the home page shows the first bookable consultation from the booking engine, for example
-"Tomorrow 07:00 with Ffion". It stays hidden if JavaScript is off.
+"Tomorrow 7:00 AM with Ffion". It stays hidden if JavaScript is off.
 
 ### Booking flow
 
@@ -232,7 +232,7 @@ view; with reduced motion it appears immediately.
    session are disabled, and each card shows its next opening (`[data-coach-next]`).
 3. **Time**: a week view (Monday to Sunday) with previous and next week buttons, for this week and the next
    `BOOKING.weeksAhead - 1` weeks. It opens on the week of the first available time.
-4. **Your details**: name, email, mobile, optional goal and notes, seven yes/no health questions and a consent box.
+4. **Your details**: name, email, cell phone, optional goal and notes, seven yes/no health questions and a consent box.
 5. **Confirmation**: a summary with a reference (like FP-7K2Q), coach portrait, what happens next and an **Add to
    calendar (.ics)** button; the `.ics` file carries the reference too.
 
@@ -241,8 +241,8 @@ How times are built, in `slotsFor()`:
 - A 1:1 session can start every `BOOKING.slotStep` minutes inside the coach's `shifts` and the studio `HOURS`, and
   must finish by the end of the shift.
 - It can't overlap a small-group class the coach is leading (`GROUP_CLASSES`, 60 minutes).
-- It must start at least `notice` minutes from now (2 hours for consults, 12 hours for training), in UK time.
-- `CLOSED_DATES` and closed weekdays show "Studio closed" / "Closed".
+- It must start at least `notice` minutes from now (2 hours for consults, 12 hours for training), in Mountain Time.
+- Federal holidays, December 24–28, `CLOSED_DATES` and closed weekdays show "Studio closed" / "Closed".
 - `group` sessions use the fixed `GROUP_CLASSES` times and show the spaces left.
 - With "No preference", each time goes to the first coach in the session's `coaches` list who is free.
 - `BOOKING.demoBusyShare` hides a stable, pseudo-random share of times so the demo looks realistic. **Set it to `0`
@@ -252,12 +252,12 @@ URL parameters preselect choices: `book.html?type=pt60&coach=yusuf&goal=sport`. 
 `coach` a `COACHES` key that offers that session, and `goal` a `GOALS` key (it fills the goal field; otherwise the
 saved `kinetic-goal` is used).
 
-All dates and times are calculated and shown in `STUDIO.timeZone` (`Europe/London`), whatever the visitor's own time
+All dates and times are calculated and shown in `STUDIO.timeZone` (`America/Denver`), whatever the visitor's own time
 zone. The `.ics` file stores the start and end in UTC, so calendars convert it correctly.
 
 Accessibility: each step heading receives focus when the step opens, the progress bar marks the current step with
 `aria-current="step"`, step errors use `role="alert"`, each day in the week view is a labeled group and every time
-is a radio with a full label (for example "Tuesday, 20 October 2026, 07:30, Ffion").
+is a radio with a full label (for example "Tuesday, October 20, 2026, 7:30 AM, Ffion").
 
 ### Health questions
 
@@ -271,8 +271,7 @@ answered, `[data-health-outcome]` shows one of three messages:
 | `consult` | Any yes, for the free consultation (`screen: false`) | The booking goes ahead, with a note that the consult is the right place to talk it through |
 
 The wording is deliberately cautious: it asks people to talk to the coach first and to check with their doctor. Keep
-it that way, and have a professional review the questions for your country before you publish. Health answers are
-special category data under UK GDPR: if you connect this form, store them securely and only as long as you need.
+it that way, and have a professional review the questions for your country before you publish. Health answers are sensitive personal data, and privacy laws vary by state: if you connect this form, store them securely, keep them only as long as you need and check which rules apply to you.
 
 ### Pricing calculator
 
@@ -282,7 +281,7 @@ chosen combination it compares, per month (`PRICING.weeksPerMonth` = 52 / 12):
 - **Pay per session**: `PRICING.payg[length]` x sessions a month.
 - **Session pack**: the largest pack in `PRICING.packs[length]` you'd use within `PRICING.packWeeks`, priced per
   session.
-- **Monthly membership**: `PRICING.member[length][perWeek - 1]` x sessions a week x 52 / 12, rounded to the pound.
+- **Monthly membership**: `PRICING.member[length][perWeek - 1]` x sessions a week x 52 / 12, rounded to the dollar.
 
 The cheapest of pack and membership is marked "Best value", and the saving against pay per session is shown per month
 and per year. The results list is `aria-live="polite"`. Change prices in `PRICING` and in the tables on the page.
@@ -293,7 +292,7 @@ and per year. The results list is `aria-live="polite"`. Change prices in `PRICIN
 equipment (`gym`, `dumbbells`, `bodyweight`) and session length (30, 45 or 60 minutes, showing 3, 4 or 5 exercises).
 Training days come from `PLAN_DAYS`, the session focus for each day from `SPLITS[goal][days]`, exercises from
 `FOCUS` (each exercise is `[gym, dumbbells, bodyweight]`) and the sets and reps from `SCHEMES` or the focus's own
-`scheme`. Rest days are filled in automatically. The postnatal goal shows an extra safety note.
+`scheme`. Rest days are filled in automatically. The postpartum goal shows an extra safety note.
 
 The inputs are saved under `kinetic-plan` and restored on the next visit. **Print** calls `window.print()` (the print
 styles hide the header and footer); **Reset** clears the saved plan.
@@ -303,13 +302,11 @@ styles hide the header and footer); **Reset** clears the saved plan.
 `[data-orm]` estimates a one-rep max with the Epley formula (weight x (1 + reps / 30), or the weight itself for one
 rep), rounded to 2.5 kg or 5 lb, and lists 60 to 95% training weights from `ORM_TABLE`. Reps are limited to 1 to 12.
 
-`[data-pace]` turns a distance (5 km, 10 km, half marathon, marathon or a custom distance up to 250 km) and a finish
-time into pace per km, pace per mile and speed, plus finish times for the standard distances at the same pace.
+`[data-pace]` turns a distance (5K, 10K, half marathon, marathon or a custom distance up to 155 miles) and a finish time into pace per mile, pace per km and speed in miles per hour, plus finish times for the standard distances at the same pace.
 
 ### Studio hours and open-now status
 
-Every `[data-hours]` list highlights today's row, and every `[data-open-status]` badge shows "Open now · until
-20:30" or "Closed · opens tomorrow 06:00", based on `HOURS` and `CLOSED_DATES` in UK time. They refresh every minute.
+Every `[data-hours]` list highlights today's row, and every `[data-open-status]` badge shows "Open now · until 8:30 PM" or "Closed · opens tomorrow 6:00 AM", based on `HOURS` and `CLOSED_DATES` in Mountain Time. They refresh every minute.
 
 ### Small extras
 
@@ -328,14 +325,13 @@ invalid field and **don't send anything** until you connect them.
 | Form | Validates |
 |------|-----------|
 | Contact (`contact.html`, `[data-contact-form]`) | Name, email format, optional phone (at least 10 digits if filled), interest, reply method, message of 10+ characters, consent |
-| Booking (`book.html`, `[data-booking] form`) | Session, time, name, email, mobile, all seven health questions, consent |
+| Booking (`book.html`, `[data-booking] form`) | Session, time, name, email, cell phone, all seven health questions, consent |
 
 Validation rules come from HTML attributes on fields with `data-validate`: `required`, `type="email"`, `minlength`,
 `data-phone`, plus `data-label` and `data-required-msg` for the messages.
 
 The confirmations read as if the message or booking went through: they show a short reference (`FP-` and four
-characters) made in the browser by `makeRef()` in `main.js`, and say what happens next (a reply within one working
-day, the coach confirming a booking by email and text, a call-back within one working day after a health "yes").
+characters) made in the browser by `makeRef()` in `main.js`, and say what happens next (a reply within one business day, the coach confirming a booking by email and text, a call-back within one business day after a health "yes").
 If your form service or booking system returns its own reference, show that instead, and change those promises to
 match how you actually work.
 
@@ -363,7 +359,7 @@ form.addEventListener('submit', function (e) {
       done.hidden = false;
       done.focus();
     })
-    .catch(function () { toast('Sorry, that didn’t send. Please call 07700 900418.'); });
+    .catch(function () { toast('Sorry, that didn’t send. Please call (719) 555-0146.'); });
 });
 ```
 
@@ -391,7 +387,7 @@ Each page has its own `<title>`, meta description, Open Graph tags (`og:title`, 
 Social sites need an absolute image URL. After you deploy, change `og:image` on every page:
 
 ```html
-<meta property="og:image" content="https://www.example.co.uk/assets/img/og-image.png">
+<meta property="og:image" content="https://www.foothillperformance.example/assets/img/og-image.png">
 ```
 
 Also consider:
@@ -438,8 +434,7 @@ host: Netlify Drop, Cloudflare Pages, GitHub Pages, Vercel or plain web hosting.
 shifts. Check `COACHES[...].shifts`, `HOURS` and `CLOSED_DATES`, and remember the demo hides about 45% of times
 (`BOOKING.demoBusyShare`).
 
-**Times look an hour out.** The site always uses `STUDIO.timeZone`. If your studio isn't in the UK, change it to
-your IANA zone (for example `America/Toronto`) and update `STUDIO.zoneName` and the "UK time" notes in the HTML.
+**Times look an hour off.** The site always uses `STUDIO.timeZone`. If your studio isn't in Mountain Time, change it to your IANA zone (for example `America/Chicago`) and update `STUDIO.zoneName` and the "Mountain Time" notes in the HTML.
 
 **New Tailwind classes have no effect.** The CSS is precompiled. Run `npm install` and `npm run build`.
 
@@ -458,5 +453,5 @@ plan builder, or remove `kinetic-goal` / `kinetic-plan` in the browser's storage
 
 MIT. Free for personal and commercial use, including client work. The full license is in `LICENSE.txt` in the
 download. All artwork (the athlete pictograms, portraits, studio illustration, map, icons and social image) is original
-to this template and covered by the same license. Fenline Performance, its coaches, clients, reviews and prices are
+to this template and covered by the same license. Foothill Performance, its coaches, clients, reviews and prices are
 fictional.

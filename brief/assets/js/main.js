@@ -30,148 +30,147 @@
 
   /* ---------- Matters and fees ----------
      Used by the fee estimator (fees.html), the options check results (check.html) and the
-     booking topics (book.html). Prices are in pounds, excluding VAT. Each matter has three
+     booking topics (book.html). Prices are in US dollars. Each matter has three
      levels: [min, max]. When min and max are equal the fee is fixed.
      Keep these in step with the fee table in fees.html and the cards in services.html. */
   var MATTERS = {
-    settlement: { name: 'Settlement agreement review', area: 'Leaving a job', timeline: '2–5 working days', contribution: true, levels: [[450, 450], [550, 550], [750, 1200]],
-      hints: ['Standard terms, no changes needed', 'One round of changes to the wording', 'Negotiating the payment, or shares and bonus terms'] },
-    redundancy: { name: 'Redundancy check', area: 'Leaving a job', timeline: '1–2 weeks', contribution: false, levels: [[325, 325], [425, 425], [600, 850]],
-      hints: ['Checking the letters and the pay', 'Plus your selection scores and an appeal', 'Collective redundancy or enhanced terms'] },
-    exit: { name: 'Exit negotiation', area: 'Leaving a job', timeline: '2–6 weeks', contribution: true, levels: [[950, 950], [1500, 1800], [2400, 3500]],
-      hints: ['One proposal and one response', 'A few rounds of negotiation', 'Senior role, solicitors on both sides'] },
-    grievance: { name: 'Grievance or disciplinary support', area: 'Problems at work', timeline: '1–3 weeks', contribution: false, levels: [[395, 395], [695, 695], [950, 1400]],
+    settlement: { name: 'Severance agreement review', area: 'Leaving a job', timeline: '2–5 business days', contribution: true, levels: [[750, 750], [950, 950], [1250, 1950]],
+      hints: ['Standard terms, no changes needed', 'One round of changes to the wording', 'Negotiating the payment, or equity and bonus terms'] },
+    redundancy: { name: 'Layoff check', area: 'Leaving a job', timeline: '1–2 weeks', contribution: false, levels: [[495, 495], [695, 695], [1000, 1400]],
+      hints: ['Checking the letters and the pay', 'Plus your selection criteria and a response', 'Mass layoff, or enhanced severance terms'] },
+    exit: { name: 'Exit negotiation', area: 'Leaving a job', timeline: '2–6 weeks', contribution: true, levels: [[1500, 1500], [2500, 3000], [4000, 6500]],
+      hints: ['One proposal and one response', 'A few rounds of negotiation', 'Senior role, attorneys on both sides'] },
+    grievance: { name: 'HR complaint or disciplinary support', area: 'Problems at work', timeline: '1–3 weeks', contribution: false, levels: [[595, 595], [995, 995], [1500, 2500]],
       hints: ['Help with one letter or one meeting', 'The full process, up to the outcome', 'Several allegations, plus an appeal'] },
-    discrimination: { name: 'Discrimination or harassment advice', area: 'Problems at work', timeline: 'Initial advice within a week', contribution: false, levels: [[450, 450], [750, 750], [1200, 2000]],
-      hints: ['Initial advice on what happened', 'Advice plus a written grievance', 'A long history, several people involved'] },
-    dismissal: { name: 'Unfair or constructive dismissal advice', area: 'Claims and disputes', timeline: 'Advice within 5 working days', contribution: false, levels: [[395, 395], [650, 650], [950, 1500]],
+    discrimination: { name: 'Discrimination or harassment advice', area: 'Problems at work', timeline: 'Initial advice within a week', contribution: false, levels: [[750, 750], [1250, 1250], [1950, 3500]],
+      hints: ['Initial advice on what happened', 'Advice plus a written complaint', 'A long history, several people involved'] },
+    dismissal: { name: 'Wrongful termination or constructive discharge advice', area: 'Claims and disputes', timeline: 'Advice within 5 business days', contribution: false, levels: [[595, 595], [950, 950], [1500, 2500]],
       hints: ['Initial advice on your position', 'Advice plus an appeal letter', 'Complex facts, or several possible claims'] },
-    tribunal: { name: 'Employment tribunal claim', area: 'Claims and disputes', timeline: 'Often 12–18 months to a hearing', contribution: false, levels: [[4500, 6500], [7500, 11000], [12000, 18000]],
+    tribunal: { name: 'Employment lawsuit', area: 'Claims and disputes', timeline: 'Often 18–30 months to trial', contribution: false, levels: [[7500, 12500], [15000, 25000], [30000, 50000]],
       hints: ['One claim, settles before the hearing', 'Several claims, or a short hearing', 'A multi-day hearing with witnesses'] },
-    contract: { name: 'Contract or restrictive covenant review', area: 'Starting a new job', timeline: '2–3 working days', contribution: false, levels: [[295, 295], [395, 395], [550, 900]],
-      hints: ['A standard employment contract', 'Plus bonus, shares or a non-compete', 'Senior contract with negotiation'] }
+    contract: { name: 'Contract or restrictive covenant review', area: 'Starting a new job', timeline: '2–3 business days', contribution: false, levels: [[395, 395], [595, 595], [950, 1400]],
+      hints: ['A standard employment contract', 'Plus bonus, equity or a non-compete', 'Senior contract with negotiation'] }
   };
   var LEVELS = ['straightforward', 'standard', 'complex'];
-  var VAT_RATE = 0.2;
-  var PLAN = { minFee: 1000, months: 3 }; // Payment plans: fees from £1,000 (excl. VAT), split into equal monthly payments.
+  var PLAN = { minFee: 1000, months: 3 }; // Payment plans: fees from $1,000, split into equal monthly payments.
 
   /* ---------- Options check (check.html) ----------
      A branching questionnaire. Each step has a question and options; an option either leads
      to another step (next) or to a result (result). Results are general information only. */
   var CHECK_STEPS = {
     start: { q: 'What’s happening at work?', hint: 'Choose the one that fits best. You can go back at any point.', options: [
-      { label: 'I’ve been offered a settlement agreement', next: 'settle-when' },
-      { label: 'I’ve been dismissed, or told I will be', next: 'dismiss-service' },
+      { label: 'I’ve been offered a severance agreement', next: 'settle-when' },
+      { label: 'I’ve been fired, or told I will be', next: 'dismiss-service' },
       { label: 'I’m thinking of resigning because of how I’ve been treated', next: 'resign-grievance' },
       { label: 'I’m being treated unfairly, bullied or harassed', next: 'treat-why' },
-      { label: 'I’m at risk of redundancy', next: 'redundancy-stage' },
-      { label: 'I have a disciplinary or grievance meeting coming up', next: 'meeting-when' },
+      { label: 'I’m at risk of a layoff', next: 'redundancy-stage' },
+      { label: 'I have a disciplinary or HR meeting coming up', next: 'meeting-when' },
       { label: 'Something else, or I’m not sure', result: 'general' }] },
-    'settle-when': { q: 'When have you been asked to sign by?', hint: 'Look for a date in the covering letter or email.', options: [
+    'settle-when': { q: 'When have you been asked to sign by?', hint: 'Look for a date in the cover letter or email.', options: [
       { label: 'Within the next 7 days', result: 'settle-urgent' },
       { label: 'More than a week away', result: 'settle' },
       { label: 'No date has been given', result: 'settle' }] },
-    'dismiss-service': { q: 'By the date your job ends, how long will you have worked there?', hint: 'Count from your start date to the end of any notice period.', options: [
-      { label: 'Less than two years', next: 'dismiss-reason-short' },
-      { label: 'Two years or more', next: 'dismiss-reason-long' },
+    'dismiss-service': { q: 'Do you have a written employment contract or a union agreement?', hint: 'Most Ohio jobs are “at will,” which means they can end for almost any reason that isn’t illegal. A contract or union agreement can change that.', options: [
+      { label: 'No, I think my job is at will', next: 'dismiss-reason-short' },
+      { label: 'Yes, I have one or the other', next: 'dismiss-reason-long' },
       { label: 'I’m not sure', next: 'dismiss-reason-long' }] },
-    'dismiss-reason-short': { q: 'Do you think the reason was linked to any of these?', hint: 'Pregnancy or maternity leave, a disability, your race, sex, age, religion or sexual orientation, reporting wrongdoing (whistleblowing), or asking for a legal right such as holiday pay.', options: [
+    'dismiss-reason-short': { q: 'Do you think the reason was linked to any of these?', hint: 'Pregnancy or parental leave, a disability, your race, color, sex, age, religion, national origin or sexual orientation, reporting wrongdoing (whistleblowing), or asking for a legal right such as overtime or medical leave.', options: [
       { label: 'Yes', result: 'dismiss-protected' },
       { label: 'Possibly, I’m not sure', result: 'dismiss-protected' },
       { label: 'No', result: 'dismiss-short' }] },
-    'dismiss-reason-long': { q: 'Do you think the reason was linked to any of these?', hint: 'Pregnancy or maternity leave, a disability, your race, sex, age, religion or sexual orientation, reporting wrongdoing (whistleblowing), or asking for a legal right such as holiday pay.', options: [
+    'dismiss-reason-long': { q: 'Do you think the reason was linked to any of these?', hint: 'Pregnancy or parental leave, a disability, your race, color, sex, age, religion, national origin or sexual orientation, reporting wrongdoing (whistleblowing), or asking for a legal right such as overtime or medical leave.', options: [
       { label: 'Yes', result: 'dismiss-protected' },
       { label: 'Possibly, I’m not sure', result: 'dismiss-protected' },
       { label: 'No', result: 'dismiss-unfair' }] },
-    'resign-grievance': { q: 'Have you raised a formal grievance about it?', hint: 'A formal grievance is a written complaint under your employer’s grievance policy.', options: [
+    'resign-grievance': { q: 'Have you made a formal complaint about it?', hint: 'A formal complaint is one you put in writing to HR, or under your employer’s complaint policy.', options: [
       { label: 'Not yet', result: 'resign-before' },
       { label: 'Yes, and it hasn’t resolved things', result: 'resign-after' },
       { label: 'I’ve already resigned', result: 'resigned' }] },
-    'treat-why': { q: 'Do you think it’s linked to who you are, or to something you reported?', hint: 'For example a disability, pregnancy, race, sex, age, religion, sexual orientation or gender reassignment, or because you reported wrongdoing.', options: [
+    'treat-why': { q: 'Do you think it’s linked to who you are, or to something you reported?', hint: 'For example a disability, pregnancy, race, sex, age, religion, national origin or sexual orientation, or because you reported wrongdoing.', options: [
       { label: 'Yes, I think so', result: 'discrimination' },
       { label: 'I’m not sure', result: 'discrimination' },
       { label: 'No, it’s more general bullying or poor management', result: 'bullying' }] },
     'redundancy-stage': { q: 'Where are you in the process?', hint: '', options: [
-      { label: 'I’ve been told I’m at risk, or consultation has started', result: 'redundancy-consult' },
-      { label: 'I’ve been given notice of dismissal', result: 'redundancy-notice' },
-      { label: 'I’ve been offered a settlement agreement', result: 'settle' }] },
+      { label: 'I’ve been told I’m at risk, or layoffs have been announced', result: 'redundancy-consult' },
+      { label: 'I’ve been given a layoff notice', result: 'redundancy-notice' },
+      { label: 'I’ve been offered a severance agreement', result: 'settle' }] },
     'meeting-when': { q: 'When is the meeting?', hint: '', options: [
-      { label: 'In the next three working days', result: 'meeting-urgent' },
+      { label: 'In the next three business days', result: 'meeting-urgent' },
       { label: 'Later than that', result: 'meeting' },
       { label: 'No date yet', result: 'meeting' }] }
   };
   var CHECK_RESULTS = {
-    'settle-urgent': { tag: 'Settlement agreement', title: 'Get advice before you sign, and ask for more time if you need it', urgent: 'You’re on a short deadline. It’s normal, and usually fine, to ask your employer for a few more days so you can take advice.',
-      summary: 'A settlement agreement usually means giving up the right to bring claims in exchange for a payment. It only binds you if an independent adviser has explained it to you, so most employers contribute to the cost.',
-      steps: ['Don’t sign anything yet, and don’t resign.', 'Look for how much your employer will contribute to legal fees.', 'Gather your contract, recent payslips and any letters about why you’re leaving.', 'Book a call: most reviews are finished within two to five working days.'], service: 'settlement', deadline: null },
-    settle: { tag: 'Settlement agreement', title: 'Get independent advice before you sign', urgent: null,
-      summary: 'A settlement agreement usually means giving up the right to bring claims in exchange for a payment. It only binds you if an independent adviser has explained it to you, so most employers contribute to the cost.',
-      steps: ['Don’t sign anything yet, and don’t resign.', 'Look for how much your employer will contribute to legal fees.', 'Gather your contract, recent payslips and any letters about why you’re leaving.', 'Think about what matters to you: the money, the reference, the leaving date.'], service: 'settlement', deadline: null },
-    'dismiss-short': { tag: 'Dismissal', title: 'You may still have options, even with less than two years’ service', urgent: null,
-      summary: 'At the time of writing, most employees need two years’ service to claim ordinary unfair dismissal, although the law in this area is changing. There are exceptions, and other claims, such as unpaid notice or holiday pay, don’t need a minimum length of service.',
-      steps: ['Check you’ve been paid your notice, holiday pay and anything else owed under your contract.', 'If you’re offered an appeal, consider using it, and note its deadline.', 'Write down the dates and what was said while it’s fresh.', 'Use the deadline calculator: claims usually have a short time limit.'], service: 'dismissal', deadline: 'dismissal' },
-    'dismiss-unfair': { tag: 'Dismissal', title: 'You may be able to challenge your dismissal', urgent: null,
-      summary: 'With two years’ service, an employer generally needs a fair reason and a fair process to dismiss you. Whether a dismissal was unfair depends on the details, so it’s worth having someone look at the letters and the timeline.',
-      steps: ['Appeal internally if you’re offered an appeal, and keep to its deadline.', 'Keep copies of your contract, dismissal letter, meeting notes and payslips.', 'Note the date your employment ended: time limits run from it.', 'Contact ACAS early conciliation before the deadline if you want to keep a claim open.'], service: 'dismissal', deadline: 'dismissal' },
-    'dismiss-protected': { tag: 'Dismissal', title: 'This could be more than an ordinary dismissal', urgent: null,
-      summary: 'If a dismissal is linked to discrimination, pregnancy, whistleblowing or asking for a legal right, different rules can apply, and often there’s no minimum length of service. These claims depend on evidence, so early advice helps.',
+    'settle-urgent': { tag: 'Severance agreement', title: 'Get advice before you sign, and ask for more time if you need it', urgent: 'You’re on a short deadline. It’s normal, and usually fine, to ask your employer for a few more days so you can get advice. If you’re 40 or older, federal law generally gives you at least 21 days to consider a release of age claims.',
+      summary: 'A severance agreement usually means giving up the right to bring claims in exchange for a payment. No law requires you to have an attorney, but once you sign it’s hard to undo, so independent advice is worth having first.',
+      steps: ['Don’t sign anything yet, and don’t resign.', 'Ask whether your employer will contribute to legal fees.', 'Gather your contract, recent pay stubs and any letters about why you’re leaving.', 'Book a call: most reviews are finished within two to five business days.'], service: 'settlement', deadline: null },
+    settle: { tag: 'Severance agreement', title: 'Get independent advice before you sign', urgent: null,
+      summary: 'A severance agreement usually means giving up the right to bring claims in exchange for a payment. No law requires you to have an attorney, but once you sign it’s hard to undo, so independent advice is worth having first.',
+      steps: ['Don’t sign anything yet, and don’t resign.', 'Ask whether your employer will contribute to legal fees.', 'Gather your contract, recent pay stubs and any letters about why you’re leaving.', 'Think about what matters to you: the money, the reference, the leaving date.'], service: 'settlement', deadline: null },
+    'dismiss-short': { tag: 'Termination', title: 'You may still have options, even in an at-will job', urgent: null,
+      summary: 'Most Ohio jobs are at will, so an employer can usually end them without giving a reason, but not for an illegal one. You may also have claims for unpaid wages, earned commissions or vacation pay your employer’s policy promises.',
+      steps: ['Check you’ve been paid your final wages, plus any vacation pay your employer’s policy promises.', 'If you’re offered an appeal, consider using it, and note its deadline.', 'Write down the dates and what was said while it’s fresh.', 'Use the deadline calculator: claims have time limits.'], service: 'dismissal', deadline: 'dismissal' },
+    'dismiss-unfair': { tag: 'Termination', title: 'You may be able to challenge your firing', urgent: null,
+      summary: 'If you have a contract or union agreement, your employer may need a good reason or a set process to let you go. Whether that was followed depends on the details, so it’s worth having someone look at the letters and the timeline.',
+      steps: ['Appeal internally if you’re offered an appeal, and keep to its deadline.', 'Keep copies of your contract, termination letter, meeting notes and pay stubs.', 'Note the date you were told and your last day: time limits can run from either.', 'If you’re in a union, ask your representative about the grievance deadline right away.'], service: 'dismissal', deadline: 'dismissal' },
+    'dismiss-protected': { tag: 'Termination', title: 'This could be more than an ordinary firing', urgent: null,
+      summary: 'If a firing is linked to discrimination, pregnancy, whistleblowing or asking for a legal right, it may be illegal even in an at-will job, and there’s usually no minimum length of service. These claims depend on evidence, so early advice helps.',
       steps: ['Write a timeline: what happened, when, and who was involved.', 'Keep emails, messages and documents you’re entitled to keep.', 'Check the time limit, and don’t wait for an appeal to finish before getting advice.', 'Book a call to talk through what you have.'], service: 'discrimination', deadline: 'dismissal' },
     'resign-before': { tag: 'Thinking of resigning', title: 'Pause before you resign', urgent: null,
-      summary: 'Resigning because of a serious breach of contract by your employer can sometimes count as a dismissal, called constructive dismissal. These claims are hard to win and timing matters, so get advice before you hand in your notice.',
-      steps: ['If you can, don’t resign until you’ve had advice.', 'Consider raising a formal grievance in writing: it puts the problem on record.', 'Keep a diary of incidents and copies of relevant messages.', 'Think about the outcome you want: to stay, or to leave on fair terms.'], service: 'dismissal', deadline: null },
+      summary: 'Quitting because your employer made working conditions intolerable can sometimes count as being fired, called constructive discharge. These claims are hard to win and timing matters, so get advice before you give notice.',
+      steps: ['If you can, don’t resign until you’ve had advice.', 'Consider making a formal complaint in writing: it puts the problem on record.', 'Keep a record of incidents and copies of relevant messages.', 'Think about the outcome you want: to stay, or to leave on fair terms.'], service: 'dismissal', deadline: null },
     'resign-after': { tag: 'Thinking of resigning', title: 'You have options other than simply resigning', urgent: null,
-      summary: 'If a grievance hasn’t resolved things, you might appeal, negotiate an exit or, in some cases, resign and claim constructive dismissal. Each has different risks, and the order you do things in matters.',
-      steps: ['Check whether you can still appeal the grievance outcome.', 'Don’t resign before getting advice on timing and wording.', 'Gather the grievance, the outcome letter and your notes.', 'Ask about an exit negotiation: it can lead to a settlement without a claim.'], service: 'exit', deadline: null },
-    resigned: { tag: 'Already resigned', title: 'Act quickly: a time limit may already be running', urgent: 'Time limits for constructive dismissal usually run from the date your employment ended, and they are short.',
-      summary: 'If you resigned because of how you were treated, you may have a constructive dismissal claim. Whether you do depends on what happened and how you resigned.',
-      steps: ['Note the exact date your employment ended.', 'Keep your resignation letter and anything explaining why you left.', 'Use the deadline calculator for a rough date.', 'Get advice soon, especially if the date is close.'], service: 'dismissal', deadline: 'dismissal' },
-    discrimination: { tag: 'Discrimination or harassment', title: 'You may be protected by the Equality Act', urgent: null,
-      summary: 'The Equality Act 2010 protects people at work from discrimination, harassment and victimisation linked to protected characteristics. There’s no minimum length of service, but a claim usually has to be started within three months less one day of the last incident.',
-      steps: ['Write down what happened, when, who was there and how it affected you.', 'Keep copies of emails, messages and documents you’re entitled to keep.', 'Consider raising a written grievance.', 'Check the time limit, counting from the most recent incident.'], service: 'discrimination', deadline: 'discrimination' },
+      summary: 'If a complaint hasn’t resolved things, you might escalate it, negotiate an exit or, in some cases, resign and claim constructive discharge. Each has different risks, and the order you do things in matters.',
+      steps: ['Check whether you can still appeal or escalate the outcome.', 'Don’t resign before getting advice on timing and wording.', 'Gather the complaint, the outcome letter and your notes.', 'Ask about an exit negotiation: it can lead to a settlement without a claim.'], service: 'exit', deadline: null },
+    resigned: { tag: 'Already resigned', title: 'Act quickly: a time limit may already be running', urgent: 'Time limits for constructive discharge can start when you give notice, not just on your last day.',
+      summary: 'If you resigned because of how you were treated, you may have a constructive discharge claim. Whether you do depends on what happened and how you resigned.',
+      steps: ['Note the exact date you gave notice, and your last day.', 'Keep your resignation letter and anything explaining why you left.', 'Use the deadline calculator for a rough date.', 'Get advice soon, especially if the date is close.'], service: 'dismissal', deadline: 'dismissal' },
+    discrimination: { tag: 'Discrimination or harassment', title: 'You may be protected by civil rights laws', urgent: null,
+      summary: 'Federal and Ohio civil rights laws protect people at work from discrimination, harassment and retaliation linked to traits such as race, sex, age and disability. There’s no minimum length of service, but coverage can depend on your employer’s size, and an EEOC charge usually has to be filed within 300 days of the last incident.',
+      steps: ['Write down what happened, when, who was there and how it affected you.', 'Keep copies of emails, messages and documents you’re entitled to keep.', 'Consider making a written complaint to HR.', 'Check the time limit, counting from the most recent incident.'], service: 'discrimination', deadline: 'discrimination' },
     bullying: { tag: 'Treatment at work', title: 'Start by putting it in writing', urgent: null,
-      summary: 'There’s no standalone legal claim for bullying, but it can still breach your contract or your employer’s own policies, and it can overlap with discrimination or health and safety rules. A written grievance is usually the first step.',
-      steps: ['Read your employer’s grievance and dignity-at-work policies.', 'Keep a diary of incidents with dates and witnesses.', 'Raise a written grievance: stick to the facts and say what outcome you want.', 'If it’s affecting your health, speak to your GP and keep the records.'], service: 'grievance', deadline: null },
-    'redundancy-consult': { tag: 'Redundancy', title: 'Use the consultation to ask questions', urgent: null,
-      summary: 'Consultation is your chance to question the business case and the selection, suggest alternatives and ask about other roles. What you say now can change the outcome, and builds a record if things go wrong later.',
-      steps: ['Ask for the selection criteria and your own scores in writing.', 'Ask about suitable alternative vacancies.', 'Check your redundancy pay estimate against your service and weekly pay.', 'Keep notes of every consultation meeting.'], service: 'redundancy', deadline: null },
-    'redundancy-notice': { tag: 'Redundancy', title: 'Check the process and the money before it’s final', urgent: null,
-      summary: 'Once you’ve been given notice you can usually still appeal, and it’s worth checking your redundancy pay, notice and holiday pay. If the selection or process was unfair, you may have a claim.',
-      steps: ['Check the appeal deadline in your letter.', 'Check your statutory or contractual redundancy pay.', 'Note your last day of employment: time limits run from it.', 'Ask for any settlement offer in writing before agreeing to anything.'], service: 'redundancy', deadline: 'dismissal' },
-    'meeting-urgent': { tag: 'Upcoming meeting', title: 'Prepare now, and bring someone with you', urgent: 'Your meeting is close. If your chosen companion can’t make the date, you can usually ask for it to be moved by up to five working days.',
-      summary: 'For disciplinary and grievance hearings you usually have the right to bring a colleague or a trade union representative. Going in with a short written statement and your key documents makes a real difference.',
-      steps: ['Read the invitation letter and any evidence you’ve been sent.', 'Ask a colleague or union representative to come with you.', 'Write a one-page summary of your points and the outcome you want.', 'Ask for a copy of the meeting notes afterwards.'], service: 'grievance', deadline: null },
-    meeting: { tag: 'Upcoming meeting', title: 'Prepare well, and bring someone with you', urgent: null,
-      summary: 'For disciplinary and grievance hearings you usually have the right to bring a colleague or a trade union representative. Going in with a short written statement and your key documents makes a real difference.',
-      steps: ['Read the invitation letter and any evidence you’ve been sent.', 'Ask a colleague or union representative to come with you.', 'Write a one-page summary of your points and the outcome you want.', 'Ask for a copy of the meeting notes afterwards.'], service: 'grievance', deadline: null },
+      summary: 'There’s generally no standalone legal claim for bullying, but it can still break your employer’s own policies, and it can overlap with discrimination or safety rules. A written complaint to HR is usually the first step.',
+      steps: ['Read your employer’s complaint and anti-harassment policies.', 'Keep a record of incidents with dates and witnesses.', 'Make a written complaint: stick to the facts and say what outcome you want.', 'If it’s affecting your health, speak to your doctor and keep the records.'], service: 'grievance', deadline: null },
+    'redundancy-consult': { tag: 'Layoffs', title: 'Use the time before a layoff to ask questions', urgent: null,
+      summary: 'Most employers don’t have to consult you, but you can still ask how people were selected, suggest alternatives and ask about other roles. What you say now can change the outcome, and builds a record if things go wrong later.',
+      steps: ['Ask for the selection criteria and your own scores in writing.', 'Ask about other open jobs at the company.', 'Ask whether there’s a severance plan, and how it counts your service and pay.', 'Keep notes of every meeting about the layoff.'], service: 'redundancy', deadline: null },
+    'redundancy-notice': { tag: 'Layoffs', title: 'Check the process and the money before it’s final', urgent: null,
+      summary: 'Once you’ve been given notice, it’s worth checking your severance, notice and vacation pay. Larger employers can owe 60 days’ written notice of a mass layoff, and if the selection was discriminatory, you may have a claim.',
+      steps: ['Check any signing or response deadline in your letter.', 'Check any severance your employer’s plan or your contract promises.', 'Note the date you were told and your last day: time limits can run from either.', 'Ask for any severance offer in writing before agreeing to anything.'], service: 'redundancy', deadline: 'dismissal' },
+    'meeting-urgent': { tag: 'Upcoming meeting', title: 'Prepare now, and ask to bring someone with you', urgent: 'Your meeting is close. It’s reasonable to ask for a short delay so you can prepare, though your employer doesn’t have to agree.',
+      summary: 'If you’re in a union, you can usually ask for a representative at a meeting that could lead to discipline. If not, you can still ask to bring someone, though your employer can say no. Going in with a short written statement and your key documents makes a real difference.',
+      steps: ['Read the invitation letter and any evidence you’ve been sent.', 'Ask for your union representative, or ask whether a colleague can come.', 'Write a one-page summary of your points and the outcome you want.', 'Ask for a copy of the meeting notes afterward.'], service: 'grievance', deadline: null },
+    meeting: { tag: 'Upcoming meeting', title: 'Prepare well, and ask to bring someone with you', urgent: null,
+      summary: 'If you’re in a union, you can usually ask for a representative at a meeting that could lead to discipline. If not, you can still ask to bring someone, though your employer can say no. Going in with a short written statement and your key documents makes a real difference.',
+      steps: ['Read the invitation letter and any evidence you’ve been sent.', 'Ask for your union representative, or ask whether a colleague can come.', 'Write a one-page summary of your points and the outcome you want.', 'Ask for a copy of the meeting notes afterward.'], service: 'grievance', deadline: null },
     general: { tag: 'Something else', title: 'Let’s talk it through', urgent: null,
       summary: 'Employment problems don’t always fit a box. A free 15-minute call is the quickest way to find out where you stand and whether there’s a deadline to watch.',
-      steps: ['Jot down the key dates and what has happened so far.', 'Have your contract and any recent letters to hand.', 'Book a free call at a time that suits you.'], service: null, deadline: null }
+      steps: ['Jot down the key dates and what has happened so far.', 'Have your contract and any recent letters handy.', 'Book a free call at a time that works for you.'], service: null, deadline: null }
   };
   var CHECK_KEY = 'brief-check-v1';
 
   /* ---------- Deadline calculator (check.html) ----------
-     Most employment tribunal claims must be started within "three months less one day" of the
-     event; a few, such as statutory redundancy pay, within six months. ACAS early conciliation
-     must normally start before that date, and can extend it. This is an estimate only. */
+     In Ohio, an EEOC charge generally has to be filed within 300 days of the event (days), and a
+     charge with the Ohio Civil Rights Commission within two years (months). Federal unpaid wage
+     claims have two years, or three if the violation was willful. This is an estimate only. */
   var DEADLINE_RULES = {
-    dismissal: { label: 'Unfair or constructive dismissal', from: 'the date your employment ended', months: 3 },
-    discrimination: { label: 'Discrimination or harassment', from: 'the date of the most recent incident', months: 3 },
-    wages: { label: 'Unpaid wages or holiday pay', from: 'the date of the last underpayment', months: 3 },
-    'redundancy-pay': { label: 'Statutory redundancy pay', from: 'the date your employment ended', months: 6 }
+    dismissal: { label: 'Firing linked to discrimination or retaliation', from: 'the date you were told your job was ending', days: 300 },
+    discrimination: { label: 'Discrimination or harassment', from: 'the date of the most recent incident', days: 300 },
+    wages: { label: 'Unpaid wages or overtime', from: 'the date of the last underpayment', months: 24 },
+    'redundancy-pay': { label: 'Ohio Civil Rights Commission charge', from: 'the date of the most recent incident', months: 24 }
   };
 
   /* ---------- Booking (book.html) ----------
-     Call types and availability. Slots are generated in UK time (Europe/London). Nothing is
+     Call types and availability. Slots are generated in Eastern time (America/New_York). Nothing is
      booked: see DOCS.md, "Booking flow", to connect Cal.com, Calendly or a form service. */
   var CALL_TYPES = {
     intro: { label: 'Free 15-minute call', minutes: 15, price: 'Free', where: 'Phone or video' },
-    advice: { label: 'Fixed-fee advice session', minutes: 60, price: '£350 + VAT', where: 'Video or the Southampton office' },
-    settlement: { label: 'Settlement agreement appointment', minutes: 45, price: '£450 + VAT, usually paid by your employer', where: 'Video or the Southampton office' }
+    advice: { label: 'Fixed-fee advice session', minutes: 60, price: '$400', where: 'Video or the Dayton office' },
+    settlement: { label: 'Severance agreement appointment', minutes: 45, price: '$750, some employers contribute', where: 'Video or the Dayton office' }
   };
   var AVAILABILITY = {
-    timeZone: 'Europe/London',
-    zoneName: 'UK time',
-    // Day 0 is Sunday. Each window is [start, end] in 24-hour "HH:MM" UK time.
+    timeZone: 'America/New_York',
+    zoneName: 'Eastern time',
+    // Day 0 is Sunday. Each window is [start, end] in 24-hour "HH:MM" Eastern time.
     hours: {
       1: [['09:00', '12:30'], ['13:30', '17:30']],
       2: [['09:00', '12:30'], ['13:30', '17:30']],
@@ -182,7 +181,7 @@
     slotStep: 30,          // minutes between start times
     minNoticeHours: 3,     // earliest bookable slot from now
     daysAhead: 30,         // how far ahead people can book
-    closed: ['2026-12-24', '2026-12-25', '2026-12-28', '2026-12-31', '2027-01-01', '2027-03-26', '2027-03-29', '2027-05-03'],
+    closed: [],            // one-off closures ("YYYY-MM-DD"); US federal holidays are closed by rule, see federalHolidays()
     demoBusyShare: 0.4     // share of slots shown as already taken, so the demo looks realistic. Set to 0 when connected.
   };
 
@@ -202,7 +201,7 @@
   function plural(n, one, many) { return n + ' ' + (n === 1 ? one : (many || one + 's')); }
   function money(n) {
     var whole = Math.abs(n - Math.round(n)) < 0.005;
-    return '£' + (whole ? Math.round(n) : n).toLocaleString('en-GB', { minimumFractionDigits: whole ? 0 : 2, maximumFractionDigits: whole ? 0 : 2 });
+    return '$' + (whole ? Math.round(n) : n).toLocaleString('en-US', { minimumFractionDigits: whole ? 0 : 2, maximumFractionDigits: whole ? 0 : 2 });
   }
   function moneyRange(min, max) { return Math.abs(min - max) < 0.005 ? money(min) : money(min) + '–' + money(max); }
   function setParams(params) {
@@ -211,15 +210,27 @@
     Object.keys(params).forEach(function (k) { if (params[k] === null || params[k] === '') url.searchParams.delete(k); else url.searchParams.set(k, params[k]); });
     history.replaceState(null, '', url.pathname + url.search + url.hash);
   }
-  /* Calendar dates are handled as "YYYY-MM-DD" keys, with UTC maths so time zones never shift a day. */
+  /* Calendar dates are handled as "YYYY-MM-DD" keys, with UTC math so time zones never shift a day. */
   function keyOf(y, m, d) { return y + '-' + String(m).padStart(2, '0') + '-' + String(d).padStart(2, '0'); }
   function parseKey(key) { var d = key.split('-').map(Number); return new Date(Date.UTC(d[0], d[1] - 1, d[2])); }
   function keyFromDate(x) { return keyOf(x.getUTCFullYear(), x.getUTCMonth() + 1, x.getUTCDate()); }
   function addDays(key, n) { var x = parseKey(key); x.setUTCDate(x.getUTCDate() + n); return keyFromDate(x); }
   function daysBetween(a, b) { return Math.round((parseKey(b) - parseKey(a)) / 86400000); }
   function weekday(key) { return parseKey(key).getUTCDay(); }
-  function longDate(key) { return new Date(parseKey(key).getTime() + 43200000).toLocaleDateString('en-GB', { timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); }
+  function longDate(key) { return new Date(parseKey(key).getTime() + 43200000).toLocaleDateString('en-US', { timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); }
   function localToday() { var n = new Date(); return keyOf(n.getFullYear(), n.getMonth() + 1, n.getDate()); }
+  /* US federal holidays for any year, by rule. A holiday on a Saturday is observed on the Friday before,
+     one on a Sunday on the Monday after, so New Year's Day can fall in the year before. */
+  function federalHolidays(year) {
+    var nth = function (month, wd, n) { var first = new Date(Date.UTC(year, month, 1)).getUTCDay(); return keyOf(year, month + 1, 1 + ((wd - first + 7) % 7) + (n - 1) * 7); };
+    var last = function (month, wd) { var d = new Date(Date.UTC(year, month + 1, 0)); return keyOf(year, month + 1, d.getUTCDate() - ((d.getUTCDay() - wd + 7) % 7)); };
+    var fixed = function (month, day) { var d = new Date(Date.UTC(year, month, day)), w = d.getUTCDay(); if (w === 6) d.setUTCDate(day - 1); else if (w === 0) d.setUTCDate(day + 1); return keyFromDate(d); };
+    return [fixed(0, 1), nth(0, 1, 3), nth(1, 1, 3), last(4, 1), fixed(5, 19), fixed(6, 4), nth(8, 1, 1), nth(9, 1, 2), fixed(10, 11), nth(10, 4, 4), fixed(11, 25)];
+  }
+  function isClosedDay(key) {
+    var y = Number(key.slice(0, 4));
+    return AVAILABILITY.closed.indexOf(key) !== -1 || federalHolidays(y).indexOf(key) !== -1 || federalHolidays(y + 1).indexOf(key) !== -1;
+  }
   var ICON = {
     check: '<svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7"/></svg>',
     alert: '<svg class="size-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5.5M12 16v.01"/></svg>',
@@ -362,7 +373,7 @@
     if (field.type === 'checkbox') return field.required && !field.checked ? 'Please tick this box to continue.' : '';
     if (field.required && !v) return field.tagName === 'SELECT' ? 'Please choose an option.' : field.type === 'date' ? 'Please enter a date.' : 'Please fill in this field.';
     if (type === 'email' && v && !EMAIL.test(v)) return 'Please enter an email address like name@example.com.';
-    if (type === 'phone-optional' && v && v.replace(/\D/g, '').length < 10) return 'Please enter a UK phone number, or leave this blank.';
+    if (type === 'phone-optional' && v && v.replace(/\D/g, '').length < 10) return 'Please enter a US phone number, or leave this blank.';
     if (type === 'message' && v.length < 20) return 'A sentence or two (20+ characters) helps me prepare.';
     if (type === 'date-event' && v) {
       if (!/^\d{4}-\d{2}-\d{2}$/.test(v) || isNaN(parseKey(v).getTime())) return 'Please enter a valid date.';
@@ -420,7 +431,6 @@
   function initEstimator(root) {
     var matterSel = $('[data-est-matter]', root);
     $('[data-est-form]', root).addEventListener('submit', function (e) { e.preventDefault(); });
-    var vatBox = $('[data-est-vat]', root);
     var planBox = $('[data-est-plan]', root);
     var contribWrap = $('[data-est-contrib-wrap]', root);
     var contribBox = $('[data-est-contrib]', root);
@@ -431,43 +441,41 @@
     var state = {
       matter: MATTERS.hasOwnProperty(params.get('matter')) ? params.get('matter') : 'settlement',
       level: Math.max(0, LEVELS.indexOf(params.get('level') || 'straightforward')),
-      vat: false, plan: false, contrib: true, contribAmount: 500
+      plan: false, contrib: true, contribAmount: 500
     };
     matterSel.value = state.matter;
 
     function render(animate) {
       var m = MATTERS[state.matter];
       var range = m.levels[state.level];
-      var vatMul = state.vat ? 1 + VAT_RATE : 1;
       var fixed = range[0] === range[1];
       // Level labels and hints
       $$('[data-est-hint]', root).forEach(function (el) { el.textContent = m.hints[Number(el.getAttribute('data-est-hint'))]; });
       $$('input[name="est-level"]', root).forEach(function (r) { r.checked = Number(r.value) === state.level; });
-      // Employer contribution (settlement agreements and exit negotiations only)
+      // Employer contribution (severance agreements and exit negotiations only)
       contribWrap.hidden = !m.contribution;
       contribField.hidden = !(m.contribution && state.contrib);
       var contribution = m.contribution && state.contrib ? Math.max(0, state.contribAmount || 0) : 0;
       var payMin = Math.max(0, range[0] - contribution), payMax = Math.max(0, range[1] - contribution);
 
       $('[data-est-name]', root).textContent = m.name;
-      $('[data-est-total]', root).textContent = moneyRange(payMin * vatMul, payMax * vatMul);
-      $('[data-est-total-note]', root).textContent = (contribution ? 'you pay, ' : '') + (state.vat ? 'including VAT' : '+ VAT');
+      $('[data-est-total]', root).textContent = moneyRange(payMin, payMax);
+      $('[data-est-total-note]', root).textContent = contribution ? 'you pay' : 'your fee';
       $('[data-est-kind]', root).textContent = fixed ? 'Fixed fee' : 'Range: fixed in writing before work starts';
       $('[data-est-kind]', root).className = 'tag ' + (fixed ? 'tag-lime' : 'tag-amber');
 
-      var rows = [['Fee (excl. VAT)', moneyRange(range[0], range[1])]];
+      var rows = [['Fee', moneyRange(range[0], range[1])]];
       if (contribution) rows.push(['Employer contribution', '−' + money(contribution)]);
-      rows.push(['VAT at ' + Math.round(VAT_RATE * 100) + '%', moneyRange(payMin * VAT_RATE, payMax * VAT_RATE)]);
-      rows.push(['You pay, including VAT', moneyRange(payMin * (1 + VAT_RATE), payMax * (1 + VAT_RATE))]);
+      rows.push(['You pay', moneyRange(payMin, payMax)]);
       $('[data-est-rows]', root).innerHTML = rows.map(function (r, i) {
         var last = i === rows.length - 1;
         return '<div class="flex items-baseline justify-between gap-4 py-2.5' + (last ? ' border-t border-line pt-3.5 font-semibold text-ink' : ' text-slate') + '"><dt>' + esc(r[0]) + '</dt><dd class="text-right tabular-nums' + (last ? '' : ' text-ink') + '">' + esc(r[1]) + '</dd></div>';
       }).join('');
 
       var planEl = $('[data-est-plan-text]', root);
-      if (!state.plan) planEl.textContent = 'Fees from ' + money(PLAN.minFee) + ' (excl. VAT) can be spread over ' + PLAN.months + ' months, interest-free.';
+      if (!state.plan) planEl.textContent = 'Fees from ' + money(PLAN.minFee) + ' can be spread over ' + PLAN.months + ' months, interest-free.';
       else if (payMax < PLAN.minFee) planEl.textContent = 'This fee is under ' + money(PLAN.minFee) + ', so it’s paid in one go when the work is done.';
-      else planEl.textContent = PLAN.months + ' monthly payments of ' + moneyRange(payMin * vatMul / PLAN.months, payMax * vatMul / PLAN.months) + (state.vat ? ', including VAT' : ' + VAT') + ', interest-free.';
+      else planEl.textContent = PLAN.months + ' monthly payments of ' + moneyRange(payMin / PLAN.months, payMax / PLAN.months) + ', interest-free.';
       $('[data-est-timeline]', root).textContent = m.timeline;
       $('[data-est-book]', root).setAttribute('href', 'book.html?topic=' + state.matter);
       $('[data-est-service]', root).setAttribute('href', 'services.html#' + state.matter);
@@ -478,7 +486,6 @@
     $$('input[name="est-level"]', root).forEach(function (r) {
       r.addEventListener('change', function () { state.level = Number(r.value); setParams({ matter: state.matter, level: LEVELS[state.level] }); render(true); });
     });
-    vatBox.addEventListener('change', function () { state.vat = vatBox.checked; render(true); });
     planBox.addEventListener('change', function () { state.plan = planBox.checked; render(false); });
     contribBox.addEventListener('change', function () { state.contrib = contribBox.checked; render(true); });
     contribAmount.addEventListener('input', function () {
@@ -486,7 +493,7 @@
       state.contribAmount = isNaN(v) ? 0 : Math.min(Math.max(v, 0), 100000);
       render(false);
     });
-    vatBox.checked = state.vat; planBox.checked = state.plan; contribBox.checked = state.contrib; contribAmount.value = state.contribAmount;
+    planBox.checked = state.plan; contribBox.checked = state.contrib; contribAmount.value = state.contribAmount;
     render(false);
   }
 
@@ -563,7 +570,7 @@
         var m = MATTERS[r.service], lv = m.levels[0];
         svc.hidden = false;
         $('[data-check-service-name]', root).textContent = m.name;
-        $('[data-check-service-fee]', root).textContent = (lv[0] === lv[1] ? 'Fixed fee from ' : 'From ') + money(lv[0]) + ' + VAT';
+        $('[data-check-service-fee]', root).textContent = (lv[0] === lv[1] ? 'Fixed fee from ' : 'From ') + money(lv[0]);
         $('[data-check-service-link]', root).setAttribute('href', 'services.html#' + r.service);
         $('[data-check-fee-link]', root).setAttribute('href', 'fees.html?matter=' + r.service + '#estimator');
         book.setAttribute('href', 'book.html?topic=' + r.service);
@@ -622,9 +629,10 @@
   }
 
   /* ---------- Deadline calculator ([data-deadline], check.html) ----------
-     "Three months less one day": the last day is the day before the same date three months
-     later (15 March -> 14 June). If that month has no such date (31 August -> November),
-     the last day is the final day of that month. */
+     A rule in days counts that many days from the date (300 days from March 15 is January 9). A
+     rule in months ends the day before the same date that many months later, to be safe (March 15,
+     2026 -> March 14, 2028). If that month has no such date (February 29), the last day is the
+     final day of that month. */
   function deadlineFrom(key, months) {
     var d = key.split('-').map(Number);
     var y = d[0], m = d[1] - 1 + months;
@@ -646,19 +654,19 @@
       e.preventDefault();
       if (!validateForm(dlForm)) { dlOut.hidden = true; return; }
       var rule = DEADLINE_RULES[dlType.value];
-      var due = deadlineFrom(dlDate.value, rule.months);
+      var due = rule.days ? addDays(dlDate.value, rule.days) : deadlineFrom(dlDate.value, rule.months);
       var left = daysBetween(localToday(), due);
       $('[data-deadline-date-out]', dlOut).textContent = longDate(due);
-      $('[data-deadline-rule]', dlOut).textContent = (rule.months === 3 ? 'Three months' : 'Six months') + ' less one day from ' + longDate(dlDate.value) + '.';
+      $('[data-deadline-rule]', dlOut).textContent = (rule.days ? rule.days + ' days from ' : 'Two years less one day from ') + longDate(dlDate.value) + '.';
       var status = $('[data-deadline-status]', dlOut), card = $('[data-deadline-card]', dlOut);
       if (left < 0) {
-        status.textContent = 'This date passed ' + plural(-left, 'day') + ' ago. Late claims are only accepted in limited circumstances, so speak to a solicitor straight away.';
+        status.textContent = 'This date passed ' + plural(-left, 'day') + ' ago. Late claims are only accepted in limited circumstances, so speak to an attorney right away.';
         card.setAttribute('data-state', 'late');
       } else if (left === 0) {
-        status.textContent = 'That’s today. Contact ACAS today, and get advice immediately.';
+        status.textContent = 'That’s today. Contact the agency today, and get advice immediately.';
         card.setAttribute('data-state', 'urgent');
       } else {
-        status.textContent = 'That’s ' + plural(left, 'day') + ' from today.' + (left <= 21 ? ' This is close: contact ACAS and get advice now.' : '');
+        status.textContent = 'That’s ' + plural(left, 'day') + ' from today.' + (left <= 21 ? ' This is close: contact the agency and get advice now.' : '');
         card.setAttribute('data-state', left <= 21 ? 'urgent' : 'ok');
       }
       dlOut.hidden = false;
@@ -677,10 +685,10 @@
     var steps = $$('[data-step]', root);
     var indicators = $$('[data-step-indicator]', root);
 
-    /* Time-zone maths: the offset of a zone at an instant, and UK wall time -> instant. */
+    /* Time-zone math: the offset of a zone at an instant, and local wall time -> instant. */
     function partsIn(date, zone) {
       var out = {};
-      new Intl.DateTimeFormat('en-GB', { timeZone: zone, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' })
+      new Intl.DateTimeFormat('en-US', { timeZone: zone, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' })
         .formatToParts(date).forEach(function (p) { if (p.type !== 'literal') out[p.type] = parseInt(p.value, 10); });
       if (out.hour === 24) out.hour = 0;
       return out;
@@ -697,9 +705,9 @@
       var off2 = offsetMs(new Date(res), AVAILABILITY.timeZone);
       return new Date(off2 === off ? res : guess - off2);
     }
-    function timeIn(date, zone) { return date.toLocaleTimeString('en-GB', { timeZone: zone, hour: 'numeric', minute: '2-digit', hour12: true }).replace(' ', '').toLowerCase(); }
+    function timeIn(date, zone) { return date.toLocaleTimeString('en-US', { timeZone: zone, hour: 'numeric', minute: '2-digit', hour12: true }).replace(/\s/g, '').toLowerCase(); }
     function zoneShort(zone) {
-      try { return new Intl.DateTimeFormat('en-GB', { timeZone: zone, timeZoneName: 'short' }).formatToParts(new Date()).filter(function (p) { return p.type === 'timeZoneName'; })[0].value; } catch (e) { return zone; }
+      try { return new Intl.DateTimeFormat('en-US', { timeZone: zone, timeZoneName: 'short' }).formatToParts(new Date()).filter(function (p) { return p.type === 'timeZoneName'; })[0].value; } catch (e) { return zone; }
     }
 
     var now = new Date();
@@ -710,7 +718,7 @@
     // A stable pseudo-random number per slot, so "taken" slots don't change between renders.
     function hash(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0) / 4294967295; }
     function slotsFor(key) {
-      if (key < today || key > lastDay || AVAILABILITY.closed.indexOf(key) !== -1) return [];
+      if (key < today || key > lastDay || isClosedDay(key)) return [];
       var windows = AVAILABILITY.hours[weekday(key)] || [];
       var len = CALL_TYPES[state.type].minutes, out = [];
       var earliest = now.getTime() + AVAILABILITY.minNoticeHours * 3600000;
@@ -790,7 +798,7 @@
       var first = keyOf(ym[0], ym[1], 1);
       var daysInMonth = new Date(Date.UTC(ym[0], ym[1], 0)).getUTCDate();
       var lead = (weekday(first) + 6) % 7; // Monday first
-      calLabel.textContent = new Date(Date.UTC(ym[0], ym[1] - 1, 1, 12)).toLocaleDateString('en-GB', { timeZone: 'UTC', month: 'long', year: 'numeric' });
+      calLabel.textContent = new Date(Date.UTC(ym[0], ym[1] - 1, 1, 12)).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'long', year: 'numeric' });
       prevBtn.disabled = state.month <= monthOf(today);
       nextBtn.disabled = state.month >= monthOf(lastDay);
       if (monthOf(state.focusDate) !== state.month) {
@@ -948,8 +956,8 @@
 
     renderSummary();
     $('[data-zone-note]', root).textContent = visitorZone === AVAILABILITY.timeZone
-      ? 'Times are in UK time.'
-      : 'Times are in UK time, with your local time (' + zoneShort(visitorZone) + ') underneath.';
+      ? 'Times are in Eastern time.'
+      : 'Times are in Eastern time, with your local time (' + zoneShort(visitorZone) + ') underneath.';
   }
 
   /* ---------- Article: table of contents + reading progress (article.html) ---------- */

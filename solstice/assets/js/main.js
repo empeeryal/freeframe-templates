@@ -1,5 +1,5 @@
-/* Solstice — site behaviour. Vanilla JavaScript, no dependencies.
-   Content (artists, stages, food traders, ticket prices) lives in assets/js/data.js. */
+/* Solstice — site behavior. Vanilla JavaScript, no dependencies.
+   Content (artists, stages, food vendors, ticket prices) lives in assets/js/data.js. */
 (function () {
   'use strict';
 
@@ -64,7 +64,7 @@
   var tickets = byId(D.tickets);
   var addons = byId(D.addons);
 
-  // Festival times are local (BST). Add ?now=2027-06-26T21:40 to any page to preview a moment.
+  // Festival times are local (Eastern time). Add ?now=2027-06-26T21:40 to any page to preview a moment.
   function festivalTime(local) { return new Date(local + (local.length === 16 ? ':00' : '') + D.utcOffset); }
   function now() {
     var p = params.get('now');
@@ -75,12 +75,12 @@
   /* ---------------------------------------------------------- demo dates
      The festival is written for the days in D.days. While D.keepDemoCurrent is true and that edition is over
      (after the last day's curfew), every date moves on to the same week of a later year, by whole weeks so
-     weekdays never change (Friday 25 June 2027 becomes Friday 23 June 2028), and the edition year follows.
+     weekdays never change (Friday, June 25, 2027 becomes Friday, June 23, 2028), and the edition year follows.
      The page text is updated through data-edition, data-date and data-day-label (see DOCS.md, "Demo dates"). */
   var DAY_MS = 86400000;
   function dayNum(iso) { return Math.round(Date.parse(iso.slice(0, 10) + 'T00:00:00Z') / DAY_MS); }
   function isoOf(day) { return new Date(day * DAY_MS).toISOString().slice(0, 10); }
-  function fmtDate(iso, opts) { return new Date(iso.slice(0, 10) + 'T12:00:00Z').toLocaleDateString('en-GB', Object.assign({ timeZone: 'UTC' }, opts)); }
+  function fmtDate(iso, opts) { return new Date(iso.slice(0, 10) + 'T12:00:00Z').toLocaleDateString('en-US', Object.assign({ timeZone: 'UTC' }, opts)); }
   var BASE_YEAR = D.days.length ? +D.days[0].date.slice(0, 4) : 0;
   var SHIFT = (function () {
     if (!D.keepDemoCurrent || !D.days.length) return 0;
@@ -91,24 +91,24 @@
     }
     return shift;
   })();
-  // "2027-06-25T14:00:00+01:00" (or any ISO string) moved on by SHIFT days; the time part is kept.
+  // "2027-06-25T14:00:00-04:00" (or any ISO string) moved on by SHIFT days; the time part is kept.
   function shiftIso(iso) { return SHIFT ? isoOf(dayNum(iso) + SHIFT) + iso.slice(10) : iso; }
   var EDITION_YEAR = SHIFT ? +shiftIso(D.days[0].date).slice(0, 4) : BASE_YEAR;
   var MONTH_NAMES = 'January February March April May June July August September October November December'.split(' ');
-  // Moves dates written for the 2027 edition on inside free text ("25 June 2027", "25–27 June") and swaps the
+  // Moves dates written for the 2027 edition on inside free text ("June 25, 2027", "June 25–27") and swaps the
   // edition years (2026, 2027, 2028) for the current ones. Used for titles, attributes, bios and the calendar file.
   function shiftText(str) {
     if (!SHIFT) return str;
-    return String(str).replace(new RegExp('\\b(\\d{1,2})(?:–(\\d{1,2}))? (' + MONTH_NAMES.join('|') + ')(?: (\\d{4}))?\\b|\\b(' + (BASE_YEAR - 1) + '|' + BASE_YEAR + '|' + (BASE_YEAR + 1) + ')\\b', 'g'), function (m, d1, d2, month, year, bare) {
+    return String(str).replace(new RegExp('\\b(' + MONTH_NAMES.join('|') + ') (\\d{1,2})(?:–(\\d{1,2}))?(?:, (\\d{4}))?\\b|\\b(' + (BASE_YEAR - 1) + '|' + BASE_YEAR + '|' + (BASE_YEAR + 1) + ')\\b', 'g'), function (m, month, d1, d2, year, bare) {
       if (bare) return String(+bare - BASE_YEAR + EDITION_YEAR);
       var mm = String(MONTH_NAMES.indexOf(month) + 1).padStart(2, '0');
       var iso = function (d) { return shiftIso((year || BASE_YEAR) + '-' + mm + '-' + String(d).padStart(2, '0')); };
       var a = iso(d1), b = d2 ? iso(d2) : null;
       var opts = { day: 'numeric', month: 'long' };
       var text = b
-        ? (a.slice(0, 7) === b.slice(0, 7) ? fmtDate(a, { day: 'numeric' }) + '–' + fmtDate(b, opts) : fmtDate(a, opts) + ' – ' + fmtDate(b, opts))
+        ? (a.slice(0, 7) === b.slice(0, 7) ? fmtDate(a, opts) + '–' + fmtDate(b, { day: 'numeric' }) : fmtDate(a, opts) + ' – ' + fmtDate(b, opts))
         : fmtDate(a, opts);
-      return text + (year ? ' ' + (b || a).slice(0, 4) : '');
+      return text + (year ? ', ' + (b || a).slice(0, 4) : '');
     });
   }
   if (SHIFT) {
@@ -121,12 +121,12 @@
     var dm = function (iso) { return fmtDate(iso, { day: 'numeric', month: 'long' }); };
     var wd = function (iso) { return fmtDate(iso, { weekday: 'long' }); };
     var sameMonth = first.date.slice(0, 7) === last.date.slice(0, 7);
-    var range = sameMonth ? fmtDate(first.date, { day: 'numeric' }) + '–' + dm(last.date) : dm(first.date) + ' – ' + dm(last.date);
-    var rangeLong = wd(first.date) + ' ' + (sameMonth ? fmtDate(first.date, { day: 'numeric' }) : dm(first.date)) + ' – ' + wd(last.date) + ' ' + dm(last.date);
+    var range = sameMonth ? dm(first.date) + '–' + fmtDate(last.date, { day: 'numeric' }) : dm(first.date) + ' – ' + dm(last.date);
+    var rangeLong = wd(first.date) + ' – ' + wd(last.date) + ', ' + range;
     var EDITION = {
-      dates: range + ' ' + EDITION_YEAR,
+      dates: range + ', ' + EDITION_YEAR,
       'dates-noyear': range,
-      'dates-long': rangeLong + ' ' + EDITION_YEAR,
+      'dates-long': rangeLong + ', ' + EDITION_YEAR,
       'dates-long-noyear': rangeLong,
       year: String(EDITION_YEAR),
       'year+1': String(EDITION_YEAR + 1)
@@ -140,7 +140,8 @@
       var opts = el.getAttribute('data-date-format') === 'dm' ? { day: 'numeric', month: 'long' } : { day: 'numeric', month: 'long', year: 'numeric' };
       if (!end) { el.textContent = fmtDate(a, opts); return; }
       var b = shiftIso(end);
-      el.textContent = (a.slice(0, 7) === b.slice(0, 7) ? fmtDate(a, { day: 'numeric' }) + '–' : fmtDate(a, { day: 'numeric', month: 'long' }) + ' – ') + fmtDate(b, opts);
+      var endYear = el.getAttribute('data-date-format') === 'dm' ? '' : ', ' + b.slice(0, 4);
+      el.textContent = (a.slice(0, 7) === b.slice(0, 7) ? fmtDate(a, { day: 'numeric', month: 'long' }) + '–' + fmtDate(b, { day: 'numeric' }) : fmtDate(a, { day: 'numeric', month: 'long' }) + ' – ' + fmtDate(b, { day: 'numeric', month: 'long' })) + endYear;
     });
     $$('[data-day-label]').forEach(function (el) { el.textContent = dayLabel(el.getAttribute('data-day-label')); });
     ['aria-label', 'data-error'].forEach(function (attr) {
@@ -151,10 +152,18 @@
   function minutes(hhmm) { var p = hhmm.split(':'); return Number(p[0]) * 60 + Number(p[1]); }
   function gbp(n) {
     var whole = Math.abs(n % 1) < 0.005;
-    return new Intl.NumberFormat('en-GB', { style: 'currency', currency: D.currency || 'GBP', minimumFractionDigits: whole ? 0 : 2, maximumFractionDigits: 2 }).format(n);
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: D.currency || 'USD', minimumFractionDigits: whole ? 0 : 2, maximumFractionDigits: 2 }).format(n);
   }
-  function dayLabel(id) { var d = days.get(id); if (!d) return ''; return d.label + ' ' + fmtDate(d.date, { day: 'numeric', month: 'long' }); }
-  function setTime(a) { return a.start + '–' + a.end; }
+  function dayLabel(id) { var d = days.get(id); if (!d) return ''; return d.label + ', ' + fmtDate(d.date, { day: 'numeric', month: 'long' }); }
+  // Times are stored as 24-hour "HH:MM" and shown on the 12-hour clock: "9:15 PM", "9:15–10:45 PM", "11:30 AM–12:30 PM".
+  function clockParts(hhmm) {
+    var p = hhmm.split(':'), h = Number(p[0]) % 24;
+    return { time: (h % 12 || 12) + (p[1] === '00' ? '' : ':' + p[1]), half: h < 12 ? 'AM' : 'PM' };
+  }
+  function setTime(a) {
+    var s = clockParts(a.start), e = clockParts(a.end);
+    return s.time + (s.half === e.half ? '' : ' ' + s.half) + '–' + e.time + ' ' + e.half;
+  }
 
   /* ---------------------------------------------------------- toast */
   var toast = $('[data-toast]');
@@ -392,7 +401,7 @@
   function genreTag(g) { return '<span class="tag">' + esc(D.genres[g] || g) + '</span>'; }
   function validDay(v) { return days.has(v) ? v : null; }
 
-  /* ---------------------------------------------------------- artist modal (line-up page) */
+  /* ---------------------------------------------------------- artist modal (lineup page) */
   var modal = $('[data-artist-modal]');
   var modalOpener = null;
   function openArtist(id, opener) {
@@ -413,7 +422,7 @@
           (c.length ? '<p class="mt-4 flex items-start gap-2 rounded-xl border-2 border-tomato px-3 py-2 text-sm font-bold text-tomato">' + WARN_ICON.replace('size-3.5', 'size-4 mt-0.5 shrink-0') + '<span>Clashes with ' + c.map(function (x) { return esc(artists.get(x).name); }).join(', ') + ' in your plan</span></p>' : '') +
           '<div class="mt-6 flex flex-wrap gap-3">' +
             '<button type="button" class="btn btn-sun" data-plan-toggle="' + a.id + '" aria-pressed="false">' + SUN_ICON.replace('<svg ', '<svg class="size-5" ') + '<span data-plan-label>Add to my plan</span></button>' +
-            '<a href="schedule.html?day=' + a.day + '#set-' + a.id + '" class="btn btn-ghost">See in timetable</a>' +
+            '<a href="schedule.html?day=' + a.day + '#set-' + a.id + '" class="btn btn-ghost">See in schedule</a>' +
           '</div>' +
         '</div>' +
       '</div>';
@@ -432,7 +441,7 @@
     });
   }
 
-  /* ---------------------------------------------------------- line-up page */
+  /* ---------------------------------------------------------- lineup page */
   var lineup = $('[data-lineup]');
   if (lineup) {
     var state = {
@@ -487,7 +496,7 @@
       stageSel.value = state.stage;
       genreSel.value = state.genre;
       mineBtn.setAttribute('aria-pressed', String(state.mine));
-      // Keep the filters in the URL so a filtered line-up can be shared or bookmarked.
+      // Keep the filters in the URL so a filtered lineup can be shared or bookmarked.
       var q = new URLSearchParams();
       if (state.day !== 'all') q.set('day', state.day);
       if (state.stage !== 'all') q.set('stage', state.stage);
@@ -510,7 +519,7 @@
     });
     planListeners.push(function () { if (state.mine) render(); });
     render();
-    // ?artist=<id> opens that artist straight away (links from the timetable use it).
+    // ?artist=<id> opens that artist straight away (links from the schedule use it).
     var deep = params.get('artist');
     if (deep && artists.has(deep)) {
       var opener = $('[data-artist="' + deep + '"]', out);
@@ -518,7 +527,7 @@
     }
   }
 
-  /* ---------------------------------------------------------- timetable page */
+  /* ---------------------------------------------------------- schedule page */
   var tt = $('[data-schedule]');
   if (tt) {
     var tabs = $$('[role="tab"]', tt);
@@ -532,7 +541,7 @@
     };
     if (!sState.day) {
       // During the festival, open today's tab; otherwise Friday.
-      var today = now().toLocaleDateString('en-CA', { timeZone: 'Europe/London' });
+      var today = now().toLocaleDateString('en-CA', { timeZone: 'America/Detroit' });
       sState.day = (D.days.filter(function (d) { return d.date === today; })[0] || D.days[0]).id;
     }
 
@@ -549,7 +558,7 @@
       var to = Math.ceil(Math.max.apply(null, sets.map(function (a) { return minutes(a.end); })) / 60);
       var hours = to - from;
       var hourLabels = '';
-      for (var h = from; h <= to; h++) hourLabels += '<span class="tt-hour" style="top:calc(var(--hour) * ' + (h - from) + ')">' + String(h % 24).padStart(2, '0') + ':00</span>';
+      for (var h = from; h <= to; h++) hourLabels += '<span class="tt-hour" style="top:calc(var(--hour) * ' + (h - from) + ')">' + (h % 12 || 12) + (h % 24 < 12 ? ' AM' : ' PM') + '</span>';
       var head = '<div class="grid grid-cols-[4rem_repeat(4,minmax(10.5rem,1fr))] border-b-[2.5px] border-ink bg-cream pb-3" aria-hidden="true"><span></span>' +
         D.stages.map(function (s) { return '<span class="mx-1.5 rounded-full border-2 border-ink px-3 py-1.5 text-center text-sm font-extrabold stage-' + s.id + '">' + esc(s.name) + '</span>'; }).join('') + '</div>';
       var cols = D.stages.map(function (s) {
@@ -664,7 +673,7 @@
           lines.push('BEGIN:VEVENT', 'UID:' + a.id + '-' + EDITION_YEAR + '@solstice.example', 'DTSTAMP:' + stamp,
             'DTSTART:' + utc(d, a.start), 'DTEND:' + utc(d, a.end),
             'SUMMARY:' + escText(a.name + ' at Solstice'),
-            'LOCATION:' + escText(stages.get(a.stage).name + ', Abbey Park, Leicester'),
+            'LOCATION:' + escText(stages.get(a.stage).name + ', Birch Bluff Farm, Traverse City'),
             'DESCRIPTION:' + escText(D.genres[a.genre] + '. ' + a.bio), 'END:VEVENT');
         });
       lines.push('END:VCALENDAR');
@@ -754,7 +763,7 @@
     }
     function problem() {
       var camping = (cart.tickets.camping || 0) + (cart.tickets.family || 0);
-      if ((cart.addons.campervan || 0) > camping) return 'Each campervan pitch needs a Weekend + camping or Family weekend ticket.';
+      if ((cart.addons.campervan || 0) > camping) return 'Each RV site needs a Weekend + camping or Family weekend ticket.';
       if ((cart.addons.belltent || 0) && !camping) return 'Bell tents are in the campsite: add a Weekend + camping or Family weekend ticket.';
       return '';
     }
@@ -772,8 +781,8 @@
       var t = totals();
       var rows = t.lines.map(function (l) { return '<div class="flex justify-between gap-4"><dt>' + esc(l[0]) + '</dt><dd class="font-bold tabular-nums">' + gbp(l[1]) + '</dd></div>'; });
       if (t.count && t.discount) rows.push('<div class="flex justify-between gap-4 text-sea"><dt class="font-bold">Group discount (' + Math.round(D.groupDiscount * 100) + '%)</dt><dd class="font-bold whitespace-nowrap tabular-nums">−' + gbp(t.discount) + '</dd></div>');
-      if (t.count) rows.push('<div class="flex justify-between gap-4 text-muted"><dt>Booking fee (' + gbp(D.fee) + ' × ' + t.count + ')</dt><dd class="font-bold tabular-nums">' + gbp(t.fees) + '</dd></div>');
-      summaryList.innerHTML = rows.length ? rows.join('') : '<div class="text-muted"><dt class="font-semibold">Your basket is empty</dt><dd>Choose some tickets to get started.</dd></div>';
+      if (t.count) rows.push('<div class="flex justify-between gap-4 text-muted"><dt>Service fee (' + gbp(D.fee) + ' × ' + t.count + ')</dt><dd class="font-bold tabular-nums">' + gbp(t.fees) + '</dd></div>');
+      summaryList.innerHTML = rows.length ? rows.join('') : '<div class="text-muted"><dt class="font-semibold">Your cart is empty</dt><dd>Choose some tickets to get started.</dd></div>';
       totalEl.textContent = gbp(t.total);
       lastTotal = t.total;
       var need = D.groupSize - t.count;
@@ -846,7 +855,7 @@
     var pinLayer = $('[data-pins]', food);
     var search = $('[data-food-search]', food);
 
-    // Draw one numbered pin per trader on the village map.
+    // Draw one numbered pin per vendor on the village map.
     pinLayer.innerHTML = D.vendors.map(function (v, i) {
       var x = v.pin[0] * 10, y = v.pin[1] * 6.2;
       var fill = v.kind === 'drink' ? '#8fd0ee' : v.kind === 'sweet' ? '#ffb3a1' : '#ffc53d';
@@ -895,7 +904,7 @@
         pin.setAttribute('tabindex', ok ? '0' : '-1');
         pin.setAttribute('aria-hidden', String(!ok));
       });
-      vCount.textContent = shown === D.vendors.length ? 'All ' + shown + ' traders' : shown + ' of ' + D.vendors.length + ' traders';
+      vCount.textContent = shown === D.vendors.length ? 'All ' + shown + ' vendors' : shown + ' of ' + D.vendors.length + ' vendors';
       vEmpty.hidden = shown > 0;
       $$('[data-diet]', food).forEach(function (b) { b.setAttribute('aria-pressed', String(fState.diets.indexOf(b.dataset.diet) !== -1)); });
       $$('[data-kind]', food).forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.kind === fState.kind)); });
@@ -1006,10 +1015,10 @@
   var contact = $('[data-contact]');
   if (contact) {
     var ROUTES = {
-      volunteer: { team: 'the volunteer team', email: 'volunteers@solstice.example', time: 'within 5 working days' },
-      trader: { team: 'the trader team', email: 'traders@solstice.example', time: 'within 10 working days' },
-      press: { team: 'the press office', email: 'press@solstice.example', time: 'within 2 working days' },
-      general: { team: 'the visitor help team', email: 'hello@solstice.example', time: 'within 2 working days' }
+      volunteer: { team: 'the volunteer team', email: 'volunteers@solstice.example', time: 'within 5 business days' },
+      trader: { team: 'the vendor team', email: 'vendors@solstice.example', time: 'within 10 business days' },
+      press: { team: 'the press office', email: 'press@solstice.example', time: 'within 2 business days' },
+      general: { team: 'the visitor help team', email: 'hello@solstice.example', time: 'within 2 business days' }
     };
     var radios = $$('input[name="topic"]', contact);
     var route = $('[data-route]', contact);

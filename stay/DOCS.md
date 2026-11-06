@@ -3,7 +3,7 @@
 ## Overview
 
 Stay is a complete website for a small hotel or resort, shown as **Casa Marea**, a fictional 22-room boutique
-hotel in a 1903 villa above the sea in Porto Lume, Liguria. It has an immersive home page with a booking bar,
+hotel in a 1903 villa above the sea in Newport, Rhode Island. It has an immersive home page with a booking bar,
 filterable rooms, a room page with live prices and an availability calendar, dining menus, experiences, offers
 with promo codes, a location page and a five-step booking flow. This is the **HTML + Tailwind CSS v4** version
 (1.0.7): plain HTML files, one stylesheet and one vanilla JavaScript file, with no build step needed to run it.
@@ -105,7 +105,7 @@ Page copy is plain HTML in each file. The data that drives the interactive parts
 
 | Key | What it holds |
 |-----|---------------|
-| `DATA.rooms` | Each room: `id`, `name`, `view` (`sea`, `garden` or `pool`), `bed` (`king` or `twin`), `capacity`, `size` (m²), `rate` (per night, euro), `short`, `description`, `highlights` |
+| `DATA.rooms` | Each room: `id`, `name`, `view` (`sea`, `garden` or `pool`), `bed` (`king` or `twin`), `capacity`, `size` (sq ft), `rate` (per night, US dollars), `short`, `description`, `highlights` |
 | `DATA.extras` | Booking extras: `id`, `name`, `price`, `unit`, `text` |
 | `DATA.promos` | Promo codes and their rules (see [Promo codes](#promo-codes)) |
 | `DATA.amenities` | Amenities listed on every room page after the room's own highlights |
@@ -215,20 +215,19 @@ Prices are calculated by `quote(stay)` in `main.js`. The rules are constants nex
 | `WEEKEND_UPLIFT` | `0.15` | Friday and Saturday nights cost 15% more |
 | `EXTRA_ADULT` | `45` | Per night, for each adult beyond two |
 | `EXTRA_CHILD` | `25` | Per night, for each child once the room already has two guests |
-| `VAT_RATE` | `0.10` | VAT included in all prices; shown as "Includes VAT" |
-| `CITY_TAX` | `3.5` | Per adult per night for the first 7 nights; shown separately, paid at the hotel |
+| `VAT_RATE` | `0.14` | Estimated tax added to the total: Rhode Island sales tax (7%), state hotel tax (5%) and local hotel tax (2%), as of 2026. Check current rates with the Rhode Island Division of Taxation. Shown as "Estimated sales and hotel tax (14%)"; also change that label in `breakdownHTML()` |
 | `MAX_NIGHTS` | `21` | Longest stay bookable online |
 
 How a total is built:
 
-1. Each night costs the room `rate`, plus `WEEKEND_UPLIFT` on Fridays and Saturdays (rounded to whole euros).
+1. Each night costs the room `rate`, plus `WEEKEND_UPLIFT` on Fridays and Saturdays (rounded to whole dollars).
 2. Extra guests are added per night.
 3. Extras are added: breakfast is charged per guest per night; every other extra once per stay.
 4. A valid promo code takes its percentage off the **room total only** (not extras or extra guests).
-5. The VAT share and city tax are calculated for display.
+5. Tax (`VAT_RATE`) is worked out on that subtotal and added to the total. Rates and extras are shown before tax, and the breakdown says so.
 
 `breakdownHTML()` renders the result as a list, used on the room page and in the booking summary. To change
-currency, edit `money()` (it formats with `en-GB` and a `€` sign).
+currency, edit `money()` (it formats with `en-US` and a `$` sign).
 
 ### Availability calendar
 
@@ -319,7 +318,7 @@ Buttons with `data-copy-code="LONGSTAY"` copy the code to the clipboard and show
 ### Contact prefill
 
 `contact.html?topic=events&about=boat` selects the topic and starts the message ("Hello, I'd like to ask about a private
-boat to San Fruttuoso."). The `about` keys and their wording are in `initContactPrefill()`. Topics must match the
+boat to Jamestown."). The `about` keys and their wording are in `initContactPrefill()`. Topics must match the
 `<option>` values of the topic select.
 
 ### Header, mobile menu and scroll reveals

@@ -1,11 +1,11 @@
 # Lingua: free HTML5 + Tailwind CSS language school website template
 
 A complete website for a language school teaching adults in small groups, built for the fictional **Lingua Language
-School** in Nottingham: a course catalog with filters, course pages with syllabus and teacher, an interactive placement
-test that recommends a course, a weekly timetable, teachers, fees and a four-step enrollment form with a live fee
+School** in San Antonio: a course catalog with filters, course pages with syllabus and teacher, an interactive placement
+test that recommends a course, a weekly schedule, teachers, fees and a four-step enrollment form with a live fee
 summary. Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.7** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/lingua)
 
 ## Quick start

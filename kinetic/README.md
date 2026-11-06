@@ -1,13 +1,13 @@
 # Kinetic: free HTML5 + Tailwind CSS personal trainer and fitness coach website template
 
-A bright, energetic website for an independent personal trainer or small PT studio, built for **Fenline
-Performance**, a fictional two-coach studio in Cambridge, UK. Italic condensed Sofia Sans headlines, a cobalt and
+A bright, energetic website for an independent personal trainer or small PT studio, built for **Foothill
+Performance**, a fictional two-coach studio in Colorado Springs, Colorado. Italic condensed Sofia Sans headlines, a cobalt and
 flare palette on warm paper, diagonal bands and SVG-drawn athletes give it an athletic-editorial feel. It has a goal
 picker that recommends a program, a booking flow with a week view and PAR-Q style health questions, a pricing
 calculator, client progress stories with SVG charts, and free training tools (plan builder, one-rep max and pace
 calculators). Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/kinetic)
 
 ## Quick start

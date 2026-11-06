@@ -6,6 +6,14 @@ All notable changes to the Kinetic HTML template are documented here. The format
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-05
+
+### Changed
+
+- Set in Colorado Springs, Colorado, with American spelling, US dollars, US phone numbers and local details.
+- Dates and times use Mountain Time and a 12-hour clock. The studio closes on US federal holidays and December 24–28,
+  worked out by rule for any year. Weights, distances and the pace calculator default to pounds, inches and miles.
+
 ## [1.0.5] - 2026-11-05
 
 ### Changed

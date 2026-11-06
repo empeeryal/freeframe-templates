@@ -37,7 +37,7 @@
   /* ------------------------------------------------------------------
    * 1. Data and helpers
    * ------------------------------------------------------------------ */
-  // Rooms, extras and offers. Edit them here (prices are per night, in euro).
+  // Rooms, extras and offers. Edit them here (prices are per night, in US dollars).
   var DATA = {
   "rooms": [
     {
@@ -46,10 +46,10 @@
       "view": "sea",
       "bed": "king",
       "capacity": 2,
-      "size": 28,
+      "size": 300,
       "rate": 360,
       "short": "Arched doors open onto a balcony and the whole bay.",
-      "description": "Our most-loved room: lime-washed walls, a rattan king bed and tall arched doors that open onto a balcony above the bay. Mornings bring fishing boats leaving the harbour; evenings, the lights of Porto Lume.",
+      "description": "Our most-loved room: lime-washed walls, a rattan king bed and tall arched doors that open onto a balcony above the bay. Mornings bring fishing boats leaving the harbor; evenings, the lights of Newport.",
       "highlights": [
         "Balcony with sea view",
         "King bed with linen sheets",
@@ -62,7 +62,7 @@
       "view": "sea",
       "bed": "king",
       "capacity": 3,
-      "size": 64,
+      "size": 690,
       "rate": 780,
       "short": "Corner suite with a private terrace and plunge pool.",
       "description": "The top-floor corner of the house, with a living room, a freestanding bath and a private terrace with a heated plunge pool facing the sunset. A sofa bed sleeps a third guest.",
@@ -78,7 +78,7 @@
       "view": "pool",
       "bed": "king",
       "capacity": 2,
-      "size": 30,
+      "size": 320,
       "rate": 310,
       "short": "Steps from the infinity pool, with its own terrace.",
       "description": "On the pool level, with a shaded terrace and a gate that opens straight onto the loungers. Ideal for long, slow afternoons between swims.",
@@ -94,12 +94,12 @@
       "view": "sea",
       "bed": "twin",
       "capacity": 3,
-      "size": 32,
+      "size": 345,
       "rate": 380,
       "short": "Two beds, a daybed and the same view of the bay.",
-      "description": "Two generous single beds that can be pushed together, a daybed for a third guest and a balcony over the water. Good for friends travelling together or a parent with a child.",
+      "description": "Two generous twin beds that can be pushed together, a daybed for a third guest and a balcony over the water. Good for friends traveling together or a parent with a child.",
       "highlights": [
-        "Two single beds",
+        "Two twin beds",
         "Daybed for a third guest",
         "Balcony with sea view"
       ]
@@ -110,10 +110,10 @@
       "view": "garden",
       "bed": "king",
       "capacity": 2,
-      "size": 24,
+      "size": 260,
       "rate": 240,
-      "short": "Quiet room among the olive trees and lavender.",
-      "description": "Our quietest rooms open onto the terraced garden of olive trees, lavender and lemon trees. Cool in summer, with a small patio for breakfast in the shade.",
+      "short": "Quiet room among the hydrangeas and lavender.",
+      "description": "Our quietest rooms open onto the terraced garden of hydrangeas, lavender and beach roses. Cool in summer, with a small patio for breakfast in the shade.",
       "highlights": [
         "Garden patio",
         "King bed",
@@ -126,10 +126,10 @@
       "view": "garden",
       "bed": "king",
       "capacity": 4,
-      "size": 52,
+      "size": 560,
       "rate": 520,
       "short": "Two rooms for four, opening onto the garden.",
-      "description": "A king bedroom and a second room with two singles, connected by a small hall, plus a garden terrace big enough for breakfast together. Cots and children's robes are ready on request.",
+      "description": "A king bedroom and a second room with two twin beds, connected by a small hall, plus a garden terrace big enough for breakfast together. Cribs and children's robes are ready on request.",
       "highlights": [
         "Two bedrooms",
         "Sleeps four",
@@ -141,16 +141,16 @@
     {
       "id": "breakfast",
       "name": "Breakfast on the terrace",
-      "price": 24,
+      "price": 28,
       "unit": "per guest per night",
-      "text": "Focaccia from the bakery in the square, fruit, eggs any way and real espresso."
+      "text": "Pastries from a bakery on Thames Street, fruit, eggs any way and real espresso."
     },
     {
       "id": "transfer",
-      "name": "Return airport transfer",
-      "price": 180,
+      "name": "Round-trip airport transfer",
+      "price": 220,
       "unit": "per stay",
-      "text": "A driver meets you at Genoa airport and brings you back at the end of your stay."
+      "text": "A driver meets you at T.F. Green Airport and brings you back at the end of your stay."
     },
     {
       "id": "late",
@@ -162,14 +162,14 @@
     {
       "id": "spa",
       "name": "Hot stone ritual",
-      "price": 140,
+      "price": 195,
       "unit": "per stay",
-      "text": "A 90-minute treatment in the spa for one guest, booked for a time that suits you."
+      "text": "A 90-minute treatment in the spa for one guest, booked for a time that works for you."
     },
     {
       "id": "prosecco",
       "name": "Welcome prosecco",
-      "price": 35,
+      "price": 45,
       "unit": "per stay",
       "text": "A chilled bottle and local olives waiting in the room when you arrive."
     }
@@ -214,7 +214,7 @@
     "Air conditioning and ceiling fan",
     "Fast Wi-Fi",
     "Espresso machine",
-    "Minibar with Ligurian wines",
+    "Minibar with Rhode Island wines",
     "Natural bath products",
     "Bathrobes and beach bag",
     "Daily housekeeping"
@@ -227,8 +227,7 @@
   var WEEKEND_UPLIFT = 0.15;       // Friday and Saturday nights cost 15% more
   var EXTRA_ADULT = 45;            // per night, for each adult beyond two
   var EXTRA_CHILD = 25;            // per night, for each child beyond two guests
-  var VAT_RATE = 0.10;             // included in prices
-  var CITY_TAX = 3.5;              // per adult per night, first 7 nights, paid at the hotel
+  var VAT_RATE = 0.14;             // Rhode Island sales tax (7%), state hotel tax (5%) and local hotel tax (2%), added to the total
   var MAX_NIGHTS = 21;
 
   var VIEW_LABEL = { sea: 'Sea view', garden: 'Garden view', pool: 'Pool view' };
@@ -242,7 +241,7 @@
   }
   function money(n) {
     var whole = Math.round(n * 100) % 100 === 0;
-    return '€' + n.toLocaleString('en-GB', { minimumFractionDigits: whole ? 0 : 2, maximumFractionDigits: 2 });
+    return '$' + n.toLocaleString('en-US', { minimumFractionDigits: whole ? 0 : 2, maximumFractionDigits: 2 });
   }
   function clampInt(v, min, max, fallback) {
     var n = typeof v === 'number' ? v : parseInt(v, 10);
@@ -287,8 +286,8 @@
     var da = parseISO(a), db = parseISO(b);
     return da && db ? Math.round((db - da) / 86400000) : 0;
   }
-  var dayFmt = new Intl.DateTimeFormat('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
-  var monthFmt = new Intl.DateTimeFormat('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+  var dayFmt = new Intl.DateTimeFormat('en-US', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+  var monthFmt = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
   function fmtDay(iso) { var d = parseISO(iso); return d ? dayFmt.format(d) : ''; }
 
   // Validate a check-in/check-out pair; returns { ok, field, message }.
@@ -322,7 +321,7 @@
     return { ok: true, promo: p, message: p.name + ': ' + p.percent + '% off the room rate.' };
   }
 
-  // Full price for a stay. All prices include VAT; city tax is shown separately.
+  // Full price for a stay. Rates and extras exclude tax; the total includes it (VAT_RATE).
   function quote(stay) {
     var room = findRoom(stay.room);
     var nights = nightsBetween(stay.checkin, stay.checkout);
@@ -347,12 +346,12 @@
     var extrasTotal = extras.reduce(function (s, x) { return s + x.amount; }, 0);
     var promo = checkPromo(stay.promo, stay);
     var discount = promo.ok ? Math.round(roomTotal * promo.promo.percent / 100) : 0;
-    var total = roomTotal + extraGuests + extrasTotal - discount;
+    var subtotal = roomTotal + extraGuests + extrasTotal - discount;
+    var tax = Math.round(subtotal * VAT_RATE * 100) / 100;
     return {
       room: room, nights: nights, weekendNights: weekendNights, roomTotal: roomTotal,
       extraGuests: extraGuests, extras: extras, discount: discount, promo: promo,
-      total: total, vat: total - total / (1 + VAT_RATE),
-      cityTax: CITY_TAX * adults * Math.min(nights, 7),
+      total: Math.round((subtotal + tax) * 100) / 100, vat: tax,
     };
   }
 
@@ -363,12 +362,12 @@
     if (q.extraGuests) rows.push(['Extra guests', money(q.extraGuests)]);
     q.extras.forEach(function (x) { rows.push([x.name, money(x.amount)]); });
     if (q.discount) rows.push([q.promo.promo.name + ' (' + q.promo.promo.code + ')', '−' + money(q.discount)]);
+    rows.push(['Estimated sales and hotel tax (14%)', money(q.vat)]);
     return '<dl class="space-y-2.5">' + rows.map(function (r) {
       return '<div class="flex justify-between gap-4"><dt class="text-mist">' + esc(r[0]) + '</dt><dd>' + r[1] + '</dd></div>';
     }).join('') +
       '<div class="flex justify-between gap-4 border-t border-line pt-3 text-base"><dt class="font-medium">Total</dt><dd class="font-display text-2xl">' + money(q.total) + '</dd></div>' +
-      '<div class="flex justify-between gap-4 text-xs text-mist"><dt>Includes VAT</dt><dd>' + money(q.vat) + '</dd></div>' +
-      '<div class="flex justify-between gap-4 text-xs text-mist"><dt>City tax, paid at the hotel</dt><dd>' + money(q.cityTax) + '</dd></div>' +
+      '<div class="flex justify-between gap-4 text-xs text-mist"><dt>Rates and extras are shown before tax.</dt></div>' +
       '</dl>';
   }
 
@@ -562,7 +561,7 @@
       '<a href="room.html?room=' + r.id + '" class="block overflow-hidden rounded-2xl" aria-label="' + esc(r.name) + ': view room">' +
       '<div class="art aspect-[4/3]"><img src="assets/img/room-' + r.id + '.svg" alt="' + esc(r.name) + ': bedroom with ' + VIEW_LABEL[r.view].toLowerCase() + '" width="1600" height="1000" loading="lazy"></div></a>' +
       '<div class="mt-5 flex items-start justify-between gap-4"><h3 class="font-display text-2xl"><a href="room.html?room=' + r.id + '" class="link-underline">' + esc(r.name) + '</a></h3>' +
-      '<p class="shrink-0 text-right text-sm text-mist">from <span class="block font-display text-xl text-ink">€' + r.rate + '</span><span class="sr-only"> per night</span></p></div>' +
+      '<p class="shrink-0 text-right text-sm text-mist">from <span class="block font-display text-xl text-ink">$' + r.rate + '</span><span class="sr-only"> per night</span></p></div>' +
       '<p class="mt-2 text-mist">' + esc(r.short) + '</p></article>';
   }
 
@@ -582,7 +581,7 @@
       pageEl.dataset.roomId = room.id;
       var set = function (key, text) { $$('[data-room-field="' + key + '"]').forEach(function (el) { el.textContent = text; }); };
       set('name', room.name); set('short', room.short); set('description', room.description);
-      set('rate', '€' + room.rate); set('size', room.size + ' m²'); set('bed', BED_LABEL[room.bed]);
+      set('rate', '$' + room.rate); set('size', room.size + ' sq ft'); set('bed', BED_LABEL[room.bed]);
       set('capacity', 'Up to ' + room.capacity + ' guests'); set('view', VIEW_LABEL[room.view]); set('view-label', VIEW_LABEL[room.view]);
       var list = $('[data-room-field="amenities"]');
       var tick = list.querySelector('svg').outerHTML;
@@ -802,8 +801,8 @@
     var topic = q.get('topic');
     if (topic && $$('option', form.elements.topic).some(function (o) { return o.value === topic; })) form.elements.topic.value = topic;
     var about = q.get('about');
-    var names = { stone: 'the hot stone ritual', scrub: 'the sea salt scrub', boat: 'a private boat to San Fruttuoso', kayak: 'the sea kayak trip',
-      walk: 'the coastal walk to Portofino', pesto: 'the pesto class', dinner: 'a private dinner on the terrace', weddings: 'weddings and celebrations' };
+    var names = { stone: 'the hot stone ritual', scrub: 'the sea salt scrub', boat: 'a private boat to Jamestown', kayak: 'the sea kayak trip',
+      walk: 'the Cliff Walk past the mansions', pesto: 'the pesto class', dinner: 'a private dinner on the terrace', weddings: 'weddings and celebrations' };
     if (about && names[about] && !form.elements.message.value) form.elements.message.value = 'Hello, I’d like to ask about ' + names[about] + '. ';
   }
 
@@ -860,7 +859,7 @@
           '<input type="radio" name="room" value="' + r.id + '" class="sr-only"' + (available ? '' : ' disabled') + (state.room === r.id && available ? ' checked' : '') + ' aria-describedby="room-note-' + r.id + '">' +
           '<span class="art aspect-[4/3] w-28 shrink-0 overflow-hidden rounded-xl sm:w-36"><img src="assets/img/room-' + r.id + '.svg" alt="" width="1600" height="1000" loading="lazy"></span>' +
           '<span class="min-w-0 flex-1"><span class="block font-display text-xl">' + esc(r.name) + '</span>' +
-          '<span class="mt-1 block text-sm text-mist">' + VIEW_LABEL[r.view] + ' · ' + BED_LABEL[r.bed] + ' · ' + r.size + ' m²</span>' +
+          '<span class="mt-1 block text-sm text-mist">' + VIEW_LABEL[r.view] + ' · ' + BED_LABEL[r.bed] + ' · ' + r.size + '&nbsp;sq&nbsp;ft</span>' +
           '<span id="room-note-' + r.id + '" class="mt-2 block text-sm ' + (available ? 'font-medium text-sea' : 'text-coral') + '">' + note + '</span></span>' +
           '<span class="hidden h-6 w-6 shrink-0 place-items-center rounded-full border border-line sm:grid" aria-hidden="true"><span class="h-3 w-3 rounded-full bg-sea opacity-0 transition [label:has(:checked)_&]:opacity-100"></span></span></label>';
       }).join('');

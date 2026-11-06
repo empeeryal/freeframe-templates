@@ -3,12 +3,12 @@
 ## Overview
 
 Wander is a website for a small-group tour company, built for **Saltwind Journeys**, a fictional travel
-company by Sheffield's canal basin that runs trips of twelve travelers or fewer in Morocco, Peru, Norway,
+company by Flagstaff's rail depot that runs trips of twelve travelers or fewer in Morocco, Peru, Norway,
 the Aegean, Japan and Tanzania. It has a trip finder, a filterable tours page, tour pages with a
 day-by-day itinerary, a route map, departure dates and a live-priced booking inquiry, a destinations page
 with a seasonality chart, a journal with an article, an about page and a contact page. It is plain HTML
 with Tailwind CSS v4 and one vanilla JavaScript file, with no build step needed to use it. This guide
-covers version 1.0.2. See it live at [freeframe.dev/templates/wander](https://freeframe.dev/templates/wander).
+covers version 1.0.5. See it live at [freeframe.dev/templates/wander](https://freeframe.dev/templates/wander).
 
 ## Quick start
 
@@ -125,7 +125,7 @@ To add a tour, add an object to `TOURS`:
 ```js
 {
   id: 'dolomites-huts', name: 'Dolomites Hut to Hut', region: 'alps', country: 'Italy', style: 'hiking',
-  days: 8, price: 2290, single: 280, rating: 4.8, reviews: 0, group: 12, level: 'Moderate', badge: 'New',
+  days: 8, price: 3090, single: 380, rating: 4.8, reviews: 0, group: 12, level: 'Moderate', badge: 'New',
   months: [6, 7, 8, 9], scene: 'mountains', time: 'day', featured: 0,
   summary: 'Seven days between mountain huts, with your bags sent ahead.',
   highlights: ['Tre Cime at sunrise', 'Nights in family-run huts', 'Via ferrata taster'],
@@ -146,7 +146,7 @@ To add a tour, add an object to `TOURS`:
   region also needs a checkbox in the filter form in
   `tours.html` (copy one `<label class="pill-check">` and change `value` and `data-count-for`), an option
   in the home page trip finder, and a section on `destinations.html` if you want one.
-- `price` is the lowest price per person and `single` the own-room supplement per person, in pounds.
+- `price` is the lowest price per person and `single` the own-room supplement per person, in US dollars.
 - `months` (1–12) are the months the tour departs; they drive the month filter and the departure dates.
 - `stops` are route map points: `[x, y, name]`, with `x` and `y` as percentages of the map's width and
   height.
@@ -202,11 +202,11 @@ first `<p>` after the skip link.
 `duration` (several in one group combine with OR, groups combine with AND), a `month` select and a `max`
 budget slider. `#sort` orders by recommended, price, length or rating (`SORTS`). Every change re-renders
 `#tour-grid`, updates the live count `#result-count`, the removable chips in `#active-filters` and the
-small count next to each option (how many trips you'd see if you ticked it), and writes the state to the
+small count next to each option (how many trips you'd see if you checked it), and writes the state to the
 URL with `history.replaceState`:
 
 ```text
-tours.html?region=morocco,japan&style=hiking&duration=medium&month=5&max=3000&sort=price-asc
+tours.html?region=morocco,japan&style=hiking&duration=medium&month=5&max=4000&sort=price-asc
 ```
 
 `readState()` reads the URL: names and values are case-insensitive, lists can be comma-separated or
@@ -232,7 +232,7 @@ departure leaves on the first Saturday on or after each day in `DEPARTURE_DAYS`,
 `BOOKING_CUTOFF` days from today. Months rated 3 ("best") in the region's `season` cost
 `PEAK_SUPPLEMENT` more and are marked "Peak". Places left are demo data from a stable hash of the tour and
 date, so they are the same on every visit: 0 shows "Full" (and is disabled in the widget), 1–3 "Only N
-left", and four or more travellers booked shows "Guaranteed". Replace `departures()` with your real dates
+left", and four or more travelers booked shows "Guaranteed". Replace `departures()` with your real dates
 (for example a fixed array per tour) if you have them; the table and widget only need objects of the form
 `{ start, end, month, price, peak, left, guaranteed }`.
 
@@ -276,7 +276,7 @@ submit, the first invalid field is focused, and each error is in the element `<f
 
 | Attribute | Rule |
 |-----------|------|
-| `required` | Must not be empty (checkboxes must be ticked; message from `data-msg`) |
+| `required` | Must not be empty (checkboxes must be checked; message from `data-msg`) |
 | `type="email"` | Must look like an email address |
 | `type="tel"` | Digits, spaces, `+`, `(`, `)` and `-` only, 7 to 20 characters |
 | `minlength` | Minimum length |
@@ -290,8 +290,8 @@ submit, the first invalid field is focused, and each error is in the element `<f
 
 The form's `data-success` attribute names its success box. **The forms don't send anything** until you
 connect them, although their success messages read as if they had: the newsletter one asks the reader to
-look out for a confirmation email, the contact one promises a reply within one working day and the inquiry
-one a reply from a travel expert within one working day, as the pages already say. The contact and inquiry
+look out for a confirmation email, the contact one promises a reply within one business day and the inquiry
+one a reply from a travel expert within one business day, as the pages already say. The contact and inquiry
 messages show a short reference (`SJ-` and four characters) made by `makeRef()` in `showSuccess()`; show
 your form service's own reference instead if it returns one. To collect submissions, post the form in `onValid()` in section 11 of `main.js`,
 for example to Formspree:

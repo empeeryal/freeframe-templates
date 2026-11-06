@@ -6,6 +6,13 @@ All notable changes to the Brief HTML template are documented here. The format f
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-05
+
+### Changed
+
+- Set in Dayton, Ohio, with American spelling, US dollars, US phone numbers and local details.
+- The options check, deadline calculator and guides now follow Ohio and federal employment law (at-will jobs, EEOC charges within 300 days, two-year Ohio Civil Rights Commission and wage limits). The estimator no longer has a VAT option, the booking calendar closes on US federal holidays worked out by rule for any year, and times are Eastern.
+
 ## [1.0.5] - 2026-11-05
 
 ### Changed
