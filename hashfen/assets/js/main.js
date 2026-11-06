@@ -5,7 +5,7 @@
 (() => {
   "use strict";
   const { networks: NETWORKS, guides: GUIDES, plans: PLANS, team: TEAM } = window.HASHFEN_DATA;
-  const TIME_ZONE = "Europe/London";
+  const TIME_ZONE = "America/Denver";
   const STORAGE_KEYS = {
     watch: "hashfen:watch:v1",
     planner: "hashfen:planner:v1",
@@ -46,14 +46,14 @@
   const cleanText = (value, length) =>
     typeof value === "string" ? value.replace(/[\u0000-\u001f\u007f]/g, "").slice(0, length) : "";
   const money = (value) =>
-    new Intl.NumberFormat("en-GB", {
+    new Intl.NumberFormat("en-US", {
       style: "currency",
-      currency: "GBP",
+      currency: "USD",
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(value);
   const number = (value, maximumFractionDigits = 2) =>
-    new Intl.NumberFormat("en-GB", { maximumFractionDigits }).format(value);
+    new Intl.NumberFormat("en-US", { maximumFractionDigits }).format(value);
   const plural = (count, word, pluralWord = word + "s") => `${count} ${count === 1 ? word : pluralWord}`;
   const parameters = new URLSearchParams(location.search);
   const queryKey = (key, map, fallback) => (own(map, parameters.get(key)) ? parameters.get(key) : fallback);
@@ -590,7 +590,7 @@
     if (!cards) return;
     cards.innerHTML = PLANS.map(
       (plan) =>
-        `<article class="flex flex-col border ${plan.id === "team" ? "border-lime bg-panel" : "border-line"} p-6"><p class="eyebrow">${escape(plan.name)}</p><h2 class="mt-5 text-lg leading-relaxed">${escape(plan.headline)}</h2><p class="mt-7 text-4xl font-bold text-lime">£${plan.price}<span class="text-sm font-normal text-muted"> / month</span></p><p class="mt-4 text-sm text-muted">${plural(plan.seats, "researcher place")} · ${number(plan.queries, 0)} monthly lookups</p><ul class="mt-7 grow space-y-4 text-sm text-muted">${plan.features.map((feature) => `<li class="border-t border-line pt-3">${escape(feature)}</li>`).join("")}</ul><a href="company.html?plan=${plan.id}#contact" class="btn-outline mt-7">Discuss ${escape(plan.name)}</a></article>`,
+        `<article class="flex flex-col border ${plan.id === "team" ? "border-lime bg-panel" : "border-line"} p-6"><p class="eyebrow">${escape(plan.name)}</p><h2 class="mt-5 text-lg leading-relaxed">${escape(plan.headline)}</h2><p class="mt-7 text-4xl font-bold text-lime">$${plan.price}<span class="text-sm font-normal text-muted"> / month</span></p><p class="mt-4 text-sm text-muted">${plural(plan.seats, "researcher seat")} · ${number(plan.queries, 0)} monthly lookups</p><ul class="mt-7 grow space-y-4 text-sm text-muted">${plan.features.map((feature) => `<li class="border-t border-line pt-3">${escape(feature)}</li>`).join("")}</ul><a href="company.html?plan=${plan.id}#contact" class="btn-outline mt-7">Discuss ${escape(plan.name)}</a></article>`,
     ).join("");
     const form = $("[data-pricing-form]");
     form.elements.plan.value = queryKey("plan", PLAN_MAP, "team");
@@ -603,7 +603,7 @@
       $("[data-price-breakdown]").innerHTML = [
         ["Base subscription", money(result.annual ? result.plan.annual : result.plan.price)],
         [
-          `${plural(result.extraSeats, "additional place")}`,
+          `${plural(result.extraSeats, "additional seat")}`,
           money(result.extraSeats * result.plan.extraSeat * (result.annual ? 12 : 1)),
         ],
         [
@@ -780,7 +780,7 @@
     elements.forEach((element) => observer.observe(element));
   }
   $$("[data-year]").forEach((element) => {
-    element.textContent = new Intl.DateTimeFormat("en-GB", { timeZone: TIME_ZONE, year: "numeric" }).format(new Date());
+    element.textContent = new Intl.DateTimeFormat("en-US", { timeZone: TIME_ZONE, year: "numeric" }).format(new Date());
   });
   $$("[data-profile-picker]").forEach((select) => {
     select.innerHTML = NETWORKS.map(

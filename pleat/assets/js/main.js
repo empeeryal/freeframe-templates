@@ -1,13 +1,13 @@
 /* Pleat — a small workroom ledger.
  * Data, pricing and appointment rules live here. No libraries or external requests.
- * Amounts are whole pounds, inclusive of materials described in each service.
+ * Amounts are whole dollars, inclusive of materials described in each service.
  * Forms validate in the browser and show the workroom's confirmation with a short
  * reference; connect the documented handlers to a server so requests are delivered.
  */
 (() => {
   "use strict";
 
-  const TIME_ZONE = "Europe/London";
+  const TIME_ZONE = "America/New_York";
   const STORE_PLAN = "pleat:repair-plan";
   const PLAN_VERSION = 1;
   const MAX_LINES = 12;
@@ -21,8 +21,8 @@
     5: { open: "09:30", close: "17:30" },
     6: { open: "10:00", close: "15:00" },
   };
-  // The workroom closes for a winter break every year and on England and Wales bank
-  // holidays, worked out for any year by bankHolidays(). Add one-off closures to
+  // The workroom closes for a winter break every year and on US federal holidays,
+  // worked out for any year by bankHolidays(). Add one-off closures to
   // EXTRA_CLOSED as ISO dates, e.g. "2027-07-16".
   const WINTER_BREAK = { from: "12-24", through: "01-02" };
   const CLOSE_ON_BANK_HOLIDAYS = true;
@@ -54,39 +54,39 @@
       name: "Standard schedule",
       multiplier: 0,
       days: null,
-      note: "The longest alteration sets the guide turnaround. We agree a collection date at the fitting.",
+      note: "The longest alteration sets the estimated turnaround. We agree on a pickup date at the fitting.",
     },
     priority: {
       name: "Priority request (+30%)",
       multiplier: 0.3,
       days: 3,
-      note: "A request for about half the guide turnaround, never less than 3 working days. Capacity and garment suitability must be confirmed; occasion work may need longer.",
+      note: "A request for about half the estimated turnaround, never less than 3 business days. Capacity and garment suitability must be confirmed; occasion work may need longer.",
     },
   };
   const SERVICES = {
     "trouser-hem": {
-      name: "Trouser hem",
+      name: "Pants hem",
       category: "everyday",
       art: "trousers",
-      price: 18,
+      price: 24,
       days: 5,
-      short: "A cleaner break, with the finish your trousers were made for.",
+      short: "A cleaner break, with the finish your pants were made for.",
       description:
-        "From an everyday pair of chinos to wool trousers with a turn-up. We pin the length on you, check both legs and preserve the original character of the hem.",
+        "From an everyday pair of chinos to wool dress pants with cuffs. We pin the length on you, check both legs and preserve the original character of the hem.",
       finishes: {
         machine: {
           name: "Machine-stitched hem",
           extra: 0,
-          note: "A neat, durable finish for chinos, cotton and casual trousers.",
+          note: "A neat, durable finish for chinos, cotton and casual pants.",
         },
         blind: {
           name: "Blind hem",
-          extra: 6,
-          note: "An almost invisible finish for tailored wool and dress trousers.",
+          extra: 8,
+          note: "An almost invisible finish for tailored wool and dress pants.",
         },
         turnup: {
-          name: "Turn-up",
-          extra: 10,
+          name: "Cuffed hem",
+          extra: 12,
           note: "A balanced cuff, with enough allowance left for the right depth.",
         },
       },
@@ -96,30 +96,30 @@
         "Enough hem allowance for your chosen finish.",
       ],
       bring:
-        "The shoes you will wear most often with these trousers. Bring a belt if that is how you normally wear them.",
+        "The shoes you will wear most often with these pants. Bring a belt if that is how you normally wear them.",
       limit: "Lengthening depends on the cloth already inside the hem. Old fold marks may remain visible.",
       related: ["waist-adjust", "zip-trouser", "denim-patch"],
     },
     "waist-adjust": {
-      name: "Trouser waist adjustment",
+      name: "Pants waist adjustment",
       category: "tailoring",
       art: "trousers",
-      price: 32,
+      price: 38,
       days: 7,
       short: "A waistband that sits comfortably, without pulling at the seat.",
       description:
-        "We adjust the waistband and centre-back seam together, keeping the seat and pockets balanced. A small waist alteration can make a familiar pair feel entirely different.",
+        "We adjust the waistband and center-back seam together, keeping the seat and pockets balanced. A small waist alteration can make a familiar pair feel entirely different.",
       finishes: {
-        takein: { name: "Take in waist and seat", extra: 0, note: "For a modest reduction, usually up to 4cm." },
+        takein: { name: "Take in waist and seat", extra: 0, note: "For a modest reduction, usually up to 1.5 inches." },
         letout: {
           name: "Let out waist and seat",
-          extra: 4,
+          extra: 6,
           note: "Subject to the available seam allowance, checked in person.",
         },
         split: {
           name: "Split waistband construction",
-          extra: 10,
-          note: "For trousers whose waistband needs additional reconstruction.",
+          extra: 14,
+          note: "For pants whose waistband needs additional reconstruction.",
         },
       },
       checks: [
@@ -136,7 +136,7 @@
       name: "Jacket sleeve length",
       category: "tailoring",
       art: "coat",
-      price: 48,
+      price: 55,
       days: 8,
       short: "The right amount of shirt cuff, with the lining sitting cleanly.",
       description:
@@ -145,13 +145,13 @@
         plain: { name: "Plain sleeve end", extra: 0, note: "A clean sleeve without a vent or button detail." },
         buttons: {
           name: "Vent and decorative buttons",
-          extra: 16,
+          extra: 20,
           note: "Button positions and sleeve vent are rebuilt to suit the new length.",
         },
         working: {
           name: "Working buttonholes assessment",
-          extra: 30,
-          note: "A guide allowance only. Working cuffs may require alteration from the shoulder.",
+          extra: 40,
+          note: "An estimated allowance only. Working cuffs may require alteration from the shoulder.",
         },
       },
       checks: [
@@ -159,7 +159,7 @@
         "A balanced length with arms relaxed.",
         "Vent depth, lining ease and button spacing.",
       ],
-      bring: "Your usual shirt. If this is part of a suit, bring the trousers too.",
+      bring: "Your usual shirt. If this is part of a suit, bring the pants too.",
       limit: "Working buttonholes can restrict shortening. Shoulder alterations are quoted individually.",
       related: ["jacket-waist", "coat-lining", "button-set"],
     },
@@ -167,17 +167,17 @@
       name: "Jacket body shaping",
       category: "tailoring",
       art: "coat",
-      price: 62,
+      price: 75,
       days: 10,
       short: "A little definition through the body, with room to move.",
       description:
         "Taking in a jacket is about balance as much as size. We shape through the side or back seams, keep the hem level and check that the jacket still moves with you.",
       finishes: {
         seams: { name: "Two-seam shaping", extra: 0, note: "A measured change through two existing seams." },
-        four: { name: "Four-seam shaping", extra: 24, note: "A more distributed adjustment for a smoother line." },
+        four: { name: "Four-seam shaping", extra: 30, note: "A more distributed adjustment for a smoother line." },
         unlined: {
           name: "Unlined jacket finish",
-          extra: 10,
+          extra: 15,
           note: "Visible internal seams are finished to match the original.",
         },
       },
@@ -186,7 +186,7 @@
         "The line of the vents and front edges.",
         "Movement through the shoulders when seated.",
       ],
-      bring: "The shirt, layers and trousers you will wear with the jacket.",
+      bring: "The shirt, layers and pants you will wear with the jacket.",
       limit:
         "We do not offer routine shoulder narrowing. A size change of more than one size rarely keeps the original proportions.",
       related: ["jacket-sleeve", "trouser-hem", "coat-lining"],
@@ -195,11 +195,11 @@
       name: "Dress hem",
       category: "occasion",
       art: "dress",
-      price: 34,
+      price: 40,
       days: 7,
       short: "An even fall, from a simple day dress to a sweeping skirt.",
       description:
-        "We pin all the way round, allow bias-cut cloth to settle and choose a hem that suits the movement of the dress. The final length is checked with your occasion shoes.",
+        "We pin all the way around, allow bias-cut cloth to settle and choose a hem that suits the movement of the dress. The final length is checked with your occasion shoes.",
       finishes: {
         straight: {
           name: "Straight, single-layer hem",
@@ -208,12 +208,12 @@
         },
         lined: {
           name: "Dress with a separate lining",
-          extra: 18,
+          extra: 20,
           note: "Both dress and lining are shortened and finished separately.",
         },
         full: {
           name: "Full or bias-cut skirt",
-          extra: 30,
+          extra: 40,
           note: "Extra sweep and settling time are allowed for in the work.",
         },
       },
@@ -230,7 +230,7 @@
       name: "Dress bodice fitting",
       category: "occasion",
       art: "dress",
-      price: 48,
+      price: 65,
       days: 10,
       short: "A bodice that follows you, without fighting your movement.",
       description:
@@ -239,12 +239,12 @@
         side: { name: "Side-seam fitting", extra: 0, note: "A straightforward adjustment through the side seams." },
         lined: {
           name: "Lined bodice fitting",
-          extra: 24,
+          extra: 30,
           note: "The lining is opened, adjusted and closed separately.",
         },
         structured: {
           name: "Structured bodice assessment",
-          extra: 42,
+          extra: 55,
           note: "Boning and internal support need more fitting time. Final work is agreed individually.",
         },
       },
@@ -261,7 +261,7 @@
       name: "Dress strap adjustment",
       category: "occasion",
       art: "dress",
-      price: 22,
+      price: 25,
       days: 5,
       short: "A small adjustment that lifts the whole fit.",
       description:
@@ -270,12 +270,12 @@
         simple: { name: "Simple pair of straps", extra: 0, note: "Two unembellished fabric straps." },
         lined: {
           name: "Lined or concealed attachment",
-          extra: 10,
+          extra: 12,
           note: "The strap end is accessed inside the bodice lining.",
         },
         embellished: {
           name: "Embellished straps",
-          extra: 18,
+          extra: 25,
           note: "Beads or trims are carefully removed and reattached.",
         },
       },
@@ -292,17 +292,17 @@
       name: "Skirt waist adjustment",
       category: "everyday",
       art: "skirt",
-      price: 36,
+      price: 42,
       days: 7,
       short: "Sitting at the right place, with the pleats still in order.",
       description:
         "We reshape the waistband and the seam below it as one alteration. Pleats, darts and lining are kept in balance so the skirt hangs as intended.",
       finishes: {
         plain: { name: "Plain waistband", extra: 0, note: "A simple waistband with a side or back seam." },
-        lined: { name: "Lined skirt", extra: 12, note: "The lining is adjusted alongside the outer skirt." },
+        lined: { name: "Lined skirt", extra: 15, note: "The lining is adjusted alongside the outer skirt." },
         pleated: {
           name: "Pleated or detailed waist",
-          extra: 24,
+          extra: 30,
           note: "Pleats or decorative details are reset after the adjustment.",
         },
       },
@@ -315,17 +315,17 @@
       name: "Shirt sleeve shortening",
       category: "everyday",
       art: "shirt",
-      price: 30,
+      price: 35,
       days: 6,
       short: "A cuff that stops where you want it, not halfway down your hand.",
       description:
         "We remove the cuff, shorten the sleeve and rebuild the pleats and placket so the result looks considered. Both sleeves are measured independently.",
       finishes: {
         cuff: { name: "Standard button cuff", extra: 0, note: "The original cuff is removed and reattached." },
-        double: { name: "Double or French cuff", extra: 10, note: "A double cuff is reset to the correct length." },
+        double: { name: "Double or French cuff", extra: 12, note: "A double cuff is reset to the correct length." },
         placket: {
           name: "Extended placket reconstruction",
-          extra: 18,
+          extra: 22,
           note: "For a larger reduction where the placket needs rebuilding.",
         },
       },
@@ -339,84 +339,84 @@
       related: ["button-set", "jacket-sleeve", "seam-repair"],
     },
     "zip-trouser": {
-      name: "Trouser zip replacement",
+      name: "Pants zipper replacement",
       category: "repair",
       art: "trousers",
-      price: 28,
+      price: 35,
       days: 5,
-      short: "A sound new zip, matched to the garment rather than the nearest drawer.",
+      short: "A sound new zipper, matched to the garment rather than the nearest drawer.",
       description:
-        "We remove the failed zip, reinforce worn cloth where needed and fit a suitable replacement. The fly and waistband are checked before the trousers leave the bench.",
+        "We remove the failed zipper, reinforce worn cloth where needed and fit a suitable replacement. The fly and waistband are checked before the pants leave the bench.",
       finishes: {
         standard: {
-          name: "Standard coil zip",
+          name: "Standard coil zipper",
           extra: 0,
-          note: "A durable zip for most everyday trousers; materials included.",
+          note: "A durable zipper for most everyday pants; materials included.",
         },
         metal: {
-          name: "Metal denim zip",
-          extra: 6,
-          note: "A robust metal replacement for jeans and heavier trousers.",
+          name: "Metal denim zipper",
+          extra: 8,
+          note: "A robust metal replacement for jeans and heavier pants.",
         },
-        concealed: { name: "Concealed side zip", extra: 10, note: "For trousers with an invisible side fastening." },
+        concealed: { name: "Concealed side zipper", extra: 12, note: "For pants with an invisible side zipper." },
       },
       checks: [
-        "Whether the slider or the entire zip has failed.",
+        "Whether the slider or the entire zipper has failed.",
         "The strength of the cloth around the fly.",
-        "The waistband closure and zip stop.",
+        "The waistband closure and zipper stop.",
       ],
-      bring: "The clean trousers. No fitting is normally needed for a like-for-like replacement.",
-      limit: "Worn fabric around the zip may need a separate reinforcement. We will agree this first.",
+      bring: "The clean pants. No fitting is normally needed for a like-for-like replacement.",
+      limit: "Worn fabric around the zipper may need a separate reinforcement. We will agree this first.",
       related: ["trouser-hem", "waist-adjust", "denim-patch"],
     },
     "zip-dress": {
-      name: "Dress or skirt zip",
+      name: "Dress or skirt zipper",
       category: "repair",
       art: "skirt",
-      price: 34,
+      price: 42,
       days: 7,
       short: "A smooth fastening, with the seams meeting where they should.",
       description:
-        "An invisible zip only works well when it is set without stretching the cloth. We stabilise the opening, match the colour and check the waistline joins cleanly.",
+        "An invisible zipper only works well when it is set without stretching the cloth. We stabilize the opening, match the color and check the waistline joins cleanly.",
       finishes: {
-        unlined: { name: "Unlined garment", extra: 0, note: "A replacement zip up to 55cm, with materials included." },
+        unlined: { name: "Unlined garment", extra: 0, note: "A replacement zipper up to 22 inches, with materials included." },
         lined: {
           name: "Lined garment",
-          extra: 16,
-          note: "The lining is carefully released and resewn around the new zip.",
+          extra: 20,
+          note: "The lining is carefully released and resewn around the new zipper.",
         },
         long: {
           name: "Long or detailed opening",
-          extra: 24,
-          note: "For long zips, piping or detailed seam junctions.",
+          extra: 30,
+          note: "For long zippers, piping or detailed seam junctions.",
         },
       },
       checks: [
-        "The colour and length of the replacement.",
+        "The color and length of the replacement.",
         "The strength of the seam and the fabric edge.",
         "A smooth closure across waist and trim lines.",
       ],
-      bring: "The clean garment. If the zip failed because the fit is tight, book a fitting too.",
-      limit: "Some specialist colours need extra sourcing time; we discuss alternatives before ordering.",
+      bring: "The clean garment. If the zipper failed because the fit is tight, book a fitting too.",
+      limit: "Some specialty colors need extra sourcing time; we discuss alternatives before ordering.",
       related: ["dress-fit", "skirt-waist", "dress-hem"],
     },
     "denim-patch": {
       name: "Denim reinforcement",
       category: "repair",
       art: "trousers",
-      price: 26,
+      price: 30,
       days: 6,
       short: "Strength where it is needed, with a finish you choose.",
       description:
         "A soft internal patch supports worn denim, with rows of stitching to spread the strain. We can blend the thread into the cloth or make the mend part of the story.",
       finishes: {
         small: {
-          name: "One area, up to 8cm",
+          name: "One area, up to 3 inches",
           extra: 0,
           note: "A small tear or worn patch, supported from the inside.",
         },
-        large: { name: "One area, up to 15cm", extra: 14, note: "A larger worn area with additional reinforcement." },
-        pair: { name: "Two small areas", extra: 20, note: "Useful for the inner thighs or matching knee repairs." },
+        large: { name: "One area, up to 6 inches", extra: 18, note: "A larger worn area with additional reinforcement." },
+        pair: { name: "Two small areas", extra: 25, note: "Useful for the inner thighs or matching knee repairs." },
       },
       checks: [
         "The size of the weak area beyond the visible hole.",
@@ -431,23 +431,23 @@
       name: "Knitwear darning",
       category: "repair",
       art: "knit",
-      price: 24,
+      price: 32,
       days: 10,
       short: "Small holes, rebuilt with a patient hand and sympathetic yarn.",
       description:
         "We hand-darn small holes in wool and cashmere, rebuilding the weave with a soft matching yarn or a deliberate contrast. It is a repair to live with, rather than disguise at any cost.",
       finishes: {
-        small: { name: "One hole, up to 2cm", extra: 0, note: "A small hole with sound knitting around it." },
-        pair: { name: "Two small holes", extra: 16, note: "Two holes on the same garment, up to 2cm each." },
+        small: { name: "One hole, up to 3/4 inch", extra: 0, note: "A small hole with sound knitting around it." },
+        pair: { name: "Two small holes", extra: 22, note: "Two holes on the same garment, up to 3/4 inch each." },
         visible: {
-          name: "Visible darn, up to 4cm",
-          extra: 18,
-          note: "A contrast repair with colour discussed in the workroom.",
+          name: "Visible darn, up to 1.5 inches",
+          extra: 25,
+          note: "A contrast repair with color discussed in the workroom.",
         },
       },
       checks: [
         "The stability of the surrounding knit.",
-        "A yarn weight and colour that suits the piece.",
+        "A yarn weight and color that suits the piece.",
         "Whether the damage needs treatment before repair.",
       ],
       bring:
@@ -459,7 +459,7 @@
       name: "Coat lining repair",
       category: "repair",
       art: "coat",
-      price: 44,
+      price: 55,
       days: 10,
       short: "A comfortable inside for a coat with plenty left to give.",
       description:
@@ -472,12 +472,12 @@
         },
         sleeves: {
           name: "Pair of sleeve linings",
-          extra: 30,
+          extra: 40,
           note: "Both sleeve linings replaced, including standard lining cloth.",
         },
         full: {
           name: "Full relining allowance",
-          extra: 116,
+          extra: 165,
           note: "A starting allowance for a complete coat lining; final quote after inspection.",
         },
       },
@@ -492,49 +492,49 @@
       related: ["jacket-sleeve", "button-set", "seam-repair"],
     },
     "button-set": {
-      name: "Buttons & fastenings",
+      name: "Buttons & fasteners",
       category: "repair",
       art: "shirt",
-      price: 12,
+      price: 15,
       days: 3,
-      short: "A loose end put right before it becomes a lost favourite.",
+      short: "A loose end put right before it becomes a lost favorite.",
       description:
-        "We secure buttons with the right thread shank and reinforce the cloth if needed. Hooks, bars and press studs are checked for alignment and a comfortable closure.",
+        "We secure buttons with the right thread shank and reinforce the cloth if needed. Hooks, bars and snaps are checked for alignment and a comfortable closure.",
       finishes: {
         pair: {
           name: "Up to two buttons",
           extra: 0,
           note: "Use your original or spare buttons. Standard matching buttons are included if available.",
         },
-        set: { name: "Set of up to six buttons", extra: 12, note: "A full matching set on a shirt or cardigan." },
-        hook: { name: "Hook and bar replacement", extra: 4, note: "A secure new fastening for a waistband or collar." },
+        set: { name: "Set of up to six buttons", extra: 15, note: "A full matching set on a shirt or cardigan." },
+        hook: { name: "Hook and bar replacement", extra: 6, note: "A secure new fastener for a waistband or collar." },
       },
       checks: [
-        "The condition of the cloth behind the fastening.",
+        "The condition of the cloth behind the fastener.",
         "The thread shank needed for the fabric thickness.",
         "Alignment when the garment is worn.",
       ],
       bring: "Any original spare buttons. Distinctive or decorative buttons are sourced by agreement.",
-      limit: "Specialist button sourcing costs are agreed separately. Damaged buttonholes may need another repair.",
+      limit: "Specialty button sourcing costs are agreed separately. Damaged buttonholes may need another repair.",
       related: ["shirt-sleeve", "coat-lining", "seam-repair"],
     },
     "seam-repair": {
       name: "Split seam repair",
       category: "repair",
       art: "shirt",
-      price: 16,
+      price: 20,
       days: 4,
       short: "A seam closed properly, with the cause checked as well as the split.",
       description:
         "We check whether the thread has failed or the cloth itself has worn away, then rebuild the seam with a suitable finish. A little reinforcement can prevent the same split returning.",
       finishes: {
-        plain: { name: "Simple seam, up to 20cm", extra: 0, note: "A straight repair in sound unlined cloth." },
+        plain: { name: "Simple seam, up to 8 inches", extra: 0, note: "A straight repair in sound unlined cloth." },
         lined: {
           name: "Seam inside a lined garment",
-          extra: 12,
+          extra: 15,
           note: "The lining is opened and closed to reach the damaged seam.",
         },
-        reinforced: { name: "Reinforced seam repair", extra: 16, note: "Additional backing supports a weakened area." },
+        reinforced: { name: "Reinforced seam repair", extra: 20, note: "Additional backing supports a weakened area." },
       },
       checks: [
         "The strength of the surrounding fabric.",
@@ -654,7 +654,7 @@
       picture: "Iona's dress form, with a half-made jacket basted in white thread",
       days: [2, 3, 4, 5],
       appointments: ["fitting", "occasion", "collection"],
-      bio: "Iona trained in coat making before opening Pleat in 2014. She notices the way a sleeve turns and the way a jacket settles when you sit. Her favourite work is the subtle sort: a small change that makes a garment feel entirely yours.",
+      bio: "Iona trained in coat making before opening Pleat in 2014. She notices the way a sleeve turns and the way a jacket settles when you sit. Her favorite work is the subtle sort: a small change that makes a garment feel entirely yours.",
       note: "Tailoring, jackets and occasion fittings. Tuesday to Friday.",
     },
     malachy: {
@@ -664,8 +664,8 @@
       picture: "Malachy's industrial sewing machine stitching a denim seam",
       days: [2, 4, 5, 6],
       appointments: ["fitting", "repair", "collection"],
-      bio: "Malachy joined the workroom after a decade working with everyday clothing and uniforms. He is particular about trouser balance, strong pocket corners and a denim repair that remains comfortable. He believes the clothes you wear most deserve the best attention.",
-      note: "Everyday fitting, trousers and denim. Tuesday, Thursday, Friday and Saturday.",
+      bio: "Malachy joined the workroom after a decade working with everyday clothing and uniforms. He is particular about how pants hang, strong pocket corners and a denim repair that remains comfortable. He believes the clothes you wear most deserve the best attention.",
+      note: "Everyday fitting, pants and denim. Tuesday, Thursday, Friday and Saturday.",
     },
     eluned: {
       name: "Eluned Telfer",
@@ -701,11 +701,11 @@
       note: "Time for an occasion dress or more detailed tailoring. Bring the exact shoes and underlayers.",
     },
     collection: {
-      name: "Collection fitting — 20 minutes",
-      short: "a collection fitting",
+      name: "Pickup fitting — 20 minutes",
+      short: "a pickup fitting",
       minutes: 20,
       maxGarments: 4,
-      note: "A final try-on for completed work. Bring your collection slip if you have it.",
+      note: "A final try-on for completed work. Bring your claim ticket if you have it.",
     },
   };
   // The appointment a service page suggests, by service category.
@@ -764,13 +764,13 @@
       art: "work-jumper",
       label: "Visible darn",
       service: "knit-darn",
-      garment: "Oatmeal wool jumper · contrast hand darn",
+      garment: "Oatmeal wool sweater · contrast hand darn",
       before: "A hole at the elbow, with sound knitting around it and a wearer happy to let the repair show.",
       method:
         "We chose a soft green wool of similar weight and rebuilt the damaged area by hand. A slightly larger square spreads the stress beyond the edge of the hole.",
       result: "A repair with its own character, soft enough to forget about while wearing it.",
       detail: "Visible darn · soft wool yarn · repaired from sound edges",
-      lesson: "A contrast colour can make a repaired piece feel more personal, rather than less perfect.",
+      lesson: "A contrast color can make a repaired piece feel more personal, rather than less perfect.",
     },
     {
       id: "linen",
@@ -780,7 +780,7 @@
       label: "Sleeve length",
       service: "shirt-sleeve",
       garment: "Linen shirt · sleeves shortened at the cuff",
-      before: "A favourite summer shirt, with cuffs that needed rolling even on the days they were better down.",
+      before: "A favorite summer shirt, with cuffs that needed rolling even on the days they were better down.",
       method:
         "The cuffs came off, each sleeve was measured independently, and the pleats were reset before the cuffs went back. The plackets kept their original opening.",
       result: "A shirt that works with the sleeves up or down, without a telltale extra seam.",
@@ -795,7 +795,7 @@
       label: "Waistband",
       service: "skirt-waist",
       garment: "Pleated wool skirt · waistband adjustment",
-      before: "A skirt with lovely movement, saved in the wardrobe because the waistband was uncomfortable.",
+      before: "A skirt with lovely movement, saved in the closet because the waistband was uncomfortable.",
       method:
         "We used the available seam allowance, reset the waistband and distributed the change without opening the permanent pleats. The lining gained the same ease.",
       result: "The same crisp outline, now comfortable enough to choose on an ordinary morning.",
@@ -846,7 +846,7 @@
       intro: "Wash when it needs washing, and catch the thin bits early.",
       steps: [
         "Turn jeans inside out and follow the washing label.",
-        "Fasten the zip to protect it and other garments.",
+        "Close the zipper to protect it and other garments.",
         "Check the inner thighs, pocket corners and knees after drying.",
       ],
       avoid: "Do not wait for a pale, thin area to become a large tear if you want a quiet repair.",
@@ -859,7 +859,7 @@
       read: "2 minute read",
       intro: "Its easy creases are part of the cloth, not a problem to solve.",
       steps: [
-        "Check the label before washing and leave room in the drum.",
+        "Check the label before washing and leave room in the washer.",
         "Smooth seams and collars while damp.",
         "Press inside out if you want a crisper finish, using the temperature stated on the label.",
       ],
@@ -873,7 +873,7 @@
       read: "3 minute read",
       intro: "Silk can react to water, friction and even a small spot treatment.",
       steps: [
-        "Read the care label and use a specialist cleaner when instructed.",
+        "Read the care label and use a professional cleaner when instructed.",
         "Keep perfume and hair products away from the cloth.",
         "Store out of direct light on a padded hanger, with space around it.",
       ],
@@ -888,7 +888,7 @@
       intro: "A few minutes now can save a search for a matching button later.",
       steps: [
         "Check buttons when you put a garment away, especially coat cuffs.",
-        "Keep spare buttons labelled with the garment they belong to.",
+        "Keep spare buttons labeled with the garment they belong to.",
         "If a button wobbles on a few threads, stop pulling at it and arrange a repair.",
       ],
       avoid: "Sewing a coat button flat to thick cloth can make the closure pull. It usually needs a thread shank.",
@@ -914,7 +914,7 @@
       category: "occasion",
       title: "After the occasion",
       read: "2 minute read",
-      intro: "A dress needs a little attention before it returns to the wardrobe.",
+      intro: "A dress needs a little attention before it returns to the closet.",
       steps: [
         "Check the hem for dirt and the underarms for marks.",
         "Arrange cleaning promptly, following the care label.",
@@ -963,7 +963,7 @@
     },
   };
   const money = (value) =>
-    new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP", maximumFractionDigits: 2 }).format(value);
+    new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }).format(value);
   const plural = (count, word) => `${count} ${word}${count === 1 ? "" : "s"}`;
   const escape = (value) =>
     String(value).replace(
@@ -1093,8 +1093,8 @@
       (longest, line) => Math.max(longest, SERVICES[line.service].days + COMPLEXITY[line.complexity].days),
       0,
     );
-    // Priority asks for about half the longest guide turnaround, with URGENCY.priority.days
-    // as the floor: a 14-working-day job becomes 7, never 3.
+    // Priority asks for about half the longest estimated turnaround, with URGENCY.priority.days
+    // as the floor: a 14-business-day job becomes 7, never 3.
     const fastest = URGENCY[plan.urgency].days;
     return {
       subtotal,
@@ -1123,11 +1123,11 @@
             `${line.quantity} × ${SERVICES[line.service].name} / ${SERVICES[line.service].finishes[line.finish].name} / ${COMPLEXITY[line.complexity].name}: ${money(linePrice(line) * line.quantity)}`,
         )
         .join("\n") +
-      `\n${URGENCY[plan.urgency].name}\nGuide total: ${money(prices.total)}. Subject to inspection and agreed scope.`
+      `\n${URGENCY[plan.urgency].name}\nEstimated total: ${money(prices.total)}. Subject to inspection and agreed scope.`
     );
   }
 
-  /* London calendar helpers use UTC noon to represent civil dates. We never parse
+  /* Calendar helpers use UTC noon to represent civil dates. We never parse
    * a date-only input as a visitor-local midnight, which would shift dates for
    * people browsing from another time zone.
    */
@@ -1148,7 +1148,7 @@
     return date.toISOString().slice(0, 10);
   }
   function formatDay(iso, short = false) {
-    return new Intl.DateTimeFormat("en-GB", {
+    return new Intl.DateTimeFormat("en-US", {
       timeZone: TIME_ZONE,
       weekday: short ? "short" : "long",
       day: "numeric",
@@ -1159,58 +1159,41 @@
   const isoDate = (year, month, day) =>
     `${String(year).padStart(4, "0")}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
   const holidayCache = new Map();
-  // England and Wales bank holidays for any year, with substitute days when a
-  // holiday falls at a weekend. Returns { "YYYY-MM-DD": "Name" }.
+  // US federal holidays for any year, by rule. A holiday on a Saturday is also observed on the
+  // Friday before, and one on a Sunday on the Monday after. Returns { "YYYY-MM-DD": "Name" }.
   function bankHolidays(year) {
     if (holidayCache.has(year)) return holidayCache.get(year);
     const out = {};
-    const mondayOnOrAfter = (iso) => {
-      let day = iso;
-      while (weekday(day) !== 1) day = addDays(day, 1);
-      return day;
+    // The nth given weekday of a month (1 = first).
+    const nthWeekday = (month, day, nth) => {
+      let date = isoDate(year, month, 1);
+      while (weekday(date) !== day) date = addDays(date, 1);
+      return addDays(date, (nth - 1) * 7);
     };
     const lastMonday = (month) => {
-      let day = addDays(month === 12 ? isoDate(year + 1, 1, 1) : isoDate(year, month + 1, 1), -1);
-      while (weekday(day) !== 1) day = addDays(day, -1);
-      return day;
+      let date = addDays(isoDate(year, month + 1, 1), -1);
+      while (weekday(date) !== 1) date = addDays(date, -1);
+      return date;
     };
-    let newYear = isoDate(year, 1, 1);
-    if (weekday(newYear) === 0 || weekday(newYear) === 6) newYear = mondayOnOrAfter(newYear);
-    out[newYear] = "New Year’s Day";
-    // Easter Sunday by the anonymous Gregorian algorithm.
-    const a = year % 19;
-    const b = Math.floor(year / 100);
-    const c = year % 100;
-    const d = Math.floor(b / 4);
-    const e = b % 4;
-    const f = Math.floor((b + 8) / 25);
-    const g = Math.floor((b - f + 1) / 3);
-    const h = (19 * a + b - d - g + 15) % 30;
-    const i = Math.floor(c / 4);
-    const k = c % 4;
-    const l = (32 + 2 * e + 2 * i - h - k) % 7;
-    const m = Math.floor((a + 11 * h + 22 * l) / 451);
-    const easter = isoDate(year, Math.floor((h + l - 7 * m + 114) / 31), ((h + l - 7 * m + 114) % 31) + 1);
-    out[addDays(easter, -2)] = "Good Friday";
-    out[addDays(easter, 1)] = "Easter Monday";
-    out[mondayOnOrAfter(isoDate(year, 5, 1))] = "Early May bank holiday";
-    out[lastMonday(5)] = "Spring bank holiday";
-    out[lastMonday(8)] = "Summer bank holiday";
-    const christmas = isoDate(year, 12, 25);
-    const christmasDay = weekday(christmas);
-    if (christmasDay === 6) {
-      out[isoDate(year, 12, 27)] = "Christmas Day (substitute day)";
-      out[isoDate(year, 12, 28)] = "Boxing Day (substitute day)";
-    } else if (christmasDay === 0) {
-      out[isoDate(year, 12, 26)] = "Boxing Day";
-      out[isoDate(year, 12, 27)] = "Christmas Day (substitute day)";
-    } else if (christmasDay === 5) {
-      out[christmas] = "Christmas Day";
-      out[isoDate(year, 12, 28)] = "Boxing Day (substitute day)";
-    } else {
-      out[christmas] = "Christmas Day";
-      out[isoDate(year, 12, 26)] = "Boxing Day";
-    }
+    const fixed = (month, day, name) => {
+      const date = isoDate(year, month, day);
+      out[date] = name;
+      if (weekday(date) === 6) out[addDays(date, -1)] = `${name} (observed)`;
+      if (weekday(date) === 0) out[addDays(date, 1)] = `${name} (observed)`;
+    };
+    fixed(1, 1, "New Year’s Day");
+    // Next January 1 on a Saturday is observed on December 31 of this year.
+    if (weekday(isoDate(year + 1, 1, 1)) === 6) out[isoDate(year, 12, 31)] = "New Year’s Day (observed)";
+    out[nthWeekday(1, 1, 3)] = "Martin Luther King Jr. Day";
+    out[nthWeekday(2, 1, 3)] = "Washington’s Birthday";
+    out[lastMonday(5)] = "Memorial Day";
+    fixed(6, 19, "Juneteenth");
+    fixed(7, 4, "Independence Day");
+    out[nthWeekday(9, 1, 1)] = "Labor Day";
+    out[nthWeekday(10, 1, 2)] = "Columbus Day";
+    fixed(11, 11, "Veterans Day");
+    out[nthWeekday(11, 4, 4)] = "Thanksgiving Day";
+    fixed(12, 25, "Christmas Day");
     holidayCache.set(year, out);
     return out;
   }
@@ -1230,6 +1213,12 @@
   }
   const minutes = (hhmm) => Number(hhmm.slice(0, 2)) * 60 + Number(hhmm.slice(3));
   const clock = (value) => `${String(Math.floor(value / 60)).padStart(2, "0")}:${String(value % 60).padStart(2, "0")}`;
+  // "09:30" as the visitor reads it: "9:30am". Slots keep 24-hour values for the arithmetic.
+  function timeLabel(hhmm) {
+    const hour = Number(hhmm.slice(0, 2));
+    const mins = hhmm.slice(3);
+    return `${hour % 12 || 12}${mins === "00" ? "" : `:${mins}`}${hour < 12 ? "am" : "pm"}`;
+  }
   function availablePeople(type, day) {
     return Object.entries(PEOPLE).filter(
       ([, person]) => person.appointments.includes(type) && person.days.includes(weekday(day)),
@@ -1258,7 +1247,7 @@
     for (let offset = 1; offset <= BOOK_AHEAD_DAYS; offset += 1) {
       const day = addDays(today(), offset);
       const slots = slotsFor(day, "fitting", "any");
-      if (slots.length) return `${formatDay(day, true)}, ${slots[0].time}`;
+      if (slots.length) return `${formatDay(day, true)} at ${timeLabel(slots[0].time)}`;
     }
     return "Contact the studio for a fitting";
   }
@@ -1311,7 +1300,7 @@
   }
   function serviceCard(key, compact = false) {
     const service = SERVICES[key];
-    return `<article class="group border border-line bg-white p-5 sm:p-6"><div class="flex items-start justify-between gap-3"><span class="grid size-14 shrink-0 place-items-center bg-ink text-gold">${icon(key)}</span><p class="shrink-0 text-sm font-semibold">From ${money(service.price)}</p></div><p class="eyebrow mt-5 text-ochre">${CATEGORIES[service.category]}</p><h${compact ? "3" : "2"} class="display mt-3 text-2xl"><a class="hover:underline underline-offset-4" href="service.html?service=${key}">${service.name}</a></h${compact ? "3" : "2"}><p class="mt-4 text-sm leading-7 text-muted">${service.short}</p><div class="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4"><span class="text-xs text-muted">${plural(service.days, "working day")}</span><a class="text-link text-sm" href="service.html?service=${key}">Finishes &amp; fitting</a></div></article>`;
+    return `<article class="group border border-line bg-white p-5 sm:p-6"><div class="flex items-start justify-between gap-3"><span class="grid size-14 shrink-0 place-items-center bg-ink text-gold">${icon(key)}</span><p class="shrink-0 text-sm font-semibold">From ${money(service.price)}</p></div><p class="eyebrow mt-5 text-ochre">${CATEGORIES[service.category]}</p><h${compact ? "3" : "2"} class="display mt-3 text-2xl"><a class="hover:underline underline-offset-4" href="service.html?service=${key}">${service.name}</a></h${compact ? "3" : "2"}><p class="mt-4 text-sm leading-7 text-muted">${service.short}</p><div class="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4"><span class="text-xs text-muted">${plural(service.days, "business day")}</span><a class="text-link text-sm" href="service.html?service=${key}">Finishes &amp; fitting</a></div></article>`;
   }
   function initServices() {
     const root = $("[data-services]");
@@ -1346,10 +1335,10 @@
     const service = SERVICES[key];
     const finish = $("#detail-finish");
     heading.textContent = service.name;
-    document.title = `${service.name} — Pleat, Alnwick`;
+    document.title = `${service.name} — Pleat, Alexandria`;
     setText("[data-detail-category]", CATEGORIES[service.category]);
     setText("[data-detail-description]", service.description);
-    setText("[data-detail-days]", plural(service.days, "working day"));
+    setText("[data-detail-days]", plural(service.days, "business day"));
     $("[data-detail-art]").src = `assets/img/${service.art}.svg`;
     $("[data-detail-art]").alt = `${service.name}: garment construction drawing`;
     $("[data-detail-icon]").innerHTML = icon(key, "size-14");
@@ -1390,7 +1379,7 @@
     setText(
       "[data-plan-caption]",
       count
-        ? `${plural(count, "garment")} · guide prices before inspection`
+        ? `${plural(count, "garment")} · estimated prices before inspection`
         : "Start with one garment. Your plan will appear here.",
     );
     root.innerHTML = plan.lines
@@ -1406,8 +1395,8 @@
       "[data-turnaround]",
       count
         ? plan.urgency === "priority" && prices.days < prices.standardDays
-          ? `${plural(prices.days, "working day")} requested (standard ${prices.standardDays})`
-          : plural(prices.days, "working day")
+          ? `${plural(prices.days, "business day")} requested (standard ${prices.standardDays})`
+          : plural(prices.days, "business day")
         : "Add a garment",
     );
     setText("[data-urgency-note]", URGENCY[plan.urgency].note);
@@ -1499,7 +1488,7 @@
         renderPlan();
         setText(
           "[data-save-status]",
-          `${plural(line.quantity, "garment")} added. Guide total ${money(totals().total)}.`,
+          `${plural(line.quantity, "garment")} added. Estimated total ${money(totals().total)}.`,
         );
       }
     });
@@ -1517,7 +1506,7 @@
       renderPlan();
       setText(
         "[data-save-status]",
-        `Repair plan saved for this browser session: ${plural(planCount(), "garment")}, ${money(totals().total)} guide total. When browser storage is available, it is kept for your next visit too.`,
+        `Repair plan saved for this browser session: ${plural(planCount(), "garment")}, ${money(totals().total)} estimated total. When browser storage is available, it is kept for your next visit too.`,
       );
     });
     $("[data-print-plan]").addEventListener("click", () => window.print());
@@ -1525,7 +1514,7 @@
     renderPlan();
   }
 
-  /* Fitting calendar: a rolling six-week window, specialist working days, valid
+  /* Fitting calendar: a rolling six-week window, specialist work days, valid
    * appointment durations and a request confirmation. Availability is illustrative
    * until an operator connects a booking backend; requests are confirmed by email.
    */
@@ -1573,9 +1562,9 @@
         button.type = "button";
         button.className = "slot";
         button.dataset.slot = slot.time;
-        button.textContent = slot.time;
+        button.textContent = timeLabel(slot.time);
         button.setAttribute("aria-pressed", "false");
-        button.setAttribute("aria-label", `${slot.time} on ${formatDay(chosenDay)}`);
+        button.setAttribute("aria-label", `${timeLabel(slot.time)} on ${formatDay(chosenDay)}`);
         button.addEventListener("click", () => {
           chosenTime = slot.time;
           $$("button", root).forEach((el) => el.setAttribute("aria-pressed", String(el === button)));
@@ -1614,7 +1603,7 @@
           : !slots.length
             ? "No suitable times"
             : plural(slots.length, "time");
-        // The name starts with what the day shows ("Tue 20 Oct, 11 times"), then says it in full.
+        // The name starts with what the day shows ("Tue, Nov 10, 11 times"), then says it in full.
         button.setAttribute(
           "aria-label",
           `${dateLabel.textContent}, ${status.textContent} (${formatDay(day)}${!hours ? `, studio closed${closure(day) ? `: ${closure(day)}` : ""}` : !slots.length ? ", no suitable appointments" : ""})`,
@@ -1694,7 +1683,7 @@
         return;
       }
       const actualPerson = person === "any" ? validSlot.people[0] : person;
-      const fitting = `${formatDay(chosenDay)} at ${chosenTime} (Europe/London)`;
+      const fitting = `${formatDay(chosenDay)} at ${timeLabel(chosenTime)} (Eastern time)`;
       const ref = makeRef();
       const lines = [
         ["Reference", ref],
@@ -1725,7 +1714,7 @@
     setText(
       "[data-booking-plan]",
       plan.lines.length
-        ? `${plural(planCount(), "garment")} · ${money(totals().total)} guide total. Your full plan will be included in the request.`
+        ? `${plural(planCount(), "garment")} · ${money(totals().total)} estimated total. Your full plan will be included in the request.`
         : "No garments added yet. You can still request a fitting without an estimate.",
     );
     populatePeople();
@@ -1848,7 +1837,7 @@
       repair: "A repair",
       occasion: "An occasion garment",
       access: "Access or a quiet fitting",
-      collection: "An existing collection",
+      collection: "A garment ready for pickup",
     };
     form.addEventListener("input", () => {
       $("#contact-review").hidden = true;
@@ -1881,7 +1870,7 @@
       }
       setText(
         "[data-contact-summary]",
-        `Thank you, ${name.split(/\s+/)[0]}. Your enquiry about ${topic.toLowerCase()} has reached the workroom. We reply to ${email} within two working days, often with a question or two about the garment. Your reference is ${makeRef()}.`,
+        `Thank you, ${name.split(/\s+/)[0]}. Your inquiry about ${topic.toLowerCase()} has reached the workroom. We reply to ${email} within two business days, often with a question or two about the garment. Your reference is ${makeRef()}.`,
       );
       // Backend integration point: fetch a configured form endpoint with FormData.
       // Show this confirmation only after a successful, validated server response.
@@ -1891,7 +1880,7 @@
     });
   }
 
-  setText("[data-year]", new Intl.DateTimeFormat("en-GB", { timeZone: TIME_ZONE, year: "numeric" }).format(new Date()));
+  setText("[data-year]", new Intl.DateTimeFormat("en-US", { timeZone: TIME_ZONE, year: "numeric" }).format(new Date()));
   setText("[data-plan-count]", planCount());
   setText("[data-next-fitting]", nextFitting());
   setText("[data-opening-next]", `Next fitting request: ${nextFitting()}.`);

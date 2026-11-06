@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-11-05
+
+### Changed
+
+- Set in Cary, North Carolina, with American spelling, US dollars, US phone numbers and local details.
+- Status and maintenance times now show on a 12-hour clock in Eastern time, and dates use the US format.
+
 ## [1.0.1] - 2026-11-05
 
 ### Changed

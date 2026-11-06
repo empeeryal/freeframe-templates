@@ -1,7 +1,7 @@
 /* Drift — Tailwind CSS v4 source for the Nightjar sleep app site.
    Edit the tokens in @theme below, then rebuild with `npm run build`.
    The site is dark first ("night"). The light theme ("dawn") swaps the same
-   colour tokens under `html.light`, so every utility follows the theme. */
+   color tokens under `html.light`, so every utility follows the theme. */
 @import "tailwindcss";
 
 /* Docs and metadata are not markup: keep their words out of the generated CSS. */
@@ -33,7 +33,7 @@
   --color-cta-hover: #fbe9c4;
   --color-cta-fg: #12153a;    /* text on the moonlight button */
 
-  /* Fixed brand colours (the same in both themes). */
+  /* Fixed brand colors (the same in both themes). */
   --color-moon: #f6dca8;
   --color-aurora: #6fe3cf;
   --color-iris: #9b8cff;
@@ -283,7 +283,7 @@ html.light {
   @media print { .back-to-top { display: none !important; } }
 }
 
-/* Favourite (heart) buttons on the sound library. */
+/* Favorite (heart) buttons on the sound library. */
 @layer components {
   .fav-btn[aria-pressed="true"] { color: var(--color-dusk); border-color: color-mix(in srgb, var(--color-dusk) 60%, transparent); }
   .fav-btn[aria-pressed="true"] svg { fill: currentColor; }

@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-11-05
+
+### Changed
+
+- Set in Huntsville, Alabama, with American spelling, US dollars, US phone numbers and local details.
+- The consultation calendar now closes on US federal holidays, worked out by rule for any year, and uses Central time with a 12-hour clock.
+
 ## [1.0.1] - 2026-11-05
 
 ### Changed

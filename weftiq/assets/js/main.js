@@ -1,11 +1,11 @@
-/* Weftiq — workflow catalogue, local rule processing and saved plans. */
+/* Weftiq — workflow catalog, local rule processing and saved plans. */
 (() => {
   "use strict";
-  const TIME_ZONE = "Europe/London";
+  const TIME_ZONE = "America/Chicago";
   const KEEP_CLINICS_CURRENT = true;
   const FIXED_CLINIC_DATES = ["2026-10-27", "2026-10-29", "2026-11-03", "2026-11-05"];
-  // Workflow hours pause from 24 December to 2 January (month-day keys, inclusive) and on England and Wales
-  // bank holidays, which bankHolidays(year) works out by rule. Add one-off closures as "YYYY-MM-DD" strings.
+  // Workflow hours pause from December 24 to January 2 (month-day keys, inclusive) and on US federal holidays,
+  // which bankHolidays(year) works out by rule. Add one-off closures as "YYYY-MM-DD" strings.
   const WINTER_BREAK = ["12-24", "01-02"];
   const CLOSED_DATES = [];
   const STORAGE_KEYS = {
@@ -26,7 +26,7 @@
       minutes: 4,
       summary: "Bring the urgent messages into view without losing the quieter questions.",
       story:
-        "A new message reaches a shared inbox. The rule checks urgency before the team receives a clear, categorised handover.",
+        "A new message reaches a shared inbox. The rule checks urgency before the team receives a clear, categorized handoff.",
       care: "Keep the first category broad. Let the support lead correct it before using it to drive a more sensitive decision.",
       art: "recipe-1.svg",
     },
@@ -39,7 +39,7 @@
       value: "",
       actions: ["summarise", "task", "notify"],
       minutes: 9,
-      summary: "Turn a meeting note into a concise handover and a visible next action.",
+      summary: "Turn a meeting note into a concise handoff and a visible next action.",
       story:
         "When a meeting ends, a short summary gives the next person enough context to begin. A named task keeps the decision from disappearing into a chat.",
       care: "Ask the meeting owner to check dates, names and commitments in the summary before sharing it more widely.",
@@ -69,30 +69,30 @@
       value: "",
       actions: ["task", "notify", "wait"],
       minutes: 12,
-      summary: "Give a new starter a clear sequence and the team a shared checklist.",
+      summary: "Give a new hire a clear sequence and the team a shared checklist.",
       story:
-        "A joining form starts three small actions: make a preparation task, notify the owner and note the planned waiting step.",
+        "A new-hire form starts three small actions: make a preparation task, notify the owner and note the planned waiting step.",
       care: "Only collect information the process needs. Keep personal employment records in the system designed to hold them.",
       art: "recipe-4.svg",
     },
     {
       id: "order-handover",
-      title: "Tidy the order handover",
+      title: "Tidy the order handoff",
       team: "operations",
       trigger: "store",
       condition: "amount",
       value: "100",
       actions: ["classify", "task", "route"],
       minutes: 7,
-      summary: "Keep higher-value order questions together for a considered handover.",
+      summary: "Keep higher-value order questions together for a considered handoff.",
       story:
-        "Orders above the chosen amount are categorised and routed to the team responsible for checking the detail.",
+        "Orders above the chosen amount are categorized and routed to the team responsible for checking the detail.",
       care: "Check the threshold against your real process. Do not treat an automated category as a fraud or credit decision.",
       art: "recipe-5.svg",
     },
     {
       id: "dispatch-note",
-      title: "Follow a dispatch",
+      title: "Follow a shipment",
       team: "operations",
       trigger: "store",
       condition: "always",
@@ -101,8 +101,8 @@
       minutes: 3,
       summary: "Add a clear internal label and tell the person waiting for the next step.",
       story:
-        "A store event receives a consistent dispatch label. The named team sees the handover in one place instead of another copied message.",
-      care: "Keep customer-facing delivery promises separate from an internal event. A dispatch note is not proof of arrival.",
+        "A store event receives a consistent shipment label. The named team sees the handoff in one place instead of another copied message.",
+      care: "Keep customer-facing delivery promises separate from an internal event. A shipment note is not proof of arrival.",
       art: "recipe-6.svg",
     },
     {
@@ -117,7 +117,7 @@
       summary: "Make an important exception visible without turning every update into an alert.",
       story:
         "The rule checks the urgency value first. Only a matching event creates the follow-up task and a team notification.",
-      care: "Agree what the urgency scale means before using the flow. The person reporting an issue needs a clear route for emergencies.",
+      care: "Agree on what the urgency scale means before using the flow. The person reporting an issue needs a clear route for emergencies.",
       art: "recipe-7.svg",
     },
     {
@@ -132,7 +132,7 @@
       summary: "Give access reviews an owner, a reminder and a tidy record of the request.",
       story:
         "A weekday calendar event creates a review task, tells the owner and records the original event for the audit trail.",
-      care: "The flow does not grant or revoke access. Keep those decisions with an authorised person in the relevant account.",
+      care: "The flow does not grant or revoke access. Keep those decisions with an authorized person in the relevant account.",
       art: "recipe-8.svg",
     },
     {
@@ -161,8 +161,8 @@
       minutes: 8,
       summary: "Bring invoice questions above a chosen amount into a single review queue.",
       story:
-        "The amount rule decides whether an event needs the finance handover. A task makes responsibility visible without changing the invoice itself.",
-      care: "This flow organises questions. It does not approve invoices, move money or replace a financial control.",
+        "The amount rule decides whether an event needs the finance handoff. A task makes responsibility visible without changing the invoice itself.",
+      care: "This flow organizes questions. It does not approve invoices, move money or replace a financial control.",
       art: "recipe-10.svg",
     },
     {
@@ -176,7 +176,7 @@
       minutes: 10,
       summary: "Make a short, readable first pass through the documents your team wants to revisit.",
       story:
-        "A new document is summarised, labelled and routed into the team reading list. The original remains the source of record.",
+        "A new document is summarized, labeled and routed into the team reading list. The original remains the source of record.",
       care: "Check licensing and privacy before sharing documents. A short summary does not remove those responsibilities.",
       art: "recipe-11.svg",
     },
@@ -189,9 +189,9 @@
       value: "3",
       actions: ["classify", "route", "notify"],
       minutes: 5,
-      summary: "Send useful feedback towards a person who can do something with it.",
+      summary: "Send useful feedback toward a person who can do something with it.",
       story:
-        "Feedback that meets the rule is categorised, routed and brought to the named team. Lower-urgency items remain outside this sequence.",
+        "Feedback that meets the rule is categorized, routed and brought to the named team. Lower-urgency items remain outside this sequence.",
       care: "Listen for the context behind a category. Keep an easy way for a person to change the route or add a note.",
       art: "recipe-12.svg",
     },
@@ -202,7 +202,7 @@
       name: "Mailquill",
       kind: "messages",
       summary: "A shared inbox with clear conversation ownership.",
-      events: ["New message", "Thread labelled"],
+      events: ["New message", "Thread labeled"],
       actions: ["Add a label", "Create a reply draft"],
       access: "Read message metadata; write labels only when selected.",
       symbol: "shared-inbox",
@@ -240,10 +240,10 @@
       symbol: "document",
       steps: [
         "Choose the smallest folder that contains the relevant work.",
-        "Decide which text is appropriate to summarise.",
+        "Decide which text is appropriate to summarize.",
         "Keep the source link beside the resulting note.",
       ],
-      caution: "Do not summarise sensitive records unless your team has approved that processing.",
+      caution: "Do not summarize sensitive records unless your team has approved that processing.",
     },
     {
       id: "meetfern",
@@ -273,7 +273,7 @@
       steps: [
         "Choose one channel for the trigger.",
         "Name the destination team and the type of update.",
-        "Agree a quiet period and an escalation route.",
+        "Agree on a quiet period and an escalation route.",
       ],
       caution: "Avoid a notification for every event. Use a condition to keep important updates visible.",
     },
@@ -283,7 +283,7 @@
       kind: "operations",
       summary: "Forms that begin a process with the right amount of information.",
       events: ["Response received", "Response updated"],
-      actions: ["Tag a response", "Start a handover"],
+      actions: ["Tag a response", "Start a handoff"],
       access: "Read the named form and the fields explicitly mapped to the flow.",
       symbol: "form",
       steps: [
@@ -313,8 +313,8 @@
       id: "storebloom",
       name: "Storebloom",
       kind: "commerce",
-      summary: "An order workspace for careful internal handovers.",
-      events: ["Order updated", "Dispatch recorded"],
+      summary: "An order workspace for careful internal handoffs.",
+      events: ["Order updated", "Shipment recorded"],
       actions: ["Add an internal note", "Route an exception"],
       access: "Read order metadata; write internal notes only.",
       symbol: "store",
@@ -323,7 +323,7 @@
         "Exclude private payment details from the mapping.",
         "Confirm the review threshold with the operations lead.",
       ],
-      caution: "A workflow label is not a payment, dispatch or fraud decision.",
+      caution: "A workflow label is not a payment, shipping or fraud decision.",
     },
     {
       id: "paycairn",
@@ -331,15 +331,15 @@
       kind: "commerce",
       summary: "An invoice ledger that keeps questions near the record.",
       events: ["Invoice question", "Invoice status changed"],
-      actions: ["Add a review note", "Create a query task"],
+      actions: ["Add a review note", "Create a question task"],
       access: "Read invoice totals and references; add internal review notes.",
       symbol: "receipt",
       steps: [
         "Map the invoice reference rather than a customer name.",
-        "Agree which questions belong in the review queue.",
+        "Agree on which questions belong in the review queue.",
         "Have the finance owner check the first set of tasks.",
       ],
-      caution: "This connection organises invoice questions; it does not authorise payments.",
+      caution: "This connection organizes invoice questions; it does not authorize payments.",
     },
     {
       id: "cloudsprig",
@@ -392,26 +392,26 @@
   ];
   const TEAM = [
     {
-      name: "Arwel Ravensdale",
+      name: "Devraj Ravikumar",
       role: "Product & process",
       quote:
-        "Arwel turns a long process into a few useful questions. He cares about the moment a person picks the work up again.",
+        "Devraj turns a long process into a few useful questions. He cares about the moment a person picks the work up again.",
       tone: "#d8e1c2",
       hair: "M66 100c-9-75 97-88 107-10-22-10-42-26-49-43-9 27-32 42-58 53Z",
     },
     {
-      name: "Sioned Whittingham",
+      name: "Thuy Delacruz",
       role: "Engineering & connections",
       quote:
-        "Sioned makes the connections readable, predictable and easy to pause. She likes a run log that explains itself.",
+        "Thuy makes the connections readable, predictable and easy to pause. She likes a run log that explains itself.",
       tone: "#e7c0af",
       hair: "M63 151V88c2-66 115-76 115 10v61l-19-17-2-51c-30 5-50-17-51-28-2 22-18 42-34 43v48Z",
     },
     {
-      name: "Osyth Featherstone",
+      name: "Ngozi Beaumont",
       role: "Customer workflows",
       quote:
-        "Osyth starts with the work a team already understands. She helps people choose a small, reversible first step.",
+        "Ngozi starts with the work a team already understands. She helps people choose a small, reversible first step.",
       tone: "#d1dbed",
       hair: "M68 104C56 6 186 6 174 104c-12-14-22-30-26-46-18 18-46 28-80 46Z",
     },
@@ -426,7 +426,7 @@
   const TRIGGERS = {
     email: { label: "A message arrives", channel: "email", note: "A new message begins the sequence." },
     calendar: { label: "A meeting ends", channel: "calendar", note: "A calendar event begins the follow-through." },
-    form: { label: "A form is completed", channel: "form", note: "A response begins the handover." },
+    form: { label: "A form is completed", channel: "form", note: "A response begins the handoff." },
     store: { label: "An order changes", channel: "store", note: "A store event begins the internal review." },
     document: { label: "A document is added", channel: "document", note: "A document event begins the review." },
   };
@@ -443,7 +443,7 @@
     },
     amount: {
       label: "Amount reaches a value",
-      help: "Use a whole-pound amount from 0 to 1,000,000. Events at or above it continue.",
+      help: "Use a whole-dollar amount from 0 to 1,000,000. Events at or above it continue.",
       mode: "number",
     },
     contains: {
@@ -452,8 +452,8 @@
       mode: "text",
     },
     weekday: {
-      label: "It is a working weekday",
-      help: "Monday to Friday in Europe/London. No calendar or holiday lookup is involved.",
+      label: "It is a weekday",
+      help: "Monday through Friday in Central time. No calendar or holiday lookup is involved.",
       mode: "none",
     },
   };
@@ -461,7 +461,7 @@
     classify: {
       label: "Find a useful category",
       ai: true,
-      description: "Make a first-pass category from the message. Keep final judgement with a person.",
+      description: "Make a first-pass category from the message. Keep final judgment with a person.",
     },
     summarise: {
       label: "Make a short summary",
@@ -481,7 +481,7 @@
     notify: {
       label: "Notify the right team",
       ai: false,
-      description: "Make a concise internal handover for the chosen queue.",
+      description: "Make a concise internal handoff for the chosen queue.",
     },
     route: {
       label: "Route into a team queue",
@@ -512,7 +512,7 @@
       base: 2400,
       tasks: 2000,
       editors: 1,
-      copy: "For a small team joining up its first few processes.",
+      copy: "For a small team connecting its first few processes.",
     },
     team: {
       name: "Room for the team",
@@ -526,7 +526,7 @@
       base: 12900,
       tasks: 20000,
       editors: 15,
-      copy: "For several teams keeping their handovers in view.",
+      copy: "For several teams keeping their handoffs in view.",
     },
   };
   const PRICING = { taskBlock: 1000, taskPrice: 500, aiBlock: 1000, aiPrice: 300, extraEditor: 600, annualFactor: 0.8 };
@@ -569,9 +569,9 @@
     return Number.isFinite(number) ? Math.min(max, Math.max(min, Math.floor(number))) : fallback;
   };
   const money = (pence) =>
-    new Intl.NumberFormat("en-GB", {
+    new Intl.NumberFormat("en-US", {
       style: "currency",
-      currency: "GBP",
+      currency: "USD",
       minimumFractionDigits: pence % 100 ? 2 : 0,
       maximumFractionDigits: 2,
     }).format(pence / 100);
@@ -842,15 +842,15 @@
           ? `Message checked for “${flow.value}”, ignoring letter case.`
           : "The phrase is empty; add a rule value before continuing.",
       };
-    const day = new Intl.DateTimeFormat("en-GB", { timeZone: TIME_ZONE, weekday: "short" }).format(new Date());
-    return { matched: !["Sat", "Sun"].includes(day), reason: `${day} checked against Monday–Friday in Europe/London.` };
+    const day = new Intl.DateTimeFormat("en-US", { timeZone: TIME_ZONE, weekday: "short" }).format(new Date());
+    return { matched: !["Sat", "Sun"].includes(day), reason: `${day} checked against Monday–Friday in Central time.` };
   }
   function categoryFor(message) {
     const text = message.toLowerCase();
     if (/invoice|payment|bill|refund/.test(text)) return "Finance question";
     if (/help|support|broken|problem/.test(text)) return "Support request";
-    if (/join|starter|access|people/.test(text)) return "People process";
-    if (/order|dispatch|delivery/.test(text)) return "Operations handover";
+    if (/join|starter|hire|access|people/.test(text)) return "People process";
+    if (/order|dispatch|shipment|delivery/.test(text)) return "Operations handoff";
     if (/feedback|read|publish|campaign/.test(text)) return "Marketing note";
     return "General team work";
   }
@@ -871,10 +871,10 @@
     if (action.type === "tag") return `Label: ${action.team}-review. Category context: ${category}.`;
     if (action.type === "task") return `Task for ${team}: follow up “${excerpt(event.message, 56)}”`;
     if (action.type === "notify")
-      return `Internal handover for ${team}: ${category.toLowerCase()}, urgency ${event.urgency}.`;
+      return `Internal handoff for ${team}: ${category.toLowerCase()}, urgency ${event.urgency}.`;
     if (action.type === "route") return `Destination queue: ${team}. Keep the source event attached.`;
     if (action.type === "wait")
-      return `Waiting checkpoint recorded after action ${index + 1}. A person agrees when the process continues.`;
+      return `Waiting checkpoint recorded after action ${index + 1}. A person decides when the process continues.`;
     return `Filed with a link back: ${event.channel} / ${category} / ${team}.`;
   }
   function initBuilder() {
@@ -1092,7 +1092,7 @@
         return;
       }
       if (!Number.isFinite(amount) || amount < 0 || amount > 1000000) {
-        error.textContent = "Use an amount from £0 to £1,000,000.";
+        error.textContent = "Use an amount from $0 to $1,000,000.";
         form.elements.amount.focus();
         return;
       }
@@ -1154,7 +1154,7 @@
   }
   function estimateText(settings) {
     const cost = priceFor(settings);
-    return `${PLANS[settings.plan].name}, ${settings.billing} billing: ${settings.runs.toLocaleString("en-GB")} ${settings.runs === 1 ? "run" : "runs"} a month, ${plural(settings.actions, "action")} per run (${settings.ai} using AI), ${plural(settings.editors, "editor")}. Estimated ${money(cost.total)} a month, excluding VAT.`;
+    return `${PLANS[settings.plan].name}, ${settings.billing} billing: ${settings.runs.toLocaleString("en-US")} ${settings.runs === 1 ? "run" : "runs"} a month, ${plural(settings.actions, "action")} per run (${settings.ai} using AI), ${plural(settings.editors, "editor")}. Estimated ${money(cost.total)} a month, excluding sales tax.`;
   }
   function initPricing() {
     const cards = $("[data-plan-cards]");
@@ -1162,7 +1162,7 @@
     cards.innerHTML = Object.entries(PLANS)
       .map(
         ([id, plan], index) =>
-          `<article class="border border-ink ${index === 1 ? "bg-peach" : "bg-white"} p-7"><p class="eyebrow">${index === 0 ? "A SMALL BEGINNING" : index === 1 ? "SHARED WORK" : "MORE CONNECTIONS"}</p><h2 class="mt-5 font-display text-3xl">${esc(plan.name)}</h2><p class="mt-4 min-h-14 text-sm leading-relaxed">${esc(plan.copy)}</p><p class="mt-6 font-display text-5xl">${money(plan.base)}<span class="ml-1 font-sans text-sm">/ month</span></p><p class="mt-2 text-xs text-muted">Excluding VAT</p><ul class="mt-6 space-y-3 border-t border-ink pt-5 text-sm"><li>${plan.tasks.toLocaleString("en-GB")} included tasks</li><li>${plural(plan.editors, "flow editor")}</li><li>All twelve workflow recipes</li><li>AI credits priced separately</li></ul><button data-pick-plan="${id}" class="btn btn-outline mt-7 w-full" type="button">Calculate this plan</button></article>`,
+          `<article class="border border-ink ${index === 1 ? "bg-peach" : "bg-white"} p-7"><p class="eyebrow">${index === 0 ? "A SMALL BEGINNING" : index === 1 ? "SHARED WORK" : "MORE CONNECTIONS"}</p><h2 class="mt-5 font-display text-3xl">${esc(plan.name)}</h2><p class="mt-4 min-h-14 text-sm leading-relaxed">${esc(plan.copy)}</p><p class="mt-6 font-display text-5xl">${money(plan.base)}<span class="ml-1 font-sans text-sm">/ month</span></p><p class="mt-2 text-xs text-muted">Excluding sales tax</p><ul class="mt-6 space-y-3 border-t border-ink pt-5 text-sm"><li>${plan.tasks.toLocaleString("en-US")} included tasks</li><li>${plural(plan.editors, "flow editor")}</li><li>All twelve workflow recipes</li><li>AI credits priced separately</li></ul><button data-pick-plan="${id}" class="btn btn-outline mt-7 w-full" type="button">Calculate this plan</button></article>`,
       )
       .join("");
     const form = $("[data-price-form]");
@@ -1181,7 +1181,7 @@
       const cost = priceFor(settings),
         plan = PLANS[settings.plan];
       $("[data-price-breakdown]").innerHTML =
-        `<dl class="space-y-4"><div class="flex justify-between gap-4"><dt>Plan fee</dt><dd>${money(cost.planFee)}</dd></div><div class="flex justify-between gap-4"><dt>${cost.tasks.toLocaleString("en-GB")} tasks / ${plan.tasks.toLocaleString("en-GB")} included</dt><dd>${money(cost.taskFee)}</dd></div><div class="flex justify-between gap-4"><dt>${cost.credits.toLocaleString("en-GB")} AI credits</dt><dd>${money(cost.aiFee)}</dd></div><div class="flex justify-between gap-4"><dt>${plural(cost.extraEditors, "extra editor")}</dt><dd>${money(cost.editorFee)}</dd></div><div class="flex justify-between gap-4 border-t border-ink pt-5 text-xl font-semibold"><dt>Estimated month<span class="block text-xs font-normal">Excluding VAT</span></dt><dd data-price-total>${money(cost.total)}</dd></div></dl>`;
+        `<dl class="space-y-4"><div class="flex justify-between gap-4"><dt>Plan fee</dt><dd>${money(cost.planFee)}</dd></div><div class="flex justify-between gap-4"><dt>${cost.tasks.toLocaleString("en-US")} tasks / ${plan.tasks.toLocaleString("en-US")} included</dt><dd>${money(cost.taskFee)}</dd></div><div class="flex justify-between gap-4"><dt>${cost.credits.toLocaleString("en-US")} AI credits</dt><dd>${money(cost.aiFee)}</dd></div><div class="flex justify-between gap-4"><dt>${plural(cost.extraEditors, "extra editor")}</dt><dd>${money(cost.editorFee)}</dd></div><div class="flex justify-between gap-4 border-t border-ink pt-5 text-xl font-semibold"><dt>Estimated month<span class="block text-xs font-normal">Excluding sales tax</span></dt><dd data-price-total>${money(cost.total)}</dd></div></dl>`;
       $("[data-annual-cost]").textContent =
         settings.billing === "annual"
           ? `The plan portion is paid annually: ${money(cost.planFee * 12)}. This monthly usage estimate is ${money(cost.total * 12)} across a full year if assumptions stay the same.`
@@ -1262,51 +1262,36 @@
   }
   const dayKey = (date) => date.toISOString().slice(0, 10);
   const utcDay = (year, month, day) => new Date(Date.UTC(year, month - 1, day, 12));
-  function easterSunday(year) {
-    // Anonymous Gregorian algorithm.
-    const a = year % 19,
-      b = Math.floor(year / 100),
-      c = year % 100,
-      d = Math.floor(b / 4),
-      e = b % 4,
-      f = Math.floor((b + 8) / 25),
-      g = Math.floor((b - f + 1) / 3),
-      h = (19 * a + b - d - g + 15) % 30,
-      i = Math.floor(c / 4),
-      k = c % 4,
-      l = (32 + 2 * e + 2 * i - h - k) % 7,
-      m = Math.floor((a + 11 * h + 22 * l) / 451),
-      month = Math.floor((h + l - 7 * m + 114) / 31);
-    return utcDay(year, month, ((h + l - 7 * m + 114) % 31) + 1);
-  }
   function bankHolidays(year) {
     const shift = (date, days) => new Date(date.getTime() + days * 86400000);
-    const firstMonday = (month) => {
+    const nthMonday = (month, n) => {
       const date = utcDay(year, month, 1);
-      return shift(date, (8 - date.getUTCDay()) % 7);
+      return shift(date, ((8 - date.getUTCDay()) % 7) + (n - 1) * 7);
     };
     const lastMonday = (month) => {
       const date = utcDay(year, month + 1, 0);
       return shift(date, -((date.getUTCDay() + 6) % 7));
     };
-    const easter = easterSunday(year);
-    const newYear = utcDay(year, 1, 1),
-      christmas = utcDay(year, 12, 25),
-      boxing = utcDay(year, 12, 26);
-    const weekend = (date) => [0, 6].includes(date.getUTCDay());
-    const weekdayOrNext = (date) => shift(date, date.getUTCDay() === 6 ? 2 : date.getUTCDay() === 0 ? 1 : 0);
-    // When Christmas Day or Boxing Day falls at a weekend, its substitute is two days later.
-    const xmas = weekend(christmas) ? shift(christmas, 2) : christmas;
-    const box = weekend(boxing) ? shift(boxing, 2) : boxing;
+    const thanksgiving = () => {
+      const date = utcDay(year, 11, 1);
+      return shift(date, ((11 - date.getUTCDay()) % 7) + 21);
+    };
+    // A fixed holiday on a Saturday is observed on the Friday before, and on a Sunday on the Monday after.
+    const observed = (date) => shift(date, date.getUTCDay() === 6 ? -1 : date.getUTCDay() === 0 ? 1 : 0);
     return [
-      weekdayOrNext(newYear),
-      shift(easter, -2),
-      shift(easter, 1),
-      firstMonday(5),
+      observed(utcDay(year, 1, 1)),
+      nthMonday(1, 3),
+      nthMonday(2, 3),
       lastMonday(5),
-      lastMonday(8),
-      xmas,
-      box,
+      observed(utcDay(year, 6, 19)),
+      observed(utcDay(year, 7, 4)),
+      nthMonday(9, 1),
+      nthMonday(10, 2),
+      observed(utcDay(year, 11, 11)),
+      thanksgiving(),
+      observed(utcDay(year, 12, 25)),
+      // Next New Year's Day can be observed on December 31 of this year.
+      observed(utcDay(year + 1, 1, 1)),
     ].map(dayKey);
   }
   function clinicClosed(key) {
@@ -1326,7 +1311,7 @@
     }
     return dates;
   }
-  const clinicFormat = new Intl.DateTimeFormat("en-GB", {
+  const clinicFormat = new Intl.DateTimeFormat("en-US", {
     timeZone: "UTC",
     weekday: "long",
     day: "numeric",
@@ -1348,7 +1333,7 @@
       clinicDates()
         .map(
           (key) =>
-            `<article class="border border-ink bg-white p-6"><p class="eyebrow text-coral">OPEN WORKFLOW HOUR</p><h3 class="mt-4 font-display text-2xl">${esc(clinicFormat.format(new Date(key + "T12:00:00Z")))}</h3><p class="mt-4 text-sm">14:00–14:45 / Europe/London</p><p class="mt-3 text-sm leading-relaxed text-muted">One task, a small group and a useful place to begin.</p><a href="contact.html?topic=clinic&amp;date=${key}" class="text-link mt-5 inline-block text-sm" aria-label="Ask for a place on ${esc(clinicFormat.format(new Date(key + "T12:00:00Z")))}">Ask for a place</a></article>`,
+            `<article class="border border-ink bg-white p-6"><p class="eyebrow text-coral">OPEN WORKFLOW HOUR</p><h3 class="mt-4 font-display text-2xl">${esc(clinicFormat.format(new Date(key + "T12:00:00Z")))}</h3><p class="mt-4 text-sm">2:00–2:45 p.m. / Central time</p><p class="mt-3 text-sm leading-relaxed text-muted">One task, a small group and a useful place to begin.</p><a href="contact.html?topic=clinic&amp;date=${key}" class="text-link mt-5 inline-block text-sm" aria-label="Ask for a spot on ${esc(clinicFormat.format(new Date(key + "T12:00:00Z")))}">Ask for a spot</a></article>`,
         )
         .join("") ||
       '<p class="border border-ink p-6">Please contact the team to arrange the next workflow conversation.</p>';
@@ -1363,7 +1348,7 @@
     const date = params.get("date");
     if (date !== null && clinicDates().includes(date)) {
       form.elements.topic.value = "clinic";
-      context = `Workflow hour: ${clinicFormat.format(new Date(date + "T12:00:00Z"))}, 14:00–14:45.`;
+      context = `Workflow hour: ${clinicFormat.format(new Date(date + "T12:00:00Z"))}, 2:00–2:45 p.m. Central time.`;
       $("[data-context-label]").textContent = "Your workflow hour";
     } else if (form.elements.topic.value === "plan" && estimateFromParams()) {
       context = estimateText(estimateFromParams());
@@ -1498,7 +1483,7 @@
   initReveals();
   $$("[data-year]").forEach(
     (element) =>
-      (element.textContent = new Intl.DateTimeFormat("en-GB", { timeZone: TIME_ZONE, year: "numeric" }).format(
+      (element.textContent = new Intl.DateTimeFormat("en-US", { timeZone: TIME_ZONE, year: "numeric" }).format(
         new Date(),
       )),
   );

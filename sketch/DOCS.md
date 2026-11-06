@@ -3,14 +3,14 @@
 ## Overview
 
 Sketch is a playful personal-brand website for an online course creator. The demo brand is **Marnie
-Draws**, the fictional illustrator Marnie Ashdown, who teaches drawing on the iPad from Margate, Kent,
+Draws**, the fictional illustrator Marnie Ashdown, who teaches drawing on the iPad from Asbury Park, New Jersey,
 through self-paced courses, a Sunday newsletter and live online workshops. It is built with plain HTML,
 Tailwind CSS v4 and one vanilla JavaScript file, with no build step needed to run it. This is version
-1.0.3 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). Live demo:
+1.0.6 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). Live demo:
 [freeframe.dev/templates/sketch](https://freeframe.dev/templates/sketch).
 
-Copy uses British English, prices are in pounds (GBP) and every date and time is UK time
-(`Europe/London`, GMT in winter and BST in summer).
+Copy uses American English, prices are in US dollars (USD) and every date and time is Eastern time
+(`America/New_York`, EST in winter and EDT in summer).
 
 ## Quick start
 
@@ -32,7 +32,7 @@ You only need Node.js 24 or newer if you want to change the styles and rebuild t
 | `index.html` | Home | Hero with portrait and early-bird ribbon, three ways to start, flagship course with live price and countdown, student work wall, sticky-note reviews, more courses, next workshop, newsletter sign-up |
 | `courses.html` | Course catalog | Level and topic filter chips, "saved only" toggle, result count, empty state, refund promise |
 | `course.html` | Course sales page | Rendered from `COURSES` by `?id=`: stats, what you'll make, curriculum accordion with computed counts and runtime, reviews, FAQ, sticky price card with early-bird countdown, enroll dialog, related courses |
-| `workshops.html` | Live workshops | Upcoming dates in UK time with BST/GMT, the visitor's own time, seats left bar, booking and waitlist dialog, private workshop call to action |
+| `workshops.html` | Live workshops | Upcoming dates in Eastern time with EST/EDT, the visitor's own time, seats left bar, booking and waitlist dialog, private workshop call to action |
 | `resources.html` | Free resources | Type filter, worksheets, palettes and cheat sheets downloaded as generated SVG files, brush packs linked to the newsletter |
 | `gallery.html` | Student gallery | Course filter, generated artwork grid, lightbox with previous/next and keyboard arrows |
 | `about.html` | About Marnie | Story, timeline, beliefs, kit list, call to action |
@@ -119,12 +119,12 @@ the top of `assets/js/main.js`:
 | Constant | What it holds |
 |----------|---------------|
 | `SITE_NAME` | Brand name used in page titles set by the script |
-| `TIMEZONE`, `LOCALE`, `CURRENCY` | `'Europe/London'`, `'en-GB'`, `'GBP'` |
+| `TIMEZONE`, `LOCALE`, `CURRENCY` | `'America/New_York'`, `'en-US'`, `'USD'` |
 | `STORAGE_KEYS` | `{ saved: 'sketch-saved', waitlist: 'sketch-waitlist' }` |
-| `EARLY_BIRD_ENDS` | Flagship early-bird deadline: `null` (rolling demo deadline) or `'YYYY-MM-DDTHH:MM'` UK time (see [Demo dates](#demo-dates)) |
+| `EARLY_BIRD_ENDS` | Flagship early-bird deadline: `null` (rolling demo deadline) or `'YYYY-MM-DDTHH:MM'` Eastern time (see [Demo dates](#demo-dates)) |
 | `KEEP_DEMO_CURRENT`, `DEMO_ANCHOR` | `true` and `'2026-10-17'`: move the demo workshops forward in whole weeks (see [Demo dates](#demo-dates)) |
 | `FEW_SEATS` | A workshop with this many seats left or fewer shows "Only N seats left" (5) |
-| `LEVELS` | `beginner`, `improver`, `confident`: name and tag background |
+| `LEVELS` | `beginner`, `improver` (shown as "Intermediate"), `confident`: name and tag background |
 | `TOPICS` | `basics`, `characters`, `lettering`, `colour`, `places`, `animation` |
 | `COLOURS`, `PALETTES` | Hex colors for covers and generated artwork |
 | `COURSES` | Every course, its modules and lessons |
@@ -141,7 +141,7 @@ projects are all computed from these numbers by `courseStats()`, so they never g
 
 ```js
 { id: 'pet-portraits', title: 'Pet Portraits', tagline: 'Draw the animals you love.',
-  level: 'improver', topic: 'characters', price: 59, earlyBird: null,
+  level: 'improver', topic: 'characters', price: 69, earlyBird: null,
   colour: 'orange', motif: 'cat', palette: 'peach', badge: 'New', rating: 4.8, reviews: 12, students: 140,
   app: 'Procreate',
   summary: 'A longer paragraph for the sales page.',
@@ -154,7 +154,7 @@ projects are all computed from these numbers by `courseStats()`, so they never g
 
 `price: 0` makes a free course (shown as "Free" with a "Start for free" button). `badge` can be `''`,
 `'Flagship'`, `'Bestseller'`, `'Free'` or `'New'`. `earlyBird` is `null` or `{ price, ends }`, where
-`ends` is a UK time such as `'2026-11-15T23:59'`, or `null` for the rolling demo deadline (the flagship
+`ends` is an Eastern time such as `'2026-11-15T23:59'`, or `null` for the rolling demo deadline (the flagship
 uses `ends: EARLY_BIRD_ENDS`; see [Early-bird pricing and countdown](#early-bird-pricing-and-countdown)). Link to a course with
 `course.html?id=<id>`.
 
@@ -162,7 +162,7 @@ A workshop:
 
 ```js
 { id: 'spring-flowers', title: 'Spring Flowers Draw Along', date: '2027-04-10', start: '10:00', end: '11:30',
-  price: 18, capacity: 40, booked: 0, level: 'beginner', palette: 'mint', motif: 'plant',
+  price: 25, capacity: 40, booked: 0, level: 'beginner', palette: 'mint', motif: 'plant',
   blurb: 'Tulips, daffodils and a jam jar vase.' }
 ```
 
@@ -177,13 +177,13 @@ The demo must never look out of date, so two things roll forward with the calend
 by changing one constant at the top of `assets/js/main.js`:
 
 ```js
-var EARLY_BIRD_ENDS = null;       // or '2026-11-15T23:59' (UK time) for a real launch
+var EARLY_BIRD_ENDS = null;       // or '2026-11-15T23:59' (Eastern time) for a real launch
 var KEEP_DEMO_CURRENT = true;     // false once WORKSHOPS has your real dates
 var DEMO_ANCHOR = '2026-10-17';   // the week the demo workshop dates were written for
 ```
 
 - **Early bird.** With `EARLY_BIRD_ENDS = null`, `rollingDeadline()` sets the deadline to the last day of
-  the current month at 23:59 UK time, or of next month when fewer than 7 days are left, so the offer is
+  the current month at 11:59 PM Eastern time, or of next month when fewer than 7 days are left, so the offer is
   always running. With a date, the offer ends at that moment and the page switches to the full price.
 - **Workshops.** With `KEEP_DEMO_CURRENT = true`, every date in `WORKSHOPS` moves forward by the number of
   whole weeks since `DEMO_ANCHOR`, so weekdays and times never change and there are always six upcoming
@@ -193,12 +193,12 @@ What the demo shows at a few fixed clocks (useful for tests):
 
 | Clock (UTC) | Early bird (rolling) | First workshop (rolling) |
 |-------------|----------------------|--------------------------|
-| 2026-10-17 10:00 | £89 until Saturday 31 October at 23:59, "ends in 14 days" | Saturday 24 October, 10:00–11:30 BST, 7 seats left |
-| 2026-10-26 12:00 | until Monday 30 November at 23:59 | Saturday 31 October, 10:00–11:30 GMT |
-| 2027-03-01 12:00 | until Wednesday 31 March at 23:59 | Saturday 6 March, 10:00–11:30 GMT |
+| 2026-10-17 10:00 | $99 until Saturday, October 31 at 11:59 PM, "ends in 14 days" | Saturday, October 24, 10:00 AM–11:30 AM EDT, 7 seats left |
+| 2026-10-26 12:00 | until Monday, November 30 at 11:59 PM | Saturday, October 31, 10:00 AM–11:30 AM EDT |
+| 2027-03-01 12:00 | until Wednesday, March 31 at 11:59 PM | Saturday, March 6, 10:00 AM–11:30 AM EST |
 
 With `EARLY_BIRD_ENDS = '2026-11-15T23:59'` and `KEEP_DEMO_CURRENT = false`, a clock of 2026-11-16 shows
-£129 and "The early-bird price ended on Sunday 15 November", and on 2027-03-01 the workshops page shows
+$149 and "The early-bird price ended on Sunday, November 15", and on 2027-03-01 the workshops page shows
 "0 upcoming workshops" with the empty state.
 
 The home page hero, steps, testimonials and the flagship course description are static HTML in
@@ -216,7 +216,7 @@ There are no photos. Everything is SVG:
   `mushroom`, `whale`, `lettering` (draws `opts.art.word`), `rainbow`, `moon`, `cactus`. Palettes are the
   keys of `PALETTES`. Each drawing uses a square 200 x 200 viewBox, so square images (for example
   800 x 800) are the right replacement if you switch to real artwork.
-- The free worksheets and palettes are generated by `resourceSheet()` as A4 portrait SVGs (595 x 842).
+- The free worksheets and palettes are generated by `resourceSheet()` as US Letter portrait SVGs (612 x 792).
 - The social image is `assets/img/og-image.png` (1200 x 630), made from `og-image.svg`. After editing the
   SVG, export it to PNG with any vector editor or browser screenshot at the same size.
 - `assets/img/favicon.svg` is the tab icon (the same mark as the header logo).
@@ -260,10 +260,10 @@ title and meta description are set from the course. Sections:
 
 ### Early-bird pricing and countdown
 
-A course with `earlyBird: { price: 89, ends: '2026-11-15T23:59' }` sells at the early-bird price until
-`ends`, read as UK time by `zonedDate()`. The flagship uses `ends: EARLY_BIRD_ENDS`, which is `null` in the
+A course with `earlyBird: { price: 99, ends: '2026-11-15T23:59' }` sells at the early-bird price until
+`ends`, read as Eastern time by `zonedDate()`. The flagship uses `ends: EARLY_BIRD_ENDS`, which is `null` in the
 demo: a rolling deadline at the end of the month (see [Demo dates](#demo-dates)). `renderPriceBox()` shows the price, the crossed-out full price,
-the saving, the deadline ("Sunday 15 November at 23:59 (UK time)") and a days/hours/minutes/seconds
+the saving, the deadline ("Sunday, November 15 at 11:59 PM (Eastern time)") and a days/hours/minutes/seconds
 countdown that ticks every second. When the deadline passes, the box re-renders by itself with the full
 price and "The early-bird price ended on ...", the home hero ribbon (`[data-early-ribbon]`) hides, course
 cards drop their early-bird sticker and the enroll dialog quotes the full price. To run a real offer, set
@@ -276,11 +276,11 @@ The countdown has `role="timer"`; its digits are hidden from screen readers and 
 
 `initWorkshops()` lists every workshop whose end time has not passed, soonest first (after the demo shift
 described in [Demo dates](#demo-dates)). Each shows the date
-and time in UK time with the right label (`BST` or `GMT`, from `ZONE_LABELS`), and, when the visitor's
-browser is in another time zone, a line such as "That is Sat 05:00 GMT-5 where you are." Seats left are
+and time in Eastern time with the right label (`EST` or `EDT`, from `ZONE_LABELS`), and, when the visitor's
+browser is in another time zone, a line such as "That is Sat 7:00 AM PDT where you are." Seats left are
 `capacity - booked`: "7 seats left", "Only 1 seat left" (at or below `FEW_SEATS`, with an orange bar) or
 "Fully booked". A workshop that has started shows "Live now". When no workshops are left, an empty state
-points to the newsletter. The note under the heading shows the current UK time and zone.
+points to the newsletter. The note under the heading shows the current Eastern time and zone.
 
 "Book a seat" opens the sign-up dialog. On a full workshop, "Join the waitlist" opens the same dialog in
 waitlist mode; after submitting, the workshop id is stored in `sketch-waitlist`, the card shows
@@ -425,13 +425,13 @@ GitHub Pages, Vercel or your own server. There is no server code.
 ## Troubleshooting
 
 - **The countdown says the offer ended.** The date in `EARLY_BIRD_ENDS` (or a course's `ends`) has
-  passed. Set a new date (`'YYYY-MM-DDTHH:MM'`, UK time), `null` for the rolling demo deadline, or set the
+  passed. Set a new date (`'YYYY-MM-DDTHH:MM'`, Eastern time), `null` for the rolling demo deadline, or set the
   course's `earlyBird: null`.
 - **My workshop dates are wrong.** `KEEP_DEMO_CURRENT` is still `true`, so dates are moved forward. Set it
   to `false` after entering real dates.
 - **No workshops are listed.** With `KEEP_DEMO_CURRENT = false`, every workshop's end time is in the past.
   Add new dates to `WORKSHOPS`.
-- **Workshop times look an hour out.** Times are UK wall-clock times; the script works out BST or GMT for
+- **Workshop times look an hour off.** Times are Eastern wall-clock times; the script works out EST or EDT for
   each date. Don't convert them to UTC yourself.
 - **A course link shows "That course has wandered off".** The `?id=` doesn't match an `id` in `COURSES`.
 - **New classes don't apply.** Rebuild the CSS with `npm run build`; classes used only in JavaScript must be

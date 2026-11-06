@@ -5,7 +5,7 @@ phone mockups, a tabbed feature tour, a bedtime calculator, a sound library with
 routine builder, pricing, reviews, sleep guides and a support page with a press kit. Dark by default, with a light
 theme. Built with HTML5, Tailwind CSS v4 and vanilla JavaScript.
 
-**Version 1.0.4** · see [CHANGELOG.md](CHANGELOG.md) for what changed.
+**Version 1.0.5** · see [CHANGELOG.md](CHANGELOG.md) for what changed.
 
 Live demo: [freeframe.dev/templates/drift](https://freeframe.dev/templates/drift)
 

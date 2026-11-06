@@ -3,11 +3,11 @@
 ## Overview
 
 Drift is a launch website for a mobile app, written for **Nightjar**, a fictional sleep and wind-down app made
-by a small team in Inverness. It is dark first: a night-sky design with SVG star fields, a glowing moon, soft
+by a small team in Sacramento, California. It is dark first: a night-sky design with SVG star fields, a glowing moon, soft
 aurora gradients and glassy phone mockups built in HTML, plus a light ("dawn") theme. It has a tabbed feature
 tour, a bedtime calculator, a sound library with generated previews and saved favorites, a wind-down routine
 builder, pricing with a monthly/annual switch, filterable reviews, sleep guides and a support page with a
-searchable help center, contact form and press kit. This is the **HTML + Tailwind CSS v4** version, **1.0.2**:
+searchable help center, contact form and press kit. This is the **HTML + Tailwind CSS v4** version, **1.0.5**:
 static pages and one vanilla JavaScript file, no build step needed to run it.
 
 Live demo: [freeframe.dev/templates/drift](https://freeframe.dev/templates/drift)
@@ -106,7 +106,7 @@ Text lives in the HTML pages. Data that drives the interactions is at the top of
 | `CALC_MODES`, `LATENCY_OPTIONS`, `CALC_DEFAULTS` | Calculator modes (`wake`, `bed`) and labels, allowed fall-asleep minutes (5, 10, 15, 20, 30), defaults (`wake`, `07:00`, 15) |
 | `ROUTINE_STEPS`, `ROUTINE_DEFAULTS` | Routine builder steps (`id: { label, minutes }`, in running order) and the suggested routine (`dim`, `screens`, `breathe`, `read`, lights out `22:45`) |
 | `SOUND_RECIPES`, `PREVIEW_SECONDS`, `SOUND_CATEGORIES` | How each sound preview is generated, preview length (30 s), allowed filters |
-| `PLANS`, `BILLING` | Monthly and annual prices in pounds (Premium £5.99 / £47.99, Family £9.99 / £79.99) |
+| `PLANS`, `BILLING` | Monthly and annual prices in US dollars, before any sales tax (Premium $6.99 / $55.99, Family $11.99 / $95.99) |
 | `REVIEW_STARS`, `REVIEW_TOPICS`, `REVIEW_SORTS` | Allowed review filter and sort values |
 | `GUIDE_TOPICS`, `CONTACT_TOPICS` | Allowed guide topics and contact form topics |
 
@@ -173,9 +173,10 @@ minutes), a count ("4 steps · 26 minutes") and a timed plan. Code: `initRoutine
 
 Two modes: **When to sleep** (`wake`: bedtime = wake time − cycles × 90 − fall-asleep minutes) and **When to
 wake** (`bed`: wake time = bedtime + fall-asleep minutes + cycles × 90). It shows 6, 5, 4 and 3 cycles in time
-order and highlights 5 and 6 as "Suggested". Example: wake at 07:00 with 15 minutes gives 21:45, 23:15, 00:45
-and 02:15; bed at 22:30 gives 03:15, 04:45, 06:15 and 07:45. Times are local clock times (24-hour `HH:MM`),
-with no time zone conversion; "Now" (bedtime mode) uses the visitor's device clock.
+order and highlights 5 and 6 as "Suggested". Example: wake at 7:00 AM with 15 minutes gives 9:45 PM, 11:15 PM,
+12:45 AM and 2:15 AM; bed at 10:30 PM gives 3:15 AM, 4:45 AM, 6:15 AM and 7:45 AM. Times are local clock times, with no
+time zone conversion. They are kept and passed in URLs as 24-hour `HH:MM`, and `clock12()` (section 2) shows them on a
+12-hour clock; "Now" (bedtime mode) uses the visitor's device clock.
 
 URL parameters: `?mode=wake|bed&time=HH:MM&latency=5|10|15|20|30`. Each is validated (own-key lookups and a
 time pattern); invalid values fall back to saved settings, then defaults. Changing an input updates the URL and
@@ -184,7 +185,7 @@ saves `drift-calculator`. "Copy link" copies the shareable URL. Code: `calcTimes
 
 ### Sound library
 
-Filter buttons (`data-filter`, `aria-pressed`), a search box and a Favourites filter with a live count. The
+Filter buttons (`data-filter`, `aria-pressed`), a search box and a Favorites filter with a live count. The
 heart buttons (`data-fav`, `aria-pressed`) save ids to `drift-favourites`. Preview buttons (`data-play`,
 `aria-pressed`) play one sound at a time, generated with the Web Audio API from `SOUND_RECIPES` (filtered
 noise, sine tones and slow volume waves; no audio files), fading in and stopping after `PREVIEW_SECONDS`. The
@@ -195,7 +196,7 @@ Code: section 9. The equalizer animation is static with reduced motion.
 ### Pricing switch
 
 A `role="switch"` button (`data-billing-switch`) toggles monthly and annual billing. Annual shows the monthly
-equivalent (`£47.99 / 12 = £4.00`) and the saving against twelve monthly payments (`£23.89, 33%`). URL
+equivalent (`$55.99 / 12 = $4.67`) and the saving against twelve monthly payments (`$27.89, 33%`). URL
 parameter: `?billing=monthly|annual`. Code: `initPricing()` (section 10).
 
 ### Reviews filter
@@ -223,7 +224,7 @@ updates the count ("1 answer found"). Code: `initFaqSearch()` (section 13).
 The contact form on `support.html` (`#contact-form`) checks name, email format, phone choice and a message of
 at least 20 characters, with inline errors linked by `aria-describedby`. `?topic=help|billing|bug|feedback|press`
 preselects the topic. On success it shows `#contact-success`, which thanks the sender by first name, says the
-support team will reply within one working day (as the page promises; change both if yours differs) and shows a
+support team will reply within one business day (as the page promises; change both if yours differs) and shows a
 short reference (`NJ-` and four characters, made in the browser by `makeRef()`; use your help desk's own ticket
 number instead if it returns one). **It doesn't send anything** until you connect it. To use Formspree, replace
 the success block in `initForms()` (section 14) with:
@@ -293,8 +294,8 @@ no server code.
   in the HTML and `assets/js/main.js`.
 - **No sound on the previews.** Browsers only allow audio after a click, and some phones mute web audio when the
   silent switch is on. Check the device volume.
-- **The time input shows AM/PM.** Time inputs follow the browser's locale; the calculator still works in
-  24-hour `HH:MM` internally.
+- **The time input shows a 24-hour clock.** Time inputs follow the browser's locale; the calculator still works
+  in 24-hour `HH:MM` internally and shows its results on a 12-hour clock.
 - **Favorites or settings don't persist.** Storage is blocked (private mode or a sandboxed preview), so they
   last only for the page view.
 - **The theme flashes on load.** Keep the inline script in the `<head>` above the closing `</head>` on every page.

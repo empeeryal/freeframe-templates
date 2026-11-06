@@ -2,7 +2,7 @@
 
 ## Overview
 
-Pleat is a complete HTML and Tailwind CSS v4 website for an independent alterations and repair workroom in Alnwick, Northumberland. This guide covers version 1.0.2, which includes a service catalog, a multi-garment price estimator, a saved repair plan, a rolling fitting diary, a fitting request form and an inquiry form. The fictional studio uses British spelling, pounds sterling and the `Europe/London` time zone. See the [template page and live demo](https://freeframe.dev/templates/pleat).
+Pleat is a complete HTML and Tailwind CSS v4 website for an independent alterations and repair workroom in Alexandria, Virginia. This guide covers version 1.0.5, which includes a service catalog, a multi-garment price estimator, a saved repair plan, a rolling fitting calendar, a fitting request form and an inquiry form. The fictional studio uses American spelling, US dollars and the `America/New_York` time zone. See the [template page and live demo](https://freeframe.dev/templates/pleat).
 
 ## Quick start
 
@@ -29,7 +29,7 @@ No JavaScript package or framework runs in the browser.
 | `quote.html`    | Build a repair plan          | Multiple garments, fabric allowances, quantity, priority, remove, clear, save and print |
 | `book.html`     | Request a fitting            | `?type=` and `?person=`, specialists, six-week calendar, validation and confirmation    |
 | `work.html`     | Explore completed work       | Category filters and keyboard-accessible detail dialogs                                 |
-| `studio.html`   | Meet the three staff         | Specialisms, working days and direct fitting links                                      |
+| `studio.html`   | Meet the three staff         | Specialties, work days and direct fitting links                                         |
 | `care.html`     | Look after clothes           | Searchable care notes, fabric filters and expandable advice                             |
 | `visit.html`    | Find or contact the workroom | Hours, access, winter closures and inquiry preparation                                  |
 | `404.html`      | Recover from a missing page  | Links to the home page and alteration list                                              |
@@ -42,14 +42,14 @@ Other unsupported filter values fall back to their respective `all` category.
 ```text
 pleat/
   index.html                 Home page
-  services.html              Service catalogue
+  services.html              Service catalog
   service.html               Data-driven service detail
   quote.html                 Estimate and saved repair plan
   book.html                  Fitting calendar and request form
   work.html                  Work ledger and detail dialog
   studio.html                People and approach
   care.html                  Care notes
-  visit.html                 Directions and enquiry form
+  visit.html                 Directions and inquiry form
   404.html                   Missing-page recovery
   assets/
     css/style.css            Compiled Tailwind CSS
@@ -57,7 +57,7 @@ pleat/
     img/                     Original SVG plates, the street map and social assets
   src/input.css              Tailwind source and brand tokens
   package.json               CSS build and watch commands
-  template.json              Catalogue metadata
+  template.json              Catalog metadata
   README.md                  Short introduction and quick start
   DOCS.md                    This guide
   CHANGELOG.md               Template release history
@@ -120,7 +120,7 @@ The editable social image uses the same two family names; `og-image.png` is rend
 ### Content
 
 Shared business copy is repeated in each HTML header and footer.
-Edit all pages when changing the workroom address, telephone number or navigation.
+Edit all pages when changing the workroom address, phone number or navigation.
 Most service-specific content lives in `assets/js/main.js`.
 
 | Constant          | Contents                                                                   |
@@ -129,7 +129,7 @@ Most service-specific content lives in `assets/js/main.js`.
 | `CATEGORIES`      | Service filter labels                                                      |
 | `COMPLEXITY`      | Fabric multipliers and extra turnaround days                               |
 | `URGENCY`         | Standard schedule and priority allowance                                   |
-| `PEOPLE`          | Staff names, biographies, working days and appointment types               |
+| `PEOPLE`          | Staff names, biographies, business days and appointment types              |
 | `APPOINTMENTS`    | Fitting names, durations and guidance                                      |
 | `ICONS`           | A small line drawing per service, shown on service cards and detail pages  |
 | `WORK`            | Six garment case studies, each with its own `art` plate and `label`        |
@@ -138,7 +138,7 @@ Most service-specific content lives in `assets/js/main.js`.
 | `CARE_CATEGORIES` | Care note filters                                                          |
 
 To add a service, copy a complete record in `SERVICES` and give it a unique key.
-For an extra finish on the trouser hem, add this inside its `finishes` object:
+For an extra finish on the pants hem, add this inside its `finishes` object:
 
 ```js
 hand: {
@@ -196,7 +196,7 @@ The category is reflected in `?category=`; search text stays on the page and is 
 `data-service-count` announces updated result counts.
 
 `initDetail()` reads `?service=` using an own-property check before looking up the service.
-Changing `#detail-finish` updates the guide price and finish note.
+Changing `#detail-finish` updates the estimated price and finish note.
 Adding a service uses the selected finish, everyday cloth and a quantity of one.
 Open the estimate page to change fabric, quantities or timing.
 
@@ -209,16 +209,16 @@ The calculation is:
 (service.price + service.finishes[line.finish].extra) * COMPLEXITY[line.complexity].multiplier;
 ```
 
-The result is rounded to pence, then multiplied by the number of garments.
-Priority adds 30% of the subtotal, also rounded to pence.
+The result is rounded to cents, then multiplied by the number of garments.
+Priority adds 30% of the subtotal, also rounded to cents.
 The longest service turnaround plus its fabric allowance is shown for the standard schedule.
-Priority asks for about half that turnaround, rounded up, and never less than `URGENCY.priority.days` (3) working days:
-a 14-working-day plan shows "7 working days requested (standard 14)". It is subject to studio capacity and garment suitability.
-Turnarounds are durations, not promises or computed collection dates.
+Priority asks for about half that turnaround, rounded up, and never less than `URGENCY.priority.days` (3) business days:
+a 14-business-day plan shows "7 business days requested (standard 14)". It is subject to studio capacity and garment suitability.
+Turnarounds are durations, not promises or computed pickup dates.
 
 Everyday cloth has a multiplier of 1 and no extra days.
-Delicate cloth adds 25% and two working days.
-Detailed construction adds 50% and four working days.
+Delicate cloth adds 25% and two business days.
+Detailed construction adds 50% and four business days.
 The form accepts whole quantities from one to six and a maximum of twelve separate lines.
 Invalid typed quantities produce an inline error and move focus to the quantity field.
 
@@ -239,7 +239,7 @@ It cannot survive a navigation or reload without a storage backend; the save fee
 
 ### Fitting calendar
 
-`initBooking()` builds a rolling diary from tomorrow to `BOOK_AHEAD_DAYS` days ahead.
+`initBooking()` builds a rolling calendar from tomorrow to `BOOK_AHEAD_DAYS` days ahead.
 
 Two URL parameters preselect the form; unknown values are ignored:
 
@@ -253,32 +253,32 @@ when no type is given), the form starts on the first appointment in their `appoi
 `book.html?person=eluned` opens a repair assessment with Eluned. The studio page's links name both.
 
 It uses `today()`, `addDays()`, `opening()` and `slotsFor()`.
-Civil dates are represented at UTC noon; the current civil day is derived in `Europe/London`.
-The diary therefore remains correct for visitors in other time zones and across daylight-saving changes.
+Civil dates are represented at UTC noon; the current civil day is derived in `America/New_York`.
+The calendar therefore remains correct for visitors in other time zones and across daylight-saving changes.
 
 | Setting                  | Default                                                         |
 | ------------------------ | --------------------------------------------------------------- |
-| `TIME_ZONE`              | `Europe/London`                                                 |
+| `TIME_ZONE`              | `America/New_York`                                              |
 | `BOOK_AHEAD_DAYS`        | 42                                                              |
 | `SLOT_STEP`              | 40 minutes between starts                                       |
-| `HOURS`                  | Tue–Fri 09:30–17:30, Sat 10:00–15:00                            |
-| `WINTER_BREAK`           | 24 December through 2 January inclusive                         |
-| `CLOSE_ON_BANK_HOLIDAYS` | `true`: closed on England and Wales bank holidays               |
+| `HOURS`                  | Tue–Fri 9:30am–5:30pm, Sat 10am–3pm                             |
+| `WINTER_BREAK`           | December 24 through January 2 inclusive                         |
+| `CLOSE_ON_BANK_HOLIDAYS` | `true`: closed on US federal holidays                           |
 | `EXTRA_CLOSED`           | Empty list of additional ISO closure dates, e.g. `"2027-07-16"` |
 
 Sunday and Monday are closed.
-`bankHolidays(year)` works out England and Wales bank holidays for any year: New Year's Day, Good Friday and Easter
-Monday (from the Gregorian Easter date), the early May, spring and summer bank holidays, Christmas Day and Boxing
-Day, with substitute days when one falls at a weekend. The workroom opens Tuesday to Saturday, so in practice this
-closes Good Friday (and any substitute day that lands on an open day); the calendar labels the day with the holiday's
-name. Set `CLOSE_ON_BANK_HOLIDAYS = false` to open on them, add one-off closures to `EXTRA_CLOSED`, and edit
-`bankHolidays()` for Scotland or Northern Ireland.
-The appointment must fit before closing time and cannot overlap the 12:30–13:30 lunch break.
+`bankHolidays(year)` works out the US federal holidays for any year by rule: New Year's Day, Martin Luther King Jr.
+Day, Washington's Birthday, Memorial Day, Juneteenth, Independence Day, Labor Day, Columbus Day, Veterans Day,
+Thanksgiving Day and Christmas Day. A holiday on a Saturday is also observed on the Friday before, and one on a Sunday
+on the Monday after. The workroom opens Tuesday to Saturday, so the Monday holidays change nothing in practice; the
+calendar labels a closed open-day with the holiday's name. Set `CLOSE_ON_BANK_HOLIDAYS = false` to open on them, add
+one-off closures to `EXTRA_CLOSED`, and edit `bankHolidays()` for your own holiday list.
+The appointment must fit before closing time and cannot overlap the 12:30–1:30pm lunch break.
 Specialists must support the selected appointment type and work that weekday.
-A deterministic rule withholds some slots to show a varied diary; it is not live availability.
+A deterministic rule withholds some slots to show a varied calendar; it is not live availability.
 There is no fixed year, fixed future date or countdown to maintain.
 The next-fitting labels reuse the same calendar rules.
-Copyright is generated in London time each year.
+Copyright is generated in Eastern time each year.
 
 For a real site, replace the slot-generation logic with availability from a server.
 Recheck that availability when the user submits, and reserve atomically on the server.
@@ -316,7 +316,7 @@ The day and slot are rechecked against the calendar at submission time.
 On success the form is hidden and `#booking-review` is shown and focused: "Request received", a summary of the
 request and repair plan (inserted with text nodes) and a short reference (`PL-` and four characters, made in the
 browser by `makeRef()`; use your booking system's own reference instead if it returns one). The message promises an
-email within one working day to confirm the time or offer the nearest alternative: change it if yours differs.
+email within one business day to confirm the time or offer the nearest alternative: change it if yours differs.
 No appointment is reserved and nothing is sent until you connect the form (see below).
 Name, email and notes are not persisted.
 
@@ -325,7 +325,7 @@ Name, email and notes are not persisted.
 `#contact-form` validates the name, email and a message of 12–1,500 characters.
 `initContact()` validates the topic against a fixed own-key map.
 On success the form is hidden and `#contact-review` is shown and focused with the sender's first name, the topic,
-a reply within two working days (as the hint under the button says; change both if yours differs) and a `PL-`
+a reply within two business days (as the hint under the button says; change both if yours differs) and a `PL-`
 reference from `makeRef()`. Nothing is sent until you connect the form.
 
 ### Connecting a real endpoint
@@ -427,17 +427,17 @@ Test a saved plan, a blocked-storage plan and the winter closure period after ch
 
 ## Troubleshooting
 
-| Problem                                           | What to check                                                                                 |
-| ------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| A new utility class has no effect                 | Rebuild `assets/css/style.css` from `src/input.css` after editing markup                      |
-| Display type falls back to Georgia                | Check the Google Fonts `<link>` tags are in the page head and your CSP allows both font hosts |
-| A plan vanishes after moving pages                | Native storage may be blocked; memory fallback intentionally lasts for one page view          |
-| A saved line disappears after editing services    | Its service, finish or complexity key no longer exists, or the schema version changed         |
-| A specialist has no times on a day                | Check `PEOPLE.days`, appointment eligibility, lunch, duration and `HOURS`                     |
-| No fittings appear at Christmas                   | The annual winter break closes 24 December through 2 January; move to a later week            |
-| A Friday in spring is closed                      | It is Good Friday; set `CLOSE_ON_BANK_HOLIDAYS = false` to open on bank holidays              |
-| A form shows its confirmation but nothing arrives | It sends nothing until you connect it; see [Forms](#forms)                                    |
-| Social networks show an old image                 | Regenerate the PNG, publish an absolute URL and refresh the network's cached preview          |
+| Problem                                                   | What to check                                                                                    |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| A new utility class has no effect                         | Rebuild `assets/css/style.css` from `src/input.css` after editing markup                         |
+| Display type falls back to Georgia                        | Check the Google Fonts `<link>` tags are in the page head and your CSP allows both font hosts    |
+| A plan vanishes after moving pages                        | Native storage may be blocked; memory fallback intentionally lasts for one page view             |
+| A saved line disappears after editing services            | Its service, finish or complexity key no longer exists, or the schema version changed            |
+| A specialist has no times on a day                        | Check `PEOPLE.days`, appointment eligibility, lunch, duration and `HOURS`                        |
+| No fittings appear at Christmas                           | The annual winter break closes December 24 through January 2; move to a later week               |
+| An open weekday is closed, such as a Thursday in November | It is a federal holiday, here Thanksgiving; set `CLOSE_ON_BANK_HOLIDAYS = false` to open on them |
+| A form shows its confirmation but nothing arrives         | It sends nothing until you connect it; see [Forms](#forms)                                       |
+| Social networks show an old image                         | Regenerate the PNG, publish an absolute URL and refresh the network's cached preview             |
 
 ## License
 

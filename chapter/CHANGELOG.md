@@ -6,6 +6,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-05
+
+### Changed
+
+- Set in Salem, Massachusetts, with American spelling, US dollars, US phone numbers and local details.
+- Dates and times use Eastern time and a 12-hour clock. New books come out on a Tuesday, the usual day in the US,
+  so the publication-day countdown and launch night moved to a Tuesday.
+
 ## [1.0.4] - 2026-11-05
 
 ### Changed

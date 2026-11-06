@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-05
+
+### Changed
+
+- Set in Sacramento, California, with American spelling, US dollars, and local details.
+- Times now show on a 12-hour clock, in the calculator and routine builder too; saved settings and `?time=` links still use 24-hour `HH:MM`.
+
 ## [1.0.4] - 2026-11-05
 
 ### Changed

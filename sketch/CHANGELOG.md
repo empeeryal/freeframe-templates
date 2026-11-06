@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-05
+
+### Changed
+
+- Set in Asbury Park, New Jersey, with American spelling, US dollars, US phone numbers and local details.
+- Workshop and early-bird times use Eastern time (EST/EDT) on a 12-hour clock, and the free worksheets and palettes download at US Letter size instead of A4.
+
 ## [1.0.5] - 2026-11-05
 
 ### Changed

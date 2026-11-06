@@ -12,7 +12,7 @@ window.PLANWICK_DATA = {
       effort: 5,
       summary: "Bring projects, decisions and files into one searchable view.",
       evidence: "Support conversations repeatedly mention switching between three places to find one answer.",
-      owner: "Ailwyn Branthwaite",
+      owner: "Alton Bynum",
     },
     {
       id: "guided-setup",
@@ -25,7 +25,7 @@ window.PLANWICK_DATA = {
       effort: 3,
       summary: "Give new teams a useful first plan in under an hour.",
       evidence: "Eight recent onboarding reviews identified unclear first steps as the biggest delay.",
-      owner: "Nerissa Murgatroyd",
+      owner: "Nerissa McAdoo",
     },
     {
       id: "mobile-approvals",
@@ -38,11 +38,11 @@ window.PLANWICK_DATA = {
       effort: 4,
       summary: "Make small release decisions possible away from a desk.",
       evidence: "Team leads need to review a short brief before a release can move forward.",
-      owner: "Bleddyn Trevanion",
+      owner: "Beth Tillery",
     },
     {
       id: "help-centre",
-      title: "Help centre",
+      title: "Help center",
       team: "operations",
       stage: "now",
       reach: 280,
@@ -51,7 +51,7 @@ window.PLANWICK_DATA = {
       effort: 2,
       summary: "Put practical answers beside the work that needs them.",
       evidence: "The same five setup questions account for a third of incoming requests.",
-      owner: "Ailwyn Branthwaite",
+      owner: "Alton Bynum",
     },
     {
       id: "audit-export",
@@ -64,7 +64,7 @@ window.PLANWICK_DATA = {
       effort: 6,
       summary: "Export a readable decision history for internal reviews.",
       evidence: "Quarterly reviews require owners to assemble evidence manually.",
-      owner: "Nerissa Murgatroyd",
+      owner: "Nerissa McAdoo",
     },
     {
       id: "shared-templates",
@@ -77,7 +77,7 @@ window.PLANWICK_DATA = {
       effort: 3,
       summary: "Start recurring planning work from a consistent structure.",
       evidence: "Six teams have independently rebuilt the same release checklist.",
-      owner: "Bleddyn Trevanion",
+      owner: "Beth Tillery",
     },
     {
       id: "renewal-calendar",
@@ -90,7 +90,7 @@ window.PLANWICK_DATA = {
       effort: 2,
       summary: "Keep renewal decisions visible before the last week.",
       evidence: "Operations needs a shared view of upcoming commitments and review owners.",
-      owner: "Ailwyn Branthwaite",
+      owner: "Alton Bynum",
     },
     {
       id: "permissions-refresh",
@@ -103,7 +103,7 @@ window.PLANWICK_DATA = {
       effort: 8,
       summary: "Make workspace access easier to understand and review.",
       evidence: "Permission reviews need clearer descriptions and a smaller set of roles.",
-      owner: "Nerissa Murgatroyd",
+      owner: "Nerissa McAdoo",
     },
     {
       id: "offline-queue",
@@ -116,7 +116,7 @@ window.PLANWICK_DATA = {
       effort: 7,
       summary: "Keep captured notes safe through a short loss of connection.",
       evidence: "Field teams report interrupted note taking during site visits.",
-      owner: "Bleddyn Trevanion",
+      owner: "Beth Tillery",
     },
     {
       id: "workspace-archive",
@@ -129,7 +129,7 @@ window.PLANWICK_DATA = {
       effort: 2,
       summary: "Retire completed work without losing its decision trail.",
       evidence: "Old initiatives make active workspace lists harder to scan.",
-      owner: "Ailwyn Branthwaite",
+      owner: "Alton Bynum",
     },
     {
       id: "bulk-import",
@@ -142,7 +142,7 @@ window.PLANWICK_DATA = {
       effort: 5,
       summary: "Move structured initiative lists into a new workspace.",
       evidence: "Larger teams need to preserve existing identifiers and owners.",
-      owner: "Nerissa Murgatroyd",
+      owner: "Nerissa McAdoo",
     },
     {
       id: "activity-digest",
@@ -155,7 +155,7 @@ window.PLANWICK_DATA = {
       effort: 3,
       summary: "Give colleagues a concise weekly view of what changed.",
       evidence: "Stakeholders want a summary they can read before the planning review.",
-      owner: "Bleddyn Trevanion",
+      owner: "Beth Tillery",
     },
     {
       id: "language-packs",
@@ -167,8 +167,8 @@ window.PLANWICK_DATA = {
       confidence: 50,
       effort: 9,
       summary: "Make planning language clearer across regional teams.",
-      evidence: "Terminology needs research before translated interfaces are prioritised.",
-      owner: "Ailwyn Branthwaite",
+      evidence: "Terminology needs research before translated interfaces are prioritized.",
+      owner: "Alton Bynum",
     },
     {
       id: "fast-attachments",
@@ -181,7 +181,7 @@ window.PLANWICK_DATA = {
       effort: 4,
       summary: "Keep evidence close without slowing the planning conversation.",
       evidence: "Teams attach screenshots and short research notes to most initiative briefs.",
-      owner: "Nerissa Murgatroyd",
+      owner: "Nerissa McAdoo",
     },
     {
       id: "saved-views",
@@ -194,7 +194,7 @@ window.PLANWICK_DATA = {
       effort: 3,
       summary: "Return to the same useful slice of the roadmap.",
       evidence: "Team leads recreate the same filters at each weekly review.",
-      owner: "Bleddyn Trevanion",
+      owner: "Beth Tillery",
     },
     {
       id: "request-intake",
@@ -207,7 +207,7 @@ window.PLANWICK_DATA = {
       effort: 4,
       summary: "Turn incoming requests into comparable planning evidence.",
       evidence: "Unstructured requests hide the problem, audience and urgency.",
-      owner: "Ailwyn Branthwaite",
+      owner: "Alton Bynum",
     },
   ],
   integrations: [
@@ -245,7 +245,7 @@ window.PLANWICK_DATA = {
       summary: "Share a concise planning change where people work.",
       permission: "Post a summary to one selected channel.",
       owner: "Workspace owner",
-      checkpoint: "Agree which decisions deserve a notification.",
+      checkpoint: "Agree on which decisions deserve a notification.",
     },
     {
       id: "design",
@@ -288,7 +288,7 @@ window.PLANWICK_DATA = {
       title: "Identity provider",
       category: "operations",
       summary: "Give the right people a consistent way in.",
-      permission: "Read verified organisation membership.",
+      permission: "Read verified organization membership.",
       owner: "Workspace administrator",
       checkpoint: "Review the access role assigned to new members.",
     },
@@ -299,7 +299,7 @@ window.PLANWICK_DATA = {
       summary: "Make planning reviews easy to find.",
       permission: "Create review events in a selected calendar.",
       owner: "Operations lead",
-      checkpoint: "Agree the review cadence and local time zone.",
+      checkpoint: "Agree on the review cadence and local time zone.",
     },
     {
       id: "sheet",
@@ -347,12 +347,12 @@ window.PLANWICK_DATA = {
       ],
       scope: ["permissions-refresh", "audit-export", "bulk-import", "fast-attachments"],
       capacity: 6,
-      cadence: "A fortnightly scope and capacity review.",
+      cadence: "A scope and capacity review every two weeks.",
     },
     {
       id: "operations",
       title: "Operations teams",
-      heading: "Fewer surprises between handovers",
+      heading: "Fewer surprises between handoffs",
       summary: "Give recurring work an owner, a clear place in the plan and a realistic review date.",
       practices: [
         "Collect recurring friction in one queue.",
@@ -361,7 +361,7 @@ window.PLANWICK_DATA = {
       ],
       scope: ["renewal-calendar", "workspace-archive", "help-centre", "request-intake"],
       capacity: 5,
-      cadence: "A short Monday handover and monthly review.",
+      cadence: "A short Monday handoff and monthly review.",
     },
     {
       id: "customer",
@@ -375,15 +375,15 @@ window.PLANWICK_DATA = {
       ],
       scope: ["help-centre", "request-intake", "activity-digest"],
       capacity: 7,
-      cadence: "A fortnightly evidence review with product.",
+      cadence: "An evidence review with product every two weeks.",
     },
     {
       id: "growing",
-      title: "Growing organisations",
+      title: "Growing organizations",
       heading: "One conversation across more teams",
       summary: "Use consistent stages and shared decision rules while keeping team-level ownership close to the work.",
       practices: [
-        "Agree a small shared stage vocabulary.",
+        "Agree on a small shared stage vocabulary.",
         "Keep one accountable owner per initiative.",
         "Review cross-team dependencies early.",
       ],
@@ -423,11 +423,11 @@ window.PLANWICK_DATA = {
     {
       id: "confidence-check",
       topic: "priorities",
-      title: "Give confidence a proper conversation",
+      title: "Give confidence a real conversation",
       summary: "Make uncertainty visible in a priority score.",
       minutes: 5,
       steps: [
-        "Separate observed behaviour from opinions about future behaviour.",
+        "Separate observed behavior from opinions about future behavior.",
         "Record the source and age of the strongest evidence.",
         "Choose a lower confidence value when a key assumption is still untested.",
       ],
@@ -475,7 +475,7 @@ window.PLANWICK_DATA = {
     {
       id: "rice-with-care",
       topic: "priorities",
-      title: "Use a score without outsourcing judgement",
+      title: "Use a score without outsourcing judgment",
       summary: "A careful way to compare impact and effort.",
       minutes: 6,
       steps: [
@@ -501,7 +501,7 @@ window.PLANWICK_DATA = {
     {
       id: "handover-notes",
       topic: "team",
-      title: "Make a handover easy to pick up",
+      title: "Make a handoff easy to pick up",
       summary: "Keep the context that the next person needs.",
       minutes: 4,
       steps: [
@@ -514,17 +514,17 @@ window.PLANWICK_DATA = {
   ],
   team: [
     {
-      name: "Ailwyn Branthwaite",
+      name: "Alton Bynum",
       role: "Product & customer conversations",
       detail: "Helps teams turn a broad ambition into the next useful decision.",
     },
     {
-      name: "Nerissa Murgatroyd",
+      name: "Nerissa McAdoo",
       role: "Engineering & thoughtful systems",
       detail: "Keeps delivery constraints visible while making room for good ideas.",
     },
     {
-      name: "Bleddyn Trevanion",
+      name: "Beth Tillery",
       role: "Operations & team enablement",
       detail: "Builds practical routines that make a clear plan easier to maintain.",
     },
@@ -532,20 +532,20 @@ window.PLANWICK_DATA = {
   plans: {
     start: {
       title: "Start",
-      rate: 600,
+      rate: 800,
       summary: "A clear home for one planning team.",
       features: ["Unlimited initiatives", "Priority scoring", "A shared release view"],
     },
     team: {
       title: "Team",
-      rate: 1200,
+      rate: 1500,
       summary: "A common language across growing teams.",
       features: ["Everything in Start", "Cross-team planning", "Connection rollout tools"],
     },
     scale: {
       title: "Scale",
-      rate: 2200,
-      summary: "More structure for a wider organisation.",
+      rate: 2900,
+      summary: "More structure for a wider organization.",
       features: ["Everything in Team", "Access review planning", "Structured onboarding"],
     },
   },

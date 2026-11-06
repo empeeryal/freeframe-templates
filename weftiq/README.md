@@ -1,6 +1,6 @@
 # Weftiq
 
-A nine-page HTML5 and Tailwind CSS v4 website for a workflow automation company in Wymondham. Includes a recipe library, a working rule-and-action builder, saved flows, pricing, integrations and original SVG artwork.
+A nine-page HTML5 and Tailwind CSS v4 website for a workflow automation company in Plano, Texas. Includes a recipe library, a working rule-and-action builder, saved flows, pricing, integrations and original SVG artwork.
 
 ## Quick start
 

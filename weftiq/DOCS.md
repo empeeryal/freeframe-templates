@@ -2,7 +2,7 @@
 
 ## Overview
 
-Weftiq is a fictional workflow automation business in Wymondham. This HTML and Tailwind CSS website includes a twelve-recipe library, an editable workflow workbench, transparent pricing and connection guidance. Version 1.0.1 includes nine pages. Visit the [template page](https://freeframe.dev/templates/weftiq) for the live preview.
+Weftiq is a fictional workflow automation business in Plano, Texas. This HTML and Tailwind CSS website includes a twelve-recipe library, an editable workflow workbench, transparent pricing and connection guidance. Version 1.0.2 includes nine pages. Visit the [template page](https://freeframe.dev/templates/weftiq) for the live preview.
 
 ## Quick start
 
@@ -47,20 +47,20 @@ The builder accepts the same recipe identifier to prefill a flow.
 ```text
 weftiq/
   index.html              Home page
-  recipes.html            Searchable recipe catalogue
+  recipes.html            Searchable recipe catalog
   recipe.html             Recipe detail renderer
   builder.html            Editable local workbench
   pricing.html            Plans and cost calculator
-  integrations.html       Connection catalogue
+  integrations.html       Connection catalog
   company.html            People and rolling dates
-  contact.html            Enquiry form
+  contact.html            Inquiry form
   404.html                Missing-page recovery
   assets/
     css/style.css         Compiled Tailwind stylesheet
     js/main.js            Data, rendering, validation and interactions
     img/                  Original SVG artwork and social image
   src/input.css           Tailwind import, design tokens and shared components
-  template.json           Catalogue metadata and version
+  template.json           Catalog metadata and version
   package.json            CSS build and watch commands
   README.md               Short introduction and quick start
   CHANGELOG.md            Release notes
@@ -125,7 +125,7 @@ All product data and interactive logic live in [assets/js/main.js](assets/js/mai
 | `CONDITIONS`    | Rule labels, help and input modes                            |
 | `ACTIONS`       | Action labels, descriptions and AI credit flags              |
 | `QUEUES`        | Valid routing destinations                                   |
-| `PLANS`         | Included tasks, editors and base prices in pence             |
+| `PLANS`         | Included tasks, editors and base prices in cents             |
 | `PRICING`       | Usage block sizes, prices and annual discount                |
 | `DEFAULT_PRICE` | Initial calculator assumptions                               |
 | `SYMBOLS`       | Original inline SVG connection glyphs                        |
@@ -143,7 +143,7 @@ A recipe record contains the following fields:
   actions: ["classify", "tag", "task", "notify"],
   minutes: 4,
   summary: "Bring the urgent messages into view without losing the quieter questions.",
-  story: "A new message reaches a shared inbox. The rule checks urgency before the team receives a clear, categorised handover.",
+  story: "A new message reaches a shared inbox. The rule checks urgency before the team receives a clear, categorized handoff.",
   care: "Keep the first category broad. Let the support lead correct it before using it to drive a more sensitive decision.",
   art: "recipe-1.svg"
 }
@@ -177,7 +177,7 @@ Update all nine files when changing destinations or contact details.
 The desktop navigation marks the current page with `aria-current`.
 The mobile menu uses `menu-toggle` and `mobile-menu` IDs.
 Keep those IDs and the button's `aria-controls` aligned.
-The business footer uses a dynamic London year through `[data-year]`.
+The business footer uses a dynamic Central time year through `[data-year]`.
 There is no dark mode.
 
 ## Features
@@ -221,8 +221,8 @@ No query parameter is executed as code.
 A flow has a name, trigger, condition, rule value and up to six actions.
 Names are limited to 60 characters; phrase rules are limited to 80.
 Urgency thresholds range from one to five.
-Amount thresholds range from zero to one million pounds.
-The weekday rule means Monday to Friday in `Europe/London`; it does not look up bank holidays.
+Amount thresholds range from zero to one million dollars.
+The weekday rule means Monday through Friday in `America/Chicago`; it does not look up holidays.
 
 The action types are `classify`, `summarise`, `tag`, `task`, `notify`, `route`, `wait` and `archive`.
 Each action also has a destination from `QUEUES`.
@@ -242,7 +242,7 @@ A matching run counts one task per action and one AI credit for each AI-marked a
 A skipped run counts zero tasks and zero AI credits.
 The default urgency-four recipe does not match the initial urgency-three event.
 
-The run form validates message length from 5 to 1,000 characters and amount from zero to one million pounds.
+The run form validates message length from 5 to 1,000 characters and amount from zero to one million dollars.
 The event channel must be one of the five supported channels.
 The result explains the condition and shows Completed or Skipped against every action.
 The page presents the workbench as a sandbox ("Try it here: test runs don't touch your tools").
@@ -267,27 +267,27 @@ Named flows contain process settings, so do not put personal information in thei
 ### Cost calculator
 
 `initPricing` reads and writes sanitized settings.
-`priceFor` returns costs in pence to avoid display rounding errors.
+`priceFor` returns costs in cents to avoid display rounding errors.
 The included task allowances are 2,000, 8,000 and 20,000.
-Plan prices are £24, £59 and £129 per month.
+Plan prices are $24, $59 and $129 per month.
 Editor allowances are one, five and fifteen.
 
 Tasks equal monthly runs multiplied by actions per run.
 AI credits equal monthly runs multiplied by AI actions per run.
-Extra tasks cost £5 per started block of 1,000.
-AI credits cost £3 per started block of 1,000; no AI allowance is included.
-Extra editors cost £6 each per month.
+Extra tasks cost $5 per started block of 1,000.
+AI credits cost $3 per started block of 1,000; no AI allowance is included.
+Extra editors cost $6 each per month.
 Annual billing reduces only the plan fee by 20 percent.
 Usage and extra editor prices are unchanged by that discount.
 The calculator states the annual plan payment and a full-year estimate using unchanged assumptions.
-All prices exclude VAT (Weftiq sells to businesses); the plan cards, the estimate total and the footnote say so.
-If you sell to consumers, show VAT-inclusive prices instead and change all three.
+All prices exclude sales tax, which is added to invoices where it applies; the plan cards, the estimate total and the footnote say so.
+If your prices include tax, change all three.
 While a number field is empty or half typed, the previous estimate stays on screen and nothing is saved; leaving the field restores the last valid value.
 The Choose a plan with us button links to `contact.html` with the current assumptions (`topic=plan&plan=…&billing=…&runs=…&actions=…&ai=…&editors=…`).
 
 Defaults are 1,000 runs, three actions, one AI action and two editors on the starter plan.
-The expected monthly total is £38.
-At 2,000 runs that becomes £56, or £51.20 with annual billing.
+The expected monthly total is $38.
+At 2,000 runs that becomes $56, or $51.20 with annual billing.
 These are editable planning assumptions rather than measured account usage.
 Runs are clamped to 0–1,000,000, actions to 1–6 and editors to 1–100.
 AI actions cannot exceed total actions.
@@ -307,20 +307,20 @@ Native `details` and `summary` elements support keyboard expansion.
 ### People and rolling workflow hours
 
 `initCompany` renders `TEAM` and four workflow-hour cards.
-`TIME_ZONE` is `Europe/London`.
+`TIME_ZONE` is `America/Chicago`.
 `todayKey` obtains the local calendar date in that zone.
 `KEEP_CLINICS_CURRENT` defaults to `true`.
 `clinicDates` finds the next four Tuesdays or Thursdays, beginning at least three days ahead.
-Cards show 14:00–14:45 in London time.
+Cards show 2:00–2:45 p.m. in Central time.
 Calendar dates are formatted from UTC midday so time-zone conversion does not shift their day.
 
-Sessions skip the winter break (`WINTER_BREAK`, 24 December to 2 January), England and Wales bank holidays and any date in `CLOSED_DATES`.
-`bankHolidays(year)` works the bank holidays out by rule (New Year's Day, Good Friday, Easter Monday, the May, spring and summer Mondays, Christmas Day and Boxing Day, with weekend substitutes), so it never needs a yearly list.
-Each card's Ask for a place link carries its date (`contact.html?topic=clinic&date=YYYY-MM-DD`).
+Sessions skip the winter break (`WINTER_BREAK`, December 24 to January 2), US federal holidays and any date in `CLOSED_DATES`.
+`bankHolidays(year)` works the federal holidays out by rule (New Year's Day, Martin Luther King Jr. Day, Washington's Birthday, Memorial Day, Juneteenth, Independence Day, Labor Day, Columbus Day, Veterans Day, Thanksgiving and Christmas Day, with Friday or Monday observed dates when a fixed holiday falls on a weekend), so it never needs a yearly list.
+Each card's Ask for a spot link carries its date (`contact.html?topic=clinic&date=YYYY-MM-DD`).
 Set `KEEP_CLINICS_CURRENT` to `false` to use `FIXED_CLINIC_DATES`.
 Replace that array with confirmed `YYYY-MM-DD` dates.
 Past fixed dates are hidden; an exhausted list shows a contact invitation.
-No card asserts a remaining place count or real-time availability.
+No card asserts a remaining spot count or real-time availability.
 The inquiry link prefills `topic=clinic`.
 
 ### Menu and motion
@@ -346,10 +346,10 @@ Either value is sent in the hidden `context` field, so a connected form service 
 
 The standalone form validates locally and displays a business success state.
 It does not transmit or store the name, email, consent or message.
-The reference format is `WQ-YYMMDD-NNNN`, based on the London date and a local random suffix.
+The reference format is `WQ-YYMMDD-NNNN`, based on the Central time date and a local random suffix.
 That reference is a local interface reference until you connect a backend.
 Replace it with a server-issued reference in production.
-The success panel explains that the team replies within two working days.
+The success panel explains that the team replies within two business days.
 It does not claim a confirmation email was sent.
 The Another question button clears the form and focuses the name field.
 

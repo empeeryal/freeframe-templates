@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en-US">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -74,7 +74,7 @@
         <div class="glass reveal mt-12 grid overflow-hidden lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]" data-calc>
           <form class="min-w-0 border-b border-line p-6 sm:p-8 lg:border-r lg:border-b-0" data-calc-form novalidate>
             <fieldset>
-              <legend class="label">I want to work out</legend>
+              <legend class="label">I want to figure out</legend>
               <div class="mt-1 grid grid-cols-2 gap-2 rounded-full border border-line bg-raised p-1">
                 <label class="cursor-pointer rounded-full px-3 py-2 text-center text-sm font-bold text-muted transition has-checked:bg-cta has-checked:text-cta-fg has-focus-visible:outline-2 has-focus-visible:outline-accent"><input type="radio" name="mode" value="wake" class="sr-only" checked>When to sleep</label>
                 <label class="cursor-pointer rounded-full px-3 py-2 text-center text-sm font-bold text-muted transition has-checked:bg-cta has-checked:text-cta-fg has-focus-visible:outline-2 has-focus-visible:outline-accent"><input type="radio" name="mode" value="bed" class="sr-only">When to wake</label>
@@ -107,7 +107,7 @@
 
           <div class="min-w-0 p-6 sm:p-8">
             <h2 class="text-sm font-extrabold tracking-[0.18em] text-accent uppercase" data-calc-heading>Try to fall asleep at one of these times</h2>
-            <p class="mt-3 text-muted" data-calc-intro aria-live="polite">To wake up at 07:00, aim to be in bed by one of these times. We’ve allowed about 15 minutes to fall asleep.</p>
+            <p class="mt-3 text-muted" data-calc-intro aria-live="polite">To wake up at 7:00 AM, aim to be in bed by one of these times. We’ve allowed about 15 minutes to fall asleep.</p>
             <ol class="mt-6 grid gap-3 sm:grid-cols-2" data-calc-results></ol>
             <p class="mt-6 flex gap-2.5 rounded-2xl border border-line bg-raised/60 p-4 text-sm text-muted"><svg viewBox="0 0 20 20" class="h-5 w-5 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="7.5"/><path d="M10 9v4.5M10 6.5v.01"/></svg><span><b class="text-fg">A general guide, not a rule.</b> Sleep cycles average about 90 minutes but vary from person to person and night to night. Most adults need around 7 to 9 hours.</span></p>
           </div>
@@ -121,17 +121,17 @@
           <p class="eyebrow reveal">How it works</p>
           <h2 id="how-title" class="h-section reveal reveal-d1 mt-4">Counting in cycles, not hours.</h2>
           <p class="lead reveal reveal-d2 mt-5">Through the night you move through cycles of lighter and deeper sleep. Waking at the end of a cycle, when sleep is lighter, tends to feel less groggy.</p>
-          <p class="reveal reveal-d3 mt-4 text-muted">The calculator adds or subtracts whole 90-minute cycles from your time, plus the minutes you usually take to drop off. It can’t know how your own night will go: that’s what the smart alarm in the app is for.</p>
+          <p class="reveal reveal-d3 mt-4 text-muted">The calculator adds or subtracts whole 90-minute cycles from your time, plus the minutes you usually take to fall asleep. It can’t know how your own night will go: that’s what the smart alarm in the app is for.</p>
         </div>
         <figure class="card reveal p-6 sm:p-8 lg:col-span-7">
           <svg viewBox="0 0 600 240" class="h-auto w-full" role="img" aria-labelledby="cycle-svg-title" focusable="false">
-            <title id="cycle-svg-title">Illustration of five sleep cycles of about 90 minutes between 23:15 and 07:00, each dipping into deeper sleep and rising to lighter sleep</title>
+            <title id="cycle-svg-title">Illustration of five sleep cycles of about 90 minutes between 11:15 PM and 7:00 AM, each dipping into deeper sleep and rising to lighter sleep</title>
             <defs><linearGradient id="cyc" x1="0" x2="1"><stop offset="0" stop-color="#9b8cff"/><stop offset="1" stop-color="#6fe3cf"/></linearGradient></defs>
             <g stroke="currentColor" class="text-line" stroke-width="1"><path d="M40 40H580M40 95H580M40 150H580"/></g>
             <g class="fill-subtle" font-size="12" font-family="Mulish, sans-serif"><text x="0" y="44">Light</text><text x="0" y="154">Deep</text></g>
             <path d="M40 40 C 60 40 70 150 100 150 S 130 40 148 40 C 166 40 176 140 204 140 S 236 40 256 40 C 274 40 284 120 310 120 S 344 40 364 40 C 382 40 392 100 418 100 S 452 40 472 40 C 490 40 500 80 526 80 S 560 40 580 40" fill="none" stroke="url(#cyc)" stroke-width="3" stroke-linecap="round"/>
             <g class="fill-moon"><circle cx="148" cy="40" r="5"/><circle cx="256" cy="40" r="5"/><circle cx="364" cy="40" r="5"/><circle cx="472" cy="40" r="5"/><circle cx="580" cy="40" r="5"/></g>
-            <g class="fill-muted" font-size="12" font-family="Mulish, sans-serif" text-anchor="middle"><text x="40" y="190">23:15</text><text x="148" y="190">00:45</text><text x="256" y="190">02:15</text><text x="364" y="190">03:45</text><text x="472" y="190">05:15</text><text x="580" y="190" text-anchor="end">07:00</text></g>
+            <g class="fill-muted" font-size="12" font-family="Mulish, sans-serif" text-anchor="middle"><text x="40" y="190">11:15 PM</text><text x="148" y="190">12:45 AM</text><text x="256" y="190">2:15 AM</text><text x="364" y="190">3:45 AM</text><text x="472" y="190">5:15 AM</text><text x="580" y="190" text-anchor="end">7:00 AM</text></g>
             <text x="310" y="226" text-anchor="middle" font-size="12" font-family="Mulish, sans-serif" class="fill-subtle">Dots mark the lighter moments between cycles (illustrative)</text>
           </svg>
         </figure>
@@ -182,7 +182,7 @@
     <div class="wrap grid gap-12 py-16 lg:grid-cols-12">
       <div class="lg:col-span-5">
         <a href="index.html" class="inline-flex items-center gap-2.5" aria-label="Nightjar home"><svg viewBox="0 0 40 40" class="h-9 w-9 shrink-0" aria-hidden="true" focusable="false"><defs><linearGradient id="logo-f" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a2f7a"/><stop offset="1" stop-color="#0c0f2e"/></linearGradient></defs><rect width="40" height="40" rx="12" fill="url(#logo-f)"/><path d="M25.5 27.5a10 10 0 0 1-10.2-15.9A10 10 0 1 0 28.7 25a10 10 0 0 1-3.2 2.5z" fill="#f6dca8"/><circle cx="28" cy="11" r="1.4" fill="#c9bfff"/><circle cx="31.5" cy="16.5" r=".9" fill="#6fe3cf"/></svg><span class="font-serif text-2xl leading-none">Nightjar</span></a>
-        <p class="mt-4 max-w-sm text-sm leading-relaxed text-muted">Sleep sounds, a gentle smart alarm and calmer evenings. Made by a small team in Inverness, Scotland.</p>
+        <p class="mt-4 max-w-sm text-sm leading-relaxed text-muted">Sleep sounds, a gentle smart alarm and calmer evenings. Made by a small team in Sacramento, California.</p>
         <div class="flex flex-wrap items-center gap-3 mt-6">
           <a href="index.html#download" class="store-btn" data-store="ios"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.5-1-2.5-3.9zM14 5.4c.7-.8 1.1-1.9 1-3-1 0-2.1.6-2.8 1.4-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.5 2.8-1.3z"/></svg><span><small>Download on the</small><strong>App Store</strong></span></a>
           <a href="index.html#download" class="store-btn" data-store="android"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.2 2.6 13.6 12l-9.4 9.4c-.4-.2-.7-.7-.7-1.2V3.8c0-.5.3-1 .7-1.2z" fill="#6fe3cf"/><path d="m16.8 8.8-3.2 3.2-9.4-9.4c.3-.2.8-.2 1.2 0z" fill="#9b8cff"/><path d="m16.8 15.2-11.4 6.4c-.4.2-.9.2-1.2 0l9.4-9.4z" fill="#f39fc4"/><path d="M20.3 10.8c.9.5.9 1.9 0 2.4l-3.5 2L13.6 12l3.2-3.2z" fill="#f6dca8"/></svg><span><small>Get it on</small><strong>Google Play</strong></span></a>
@@ -203,7 +203,7 @@
           <ul class="mt-4 space-y-3 text-sm">
             <li><a href="guides.html" class="text-muted transition hover:text-fg">Sleep guides</a></li>
             <li><a href="reviews.html" class="text-muted transition hover:text-fg">Reviews</a></li>
-            <li><a href="support.html#faq" class="text-muted transition hover:text-fg">Help centre</a></li>
+            <li><a href="support.html#faq" class="text-muted transition hover:text-fg">Help center</a></li>
           </ul>
         </nav>
         <nav aria-label="Company">
@@ -218,9 +218,9 @@
     </div>
     <div class="border-t border-line">
       <div class="wrap py-6">
-        <p class="flex items-start gap-2.5 text-sm text-muted"><svg viewBox="0 0 20 20" class="mt-0.5 h-4 w-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="7.5"/><path d="M10 9v4.5M10 6.5v.01"/></svg><span>Nightjar is a wellbeing app, not a medical device. It doesn’t diagnose, treat or prevent any condition. If you have persistent sleep problems, speak to a doctor.</span></p>
+        <p class="flex items-start gap-2.5 text-sm text-muted"><svg viewBox="0 0 20 20" class="mt-0.5 h-4 w-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="7.5"/><path d="M10 9v4.5M10 6.5v.01"/></svg><span>Nightjar is a wellness app, not a medical device. It doesn’t diagnose, treat or prevent any condition. If you have persistent sleep problems, speak to a doctor.</span></p>
         <div class="mt-4 flex flex-col gap-2 text-xs text-subtle sm:flex-row sm:items-center sm:justify-between">
-          <p>© <span data-year>2026</span> Nightjar Labs Ltd. Nightjar is a fictional app.</p>
+          <p>© <span data-year>2026</span> Nightjar Labs, Inc. Nightjar is a fictional app.</p>
           <p>Website template by Freeframe.</p>
         </div>
       </div>

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Hashfen is a fictional network research product based in Sleaford, built with standalone HTML, Tailwind CSS v4 and dependency-free JavaScript. Version 1.0.1 includes nine pages, twelve original network profiles, transaction modeling, a research workspace and a pricing calculator. See the [template page](https://freeframe.dev/templates/hashfen) for the live preview.
+Hashfen is a fictional network research product based in Golden, Colorado, built with standalone HTML, Tailwind CSS v4 and dependency-free JavaScript. Version 1.0.2 includes nine pages, twelve original network profiles, transaction modeling, a research workspace and a pricing calculator. See the [template page](https://freeframe.dev/templates/hashfen) for the live preview.
 
 The profiles describe invented networks and editable assumptions. The product does not connect wallets, request secrets, move funds or query blockchains. Replace the research content with reviewed material appropriate to your business before publishing.
 
@@ -48,7 +48,7 @@ All paths are relative. Keep the pages and `assets` directory together when depl
 ```text
 hashfen/
   index.html              Home and featured profiles
-  networks.html           Searchable catalogue
+  networks.html           Searchable catalog
   network.html            Data-driven profile
   planner.html            Transaction model and named scenarios
   research.html           Saved research and notes
@@ -58,7 +58,7 @@ hashfen/
   404.html                Missing-page recovery
   assets/
     css/style.css         Compiled Tailwind stylesheet
-    js/data.js            Network, guide, plan and team catalogues
+    js/data.js            Network, guide, plan and team catalogs
     js/main.js            Rendering, calculations, storage and interaction
     img/                  Original SVG art, favicon and social images
   src/input.css           Tailwind import, theme and component styles
@@ -113,7 +113,7 @@ Static copy lives in the HTML pages. Shared catalog content lives in [assets/js/
 | ---------- | ------------------------------------------------------------------------------ |
 | `networks` | Twelve networks, IDs, labels, assumptions, artwork and operating questions     |
 | `guides`   | Nine notes with category, title, summary, paragraphs and a closing check       |
-| `plans`    | Three subscription plans, allowances, additional-place and lookup-block prices |
+| `plans`    | Three subscription plans, allowances, additional-seat and lookup-block prices |
 | `team`     | Three people, roles, biographies and portrait paths                            |
 
 In [assets/js/main.js](assets/js/main.js), these become `NETWORKS`, `GUIDES`, `PLANS` and `TEAM`. `NETWORK_MAP` and `PLAN_MAP` are generated from catalog IDs.
@@ -138,7 +138,7 @@ The core assumptions have this shape:
 }
 ```
 
-This is an excerpt of the existing record, not a complete replacement object. `finality` is seconds, `fee` is the fee rate in nanotokens (billionths of the network token) per fee unit, `units` is fee units per operation and `token` is a sterling token-value assumption. The planner initially uses zero batch saving; the profile's `batch` value is descriptive context.
+This is an excerpt of the existing record, not a complete replacement object. `finality` is seconds, `fee` is the fee rate in nanotokens (billionths of the network token) per fee unit, `units` is fee units per operation and `token` is a US-dollar token-value assumption. The planner initially uses zero batch saving; the profile's `batch` value is descriptive context.
 
 Update `LAYERS` and the HTML architecture options if introducing a new architecture. Guide categories are explicitly allowed in `initGuides`; update that list and the select options together.
 
@@ -181,7 +181,7 @@ The `q`, `layer` and `sort` URL parameters initialize the controls; subsequent e
 | Operations              | Integer 1–100,000         |
 | Fee units per operation | Integer 21,000–30,000,000 |
 | Fee rate                | 0.01–10,000 nanotokens    |
-| Token value             | £0.01–£1,000,000          |
+| Token value             | $0.01–$1,000,000          |
 | Batch saving            | 0–60%                     |
 | Finality windows        | 1, 2, 3 or 5              |
 
@@ -189,7 +189,7 @@ The `q`, `layer` and `sort` URL parameters initialize the controls; subsequent e
 
 The calculation is operations × fee units × fee rate ÷ 1,000,000,000 × token value × (1 − saving ÷ 100). Settlement allowance is profile finality × selected windows. Sensitivity figures halve and double the entered fee; they hold other assumptions constant.
 
-The default Velcrux calculation is 100 × 21,000 × 18 ÷ 1,000,000,000 × £1,400 = £52.92. Two finality windows give 24 seconds. A 10% batch saving gives £47.63 after rounding.
+The default Velcrux calculation is 100 × 21,000 × 18 ÷ 1,000,000,000 × $1,400 = $52.92. Two finality windows give 24 seconds. A 10% batch saving gives $47.63 after rounding.
 
 Changing network restores that profile's assumptions but keeps the operation count. Restore profile assumptions also resets operations to 100. A valid `network` URL parameter takes precedence over remembered inputs.
 
@@ -213,9 +213,9 @@ The comparison table uses saved catalog assumptions. On narrow screens it scroll
 
 `initPricing` reads `PLANS`; `priceCalculation` derives all charges from catalog prices. Seats are clamped to 1–100 and lookups to 0–1,000,000. This calculator does not persist inputs.
 
-Additional places are charged above the included allowance. Additional lookups are rounded up to blocks of 10,000. Annual pricing discounts the base subscription only; additions are charged at their monthly rate multiplied by twelve.
+Additional seats are charged above the included allowance. Additional lookups are rounded up to blocks of 10,000. Annual pricing discounts the base subscription only; additions are charged at their monthly rate multiplied by twelve.
 
-For Research team, seven places and 70,000 lookups cost £103.00 monthly or £1,078.00 annually. A valid `plan` parameter selects the initial plan. Changing plan restores its included allowances.
+For Research team, seven seats and 70,000 lookups cost $103.00 monthly or $1,078.00 annually. A valid `plan` parameter selects the initial plan. Changing plan restores its included allowances.
 
 ### Research library
 
@@ -227,7 +227,7 @@ No guides or search terms are saved. Empty results have a specific message; clea
 
 `initReveals` observes `.reveal` elements and adds `.is-visible`. Reduced-motion preference makes content visible immediately. The base CSS also leaves content visible when JavaScript is unavailable.
 
-`TIME_ZONE` is `Europe/London`. Copyright spans marked `data-year` derive their year from the current browser date in that timezone. There are no fixed upcoming events, availability deadlines, live feed claims or booking windows to roll forward.
+`TIME_ZONE` is `America/Denver`. Copyright spans marked `data-year` derive their year from the current browser date in that timezone. There are no fixed upcoming events, availability deadlines, live feed claims or booking windows to roll forward.
 
 To use a fixed legal year instead, remove `data-year` and set the span text in every page; this is the only date-driven feature.
 
@@ -337,7 +337,7 @@ Test the deployed URLs under the actual base path. Cache fingerprinting is not b
 | Research disappears after navigation              | Storage may be blocked; memory fallback lasts only for the current page                 |
 | A profile link opens Velcrux                      | Check the exact `network` ID against `networks` in `data.js`                            |
 | Contact requests do not arrive                    | Connect and verify a backend inside `initContact`; the standalone form does not send    |
-| Annual estimate differs from ten monthly payments | Only the base plan is discounted; additional places and lookup blocks use twelve months |
+| Annual estimate differs from ten monthly payments | Only the base plan is discounted; additional seats and lookup blocks use twelve months |
 | A changed catalog ignores old saved entries     | Known-ID validation deliberately removes deleted or renamed IDs                         |
 | Social previews show an old image                 | Regenerate the PNG, set an absolute `og:image` and refresh the platform's preview cache |
 

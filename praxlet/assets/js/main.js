@@ -1,8 +1,8 @@
-/* Praxlet — module catalogue, low-voltage build planning and enquiries.
-   Catalogue prices are pence. Current is a planning allowance in milliamps. */
+/* Praxlet — module catalog, low-voltage build planning and inquiries.
+   Catalog prices are cents. Current is a planning allowance in milliamps. */
 (() => {
   "use strict";
-  const TIME_ZONE = "Europe/London";
+  const TIME_ZONE = "America/New_York";
   const POWER_MARGIN = 1.25;
   const MAX_COMPARE = 4;
   const MAX_SAVED = 6;
@@ -28,7 +28,7 @@
     i2c: "I²C",
     pwm: "PWM",
     digital: "Digital",
-    analogue: "Analogue",
+    analogue: "Analog",
   };
   const CATEGORIES = ["Control", "Power", "Motion", "Sensing", "Output", "Structure"];
   const { modules: MODULES, projects: PROJECTS, guides: GUIDES, team: TEAM } = window.PRAXLET_DATA;
@@ -44,10 +44,10 @@
       (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char],
     );
   const money = (pence) =>
-    new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP", maximumFractionDigits: 2 }).format(
+    new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }).format(
       pence / 100,
     );
-  const number = (value) => new Intl.NumberFormat("en-GB").format(value);
+  const number = (value) => new Intl.NumberFormat("en-US").format(value);
   const plural = (n, word, words = word + "s") => `${n} ${n === 1 ? word : words}`;
   const clamp = (value, min, max, fallback = min) => {
     const parsed = ["number", "string"].includes(typeof value) ? Number(value) : NaN;
@@ -300,7 +300,7 @@
       $("[data-module-grid]").innerHTML = items.map((item) => moduleCard(item)).join("");
       $("[data-module-empty]").hidden = !!items.length;
       $("[data-module-count]").textContent =
-        `${plural(items.length, "module")} ${query || selected !== "all" || volts !== "all" ? `${items.length === 1 ? "matches" : "match"} your filters` : "in the catalogue"}. Prices include VAT.`;
+        `${plural(items.length, "module")} ${query || selected !== "all" || volts !== "all" ? `${items.length === 1 ? "matches" : "match"} your filters` : "in the catalog"}. Prices exclude sales tax.`;
       renderComparison();
       revealNew();
     }
@@ -323,7 +323,7 @@
     const dependencies = Object.entries(item.requires || {})
       .map(([id, qty]) => `${qty} × ${MODULE_MAP[id].name}`)
       .join(", ");
-    target.innerHTML = `<header class="pb-6"><p class="eyebrow text-red">${escape(item.category)} / ${item.code}</p><h1 class="mt-4 text-7xl uppercase leading-none">${escape(item.name)}</h1><p class="mt-2 font-display text-3xl uppercase text-muted">${escape(item.title)}</p><p class="mt-5 text-lg leading-relaxed">${escape(item.description)}</p></header><div class="grid items-start gap-9 lg:grid-cols-2"><div><img src="assets/img/${item.id}.svg" width="420" height="320" class="w-full border border-line" alt="${escape(item.name)}, drawn to show its construction"><p class="mt-4 border-y border-line py-3 text-xs uppercase tracking-widest">${item.code} / ${escape(item.dimensions)}</p><div class="mt-7 grid gap-6 sm:grid-cols-2"><div><h2 class="text-2xl uppercase">In the pack</h2><ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-muted">${item.includes.map((value) => `<li>${escape(value)}</li>`).join("")}</ul></div><div><h2 class="text-2xl uppercase">A useful note</h2><p class="mt-3 text-sm leading-relaxed text-muted">${escape(item.note)}</p></div></div></div><div><dl class="mt-6"><div class="spec-line"><dt>Logic / supply</dt><dd>${voltageText(item)}</dd></div><div class="spec-line"><dt>Interface</dt><dd>${escape(INTERFACES[item.interface])}${item.ports ? ` / ${item.ports} ${item.ports === 1 ? "port" : "ports"}` : ""}</dd></div><div class="spec-line"><dt>Planning current</dt><dd>${item.current} mA</dd></div><div class="spec-line"><dt>Mounting positions</dt><dd>${item.slotCapacity || (item.extraSlots ? "+" + item.extraSlots : item.slots)}</dd></div><div class="spec-line"><dt>Mass</dt><dd>${item.mass} g</dd></div>${item.address ? `<div class="spec-line"><dt>Fixed I²C address</dt><dd>${item.address}</dd></div>` : ""}${dependencies ? `<div class="spec-line"><dt>Also needed</dt><dd>${escape(dependencies)}</dd></div>` : ""}<div class="spec-line"><dt>Suitable for</dt><dd class="text-right">Ages 11+, supervised</dd></div></dl><p class="mt-3 text-sm font-semibold" data-age-note>${AGE_NOTE}</p><div class="mt-6 flex flex-wrap items-end justify-between gap-5"><p class="text-sm">Price including VAT<strong class="mt-1 block font-display text-5xl font-medium">${money(item.price)}</strong></p><a href="configurator.html?module=${item.id}" class="btn btn-red">Add to your kit ${arrow}</a></div><button type="button" data-compare="${item.id}" class="text-link mt-5 text-sm" aria-pressed="false">Compare</button><section class="mt-8 border-t border-ink pt-6"><h2 class="text-3xl uppercase">Start with a careful check.</h2><ol class="mt-4 list-decimal space-y-3 pl-5 text-sm text-muted">${item.steps.map((value) => `<li>${escape(value)}</li>`).join("")}</ol><a href="docs.html?guide=first-power" class="text-link mt-5 inline-block text-sm">Read the first-power field note</a></section></div></div>`;
+    target.innerHTML = `<header class="pb-6"><p class="eyebrow text-red">${escape(item.category)} / ${item.code}</p><h1 class="mt-4 text-7xl uppercase leading-none">${escape(item.name)}</h1><p class="mt-2 font-display text-3xl uppercase text-muted">${escape(item.title)}</p><p class="mt-5 text-lg leading-relaxed">${escape(item.description)}</p></header><div class="grid items-start gap-9 lg:grid-cols-2"><div><img src="assets/img/${item.id}.svg" width="420" height="320" class="w-full border border-line" alt="${escape(item.name)}, drawn to show its construction"><p class="mt-4 border-y border-line py-3 text-xs uppercase tracking-widest">${item.code} / ${escape(item.dimensions)}</p><div class="mt-7 grid gap-6 sm:grid-cols-2"><div><h2 class="text-2xl uppercase">In the box</h2><ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-muted">${item.includes.map((value) => `<li>${escape(value)}</li>`).join("")}</ul></div><div><h2 class="text-2xl uppercase">A useful note</h2><p class="mt-3 text-sm leading-relaxed text-muted">${escape(item.note)}</p></div></div></div><div><dl class="mt-6"><div class="spec-line"><dt>Logic / supply</dt><dd>${voltageText(item)}</dd></div><div class="spec-line"><dt>Interface</dt><dd>${escape(INTERFACES[item.interface])}${item.ports ? ` / ${item.ports} ${item.ports === 1 ? "port" : "ports"}` : ""}</dd></div><div class="spec-line"><dt>Planning current</dt><dd>${item.current} mA</dd></div><div class="spec-line"><dt>Mounting positions</dt><dd>${item.slotCapacity || (item.extraSlots ? "+" + item.extraSlots : item.slots)}</dd></div><div class="spec-line"><dt>Mass</dt><dd>${item.mass} g</dd></div>${item.address ? `<div class="spec-line"><dt>Fixed I²C address</dt><dd>${item.address}</dd></div>` : ""}${dependencies ? `<div class="spec-line"><dt>Also needed</dt><dd>${escape(dependencies)}</dd></div>` : ""}<div class="spec-line"><dt>Suitable for</dt><dd class="text-right">Ages 11+, supervised</dd></div></dl><p class="mt-3 text-sm font-semibold" data-age-note>${AGE_NOTE}</p><div class="mt-6 flex flex-wrap items-end justify-between gap-5"><p class="text-sm">Price before sales tax<strong class="mt-1 block font-display text-5xl font-medium">${money(item.price)}</strong></p><a href="configurator.html?module=${item.id}" class="btn btn-red">Add to your kit ${arrow}</a></div><button type="button" data-compare="${item.id}" class="text-link mt-5 text-sm" aria-pressed="false">Compare</button><section class="mt-8 border-t border-ink pt-6"><h2 class="text-3xl uppercase">Start with a careful check.</h2><ol class="mt-4 list-decimal space-y-3 pl-5 text-sm text-muted">${item.steps.map((value) => `<li>${escape(value)}</li>`).join("")}</ol><a href="docs.html?guide=first-power" class="text-link mt-5 inline-block text-sm">Read the first-power field note</a></section></div></div>`;
     $("[data-related-modules]").innerHTML = MODULES.filter(
       (value) =>
         value.id !== item.id && (value.category === item.category || value.id === "dockfin" || value.id === "tackrail"),
@@ -434,7 +434,7 @@
     const build = readBuild(),
       result = analyse(build);
     $("[data-build-count]").textContent = plural(result.count, "module");
-    target.innerHTML = `<dl><div class="spec-line"><dt>One kit, including VAT</dt><dd data-kit-total class="font-semibold">${money(result.cost)}</dd></div><div class="spec-line"><dt>${plural(build.kits, "kit")}</dt><dd data-class-total class="font-semibold">${money(result.classCost)}</dd></div><div class="spec-line"><dt>Working budget / kit</dt><dd>${money(build.budget)}</dd></div><div class="spec-line"><dt>Budget difference / kit</dt><dd data-budget-difference>${result.cost <= build.budget ? money(build.budget - result.cost) + " within" : money(result.cost - build.budget) + " above"}</dd></div><div class="spec-line"><dt>Mounting positions</dt><dd>${result.mounting} / ${result.availableMounting}</dd></div></dl>${
+    target.innerHTML = `<dl><div class="spec-line"><dt>One kit, before sales tax</dt><dd data-kit-total class="font-semibold">${money(result.cost)}</dd></div><div class="spec-line"><dt>${plural(build.kits, "kit")}</dt><dd data-class-total class="font-semibold">${money(result.classCost)}</dd></div><div class="spec-line"><dt>Working budget / kit</dt><dd>${money(build.budget)}</dd></div><div class="spec-line"><dt>Budget difference / kit</dt><dd data-budget-difference>${result.cost <= build.budget ? money(build.budget - result.cost) + " within" : money(result.cost - build.budget) + " above"}</dd></div><div class="spec-line"><dt>Mounting positions</dt><dd>${result.mounting} / ${result.availableMounting}</dd></div></dl>${
       result.controller
         ? `<p class="mt-4 text-xs text-muted">${result.controller.name}: ${Object.keys(result.ports)
             .map((key) => `${result.ports[key]}/${result.controller.capacity[key]} ${INTERFACES[key]}`)
@@ -487,7 +487,7 @@
           `${part.qty} × ${MODULE_MAP[part.id].name} (${MODULE_MAP[part.id].code}) — ${money(MODULE_MAP[part.id].price * part.qty)}`,
       ),
       "",
-      `One kit: ${money(result.cost)} including VAT`,
+      `One kit: ${money(result.cost)} before sales tax`,
       `${plural(build.kits, "kit")}: ${money(result.classCost)}`,
       `Planning current including 25% allowance: ${result.required} mA`,
       `Supply rating: ${result.capacity} mA`,
@@ -802,7 +802,7 @@
             .join("")}</ul><p class="mt-2 text-xs text-muted">${plural(result.count, "module")} · ${current.voltage} V supply setting${result.issues.length ? ` · ${plural(result.issues.length, "build point")} we will check with you` : ""}</p>`
         : '<p class="text-sm">Your kit bench is empty. <a class="underline" href="configurator.html">Add modules on the kit bench</a> or load a project parts list, then come back to request a quote.</p>';
       const kits = clamp(countField.value, 1, 12, current.kits);
-      $("[data-quote-totals]").innerHTML = `<div class="spec-line"><dt>One kit</dt><dd>${money(result.cost)}</dd></div><div class="spec-line"><dt>${plural(kits, "kit")}, including VAT</dt><dd data-quote-total class="font-semibold">${money(result.cost * kits)}</dd></div>`;
+      $("[data-quote-totals]").innerHTML = `<div class="spec-line"><dt>One kit</dt><dd>${money(result.cost)}</dd></div><div class="spec-line"><dt>${plural(kits, "kit")}, before sales tax</dt><dd data-quote-total class="font-semibold">${money(result.cost * kits)}</dd></div>`;
       $("[data-quote-list]").value = result.count ? bomText({ ...current, kits }) : "";
     }
     renderAside();
@@ -883,16 +883,16 @@
         $("[data-success-eyebrow]").textContent = "QUOTE REQUEST RECEIVED";
         $("[data-success-title]").textContent = `Your quote for ${plural(kits, "kit")} is with the team.`;
         $("[data-success-message]").textContent =
-          `Thanks, ${firstName}. We’ll price the parts list below and email a written quote to ${email} within two working days.`;
+          `Thanks, ${firstName}. We’ll price the parts list below and email a written quote to ${email} within two business days.`;
         $("[data-reference]").textContent = requestReference("Q");
-        summary.innerHTML = `<h3 class="text-2xl uppercase">The kit you asked about</h3><p class="mt-2 text-sm">${escape(kitLines(current))}</p><dl class="mt-4 text-sm"><div class="spec-line"><dt>One kit</dt><dd>${money(result.cost)}</dd></div><div class="spec-line"><dt>Number of kits</dt><dd data-quote-success-kits>${kits}</dd></div><div class="spec-line"><dt>Total including VAT</dt><dd data-quote-success-total class="font-semibold">${money(result.cost * kits)}</dd></div></dl><h3 class="mt-6 text-2xl uppercase">What happens next</h3><ol class="mt-3 list-decimal space-y-2 pl-5 text-sm"><li>We check the parts list against stock and the build notes on the bench.</li><li>You receive a written quote by email, valid for 30 days, with any school or club pricing applied.</li><li>Reply with a purchase order or pay by card; class sets are packed and dispatched within five working days.</li></ol><p class="mt-4 text-xs font-semibold">${AGE_NOTE}</p>`;
+        summary.innerHTML = `<h3 class="text-2xl uppercase">The kit you asked about</h3><p class="mt-2 text-sm">${escape(kitLines(current))}</p><dl class="mt-4 text-sm"><div class="spec-line"><dt>One kit</dt><dd>${money(result.cost)}</dd></div><div class="spec-line"><dt>Number of kits</dt><dd data-quote-success-kits>${kits}</dd></div><div class="spec-line"><dt>Total before sales tax</dt><dd data-quote-success-total class="font-semibold">${money(result.cost * kits)}</dd></div></dl><h3 class="mt-6 text-2xl uppercase">What happens next</h3><ol class="mt-3 list-decimal space-y-2 pl-5 text-sm"><li>We check the parts list against stock and the build notes on the bench.</li><li>You receive a written quote by email, valid for 30 days, with any school or club pricing applied.</li><li>Reply with a purchase order or pay by card; class sets are packed and shipped within five business days.</li></ol><p class="mt-4 text-xs font-semibold">${AGE_NOTE}</p>`;
         summary.hidden = false;
       } else {
         const topicLabel = TOPICS[data.topic];
         $("[data-success-eyebrow]").textContent = "A USEFUL NEXT STEP";
         $("[data-success-title]").textContent = "Your question is with the team.";
         $("[data-success-message]").textContent =
-          `Thanks, ${firstName}. We’ll review your ${topicLabel} and reply within two working days. If we need to check a specification on the bench, we’ll explain the next step.`;
+          `Thanks, ${firstName}. We’ll review your ${topicLabel} and reply within two business days. If we need to check a specification on the bench, we’ll explain the next step.`;
         $("[data-reference]").textContent = requestReference();
         summary.hidden = true;
         summary.innerHTML = "";
@@ -961,7 +961,7 @@
     elements.forEach((element) => observer.observe(element));
   }
   $$("[data-year]").forEach((element) => {
-    element.textContent = new Intl.DateTimeFormat("en-GB", { timeZone: TIME_ZONE, year: "numeric" }).format(new Date());
+    element.textContent = new Intl.DateTimeFormat("en-US", { timeZone: TIME_ZONE, year: "numeric" }).format(new Date());
   });
   if ($("[data-featured-modules]"))
     $("[data-featured-modules]").innerHTML = ["arcloop", "hushwheel", "rangetail", "scoutline"]

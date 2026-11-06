@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-05
+
+### Changed
+
+- Set in Alexandria, Virginia, with American spelling, US dollars, US phone numbers and local details.
+- The fitting calendar now closes on US federal holidays, worked out by rule for any year, and uses Eastern time with a 12-hour clock.
+
 ## [1.0.4] - 2026-11-05
 
 ### Changed

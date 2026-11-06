@@ -2,7 +2,7 @@
 
 ## Overview
 
-Guardmere is an HTML and Tailwind CSS v4 website for a fictional independent cybersecurity practice in Dorking. Version 1.0.1 includes nine pages, twelve illustrated assessment areas, a scope calculator, saved readiness evidence notes and a consultation request form. See the [template page](https://freeframe.dev/templates/guardmere) for the live preview.
+Guardmere is an HTML and Tailwind CSS v4 website for a fictional independent cybersecurity practice in Huntsville, Alabama. Version 1.0.2 includes nine pages, twelve illustrated assessment areas, a scope calculator, saved readiness evidence notes and a consultation request form. See the [template page](https://freeframe.dev/templates/guardmere) for the live preview.
 
 ## Quick start
 
@@ -29,14 +29,14 @@ No account, API key, database or external JavaScript library is required.
 
 | File                | Purpose               | Notable content                                                                                 |
 | ------------------- | --------------------- | ----------------------------------------------------------------------------------------------- |
-| `index.html`        | Practice introduction | Illustrated report, three services, process tabs, next working consultation date                |
+| `index.html`        | Practice introduction | Illustrated report, three services, process tabs, next consultation date                       |
 | `services.html`     | Service catalog     | Twelve records, category/search filters, detail dialogs, saved scope additions                  |
 | `assessment.html`   | Assessment planning   | Organization inputs, selected controls, itemized estimate, save and remove controls             |
 | `readiness.html`    | Evidence preparation  | Twelve questions, category/state/search filters, notes, completion progress, reset confirmation |
 | `case-studies.html` | Engagement accounts   | Six anonymous accounts, sector/search filters, accessible detail dialogs                        |
 | `resources.html`    | Security field notes  | Twelve articles, topic/search filters, expandable practical steps                               |
 | `company.html`      | People and approach   | Three illustrated specialists, working principles, visiting information                         |
-| `contact.html`      | Conversation request  | Validation, optional working-day call preference, saved scope summary, success reference        |
+| `contact.html`      | Conversation request  | Validation, optional business-day call preference, saved scope summary, success reference        |
 | `404.html`          | Missing-page recovery | Links to services, planning and the practice                                                    |
 
 The engagement accounts describe fictional work. They do not claim guaranteed protection or certification.
@@ -46,7 +46,7 @@ The engagement accounts describe fictional work. They do not claim guaranteed pr
 ```text
 .
 ├── index.html                 Practice introduction
-├── services.html              Searchable service catalogue
+├── services.html              Searchable service catalog
 ├── assessment.html            Assessment calculator
 ├── readiness.html             Evidence checklist
 ├── case-studies.html          Engagement accounts
@@ -60,7 +60,7 @@ The engagement accounts describe fictional work. They do not claim guaranteed pr
 │   └── img/                   Original SVG illustrations and social artwork
 ├── src/input.css              Tailwind import, brand tokens and repeated components
 ├── package.json               CSS build and watch commands
-├── template.json              Catalogue metadata and version
+├── template.json              Catalog metadata and version
 ├── README.md                  Short getting-started guide
 ├── DOCS.md                    This guide
 ├── CHANGELOG.md               Version history
@@ -127,9 +127,9 @@ A service uses this shape:
   category: 'systems',
   days: 1.5,
   strap: 'Who can reach what, and why.',
-  intro: 'Review privileged access, joiners and leavers, and authentication across the systems that matter.',
+  intro: 'Review privileged access, onboarding and offboarding, and authentication across the systems that matter.',
   deliverables: ['Access map and account ownership', 'Privileged account review', 'Practical authentication priorities'],
-  evidence: ['An up-to-date user list', 'A list of administrators', 'Joiner and leaver procedures'],
+  evidence: ['An up-to-date user list', 'A list of administrators', 'Onboarding and offboarding procedures'],
   question: 'Can you explain who has privileged access and when it was last reviewed?',
   next: 'Start with account ownership and remove access no longer required.'
 }
@@ -153,7 +153,7 @@ The header and footer repeat in every HTML file. Update all copies together. Des
 
 Keep `aria-current="page"` on the current page only. Resource and contact links are also available in the footer. Preserve `mobile-menu` and its button's `aria-controls` relationship.
 
-The practice address is Suite 4, South Street, Dorking, Surrey RH4 2HG. Hours are Monday–Thursday 09:00–17:00 and Friday 09:00–15:00. Telephone and email are fictional and must be replaced before launch.
+The practice address is Eustis Avenue SE, Suite 4, Huntsville, AL 35801. Hours are Monday–Thursday 9 a.m.–5 p.m. and Friday 9 a.m.–3 p.m., Central time. Telephone and email are fictional and must be replaced before launch.
 
 ## Features
 
@@ -171,7 +171,7 @@ The practice address is Suite 4, South Street, Dorking, Surrey RH4 2HG. Hours ar
 
 | Setting                             | Behavior                                    |
 | ----------------------------------- | -------------------------------------------- |
-| `DAY_RATE_PENCE`                    | 95000, equivalent to £950 per consultant day |
+| `DAY_RATE_PENCE`                    | 180000 cents, or $1,800 per consultant day   |
 | `SIZE_BANDS.small.multiplier`       | 1 for up to 50 people                        |
 | `SIZE_BANDS.growing.multiplier`     | 1.35 for 51–150 people                       |
 | `SIZE_BANDS.distributed.multiplier` | 1.7 for 151–500 people                       |
@@ -181,11 +181,11 @@ The practice address is Suite 4, South Street, Dorking, Surrey RH4 2HG. Hours ar
 | Rounding                            | Effort rounds up to the next quarter day     |
 | `PRIORITY_MULTIPLIER`               | 1.15, applied to fees for priority timing    |
 
-Base service days are summed, multiplied for team size, and then increased by coordination and complexity. Priority timing remains subject to availability. Fees exclude VAT and are a planning guide rather than a binding quote.
+Base service days are summed, multiplied for team size, and then increased by coordination and complexity. Priority timing remains subject to availability. Fees exclude any sales tax and are a planning guide rather than a binding quote.
 
-The initial identity, email and recovery scope has 3.5 base days. With two cloud workloads and one location, it totals 4.5 days and £4,275 excluding VAT.
+The initial identity, email and recovery scope has 3.5 base days. With two cloud workloads and one location, it totals 4.5 days and $8,100 excluding any sales tax.
 
-An empty selection produces zero days and £0. The recommendation asks for at least one area. Otherwise, it recommends missing identity, email and recovery foundations before describing the next sequence. Multiple locations add local-contact advice, four or more cloud workloads add ownership mapping, larger teams add stakeholder workshops, and priority timing asks for evidence availability. These are planning priorities rather than a measured security score.
+An empty selection produces zero days and $0. The recommendation asks for at least one area. Otherwise, it recommends missing identity, email and recovery foundations before describing the next sequence. Multiple locations add local-contact advice, four or more cloud workloads add ownership mapping, larger teams add stakeholder workshops, and priority timing asks for evidence availability. These are planning priorities rather than a measured security score.
 
 Below the large breakpoint the estimate panel sits after all twelve areas, so a compact bar (`data-assessment-sticky`) sticks to the bottom of the screen while the form is in view. It repeats the total, the number of areas and the consultant days, updates on every change and links to the full breakdown (`#estimate`). It is hidden from `lg` up, where the panel sits beside the form.
 
@@ -201,7 +201,7 @@ Progress uses all twelve areas, even when a filter hides some. Search covers nam
 
 A checkbox change saves state and updates progress. In a filtered state view, a changed row leaves the results when appropriate and focus moves to the state filter. Notes save as typed and do not rebuild their own textarea.
 
-Reset checklist opens a confirmation panel. Cancellation preserves data; confirmation clears ticks and notes and returns focus to the reset button. Evidence readiness is a preparation aid, not a security score or certification.
+Reset checklist opens a confirmation panel. Cancellation preserves data; confirmation clears checkmarks and notes and returns focus to the reset button. Evidence readiness is a preparation aid, not a security score or certification.
 
 ### Engagement accounts
 
@@ -223,11 +223,11 @@ The mobile menu updates `aria-expanded`, closes with Escape and returns focus to
 
 ### Consultation calendar
 
-`consultationDates()` offers the next ten eligible working days, starting tomorrow. It derives today through `londonToday()` in `Europe/London`, avoiding the visitor's local timezone for business-day selection.
+`consultationDates()` offers the next ten eligible business days, starting tomorrow. It derives today through `londonToday()` (the function keeps its original name) in `America/Chicago`, avoiding the visitor's local time zone for business-day selection.
 
-Weekends are excluded. `bankHolidays()` calculates ordinary England and Wales bank holidays: New Year, Good Friday, Easter Monday, early May, spring and summer bank holidays, Christmas and Boxing Day.
+Weekends are excluded. `bankHolidays()` (also keeping its original name) calculates the US federal holidays for any year: New Year's Day, Martin Luther King Jr. Day, Washington's Birthday, Memorial Day, Juneteenth, Independence Day, Labor Day, Columbus Day, Veterans Day, Thanksgiving and Christmas Day.
 
-Actual 1 January, 25 December and 26 December are closed as well as applicable substitute weekdays. Christmas substitutions avoid colliding with Boxing Day. Easter is calculated for the requested year.
+A fixed-date holiday that falls on a Saturday is observed on the Friday before, and one on a Sunday on the Monday after. That means New Year's Day can close December 31 of the year before.
 
 `EXTRA_CLOSURES` accepts additional `YYYY-MM-DD` strings for exceptional closures. Update it for one-off national or practice closures. Regular holidays roll automatically; extraordinary future holidays cannot be inferred.
 
@@ -235,9 +235,9 @@ Actual 1 January, 25 December and 26 December are closed as well as applicable s
 
 `CONSULTATION_DAYS` controls how many dates are listed. The search stops after 370 scanned days, so an extensively closed calendar cannot loop indefinitely. Keep `CONSULTATIONS_ENABLED` false while dates should be unavailable.
 
-Call times are 09:30, 11:00 and 14:00, within the published opening hours. These are preferences, not live availability or a confirmed appointment. The success text explicitly says availability will be confirmed in the reply.
+Call times are 9:30 a.m., 11:00 a.m. and 2:00 p.m. Central time, within the published opening hours. These are preferences, not live availability or a confirmed appointment. The success text explicitly says availability will be confirmed in the reply.
 
-The home-page next consultation date uses the same function. The copyright year also follows the London date. There are no fixed future appointment dates to maintain.
+The home-page next consultation date uses the same function. The copyright year also follows the Huntsville date. There are no fixed future appointment dates to maintain.
 
 ## Forms
 
@@ -324,7 +324,7 @@ Native dialogs manage modal focus; Close and Escape restore the opener. Both dia
 
 Live regions announce counts, estimate totals and saved actions. Contact errors identify the field and focus the first invalid control. Reset confirmations preserve a useful focus destination.
 
-The page respects reduced-motion preferences. Reveal content remains visible if IntersectionObserver is unavailable. The reveal observer also marks elements above intersecting content, and a passive scroll listener covers fast End-key and anchor jumps that skip an intersection transition. Keep labels associated when adding fields, maintain heading order and check contrast after recolouring artwork or text.
+The page respects reduced-motion preferences. Reveal content remains visible if IntersectionObserver is unavailable. The reveal observer also marks elements above intersecting content, and a passive scroll listener covers fast End-key and anchor jumps that skip an intersection transition. Keep labels associated when adding fields, maintain heading order and check contrast after recoloring artwork or text.
 
 ## Building and deploying
 
@@ -355,7 +355,7 @@ Connect the inquiry endpoint, replace fictional business details, update social 
 | New classes have no effect                     | Rebuild CSS with `npm run build`; the browser reads `assets/css/style.css`, not the source file.                                                               |
 | Saved state vanishes after reload              | The browser may block localStorage. The memory fallback preserves same-page behavior but cannot survive reloads. Serve over HTTP and review privacy settings. |
 | Old service IDs disappear                      | Normalization intentionally discards IDs absent from `SERVICES`. Migrate records before renaming catalog IDs.                                                |
-| A call date is missing                         | Weekends, calculated bank holidays and `EXTRA_CLOSURES` are excluded. The list begins tomorrow in London time.                                                 |
+| A call date is missing                         | Weekends, calculated federal holidays and `EXTRA_CLOSURES` are excluded. The list begins tomorrow in Central time.                                                    |
 | A request shows success but no inquiry arrives | The front-end needs a real submission endpoint. Connect it in `setupContact()` and wait for `response.ok` before showing success.                              |
 | A social image does not update                 | Regenerate the PNG from the edited SVG and use an absolute production `og:image` URL. Sharing services may cache earlier images.                               |
 | Mobile navigation stays open after edits       | Preserve the menu ID, toggle data attribute and deferred `main.js` script. Check the browser console for earlier JavaScript errors.                            |

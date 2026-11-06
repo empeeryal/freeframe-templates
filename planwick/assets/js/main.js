@@ -1,4 +1,4 @@
-/* Planwick browser features: catalogue data stays local; no live service calls. */
+/* Planwick browser features: catalog data stays local; no live service calls. */
 (() => {
   "use strict";
   const D = window.PLANWICK_DATA;
@@ -21,9 +21,9 @@
       : fallback;
   const count = (number, word) => `${number} ${word}${number === 1 ? "" : "s"}`;
   const money = (pence) =>
-    new Intl.NumberFormat("en-GB", {
+    new Intl.NumberFormat("en-US", {
       style: "currency",
-      currency: "GBP",
+      currency: "USD",
       maximumFractionDigits: pence % 100 ? 2 : 0,
     }).format(pence / 100);
   const announce = (message) => {
@@ -140,8 +140,8 @@
   const KEEP_CONVERSATIONS_CURRENT = true;
   const FIXED_CONVERSATION_START = "2026-10-20";
   const londonToday = () => {
-    const parts = new Intl.DateTimeFormat("en-GB", {
-      timeZone: "Europe/London",
+    const parts = new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/New_York",
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
@@ -156,25 +156,50 @@
   };
   const isoDate = (date) => date.toISOString().slice(0, 10);
   const displayDate = (date) =>
-    new Intl.DateTimeFormat("en-GB", { timeZone: "UTC", day: "numeric", month: "long", year: "numeric" }).format(date);
+    new Intl.DateTimeFormat("en-US", { timeZone: "UTC", day: "numeric", month: "long", year: "numeric" }).format(date);
   const weekdayDate = (date) =>
-    `${new Intl.DateTimeFormat("en-GB", { timeZone: "UTC", weekday: "long" }).format(date)} ${displayDate(date)}`;
+    `${new Intl.DateTimeFormat("en-US", { timeZone: "UTC", weekday: "long" }).format(date)}, ${displayDate(date)}`;
   function releaseStart() {
     if (!KEEP_RELEASES_CURRENT) return new Date(`${FIXED_RELEASE_START}T12:00:00Z`);
     const today = londonToday();
     return addDays(today, (8 - today.getUTCDay()) % 7 || 7);
+  }
+  // US federal holidays for any year, by rule, moved to the observed weekday when they fall on a weekend.
+  function federalHolidays(year) {
+    const nth = (month, weekday, n) => {
+      const first = new Date(Date.UTC(year, month, 1, 12));
+      return addDays(first, ((weekday - first.getUTCDay() + 7) % 7) + (n - 1) * 7);
+    };
+    const fixed = (month, day) => {
+      const date = new Date(Date.UTC(year, month, day, 12));
+      return addDays(date, date.getUTCDay() === 6 ? -1 : date.getUTCDay() === 0 ? 1 : 0);
+    };
+    return [
+      fixed(0, 1), // New Year's Day
+      nth(0, 1, 3), // Martin Luther King Jr. Day
+      nth(1, 1, 3), // Washington's Birthday
+      addDays(nth(5, 1, 1), -7), // Memorial Day: last Monday of May
+      fixed(5, 19), // Juneteenth
+      fixed(6, 4), // Independence Day
+      nth(8, 1, 1), // Labor Day
+      nth(9, 1, 2), // Columbus Day
+      fixed(10, 11), // Veterans Day
+      nth(10, 4, 4), // Thanksgiving
+      fixed(11, 25), // Christmas Day
+    ].map(isoDate);
   }
   function conversationDays() {
     const start = KEEP_CONVERSATIONS_CURRENT ? londonToday() : new Date(`${FIXED_CONVERSATION_START}T12:00:00Z`);
     const days = [];
     for (let offset = 1; days.length < 6 && offset < 60; offset++) {
       const date = addDays(start, offset);
-      const monthDay = isoDate(date).slice(5);
-      // Christmas and New Year closure includes substitute weekdays.
+      // Closed on federal holidays and from Christmas Eve through January 3.
       const month = date.getUTCMonth();
       const day = date.getUTCDate();
       const closed =
-        ["01-01", "12-25", "12-26"].includes(monthDay) || (month === 11 && day >= 24) || (month === 0 && day <= 3);
+        federalHolidays(date.getUTCFullYear()).includes(isoDate(date)) ||
+        (month === 11 && day >= 24) ||
+        (month === 0 && day <= 3);
       if ([2, 4].includes(date.getUTCDay()) && !closed) days.push(date);
     }
     return days;
@@ -509,13 +534,13 @@
     function calculate() {
       const base = D.plans[state.plan].rate * state.seats;
       const seatTotal = state.billing === "annual" ? Math.round(base * 0.8) : base;
-      const extras = (state.insights ? 3500 : 0) + (state.archive ? 1500 : 0);
+      const extras = (state.insights ? 4000 : 0) + (state.archive ? 2000 : 0);
       const total = seatTotal + extras;
       $("[data-price-total]").textContent = money(total);
       $("[data-price-period]").textContent =
         state.billing === "annual" ? "per month, billed annually" : "per month, billed monthly";
       $("[data-price-breakdown]").innerHTML =
-        `<div class="flex justify-between gap-4"><dt>${D.plans[state.plan].title} · ${count(state.seats, "person").replace("persons", "people")}</dt><dd>${money(seatTotal)}</dd></div>${state.insights ? `<div class="flex justify-between gap-4"><dt>Insights pack</dt><dd>${money(3500)}</dd></div>` : ""}${state.archive ? `<div class="flex justify-between gap-4"><dt>Extended archive</dt><dd>${money(1500)}</dd></div>` : ""}<div class="flex justify-between gap-4 border-t border-white/20 pt-4"><dt>${state.billing === "annual" ? "Annual invoice" : "Monthly invoice"}</dt><dd>${money(total * (state.billing === "annual" ? 12 : 1))}</dd></div>`;
+        `<div class="flex justify-between gap-4"><dt>${D.plans[state.plan].title} · ${count(state.seats, "person").replace("persons", "people")}</dt><dd>${money(seatTotal)}</dd></div>${state.insights ? `<div class="flex justify-between gap-4"><dt>Insights pack</dt><dd>${money(4000)}</dd></div>` : ""}${state.archive ? `<div class="flex justify-between gap-4"><dt>Extended archive</dt><dd>${money(2000)}</dd></div>` : ""}<div class="flex justify-between gap-4 border-t border-white/20 pt-4"><dt>${state.billing === "annual" ? "Annual invoice" : "Monthly invoice"}</dt><dd>${money(total * (state.billing === "annual" ? 12 : 1))}</dd></div>`;
       $("[data-price-saving]").textContent =
         state.billing === "annual"
           ? `Annual billing saves ${money((base - seatTotal) * 12)} a year on seats. Add-ons keep the same monthly equivalent.`
@@ -698,7 +723,7 @@
       if (form.elements.name.value.trim().length < 2) errors.name = "Please give us your name.";
       if (!form.elements.email.validity.valid || !form.elements.email.value.trim())
         errors.email = "Enter a valid work email address.";
-      if (form.elements.team.value.trim().length < 2) errors.team = "Tell us your team or organisation.";
+      if (form.elements.team.value.trim().length < 2) errors.team = "Tell us your team or organization.";
       if (form.elements.message.value.trim().length < 12)
         errors.message = "Add at least 12 characters so we can understand the question.";
       if (!form.elements.consent.checked) errors.consent = "Please agree that we can reply to this request.";
@@ -728,7 +753,7 @@
           : "";
       $("[data-contact-date]").hidden = !chosenDate;
       $("[data-contact-date]").textContent = chosenDate
-        ? `We’ll suggest a walkthrough time on ${chosenDate}, in UK time.`
+        ? `We’ll suggest a walkthrough time on ${chosenDate}, in Eastern time.`
         : "";
       form.hidden = true;
       $("#contact-success").hidden = false;

@@ -1,7 +1,7 @@
 /* Tracewick — service workloads, saved investigations and local tools. */
 (() => {
   "use strict";
-  const TIME_ZONE = "Europe/London";
+  const TIME_ZONE = "America/New_York";
   const KEEP_MAINTENANCE_CURRENT = true;
   const FIXED_MAINTENANCE_ANCHOR = "2026-10-28";
   const STORAGE_KEYS = {
@@ -14,7 +14,7 @@
       id: "gateway",
       name: "Edge gateway",
       group: "edge",
-      owner: "Wulfric Penhaligon",
+      owner: "Wallace Pendergrass",
       route: "/v1/*",
       requests: 820000,
       latency: 112,
@@ -27,20 +27,20 @@
       id: "checkout",
       name: "Checkout API",
       group: "commerce",
-      owner: "Ismeria Culverwell",
+      owner: "Inez Culver",
       route: "/checkout",
       requests: 268000,
       latency: 348,
       errors: 1.25,
       slo: 99.9,
-      summary: "Coordinates the order path and keeps a trace across payment and stock checks.",
+      summary: "Coordinates the order path and keeps a trace across payment and inventory checks.",
       role: "order",
     },
     {
       id: "identity",
       name: "Identity broker",
       group: "platform",
-      owner: "Corisande Hatherleigh",
+      owner: "Corrine Hatley",
       route: "/identity/token",
       requests: 650000,
       latency: 86,
@@ -53,7 +53,7 @@
       id: "ledger",
       name: "Order ledger",
       group: "commerce",
-      owner: "Ismeria Culverwell",
+      owner: "Inez Culver",
       route: "/orders/write",
       requests: 194000,
       latency: 219,
@@ -66,20 +66,20 @@
       id: "search",
       name: "Search index",
       group: "commerce",
-      owner: "Wulfric Penhaligon",
+      owner: "Wallace Pendergrass",
       route: "/search",
       requests: 423000,
       latency: 476,
       errors: 0.83,
       slo: 99.5,
-      summary: "Answers catalogue searches with bounded result sets and explicit timeouts.",
+      summary: "Answers catalog searches with bounded result sets and explicit timeouts.",
       role: "index",
     },
     {
       id: "media",
       name: "Media worker",
       group: "workers",
-      owner: "Corisande Hatherleigh",
+      owner: "Corrine Hatley",
       route: "queue:media",
       requests: 78000,
       latency: 842,
@@ -92,7 +92,7 @@
       id: "notify",
       name: "Notification queue",
       group: "workers",
-      owner: "Ismeria Culverwell",
+      owner: "Inez Culver",
       route: "queue:notice",
       requests: 315000,
       latency: 173,
@@ -105,7 +105,7 @@
       id: "cache",
       name: "Session cache",
       group: "platform",
-      owner: "Wulfric Penhaligon",
+      owner: "Wallace Pendergrass",
       route: "/session/read",
       requests: 945000,
       latency: 24,
@@ -118,7 +118,7 @@
       id: "usage",
       name: "Usage meter",
       group: "platform",
-      owner: "Corisande Hatherleigh",
+      owner: "Corrine Hatley",
       route: "/usage/record",
       requests: 436000,
       latency: 128,
@@ -131,7 +131,7 @@
       id: "inventory",
       name: "Inventory read",
       group: "commerce",
-      owner: "Ismeria Culverwell",
+      owner: "Inez Culver",
       route: "/stock/read",
       requests: 392000,
       latency: 184,
@@ -144,7 +144,7 @@
       id: "route",
       name: "Route resolver",
       group: "edge",
-      owner: "Wulfric Penhaligon",
+      owner: "Wallace Pendergrass",
       route: "/route/resolve",
       requests: 710000,
       latency: 65,
@@ -157,7 +157,7 @@
       id: "upload",
       name: "Upload processor",
       group: "workers",
-      owner: "Corisande Hatherleigh",
+      owner: "Corrine Hatley",
       route: "queue:upload",
       requests: 61000,
       latency: 619,
@@ -170,7 +170,7 @@
       id: "webhook",
       name: "Webhook dispatcher",
       group: "workers",
-      owner: "Ismeria Culverwell",
+      owner: "Inez Culver",
       route: "queue:webhook",
       requests: 227000,
       latency: 529,
@@ -183,7 +183,7 @@
       id: "audit",
       name: "Audit stream",
       group: "platform",
-      owner: "Wulfric Penhaligon",
+      owner: "Wallace Pendergrass",
       route: "/audit/append",
       requests: 354000,
       latency: 97,
@@ -261,7 +261,7 @@
       title: "Ask a narrower question",
       topic: "query",
       summary:
-        "Use the smallest useful set of conditions. The console workbench recognises service, duration and outcome filters.",
+        "Use the smallest useful set of conditions. The console workbench recognizes service, duration and outcome filters.",
       body: "Begin with a specific service or a threshold you can explain. Compare the returned request count, p95 duration and error outcomes before adding more conditions.",
       code: "service:checkout duration>200\noutcome:error\nservice:search outcome:ok",
     },
@@ -289,7 +289,7 @@
       topic: "query",
       summary:
         "An alert should name the affected service, the reason it matters and the first useful evidence to inspect.",
-      body: "Attach a service owner and a short runbook. Separate urgent user-impacting failures from capacity work that belongs in a working-day queue. Review noisy rules with the people they interrupt.",
+      body: "Attach a service owner and a short runbook. Separate urgent user-impacting failures from capacity work that belongs in a business-hours queue. Review noisy rules with the people they interrupt.",
       code: 'alert.labels = ["service", "environment", "owner"]\nalert.context = ["traceId", "budget", "runbook"]\nalert.groupingWindowMinutes = 5',
     },
     {
@@ -377,13 +377,13 @@
       note: "Several service groups with shared engineering context.",
     },
     organisation: {
-      name: "Organisation",
+      name: "Organization",
       base: 359,
       ingestion: 1000,
       seats: 30,
       retention: 30,
       extraGB: 0.08,
-      note: "A wider service estate with agreed operating practices.",
+      note: "A wider service portfolio with agreed operating practices.",
     },
   };
   const RETENTION_DAYS = [7, 14, 30, 90];
@@ -427,21 +427,21 @@
   const TEAM = [
     {
       id: "ismeria",
-      name: "Ismeria Culverwell",
+      name: "Inez Culver",
       role: "Service experience",
-      text: "Ismeria works with engineering teams to identify the route they need to understand and the smallest useful first step.",
+      text: "Inez works with engineering teams to identify the route they need to understand and the smallest useful first step.",
     },
     {
       id: "corisande",
-      name: "Corisande Hatherleigh",
+      name: "Corrine Hatley",
       role: "Collection & data",
-      text: "Corisande looks after collection rules, retention boundaries and the details that keep a signal useful without collecting everything.",
+      text: "Corrine looks after collection rules, retention boundaries and the details that keep a signal useful without collecting everything.",
     },
     {
       id: "wulfric",
-      name: "Wulfric Penhaligon",
+      name: "Wallace Pendergrass",
       role: "Platform engineering",
-      text: "Wulfric builds the query and service-map tools, with a particular interest in clear operating limits and a quiet pager.",
+      text: "Wallace builds the query and service-map tools, with a particular interest in clear operating limits and a quiet pager.",
     },
   ];
   const MAINTENANCE = [
@@ -452,8 +452,8 @@
       day: 0,
       hour: 21,
       duration: 45,
-      impact: "Collectors buffer accepted records during a short handover. Query access remains available.",
-      owner: "Corisande Hatherleigh",
+      impact: "Collectors buffer accepted records during a short handoff. Query access remains available.",
+      owner: "Corrine Hatley",
     },
     {
       id: "query-index",
@@ -464,7 +464,7 @@
       duration: 30,
       impact:
         "Some long-range queries may take longer while index replicas rotate. Recent trace lookup remains available.",
-      owner: "Wulfric Penhaligon",
+      owner: "Wallace Pendergrass",
     },
     {
       id: "console-release",
@@ -474,7 +474,7 @@
       hour: 20,
       duration: 20,
       impact: "An open console tab may need a refresh. Collection and stored records are not affected by this release.",
-      owner: "Ismeria Culverwell",
+      owner: "Inez Culver",
     },
   ];
   const COMMITMENTS = [
@@ -492,10 +492,10 @@
     },
   ];
   /* Status page. Components are operational unless (a) a planned window from MAINTENANCE is running now
-     (London time): the query index rotation shows "Degraded performance" because long-range queries slow
+     (Eastern time): the query index rotation shows "Degraded performance" because long-range queries slow
      down, other windows show "Under maintenance"; or (b) you list a live issue in CURRENT_ISSUES, e.g.
      { component: "query", level: "degraded", note: "Long-range queries are slower than usual." }.
-     Past incidents are dated relative to today (daysAgo, London) so the history never looks old; set
+     Past incidents are dated relative to today (daysAgo, Eastern time) so the history never looks old; set
      KEEP_INCIDENTS_RELATIVE = false and give each incident a fixed "date" ("YYYY-MM-DD") for a real site. */
   const STATUS_COMPONENTS = [
     { id: "ingestion", text: "Collector endpoints and the durable acceptance queue." },
@@ -514,15 +514,15 @@
       date: "2026-10-16",
       component: "query",
       level: "degraded",
-      start: "14:12",
+      start: "2:12 p.m.",
       minutes: 38,
       title: "Slow long-range trace queries",
       summary:
         "Queries covering more than seven days took up to four times longer than usual after one index replica fell behind. Recent trace lookup was not affected.",
       steps: [
-        ["14:12", "Investigating", "Query p95 above its budget for ranges over seven days."],
-        ["14:31", "Mitigated", "The lagging replica was removed from the query pool."],
-        ["14:50", "Resolved", "Long-range queries back within budget; the replica was rebuilt overnight."],
+        ["2:12 p.m.", "Investigating", "Query p95 above its budget for ranges over seven days."],
+        ["2:31 p.m.", "Mitigated", "The lagging replica was removed from the query pool."],
+        ["2:50 p.m.", "Resolved", "Long-range queries back within budget; the replica was rebuilt overnight."],
       ],
     },
     {
@@ -531,15 +531,15 @@
       date: "2026-10-08",
       component: "alerts",
       level: "degraded",
-      start: "07:40",
+      start: "7:40 a.m.",
       minutes: 22,
       title: "Delayed alert budget notifications",
       summary:
         "Budget breaches were evaluated on time, but notifications reached on-call routes up to nine minutes late while a delivery worker restarted repeatedly.",
       steps: [
-        ["07:40", "Investigating", "Notification queue depth rising; deliveries delayed."],
-        ["07:52", "Mitigated", "Traffic moved to the standby delivery pool."],
-        ["08:02", "Resolved", "Queue drained; the worker’s memory limit was raised and a check added."],
+        ["7:40 a.m.", "Investigating", "Notification queue depth rising; deliveries delayed."],
+        ["7:52 a.m.", "Mitigated", "Traffic moved to the standby delivery pool."],
+        ["8:02 a.m.", "Resolved", "Queue drained; the worker’s memory limit was raised and a check added."],
       ],
     },
     {
@@ -548,15 +548,15 @@
       date: "2026-09-23",
       component: "ingestion",
       level: "outage",
-      start: "11:05",
+      start: "11:05 a.m.",
       minutes: 9,
       title: "Collector endpoint rejecting records in one zone",
       summary:
         "One collector zone returned errors for nine minutes after a certificate rotation. Collectors with retries enabled resent their buffered records once the zone recovered.",
       steps: [
-        ["11:05", "Investigating", "Rejected-record rate rising in one collector zone."],
-        ["11:09", "Identified", "A rotated certificate had not reached every collector instance."],
-        ["11:14", "Resolved", "Certificate redeployed; rotation now verifies every instance first."],
+        ["11:05 a.m.", "Investigating", "Rejected-record rate rising in one collector zone."],
+        ["11:09 a.m.", "Identified", "A rotated certificate had not reached every collector instance."],
+        ["11:14 a.m.", "Resolved", "Certificate redeployed; rotation now verifies every instance first."],
       ],
     },
     {
@@ -565,15 +565,15 @@
       date: "2026-09-09",
       component: "console",
       level: "degraded",
-      start: "16:20",
+      start: "4:20 p.m.",
       minutes: 46,
       title: "Service map failing to load for some accounts",
       summary:
         "Accounts with more than forty services saw an empty service map after a console release. The service explorer and queries kept working.",
       steps: [
-        ["16:20", "Investigating", "Reports of an empty service map on larger accounts."],
-        ["16:48", "Identified", "A layout change exceeded a size limit for large maps."],
-        ["17:06", "Resolved", "The release was rolled back and the limit fixed before re-release."],
+        ["4:20 p.m.", "Investigating", "Reports of an empty service map on larger accounts."],
+        ["4:48 p.m.", "Identified", "A layout change exceeded a size limit for large maps."],
+        ["5:06 p.m.", "Resolved", "The release was rolled back and the limit fixed before re-release."],
       ],
     },
     {
@@ -582,15 +582,15 @@
       date: "2026-08-23",
       component: "exports",
       level: "degraded",
-      start: "02:10",
+      start: "2:10 a.m.",
       minutes: 95,
       title: "Scheduled exports finishing late",
       summary:
         "Overnight exports finished up to ninety minutes after their usual time because a storage compaction ran in the same window. No records were lost.",
       steps: [
-        ["02:10", "Investigating", "Export jobs queued behind storage compaction."],
-        ["03:05", "Mitigated", "Compaction paused until exports completed."],
-        ["03:45", "Resolved", "All exports delivered; compaction moved to a separate window."],
+        ["2:10 a.m.", "Investigating", "Export jobs queued behind storage compaction."],
+        ["3:05 a.m.", "Mitigated", "Compaction paused until exports completed."],
+        ["3:45 a.m.", "Resolved", "All exports delivered; compaction moved to a separate window."],
       ],
     },
     {
@@ -599,15 +599,15 @@
       date: "2026-08-05",
       component: "ingestion",
       level: "degraded",
-      start: "09:30",
+      start: "9:30 a.m.",
       minutes: 17,
       title: "Elevated acceptance latency after a collector release",
       summary:
         "Record acceptance took up to 900 ms instead of the usual 120 ms after a collector release changed batch sizes. Records were accepted, only more slowly.",
       steps: [
-        ["09:30", "Investigating", "Acceptance latency above budget across collectors."],
-        ["09:41", "Mitigated", "The previous collector release was restored."],
-        ["09:47", "Resolved", "Latency normal; batch limits now covered by a release check."],
+        ["9:30 a.m.", "Investigating", "Acceptance latency above budget across collectors."],
+        ["9:41 a.m.", "Mitigated", "The previous collector release was restored."],
+        ["9:47 a.m.", "Resolved", "Latency normal; batch limits now covered by a release check."],
       ],
     },
   ];
@@ -628,9 +628,14 @@
   const SERVICE_MAP = Object.fromEntries(SERVICES.map((service) => [service.id, service]));
   const GUIDE_MAP = Object.fromEntries(GUIDES.map((guide) => [guide.id, guide]));
   const params = new URLSearchParams(location.search);
-  const formatNumber = (value) => new Intl.NumberFormat("en-GB").format(value);
+  const formatNumber = (value) => new Intl.NumberFormat("en-US").format(value);
   const money = (value) =>
-    new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP", minimumFractionDigits: 2 }).format(value);
+    new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 }).format(value);
+  const clockLabel = (minutes) => {
+    const hour = Math.floor(minutes / 60) % 24,
+      minute = minutes % 60;
+    return `${hour % 12 || 12}${minute ? `:${String(minute).padStart(2, "0")}` : ""} ${hour < 12 ? "a.m." : "p.m."}`;
+  };
   const clamp = (value, min, max, step = 1) => {
     const number = typeof value === "number" || typeof value === "string" ? Number(value) : NaN;
     if (!Number.isFinite(number)) return min;
@@ -1092,7 +1097,7 @@
     gateway: ["limits.check"],
     checkout: ["basket.validate"],
     identity: ["claims.verify"],
-    ledger: ["order.serialise", "db.commit"],
+    ledger: ["order.serialize", "db.commit"],
     search: ["query.parse", "index.scan"],
     media: ["rendition.resize", "object.write"],
     notify: ["template.render"],
@@ -1424,7 +1429,7 @@
           .join("") ||
         '<tr><td colspan="5" class="p-5 text-muted">No matching traces. Try a smaller set of conditions.</td></tr>';
       const status = unknown.length
-        ? `Unrecognised condition: ${unknown.join(", ")}. Use service:id, duration>number, duration<number or outcome:error.`
+        ? `Unrecognized condition: ${unknown.join(", ")}. Use service:id, duration>number, duration<number or outcome:error.`
         : `${count(rows.length, "trace")} matched · p95 ${percentile(
             rows.map((row) => row.duration),
             0.95,
@@ -1464,7 +1469,7 @@
       grid.innerHTML = Object.entries(PLANS)
         .map(
           ([id, plan]) =>
-            `<article class="border border-line bg-panel p-6"><p class="eyebrow text-cyan">${esc(plan.name)}</p><h2 class="mt-4 font-display text-5xl font-semibold">£${plan.base}<span class="text-lg text-muted"> / month</span></h2><p class="mt-5 text-muted">${esc(plan.note)}</p><ul class="mt-5 space-y-3 text-sm"><li>${plan.ingestion} GB monthly ingestion included</li><li>${count(plan.seats, "engineering seat")}</li><li>${plan.retention}-day retention included</li></ul><button type="button" data-select-plan="${id}" class="btn btn-line mt-6 w-full">Choose ${esc(plan.name)}</button></article>`,
+            `<article class="border border-line bg-panel p-6"><p class="eyebrow text-cyan">${esc(plan.name)}</p><h2 class="mt-4 font-display text-5xl font-semibold">$${plan.base}<span class="text-lg text-muted"> / month</span></h2><p class="mt-5 text-muted">${esc(plan.note)}</p><ul class="mt-5 space-y-3 text-sm"><li>${plan.ingestion} GB monthly ingestion included</li><li>${count(plan.seats, "engineering seat")}</li><li>${plan.retention}-day retention included</li></ul><button type="button" data-select-plan="${id}" class="btn btn-line mt-6 w-full">Choose ${esc(plan.name)}</button></article>`,
         )
         .join("");
     const form = $("[data-pricing-form]");
@@ -1628,11 +1633,11 @@
     return MAINTENANCE.map((item) => ({ ...item, date: addDays(anchor, item.day) }));
   }
   function dateLabel(date) {
-    return new Intl.DateTimeFormat("en-GB", {
+    return new Intl.DateTimeFormat("en-US", {
       timeZone: "UTC",
       weekday: "long",
-      day: "numeric",
       month: "long",
+      day: "numeric",
       year: "numeric",
     }).format(date);
   }
@@ -1645,7 +1650,7 @@
       root.innerHTML = rows
         .map(
           (item) =>
-            `<article class="border border-line bg-panel p-6"><p class="eyebrow text-cyan">${esc(COMPONENT_LABELS[item.component])}</p><h3 class="mt-4 font-display text-3xl font-semibold">${esc(item.title)}</h3><p class="mt-4 font-semibold">${dateLabel(item.date)}</p><p class="mt-1 text-sm text-muted">${String(item.hour).padStart(2, "0")}:00–${String(item.hour + Math.floor(item.duration / 60)).padStart(2, "0")}:${String(item.duration % 60).padStart(2, "0")} · Europe/London</p><p class="mt-5 leading-relaxed text-muted">${esc(item.impact)}</p><p class="mt-5 border-t border-line pt-4 text-xs text-muted">Owner: ${esc(item.owner)}</p></article>`,
+            `<article class="border border-line bg-panel p-6"><p class="eyebrow text-cyan">${esc(COMPONENT_LABELS[item.component])}</p><h3 class="mt-4 font-display text-3xl font-semibold">${esc(item.title)}</h3><p class="mt-4 font-semibold">${dateLabel(item.date)}</p><p class="mt-1 text-sm text-muted">${clockLabel(item.hour * 60)}–${clockLabel(item.hour * 60 + item.duration)} · Eastern time</p><p class="mt-5 leading-relaxed text-muted">${esc(item.impact)}</p><p class="mt-5 border-t border-line pt-4 text-xs text-muted">Owner: ${esc(item.owner)}</p></article>`,
         )
         .join("");
       $("[data-maintenance-count]").textContent = `${count(rows.length, "planned window")} shown.`;
@@ -1658,7 +1663,7 @@
     ).join("");
   }
   function londonNow() {
-    const parts = new Intl.DateTimeFormat("en-GB", {
+    const parts = new Intl.DateTimeFormat("en-US", {
       timeZone: TIME_ZONE,
       hour: "2-digit",
       minute: "2-digit",
@@ -1683,7 +1688,7 @@
       if (item.date.getTime() === now.day.getTime() && now.minutes >= from && now.minutes < from + item.duration)
         status[item.component] = {
           level: item.component === "query" ? "degraded" : "maintenance",
-          note: `${item.title}, until ${String(Math.floor((from + item.duration) / 60)).padStart(2, "0")}:${String((from + item.duration) % 60).padStart(2, "0")} Europe/London.`,
+          note: `${item.title}, until ${clockLabel(from + item.duration)} Eastern time.`,
         };
     });
     CURRENT_ISSUES.forEach((issue) => {
@@ -1709,7 +1714,7 @@
     });
   }
   function shortDate(date) {
-    return new Intl.DateTimeFormat("en-GB", { timeZone: "UTC", weekday: "short", day: "numeric", month: "short" }).format(
+    return new Intl.DateTimeFormat("en-US", { timeZone: "UTC", weekday: "short", month: "short", day: "numeric" }).format(
       date,
     );
   }
@@ -1726,13 +1731,8 @@
       ? `<span class="size-3 shrink-0 bg-amber" aria-hidden="true"></span><p><strong class="font-display text-2xl font-semibold">${count(issues.length, "component")} affected.</strong> <span class="text-muted">${issues.map((component) => `${COMPONENT_LABELS[component.id]}: ${STATUS_LEVELS[status[component.id].level].label.toLowerCase()}`).join(" · ")}</span></p>`
       : `<span class="size-3 shrink-0 bg-cyan" aria-hidden="true"></span><p><strong class="font-display text-2xl font-semibold">All components operational.</strong> <span class="text-muted">No open incidents.</span></p>`;
     if (issues.length) $("[data-status-summary]").classList.replace("border-cyan", "border-amber");
-    const time = new Intl.DateTimeFormat("en-GB", {
-      timeZone: TIME_ZONE,
-      hour: "2-digit",
-      minute: "2-digit",
-      hourCycle: "h23",
-    }).format(new Date());
-    $("[data-status-checked]").textContent = `Checked today at ${time}, Europe/London`;
+    const time = clockLabel(londonNow().minutes);
+    $("[data-status-checked]").textContent = `Checked today at ${time} Eastern time`;
     root.innerHTML = STATUS_COMPONENTS.map((component) => {
       const days = uptimeDays(component.id),
         current = status[component.id],
@@ -1788,7 +1788,7 @@
           return `<li class="border border-line bg-panel p-5 sm:p-6"><div class="flex flex-wrap items-baseline justify-between gap-3"><p class="font-semibold">${dateLabel(incidentDate(incident))}</p><p class="text-sm ${level.text}">${level.label} · ${esc(COMPONENT_LABELS[incident.component])} · ${count(incident.minutes, "minute")}</p></div><h3 class="mt-3 font-display text-2xl font-semibold">${esc(incident.title)}</h3><p class="mt-3 text-muted">${esc(incident.summary)}</p><ol class="mt-4 space-y-2 border-t border-line pt-4 text-sm">${incident.steps
             .map(
               ([time, stage, text]) =>
-                `<li class="grid gap-1 sm:grid-cols-[4rem_7rem_1fr] sm:gap-3"><span class="text-muted">${esc(time)}</span><strong class="${stage === "Resolved" ? "text-cyan" : "text-ice"}">${esc(stage)}</strong><span class="text-muted">${esc(text)}</span></li>`,
+                `<li class="grid gap-1 sm:grid-cols-[5rem_7rem_1fr] sm:gap-3"><span class="text-muted">${esc(time)}</span><strong class="${stage === "Resolved" ? "text-cyan" : "text-ice"}">${esc(stage)}</strong><span class="text-muted">${esc(text)}</span></li>`,
             )
             .join("")}</ol></li>`;
         })
@@ -1836,7 +1836,7 @@
       const target = $("[data-contact-success]"),
         name = cleanString(values.name, 100).trim(),
         topic = own(TOPICS, values.topic) ? TOPICS[values.topic] : TOPICS.onboarding;
-      target.innerHTML = `<p class="eyebrow text-cyan">Request received</p><h2 class="mt-4 font-display text-3xl font-semibold">Thanks, ${esc(name)}.</h2><p class="mt-4 text-muted">Your request reference is <strong class="text-ice">${reference("TW")}</strong>. It’s with the engineering team as <strong class="text-ice">${esc(topic)}</strong> for ${esc(cleanString(values.company, 100).trim())}, and we’ll reply to <strong class="text-ice">${esc(cleanString(values.email, 254).trim())}</strong> within one working day.</p><h3 class="mt-6 font-display text-2xl font-semibold">What happens next</h3><ol class="mt-3 list-decimal space-y-2 pl-5 text-muted"><li>An engineer reads your note and replies with a few questions or a first answer.</li><li>If a call helps, we suggest a 30-minute slot in UK working hours.</li><li>Keep a rough service map and an approximate monthly ingestion volume to hand; quote your reference if you write again.</li></ol>`;
+      target.innerHTML = `<p class="eyebrow text-cyan">Request received</p><h2 class="mt-4 font-display text-3xl font-semibold">Thanks, ${esc(name)}.</h2><p class="mt-4 text-muted">Your request reference is <strong class="text-ice">${reference("TW")}</strong>. It’s with the engineering team as <strong class="text-ice">${esc(topic)}</strong> for ${esc(cleanString(values.company, 100).trim())}, and we’ll reply to <strong class="text-ice">${esc(cleanString(values.email, 254).trim())}</strong> within one business day.</p><h3 class="mt-6 font-display text-2xl font-semibold">What happens next</h3><ol class="mt-3 list-decimal space-y-2 pl-5 text-muted"><li>An engineer reads your note and replies with a few questions or a first answer.</li><li>If a call helps, we suggest a 30-minute slot during US business hours.</li><li>Keep a rough service map and an approximate monthly ingestion volume handy; mention your reference if you write again.</li></ol>`;
       form.hidden = true;
       target.hidden = false;
       target.focus();
@@ -1858,7 +1858,7 @@
       const target = $("[data-updates-success]"),
         labels = choices.map((value) => COMPONENT_LABELS[value]),
         list = labels.length > 1 ? `${labels.slice(0, -1).join(", ")} and ${labels[labels.length - 1]}` : labels[0];
-      target.innerHTML = `<p class="eyebrow text-cyan">Preferences recorded</p><h3 class="mt-4 font-display text-3xl font-semibold">You’re on the update list.</h3><p class="mt-4 text-muted">Reference <strong class="text-ice">${reference("TU")}</strong>. We’ll write to <strong class="text-ice">${esc(String(data.get("email")).trim())}</strong> before planned maintenance on ${esc(list)}, and with each update during an incident that affects ${labels.length === 1 ? "it" : "them"}.</p><p class="mt-4 text-sm text-muted">Every update has an unsubscribe link; quote your reference to change the components you follow.</p>`;
+      target.innerHTML = `<p class="eyebrow text-cyan">Preferences recorded</p><h3 class="mt-4 font-display text-3xl font-semibold">You’re on the update list.</h3><p class="mt-4 text-muted">Reference <strong class="text-ice">${reference("TU")}</strong>. We’ll email <strong class="text-ice">${esc(String(data.get("email")).trim())}</strong> before planned maintenance on ${esc(list)}, and with each update during an incident that affects ${labels.length === 1 ? "it" : "them"}.</p><p class="mt-4 text-sm text-muted">Every update has an unsubscribe link; mention your reference to change the components you follow.</p>`;
       form.hidden = true;
       target.hidden = false;
       target.focus();
@@ -1927,7 +1927,7 @@
           `<article class="min-w-0"><img src="assets/img/${person.id}.svg" width="260" height="240" class="w-full" alt="Illustration of ${esc(person.name)}"><p class="eyebrow mt-5 text-cyan">${esc(person.role)}</p><h3 class="mt-2 font-display text-3xl font-semibold">${esc(person.name)}</h3><p class="mt-4 text-muted">${esc(person.text)}</p></article>`,
       ).join("");
     $$("[data-year]").forEach((node) => {
-      node.textContent = new Intl.DateTimeFormat("en-GB", { timeZone: TIME_ZONE, year: "numeric" }).format(new Date());
+      node.textContent = new Intl.DateTimeFormat("en-US", { timeZone: TIME_ZONE, year: "numeric" }).format(new Date());
     });
   }
   initStaticData();

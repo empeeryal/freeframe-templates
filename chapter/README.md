@@ -1,7 +1,7 @@
 # Chapter: free HTML5 + Tailwind CSS author website template
 
 A complete website for a novelist, built for the fictional **Clemency Thorne**, a crime and historical
-novelist from Canterbury with a new Esme Lark mystery on the way. It looks like a well-set book: a
+novelist from Salem, Massachusetts, with a new Esme Lark mystery on the way. It looks like a well-set book: a
 book-face serif, generous margins, cream paper with a little grain, fleuron ornaments and a jacket drawn
 in SVG for every book. Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file.
 
@@ -10,7 +10,7 @@ reading-order views, single book pages with a first-chapter reader that remember
 roll forward with the calendar, book club guides to download, a press kit and a contact form that routes
 messages to the agent, publicist or rights team.
 
-**Version 1.0.4** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/chapter)
 
 ## Quick start

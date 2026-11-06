@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-11-05
+
+### Changed
+
+- Set in Golden, Colorado, with American spelling, US dollars, US phone numbers and local details.
+
 ## [1.0.1] - 2026-11-05
 
 ### Changed

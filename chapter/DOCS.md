@@ -3,15 +3,15 @@
 ## Overview
 
 Chapter is a literary website template for a novelist. The demo author is **Clemency Thorne**, a fictional
-crime and historical novelist who lives in Canterbury, with four Esme Lark mysteries set on Romney Marsh,
+crime and historical novelist who lives in Salem, Massachusetts, with four Esme Lark mysteries set on the Great Marsh,
 two standalone novels and a new book, *The Glass Marsh*, on the way. The design borrows from a well-set book
 jacket: a book-face serif, generous margins, cream paper with a faint grain, fleuron ornaments and a jacket
 drawn in SVG for every book. It is built with plain HTML, Tailwind CSS v4 and one vanilla JavaScript file,
-with no build step needed to run it. This is version 1.0.2 (see `template.json` and
+with no build step needed to run it. This is version 1.0.5 (see `template.json` and
 [CHANGELOG.md](CHANGELOG.md)). Live demo: [freeframe.dev/templates/chapter](https://freeframe.dev/templates/chapter).
 
-Copy uses British English, prices are in pounds (GBP) and every date and time is UK time
-(`Europe/London`, GMT in winter and BST in summer).
+Copy uses American English, prices are in US dollars (USD) and every date and time is Eastern time
+(`America/New_York`, EST in winter and EDT in summer), on a 12-hour clock.
 
 ## Quick start
 
@@ -33,7 +33,7 @@ You only need Node.js 24 or newer if you want to change the styles and rebuild t
 | `index.html` | Home | New-release hero with jacket, countdown to publication day (or "out now"), pre-order links, early praise, the opening lines, "continue reading" bookmark, the series in reading order, author introduction, next three events, newsletter sign-up |
 | `books.html` | The backlist | Series/standalone filter with counts (`?show=`), reading order or newest first (`?order=`), a "reading: page N of M" badge for books you have started |
 | `book.html` | One book (`?id=`) | Jacket, blurb, countdown when not yet published, buy links, formats with ISBNs and prices, reviews, first-chapter reader, the rest of the series, book club link |
-| `events.html` | Events | Upcoming events in UK time, in person/online filter (`?format=`), visitor's own time for online events, `.ics` downloads, invitation information |
+| `events.html` | Events | Upcoming events in Eastern time, in person/online filter (`?format=`), visitor's own time for online events, `.ics` downloads, invitation information |
 | `about.html` | About Clemency | Biography, SVG portrait, map of the places in the books, timeline, questions people ask |
 | `book-clubs.html` | Book club guides (`?book=`) | Book picker, themes, discussion questions, `.txt` and printable `.svg` guide downloads, copy button, hosting tips |
 | `press.html` | Press and media kit | Short and long biographies with copy buttons, new-book details, generated press release and fact sheet, portrait and jacket downloads, contacts with copy-email buttons |
@@ -117,12 +117,12 @@ the top of `assets/js/main.js`:
 | Constant | What it holds |
 |----------|---------------|
 | `SITE_NAME`, `SITE_URL` | Author name and the site address used in downloads and calendar files |
-| `TIMEZONE`, `LOCALE`, `CURRENCY` | `'Europe/London'`, `'en-GB'`, `'GBP'` |
+| `TIMEZONE`, `LOCALE`, `CURRENCY` | `'America/New_York'`, `'en-US'`, `'USD'` |
 | `STORAGE_KEYS` | `{ reader: 'chapter-reader', size: 'chapter-reader-size' }` |
 | `NEW_RELEASE` | Id of the book the home page, announcement bar and `book.html` without `?id=` are about (`'the-glass-marsh'`) |
 | `KEEP_DEMO_CURRENT`, `DEMO_ANCHOR` | `true` and `'2026-10-17'`: move the new book's publication day and every event forward in whole weeks (see [Demo dates](#demo-dates)) |
 | `RETAILERS` | Bookstores: name, a short note and the link prefix (`url + book id`) |
-| `FORMAT_NAMES` | `hardback`, `paperback`, `ebook`, `audio` |
+| `FORMAT_NAMES` | `hardback` (shown as Hardcover), `paperback`, `ebook`, `audio` |
 | `SERIES` | Series names and jacket label (`lark`) |
 | `BOOKS` | Every book: jacket, blurb, formats, reviews, first chapter, themes and questions |
 | `EVENTS` | Events with date, times, venue, price and booking link |
@@ -133,14 +133,14 @@ A book looks like this (shortened):
 
 ```js
 {
-  id: 'salt-and-shingle', title: 'Salt and Shingle', lines: ['Salt and', 'Shingle'], series: 'lark', no: 2, pub: '2020-05-07',
-  imprint: 'Finch & Holloway', genre: 'Crime', setting: 'Hythe and the Royal Military Canal',
+  id: 'salt-and-shingle', title: 'Salt and Shingle', lines: ['Salt and', 'Shingle'], series: 'lark', no: 2, pub: '2020-05-05',
+  imprint: 'Finch & Holloway', genre: 'Crime', setting: 'Gloucester and the Blynman Canal',
   jacket: { motif: 'shingle', bg: '#8e3a24', fg: '#f7ecdc', accent: '#f0c9a1', line: '#e2b878' },
   tagline: 'Every stone on the beach has a story. One of them is a lie.',
   blurb: ['First paragraph.', 'Second paragraph.'],
   formats: [
-    { type: 'paperback', isbn: '978-1-0000-1221-7', pages: 352, price: 8.99, retailers: ['spine-and-story', 'bookhound', 'pagecraft'] },
-    { type: 'audio', isbn: '978-1-0000-1227-9', length: '9 h 56 min', narrator: 'Philippa Strand', price: 17.99, retailers: ['listen-lane'] }
+    { type: 'paperback', isbn: '978-1-0000-1221-7', pages: 352, price: 16.99, retailers: ['spine-and-story', 'bookhound', 'pagecraft'] },
+    { type: 'audio', isbn: '978-1-0000-1227-9', length: '9 h 56 min', narrator: 'Philippa Strand', price: 18.99, retailers: ['listen-lane'] }
   ],
   reviews: [{ quote: 'Sun, sea and slow dread.', source: 'Dead Letter Quarterly' }],
   extract: { chapter: 'Chapter One', heading: 'Bunting', pages: [['Paragraph', 'Paragraph'], ['Paragraph']] },
@@ -150,8 +150,8 @@ A book looks like this (shortened):
 ```
 
 - `series` is a key of `SERIES`, or `null` for a standalone; `no` is the place in the reading order.
-- `pub` is the UK publication day. A book whose day hasn't come yet shows "Pre-order", the countdown and
-  "Out <date>"; from midnight UK time on that day it shows "Buy" and its year.
+- `pub` is the US publication day (new books usually come out on a Tuesday). A book whose day hasn't come yet shows "Pre-order", the countdown and
+  "Out <date>"; from midnight Eastern time on that day it shows "Buy" and its year.
 - `lines` is how the title breaks on the jacket. A line that is just `The` is set small and italic.
 - `extract.pages` holds the first chapter, one array of paragraphs per reader page. A paragraph of
   `'* * *'` is drawn as a section break.
@@ -162,12 +162,12 @@ Link to a book with `book.html?id=<id>`; add `#read` to open the reader straight
 An event:
 
 ```js
-{ id: 'winter-words', title: 'Winter Words', format: 'in-person', kind: 'Festival talk', venue: 'Lewes Town Hall',
-  town: 'Lewes', date: '2026-12-05', start: '15:00', end: '16:00', price: 9, book: 'the-glass-marsh',
+{ id: 'winter-words', title: 'Winter Words', format: 'in-person', kind: 'Festival talk', venue: 'Concord Town House',
+  town: 'Concord', date: '2026-12-05', start: '15:00', end: '16:00', price: 15, book: 'the-glass-marsh',
   url: 'https://example.com/tickets', blurb: 'A winter book festival talk and reading.' }
 ```
 
-`date`, `start` and `end` are wall-clock times in `TIMEZONE`. `price: 0` shows "Free, booking needed".
+`date`, `start` and `end` are wall-clock times in `TIMEZONE`, on a 24-hour clock in the data (shown as 7:00 PM). `price: 0` shows "Free, registration required".
 `launch: true` adds a "Launch night" badge. An event disappears once its end time has passed.
 
 ### Demo dates
@@ -175,14 +175,14 @@ An event:
 A template can wait a long time between downloads, so nothing dated is allowed to go stale. While
 `KEEP_DEMO_CURRENT` is `true`, every event and every book whose `pub` is after `DEMO_ANCHOR` moves forward
 by the number of whole weeks since `DEMO_ANCHOR`. Weekdays and times never change, so publication day is
-always a Thursday about three to four weeks away and the launch party is always on publication night.
+always a Tuesday about three weeks away and the launch party is always on publication night.
 
 ```js
 var KEEP_DEMO_CURRENT = true;     // false once BOOKS and EVENTS have your real dates
 var DEMO_ANCHOR = '2026-10-17';   // the week the demo dates were written for
 ```
 
-**Set `KEEP_DEMO_CURRENT = false` when you enter real dates.** The countdown then ends at midnight UK
+**Set `KEEP_DEMO_CURRENT = false` when you enter real dates.** The countdown then ends at midnight Eastern
 time on publication day, the site switches to "out now" by itself (hero, announcement bar, buy links and
 book page) and past events disappear.
 
@@ -190,10 +190,10 @@ What the demo shows at a few fixed clocks (useful for tests):
 
 | Clock (UTC) | `KEEP_DEMO_CURRENT` | Publication day and countdown | Events |
 |-------------|--------------------|-------------------------------|--------|
-| 2026-10-17 10:00 | `true` | Thursday 12 November, 25 days 14 hours 00 minutes | 9 upcoming (6 in person, 3 online); first: The Reading Room, live, Monday 19 October, 19:00–20:00 BST |
-| 2026-10-23 12:00 | `true` | Thursday 12 November, 19 days 12 hours | 8 upcoming; the 19 October event is over and hidden; first: Whitstable Library, Saturday 24 October, 14:00–15:15 BST |
-| 2026-10-26 12:00 | `true` | Thursday 19 November, 23 days 12 hours | 9 upcoming; first: Monday 26 October, 19:00–20:00 GMT |
-| 2026-11-12 09:00 | `false` | "Out now"; buy links say "Buy" | 7 upcoming; first: the launch party, 18:30–20:30 GMT |
+| 2026-10-17 10:00 | `true` | Tuesday, November 10, 23 days 19 hours 00 minutes | 9 upcoming (6 in person, 3 online); first: The Reading Room, live, Monday, October 19, 7:00–8:00 PM EDT |
+| 2026-10-23 12:00 | `true` | Tuesday, November 10, 17 days 17 hours | 8 upcoming; the October 19 event is over and hidden; first: Newburyport Public Library, Saturday, October 24, 2:00–3:15 PM EDT |
+| 2026-10-26 12:00 | `true` | Tuesday, November 17, 21 days 17 hours | 9 upcoming; first: Monday, October 26, 7:00–8:00 PM EDT |
+| 2026-11-10 14:00 | `false` | "Out now"; buy links say "Buy" | 7 upcoming; first: the launch party, 6:30–8:30 PM EST |
 
 ### Images and artwork
 
@@ -270,7 +270,7 @@ page shows the next three (`[data-next-events]`), or a newsletter prompt when th
 ### Book club guides
 
 `book-clubs.html` fills its `<select>` from `BOOKS` and shows the chosen book's themes and questions
-(`?book=<id>`). **Download the guide** saves a plain-text file and **Printable page** an A4-sized SVG
+(`?book=<id>`). **Download the guide** saves a plain-text file and **Printable page** a US Letter-sized SVG
 with the jacket and numbered questions (`guideText()` and `guideSVG()`). **Copy the questions** copies the
 list.
 
@@ -390,7 +390,7 @@ All links are relative, so it also works in a subfolder.
 - **The publication day or event dates are wrong.** `KEEP_DEMO_CURRENT` is still `true`, so dates are moved
   forward. Set it to `false` once `BOOKS` and `EVENTS` have your real dates.
 - **The site still says "Pre-order" after publication.** Check the book's `pub` date and that
-  `NEW_RELEASE` is its id. The switch happens at midnight UK time.
+  `NEW_RELEASE` is its id. The switch happens at midnight Eastern time.
 - **No events are listed.** With `KEEP_DEMO_CURRENT = false`, every event's end time has passed. Add new
   ones to `EVENTS`.
 - **The reader opens on the wrong page.** It resumes where you stopped. Press **Start again** at the end of

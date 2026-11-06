@@ -1,4 +1,4 @@
-/* Praxlet catalogue: prices in pence, current in mA, dimensions in millimetres. */
+/* Praxlet catalog: prices in cents, current in mA, dimensions in millimeters. */
 window.PRAXLET_DATA = {
   modules: [
     {
@@ -21,13 +21,13 @@ window.PRAXLET_DATA = {
         digital: 12,
         analogue: 4,
       },
-      description: "A clearly labelled controller for wheeled projects, sensing and small mechanisms.",
+      description: "A clearly labeled controller for wheeled projects, sensing and small mechanisms.",
       note: "Six PWM outputs and a removable terminal strip make repeated classroom wiring easier.",
       includes: ["Controller board", "Mounting standoffs", "Pin reference card"],
       steps: [
         "Start with power disconnected.",
         "Match the supply selector to 5 V.",
-        "Connect one module at a time and check the labelled pins.",
+        "Connect one module at a time and check the labeled pins.",
       ],
     },
     {
@@ -146,7 +146,7 @@ window.PRAXLET_DATA = {
       code: "PX-M02",
       description: "A single geared motor for a conveyor, lift model or slow rotating platform.",
       note: "Use the supplied driver. Do not connect a motor directly to a controller pin.",
-      includes: ["Motor with driver", "Shaft adaptor", "Bracket"],
+      includes: ["Motor with driver", "Shaft adapter", "Bracket"],
       steps: [
         "Secure the bracket before fitting a mechanism.",
         "Check the mechanism can move without force.",
@@ -169,9 +169,9 @@ window.PRAXLET_DATA = {
       code: "PX-M03",
       description: "A compact position servo for pan mounts, pointers and light mechanisms.",
       note: "The 260 mA planning figure is an allowance, not a stall-current guarantee. Keep fingers clear.",
-      includes: ["Servo", "Three horn shapes", "Fixing screws"],
+      includes: ["Servo", "Three horn shapes", "Mounting screws"],
       steps: [
-        "Centre the servo before fitting the horn.",
+        "Center the servo before fitting the horn.",
         "Choose travel limits that avoid mechanical stops.",
         "Remove power before adjusting the linkage.",
       ],
@@ -300,7 +300,7 @@ window.PRAXLET_DATA = {
     {
       id: "redfern",
       name: "Redfern",
-      title: "Three-colour signal tower",
+      title: "Three-color signal tower",
       category: "Output",
       price: 1200,
       voltage: 5,
@@ -311,12 +311,12 @@ window.PRAXLET_DATA = {
       mass: 18,
       dimensions: "76 × 22 × 20 mm",
       code: "PX-O02",
-      description: "A three-colour indicator that makes a small model’s state visible across a table.",
-      note: "Colour should be paired with a label or display message, rather than carrying meaning alone.",
-      includes: ["Signal module", "Three-wire control lead", "Base clip"],
+      description: "A three-color indicator that makes a small model’s state visible across a table.",
+      note: "Color should be paired with a label or display message, rather than carrying meaning alone.",
+      includes: ["Signal module", "Three-wire control cable", "Base clip"],
       steps: [
-        "Connect one labelled output per colour.",
-        "Give each state a clear name in the programme.",
+        "Connect one labeled output per color.",
+        "Give each state a clear name in the program.",
         "Test one indicator at a time before combining states.",
       ],
     },
@@ -344,7 +344,7 @@ window.PRAXLET_DATA = {
       steps: [
         "Install the lower electronics before fitting the deck.",
         "Check cables cannot be pinched by a standoff.",
-        "Keep the centre of gravity over the base.",
+        "Keep the center of gravity over the base.",
       ],
     },
     {
@@ -368,7 +368,7 @@ window.PRAXLET_DATA = {
       note: "Requires a Pivotspark servo. Check both cable slack and travel limits before powering movement.",
       includes: ["Pan bracket", "Sensor plate", "Fasteners"],
       steps: [
-        "Centre the servo before assembling the bracket.",
+        "Center the servo before assembling the bracket.",
         "Leave a gentle loop in the sensor cable.",
         "Set limits that stop before any cable becomes tight.",
       ],
@@ -464,12 +464,12 @@ window.PRAXLET_DATA = {
       },
       voltage: 5,
       steps: [
-        "Fit the pan mount with its servo centred.",
+        "Fit the pan mount with its servo centered.",
         "Set conservative travel limits and check cable slack.",
         "Record readings at five fixed angles.",
         "Plot distance by angle and compare two target materials.",
       ],
-      learn: "Position control, arrays and visualising measurements",
+      learn: "Position control, arrays and visualizing measurements",
       art: "survey",
     },
     {
@@ -492,7 +492,7 @@ window.PRAXLET_DATA = {
         "Set gripper limits without an object in place.",
         "Use foam blocks and a clear working area.",
         "Write states for wait, detect, grip and release.",
-        "Pair every indicator colour with a printed state label.",
+        "Pair every indicator color with a printed state label.",
       ],
       learn: "State machines, timing and careful mechanical limits",
       art: "sort",
@@ -553,12 +553,12 @@ window.PRAXLET_DATA = {
       title: "First power, without guesswork",
       summary: "Start with an unpowered build and one module at a time.",
       steps: [
-        "Check the controller and supply voltage against the catalogue.",
-        "Inspect each cable for damage and match the labelled ground terminal.",
+        "Check the controller and supply voltage against the catalog.",
+        "Inspect each cable for damage and match the labeled ground terminal.",
         "Remove wheels or lift the base before the first motor test.",
         "Stop, disconnect and inspect if anything warms unexpectedly.",
       ],
-      caution: "Do not connect mains wiring or an unapproved supply to these modules.",
+      caution: "Do not connect household wiring or an unapproved supply to these modules.",
     },
     {
       id: "power-budget",
@@ -593,7 +593,7 @@ window.PRAXLET_DATA = {
       summary: "I²C modules share a pair of signal lines and need distinct addresses.",
       steps: [
         "Check the address in each module’s specification.",
-        "Keep leads short and route ground with the signals.",
+        "Keep wires short and route ground with the signals.",
         "Connect a second device only after the first is responding.",
         "Avoid using two fixed-address copies on the same bus.",
       ],
@@ -644,7 +644,7 @@ window.PRAXLET_DATA = {
       title: "Give a servo a sensible range",
       summary: "A mechanical stop is not a software limit.",
       steps: [
-        "Centre the servo before fitting a horn or linkage.",
+        "Center the servo before fitting a horn or linkage.",
         "Move through a small range with the mechanism clear.",
         "Increase the range only after checking the load and cable path.",
         "Record the final limits alongside the project code.",
@@ -658,11 +658,11 @@ window.PRAXLET_DATA = {
       summary: "A readable model is easier to test and easier to discuss.",
       steps: [
         "Label both ends of a cable.",
-        "Use a short name for each programme state.",
-        "Pair colour with text or a position.",
+        "Use a short name for each program state.",
+        "Pair color with text or a position.",
         "Keep the pin card and build record with the model.",
       ],
-      caution: "Do not rely on colour alone to communicate a state.",
+      caution: "Do not rely on color alone to communicate a state.",
     },
     {
       id: "repeat-tests",
@@ -684,7 +684,7 @@ window.PRAXLET_DATA = {
       summary: "A stored kit should be ready to inspect before it is ready to power.",
       steps: [
         "Disconnect the supply and remove loose objects.",
-        "Check leads for trapped or damaged insulation.",
+        "Check cables for trapped or damaged insulation.",
         "Store moving parts without tension on their cables.",
         "Keep a short note of the voltage, module list and last useful result.",
       ],
@@ -698,27 +698,27 @@ window.PRAXLET_DATA = {
       steps: [
         "Include the controller, supply voltage and module codes.",
         "Describe the expected result and what actually happened.",
-        "Note whether the behaviour repeats with one module connected.",
-        "Keep personal details and photographs of pupils out of the request.",
+        "Note whether the behavior repeats with one module connected.",
+        "Keep personal details and photographs of students out of the request.",
       ],
-      caution: "Never share passwords, private account details or identifying pupil information.",
+      caution: "Never share passwords, private account details or identifying student information.",
     },
   ],
   team: [
     {
-      name: "Rhydian Tremayne",
+      name: "Lucien Thibault",
       role: "Hardware & test benches",
-      bio: "Rhydian turns a promising circuit into a module that can be explained, reassembled and checked. He is happiest when the pin labels make the next question obvious.",
+      bio: "Lucien turns a promising circuit into a module that can be explained, reassembled and checked. He is happiest when the pin labels make the next question obvious.",
     },
     {
-      name: "Merryn Winterbourne",
+      name: "Joelle Wentworth",
       role: "Learning & project design",
-      bio: "Merryn starts with the question a learner can investigate. She writes our projects around careful comparisons, visible states and a result worth discussing.",
+      bio: "Joelle starts with the question a learner can investigate. She writes our projects around careful comparisons, visible states and a result worth discussing.",
     },
     {
-      name: "Alaric Gellibrand",
+      name: "Marcel Gagnon",
       role: "Build support & operations",
-      bio: "Alaric keeps the parts, notes and practical details together. He helps teachers and clubs turn a first module list into a manageable session.",
+      bio: "Marcel keeps the parts, notes and practical details together. He helps teachers and clubs turn a first module list into a manageable session.",
     },
   ],
 };

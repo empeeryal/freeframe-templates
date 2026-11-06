@@ -1,23 +1,24 @@
 /* Drift (Nightjar) — site scripts. Vanilla JavaScript, no dependencies.
  *
  *  1. Content and settings (data you can edit)
- *  2. Helpers: safe storage, own-key checks, time maths, toast, clipboard
+ *  2. Helpers: safe storage, own-key checks, time math, toast, clipboard
  *  3. Theme toggle
  *  4. Header, mobile menu, footer year
  *  5. Scroll reveal
  *  6. Feature tour tabs (home)
  *  7. Wind-down routine builder (features)
  *  8. Bedtime calculator (calculator)
- *  9. Sound library: filters, search, favourites and previews (sounds)
+ *  9. Sound library: filters, search, favorites and previews (sounds)
  * 10. Pricing billing switch (pricing)
  * 11. Reviews filter and sort (reviews)
  * 12. Guides topic filter (guides)
- * 13. Help centre search (support)
+ * 13. Help center search (support)
  * 14. Forms
  * 15. Copy buttons (press kit)
  * Back to top button (separate block at the end)
  *
- * Times are local clock times on the visitor's device (no time zone conversion).
+ * Times are local clock times on the visitor's device (no time zone conversion),
+ * kept as 24-hour "HH:MM" and shown on a 12-hour clock by clock12().
  */
 (function () {
   'use strict';
@@ -35,7 +36,7 @@
   };
 
   // Bedtime calculator.
-  var CYCLE_MINUTES = 90;              // length of one sleep cycle used for the maths
+  var CYCLE_MINUTES = 90;              // length of one sleep cycle used for the math
   var CYCLE_COUNTS = [6, 5, 4, 3];     // options shown, most sleep first
   var SUGGESTED_CYCLES = { 5: true, 6: true };   // highlighted as "Suggested"
   var CALC_MODES = {
@@ -48,7 +49,7 @@
   // Wind-down routine builder. Steps run in this order.
   var ROUTINE_STEPS = {
     dim: { label: 'Dim the lights', minutes: 5 },
-    screens: { label: 'Phone on charge, out of reach', minutes: 2 },
+    screens: { label: 'Phone on the charger, out of reach', minutes: 2 },
     shower: { label: 'Warm shower or bath', minutes: 15 },
     stretch: { label: 'Gentle stretches', minutes: 8 },
     journal: { label: 'Write tomorrow’s to-do list', minutes: 5 },
@@ -83,11 +84,11 @@
   var PREVIEW_SECONDS = 30;
   var SOUND_CATEGORIES = { all: true, rain: true, nature: true, noise: true, ambient: true, favourites: true };
 
-  // Pricing (GBP, VAT included). Annual prices are what's charged once a year.
+  // Pricing (US dollars, before any sales tax). Annual prices are what's charged once a year.
   var PLANS = {
     free: { monthly: 0, annual: 0 },
-    premium: { monthly: 5.99, annual: 47.99 },
-    family: { monthly: 9.99, annual: 79.99 }
+    premium: { monthly: 6.99, annual: 55.99 },
+    family: { monthly: 11.99, annual: 95.99 }
   };
   var BILLING = { monthly: true, annual: true };
 
@@ -146,6 +147,13 @@
     var m = ((Math.round(mins) % 1440) + 1440) % 1440;
     var h = Math.floor(m / 60), mm = m % 60;
     return (h < 10 ? '0' : '') + h + ':' + (mm < 10 ? '0' : '') + mm;
+  }
+  // "HH:MM" -> "10:45 PM", for anything a visitor reads.
+  function clock12(t) {
+    var mins = toMinutes(t);
+    if (mins === null) return t;
+    var h = Math.floor(mins / 60), mm = mins % 60;
+    return (h % 12 || 12) + ':' + (mm < 10 ? '0' : '') + mm + (h < 12 ? ' AM' : ' PM');
   }
   function nowTime() {
     var d = new Date();
@@ -310,7 +318,7 @@
   }
 
   /* ------------------------------------------------------------------
-   * 7. Wind-down routine builder: tick steps and a lights-out time; the plan
+   * 7. Wind-down routine builder: check steps and a lights-out time; the plan
    *    counts back to the start time. Saved under STORAGE.routine.
    * ------------------------------------------------------------------ */
   function initRoutine() {
@@ -340,20 +348,20 @@
     function render() {
       $$('input[name="step"]', stepsEl).forEach(function (cb) { cb.checked = state.steps.indexOf(cb.value) !== -1; });
       lights.value = state.lightsOut;
-      // Keep the order of ROUTINE_STEPS, not the order the boxes were ticked.
+      // Keep the order of ROUTINE_STEPS, not the order the boxes were checked.
       var chosen = Object.keys(ROUTINE_STEPS).filter(function (id) { return state.steps.indexOf(id) !== -1; });
       var total = chosen.reduce(function (n, id) { return n + ROUTINE_STEPS[id].minutes; }, 0);
       var end = toMinutes(state.lightsOut);
       var start = end - total;
-      $('[data-routine-start]', box).textContent = chosen.length ? 'Start winding down at ' + toTime(start) : 'Pick a step or two to begin';
-      $('[data-routine-summary]', box).textContent = plural(chosen.length, 'step') + ' · ' + durationText(total) + ' before lights out at ' + state.lightsOut;
+      $('[data-routine-start]', box).textContent = chosen.length ? 'Start winding down at ' + clock12(toTime(start)) : 'Pick a step or two to begin';
+      $('[data-routine-summary]', box).textContent = plural(chosen.length, 'step') + ' · ' + durationText(total) + ' before lights out at ' + clock12(state.lightsOut);
       var t = start;
       var rows = chosen.map(function (id) {
-        var row = '<li class="flex items-center gap-4 rounded-2xl border border-line bg-card/60 px-4 py-3"><span class="w-14 shrink-0 font-serif text-xl tabular-nums text-accent">' + toTime(t) + '</span><span class="flex-1 font-bold">' + escapeHtml(ROUTINE_STEPS[id].label) + '</span><span class="text-sm text-subtle">' + ROUTINE_STEPS[id].minutes + ' min</span></li>';
+        var row = '<li class="flex items-center gap-4 rounded-2xl border border-line bg-card/60 px-4 py-3"><span class="w-20 shrink-0 whitespace-nowrap font-serif text-xl tabular-nums text-accent">' + clock12(toTime(t)) + '</span><span class="flex-1 font-bold">' + escapeHtml(ROUTINE_STEPS[id].label) + '</span><span class="text-sm text-subtle">' + ROUTINE_STEPS[id].minutes + ' min</span></li>';
         t += ROUTINE_STEPS[id].minutes;
         return row;
       });
-      rows.push('<li class="flex items-center gap-4 rounded-2xl bg-cta px-4 py-3 text-cta-fg"><span class="w-14 shrink-0 font-serif text-xl tabular-nums">' + state.lightsOut + '</span><span class="flex-1 font-extrabold">Lights out</span></li>');
+      rows.push('<li class="flex items-center gap-4 rounded-2xl bg-cta px-4 py-3 text-cta-fg"><span class="w-20 shrink-0 whitespace-nowrap font-serif text-xl tabular-nums">' + clock12(state.lightsOut) + '</span><span class="flex-1 font-extrabold">Lights out</span></li>');
       $('[data-routine-list]', box).innerHTML = rows.join('');
     }
     function save() { writeJSON(STORAGE.routine, state); }
@@ -429,14 +437,14 @@
       $('[data-calc-heading]', box).textContent = mode.heading;
       nowBtn.hidden = state.mode !== 'bed';
       $('[data-calc-intro]', box).textContent = state.mode === 'wake'
-        ? 'To wake up at ' + state.time + ', aim to be in bed by one of these times. We’ve allowed about ' + plural(state.latency, 'minute') + ' to fall asleep.'
-        : 'If you’re in bed at ' + state.time + ' and fall asleep in about ' + plural(state.latency, 'minute') + ', try waking at one of these times.';
+        ? 'To wake up at ' + clock12(state.time) + ', aim to be in bed by one of these times. We’ve allowed about ' + plural(state.latency, 'minute') + ' to fall asleep.'
+        : 'If you’re in bed at ' + clock12(state.time) + ' and fall asleep in about ' + plural(state.latency, 'minute') + ', try waking at one of these times.';
       $('[data-calc-results]', box).innerHTML = calcTimes(state.mode, state.time, state.latency).map(function (r) {
         var best = own(SUGGESTED_CYCLES, r.cycles);
         return '<li class="relative rounded-2xl border p-5 ' + (best ? 'border-moon/60 bg-raised' : 'border-line bg-card/60') + '" data-calc-result>' +
           (best ? '<span class="absolute top-4 right-4 rounded-full bg-cta px-2.5 py-0.5 text-xs font-extrabold text-cta-fg">Suggested</span>' : '') +
           '<span class="block text-sm font-bold text-muted">' + mode.verb + '</span>' +
-          '<span class="mt-1 block font-serif text-4xl tabular-nums" data-calc-time>' + r.time + '</span>' +
+          '<span class="mt-1 block font-serif text-4xl tabular-nums" data-calc-time>' + clock12(r.time) + '</span>' +
           '<span class="mt-2 block text-sm text-muted">' + plural(r.cycles, 'cycle') + ' · ' + durationText(r.sleepMinutes) + ' of sleep</span></li>';
       }).join('');
       if (persist) {
@@ -456,7 +464,7 @@
       if (toMinutes(timeEl.value) === null) {
         timeEl.setAttribute('aria-invalid', 'true');
         timeEl.focus();
-        toast('Enter a time like 07:00');
+        toast('Enter a time like 7:00 AM');
         return;
       }
       timeEl.removeAttribute('aria-invalid');
@@ -476,7 +484,7 @@
   }
 
   /* ------------------------------------------------------------------
-   * 9. Sound library. Filters (?cat=rain), search, favourites saved under
+   * 9. Sound library. Filters (?cat=rain), search, favorites saved under
    *    STORAGE.favourites, and one preview at a time that stops after
    *    PREVIEW_SECONDS. Without Web Audio, the buttons still show their state.
    * ------------------------------------------------------------------ */
@@ -670,13 +678,13 @@
         if (at === -1) favs.push(id); else favs.splice(at, 1);
         writeJSON(STORAGE.favourites, favs);
         renderFavs();
-        toast(at === -1 ? name + ' saved to favourites' : name + ' removed from favourites');
+        toast(at === -1 ? name + ' saved to favorites' : name + ' removed from favorites');
         if (filter === 'favourites') apply();
       } else if (play) {
         if (playing === id) { stop(); return; }
         var started = startAudio(id);
         setPlaying(id, started);
-        if (!started && !warned) { warned = true; toast('Your browser can’t play previews, but you can still save favourites'); }
+        if (!started && !warned) { warned = true; toast('Your browser can’t play previews, but you can still save favorites'); }
       }
     });
     $$('[data-filter]').forEach(function (b) {
@@ -706,7 +714,7 @@
   /* ------------------------------------------------------------------
    * 10. Pricing: monthly / annual switch (?billing=annual).
    * ------------------------------------------------------------------ */
-  var gbp = function (n) { return '£' + n.toFixed(2); };
+  var gbp = function (n) { return '$' + n.toFixed(2); };
   function initPricing() {
     var sw = $('[data-billing-switch]');
     if (!sw) return;
@@ -721,7 +729,7 @@
         var periodEl = $('[data-period="' + id + '"]');
         var billedEl = $('[data-billed="' + id + '"]');
         if (!p.monthly) {
-          priceEl.textContent = '£0';
+          priceEl.textContent = '$0';
           periodEl.textContent = 'forever';
           billedEl.textContent = 'No card, no account needed.';
           return;
@@ -735,7 +743,7 @@
         } else {
           priceEl.textContent = gbp(p.monthly);
           periodEl.textContent = '/month';
-          billedEl.textContent = 'Billed monthly. Cancel any time.';
+          billedEl.textContent = 'Billed monthly. Cancel anytime.';
         }
       });
     }
@@ -833,7 +841,7 @@
   }
 
   /* ------------------------------------------------------------------
-   * 13. Help centre search: filters questions and answers as you type.
+   * 13. Help center search: filters questions and answers as you type.
    * ------------------------------------------------------------------ */
   function initFaqSearch() {
     var input = $('[data-faq-search]');

@@ -17,7 +17,7 @@
   --color-ink: #1d1626;         /* text, outlines and hard shadows */
   --color-muted: #554c60;       /* secondary text (AA on paper and white) */
 
-  /* Marker colours: fills with ink text on top. */
+  /* Marker colors: fills with ink text on top. */
   --color-pink: #ff6fae;
   --color-pink-soft: #ffd9ea;
   --color-blue: #6d93ff;
@@ -31,7 +31,7 @@
   --color-lilac: #b9a2ff;
   --color-lilac-soft: #ebe3ff;
 
-  /* Marker colours as text on white (AA contrast). */
+  /* Marker colors as text on white (AA contrast). */
   --color-pink-ink: #b8135f;
   --color-blue-ink: #2443c4;
   --color-green-ink: #0d6b49;

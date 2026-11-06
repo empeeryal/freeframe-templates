@@ -1,6 +1,6 @@
 # Tracewick
 
-A nine-page HTML5 and Tailwind CSS v4 observability website, version 1.0.0.
+A nine-page HTML5 and Tailwind CSS v4 observability website, version 1.0.2.
 
 Open `index.html` in a browser. Compiled CSS and dependency-free JavaScript are included. The selected Rajdhani and Golos Text fonts load from Google Fonts.
 

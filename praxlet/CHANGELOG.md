@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-11-05
+
+### Changed
+
+- Set in Nashua, New Hampshire, with American spelling, US dollars, US phone numbers and local details.
+- Prices now show before sales tax, and replies and shipping are counted in business days.
+
 ## [1.0.1] - 2026-11-05
 
 ### Changed

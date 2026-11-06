@@ -2,7 +2,7 @@
 
 ## Overview
 
-Praxlet is a fictional educational robotics and modular hardware company in Oundle. This HTML and Tailwind CSS v4 template includes a sixteen-module catalog, a compatible kit planner, project guides, field notes and a business inquiry form. This is version 1.0.1. Visit the [template page](https://freeframe.dev/templates/praxlet) for the live preview.
+Praxlet is a fictional educational robotics and modular hardware company in Nashua, New Hampshire. This HTML and Tailwind CSS v4 template includes a sixteen-module catalog, a compatible kit planner, project guides, field notes and a business inquiry form. This is version 1.0.2. Visit the [template page](https://freeframe.dev/templates/praxlet) for the live preview.
 
 ## Quick start
 
@@ -30,7 +30,7 @@ Google Fonts requires an internet connection; system sans-serif fallbacks remain
 | `configurator.html` | Kit bench          | Presets, quantities, compatibility checks, budget and class-set totals, named builds    |
 | `projects.html`     | Project bench      | Six parts lists, learning aims, expandable methods and planner links                    |
 | `docs.html`         | Field notes        | Twelve searchable guides with practical steps and cautions                              |
-| `company.html`      | Company story      | Principles, three team members and Oundle workshop information                          |
+| `company.html`      | Company story      | Principles, three team members and Nashua workshop information                          |
 | `contact.html`      | Inquiries          | Validated request, kit quote with parts list and total, success reference and next steps |
 | `404.html`          | Error recovery     | Links to the catalog, kit bench and company contact                                   |
 
@@ -56,12 +56,12 @@ praxlet/
   projects.html              Six project methods
   docs.html                  Searchable field notes
   company.html               Team and workshop
-  contact.html               Enquiry form and success state
+  contact.html               Inquiry form and success state
   404.html                   Recovery page
   assets/
     css/style.css            Compiled Tailwind output
     js/data.js               Modules, projects, guides and team
-    js/main.js               Behaviour, validation and calculations
+    js/main.js               Behavior, validation and calculations
     img/                     Original SVG illustrations and sharing artwork
   src/input.css              Theme tokens, utilities and reusable components
   package.json               CSS build and watch commands
@@ -119,7 +119,7 @@ A module record includes these fields:
 | `id`, `name`, `code`         | Stable identifier, visible name and specimen code         |
 | `category`, `interface`      | Catalog grouping and electrical/mechanical connection   |
 | `voltage`, `current`         | Required logic/supply voltage and planning current in mA  |
-| `price`                      | Price in integer pence, including VAT                     |
+| `price`                      | Price in integer cents, before sales tax                  |
 | `slots`                      | Chassis mounting slots occupied by one unit               |
 | `dimensions`, `mass`         | Dimensions in mm and mass in g                            |
 | `description`, `note`        | Short introduction and module-specific practical guidance |
@@ -169,7 +169,7 @@ Update every copy when adding a page or changing the workshop details.
 Set `aria-current="page"` only on the current navigation link.
 The mobile toggle controls `#mobile-menu` through `data-menu-toggle`.
 Preserve the controlled ID, expanded state, visible labels and Escape behavior.
-The footer year is filled from the current date in Europe/London.
+The footer year is filled from the current date in America/New_York.
 The site follows one fixed light palette in both operating-system color preferences.
 There is no theme switch or saved dark-mode setting.
 
@@ -234,15 +234,15 @@ Keep the supervised low-voltage scope when adapting the content.
 `POWER_MARGIN` is 1.25: a 25% current allowance.
 Planning current is `ceil(sum(current × quantity) × POWER_MARGIN)`.
 The power bar is capped visually at 100%, while the actual number and overload warning remain visible.
-Cost is the sum of module price in pence multiplied by each quantity.
+Cost is the sum of module price in cents multiplied by each quantity.
 The budget difference is measured per kit; class cost multiplies kit cost by the kit count.
-The planner supports one to twelve kits and a per-kit budget from £0 to £10,000.
+The planner supports one to twelve kits and a per-kit budget from $0 to $10,000.
 Most modules allow one to four units; controllers, supply, chassis and upper deck allow one.
 `MAX_MODULE_QTY` controls the general quantity cap.
-The initial Line courier kit costs £220.00 and draws 455 mA before allowance.
+The initial Line courier kit costs $220.00 and draws 455 mA before allowance.
 Its planning allowance is 569 mA against the 1,200 mA supply.
 All six project presets are complete compatible builds using the supplied data.
-`money` and `number` format values using British English and GBP.
+`money` and `number` format values using US English and USD.
 
 ### Saved builds and bill of materials
 
@@ -284,18 +284,18 @@ It validates a name of at least two characters, a complete email, a twelve-chara
 Organization is optional.
 Errors appear beside their fields and in a live summary; focus moves to the first invalid field.
 The current kit is displayed as context but contact details are never placed in local storage.
-A valid submission hides the form and displays a focused success panel, a `PX-YYYYMMDD-####` reference and a two-working-day next step.
+A valid submission hides the form and displays a focused success panel, a `PX-YYYYMMDD-####` reference and a two-business-day next step.
 
 ### Kit quote request
 
 Choosing the `quote` topic (or arriving from the kit bench's "Request a quote for N kits" button) shows the
 `data-quote-kit` fieldset: the parts list from the current kit bench with line prices, a number of kits (1–12) and
-the per-kit and total prices including VAT. Changing the number of kits updates the total and the kit bench.
+the per-kit and total prices before sales tax. Changing the number of kits updates the total and the kit bench.
 The message is optional for a quote. An empty kit bench or a kit count outside 1–12 is reported beside the field.
 The submitted `FormData` carries `topic=quote`, `kits` and `partsList` (the same text as Copy parts list).
 Success hides the form and repeats the kit, number of kits and total with a `PX-QYYYYMMDD-####` quote reference and
 three next steps (stock and build check, a written quote by email valid for 30 days, purchase order or card and
-dispatch within five working days). Edit those steps in `initContact`.
+shipping within five business days). Edit those steps in `initContact`.
 No email delivery or confirmation is claimed.
 The Ask another question button resets the form and focuses the name field.
 The success panel uses scoped `overflow-wrap: anywhere` to keep long unbroken names within narrow screens.
@@ -413,9 +413,9 @@ Relative links work from a subdirectory without changing a base URL.
 Serve HTTPS for reliable clipboard access and connect the inquiry backend before launch.
 No API keys, wallet access or device-control credentials belong in these browser files.
 
-`TIME_ZONE` is `Europe/London`.
+`TIME_ZONE` is `America/New_York`.
 `londonDateKey` uses that zone for generated request references.
-The copyright uses the current London year at page load.
+The copyright uses the current year in that zone at page load.
 There are no fixed upcoming dates, simulated live inventory signals or event calendars to roll forward.
 If you do not need the year update, replace `data-year` elements with your chosen static text and remove that assignment in `main.js`.
 

@@ -2,7 +2,7 @@
  *
  *  1. Settings (time zone, storage keys, demo dates)
  *  2. Helpers (escaping, plurals, URL parameters, storage, downloads, toast)
- *  3. Time (every date and time is UK time, Europe/London)
+ *  3. Time (every date and time is Eastern time, America/New_York)
  *  4. Data: RETAILERS, SERIES, BOOKS, EVENTS, CONTACT_TOPICS
  *  5. Keeping the demo current (KEEP_DEMO_CURRENT)
  *  6. Artwork: book jackets drawn as SVG
@@ -22,9 +22,9 @@
   var SITE_NAME = 'Clemency Thorne';
   var SITE_URL = 'https://clemencythorne.example';
   // Every date and time (publication days, events) is wall-clock time here.
-  var TIMEZONE = 'Europe/London';
-  var LOCALE = 'en-GB';
-  var CURRENCY = 'GBP';
+  var TIMEZONE = 'America/New_York';
+  var LOCALE = 'en-US';
+  var CURRENCY = 'USD';
   // localStorage keys. Both are validated on every read.
   //   reader: { last: '<book id>', pages: { '<book id>': <page number> } }
   //   size:   'sm' | 'md' | 'lg' (reader text size)
@@ -33,7 +33,7 @@
   var NEW_RELEASE = 'the-glass-marsh';
   // Demo dates: the new book's publication day and the events below are written for the week of
   // DEMO_ANCHOR. While KEEP_DEMO_CURRENT is true they move forward in whole weeks, so the demo always
-  // has a countdown to a Thursday publication day and upcoming events (weekdays and times never
+  // has a countdown to a Tuesday publication day, the usual day for new books in the US, and upcoming events (weekdays and times never
   // change). Set it to false once you enter your real dates: the countdown then switches to
   // "Out now" on publication day and past events disappear on their own.
   var KEEP_DEMO_CURRENT = true;
@@ -144,13 +144,13 @@
      3. Time (always in TIMEZONE)
      ====================================================================== */
   function now() { return new Date(); }
-  var partsFmt = new Intl.DateTimeFormat('en-GB', { timeZone: TIMEZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' });
+  var partsFmt = new Intl.DateTimeFormat('en-US', { timeZone: TIMEZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' });
   function zoneParts(date) {
     var p = {};
     partsFmt.formatToParts(date).forEach(function (x) { p[x.type] = x.value; });
     return { y: +p.year, m: +p.month, d: +p.day, h: +p.hour % 24, mi: +p.minute, s: +p.second };
   }
-  // Milliseconds TIMEZONE is ahead of UTC at an instant (0 in winter, 1 h in summer for London).
+  // Milliseconds TIMEZONE is ahead of UTC at an instant (-5 h in winter, -4 h in summer for Eastern time).
   function offsetAt(ms) {
     var p = zoneParts(new Date(ms));
     return Date.UTC(p.y, p.m - 1, p.d, p.h, p.mi, p.s) - Math.floor(ms / 1000) * 1000;
@@ -167,19 +167,20 @@
   function dayNum(iso) { var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso); return m ? Date.UTC(+m[1], +m[2] - 1, +m[3]) / 864e5 : NaN; }
   function todayNum() { var p = zoneParts(now()); return Date.UTC(p.y, p.m - 1, p.d) / 864e5; }
   function isoFromDayNum(n) { return new Date(n * 864e5).toISOString().slice(0, 10); }
-  // 'Thursday 12 November' (the year is added when it isn't this year).
-  function longDay(iso, withWeekday) {
+  // 'Tuesday, November 10' (the year is added when it isn't this year, or when withYear is true).
+  function longDay(iso, withWeekday, withYear) {
     var d = new Date(dayNum(iso) * 864e5 + 12 * 36e5);
     var opts = { timeZone: 'UTC', day: 'numeric', month: 'long' };
     if (withWeekday !== false) opts.weekday = 'long';
-    if (+iso.slice(0, 4) !== zoneParts(now()).y) opts.year = 'numeric';
+    if (withYear || +iso.slice(0, 4) !== zoneParts(now()).y) opts.year = 'numeric';
     return new Intl.DateTimeFormat(LOCALE, opts).format(d);
   }
   function fmtIn(date, opts, zone) {
-    return new Intl.DateTimeFormat(LOCALE, Object.assign({ timeZone: zone || TIMEZONE }, opts)).format(date);
+    // Some browsers put a narrow no-break space before AM/PM; a plain space keeps copied text and downloads clean.
+    return new Intl.DateTimeFormat(LOCALE, Object.assign({ timeZone: zone || TIMEZONE }, opts)).format(date).replace(/\u202f/g, ' ');
   }
-  // Short zone label: browsers differ ("BST" or "GMT+1"), so London uses its own labels.
-  var ZONE_LABELS = { '0': 'GMT', '60': 'BST' };
+  // Short zone label: browsers differ ("EDT" or "GMT-4"), so Eastern time uses its own labels.
+  var ZONE_LABELS = { '-300': 'EST', '-240': 'EDT' };
   function zoneName(date, zone) {
     if (!zone || zone === TIMEZONE) {
       var mins = String(Math.round(offsetAt(date.getTime()) / 60000));
@@ -189,7 +190,13 @@
       .filter(function (p) { return p.type === 'timeZoneName'; })[0];
     return part ? part.value : '';
   }
-  function clock(date, zone) { return fmtIn(date, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }, zone); }
+  function clock(date, zone) { return fmtIn(date, { hour: 'numeric', minute: '2-digit', hourCycle: 'h12' }, zone); }
+  // '7:00–8:00 PM', or '11:00 AM–12:15 PM' when the two sides of noon differ.
+  function clockRange(start, end) {
+    var a = clock(start), b = clock(end);
+    if (a.slice(-2) === b.slice(-2)) a = a.slice(0, -3);
+    return a + '–' + b;
+  }
   var visitorZone = (function () { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { return ''; } })();
 
   /* ======================================================================
@@ -197,41 +204,41 @@
      ====================================================================== */
   // Where readers can buy the books. Links are built as url + book id.
   var RETAILERS = {
-    'spine-and-story': { name: 'Spine & Story', note: 'from your local independent bookshop', url: 'https://spineandstory.example/books/' },
-    bookhound: { name: 'Bookhound', note: 'free UK delivery', url: 'https://bookhound.example/title/' },
+    'spine-and-story': { name: 'Spine & Story', note: 'from your local independent bookstore', url: 'https://spineandstory.example/books/' },
+    bookhound: { name: 'Bookhound', note: 'free US shipping', url: 'https://bookhound.example/title/' },
     pagecraft: { name: 'Pagecraft', note: 'books, ebooks and audio', url: 'https://pagecraft.example/b/' },
     readwell: { name: 'Readwell', note: 'ebooks for every e-reader', url: 'https://readwell.example/ebook/' },
     'listen-lane': { name: 'Listen Lane', note: 'audiobooks', url: 'https://listenlane.example/listen/' }
   };
-  var FORMAT_NAMES = { hardback: 'Hardback', paperback: 'Paperback', ebook: 'Ebook', audio: 'Audiobook' };
+  var FORMAT_NAMES = { hardback: 'Hardcover', paperback: 'Paperback', ebook: 'Ebook', audio: 'Audiobook' };
 
   var SERIES = {
     lark: { name: 'The Esme Lark mysteries', label: 'An Esme Lark Mystery', short: 'Esme Lark' }
   };
 
   /* Every book. `series` is a key of SERIES or null for a standalone; `no` is its place in the
-     series reading order. `pub` is the UK publication day (YYYY-MM-DD): a book published after
+     series reading order. `pub` is the US publication day (YYYY-MM-DD): a book published after
      today shows "Pre-order" and a countdown. `lines` is how the title breaks on the jacket.
      `extract.pages` is the first chapter, one array of paragraphs per page ('* * *' is a
      section break). `questions` feed the book-club guide. */
   var BOOKS = [
     {
-      id: 'the-glass-marsh', title: 'The Glass Marsh', lines: ['The Glass', 'Marsh'], series: 'lark', no: 4, pub: '2026-11-12',
-      imprint: 'Finch & Holloway', genre: 'Crime', setting: 'Romney Marsh, in the hardest frost for forty years',
+      id: 'the-glass-marsh', title: 'The Glass Marsh', lines: ['The Glass', 'Marsh'], series: 'lark', no: 4, pub: '2026-11-10',
+      imprint: 'Finch & Holloway', genre: 'Crime', setting: 'The Great Marsh, in the hardest freeze in forty years',
       jacket: { motif: 'reeds', bg: '#1d3b2e', fg: '#f3ead7', accent: '#cfe3d4', line: '#c9a45a' },
       tagline: 'The marsh has frozen. Something has surfaced.',
       blurb: [
-        'In the hardest winter anyone on Romney Marsh can remember, the dykes freeze solid and a dog walker sees a lamp burning in the reeds at Fennick Sluice. Under the ice beneath it lies a woman in a wedding coat who went missing in 1987.',
+        'In the hardest winter anyone on the Great Marsh can remember, the creeks freeze solid and a dog walker sees a lamp burning in the reeds at Fennick Landing. Under the ice beneath it lies a woman in a wedding coat who went missing in 1987.',
         'Detective Sergeant Esme Lark knows the case. Everyone on the Marsh knows the case. What nobody can explain is why the lamp was lit last night, or who knew exactly where to find her.',
         'As the frost holds and the roads close, Esme is cut off with a village that has kept one secret for thirty-nine years and is quite prepared to keep it for thirty-nine more.'
       ],
       formats: [
-        { type: 'hardback', isbn: '978-1-0000-1261-3', pages: 384, price: 20, retailers: ['spine-and-story', 'bookhound', 'pagecraft'] },
-        { type: 'ebook', isbn: '978-1-0000-1264-4', price: 9.99, retailers: ['readwell', 'pagecraft'] },
-        { type: 'audio', isbn: '978-1-0000-1267-5', length: '11 h 42 min', narrator: 'Philippa Strand', price: 21.99, retailers: ['listen-lane', 'pagecraft'] }
+        { type: 'hardback', isbn: '978-1-0000-1261-3', pages: 384, price: 28, retailers: ['spine-and-story', 'bookhound', 'pagecraft'] },
+        { type: 'ebook', isbn: '978-1-0000-1264-4', price: 14.99, retailers: ['readwell', 'pagecraft'] },
+        { type: 'audio', isbn: '978-1-0000-1267-5', length: '11 h 42 min', narrator: 'Philippa Strand', price: 24.99, retailers: ['listen-lane', 'pagecraft'] }
       ],
       reviews: [
-        { quote: 'Thorne writes cold the way other people write fear. I finished it in one sitting with the heating on full.', source: 'Bryony Castell, author of The Quiet Year' },
+        { quote: 'Thorne writes cold the way other people write fear. I finished it in one sitting with the heat turned all the way up.', source: 'Bryony Castell, author of The Quiet Year' },
         { quote: 'The best Esme Lark yet: a locked-room mystery the size of a county.', source: 'Dead Letter Quarterly' },
         { quote: 'Atmospheric, humane and fiendishly plotted. The ending made me gasp out loud on a train.', source: 'The Reading Room podcast' }
       ],
@@ -239,32 +246,32 @@
         chapter: 'Chapter One', heading: 'A Lamp in the Reeds',
         pages: [
           ['The marsh had frozen overnight, and in the first light it looked like a floor of broken windows.',
-            'Detective Sergeant Esme Lark left the car on the sea wall and walked the last half-mile, because the track to Fennick Sluice had not been gritted in living memory and she did not trust it. Her breath went ahead of her. Somewhere out on the levels a heron complained about being awake.',
-            'The call had come at ten past five. A man walking a dog (there was always a man walking a dog) had seen a light in the reeds where no light should be, and then, when he went closer, a shape under the ice. He had not touched it. He had been very clear about that, the control room said, as if it were the thing he was most afraid of being accused of.'],
-          ['PC Tunde Oduya was waiting by the sluice gate with his hands jammed under his arms and the expression of a man who had been told to guard something and had nothing to guard it from.',
+            'Detective Sergeant Esme Lark left the car on the causeway and walked the last half-mile, because the track to Fennick Landing had not been plowed in living memory and she did not trust it. Her breath went ahead of her. Somewhere out on the flats a heron complained about being awake.',
+            'The call had come at ten past five. A man walking a dog (there was always a man walking a dog) had seen a light in the reeds where no light should be, and then, when he went closer, a shape under the ice. He had not touched it. He had been very clear about that, the dispatcher said, as if it were the thing he was most afraid of being accused of.'],
+          ['Officer Tunde Oduya was waiting by the old tide gate with his hands jammed under his arms and the expression of a man who had been told to guard something and had nothing to guard it from.',
             '“Sarge.” He nodded at the reeds. “It’s still burning.”',
-            'It was. A storm lantern, the old paraffin kind with a wire handle, stood on a hummock of frozen mud ten yards out into the dyke. Its flame was low and very steady. The glass had been cleaned. Someone had trimmed the wick.',
+            'It was. A storm lantern, the old kerosene kind with a wire handle, stood on a hummock of frozen mud ten yards out into the creek. Its flame was low and very steady. The glass had been cleaned. Someone had trimmed the wick.',
             '“Who lit it?”',
-            '“Dog walker says it was lit when he got here. Half four, he reckons. Couldn’t sleep.” Tunde’s jaw worked. “He says he thought it was a will-o’-the-wisp. He says his nan used to tell him about them.”',
-            '“Everybody’s nan used to tell them about them,” Esme said. “It’s the Marsh.”'],
-          ['She went down the bank on the seat of her trousers, because dignity was a summer luxury, and stood at the edge of the ice.',
-            'It was clear. That was the first strange thing. Dyke water on the Marsh was brown as tea, thick with weed and centuries of silt, but the frost had come down so hard and so fast that the surface had set like poured glass, and through it, lit gold from above by the lantern, she could see the reeds going down into the dark.',
+            '“Dog walker says it was lit when he got here. Four-thirty, he figures. Couldn’t sleep.” Tunde’s jaw worked. “He says he thought it was a will-o’-the-wisp. He says his grandmother used to tell him about them.”',
+            '“Everybody’s grandmother used to tell them about them,” Esme said. “It’s the Marsh.”'],
+          ['She went down the bank on the seat of her pants, because dignity was a summer luxury, and stood at the edge of the ice.',
+            'It was clear. That was the first strange thing. Creek water on the Marsh was brown as tea, thick with weed and centuries of silt, but the frost had come down so hard and so fast that the surface had set like poured glass, and through it, lit gold from above by the lantern, she could see the reeds going down into the dark.',
             'And among them, a sleeve.',
             'Pale wool, with a row of tiny covered buttons at the cuff. A hand inside it, the fingers curled as though they had been holding something and had only just let go.',
             'Esme crouched. She did not touch the ice. She looked for a long time at those buttons, and a feeling she had not had since she was eleven years old climbed up the back of her neck and sat there.'],
           ['* * *',
-            'Everyone on Romney Marsh knew about Lydia Penhale.',
-            'She had walked out of the Ship Inn at Fennick on New Year’s Eve, 1987, in the cream wool coat she was meant to be married in the following spring, and she had never been seen again. No body. No note. A bicycle found three weeks later in the reeds at Snargate, which proved nothing except that the Marsh kept what it was given.',
-            'Esme’s mother had been at the Ship that night. Half the parish had. For years afterwards, every Christmas, somebody at somebody’s table would say, “Of course, I always thought…” and somebody else would put down a fork and change the subject.',
-            'Esme had been eleven. She had lain awake for a month listening for footsteps on the sea wall.'],
+            'Everyone on the Great Marsh knew about Lydia Penhale.',
+            'She had walked out of the Ship Tavern at Fennick on New Year’s Eve, 1987, in the cream wool coat she was meant to be married in the following spring, and she had never been seen again. No body. No note. A bicycle found three weeks later in the reeds at Rowley, which proved nothing except that the Marsh kept what it was given.',
+            'Esme’s mother had been at the Ship that night. Half the town had. For years afterwards, every Christmas, somebody at somebody’s table would say, “Of course, I always thought…” and somebody else would put down a fork and change the subject.',
+            'Esme had been eleven. She had lain awake for a month listening for footsteps on the causeway.'],
           ['“Sarge?” Tunde had come down the bank behind her, more carefully. “You all right?”',
-            '“Get on to the coroner’s officer,” she said. “And forensics. Tell them we’ll need to cut the ice, and tell them I want the lantern photographed exactly where it is before anyone so much as breathes on it.”',
-            '“You think it’s her.” It wasn’t a question. Tunde had grown up in Lydd. He knew the story too.',
+            '“Call the medical examiner’s office,” she said. “And the crime lab. Tell them we’ll need to cut the ice, and tell them I want the lantern photographed exactly where it is before anyone so much as breathes on it.”',
+            '“You think it’s her.” It wasn’t a question. Tunde had grown up in Newbury. He knew the story too.',
             'Esme stood. Her knees were wet through and she could not feel her feet.',
             '“I think,” she said, “that somebody knew exactly where she was. And I think that last night, for the first time in thirty-nine years, they wanted us to know too.”'],
-          ['The sun came up over Dungeness like something being dragged.',
-            'By eight the lane behind the sea wall was full of vans, and the ice had begun to sing the way ice does when it is stood on by too many people: long low notes that seemed to come from everywhere at once. The forensic team put up a white tent on the frozen dyke, and through its walls the lantern glowed like a heart.',
-            'Esme watched from the bank with a paper cup of coffee she had not drunk. Across the levels, the windows of Fennick were lighting one by one. She knew most of the people behind them. She had been to school with their children.',
+          ['The sun came up over Plum Island like something being dragged.',
+            'By eight the road behind the causeway was full of vans, and the ice had begun to sing the way ice does when it is stood on by too many people: long low notes that seemed to come from everywhere at once. The forensic team put up a white tent on the frozen creek, and through its walls the lantern glowed like a heart.',
+            'Esme watched from the bank with a paper cup of coffee she had not drunk. Across the flats, the windows of Fennick were lighting one by one. She knew most of the people behind them. She had been to school with their children.',
             'One of them had trimmed that wick.',
             'She finished the coffee cold, crushed the cup, and went to start knocking on doors.']
         ]
@@ -275,26 +282,26 @@
         'Esme grew up with the story of Lydia Penhale. Does knowing the community make her a better detective, or a worse one?',
         'Several characters say “of course, I always thought…”. Why do you think the village kept its suspicions to itself for so long?',
         'The lantern is lit before the body is found. What did you make of the lantern’s meaning when you first met it, and did that change?',
-        'Tunde and Esme come from the same small corner of Kent but see it very differently. Whose view did you share?',
+        'Tunde and Esme come from the same small corner of Essex County but see it very differently. Whose view did you share?',
         'Without giving the ending away to anyone who hasn’t finished: was justice done?'
       ]
     },
     {
-      id: 'every-bell-in-canterbury', title: 'Every Bell in Canterbury', lines: ['Every Bell in', 'Canterbury'], series: null, pub: '2024-03-14',
-      imprint: 'Finch & Holloway', genre: 'Psychological suspense', setting: 'Canterbury, over one week of Advent',
+      id: 'every-bell-in-salem', title: 'Every Bell in Salem', lines: ['Every Bell in', 'Salem'], series: null, pub: '2024-03-12',
+      imprint: 'Finch & Holloway', genre: 'Psychological suspense', setting: 'Salem, over one week of Advent',
       jacket: { motif: 'bells', bg: '#4b1f3a', fg: '#f6e7dc', accent: '#e6a9a0', line: '#d2ad6a' },
       tagline: 'One week. Seven bells. One lie that rings through all of them.',
       blurb: [
-        'Every December, the bell-ringers of St Alphege ring for Advent. This year their tower captain is found dead at the foot of the ringing-chamber stairs, and the six ringers left all swear they were holding a rope at the time.',
-        'Ruthless, funny and unbearably tense, Every Bell in Canterbury is a standalone novel about a band of strangers bound together by a rope, a rhythm and a secret.'
+        'Every December, the bell-ringers of St. Botolph’s ring for Advent. This year their tower captain is found dead at the foot of the ringing-chamber stairs, and the six ringers left all swear they were holding a rope at the time.',
+        'Ruthless, funny and unbearably tense, Every Bell in Salem is a standalone novel about a band of strangers bound together by a rope, a rhythm and a secret.'
       ],
       formats: [
-        { type: 'paperback', isbn: '978-1-0000-1251-4', pages: 352, price: 9.99, retailers: ['spine-and-story', 'bookhound', 'pagecraft'] },
-        { type: 'ebook', isbn: '978-1-0000-1254-5', price: 4.99, retailers: ['readwell', 'pagecraft'] },
-        { type: 'audio', isbn: '978-1-0000-1257-6', length: '10 h 5 min', narrator: 'Rhys Halloran', price: 18.99, retailers: ['listen-lane', 'pagecraft'] }
+        { type: 'paperback', isbn: '978-1-0000-1251-4', pages: 352, price: 17.99, retailers: ['spine-and-story', 'bookhound', 'pagecraft'] },
+        { type: 'ebook', isbn: '978-1-0000-1254-5', price: 9.99, retailers: ['readwell', 'pagecraft'] },
+        { type: 'audio', isbn: '978-1-0000-1257-6', length: '10 h 5 min', narrator: 'Rhys Halloran', price: 19.99, retailers: ['listen-lane', 'pagecraft'] }
       ],
       reviews: [
-        { quote: 'A whodunnit with the precision of a peal. I could hear the bells for days.', source: 'The Literary Standard' },
+        { quote: 'A whodunit with the precision of a peal. I could hear the bells for days.', source: 'The Literary Standard' },
         { quote: 'Clever, warm and genuinely chilling.', source: 'Tomasz Wilde, author of Under Glass' }
       ],
       extract: {
@@ -303,7 +310,7 @@
           ['There are six of us on the ropes on the night Gideon dies, and every one of us will tell you we never let go.',
             'That is the first thing you learn about ringing: you never let go. A bell weighing as much as a small car swings full circle above your head, mouth up, balanced on nothing, and the rope in your hands is the only thing that tells it where to go next. Let go, and the rope goes up through the ceiling like a snake through a hole, and the tail end can take your jaw off on the way.',
             'So we held on. All six of us. That is what we said, and we said it so many times, to so many people, that by the end of Advent I almost believed it myself.'],
-          ['I took up ringing the autumn after my divorce, because the tower at St Alphege was the only place in Canterbury where nobody asked how I was.',
+          ['I took up ringing the fall after my divorce, because the tower at St. Botolph’s was the only place in Salem where nobody asked how I was.',
             'They asked other things. Whether I could count to six. Whether I minded heights. Whether I was free on Thursday nights and Sunday mornings, every Thursday night and every Sunday morning, for the foreseeable future.',
             '“It’s not a hobby,” Gideon said, on my first night, steadying my rope with one large hand. “It’s a marriage.”',
             'I laughed. He didn’t. I should have paid more attention to that.']
@@ -313,63 +320,63 @@
       questions: [
         'The novel opens with “every one of us will tell you we never let go”. How did that first line shape your trust in the narrator?',
         'Bell-ringing is described as “a marriage”. What does the band give each of its members, and what does it take?',
-        'Canterbury at Advent is full of visitors and ceremony. How does the city work as a setting for a crime among neighbours?',
+        'Salem in Advent is a city catching its breath after the October crowds. How does it work as a setting for a crime among neighbors?',
         'Which of the six ringers did you suspect first, and why?',
         'How did the structure of the novel, one chapter per day of the week, change the way you read it?'
       ]
     },
     {
-      id: 'low-tide-at-dungeness', title: 'Low Tide at Dungeness', lines: ['Low Tide at', 'Dungeness'], series: 'lark', no: 3, pub: '2023-04-13',
-      imprint: 'Finch & Holloway', genre: 'Crime', setting: 'Dungeness and the shingle beaches of the Kent coast',
+      id: 'low-tide-at-plum-island', title: 'Low Tide at Plum Island', lines: ['Low Tide at', 'Plum Island'], series: 'lark', no: 3, pub: '2023-04-11',
+      imprint: 'Finch & Holloway', genre: 'Crime', setting: 'Plum Island and the beaches at the mouth of the Merrimack',
       jacket: { motif: 'lighthouse', bg: '#2b3138', fg: '#f1ece2', accent: '#e8833a', line: '#c7a061' },
       tagline: 'The tide goes out. A body stays behind.',
       blurb: [
-        'A retired lighthouse keeper is found drowned in a rock pool at low tide, on a beach where the water never comes in deep enough to drown anyone. DS Esme Lark, back at work after the events of Salt and Shingle, is told to keep it simple.',
-        'It isn’t simple. It’s Dungeness: a desert of shingle, a power station humming on the horizon and a scatter of black wooden cottages where everybody watches everybody else.'
+        'A retired lighthouse keeper is found drowned in a tide pool at low tide, on a beach where the water never comes in deep enough to drown anyone. Detective Sergeant Esme Lark, back at work after the events of Salt and Shingle, is told to keep it simple.',
+        'It isn’t simple. It’s Plum Island: a long strip of dunes and salt marsh, a nuclear plant humming on the horizon and a scatter of weathered cottages where everybody watches everybody else.'
       ],
       formats: [
-        { type: 'paperback', isbn: '978-1-0000-1241-5', pages: 368, price: 9.99, retailers: ['spine-and-story', 'bookhound', 'pagecraft'] },
-        { type: 'ebook', isbn: '978-1-0000-1244-6', price: 4.99, retailers: ['readwell', 'pagecraft'] },
-        { type: 'audio', isbn: '978-1-0000-1247-7', length: '10 h 48 min', narrator: 'Philippa Strand', price: 18.99, retailers: ['listen-lane', 'pagecraft'] }
+        { type: 'paperback', isbn: '978-1-0000-1241-5', pages: 368, price: 17.99, retailers: ['spine-and-story', 'bookhound', 'pagecraft'] },
+        { type: 'ebook', isbn: '978-1-0000-1244-6', price: 9.99, retailers: ['readwell', 'pagecraft'] },
+        { type: 'audio', isbn: '978-1-0000-1247-7', length: '10 h 48 min', narrator: 'Philippa Strand', price: 19.99, retailers: ['listen-lane', 'pagecraft'] }
       ],
       reviews: [
-        { quote: 'Esme Lark is the most human detective in British crime fiction.', source: 'Dead Letter Quarterly' },
+        { quote: 'Esme Lark is the most human detective in American crime fiction.', source: 'Dead Letter Quarterly' },
         { quote: 'Strange, salt-bitten and gripping from the first page.', source: 'The Literary Standard' }
       ],
       extract: {
         chapter: 'Chapter One', heading: 'Slack Water',
         pages: [
-          ['The tide at Dungeness goes out the way a guest leaves a party: slowly, and then all at once, and without saying goodbye.',
-            'By the time Esme reached the point, it had gone so far that the sea was only a silver line at the edge of the world, and the beach was a mile of wet sand and stranded weed and the long black ribs of groynes. The old lighthouse stood behind her, unlit for sixty years. The new one blinked in the daylight as if it had forgotten what time it was.',
-            'Edmund Kemp lay face down in a rock pool no deeper than a washing-up bowl.'],
-          ['“You can’t drown in that,” said the coastguard, who had found him.',
+          ['The tide at Plum Island goes out the way a guest leaves a party: slowly, and then all at once, and without saying goodbye.',
+            'By the time Esme reached the point, it had gone so far that the sea was only a silver line at the edge of the world, and the beach was a long shelf of wet sand and stranded weed and the black ribs of the old jetty. The lighthouse stood behind her, without a keeper for seventy years, and blinked in the daylight as if it had forgotten what time it was.',
+            'Edmund Kemp lay face down in a tide pool no deeper than a dishpan.'],
+          ['“You can’t drown in that,” said the Coast Guard kid, who had found him.',
             '“You can drown in a teaspoon,” Esme said, “if somebody holds you down.”',
-            'She regretted it at once. The coastguard was young and very pale and had been sick twice behind the lifeboat station. But it was the first thing she had thought, kneeling on the cold sand beside the pool, and the thought would not go away.',
+            'She regretted it at once. He was young and very pale and had been sick twice behind the station. But it was the first thing she had thought, kneeling on the cold sand beside the pool, and the thought would not go away.',
             'Edmund’s boots were dry.']
         ]
       },
       themes: ['Isolation and watching', 'Old crimes in new light', 'Coming back to work after trauma'],
       questions: [
-        'Dungeness is often called Britain’s only desert. How does the strangeness of the place feed the mystery?',
+        'Plum Island is half wildlife refuge, half summer cottages. How does the strangeness of the place feed the mystery?',
         'Esme returns to work carrying the weight of the previous book. How does the novel handle her recovery?',
         'Edmund Kemp’s dry boots are the first clue. Which small details did you notice that the police missed?',
-        'The community at Dungeness watches everybody. Is being watched a kind of protection, or a kind of threat?',
+        'The community on Plum Island watches everybody. Is being watched a kind of protection, or a kind of threat?',
         'If you have read the series in order, how has Esme changed since The Drowned Church?'
       ]
     },
     {
-      id: 'the-cartographers-widow', title: 'The Cartographer’s Widow', lines: ['The', 'Cartographer’s', 'Widow'], series: null, pub: '2021-09-02',
-      imprint: 'Finch & Holloway', genre: 'Historical fiction', setting: 'Faversham and the Thames estuary, 1851',
+      id: 'the-cartographers-widow', title: 'The Cartographer’s Widow', lines: ['The', 'Cartographer’s', 'Widow'], series: null, pub: '2021-08-31',
+      imprint: 'Finch & Holloway', genre: 'Historical fiction', setting: 'Newburyport and Plum Island Sound, 1851',
       jacket: { motif: 'compass', bg: '#262b55', fg: '#f0e7d2', accent: '#d9b25f', line: '#d9b25f' },
-      tagline: 'Her husband mapped every creek in Kent. He left one blank.',
+      tagline: 'Her husband mapped every creek in Essex County. He left one blank.',
       blurb: [
-        'When the surveyor Thomas Aske dies in 1851, his young widow Hester inherits a house full of instruments, a debt she did not know about and a nearly finished map of the Swale. In its corner, one inlet has been carefully left white.',
-        'Hester takes up her husband’s chain and theodolite to finish the map herself, and finds that the blank space on it hides a story some very powerful men would rather stayed unwritten. A standalone historical novel, shortlisted for the Harrowell Prize.'
+        'When the surveyor Thomas Aske dies in 1851, his young widow Hester inherits a house full of instruments, a debt she did not know about and a nearly finished map of Plum Island Sound. In its corner, one inlet has been carefully left white.',
+        'Hester takes up her husband’s chain and theodolite to finish the map herself, and finds that the blank space on it hides a story some very powerful men would rather stayed unwritten. A standalone historical novel and a finalist for the Harrowell Prize.'
       ],
       formats: [
-        { type: 'paperback', isbn: '978-1-0000-1231-6', pages: 416, price: 9.99, retailers: ['spine-and-story', 'bookhound', 'pagecraft'] },
-        { type: 'ebook', isbn: '978-1-0000-1234-7', price: 3.99, retailers: ['readwell', 'pagecraft'] },
-        { type: 'audio', isbn: '978-1-0000-1237-8', length: '13 h 20 min', narrator: 'Celia Ward', price: 19.99, retailers: ['listen-lane', 'pagecraft'] }
+        { type: 'paperback', isbn: '978-1-0000-1231-6', pages: 416, price: 18.99, retailers: ['spine-and-story', 'bookhound', 'pagecraft'] },
+        { type: 'ebook', isbn: '978-1-0000-1234-7', price: 7.99, retailers: ['readwell', 'pagecraft'] },
+        { type: 'audio', isbn: '978-1-0000-1237-8', length: '13 h 20 min', narrator: 'Celia Ward', price: 21.99, retailers: ['listen-lane', 'pagecraft'] }
       ],
       reviews: [
         { quote: 'Quietly radical and utterly absorbing. Hester Aske is a heroine to cherish.', source: 'The Literary Standard' },
@@ -380,8 +387,8 @@
         pages: [
           ['They buried Thomas Aske on a Tuesday, in rain so fine it seemed less to fall than to hang in the air, waiting to be told what to do.',
             'Hester stood at the graveside in a borrowed black dress that was too long in the sleeve, and thought, with a clarity that shamed her, about the map.',
-            'It lay on the table in his study, held flat at the corners by a brass inkwell, two lead weights and a volume of Euclid. Fourteen months of work. Every creek and saltings of the Swale from Faversham to Shell Ness, drawn in his small, upright hand. Every creek but one.'],
-          ['She had noticed it a week before he died, bringing him tea he did not drink. A little inlet south of Harty Ferry, no more than a thumb’s width on the paper, left white.',
+            'It lay on the table in his study, held flat at the corners by a brass inkwell, two lead weights and a volume of Euclid. Fourteen months of work. Every creek and salt meadow of the Sound from Newburyport to Castle Neck, drawn in his small, upright hand. Every creek but one.'],
+          ['She had noticed it a week before he died, bringing him tea he did not drink. A little inlet south of the Rowley River, no more than a thumb’s width on the paper, left white.',
             '“You’ve missed one,” she said.',
             'Thomas had looked up at her, and for a moment his face had been a stranger’s face.',
             '“No,” he said. “I haven’t.”',
@@ -391,25 +398,25 @@
       themes: ['Who records history', 'Grief and independence', 'Land, money and power'],
       questions: [
         'What does the blank space on the map come to mean to Hester as the novel goes on?',
-        'Hester learns surveying in secret. How does the novel show the limits placed on women in 1851, and the ways round them?',
+        'Hester learns surveying in secret. How does the novel show the limits placed on women in 1851, and the ways around them?',
         'Thomas is dead before the story starts. How did your view of him change as Hester uncovered his secrets?',
         'The estuary landscape is constantly shifting with the tides. How does that echo the novel’s themes?',
         'Was the ending hopeful, in your view?'
       ]
     },
     {
-      id: 'salt-and-shingle', title: 'Salt and Shingle', lines: ['Salt and', 'Shingle'], series: 'lark', no: 2, pub: '2020-05-07',
-      imprint: 'Finch & Holloway', genre: 'Crime', setting: 'Hythe and the Royal Military Canal',
+      id: 'salt-and-shingle', title: 'Salt and Shingle', lines: ['Salt and', 'Shingle'], series: 'lark', no: 2, pub: '2020-05-05',
+      imprint: 'Finch & Holloway', genre: 'Crime', setting: 'Gloucester and the Blynman Canal',
       jacket: { motif: 'shingle', bg: '#8e3a24', fg: '#f7ecdc', accent: '#f0c9a1', line: '#e2b878' },
       tagline: 'Every stone on the beach has a story. One of them is a lie.',
       blurb: [
-        'A summer festival on the seafront at Hythe, a missing teenager and a town that would very much like the police to go home. DS Esme Lark, newly promoted and not yet sure she wanted it, has three days before the tide turns and the story goes cold.',
+        'A summer festival on the waterfront in Gloucester, a missing teenager and a town that would very much like the police to go home. Detective Sergeant Esme Lark, newly promoted and not yet sure she wanted it, has three days before the tide turns and the story goes cold.',
         'The second Esme Lark mystery: warmer, sunnier and darker than the first.'
       ],
       formats: [
-        { type: 'paperback', isbn: '978-1-0000-1221-7', pages: 352, price: 8.99, retailers: ['spine-and-story', 'bookhound', 'pagecraft'] },
-        { type: 'ebook', isbn: '978-1-0000-1224-8', price: 2.99, retailers: ['readwell', 'pagecraft'] },
-        { type: 'audio', isbn: '978-1-0000-1227-9', length: '9 h 56 min', narrator: 'Philippa Strand', price: 17.99, retailers: ['listen-lane', 'pagecraft'] }
+        { type: 'paperback', isbn: '978-1-0000-1221-7', pages: 352, price: 16.99, retailers: ['spine-and-story', 'bookhound', 'pagecraft'] },
+        { type: 'ebook', isbn: '978-1-0000-1224-8', price: 6.99, retailers: ['readwell', 'pagecraft'] },
+        { type: 'audio', isbn: '978-1-0000-1227-9', length: '9 h 56 min', narrator: 'Philippa Strand', price: 18.99, retailers: ['listen-lane', 'pagecraft'] }
       ],
       reviews: [
         { quote: 'Sun, sea and slow dread. A brilliant second outing.', source: 'Dead Letter Quarterly' },
@@ -418,56 +425,56 @@
       extract: {
         chapter: 'Chapter One', heading: 'Bunting',
         pages: [
-          ['Hythe had put its bunting up a week early, and by the Friday of the festival it hung over the high street in faded, flapping loops, like a town that had been holding its breath too long.',
+          ['Gloucester had put its bunting up a week early, and by the Friday of the festival it hung over Main Street in faded, flapping loops, like a town that had been holding its breath too long.',
             'Esme had been a detective sergeant for nine days. She had a new desk, a new lanyard and a new feeling in her stomach every time the phone rang, which was that she was about to be found out.',
-            'At 11.52 that morning, the phone rang.'],
-          ['“Girl’s gone missing,” said the duty inspector. “Sixteen. Last seen on the beach by the canal mouth around midnight. Parents are frantic, town council are frantic about the parents being frantic, and the festival opens at two.”',
+            'At 11:52 that morning, the phone rang.'],
+          ['“Girl’s gone missing,” said the duty lieutenant. “Sixteen. Last seen on the beach by the canal mouth around midnight. Parents are frantic, the city council is frantic about the parents being frantic, and the festival opens at two.”',
             '“And you want me to…”',
             '“Find her by two,” he said, “ideally.”',
             'He was joking. She thought he was joking. She took the car anyway, and drove down to the sea with the windows open and the radio off, and did not let herself think about the canal.']
         ]
       },
-      themes: ['Family secrets', 'Holiday towns and the people who live in them', 'Ambition and doubt'],
+      themes: ['Family secrets', 'Vacation towns and the people who live in them', 'Ambition and doubt'],
       questions: [
         'How does the summer setting change the feel of the series compared with The Drowned Church?',
         'Esme doubts her promotion throughout. Did her self-doubt make her more or less effective?',
-        'What did you make of the town council’s determination to keep the festival going?',
+        'What did you make of the city council’s determination to keep the festival going?',
         'Which relationship in the book felt most real to you?',
         'The title pairs salt and shingle. What do you think each stands for?'
       ]
     },
     {
-      id: 'the-drowned-church', title: 'The Drowned Church', lines: ['The', 'Drowned', 'Church'], series: 'lark', no: 1, pub: '2019-02-07',
-      imprint: 'Finch & Holloway', genre: 'Crime', setting: 'Romney Marsh and its medieval churches',
+      id: 'the-drowned-church', title: 'The Drowned Church', lines: ['The', 'Drowned', 'Church'], series: 'lark', no: 1, pub: '2019-02-05',
+      imprint: 'Finch & Holloway', genre: 'Crime', setting: 'The Great Marsh and its old churches',
       jacket: { motif: 'church', bg: '#1f4d58', fg: '#efe6d3', accent: '#9fc7c4', line: '#cfae6c' },
       tagline: 'When the floods go down, the past comes up.',
       blurb: [
-        'After the wettest winter on record, the floodwater around the lonely church of St Rumwold finally drains away, and the sexton finds a grave that is not on any plan. In it are the bones of a man who was supposed to have emigrated to Canada in 1979.',
-        'Detective Constable Esme Lark, born and raised on the Marsh, is the only officer who knows which questions not to ask in front of whom. The first Esme Lark mystery and winner of the Sandpiper Award for best debut.'
+        'After the wettest winter on record, the floodwater around the lonely church of St. Anne finally drains away, and the sexton finds a grave that is not on any plan. In it are the bones of a man who was supposed to have moved to Alaska in 1979.',
+        'Detective Esme Lark, born and raised on the Marsh, is the only officer who knows which questions not to ask in front of whom. The first Esme Lark mystery and winner of the Sandpiper Award for best debut.'
       ],
       formats: [
-        { type: 'paperback', isbn: '978-1-0000-1201-9', pages: 336, price: 8.99, retailers: ['spine-and-story', 'bookhound', 'pagecraft'] },
-        { type: 'ebook', isbn: '978-1-0000-1204-0', price: 0.99, retailers: ['readwell', 'pagecraft'] },
-        { type: 'audio', isbn: '978-1-0000-1207-1', length: '9 h 12 min', narrator: 'Philippa Strand', price: 16.99, retailers: ['listen-lane', 'pagecraft'] }
+        { type: 'paperback', isbn: '978-1-0000-1201-9', pages: 336, price: 16.99, retailers: ['spine-and-story', 'bookhound', 'pagecraft'] },
+        { type: 'ebook', isbn: '978-1-0000-1204-0', price: 2.99, retailers: ['readwell', 'pagecraft'] },
+        { type: 'audio', isbn: '978-1-0000-1207-1', length: '9 h 12 min', narrator: 'Philippa Strand', price: 17.99, retailers: ['listen-lane', 'pagecraft'] }
       ],
       reviews: [
-        { quote: 'A debut of rare assurance. Romney Marsh has found its laureate of murder.', source: 'The Literary Standard' },
+        { quote: 'A debut of rare assurance. The Great Marsh has found its laureate of murder.', source: 'The Literary Standard' },
         { quote: 'I wanted to move to the Marsh and also never go there.', source: 'The Reading Room podcast' }
       ],
       extract: {
         chapter: 'Chapter One', heading: 'High Water',
         pages: [
-          ['For eleven weeks the church of St Rumwold stood in the middle of a lake, and the people of the Marsh rowed out to look at it on Sundays, the way you might visit someone in hospital.',
-            'Then, in the second week of March, the water began to go down. It went down slowly, leaving a tidemark on the flint walls like a ring in a bath. It went down past the porch, past the gravestones, past the old yew that had stood there since before the Armada. And on the twentieth of March, the sexton, Silas Gage, went out in his waders to see what the flood had left behind.'],
+          ['For eleven weeks the church of St. Anne stood in the middle of a lake, and the people of the Marsh rowed out to look at it on Sundays, the way you might visit someone in the hospital.',
+            'Then, in the second week of March, the water began to go down. It went down slowly, leaving a tidemark on the granite walls like a ring in a bath. It went down past the porch, past the gravestones, past the old oak that had stood there since before the Revolution. And on the twentieth of March, the sexton, Silas Gage, went out in his waders to see what the flood had left behind.'],
           ['What it had left behind was a hole.',
-            'The ground at the north side of the church, where nobody had been buried since the plague because the north side was the devil’s side, had slumped into a long, neat trench. And at the bottom of the trench, in the black silt, something pale.',
+            'The ground at the north side of the church, where nobody had been buried since the smallpox years because the old families called the north side the devil’s side, had slumped into a long, neat trench. And at the bottom of the trench, in the black silt, something pale.',
             'Silas Gage had been sexton for thirty-one years. He knew what bones looked like.',
             'He also knew, with the bone-deep certainty of a man who had dug every grave in the parish since 1988, that nobody had ever been buried there.']
         ]
       },
       themes: ['Buried history', 'Belonging and outsiders', 'The weather as a character'],
       questions: [
-        'The book opens with the church standing in a flood “like someone in hospital”. How did that image set up the novel for you?',
+        'The book opens with the church standing in a flood “like someone in the hospital”. How did that image set up the novel for you?',
         'Esme is a local detective policing her own community. What are the advantages and the costs?',
         'The north side of the churchyard is “the devil’s side”. How do old beliefs and customs shape what happens?',
         'Which revelation surprised you most?',
@@ -484,22 +491,22 @@
   var EVENTS = [
     { id: 'reading-room-live', title: 'The Reading Room, live', format: 'online', kind: 'Online interview', venue: 'The Reading Room podcast', town: 'Online', date: '2026-10-19', start: '19:00', end: '20:00', price: 0, book: 'the-glass-marsh', url: 'https://readingroom.example/live',
       blurb: 'A live recording of the books podcast, with questions from listeners about writing the Marsh in winter.' },
-    { id: 'whitstable-library', title: 'An evening with Clemency Thorne', format: 'in-person', kind: 'Library talk', venue: 'Whitstable Library', town: 'Whitstable', date: '2026-10-24', start: '14:00', end: '15:15', price: 0, book: 'low-tide-at-dungeness', url: 'https://kentlibraries.example/events/thorne',
+    { id: 'newburyport-library', title: 'An afternoon with Clemency Thorne', format: 'in-person', kind: 'Library talk', venue: 'Newburyport Public Library', town: 'Newburyport', date: '2026-10-24', start: '14:00', end: '15:15', price: 0, book: 'low-tide-at-plum-island', url: 'https://merrimacklibraries.example/events/thorne',
       blurb: 'A talk about the real places behind the Esme Lark books, followed by questions and a signing.' },
-    { id: 'glass-marsh-launch', title: 'Launch party: The Glass Marsh', format: 'in-person', kind: 'Book launch', venue: 'Mercery Lane Books', town: 'Canterbury', date: '2026-11-12', start: '18:30', end: '20:30', price: 5, book: 'the-glass-marsh', url: 'https://mercerylanebooks.example/launch', launch: true,
-      blurb: 'Publication night at Clemency’s local bookshop: a reading, a conversation with her editor and mulled wine. The ticket price comes off a copy of the book.' },
-    { id: 'hastings-old-town', title: 'Crime on the Coast', format: 'in-person', kind: 'Festival panel', venue: 'Old Town Hall, Hastings Old Town Literary Festival', town: 'Hastings', date: '2026-11-14', start: '11:00', end: '12:00', price: 8, book: 'the-glass-marsh', url: 'https://oldtownlitfest.example/crime-on-the-coast',
-      blurb: 'Clemency joins two fellow crime writers to talk about why so many murders happen at the seaside.' },
+    { id: 'glass-marsh-launch', title: 'Launch party: The Glass Marsh', format: 'in-person', kind: 'Book launch', venue: 'Turner Street Books', town: 'Salem', date: '2026-11-10', start: '18:30', end: '20:30', price: 10, book: 'the-glass-marsh', url: 'https://turnerstreetbooks.example/launch', launch: true,
+      blurb: 'Publication night at Clemency’s local bookstore: a reading, a conversation with her editor and mulled cider. The ticket price comes off a copy of the book.' },
+    { id: 'marblehead-lit-fest', title: 'Crime on the Coast', format: 'in-person', kind: 'Festival panel', venue: 'Abbot Hall, Marblehead Literary Festival', town: 'Marblehead', date: '2026-11-14', start: '11:00', end: '12:00', price: 15, book: 'the-glass-marsh', url: 'https://marbleheadlitfest.example/crime-on-the-coast',
+      blurb: 'Clemency joins two fellow crime writers to talk about why so many murders happen at the beach.' },
     { id: 'dead-letter-club', title: 'Dead Letter book club', format: 'online', kind: 'Online book club', venue: 'Dead Letter Quarterly', town: 'Online', date: '2026-11-17', start: '19:30', end: '20:30', price: 0, book: 'the-glass-marsh', url: 'https://deadletter.example/club',
       blurb: 'The magazine’s online book club reads The Glass Marsh, and Clemency answers questions (spoilers welcome).' },
-    { id: 'hatchmere-london', title: 'In conversation in London', format: 'in-person', kind: 'Bookshop event', venue: 'Hatchmere Books, Islington', town: 'London', date: '2026-11-26', start: '19:00', end: '20:15', price: 10, book: 'the-glass-marsh', url: 'https://hatchmerebooks.example/events',
+    { id: 'hatchmere-brookline', title: 'In conversation in Brookline', format: 'in-person', kind: 'Bookstore event', venue: 'Hatchmere Books, Coolidge Corner', town: 'Brookline', date: '2026-11-24', start: '19:00', end: '20:15', price: 15, book: 'the-glass-marsh', url: 'https://hatchmerebooks.example/events',
       blurb: 'An evening in conversation with the novelist Bryony Castell about landscape, winter and secrets.' },
-    { id: 'lewes-winter-words', title: 'Winter Words', format: 'in-person', kind: 'Festival talk', venue: 'Lewes Town Hall', town: 'Lewes', date: '2026-12-05', start: '15:00', end: '16:00', price: 9, book: 'the-glass-marsh', url: 'https://winterwordslewes.example/',
-      blurb: 'A winter book festival talk and reading, with a signing afterwards.' },
+    { id: 'concord-winter-words', title: 'Winter Words', format: 'in-person', kind: 'Festival talk', venue: 'Concord Town House', town: 'Concord', date: '2026-12-05', start: '15:00', end: '16:00', price: 15, book: 'the-glass-marsh', url: 'https://winterwordsconcord.example/',
+      blurb: 'A winter book festival talk and reading, with a signing afterward.' },
     { id: 'newsletter-qa', title: 'Readers’ Q&A for newsletter subscribers', format: 'online', kind: 'Online Q&A', venue: 'Online, link sent by email', town: 'Online', date: '2027-01-21', start: '19:00', end: '20:00', price: 0, book: 'the-glass-marsh', url: 'newsletter.html',
       blurb: 'Ask anything about the series. Subscribers to the Marsh Letter get the link a week before.' },
-    { id: 'folkestone-festival', title: 'Folkestone Book Festival', format: 'in-person', kind: 'Festival talk', venue: 'The Quarterhouse', town: 'Folkestone', date: '2027-02-06', start: '17:00', end: '18:00', price: 8, book: 'the-cartographers-widow', url: 'https://folkestonebookfest.example/',
-      blurb: 'A talk on the history of the Kent coast and the maps that made it, from The Cartographer’s Widow to Esme Lark.' }
+    { id: 'cape-ann-festival', title: 'Cape Ann Book Festival', format: 'in-person', kind: 'Festival talk', venue: 'Gloucester City Hall', town: 'Gloucester', date: '2027-02-06', start: '17:00', end: '18:00', price: 12, book: 'the-cartographers-widow', url: 'https://capeannbookfest.example/',
+      blurb: 'A talk on the history of the Massachusetts coast and the maps that made it, from The Cartographer’s Widow to Esme Lark.' }
   ];
   var EVENT_BY_ID = {};
   EVENTS.forEach(function (e) { EVENT_BY_ID[e.id] = e; });
@@ -508,9 +515,9 @@
   // Values accepted by contact.html?topic= (must match the <option> values in contact.html).
   var CONTACT_TOPICS = {
     agent: { label: 'Representation and permissions', to: 'Sabine Corrigan', role: 'Literary agent, Winslow Greer Agency', email: 'sabine@winslowgreer.example', reply: 'Usually replies within a week.', thanks: 'Sabine usually replies within a week.' },
-    publicity: { label: 'Publicity, interviews and review copies', to: 'Della Rafferty', role: 'Publicity director, Finch & Holloway', email: 'publicity@finchandholloway.example', reply: 'Usually replies within two working days.', thanks: 'Della usually replies within two working days.' },
+    publicity: { label: 'Publicity, interviews and review copies', to: 'Della Rafferty', role: 'Publicity director, Finch & Holloway', email: 'publicity@finchandholloway.example', reply: 'Usually replies within two business days.', thanks: 'Della usually replies within two business days.' },
     rights: { label: 'Translation, film and TV rights', to: 'Annika Lowther', role: 'Rights director, Winslow Greer Agency', email: 'rights@winslowgreer.example', reply: 'Usually replies within a week.', thanks: 'Annika usually replies within a week.' },
-    events: { label: 'Festivals, libraries and schools', to: 'Della Rafferty', role: 'Publicity director, Finch & Holloway', email: 'events@finchandholloway.example', reply: 'Please write at least eight weeks before your event.', thanks: 'Della usually replies within two working days to talk through dates.' },
+    events: { label: 'Festivals, libraries and schools', to: 'Della Rafferty', role: 'Publicity director, Finch & Holloway', email: 'events@finchandholloway.example', reply: 'Please write at least eight weeks before your event.', thanks: 'Della usually replies within two business days to talk through dates.' },
     readers: { label: 'A letter to Clemency', to: 'Clemency Thorne', role: 'Read by Clemency herself', email: 'letters@clemencythorne.example', reply: 'Clemency reads every letter, but may take a while to reply.', thanks: 'Clemency reads every letter herself, though she may take a while to reply.' }
   };
 
@@ -529,7 +536,7 @@
   function pubYear(book) { return +book.pub.slice(0, 4); }
   function eventTimes(e) {
     var start = zonedDate(e.date + 'T' + e.start), end = zonedDate(e.date + 'T' + e.end);
-    return { start: start, end: end, range: clock(start) + '–' + clock(end) + ' ' + zoneName(start) };
+    return { start: start, end: end, range: clockRange(start, end) + ' ' + zoneName(start) };
   }
   function upcomingEvents() {
     var t = now();
@@ -545,7 +552,7 @@
   }
 
   /* ======================================================================
-     6. Artwork: book jackets drawn as SVG from each book's `jacket` colours and motif
+     6. Artwork: book jackets drawn as SVG from each book's `jacket` colors and motif
      ====================================================================== */
   var jacketCount = 0;
   var MOTIFS = {
@@ -756,7 +763,7 @@
   function fieldMessage(input) {
     var v = (input.value || '').trim();
     var label = input.getAttribute('data-name') || 'This field';
-    if (input.type === 'checkbox') return input.required && !input.checked ? (input.getAttribute('data-required-msg') || 'Please tick this box.') : '';
+    if (input.type === 'checkbox') return input.required && !input.checked ? (input.getAttribute('data-required-msg') || 'Please check this box.') : '';
     if (input.required && !v) return input.tagName === 'SELECT' ? 'Please choose an option.' : label + ' is required.';
     if (v && input.type === 'email' && !EMAIL_RE.test(v)) return 'Please enter a valid email address, like you@example.com.';
     var min = +input.getAttribute('data-minlength') || 0;
@@ -1086,7 +1093,7 @@
       '<span class="caps-sm block">' + f({ month: 'short' }) + (+e.date.slice(0, 4) !== zoneParts(now()).y ? ' ' + e.date.slice(0, 4) : '') + '</span></div>';
   }
   function eventPrice(e) {
-    if (!e.price) return e.url === 'newsletter.html' ? 'Free for newsletter subscribers' : 'Free, booking needed';
+    if (!e.price) return e.url === 'newsletter.html' ? 'Free for newsletter subscribers' : 'Free, registration required';
     return money(e.price) + (e.launch ? ', taken off the price of the book' : ' a ticket');
   }
   function eventItem(e, compact) {
@@ -1094,7 +1101,7 @@
     var today = e.date === isoFromDayNum(todayNum());
     var yours = '';
     if (e.format === 'online' && visitorZone && visitorZone !== TIMEZONE && zoneName(t.start, visitorZone) !== zoneName(t.start)) {
-      yours = '<span class="block text-base muted">Your time: ' + esc(fmtIn(t.start, { weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }, visitorZone) + ' ' + zoneName(t.start, visitorZone)) + '</span>';
+      yours = '<span class="block text-base muted">Your time: ' + esc(fmtIn(t.start, { weekday: 'short', hour: 'numeric', minute: '2-digit', hourCycle: 'h12' }, visitorZone) + ' ' + zoneName(t.start, visitorZone)) + '</span>';
     }
     var book = BOOK_BY_ID[e.book];
     var badges = (e.launch ? '<span class="caps-sm border border-oxblood px-2 pt-1 pb-0.5 text-oxblood">Launch night</span>' : '') +
@@ -1107,7 +1114,7 @@
       '<p class="mt-1 text-lg"><span class="sr-only">' + esc(longDay(e.date)) + ', </span>' + esc(t.range) + ' · ' + esc(e.venue) + (e.town !== 'Online' && e.venue.indexOf(e.town) < 0 ? ', ' + esc(e.town) : '') + yours + '</p>' +
       (compact ? '' : '<p class="mt-2 max-w-2xl text-lg muted">' + esc(e.blurb) + '</p>' +
         '<p class="mt-2 text-base">' + esc(eventPrice(e)) + ' · About <a class="link" href="book.html?id=' + esc(book.id) + '"><em>' + esc(book.title) + '</em></a></p>' +
-        '<div class="mt-4 flex flex-wrap gap-2.5"><a class="btn btn-line btn-sm" href="' + esc(e.url) + '">' + (e.url === 'newsletter.html' ? 'Join the newsletter' : 'Book a place') + '<span class="sr-only">: ' + esc(e.title) + '</span></a>' +
+        '<div class="mt-4 flex flex-wrap gap-2.5"><a class="btn btn-line btn-sm" href="' + esc(e.url) + '">' + (e.url === 'newsletter.html' ? 'Join the newsletter' : 'Reserve a seat') + '<span class="sr-only">: ' + esc(e.title) + '</span></a>' +
         '<button type="button" class="btn btn-line btn-sm" data-ics="' + esc(e.id) + '">Add to calendar<span class="sr-only">: ' + esc(e.title) + '</span></button></div>') +
       '</div></li>';
   }
@@ -1292,7 +1299,7 @@
     });
     render();
     var tz = $('[data-zone-note]');
-    if (tz) tz.textContent = 'All times are UK time (' + zoneName(now()) + ' today).';
+    if (tz) tz.textContent = 'All times are Eastern time (' + zoneName(now()) + ' today).';
   }
 
   /* ----- Book clubs ----- */
@@ -1324,15 +1331,15 @@
       });
     });
     var titleLines = wrapLines(b.title, 22);
-    return '<svg xmlns="http://www.w3.org/2000/svg" width="794" height="1123" viewBox="0 0 794 1123" font-family="Crimson Pro, Georgia, serif" fill="#221c18">' +
-      '<rect width="794" height="1123" fill="#f5efe3"/><rect width="794" height="18" fill="' + c.bg + '"/>' +
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="816" height="1056" viewBox="0 0 816 1056" font-family="Crimson Pro, Georgia, serif" fill="#221c18">' +
+      '<rect width="816" height="1056" fill="#f5efe3"/><rect width="816" height="18" fill="' + c.bg + '"/>' +
       jacketSVG(b, { attrs: ' x="570" y="52" width="165" height="253"' }) +
       '<text x="60" y="80" font-family="Josefin Sans, sans-serif" font-size="12" letter-spacing="3" fill="#7a5a1c">READING GROUP GUIDE</text>' +
       titleLines.map(function (l, i) { return '<text x="60" y="' + (124 + i * 40) + '" font-family="Libre Baskerville, Georgia, serif" font-size="34">' + esc(l) + '</text>'; }).join('') +
       '<text x="60" y="' + (124 + titleLines.length * 40) + '" font-size="18" font-style="italic" fill="#5b5047">by Clemency Thorne · ' + esc(seriesLine(b)) + '</text>' +
       '<text x="60" y="330" font-family="Josefin Sans, sans-serif" font-size="12" letter-spacing="3" fill="#7a5a1c">QUESTIONS FOR DISCUSSION</text>' +
       '<g transform="translate(0 340)">' + body + '</g>' +
-      '<text x="60" y="1070" font-size="14" fill="#5b5047">clemencythorne.example · Some questions touch on the ending.</text></svg>';
+      '<text x="60" y="1010" font-size="14" fill="#5b5047">clemencythorne.example · Some questions touch on the ending.</text></svg>';
   }
   function initClubs() {
     var select = $('#club-book');
@@ -1369,7 +1376,7 @@
     return [
       'PRESS RELEASE', 'For immediate release', '',
       b.title.toUpperCase(), 'The new Esme Lark mystery by Clemency Thorne', '',
-      'Published by ' + b.imprint + ' on ' + longDay(b.pub) + ' ' + b.pub.slice(0, 4) + '.',
+      'Published by ' + b.imprint + ' on ' + longDay(b.pub, true, true) + '.',
       FORMAT_NAMES[hb.type] + ', ' + hb.pages + ' pages, ' + money(hb.price) + ', ISBN ' + hb.isbn, ''
     ].concat(b.blurb.map(function (p) { return wrapLines(p, 76).join('\n') + '\n'; }))
       .concat(['ABOUT THE AUTHOR', wrapLines(($('#bio-short') || { innerText: '' }).innerText.trim(), 76).join('\n'), '',
@@ -1396,7 +1403,7 @@
         download('clemency-thorne-fact-sheet.txt', 'CLEMENCY THORNE: FACT SHEET\n\n' + rows.join('\n') + '\n');
       }
     });
-    $$('[data-release-full]').forEach(function (el) { el.textContent = longDay(BOOK_BY_ID[NEW_RELEASE].pub) + ' ' + BOOK_BY_ID[NEW_RELEASE].pub.slice(0, 4); });
+    $$('[data-release-full]').forEach(function (el) { el.textContent = longDay(BOOK_BY_ID[NEW_RELEASE].pub, true, true); });
   }
 
   /* ======================================================================

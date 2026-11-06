@@ -1,8 +1,8 @@
 /* Guardmere — independent security practice. No external scripts or telemetry. */
 (() => {
   "use strict";
-  const TIME_ZONE = "Europe/London";
-  const DAY_RATE_PENCE = 95000;
+  const TIME_ZONE = "America/Chicago";
+  const DAY_RATE_PENCE = 180000;
   const PRIORITY_MULTIPLIER = 1.15;
   const STORAGE_KEYS = { assessment: "guardmere.assessment.v1", readiness: "guardmere.readiness.v1" };
   const SIZE_BANDS = {
@@ -16,7 +16,7 @@
     operations: "Operations & resilience",
     people: "People & governance",
   };
-  // Add ISO dates here for exceptional closures. An empty array enables normal working days.
+  // Add ISO dates here for exceptional closures. An empty array enables normal business days.
   const EXTRA_CLOSURES = [];
   const CONSULTATION_DAYS = 10;
   const CONSULTATIONS_ENABLED = true;
@@ -27,13 +27,13 @@
       category: "systems",
       days: 1.5,
       strap: "Who can reach what, and why.",
-      intro: "Review privileged access, joiners and leavers, and authentication across the systems that matter.",
+      intro: "Review privileged access, onboarding and offboarding, and authentication across the systems that matter.",
       deliverables: [
         "Access map and account ownership",
         "Privileged account review",
         "Practical authentication priorities",
       ],
-      evidence: ["An up-to-date user list", "A list of administrators", "Joiner and leaver procedures"],
+      evidence: ["An up-to-date user list", "A list of administrators", "Onboarding and offboarding procedures"],
       question: "Can you explain who has privileged access and when it was last reviewed?",
       next: "Start with account ownership and remove access no longer required.",
     },
@@ -57,7 +57,7 @@
       strap: "A clear view above the surface.",
       intro:
         "Review configuration and responsibilities across hosted workloads, including identity, logging and exposure.",
-      deliverables: ["Configuration review", "Shared responsibility map", "Prioritised change list"],
+      deliverables: ["Configuration review", "Shared responsibility map", "Prioritized change list"],
       evidence: ["Cloud account inventory", "Architecture diagrams", "Configuration exports"],
       question: "Are your cloud workloads documented with clear responsibility for security?",
       next: "Identify the owner and business purpose of each workload first.",
@@ -81,7 +81,7 @@
       days: 1.25,
       strap: "A backup is only the beginning.",
       intro:
-        "Compare recovery arrangements with the time your organisation can afford to be without critical services.",
+        "Compare recovery arrangements with the time your organization can afford to be without critical services.",
       deliverables: ["Recovery dependency map", "Restore evidence review", "Exercise and improvement plan"],
       evidence: ["Backup schedules", "Recent restoration evidence", "Recovery priorities"],
       question: "Have you restored a critical service and recorded what happened?",
@@ -101,16 +101,16 @@
     },
     {
       id: "suppliers",
-      name: "Supplier assurance",
+      name: "Vendor assurance",
       category: "people",
       days: 1,
       strap: "Ask useful questions of others.",
       intro:
         "Identify services you rely on and assess the evidence available for their access, continuity and incident support.",
-      deliverables: ["Supplier dependency register", "Evidence request set", "Review and escalation cadence"],
-      evidence: ["Critical supplier list", "Relevant contracts", "Supplier access register"],
-      question: "Do critical suppliers have named owners and a current review?",
-      next: "Rank suppliers by business dependency before requesting more paperwork.",
+      deliverables: ["Vendor dependency register", "Evidence request set", "Review and escalation cadence"],
+      evidence: ["Critical vendor list", "Relevant contracts", "Vendor access register"],
+      question: "Do critical vendors have named owners and a current review?",
+      next: "Rank vendors by business dependency before requesting more paperwork.",
     },
     {
       id: "people",
@@ -119,9 +119,9 @@
       days: 0.75,
       strap: "Useful habits, shared widely.",
       intro:
-        "Explore how colleagues recognise concerns, report mistakes and practise common decisions in a supportive setting.",
+        "Explore how colleagues recognize concerns, report mistakes and practice common decisions in a supportive setting.",
       deliverables: ["Role-based learning priorities", "Reporting route review", "Short scenario exercise"],
-      evidence: ["Induction materials", "Reporting contacts", "Previous exercise notes"],
+      evidence: ["Onboarding materials", "Reporting contacts", "Previous exercise notes"],
       question: "Can colleagues describe what to do when something feels wrong?",
       next: "Test the reporting route with a simple scenario and a named responder.",
     },
@@ -145,11 +145,11 @@
       days: 1.5,
       strap: "Examine what you put online.",
       intro:
-        "An authorised review of public service configuration and application controls, scoped to your business context.",
+        "An authorized review of public service configuration and application controls, scoped to your business context.",
       deliverables: ["Agreed testing boundary", "Evidence-led findings", "Remediation verification plan"],
       evidence: ["Service inventory", "Written testing authority", "Change and deployment process"],
       question: "Do you have an owner and an agreed review boundary for public services?",
-      next: "List public services and confirm ownership before authorising any testing.",
+      next: "List public services and confirm ownership before authorizing any testing.",
     },
     {
       id: "monitoring",
@@ -161,14 +161,14 @@
       deliverables: ["Logging coverage map", "Triage responsibilities", "Alert improvement priorities"],
       evidence: ["Logging inventory", "Escalation contacts", "Recent alert records"],
       question: "Are important alerts reviewed by a named person or team?",
-      next: "Choose a small set of important signals and agree a realistic review cadence.",
+      next: "Choose a small set of important signals and agree on a realistic review cadence.",
     },
     {
       id: "incident",
       name: "Incident preparation",
       category: "operations",
       days: 1,
-      strap: "Practise before the pressure.",
+      strap: "Practice before the pressure.",
       intro:
         "Build a practical response structure with decision owners, communication routes and a manageable exercise.",
       deliverables: ["Response role map", "First-hour checklist", "Tabletop exercise findings"],
@@ -188,8 +188,8 @@
         "A professional practice had grown through several small teams. Access decisions lived in separate spreadsheets and nobody could explain the full picture.",
       work: [
         "Mapped identity systems and interviewed each service owner.",
-        "Compared the current account list with the employment register.",
-        "Agreed a repeatable review with a clear exception owner.",
+        "Compared the current account list with HR records.",
+        "Agreed on a repeatable review with a clear exception owner.",
       ],
       evidence: "The practice left with a reconciled access register and a recorded review of privileged accounts.",
       next: "The internal operations lead now owns a quarterly access review and a checklist for role changes.",
@@ -223,24 +223,24 @@
         "Examined configuration evidence against the agreed scope.",
         "Grouped findings by owner and business consequence.",
       ],
-      evidence: "A responsibility map and a prioritised configuration register gave the teams a shared working view.",
+      evidence: "A responsibility map and a prioritized configuration register gave the teams a shared working view.",
       next: "Engineering leads review exceptions alongside normal delivery planning.",
     },
     {
       id: "professional-suppliers",
       sector: "professional",
-      title: "Supplier assurance without a wall of paperwork",
+      title: "Vendor assurance without a wall of paperwork",
       service: "suppliers",
       scale: "40 people · outsourced IT",
       problem:
-        "A small consultancy had inherited lengthy questionnaires that did not reflect which suppliers were essential to client work.",
+        "A small consulting firm had inherited lengthy questionnaires that did not reflect which vendors were essential to client work.",
       work: [
-        "Ranked suppliers by operational dependency and data access.",
+        "Ranked vendors by operational dependency and data access.",
         "Matched evidence requests to actual exposure.",
-        "Agreed a short renewal review and escalation route.",
+        "Agreed on a short renewal review and escalation route.",
       ],
-      evidence: "Critical suppliers each received a named owner and a proportionate review record.",
-      next: "The practice reviews high-dependency suppliers before renewal and after a material service change.",
+      evidence: "Critical vendors each received a named owner and a proportionate review record.",
+      next: "The practice reviews high-dependency vendors before renewal and after a material service change.",
     },
     {
       id: "operations-incident",
@@ -268,7 +268,7 @@
       work: [
         "Mapped event sources and existing response expectations.",
         "Reviewed a small selection of historical alerts.",
-        "Agreed severity criteria and an escalation handover.",
+        "Agreed on severity criteria and an escalation handoff.",
       ],
       evidence: "An owner and expected response were recorded for each retained alert type.",
       next: "The team measures whether alerts lead to useful action before extending coverage.",
@@ -295,7 +295,7 @@
       service: "endpoint",
       intro: "A complete-enough inventory helps you put responsibility in the right place.",
       steps: [
-        "Agree what counts as a managed device.",
+        "Agree on what counts as a managed device.",
         "Record owner, purpose and update responsibility.",
         "Compare the register with a second reliable source.",
       ],
@@ -309,8 +309,8 @@
       intro: "Hosted infrastructure still needs people who own decisions.",
       steps: [
         "List services and the teams using them.",
-        "Agree who owns access, updates and backup.",
-        "Document how responsibility changes at handover.",
+        "Agree on who owns access, updates and backup.",
+        "Document how responsibility changes at handoff.",
       ],
       caution: "Provider assurances do not replace a review of your own configuration.",
     },
@@ -355,7 +355,7 @@
     },
     {
       id: "supplier-review",
-      title: "A proportionate supplier review",
+      title: "A proportionate vendor review",
       topic: "governance",
       service: "suppliers",
       intro: "Focus the questions on the service you depend on.",
@@ -368,7 +368,7 @@
     },
     {
       id: "reporting-culture",
-      title: "Practise a supportive reporting response",
+      title: "Practice a supportive reporting response",
       topic: "governance",
       service: "people",
       intro: "How the first report is handled influences whether colleagues report the next concern.",
@@ -390,17 +390,17 @@
         "Name an owner and record the last review.",
         "Check the wording against an everyday scenario.",
       ],
-      caution: "Legal and regulated obligations may need specialist advice.",
+      caution: "Legal and regulatory obligations may need advice from an attorney.",
     },
     {
       id: "testing-authority",
-      title: "Agree the boundary before security testing",
+      title: "Agree on the boundary before security testing",
       topic: "foundations",
       service: "web",
       intro: "Clear written authority protects people, services and the quality of the review.",
       steps: [
         "List systems, owners and permitted techniques.",
-        "Agree stop conditions and contact routes.",
+        "Agree on stop conditions and contact routes.",
         "Record how findings and data will be handled.",
       ],
       caution: "Do not test third-party services without their written permission.",
@@ -412,7 +412,7 @@
       service: "monitoring",
       intro: "Coverage is valuable when an event leads to an informed decision.",
       steps: [
-        "What behaviour does this signal describe?",
+        "What behavior does this signal describe?",
         "Who is expected to review it and when?",
         "What action can that person take?",
       ],
@@ -434,17 +434,17 @@
   ];
   const TEAM = [
     {
-      name: "Aveline Trelawney",
+      name: "Aveline Tolbert",
       role: "Principal consultant",
       image: "aveline",
       copy: "Aveline connects technical findings with business decisions. She leads assessments, defines practical priorities and keeps the report useful to the people who will act on it.",
       focus: "Assessment strategy · governance · board conversations",
     },
     {
-      name: "Godric Blenkinsop",
+      name: "Garrett Blevins",
       role: "Technical assessment lead",
       image: "godric",
-      copy: "Godric examines the configuration and evidence behind everyday services. His work covers identity, cloud foundations and the boundaries around public-facing systems.",
+      copy: "Garrett examines the configuration and evidence behind everyday services. His work covers identity, cloud foundations and the boundaries around public-facing systems.",
       focus: "Identity · cloud configuration · service reviews",
     },
     {
@@ -466,9 +466,9 @@
       (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character],
     );
   const money = (pence) =>
-    new Intl.NumberFormat("en-GB", {
+    new Intl.NumberFormat("en-US", {
       style: "currency",
-      currency: "GBP",
+      currency: "USD",
       minimumFractionDigits: pence % 100 ? 2 : 0,
       maximumFractionDigits: 2,
     }).format(pence / 100);
@@ -732,14 +732,14 @@
       $("[data-sticky-total]").textContent = money(result.fees);
       $("[data-sticky-summary]").textContent = plan.services.length
         ? `${count(plan.services.length, "area")} · ${result.days} consultant days`
-        : "Tick an area to start your estimate";
+        : "Check an area to start your estimate";
       $("[data-assessment-days]").textContent = `${result.days} consultant days, rounded up to a quarter day.`;
       const missing = ["identity", "email", "recovery"].filter((id) => !plan.services.includes(id));
       $("[data-assessment-advice]").textContent = !plan.services.length
         ? "Choose at least one area to build a useful assessment."
         : missing.length
           ? `Consider adding ${missing.map((id) => SERVICE_MAP[id].name.toLowerCase()).join(", ")} as a foundation. Begin with ownership and access, then examine recovery and response.`
-          : "Your scope covers access, email and recovery foundations. Start by mapping ownership and dependencies, then examine the evidence and agree the next practical changes.";
+          : "Your scope covers access, email and recovery foundations. Start by mapping ownership and dependencies, then examine the evidence and agree on the next practical changes.";
       if (plan.services.length) {
         const coordination = [];
         if (plan.locations > 1) coordination.push(`Name a local contact at each of your ${plan.locations} locations.`);
@@ -858,7 +858,7 @@
       panel.hidden = true;
       render();
       $("[data-reset-readiness]").focus();
-      announce("All readiness ticks and evidence notes cleared.");
+      announce("All readiness checkmarks and evidence notes cleared.");
     });
     render();
   }
@@ -932,51 +932,36 @@
   }
   const dateKey = (date) => date.toISOString().slice(0, 10);
   const addDays = (date, amount) => new Date(date.getTime() + amount * 86400000);
-  function easterSunday(year) {
-    const a = year % 19,
-      b = Math.floor(year / 100),
-      c = year % 100,
-      d = Math.floor(b / 4),
-      e = b % 4;
-    const f = Math.floor((b + 8) / 25),
-      g = Math.floor((b - f + 1) / 3),
-      h = (19 * a + b - d - g + 15) % 30;
-    const i = Math.floor(c / 4),
-      k = c % 4,
-      l = (32 + 2 * e + 2 * i - h - k) % 7,
-      m = Math.floor((a + 11 * h + 22 * l) / 451);
-    const month = Math.floor((h + l - 7 * m + 114) / 31),
-      day = ((h + l - 7 * m + 114) % 31) + 1;
-    return new Date(Date.UTC(year, month - 1, day, 12));
-  }
   function monday(year, month, last = false) {
     const date = new Date(Date.UTC(year, month, last ? 0 : 1, 12));
     return addDays(date, last ? -((date.getUTCDay() + 6) % 7) : (8 - date.getUTCDay()) % 7);
   }
+  function nthWeekday(year, month, weekday, nth) {
+    const first = new Date(Date.UTC(year, month, 1, 12));
+    return addDays(first, ((weekday - first.getUTCDay() + 7) % 7) + (nth - 1) * 7);
+  }
+  // A fixed-date holiday on a Saturday is observed on Friday, and on a Sunday on Monday.
+  function observed(date) {
+    const day = date.getUTCDay();
+    return day === 6 ? addDays(date, -1) : day === 0 ? addDays(date, 1) : date;
+  }
+  // US federal holidays, worked out by rule for any year.
   function bankHolidays(year) {
     const days = new Set();
     const add = (date) => days.add(dateKey(date));
-    const newYear = new Date(Date.UTC(year, 0, 1, 12));
-    add(newYear);
-    if ([0, 6].includes(newYear.getUTCDay())) add(addDays(newYear, newYear.getUTCDay() === 6 ? 2 : 1));
-    const easter = easterSunday(year);
-    add(addDays(easter, -2));
-    add(addDays(easter, 1));
-    add(monday(year, 4));
-    add(monday(year, 5, true));
-    add(monday(year, 8, true));
-    const christmas = new Date(Date.UTC(year, 11, 25, 12));
-    const boxing = new Date(Date.UTC(year, 11, 26, 12));
-    add(christmas);
-    add(boxing);
-    [christmas, boxing]
-      .filter((date) => [0, 6].includes(date.getUTCDay()))
-      .forEach((date) => {
-        let substitute = addDays(date, 1);
-        while ([0, 6].includes(substitute.getUTCDay()) || days.has(dateKey(substitute)))
-          substitute = addDays(substitute, 1);
-        add(substitute);
-      });
+    const fixed = (y, month, day) => add(observed(new Date(Date.UTC(y, month, day, 12))));
+    fixed(year, 0, 1); // New Year's Day
+    fixed(year + 1, 0, 1); // Next New Year's Day can be observed on December 31 of this year.
+    add(nthWeekday(year, 0, 1, 3)); // Martin Luther King Jr. Day
+    add(nthWeekday(year, 1, 1, 3)); // Washington's Birthday
+    add(monday(year, 5, true)); // Memorial Day, the last Monday in May
+    fixed(year, 5, 19); // Juneteenth
+    fixed(year, 6, 4); // Independence Day
+    add(monday(year, 8)); // Labor Day, the first Monday in September
+    add(nthWeekday(year, 9, 1, 2)); // Columbus Day
+    fixed(year, 10, 11); // Veterans Day
+    add(nthWeekday(year, 10, 4, 4)); // Thanksgiving
+    fixed(year, 11, 25); // Christmas Day
     EXTRA_CLOSURES.filter((value) => /^\d{4}-\d{2}-\d{2}$/.test(value)).forEach((value) => days.add(value));
     return days;
   }
@@ -991,11 +976,11 @@
     return result;
   }
   const formatDate = (date) =>
-    new Intl.DateTimeFormat("en-GB", {
+    new Intl.DateTimeFormat("en-US", {
       timeZone: TIME_ZONE,
       weekday: "short",
+      month: "short",
       day: "numeric",
-      month: "long",
       year: "numeric",
     }).format(date);
   function setupContact() {
@@ -1012,12 +997,12 @@
     const dates = consultationDates();
     const select = $("[data-consultation-date]");
     select.innerHTML =
-      '<option value="">Choose a working day</option>' +
+      '<option value="">Choose a business day</option>' +
       dates.map((date) => `<option value="${dateKey(date)}">${formatDate(date)}</option>`).join("");
     const plan = loadPlan();
     $("[data-contact-scope]").textContent =
       safeStorage.get(STORAGE_KEYS.assessment) !== null
-        ? `Your saved assessment: ${planSummary(plan)}. Planning estimate ${money(estimate(plan).fees)} excluding VAT.`
+        ? `Your saved assessment: ${planSummary(plan)}. Planning estimate ${money(estimate(plan).fees)} excluding any sales tax.`
         : "No assessment saved yet. Your message is enough for a first conversation.";
     const toggle = $("[data-call-toggle]");
     if (!CONSULTATIONS_ENABLED) {
@@ -1052,7 +1037,7 @@
       if (message.length < 20 || message.length > 2000)
         fail("message", "Tell us a little more, using 20–2,000 characters.");
       if (toggle.checked && !consultationDates().some((date) => dateKey(date) === select.value))
-        fail("date", "Choose an available working day for your call preference.");
+        fail("date", "Choose an available business day for your call preference.");
       const invalid = $('[aria-invalid="true"]', form);
       if (invalid) {
         $("[data-form-errors]").textContent = "Please check the highlighted details before continuing.";
@@ -1062,14 +1047,14 @@
       }
       // Production integration: POST new FormData(form) to your own endpoint or form service.
       // Await fetch(...), check response.ok, and show this success state ONLY after the endpoint accepts it.
-      // This standalone front-end has no network submission; replace this branch before accepting real enquiries.
+      // This standalone front-end has no network submission; replace this branch before accepting real inquiries.
       const referenceBytes = new Uint32Array(1);
       crypto.getRandomValues(referenceBytes);
       const reference = `GM-${String(referenceBytes[0] % 1000000).padStart(6, "0")}`;
       $("[data-success-heading]").textContent = `Thanks, ${name.split(/\s+/)[0]}.`;
       $("[data-success-message]").textContent = toggle.checked
-        ? `Your conversation request includes a preference for ${formatDate(new Date(select.value + "T12:00:00Z"))} at ${form.elements.time.value}. We will confirm availability when we reply.`
-        : "Your conversation request has reached the practice. We will reply within one working day.";
+        ? `Your conversation request includes a preference for ${form.elements.time.value} on ${formatDate(new Date(select.value + "T12:00:00Z"))}. We will confirm availability when we reply.`
+        : "Your conversation request has reached the practice. We will reply within one business day.";
       $("[data-success-reference]").textContent = reference;
       form.hidden = true;
       const success = $("[data-contact-success]");

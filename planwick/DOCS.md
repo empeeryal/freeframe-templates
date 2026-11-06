@@ -2,7 +2,7 @@
 
 ## Overview
 
-Planwick is a spacious product-planning website for a fictional SaaS business in Leominster, in a deep indigo, periwinkle and marigold palette. Version 1.0.1 uses static HTML, Tailwind CSS v4 and plain browser JavaScript. Its workspace combines a roadmap, transparent priority inputs and capacity-based release planning. The [template page](https://freeframe.dev/templates/planwick) links to the live preview.
+Planwick is a spacious product-planning website for a fictional SaaS business in Chapel Hill, North Carolina, in a deep indigo, periwinkle and marigold palette. Version 1.0.2 uses static HTML, Tailwind CSS v4 and plain browser JavaScript. Its workspace combines a roadmap, transparent priority inputs and capacity-based release planning. The [template page](https://freeframe.dev/templates/planwick) links to the live preview.
 
 ## Quick start
 
@@ -43,7 +43,7 @@ npm run build
 | `contact.html`      | Business inquiries   | Validation, optional conversation date, reference and success state       |
 | `404.html`          | Recovery page        | Links back to the product, workspace and library                          |
 
-The contact page introduces the three team members and gives opening hours.
+The contact page introduces the three team members and gives business hours.
 All nine pages have their own title, description and one main heading.
 
 ## Project structure
@@ -57,15 +57,15 @@ planwick/
   pricing.html           Plan calculator
   integrations.html      Connection rollout checklist
   resources.html         Searchable planning guides
-  contact.html           Enquiry form and team information
+  contact.html           Inquiry form and team information
   404.html               Recovery page
   assets/
     css/style.css        Compiled, minified Tailwind stylesheet
-    js/data.js           Business catalogue and calculation inputs
+    js/data.js           Business catalog and calculation inputs
     js/main.js           Browser interactions and validation
     img/                 Original SVG artwork, favicon and sharing image
   src/input.css          Tailwind import, theme and reusable components
-  template.json          Catalogue metadata and page list
+  template.json          Catalog metadata and page list
   package.json           Stylesheet build and watch commands
   README.md              Short introduction and local start
   CHANGELOG.md           Release history
@@ -142,7 +142,7 @@ Initiative records include these real fields:
   effort: 5,
   summary: 'Bring projects, decisions and files into one searchable view.',
   evidence: 'Support conversations repeatedly mention switching between three places to find one answer.',
-  owner: 'Ailwyn Branthwaite'
+  owner: 'Alton Bynum'
 }
 ```
 
@@ -180,8 +180,8 @@ Update both when changing the business identity.
 ### Customers, numbers and security claims
 
 The customer wordmarks, the four numbers on the home page, the quotes and the three customer stories on the use-cases
-page, and the security and trust section on the product page (UK hosting, encryption, single sign-on, backups,
-UK GDPR and Cyber Essentials Plus) are written for the fictional business. Replace every one of them with your own
+page, and the security and trust section on the product page (US hosting, encryption, single sign-on, backups,
+privacy and security paperwork) are written for the fictional business. Replace every one of them with your own
 facts, and only claim certifications and hosting arrangements you actually have.
 
 ### Navigation, header and footer
@@ -191,7 +191,7 @@ Update them consistently when adding a page.
 Set `aria-current="page"` on its matching navigation entry.
 The main menu switches to the mobile version below 1024 pixels.
 Keep `menu-toggle` and `mobile-menu` IDs and their ARIA relationship intact.
-The footer year is filled from the current Europe/London calendar date.
+The footer year is filled from the current America/New_York calendar date.
 Replace the fictional address, telephone, email and business statement before launch.
 
 ## Features
@@ -253,7 +253,7 @@ Removing a release row moves focus to the nearest remaining Remove button.
 The Clear release scope button keeps initiative scores and stages.
 
 `KEEP_RELEASES_CURRENT` defaults to `true` in `main.js`.
-`releaseStart` then chooses the next strictly future Monday from Europe/London today.
+`releaseStart` then chooses the next strictly future Monday from America/New_York today.
 If today is Monday it chooses the following Monday.
 Date arithmetic uses UTC noon to avoid daylight-saving boundary drift.
 Set `KEEP_RELEASES_CURRENT` to `false` to use `FIXED_RELEASE_START`, currently `2026-10-26`.
@@ -271,14 +271,14 @@ The workspace link opens the saved plan.
 ### Pricing calculator
 
 `setupPricing` reads catalog rates from `PLANWICK_DATA.plans`.
-The monthly seat rates in pence are Start 600, Team 1200 and Scale 2200.
+The monthly seat rates in cents are Start 800, Team 1500 and Scale 2900.
 The accepted seat count is 2–200 whole people.
 Annual billing reduces the seat component by 20%.
-The Insights pack adds 3500 pence per monthly equivalent.
-Extended archive adds 1500 pence per monthly equivalent.
+The Insights pack adds 4000 cents per monthly equivalent.
+Extended archive adds 2000 cents per monthly equivalent.
 Add-ons receive no additional annual discount.
 The annual invoice is twelve times the monthly equivalent.
-Prices exclude VAT, and no payment is collected.
+Prices exclude sales tax, and no payment is collected.
 
 `plan`, `seats` and `billing` query parameters can initialize this page.
 Plans must be own properties of the catalog; unknown plans are ignored.
@@ -319,14 +319,15 @@ The topic and team-size selectors capture the purpose and scale of the request.
 The optional preferred date appears only for product walkthroughs.
 
 `conversationDays` provides the next six Tuesday or Thursday dates after today, labeled with the weekday
-(for example "Tuesday 27 October 2026"). When a walkthrough is requested with a specific day, the success panel
-repeats it: "We’ll suggest a walkthrough time on Tuesday 27 October 2026, in UK time."
-It uses Europe/London for the current day and UTC noon for date arithmetic.
-The business closes from 24 December through 3 January, inclusive.
+(for example "Tuesday, October 27, 2026"). When a walkthrough is requested with a specific day, the success panel
+repeats it: "We’ll suggest a walkthrough time on Tuesday, October 27, 2026, in Eastern time."
+It uses America/New_York for the current day and UTC noon for date arithmetic.
+The business closes on US federal holidays (`federalHolidays`, worked out by rule for any year) and from December 24
+through January 3, inclusive.
 `KEEP_CONVERSATIONS_CURRENT` defaults to `true`.
 Set it to `false` to calculate from `FIXED_CONVERSATION_START`, currently `2026-10-20`.
 This gives a reproducible preview; it does not represent calendar availability.
-The team agrees an exact time after discussing the request.
+The team agrees on an exact time after discussing the request.
 
 Valid `plan`, `seats` and `billing` parameters prefill a pricing inquiry.
 No raw URL value is inserted into HTML.

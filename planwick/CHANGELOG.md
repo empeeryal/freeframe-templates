@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-11-05
+
+### Changed
+
+- Set in Chapel Hill, North Carolina, with American spelling, US dollars, US phone numbers and local details.
+- The walkthrough calendar now skips US federal holidays, worked out by rule for any year, and uses Eastern time.
+
 ## [1.0.1] - 2026-11-05
 
 ### Changed

@@ -10,17 +10,17 @@
   // Used in the page titles this script sets (course pages).
   var SITE_NAME = 'Marnie Draws';
   // Every date and time (workshops, the early-bird deadline) is wall-clock time here.
-  var TIMEZONE = 'Europe/London';
-  var LOCALE = 'en-GB';
-  var CURRENCY = 'GBP';
+  var TIMEZONE = 'America/New_York';
+  var LOCALE = 'en-US';
+  var CURRENCY = 'USD';
   // localStorage keys. Both hold arrays of ids and are validated on every read.
   var STORAGE_KEYS = { saved: 'sketch-saved', waitlist: 'sketch-waitlist' };
   // A workshop with this many seats or fewer left shows a "few seats left" warning.
   var FEW_SEATS = 5;
   var INK = '#1d1626';
 
-  // Early-bird deadline for the flagship course, as UK wall-clock time ('2026-11-15T23:59').
-  // null = the rolling demo deadline: the end of the current month at 23:59, or of next month when
+  // Early-bird deadline for the flagship course, as Eastern wall-clock time ('2026-11-15T23:59').
+  // null = the rolling demo deadline: the end of the current month at 11:59 PM, or of next month when
   // fewer than 7 days are left, so the demo offer is always running. Set a real date for your launch.
   var EARLY_BIRD_ENDS = null;
   // Demo dates: the workshops below are written for the week of DEMO_ANCHOR. While KEEP_DEMO_CURRENT
@@ -96,13 +96,13 @@
      3. Time (always in TIMEZONE)
      ====================================================================== */
   function now() { return new Date(); }
-  var partsFmt = new Intl.DateTimeFormat('en-GB', { timeZone: TIMEZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' });
+  var partsFmt = new Intl.DateTimeFormat('en-US', { timeZone: TIMEZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' });
   function zoneParts(date) {
     var p = {};
     partsFmt.formatToParts(date).forEach(function (x) { p[x.type] = x.value; });
     return { y: +p.year, m: +p.month, d: +p.day, h: +p.hour % 24, mi: +p.minute, s: +p.second };
   }
-  // Milliseconds TIMEZONE is ahead of UTC at a given instant (0 in winter, 1 h in summer for London).
+  // Milliseconds TIMEZONE is ahead of UTC at a given instant (-5 h in winter, -4 h in summer for New York).
   function offsetAt(ms) {
     var p = zoneParts(new Date(ms));
     return Date.UTC(p.y, p.m - 1, p.d, p.h, p.mi, p.s) - Math.floor(ms / 1000) * 1000;
@@ -120,7 +120,7 @@
   function dayNum(isoDate) { var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(isoDate); return m ? Date.UTC(+m[1], +m[2] - 1, +m[3]) / 864e5 : NaN; }
   function londonDayNum(date) { var p = zoneParts(date); return Date.UTC(p.y, p.m - 1, p.d) / 864e5; }
   function isoFromDayNum(n) { return new Date(n * 864e5).toISOString().slice(0, 10); }
-  // The rolling demo deadline (EARLY_BIRD_ENDS = null): end of this month at 23:59 UK time, or of
+  // The rolling demo deadline (EARLY_BIRD_ENDS = null): end of this month at 11:59 PM Eastern time, or of
   // next month when fewer than 7 days are left.
   function rollingDeadline(at) {
     var p = zoneParts(at), y = p.y, m = p.m;
@@ -135,9 +135,9 @@
   function fmtIn(date, opts, zone) {
     return new Intl.DateTimeFormat(LOCALE, Object.assign({ timeZone: zone || TIMEZONE }, opts)).format(date);
   }
-  // Short zone label. TIMEZONE uses ZONE_LABELS by offset (browsers differ: "BST" vs "GMT+1");
+  // Short zone label. TIMEZONE uses ZONE_LABELS by offset (browsers differ: "EDT" vs "GMT-4");
   // other zones use whatever the browser gives.
-  var ZONE_LABELS = { '0': 'GMT', '60': 'BST' };
+  var ZONE_LABELS = { '-300': 'EST', '-240': 'EDT' };
   function zoneName(date, zone) {
     if (!zone || zone === TIMEZONE) {
       var mins = String(Math.round(offsetAt(date.getTime()) / 60000));
@@ -147,7 +147,7 @@
       .filter(function (p) { return p.type === 'timeZoneName'; })[0];
     return part ? part.value : '';
   }
-  function clock(date, zone) { return fmtIn(date, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }, zone); }
+  function clock(date, zone) { return fmtIn(date, { hour: 'numeric', minute: '2-digit', hour12: true }, zone); }
   function longDate(date) { return fmtIn(date, { weekday: 'long', day: 'numeric', month: 'long' }); }
   var visitorZone = (function () { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { return ''; } })();
 
@@ -156,18 +156,18 @@
      ====================================================================== */
   var LEVELS = {
     beginner: { name: 'Beginner', bg: 'bg-green-soft' },
-    improver: { name: 'Improver', bg: 'bg-yellow-soft' },
+    improver: { name: 'Intermediate', bg: 'bg-yellow-soft' },
     confident: { name: 'Confident', bg: 'bg-lilac-soft' }
   };
   var TOPICS = {
     basics: 'Drawing basics',
     characters: 'Characters',
     lettering: 'Lettering',
-    colour: 'Colour',
+    colour: 'Color',
     places: 'Places and scenes',
     animation: 'Animation'
   };
-  // Marker colours used by course covers and stickers (hex for SVG art).
+  // Marker colors used by course covers and stickers (hex for SVG art).
   var COLOURS = {
     pink: { fill: '#ff6fae', soft: '#ffd9ea' },
     blue: { fill: '#6d93ff', soft: '#dce6ff' },
@@ -176,7 +176,7 @@
     orange: { fill: '#ff9446', soft: '#ffe2cc' },
     lilac: { fill: '#b9a2ff', soft: '#ebe3ff' }
   };
-  // Colour sets for generated artwork: background + three fills.
+  // Color sets for generated artwork: background + three fills.
   var PALETTES = {
     sunny: { bg: '#fff1b0', a: '#ff9446', b: '#ff6fae', c: '#3fd19a' },
     candy: { bg: '#ffd9ea', a: '#ff6fae', b: '#ffd84a', c: '#6d93ff' },
@@ -191,19 +191,19 @@
      [title, minutes, 'project']. Lesson counts and runtimes are computed from this. */
   var COURSES = [
     { id: 'draw-anything', title: 'Draw Anything on iPad', tagline: 'From blank canvas to finished drawings you are proud of, in five friendly modules.',
-      level: 'beginner', topic: 'basics', price: 129, earlyBird: { price: 89, ends: EARLY_BIRD_ENDS },
+      level: 'beginner', topic: 'basics', price: 149, earlyBird: { price: 99, ends: EARLY_BIRD_ENDS },
       colour: 'yellow', motif: 'mug', palette: 'sunny', badge: 'Flagship', rating: 4.9, reviews: 1480, students: 9120, app: 'Procreate or Fresco',
-      summary: 'My signature course for complete beginners. We start with the iPad itself, then build every drawing from simple shapes, add colour that works and finish with a scene that is all yours. No talent required, just a bit of practice.',
-      makes: [['A cosy mug still life', 'mug'], ['Your pet as a character', 'cat'], ['A little shop front', 'house'], ['A sketchbook spread of 30 objects', 'plant']],
+      summary: 'My signature course for complete beginners. We start with the iPad itself, then build every drawing from simple shapes, add color that works and finish with a scene that is all yours. No talent required, just a bit of practice.',
+      makes: [['A cozy mug still life', 'mug'], ['Your pet as a character', 'cat'], ['A little storefront', 'house'], ['A sketchbook spread of 30 objects', 'plant']],
       modules: [
         ['Getting comfy with your iPad', [['Setting up your canvas', 8], ['The five brushes I actually use', 12], ['Layers without the fear', 14], ['Undo is your best friend', 6]]],
         ['Shapes first, details later', [['Seeing in simple shapes', 11], ['A mug from three shapes', 16, 'project'], ['Line weight and wobble', 9], ['Your first still life', 22, 'project']]],
-        ['Colour that works', [['Picking a small palette', 12], ['Flat colour, fast', 10], ['Shading with multiply layers', 15], ['Highlights and texture', 13]]],
+        ['Color that works', [['Picking a small palette', 12], ['Flat color, fast', 10], ['Shading with multiply layers', 15], ['Highlights and texture', 13]]],
         ['Characters and pets', [['Faces from circles', 14], ['An expressions cheat sheet', 9], ['Turning your pet into a character', 24, 'project']]],
-        ['Putting it all together', [['Composing a scene', 13], ['Drawing a shop front', 28, 'project'], ['Exporting and sharing', 7], ['Your 30-object sketchbook', 10, 'project']]]
+        ['Putting it all together', [['Composing a scene', 13], ['Drawing a storefront', 28, 'project'], ['Exporting and sharing', 7], ['Your 30-object sketchbook', 10, 'project']]]
       ] },
     { id: 'characters', title: 'Characters with Charm', tagline: 'Design lovable characters with personality, poses and a look that is unmistakably yours.',
-      level: 'improver', topic: 'characters', price: 99, earlyBird: null,
+      level: 'improver', topic: 'characters', price: 119, earlyBird: null,
       colour: 'pink', motif: 'cat', palette: 'candy', badge: 'Bestseller', rating: 4.9, reviews: 620, students: 4310, app: 'Procreate or Fresco',
       summary: 'Take your doodles further. You will learn shape language, expressions and poses, then design a small cast of characters and a sticker sheet to show them off.',
       makes: [['A cast of three characters', 'cat'], ['An expressions sheet', 'whale'], ['A printable sticker sheet', 'mushroom']],
@@ -214,35 +214,35 @@
         ['Your cast', [['Designing a hero', 22, 'project'], ['Sidekicks and contrast', 17], ['A turnaround sheet', 19], ['Making a sticker sheet', 21, 'project']]]
       ] },
     { id: 'loose-lettering', title: 'Loose Hand Lettering', tagline: 'Bouncy, brushy lettering for cards, quotes and sketchbook headers.',
-      level: 'beginner', topic: 'lettering', price: 69, earlyBird: null,
+      level: 'beginner', topic: 'lettering', price: 79, earlyBird: null,
       colour: 'green', motif: 'lettering', palette: 'mint', badge: '', rating: 4.8, reviews: 540, students: 3870, app: 'Procreate',
-      summary: 'Lettering that looks relaxed but is built on a few simple rules. Learn pressure, spacing and bounce, then letter a set of greetings cards you can actually send.',
-      makes: [['A bouncy alphabet', 'lettering'], ['Three greetings cards', 'rainbow'], ['A quote poster', 'moon']],
+      summary: 'Lettering that looks relaxed but is built on a few simple rules. Learn pressure, spacing and bounce, then letter a set of greeting cards you can actually send.',
+      makes: [['A bouncy alphabet', 'lettering'], ['Three greeting cards', 'rainbow'], ['A quote poster', 'moon']],
       modules: [
         ['Pressure and rhythm', [['Thick down, thin up', 9], ['Drills that do not feel like drills', 12], ['Setting up a pressure curve', 7]]],
         ['Letters with bounce', [['Lowercase, loosened', 16], ['Capitals with swagger', 14], ['Spacing by eye', 10]]],
-        ['Making it pretty', [['Shadows and highlights', 11], ['Flourishes, sparingly', 9], ['Lettering a greetings card', 18, 'project'], ['A quote poster', 20, 'project']]]
+        ['Making it pretty', [['Shadows and highlights', 11], ['Flourishes, sparingly', 9], ['Lettering a greeting card', 18, 'project'], ['A quote poster', 20, 'project']]]
       ] },
-    { id: 'colour-confidence', title: 'Colour Confidence', tagline: 'Stop guessing. Build palettes that glow and light that feels real.',
-      level: 'improver', topic: 'colour', price: 79, earlyBird: null,
+    { id: 'colour-confidence', title: 'Color Confidence', tagline: 'Stop guessing. Build palettes that glow and light that feels real.',
+      level: 'improver', topic: 'colour', price: 89, earlyBird: null,
       colour: 'orange', motif: 'rainbow', palette: 'peach', badge: '', rating: 4.8, reviews: 410, students: 2950, app: 'Procreate or Fresco',
-      summary: 'A practical course on colour for illustrators. Value first, then hue, temperature and light, with palette exercises you can reuse for every drawing after.',
+      summary: 'A practical course on color for illustrators. Value first, then hue, temperature and light, with palette exercises you can reuse for every drawing after.',
       makes: [['Five reusable palettes', 'rainbow'], ['One scene, four moods', 'house'], ['A glowing night drawing', 'moon']],
       modules: [
-        ['Value before hue', [['Squint at it', 8], ['Greyscale first, colour later', 14], ['Clipping masks and gradient maps', 16]]],
-        ['Building palettes', [['Three-colour palettes', 12], ['Warm, cool and neutral', 11], ['Stealing from photos, nicely', 10], ['Your palette library', 15, 'project']]],
+        ['Value before hue', [['Squint at it', 8], ['Grayscale first, color later', 14], ['Clipping masks and gradient maps', 16]]],
+        ['Building palettes', [['Three-color palettes', 12], ['Warm, cool and neutral', 11], ['Stealing from photos, nicely', 10], ['Your palette library', 15, 'project']]],
         ['Light and mood', [['Morning, noon and night', 18], ['Glow and rim light', 13], ['One scene, four moods', 24, 'project']]]
       ] },
-    { id: 'cosy-places', title: 'Cosy Places', tagline: 'Draw warm little interiors and streets with simple perspective and lots of detail.',
-      level: 'confident', topic: 'places', price: 109, earlyBird: null,
+    { id: 'cosy-places', title: 'Cozy Places', tagline: 'Draw warm little interiors and streets with simple perspective and lots of detail.',
+      level: 'confident', topic: 'places', price: 129, earlyBird: null,
       colour: 'blue', motif: 'house', palette: 'sky', badge: '', rating: 4.9, reviews: 350, students: 2140, app: 'Procreate',
-      summary: 'For when you are ready to draw whole scenes. Friendly perspective, clever shortcuts for clutter and a big final illustration of a café, bookshop or bedroom.',
-      makes: [['A corner café', 'mug'], ['A seaside street', 'house'], ['Your own room, cosier', 'plant']],
+      summary: 'For when you are ready to draw whole scenes. Friendly perspective, clever shortcuts for clutter and a big final illustration of a café, bookstore or bedroom.',
+      makes: [['A corner café', 'mug'], ['A beach-town street', 'house'], ['Your own room, cozier', 'plant']],
       modules: [
-        ['Perspective, gently', [['One-point, no maths', 15], ['Two-point in practice', 18], ['Perspective guides that help', 9]]],
+        ['Perspective, gently', [['One-point, no math', 15], ['Two-point in practice', 18], ['Perspective guides that help', 9]]],
         ['Clutter is the charm', [['Shelves, plants and books', 17], ['Repeating with variety', 12], ['Textures that read small', 14]]],
         ['Light inside', [['Window light', 13], ['Lamps and evening glow', 15]]],
-        ['The big scene', [['Planning with thumbnails', 11], ['Line art in layers', 26, 'project'], ['Colour and lighting pass', 28, 'project'], ['Finishing touches', 12]]]
+        ['The big scene', [['Planning with thumbnails', 11], ['Line art in layers', 26, 'project'], ['Color and lighting pass', 28, 'project'], ['Finishing touches', 12]]]
       ] },
     { id: 'sketchbook-habit', title: 'The 30-Day Sketchbook Habit', tagline: 'Ten minutes a day, thirty prompts, and a full sketchbook by the end of the month.',
       level: 'beginner', topic: 'basics', price: 0, earlyBird: null,
@@ -256,7 +256,7 @@
         ['Week four: out and about', [['Sketching on the go', 6], ['Days 22 to 30 prompts', 18, 'project']]]
       ] },
     { id: 'wiggle', title: 'Make Your Doodles Wiggle', tagline: 'Simple frame-by-frame animation for looping stickers, GIFs and social posts.',
-      level: 'confident', topic: 'animation', price: 89, earlyBird: null,
+      level: 'confident', topic: 'animation', price: 99, earlyBird: null,
       colour: 'pink', motif: 'whale', palette: 'candy', badge: 'New', rating: 4.7, reviews: 96, students: 760, app: 'Procreate',
       summary: 'Bring your drawings to life with short, satisfying loops. Boiling lines, bounces and blinks, exported as GIFs and videos ready to share.',
       makes: [['A boiling-line sticker', 'whale'], ['A bouncing character loop', 'cat'], ['An animated greeting', 'lettering']],
@@ -271,32 +271,32 @@
   var FLAGSHIP = 'draw-anything';
 
   var REVIEWS = [
-    { course: 'draw-anything', name: 'Hettie M.', where: 'Whitby', text: 'I bought an iPad for drawing and then never drew. Three weeks into this course I had a sketchbook full of mugs, plants and my very judgemental cat.' },
-    { course: 'draw-anything', name: 'Faisal K.', where: 'Luton', text: 'Marnie explains layers better than any video I have watched. Short lessons, no waffle, and the projects actually look good.' },
-    { course: 'draw-anything', name: 'Orla D.', where: 'Galway', text: 'The shapes-first approach clicked straight away. I finally stopped erasing everything.' },
-    { course: 'characters', name: 'Cosmo R.', where: 'Truro', text: 'My characters used to all look the same. Now they have silhouettes, moods and actual personalities.' },
+    { course: 'draw-anything', name: 'Hettie M.', where: 'Bellingham', text: 'I bought an iPad for drawing and then never drew. Three weeks into this course I had a sketchbook full of mugs, plants and my very judgmental cat.' },
+    { course: 'draw-anything', name: 'Faisal K.', where: 'Decatur', text: 'Marnie explains layers better than any video I have watched. Short lessons, no fluff, and the projects actually look good.' },
+    { course: 'draw-anything', name: 'Orla D.', where: 'Dubuque', text: 'The shapes-first approach clicked right away. I finally stopped erasing everything.' },
+    { course: 'characters', name: 'Cosmo R.', where: 'Petaluma', text: 'My characters used to all look the same. Now they have silhouettes, moods and actual personalities.' },
     { course: 'characters', name: 'Lottie P.', where: 'Durham', text: 'The sticker sheet project paid for the course. I sold out at my first craft fair.' },
-    { course: 'loose-lettering', name: 'Imogen T.', where: 'Chester', text: 'Every birthday card in my family is now hand lettered. They have noticed.' },
-    { course: 'colour-confidence', name: 'Rufus A.', where: 'Ipswich', text: 'The value-first exercise changed how I colour everything. My drawings finally glow.' },
-    { course: 'cosy-places', name: 'Zara N.', where: 'Lancaster', text: 'Perspective without the maths, as promised. My café drawing is now on the actual café wall.' },
-    { course: 'sketchbook-habit', name: 'Wendell O.', where: 'Swindon', text: 'Thirty days, thirty drawings, zero excuses. I have kept going for four months.' },
-    { course: 'wiggle', name: 'Tilly B.', where: 'Kendal', text: 'Boiling lines are my new favourite thing. Everything I post wiggles now.' }
+    { course: 'loose-lettering', name: 'Imogen T.', where: 'Tulsa', text: 'Every birthday card in my family is now hand lettered. They have noticed.' },
+    { course: 'colour-confidence', name: 'Rufus A.', where: 'Kalamazoo', text: 'The value-first exercise changed how I color everything. My drawings finally glow.' },
+    { course: 'cosy-places', name: 'Zara N.', where: 'Lancaster', text: 'Perspective without the math, as promised. My café drawing is now on the actual café wall.' },
+    { course: 'sketchbook-habit', name: 'Wendell O.', where: 'Tacoma', text: 'Thirty days, thirty drawings, zero excuses. I have kept going for four months.' },
+    { course: 'wiggle', name: 'Tilly B.', where: 'Sitka', text: 'Boiling lines are my new favorite thing. Everything I post wiggles now.' }
   ];
 
   /* Live workshops. Dates and times are wall-clock times in TIMEZONE. Workshops whose end
      time has passed disappear from the page on their own. */
   var WORKSHOPS = [
-    { id: 'leafy-houseplants', title: 'Leafy Houseplants Draw Along', date: '2026-10-24', start: '10:00', end: '11:30', price: 18, capacity: 40, booked: 33, level: 'beginner', palette: 'peach', motif: 'plant',
-      blurb: 'A windowsill of monsteras, cacti and trailing ivy, drawn together in real time. Bring a cup of tea.' },
-    { id: 'sleepy-moon', title: 'Sleepy Moon Characters', date: '2026-10-31', start: '16:00', end: '17:30', price: 18, capacity: 40, booked: 40, level: 'beginner', palette: 'night', motif: 'moon',
+    { id: 'leafy-houseplants', title: 'Leafy Houseplants Draw Along', date: '2026-10-24', start: '10:00', end: '11:30', price: 25, capacity: 40, booked: 33, level: 'beginner', palette: 'peach', motif: 'plant',
+      blurb: 'A windowsill of monsteras, cacti and trailing ivy, drawn together in real time. Bring a cup of coffee.' },
+    { id: 'sleepy-moon', title: 'Sleepy Moon Characters', date: '2026-10-31', start: '16:00', end: '17:30', price: 25, capacity: 40, booked: 40, level: 'beginner', palette: 'night', motif: 'moon',
       blurb: 'A drowsy moon, a yawning star and a cloud that refuses to get up. Cute characters with lots of glow.' },
-    { id: 'lettering-cards', title: 'Lettering Greetings Cards', date: '2026-11-08', start: '14:00', end: '16:00', price: 22, capacity: 30, booked: 29, level: 'improver', palette: 'mint', motif: 'lettering',
+    { id: 'lettering-cards', title: 'Lettering Greeting Cards', date: '2026-11-08', start: '14:00', end: '16:00', price: 30, capacity: 30, booked: 29, level: 'improver', palette: 'mint', motif: 'lettering',
       blurb: 'Letter three cards for birthdays, thank-yous and just-because, from loose brush script to a print-ready file.' },
-    { id: 'cafe-corner', title: 'Cosy Café Corner', date: '2026-11-21', start: '10:00', end: '12:30', price: 25, capacity: 30, booked: 12, level: 'confident', palette: 'sky', motif: 'mug',
+    { id: 'cafe-corner', title: 'Cozy Café Corner', date: '2026-11-21', start: '10:00', end: '12:30', price: 35, capacity: 30, booked: 12, level: 'confident', palette: 'sky', motif: 'mug',
       blurb: 'A whole café interior in one morning: simple perspective, lots of mugs and a warm lamp-lit glow.' },
     { id: 'sketchbook-kickoff', title: 'Sketchbook Kick-off', date: '2026-12-05', start: '10:00', end: '11:30', price: 0, capacity: 60, booked: 21, level: 'beginner', palette: 'lilac', motif: 'rainbow',
       blurb: 'A free session to set up a fresh sketchbook, pick a theme and draw the first page together.' },
-    { id: 'brush-lab', title: 'Brush Lab: Make Your Own Brushes', date: '2026-12-19', start: '10:00', end: '12:00', price: 22, capacity: 30, booked: 6, level: 'improver', palette: 'candy', motif: 'mushroom',
+    { id: 'brush-lab', title: 'Brush Lab: Make Your Own Brushes', date: '2026-12-19', start: '10:00', end: '12:00', price: 30, capacity: 30, booked: 6, level: 'improver', palette: 'candy', motif: 'mushroom',
       blurb: 'Build a texture brush, a stamp brush and a gouache brush from scratch, and leave with a set you made yourself.' }
   ];
   // Keep the demo current (see KEEP_DEMO_CURRENT): shift every workshop by whole weeks.
@@ -313,7 +313,7 @@
      browser (see resourceFile()); brush packs come with the newsletter. */
   var RESOURCE_TYPES = {
     worksheet: 'Worksheets',
-    palette: 'Colour palettes',
+    palette: 'Color palettes',
     cheatsheet: 'Cheat sheets',
     brushes: 'Brush packs'
   };
@@ -321,14 +321,14 @@
     { id: 'shape-warmups', type: 'worksheet', title: 'Shape warm-ups', blurb: 'Circles, ovals and wobbly boxes to trace and repeat. Five minutes before every drawing.', drill: 'circles' },
     { id: 'line-confidence', type: 'worksheet', title: 'Line confidence drills', blurb: 'Long straight lines, waves and loops. Do one row a day and watch your lines settle.', drill: 'lines' },
     { id: 'face-guides', type: 'worksheet', title: 'Face guide circles', blurb: 'Twelve heads with guide lines, ready for expressions, hair and hats.', drill: 'faces' },
-    { id: 'box-it-up', type: 'worksheet', title: 'Box it up', blurb: 'Simple boxes in perspective to turn into parcels, houses and cafés.', drill: 'boxes' },
-    { id: 'seaside-palette', type: 'palette', title: 'Seaside palette', blurb: 'Six colours from a windy day on the beach: sky, sea, sand and a bright beach hut.', colours: ['#2f5d8a', '#6fb7d6', '#f4e3c1', '#e86f5a', '#ffd166', '#1d1626'] },
-    { id: 'cosy-palette', type: 'palette', title: 'Cosy evening palette', blurb: 'Warm lamps, plum shadows and a cup of cocoa. Great for interiors.', colours: ['#3b2a4a', '#7c4a6b', '#d9805f', '#f2b766', '#fde7c4', '#5b8a72'] },
+    { id: 'box-it-up', type: 'worksheet', title: 'Box it up', blurb: 'Simple boxes in perspective to turn into packages, houses and cafés.', drill: 'boxes' },
+    { id: 'seaside-palette', type: 'palette', title: 'Jersey Shore palette', blurb: 'Six colors from a windy day on the boardwalk: sky, ocean, sand and a bright beach umbrella.', colours: ['#2f5d8a', '#6fb7d6', '#f4e3c1', '#e86f5a', '#ffd166', '#1d1626'] },
+    { id: 'cosy-palette', type: 'palette', title: 'Cozy evening palette', blurb: 'Warm lamps, plum shadows and a cup of cocoa. Great for interiors.', colours: ['#3b2a4a', '#7c4a6b', '#d9805f', '#f2b766', '#fde7c4', '#5b8a72'] },
     { id: 'garden-palette', type: 'palette', title: 'Garden party palette', blurb: 'Fresh greens with pops of pink and yellow for plants and flowers.', colours: ['#2f6b4f', '#7cc48a', '#d6efc7', '#ff8fb8', '#ffd84a', '#f7f1e3'] },
     { id: 'expressions', type: 'cheatsheet', title: 'Expressions cheat sheet', blurb: 'Nine moods drawn with just eyes, brows and mouth. Pin it next to your desk.', drill: 'expressions' },
     { id: 'shading-shapes', type: 'cheatsheet', title: 'Shading simple shapes', blurb: 'Where light and shadow fall on a ball, a box and a cylinder, in one page.', drill: 'shading' },
     { id: 'everyday-brushes', type: 'brushes', title: 'Everyday brush set', blurb: 'The nine Procreate brushes I use for nearly everything: pencil, ink, gouache and grain.', app: 'Procreate' },
-    { id: 'texture-brushes', type: 'brushes', title: 'Texture stamps', blurb: 'Speckles, paper grain and risograph dots to make flat colour feel printed.', app: 'Procreate and Fresco' }
+    { id: 'texture-brushes', type: 'brushes', title: 'Texture stamps', blurb: 'Speckles, paper grain and risograph dots to make flat color feel printed.', app: 'Procreate and Fresco' }
   ];
 
   /* Student gallery. Artwork is drawn in SVG from `motif` and `palette` (see art()). */
@@ -336,16 +336,16 @@
     { id: 'judgy-cat', title: 'Mister Biscuits, unimpressed', student: 'Hettie M.', course: 'draw-anything', motif: 'cat', palette: 'sunny', note: 'My cat, drawn from three circles. He has not forgiven me.' },
     { id: 'first-mug', title: 'First mug, week two', student: 'Faisal K.', course: 'draw-anything', motif: 'mug', palette: 'candy', note: 'The mug project from module two. I drew it nine times.' },
     { id: 'monstera', title: 'Kitchen windowsill', student: 'Orla D.', course: 'sketchbook-habit', motif: 'plant', palette: 'mint', note: 'Day 9: something that grows.' },
-    { id: 'harbour-house', title: 'The house at the end of the harbour', student: 'Zara N.', course: 'cosy-places', motif: 'house', palette: 'sky', note: 'Based on a real cottage. The real one is less pink.' },
-    { id: 'yay-letters', title: 'Yay!', student: 'Imogen T.', course: 'loose-lettering', motif: 'lettering', palette: 'peach', word: 'yay!', note: 'Lettered for my sister passing her driving test.' },
+    { id: 'harbour-house', title: 'The house at the end of the harbor', student: 'Zara N.', course: 'cosy-places', motif: 'house', palette: 'sky', note: 'Based on a real cottage. The real one is less pink.' },
+    { id: 'yay-letters', title: 'Yay!', student: 'Imogen T.', course: 'loose-lettering', motif: 'lettering', palette: 'peach', word: 'yay!', note: 'Lettered for my sister passing her driver’s test.' },
     { id: 'toadstool', title: 'Toadstool sticker', student: 'Lottie P.', course: 'characters', motif: 'mushroom', palette: 'candy', note: 'One of twelve on my sticker sheet.' },
     { id: 'night-sky', title: 'Can’t sleep, drawing', student: 'Rufus A.', course: 'colour-confidence', motif: 'moon', palette: 'night', note: 'Glow and rim light from module three.' },
     { id: 'wiggle-whale', title: 'Wiggle the whale', student: 'Tilly B.', course: 'wiggle', motif: 'whale', palette: 'sky', note: 'He boils on Instagram. Here he holds still.' },
     { id: 'after-rain', title: 'After the rain', student: 'Wendell O.', course: 'sketchbook-habit', motif: 'rainbow', palette: 'lilac', note: 'Day 22: draw the view from your window.' },
-    { id: 'desk-cactus', title: 'Desk cactus called Gary', student: 'Ayo B.', course: 'draw-anything', motif: 'cactus', palette: 'peach', note: 'Shapes first, spikes last.' },
-    { id: 'hello-card', title: 'Hello card', student: 'Rosalind F.', course: 'loose-lettering', motif: 'lettering', palette: 'candy', word: 'hello', note: 'Bouncy capitals were the hardest bit.' },
-    { id: 'mood-cat', title: 'Twelve moods, one cat', student: 'Cosmo R.', course: 'characters', motif: 'cat', palette: 'lilac', note: 'The expressions project, starring my neighbour’s cat.' },
-    { id: 'cocoa', title: 'Cocoa o’clock', student: 'Agnes W.', course: 'colour-confidence', motif: 'mug', palette: 'peach', note: 'Warm palette from the colour course.' },
+    { id: 'desk-cactus', title: 'Desk cactus named Gary', student: 'Ayo B.', course: 'draw-anything', motif: 'cactus', palette: 'peach', note: 'Shapes first, spikes last.' },
+    { id: 'hello-card', title: 'Hello card', student: 'Rosalind F.', course: 'loose-lettering', motif: 'lettering', palette: 'candy', word: 'hello', note: 'Bouncy capitals were the hardest part.' },
+    { id: 'mood-cat', title: 'Twelve moods, one cat', student: 'Cosmo R.', course: 'characters', motif: 'cat', palette: 'lilac', note: 'The expressions project, starring my neighbor’s cat.' },
+    { id: 'cocoa', title: 'Cocoa o’clock', student: 'Agnes W.', course: 'colour-confidence', motif: 'mug', palette: 'peach', note: 'Warm palette from the color course.' },
     { id: 'dream-cottage', title: 'Dream cottage', student: 'Bertie L.', course: 'cosy-places', motif: 'house', palette: 'sunny', note: 'One day. For now, I draw it.' }
   ];
   var GALLERY_BY_ID = {};
@@ -512,7 +512,7 @@
   }
 
   /* ======================================================================
-     7. Course maths and pricing
+     7. Course math and pricing
      ====================================================================== */
   function courseStats(c) {
     var lessons = 0, mins = 0, projects = 0;
@@ -767,7 +767,7 @@
     if (mode === 'enrol') {
       var c = COURSE_BY_ID[id];
       var price = currentPrice(c);
-      title = c.price === 0 ? 'Start ' + c.title : 'Enrol in ' + c.title;
+      title = c.price === 0 ? 'Start ' + c.title : 'Enroll in ' + c.title;
       detail = c.price === 0 ? 'Free, forever. Lessons open as soon as you sign up.' : priceLabel(price) + (price !== c.price ? ' early-bird price (usually ' + money(c.price) + ')' : '') + ', lifetime access.';
       button = c.price === 0 ? 'Start for free' : 'Continue to payment';
     } else {
@@ -818,8 +818,8 @@
           : 'Your free seat is saved, reference ' + ref + '. Look out for a confirmation email with the joining link; the replay follows after the session.';
       } else {
         msg = COURSE_BY_ID[signup.id].price === 0
-          ? 'You’re in, reference ' + ref + '. Look out for your welcome email with your course login; the lessons open straight away.'
-          : 'Your place is saved, reference ' + ref + '. Look out for an email with a secure link to pay; your lessons open as soon as that’s done.';
+          ? 'You’re in, reference ' + ref + '. Look out for your welcome email with your course login; the lessons open right away.'
+          : 'Your spot is saved, reference ' + ref + '. Look out for an email with a secure link to pay; your lessons open as soon as that’s done.';
       }
       form.hidden = true;
       var done = $('[data-signup-done]', d);
@@ -872,7 +872,7 @@
     parts.push('<p class="flex flex-wrap items-end gap-x-3 gap-y-1"><span class="font-display text-6xl leading-none">' + priceLabel(price) + '</span>' +
       (price !== c.price ? '<s class="pb-1 text-xl font-semibold muted">' + money(c.price) + '</s><span class="sticker mb-1 -rotate-3 bg-pink">Save ' + money(eb.saving) + '</span>' : '') + '</p>');
     if (eb && eb.active) {
-      parts.push('<p class="mt-3 text-sm font-semibold">Early-bird price until ' + esc(longDate(eb.ends)) + ' at ' + clock(eb.ends) + ' (UK time).</p>' +
+      parts.push('<p class="mt-3 text-sm font-semibold">Early-bird price until ' + esc(longDate(eb.ends)) + ' at ' + clock(eb.ends) + ' (Eastern time).</p>' +
         '<div class="mt-4" data-countdown role="timer"><p class="sr-only" data-countdown-label></p><ol class="grid grid-cols-4 gap-2 text-center" aria-hidden="true">' +
         [['d', 'days'], ['h', 'hrs'], ['m', 'mins'], ['s', 'secs']].map(function (u, i) {
           return '<li class="rounded-xl border-2 border-ink ' + ['bg-yellow', 'bg-pink-soft', 'bg-blue-soft', 'bg-green-soft'][i] + ' py-2"><span class="block font-display text-2xl leading-none tabular-nums" data-unit="' + u[0] + '">00</span><span class="text-xs font-bold">' + u[1] + '</span></li>';
@@ -929,7 +929,7 @@
       '<span class="mt-2 block px-1 text-sm font-bold leading-tight">' + esc(g.title) + '</span><span class="block px-1 hand text-lg leading-tight text-pink-ink">by ' + esc(g.student) + '</span></a></li>';
   }
 
-  /* ----- Courses catalogue ----- */
+  /* ----- Courses catalog ----- */
   function initCourses() {
     var grid = $('[data-course-grid]');
     if (!grid) return;
@@ -1061,7 +1061,7 @@
     $$('[data-c-price]').forEach(function (box) { renderPriceBox(box, c); });
     $$('[data-c-enrol]').forEach(function (b) {
       b.setAttribute('data-enrol', c.id);
-      b.textContent = c.price === 0 ? 'Start for free' : 'Enrol now';
+      b.textContent = c.price === 0 ? 'Start for free' : 'Enroll now';
     });
     var save = $('[data-c-save]');
     if (save) {
@@ -1085,14 +1085,14 @@
     var range = clock(start) + '–' + clock(end) + ' ' + zoneName(start);
     var local = '';
     if (visitorZone && visitorZone !== TIMEZONE && offsetFor(start, visitorZone) !== offsetAt(start.getTime())) {
-      local = 'That is ' + fmtIn(start, { weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }, visitorZone) + ' ' + zoneName(start, visitorZone) + ' where you are.';
+      local = 'That is ' + fmtIn(start, { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true }, visitorZone) + ' ' + zoneName(start, visitorZone) + ' where you are.';
     }
     return { start: start, end: end, day: day, range: range, local: local, mins: Math.round((end - start) / 60000) };
   }
   function offsetFor(date, zone) {
     try {
       var p = {};
-      new Intl.DateTimeFormat('en-GB', { timeZone: zone, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
+      new Intl.DateTimeFormat('en-US', { timeZone: zone, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
         .formatToParts(date).forEach(function (x) { p[x.type] = x.value; });
       return Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour % 24, +p.minute) - Math.floor(date.getTime() / 60000) * 60000;
     } catch (e) { return offsetAt(date.getTime()); }
@@ -1149,7 +1149,7 @@
     var zoneNote = $('[data-zone-note]');
     if (zoneNote) {
       var d = now();
-      zoneNote.textContent = 'All times are UK time (' + zoneName(d) + ' right now, ' + clock(d) + ' in Margate).';
+      zoneNote.textContent = 'All times are Eastern time (' + zoneName(d) + ' right now, ' + clock(d) + ' in Asbury Park).';
     }
     document.addEventListener('click', function (e) {
       var b = e.target.closest ? e.target.closest('[data-leave-waitlist]') : null;
@@ -1180,9 +1180,9 @@
   function svgDoc(w, h, body) {
     return '<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + w + ' ' + h + '" width="' + w + '" height="' + h + '">' + body + '</svg>\n';
   }
-  // The printable page for a resource (A4 portrait at 72 dpi), as an SVG string.
+  // The printable page for a resource (US Letter portrait at 72 dpi), as an SVG string.
   function resourceSheet(r) {
-    var W = 595, H = 842;
+    var W = 612, H = 792;
     var out = '<rect width="' + W + '" height="' + H + '" fill="#ffffff"/>' +
       '<text x="48" y="78" font-family="Lilita One, Arial Rounded MT Bold, sans-serif" font-size="34" fill="' + INK + '">' + esc(r.title) + '</text>' +
       '<text x="48" y="104" font-family="Be Vietnam Pro, Arial, sans-serif" font-size="13" fill="#554c60">' + esc(r.blurb) + '</text>';
@@ -1210,12 +1210,12 @@
         g += '<path d="M' + bx + ' ' + (by + 30) + 'l50-24 60 18v70l-60 26-50-24Z M' + bx + ' ' + (by + 30) + 'l60 18 50-24 M' + (bx + 60) + ' ' + (by + 48) + 'v72" ' + line + '/>';
       }
     } else if (r.drill === 'expressions') {
-      var moods = [['happy', 'M-14 12q14 14 28 0'], ['sad', 'M-14 18q14-12 28 0'], ['surprised', 'M-6 14a6 7 0 1 0 12 0a6 7 0 1 0-12 0'], ['cross', 'M-12 16h24'], ['smug', 'M-12 14q16 8 24-6'], ['sleepy', 'M-8 16q8 4 16 0'], ['excited', 'M-16 10q16 22 32 0Z'], ['worried', 'M-14 16q7-6 14 0t14 0'], ['in love', 'M-12 12q12 12 24 0']];
+      var moods = [['happy', 'M-14 12q14 14 28 0'], ['sad', 'M-14 18q14-12 28 0'], ['surprised', 'M-6 14a6 7 0 1 0 12 0a6 7 0 1 0-12 0'], ['grumpy', 'M-12 16h24'], ['smug', 'M-12 14q16 8 24-6'], ['sleepy', 'M-8 16q8 4 16 0'], ['excited', 'M-16 10q16 22 32 0Z'], ['worried', 'M-14 16q7-6 14 0t14 0'], ['in love', 'M-12 12q12 12 24 0']];
       moods.forEach(function (m, k) {
         var mx = 130 + (k % 3) * 168, my = 210 + Math.floor(k / 3) * 200;
         g += '<g transform="translate(' + mx + ' ' + my + ')"><circle r="58" fill="#fff1b0" stroke="' + INK + '" stroke-width="3"/>' +
           (m[0] === 'sleepy' ? '<path d="M-28-6q8 6 16 0M12-6q8 6 16 0" fill="none" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/>' : '<circle cx="-20" cy="-8" r="5" fill="' + INK + '"/><circle cx="20" cy="-8" r="5" fill="' + INK + '"/>') +
-          (m[0] === 'cross' ? '<path d="M-30-24l16 8M30-24l-16 8" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/>' : '') +
+          (m[0] === 'grumpy' ? '<path d="M-30-24l16 8M30-24l-16 8" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/>' : '') +
           (m[0] === 'worried' ? '<path d="M-30-20l16-6M30-20l-16-6" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/>' : '') +
           '<path d="' + m[1] + '" fill="' + (m[0] === 'excited' ? '#ff6fae' : 'none') + '" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/>' +
           '<text y="86" text-anchor="middle" font-family="Be Vietnam Pro, Arial, sans-serif" font-size="15" font-weight="700" fill="' + INK + '">' + m[0] + '</text></g>';
@@ -1229,12 +1229,12 @@
         '<text x="160" y="400" text-anchor="middle" font-family="Be Vietnam Pro, Arial, sans-serif" font-size="14" font-weight="700" fill="' + INK + '">light top left, shadow bottom right</text>';
     } else if (r.colours) {
       r.colours.forEach(function (hex, k) {
-        var px = 48 + (k % 2) * 256, py = 150 + Math.floor(k / 2) * 210;
+        var px = 48 + (k % 2) * 256, py = 140 + Math.floor(k / 2) * 200;
         g += '<rect x="' + px + '" y="' + py + '" width="236" height="160" rx="18" fill="' + hex + '" stroke="' + INK + '" stroke-width="3"/>' +
           '<text x="' + px + '" y="' + (py + 188) + '" font-family="Be Vietnam Pro, Arial, sans-serif" font-size="18" font-weight="700" fill="' + INK + '">' + hex.toUpperCase() + '</text>';
       });
     }
-    out += g + '<text x="48" y="810" font-family="Be Vietnam Pro, Arial, sans-serif" font-size="12" fill="#554c60">Marnie Draws · free resources · print at A4, or import into your drawing app as a reference layer</text>';
+    out += g + '<text x="48" y="774" font-family="Be Vietnam Pro, Arial, sans-serif" font-size="12" fill="#554c60">Marnie Draws · free resources · print on US Letter, or import into your drawing app as a reference layer</text>';
     return svgDoc(W, H, out);
   }
   function brushPreview() {
@@ -1271,7 +1271,7 @@
           '<div class="flex min-w-0 flex-1 flex-col"><p><span class="tag bg-paper-2">' + esc(RESOURCE_TYPES[r.type]) + '</span></p>' +
           '<h3 class="mt-2 font-display text-xl leading-tight">' + esc(r.title) + '</h3>' +
           '<p class="mt-1 text-sm muted">' + esc(r.blurb) + '</p>' +
-          '<p class="mt-1 text-xs font-bold muted">' + (r.type === 'brushes' ? esc(r.app) + ' · sent to subscribers' : 'SVG · A4 · 1 page') + '</p>' +
+          '<p class="mt-1 text-xs font-bold muted">' + (r.type === 'brushes' ? esc(r.app) + ' · sent to subscribers' : 'SVG · US Letter · 1 page') + '</p>' +
           '<div class="mt-auto pt-3">' + action + '</div></div></li>';
       }).join('');
       setParams({ type: type });

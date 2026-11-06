@@ -2,7 +2,7 @@
 
 ## Overview
 
-Tracewick is a fictional observability company in Retford, Nottinghamshire. This HTML5, Tailwind CSS v4 and dependency-free JavaScript template is version 1.0.1. Its nine pages combine a midnight telemetry aesthetic with a useful service explorer, local request queries, pricing calculations and searchable engineering guides. Visit [the template page](https://freeframe.dev/templates/tracewick) for the live preview.
+Tracewick is a fictional observability company in Cary, North Carolina. This HTML5, Tailwind CSS v4 and dependency-free JavaScript template is version 1.0.2. Its nine pages combine a midnight telemetry aesthetic with a useful service explorer, local request queries, pricing calculations and searchable engineering guides. Visit [the template page](https://freeframe.dev/templates/tracewick) for the live preview.
 
 ## Quick start
 
@@ -31,7 +31,7 @@ No API keys, database, external JavaScript packages or build step are required t
 | `pricing.html`  | Usage pricing             | Three plans, ingestion, seats, retention, annual billing and saved estimate             |
 | `docs.html`     | Engineering documentation | Sixteen searchable guides, topic filter and copyable snippets                           |
 | `status.html`   | Reliability agreement     | Current status, 90-day uptime, incident history, maintenance, commitments and updates   |
-| `company.html`  | Company and team          | Retford working room, three people, operating principles and career invitation          |
+| `company.html`  | Company and team          | Cary working room, three people, operating principles and career invitation          |
 | `contact.html`  | Engineering inquiry       | Topic selector, validation, request reference and next steps                            |
 | `404.html`      | Missing route             | Route illustration and links back to useful destinations                                |
 
@@ -54,11 +54,11 @@ tracewick/
 │   └── img/                Original SVG diagrams, portraits and social artwork
 ├── src/input.css           Tailwind import, theme and shared components
 ├── package.json            CSS build commands
-├── template.json           Catalogue metadata and page list
+├── template.json           Catalog metadata and page list
 ├── README.md               Short introduction
 ├── DOCS.md                 This guide
 ├── CHANGELOG.md            Version history
-└── LICENSE.txt             Template licence
+└── LICENSE.txt             Template license
 ```
 
 ## Customizing
@@ -145,7 +145,7 @@ The supplied workload is illustrative reference data; it does not poll productio
 
 All illustrations are original SVGs in `assets/img/`.
 Fourteen service diagrams use 260 × 240 view boxes.
-The platform hero (`context-relay.svg`), service map, team portraits and Retford room drawing have distinct compositions.
+The platform hero (`context-relay.svg`), service map, team portraits and Cary room drawing (`retford-room.svg`) have distinct compositions.
 The home-page waterfall is HTML, not an image, so its labels use the page font; edit the rows in `index.html`.
 SVGs shown through `<img>` carry no text (it would render in a fallback font); labels such as the service-map
 caption are HTML beside the image.
@@ -163,7 +163,7 @@ Move `aria-current="page"` to the matching link for each destination.
 The mobile trigger controls `#mobile-menu`; keep its ID unique on each page.
 Contact details appear in the footer and contact page.
 Replace the fictional phone, address, email, people and company details before launch.
-The copyright year is inserted by `initStaticData()` using `Europe/London`.
+The copyright year is inserted by `initStaticData()` using `America/New_York`.
 
 ## Features
 
@@ -256,8 +256,8 @@ The estimate combines plan base, ingestion overage, extra seats and retention be
 
 | Setting                  | Value                                          |
 | ------------------------ | ---------------------------------------------- |
-| `EXTRA_SEAT_PRICE`       | £8 per extra seat monthly                      |
-| `RETENTION_GB_DAY_PRICE` | £0.015 per ingested GB per extra retention day |
+| `EXTRA_SEAT_PRICE`       | $8 per extra seat monthly                      |
+| `RETENTION_GB_DAY_PRICE` | $0.015 per ingested GB per extra retention day |
 | `ANNUAL_DISCOUNT`        | 0.10, applied to the complete monthly subtotal |
 | `RETENTION_DAYS`         | 7, 14, 30 or 90                                |
 | Ingestion range          | 1–5000 GB per month                            |
@@ -265,8 +265,8 @@ The estimate combines plan base, ingestion overage, extra seats and retention be
 
 `PLANS` holds base prices and included ingestion, seats and retention.
 The Team starting workload is 120 GB, 6 seats, 14 days and monthly billing.
-Its monthly total is £88.20; annual billing shows £79.38 monthly equivalent and £952.56 annually.
-Prices are estimates excluding VAT.
+Its monthly total is $88.20; annual billing shows $79.38 monthly equivalent and $952.56 annually.
+Prices are estimates excluding sales tax.
 Saving writes only the selected workload; resetting clears that saved estimate.
 The save status reads the stored selection back, including the in-memory fallback.
 Changing numbers updates the result without replacing the edited input element.
@@ -287,11 +287,11 @@ Check snippets against your actual collector, API and deployment before publishi
 
 `initStatus()` renders the status summary, five components (`STATUS_COMPONENTS`) with 90 daily uptime bars, and the
 incident history (`INCIDENTS`). The current status rule: every component is operational unless a planned window in
-`MAINTENANCE` is running now in London (the query index rotation shows "Degraded performance", other windows
+`MAINTENANCE` is running now in Cary, on Eastern time (the query index rotation shows "Degraded performance", other windows
 "Under maintenance"), or you list a live issue in `CURRENT_ISSUES`, for example
 `{ component: "query", level: "degraded", note: "Long-range queries are slower than usual." }`.
 
-Past incidents are dated relative to today (`daysAgo`, London) while `KEEP_INCIDENTS_RELATIVE = true`, so the history
+Past incidents are dated relative to today (`daysAgo`, Eastern time) while `KEEP_INCIDENTS_RELATIVE = true`, so the history
 and the bars never look old; for a real site set it to `false` and give each incident a fixed `date` (`YYYY-MM-DD`).
 Each day's bar takes its color from the incidents on that day: degraded time counts as half downtime and planned
 maintenance inside its published window does not count. Bars are buttons; selecting one shows that day's detail.
@@ -300,12 +300,13 @@ maintenance inside its published window does not count. Bars are buttons; select
 
 `initMaintenance()` renders three planned windows and filters by ingestion, query or console.
 This is a planning calendar, with no live health probe or incident feed.
-`TIME_ZONE` is `Europe/London`.
+`TIME_ZONE` is `America/New_York`.
 `londonToday()` gets the current calendar date in that zone.
 With `KEEP_MAINTENANCE_CURRENT = true`, `maintenanceAnchor()` chooses the next Wednesday at least seven days ahead.
 The first window uses that date; the other windows use offsets of seven and fourteen days in `MAINTENANCE`.
 Full day, month and year labels prevent ambiguous upcoming dates.
-Window hours are local London wall-clock labels, including British Summer Time when applicable.
+Window hours are local Eastern wall-clock labels on a 12-hour clock (`clockLabel()`), including daylight saving time when applicable.
+Incident `start` and `steps` times are display text in the same style.
 To freeze a published schedule, set `KEEP_MAINTENANCE_CURRENT = false` and update `FIXED_MAINTENANCE_ANCHOR`.
 The shipped fixed anchor is `2026-10-28`.
 Review frozen schedules manually after their final window passes.
@@ -327,7 +328,7 @@ Content stays visible if Intersection Observer is unavailable.
 It validates a name of at least two characters, a complete email address, a team name of at least two characters, at least fifteen characters of context and permission to reply.
 `topic` is initialized from the URL only when it matches `TOPICS`.
 Field errors are associated with inputs and the first invalid input receives focus.
-The form hides on success and the focused panel contains an engineering request reference beginning `TW`, the topic by its label, a one-working-day reply and what happens next.
+The form hides on success and the focused panel contains an engineering request reference beginning `TW`, the topic by its label, a one-business-day reply and what happens next.
 Submitted names are escaped before being inserted into the success panel.
 
 ### Maintenance preferences
