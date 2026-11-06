@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-05
+
+### Changed
+
+- Set in San Jose, California, with American spelling, US dollars and local details.
+- Data regions are now US East, US Central and US West, the security badge reads CCPA instead of GDPR, schedule times use the 12-hour clock and the calculator note says estimates exclude sales tax.
+
 ## [1.0.4] - 2026-11-05
 
 ### Changed

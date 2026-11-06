@@ -6,7 +6,7 @@ Market is a complete storefront for **Kiln & Co.**, a fictional handmade-ceramic
 shop, product pages with glaze and size variants, a cart saved in the browser, a slide-out mini cart, a
 validated checkout, an about page and a searchable FAQ with a contact form. Product images are drawn in
 SVG from the product data, so there are no photos to replace before launch. This is the **HTML + Tailwind CSS
-v4** version, **version 1.1.7**, with vanilla JavaScript and no runtime dependencies. See it live at
+v4** version, **version 1.1.10**, with vanilla JavaScript and no runtime dependencies. See it live at
 [freeframe.dev/templates/market](https://freeframe.dev/templates/market).
 
 ## Quick start
@@ -54,7 +54,7 @@ market/
 ├─ index.html, shop.html, product.html, cart.html, checkout.html, about.html, faq.html, 404.html
 ├─ assets/
 │  ├─ css/style.css       compiled Tailwind output (don't edit; edit src/input.css)
-│  ├─ js/main.js          catalogue, SVG art, cart, page scripts, forms, back to top
+│  ├─ js/main.js          catalog, SVG art, cart, page scripts, forms, back to top
 │  └─ img/                favicon.svg, og-image.png (1200×630), og-image.svg (its source)
 ├─ src/input.css          Tailwind entry: brand tokens, components, animations
 ├─ package.json           Tailwind CLI build scripts
@@ -100,9 +100,9 @@ Products are the `PRODUCTS` array at the top of `assets/js/main.js`. Each produc
   rating: 4.9, reviews: 214, badge: 'Bestseller', featured: 1,
   blurb: 'A tall, generous vase thrown in one pull…',
   glazes: [{ name: 'Oat', color: '#e6d9c2' }, { name: 'Moss', color: '#76855a' }],
-  sizes: [{ name: 'Medium · 24cm', delta: 0 }, { name: 'Large · 32cm', delta: 26 }],
-  details: ['Stoneware, fired to 1260°C', 'Fully glazed inside — watertight'],
-  dims: 'Medium: 24cm tall, 14cm wide. Large: 32cm tall, 18cm wide.'
+  sizes: [{ name: 'Medium · 9.5 in', delta: 0 }, { name: 'Large · 12.5 in', delta: 26 }],
+  details: ['Stoneware, fired to 2300°F', 'Fully glazed inside — watertight'],
+  dims: 'Medium: 9.5 in tall, 5.5 in wide. Large: 12.5 in tall, 7 in wide.'
 }
 ```
 
@@ -123,7 +123,7 @@ Store settings sit just below the array:
 |----------|---------|---------|
 | `FREE_SHIPPING` | `75` | Subtotal for free standard shipping |
 | `STANDARD_SHIPPING` / `EXPRESS_SHIPPING` | `8` / `18` | Delivery prices |
-| `TAX_RATE` | `0.08` | Tax applied after the discount |
+| `TAX_RATE` | `0.08` | Estimated sales tax, applied after the discount. Washington taxes online orders by delivery address, so for a real store use your payment provider's tax tool and check current rules with the Washington State Department of Revenue. |
 | `PROMO` | `{ code: 'WELCOME10', rate: 0.10 }` | The demo promo code |
 | `MAX_QTY` | `99` | Largest quantity per cart line |
 
@@ -177,7 +177,7 @@ fold behind `#filters-toggle`.
 ### Product page
 
 `product.html?id=daily-mug` shows that product (an unknown id shows the first product). The page title,
-breadcrumb and text fill from the product. Glaze swatches recolour the gallery; sizes change the price;
+breadcrumb and text fill from the product. Glaze swatches recolor the gallery; sizes change the price;
 the quantity stepper is limited to 1–99; four thumbnails switch views. Related products prefer the same
 category.
 
@@ -190,7 +190,7 @@ On the cart page, `WELCOME10` takes 10% off. The free-shipping progress bar appe
 The checkout validates every field, formats the card number and expiry as you type, checks the card number
 with the Luhn algorithm (use `4242 4242 4242 4242`) and rejects expired dates. On success it shows a
 confirmation with an order number (`KC-` and four characters, made in the browser by `makeRef()`) and clears the
-cart. The confirmation promises an email and dispatch within 2–3 working days, like the FAQ and the checkout
+cart. The confirmation promises an email and shipping within 2–3 business days, like the FAQ and the checkout
 banner: change them together if yours differ, and show your payment provider's order number instead if it returns
 one. The payment section says payments are in test mode and gives the test card number; remove that note when you
 connect a real provider. **No payment is processed.** Replace the
@@ -222,7 +222,7 @@ invalid field is focused, and each error is linked with `aria-describedby`. Rule
 | `type="email"` | Must look like an email address |
 | `minlength` | Minimum length |
 | `data-label` | Name used in the error message |
-| `data-validate` | `card`, `expiry`, `cvc` or `postcode` |
+| `data-validate` | `card`, `expiry`, `cvc` or `postcode` (a 5-digit ZIP code, optional +4, when Country is United States; a looser check otherwise) |
 
 | Form | Where | Behavior |
 |------|-------|-----------|
@@ -232,7 +232,7 @@ invalid field is focused, and each error is linked with `aria-describedby`. Rule
 | Checkout (`#checkout-form`) | `checkout.html` | Shows the order confirmation |
 
 The newsletter thank-you asks subscribers to look out for a confirmation email, and the contact one promises a
-reply within one working day (as the FAQ says) and shows a reference (`KC-` and four characters, from `makeRef()`).
+reply within one business day (as the FAQ says) and shows a reference (`KC-` and four characters, from `makeRef()`).
 Change them to match what really happens. **Nothing is sent** until you connect the forms, although their messages
 read as if it had been. To collect submissions, post the form in its `onValid` callback, for example to
 Formspree:

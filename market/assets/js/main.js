@@ -1,6 +1,6 @@
 /* Kiln & Co. — store script
  * Vanilla JavaScript, no dependencies. Sections:
- *  1. Product catalogue      5. Cart drawer & toast     9. Product page
+ *  1. Product catalog      5. Cart drawer & toast     9. Product page
  *  2. SVG product art        6. Header & mobile menu   10. Cart page
  *  3. Helpers                7. Home page              11. Checkout page
  *  4. Cart (localStorage)    8. Shop page              12. Forms & FAQ
@@ -11,7 +11,7 @@ document.documentElement.classList.add('js');
   'use strict';
 
   /* ------------------------------------------------------------------
-   * 1. Product catalogue — edit, add or remove products here.
+   * 1. Product catalog — edit, add or remove products here.
    *    shape: vase | bud | mug | cup | tumbler | bowl | plate | pitcher | planter
    * ------------------------------------------------------------------ */
   var PRODUCTS = [
@@ -20,108 +20,108 @@ document.documentElement.classList.add('js');
       rating: 4.9, reviews: 214, badge: 'Bestseller', featured: 1,
       blurb: 'A tall, generous vase thrown in one pull, with a soft shoulder that holds branches upright.',
       glazes: [{ name: 'Oat', color: '#e6d9c2' }, { name: 'Moss', color: '#76855a' }, { name: 'Ink', color: '#2e3a4b' }],
-      sizes: [{ name: 'Medium · 24cm', delta: 0 }, { name: 'Large · 32cm', delta: 26 }],
-      details: ['Stoneware, fired to 1260°C', 'Fully glazed inside — watertight', 'Raw clay foot protects your furniture'],
-      dims: 'Medium: 24cm tall, 14cm wide. Large: 32cm tall, 18cm wide.'
+      sizes: [{ name: 'Medium · 9.5 in', delta: 0 }, { name: 'Large · 12.5 in', delta: 26 }],
+      details: ['Stoneware, fired to 2300°F', 'Fully glazed inside — watertight', 'Raw clay foot protects your furniture'],
+      dims: 'Medium: 9.5 in tall, 5.5 in wide. Large: 12.5 in tall, 7 in wide.'
     },
     {
       id: 'daily-mug', name: 'Daily Mug', category: 'Mugs & Cups', price: 32, shape: 'mug',
       rating: 4.8, reviews: 532, badge: 'Bestseller', featured: 2,
-      blurb: 'Our first and most-loved piece. A wide thumb-rest handle and a lip thin enough for proper tea.',
+      blurb: 'Our first and most-loved piece. A wide thumb-rest handle and a lip thin enough for a good cup of tea.',
       glazes: [{ name: 'Speckled White', color: '#efe8dc' }, { name: 'Terracotta', color: '#b65a33' }, { name: 'Sea Glass', color: '#9cbcb0' }],
       sizes: [{ name: '8 oz', delta: 0 }, { name: '12 oz', delta: 4 }],
       details: ['Stoneware with lead-free glaze', 'Dishwasher and microwave safe', 'Each one is slightly different'],
-      dims: '8 oz: 8.5cm tall. 12 oz: 10cm tall.'
+      dims: '8 oz: 3.5 in tall. 12 oz: 4 in tall.'
     },
     {
       id: 'wide-serving-bowl', name: 'Wide Serving Bowl', category: 'Bowls', price: 84, shape: 'bowl',
       rating: 4.9, reviews: 98, badge: 'New', featured: 3,
       blurb: 'Made for salads that need room and pasta for six. Shallow enough to show off what is inside.',
       glazes: [{ name: 'Celadon', color: '#a9bfa2' }, { name: 'Oat', color: '#e6d9c2' }, { name: 'Iron', color: '#5b4436' }],
-      sizes: [{ name: 'One size · 32cm', delta: 0 }],
-      details: ['Stoneware, hand-trimmed foot', 'Dishwasher safe', 'Oven safe to 220°C'],
-      dims: '32cm wide, 9cm tall.'
+      sizes: [{ name: 'One size · 12.5 in', delta: 0 }],
+      details: ['Stoneware, hand-trimmed foot', 'Dishwasher safe', 'Oven safe to 425°F'],
+      dims: '12.5 in wide, 3.5 in tall.'
     },
     {
       id: 'dinner-plate', name: 'Dinner Plate', category: 'Plates', price: 34, shape: 'plate',
       rating: 4.7, reviews: 301, featured: 4,
       blurb: 'A flat, wide rim and a gently raised well — sturdy enough for every day, handsome enough for guests.',
       glazes: [{ name: 'Speckled White', color: '#efe8dc' }, { name: 'Slate', color: '#6f7a80' }, { name: 'Moss', color: '#76855a' }],
-      sizes: [{ name: 'Side · 21cm', delta: -8 }, { name: 'Dinner · 27cm', delta: 0 }],
+      sizes: [{ name: 'Side · 8.5 in', delta: -8 }, { name: 'Dinner · 10.5 in', delta: 0 }],
       details: ['Stoneware, chip-resistant rim', 'Dishwasher and microwave safe', 'Stacks neatly'],
-      dims: 'Side: 21cm. Dinner: 27cm.'
+      dims: 'Side: 8.5 in. Dinner: 10.5 in.'
     },
     {
       id: 'morning-pitcher', name: 'Morning Pitcher', category: 'Serveware', price: 76, shape: 'pitcher',
       rating: 4.8, reviews: 76,
       blurb: 'Pours without dripping, which took us forty-one prototypes. Water, milk, flowers — all welcome.',
       glazes: [{ name: 'Sea Glass', color: '#9cbcb0' }, { name: 'Oat', color: '#e6d9c2' }, { name: 'Terracotta', color: '#b65a33' }],
-      sizes: [{ name: '1 litre', delta: 0 }],
+      sizes: [{ name: '1 quart', delta: 0 }],
       details: ['Stoneware with a pulled spout', 'Dishwasher safe', 'Fully glazed inside'],
-      dims: '1 litre. 19cm tall.'
+      dims: '1 quart. 7.5 in tall.'
     },
     {
       id: 'everyday-bowl', name: 'Everyday Bowl', category: 'Bowls', price: 28, shape: 'bowl',
       rating: 4.8, reviews: 412,
       blurb: 'The bowl you reach for first: oats in the morning, noodles at night, ice cream whenever.',
       glazes: [{ name: 'Terracotta', color: '#b65a33' }, { name: 'Speckled White', color: '#efe8dc' }, { name: 'Ink', color: '#2e3a4b' }],
-      sizes: [{ name: 'Small · 14cm', delta: 0 }, { name: 'Medium · 17cm', delta: 6 }],
+      sizes: [{ name: 'Small · 5.5 in', delta: 0 }, { name: 'Medium · 6.5 in', delta: 6 }],
       details: ['Stoneware with lead-free glaze', 'Dishwasher and microwave safe', 'Comfortable to hold in two hands'],
-      dims: 'Small: 14cm wide. Medium: 17cm wide.'
+      dims: 'Small: 5.5 in wide. Medium: 6.5 in wide.'
     },
     {
       id: 'terrace-planter', name: 'Terrace Planter', category: 'Planters', price: 58, shape: 'planter',
       rating: 4.7, reviews: 133, badge: 'New',
       blurb: 'A tapered planter with a hidden drainage hole and matching saucer, for herbs, ferns and fig cuttings.',
       glazes: [{ name: 'Iron', color: '#5b4436' }, { name: 'Oat', color: '#e6d9c2' }, { name: 'Celadon', color: '#a9bfa2' }],
-      sizes: [{ name: 'Small · 15cm', delta: 0 }, { name: 'Large · 22cm', delta: 24 }],
+      sizes: [{ name: 'Small · 6 in', delta: 0 }, { name: 'Large · 8.5 in', delta: 24 }],
       details: ['Unglazed interior lets roots breathe', 'Drainage hole and saucer included', 'Frost-resistant'],
-      dims: 'Small: 15cm wide. Large: 22cm wide.'
+      dims: 'Small: 6 in wide. Large: 8.5 in wide.'
     },
     {
       id: 'bud-vase', name: 'Bud Vase', category: 'Vases', price: 26, shape: 'bud',
       rating: 4.9, reviews: 187,
       blurb: 'Small, round and steady. Built for a single stem from the garden or the side of the road.',
       glazes: [{ name: 'Terracotta', color: '#b65a33' }, { name: 'Celadon', color: '#a9bfa2' }, { name: 'Speckled White', color: '#efe8dc' }],
-      sizes: [{ name: 'One size · 11cm', delta: 0 }],
+      sizes: [{ name: 'One size · 4.5 in', delta: 0 }],
       details: ['Stoneware', 'Watertight', 'Lovely in groups of three'],
-      dims: '11cm tall, 9cm wide.'
+      dims: '4.5 in tall, 3.5 in wide.'
     },
     {
       id: 'pour-tumbler', name: 'Pour Tumbler, Set of 2', category: 'Mugs & Cups', price: 38, shape: 'tumbler',
       rating: 4.6, reviews: 154,
       blurb: 'A straight-sided cup for water, wine or a cold brew. Sold as a pair, because drinks are better shared.',
       glazes: [{ name: 'Slate', color: '#6f7a80' }, { name: 'Oat', color: '#e6d9c2' }, { name: 'Sea Glass', color: '#9cbcb0' }],
-      sizes: [{ name: 'Set of 2 · 250ml', delta: 0 }],
+      sizes: [{ name: 'Set of 2 · 8 oz', delta: 0 }],
       details: ['Stoneware, set of two', 'Dishwasher safe', 'Raw clay band at the base for grip'],
-      dims: '250ml. 10cm tall.'
+      dims: '8 oz. 4 in tall.'
     },
     {
       id: 'pasta-plate', name: 'Shallow Pasta Plate', category: 'Plates', price: 36, shape: 'plate',
       rating: 4.8, reviews: 89,
       blurb: 'Somewhere between a plate and a bowl — the right shape for risotto, curry and anything with a sauce.',
       glazes: [{ name: 'Iron', color: '#5b4436' }, { name: 'Celadon', color: '#a9bfa2' }, { name: 'Speckled White', color: '#efe8dc' }],
-      sizes: [{ name: 'One size · 23cm', delta: 0 }],
+      sizes: [{ name: 'One size · 9 in', delta: 0 }],
       details: ['Stoneware', 'Dishwasher and microwave safe', 'Gently sloped walls'],
-      dims: '23cm wide, 4cm deep.'
+      dims: '9 in wide, 1.5 in deep.'
     },
     {
       id: 'espresso-cup', name: 'Espresso Cup', category: 'Mugs & Cups', price: 22, shape: 'cup',
       rating: 4.7, reviews: 66,
       blurb: 'A tiny, thick-walled cup that keeps a double shot warm to the last sip.',
       glazes: [{ name: 'Ink', color: '#2e3a4b' }, { name: 'Terracotta', color: '#b65a33' }, { name: 'Oat', color: '#e6d9c2' }],
-      sizes: [{ name: '90ml', delta: 0 }],
+      sizes: [{ name: '3 oz', delta: 0 }],
       details: ['Stoneware', 'Dishwasher safe', 'Thick walls for heat'],
-      dims: '90ml. 6.5cm tall.'
+      dims: '3 oz. 2.5 in tall.'
     },
     {
       id: 'studio-vase', name: 'Studio Vase', category: 'Vases', price: 94, shape: 'vase',
       rating: 5.0, reviews: 41, badge: 'Limited',
       blurb: 'A one-off glaze test we liked too much to retire. Made in batches of twenty, numbered on the base.',
       glazes: [{ name: 'Ash Blue', color: '#7d97a8' }, { name: 'Iron', color: '#5b4436' }],
-      sizes: [{ name: 'Large · 32cm', delta: 0 }],
+      sizes: [{ name: 'Large · 12.5 in', delta: 0 }],
       details: ['Stoneware, numbered on the base', 'Watertight', 'Glaze varies from piece to piece'],
-      dims: '32cm tall, 18cm wide.'
+      dims: '12.5 in tall, 7 in wide.'
     }
   ];
 
@@ -168,7 +168,7 @@ document.documentElement.classList.add('js');
     };
   }
 
-  // Outline of each shape, sitting on a floor at y=420, centred on x=200.
+  // Outline of each shape, sitting on a floor at y=420, centered on x=200.
   var SHAPES = {
     vase: {
       body: 'M172 118 C172 110 228 110 228 118 L227 152 C227 180 292 206 292 300 C292 382 254 420 200 420 C146 420 108 382 108 300 C108 206 173 180 173 152 Z',
@@ -1141,7 +1141,13 @@ document.documentElement.classList.add('js');
       if (end <= new Date()) return 'This card has expired.';
     }
     if (rule === 'cvc' && !/^\d{3,4}$/.test(v)) return 'Enter the 3 or 4 digit code.';
-    if (rule === 'postcode' && !/^[A-Za-z0-9 -]{3,10}$/.test(v)) return 'Enter a valid postal code.';
+    if (rule === 'postcode') {
+      // US addresses need a ZIP code (5 digits, optional +4); other countries keep the looser check.
+      var country = el.form && el.form.elements.country;
+      if (!country || country.value === 'United States') {
+        if (!/^\d{5}(-\d{4})?$/.test(v)) return 'Enter a 5-digit ZIP code, like 98402.';
+      } else if (!/^[A-Za-z0-9 -]{3,10}$/.test(v)) return 'Enter a valid postal code.';
+    }
     return '';
   }
 
@@ -1223,7 +1229,7 @@ document.documentElement.classList.add('js');
     setupValidation(form, function () {
       // Demo only: nothing is sent. Point the form at Formspree or similar.
       successSwap(form, '<p class="font-display text-2xl">Thank you for writing.</p>' +
-        '<p class="mt-2 text-stone">Your message has reached our studio, and one of us will reply within one working day. Your reference is <strong class="font-semibold text-ink">' + makeRef('KC') + '</strong>.</p>');
+        '<p class="mt-2 text-stone">Your message has reached our studio, and one of us will reply within one business day. Your reference is <strong class="font-semibold text-ink">' + makeRef('KC') + '</strong>.</p>');
     });
   });
 

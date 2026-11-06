@@ -6,7 +6,7 @@ Lens is an image-led portfolio for wedding, portrait and travel photographers, b
 Photography**, a fictional photographer in Monterey, California. It has a full-bleed slideshow home page, filterable galleries
 with a masonry layout and a lightbox, photo stories, packages with a live price calculator, a client proofing page
 for choosing album favorites and an inquiry form. The 49 "photographs" are original SVG illustrations ready to be
-swapped for your own. This is the **HTML + Tailwind CSS v4** version, **1.0.10**: static pages and one vanilla
+swapped for your own. This is the **HTML + Tailwind CSS v4** version, **1.0.11**: static pages and one vanilla
 JavaScript file, no build step needed to run it.
 
 Live demo: [freeframe.dev/templates/lens](https://freeframe.dev/templates/lens)
@@ -310,7 +310,7 @@ The proofing page's **Send selection** only shows a confirmation. To send the ch
 
 | Key | Shape | Validation |
 | --- | --- | --- |
-| `lens-proofing-v1` | JSON array of photo ids, for example `["amalfi-vows-01","fieldwork-03"]` | On every read: anything that isn't an array is ignored; only strings in `LENS.proofIds` are kept, without duplicates, up to `LENS.proofLimit`. If the cleaned list differs, it's written back. |
+| `lens-proofing-v1` | JSON array of photo ids, for example `["catalina-vows-01","fieldwork-03"]` | On every read: anything that isn't an array is ignored; only strings in `LENS.proofIds` are kept, without duplicates, up to `LENS.proofLimit`. If the cleaned list differs, it's written back. |
 
 Reads and writes are wrapped in `try`/`catch`, so blocked or full storage still works for the visit. The **Clear**
 button empties the selection; to remove the key entirely, delete it in the browser's developer tools (Application →

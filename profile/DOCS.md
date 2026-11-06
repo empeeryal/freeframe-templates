@@ -6,7 +6,7 @@ Profile is a developer portfolio with a résumé, projects, writing and a ⌘K c
 person is **Sam Lindqvist**, a fictional engineer. It pairs a printable résumé and a filterable project
 gallery with a writing archive, a `/uses` page and a validated contact form, with persistent dark mode
 and keyboard-first navigation. It is built with HTML5, Tailwind CSS v4 and vanilla JavaScript, and needs
-no build step. This guide covers version 1.1.10.
+no build step. This guide covers version 1.1.11.
 
 Live demo: [freeframe.dev/templates/profile](https://freeframe.dev/templates/profile)
 
@@ -147,7 +147,7 @@ elsewhere.
 
 `resume.html` has a print button (`data-print`). The `@media print` block in `src/input.css` hides the
 header, footer and anything with `.no-print`, and the page uses `print:` utility classes for a clean
-CV. Add `print-break-avoid` to blocks that shouldn't split across pages. Opening `resume.html#print`
+résumé. Add `print-break-avoid` to blocks that shouldn't split across pages. Opening `resume.html#print`
 prints after load. The palette's "Print résumé" opens that URL from other pages and prints straight away
 when you're already on the résumé.
 
@@ -202,7 +202,7 @@ Rules and messages are in the `rules` object in the "Contact form validation" se
 `assets/js/main.js`. Each field shows its message in `#<name>-error` and gets `aria-invalid`; the first
 problem is focused. On success the form is replaced by `[data-form-success]` (focused), and "Write
 another" (`data-form-reset`) brings the empty form back. The success message promises a reply within two
-working days, like the intro on the page, and shows a short reference in `[data-ref]` (`SL-` and four
+business days, like the intro on the page, and shows a short reference in `[data-ref]` (`SL-` and four
 characters with no 0/O or 1/I, like SL-7K2Q, made in the browser just above `form.hidden = true`). Use your
 form service's own reference instead if it returns one, and change the reply time in both places if yours
 differs.

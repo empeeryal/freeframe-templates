@@ -2,137 +2,137 @@
 var LENS = {
  "galleries": [
   {
-   "slug": "amalfi-vows",
-   "title": "Amalfi Vows",
+   "slug": "catalina-vows",
+   "title": "Catalina Vows",
    "category": "Weddings",
-   "location": "Positano, Italy",
+   "location": "Avalon, California",
    "date": "June 2026",
-   "summary": "Giulia and Theo's cliffside wedding: lemon groves, a sea-salt breeze and dancing until the last ferry left.",
+   "summary": "Giulia and Theo's hillside wedding: lemon trees, a sea-salt breeze and dancing long after the last ferry left.",
    "photos": [
     {
-     "id": "amalfi-vows-01",
+     "id": "catalina-vows-01",
      "w": 1200,
      "h": 800,
-     "caption": "First light over Positano, the morning of the wedding.",
-     "alt": "Pastel houses stacked on a cliff above a calm blue sea at sunrise"
+     "caption": "First light over Avalon, the morning of the wedding.",
+     "alt": "Pastel houses stacked on a hillside above a calm blue bay at sunrise"
     },
     {
-     "id": "amalfi-vows-02",
+     "id": "catalina-vows-02",
      "w": 960,
      "h": 1200,
      "caption": "Two rings on hand-woven linen.",
      "alt": "Two gold wedding rings resting on cream linen"
     },
     {
-     "id": "amalfi-vows-03",
+     "id": "catalina-vows-03",
      "w": 800,
      "h": 1200,
-     "caption": "The vows, on the terrace at Villa Ardesia.",
+     "caption": "The vows, on a terrace above the bay.",
      "alt": "A couple standing at a white terrace railing above the sea"
     },
     {
-     "id": "amalfi-vows-04",
+     "id": "catalina-vows-04",
      "w": 1000,
      "h": 1000,
      "caption": "Lemons from the garden, on every table.",
      "alt": "Bright lemons with leaves scattered on a white tablecloth"
     },
     {
-     "id": "amalfi-vows-05",
+     "id": "catalina-vows-05",
      "w": 1200,
      "h": 800,
      "caption": "Golden hour across the bay.",
-     "alt": "Warm sunset light over the sea and a cliff of houses"
+     "alt": "Warm evening light over the bay and a hillside of houses"
     },
     {
-     "id": "amalfi-vows-06",
+     "id": "catalina-vows-06",
      "w": 800,
      "h": 1200,
      "caption": "Giulia's bouquet: garden roses and olive.",
      "alt": "A bouquet of blush and white roses with green stems"
     },
     {
-     "id": "amalfi-vows-07",
+     "id": "catalina-vows-07",
      "w": 960,
      "h": 1200,
      "caption": "A quiet minute before the dinner.",
      "alt": "The couple leaning on a railing with the sea behind them"
     },
     {
-     "id": "amalfi-vows-08",
+     "id": "catalina-vows-08",
      "w": 1200,
      "h": 800,
      "caption": "The last ferry leaving the harbor.",
-     "alt": "The coastline at dusk with lights reflecting on the water"
+     "alt": "A ferry crossing the bay at dusk, with lights reflecting on the water"
     },
     {
-     "id": "amalfi-vows-09",
+     "id": "catalina-vows-09",
      "w": 800,
      "h": 1200,
      "caption": "Back on the terrace after dinner.",
-     "alt": "The cliffside village glowing above the sea at dusk"
+     "alt": "The hillside town glowing above the bay at dusk"
     }
    ]
   },
   {
-   "slug": "highland-elopement",
-   "title": "Highland Elopement",
+   "slug": "rainier-elopement",
+   "title": "Rainier Elopement",
    "category": "Weddings",
-   "location": "Glencoe, Scotland",
+   "location": "Mount Rainier, Washington",
    "date": "September 2026",
    "summary": "Two people, one witness and a mountain pass in the rain. An elopement planned around the weather, not against it.",
    "photos": [
     {
-     "id": "highland-elopement-01",
+     "id": "rainier-elopement-01",
      "w": 1200,
      "h": 800,
-     "caption": "Morning mist rolling off Buachaille Etive Mòr.",
-     "alt": "Layered misty mountains with a couple small in the foreground"
+     "caption": "Morning mist rolling off Mount Rainier.",
+     "alt": "A snow-capped volcano above misty ridges, with a couple small in the foreground"
     },
     {
-     "id": "highland-elopement-02",
+     "id": "rainier-elopement-02",
      "w": 800,
      "h": 1200,
      "caption": "Walking up to the ceremony spot.",
-     "alt": "A couple walking across moorland under gray cloud"
+     "alt": "A couple walking across an alpine meadow under gray cloud"
     },
     {
-     "id": "highland-elopement-03",
+     "id": "rainier-elopement-03",
      "w": 960,
      "h": 1200,
-     "caption": "Vows by the lochan.",
+     "caption": "Vows by Tipsoo Lake.",
      "alt": "A couple beside a still mountain lake in soft fog"
     },
     {
-     "id": "highland-elopement-04",
+     "id": "rainier-elopement-04",
      "w": 1200,
      "h": 800,
      "caption": "The weather broke for eleven minutes.",
      "alt": "Pale light breaking through cloud over mountain ridges"
     },
     {
-     "id": "highland-elopement-05",
+     "id": "rainier-elopement-05",
      "w": 1000,
      "h": 1000,
      "caption": "A veil in the wind.",
      "alt": "A bride's veil lifting in the wind against mountains"
     },
     {
-     "id": "highland-elopement-06",
+     "id": "rainier-elopement-06",
      "w": 800,
      "h": 1200,
      "caption": "Heading back down before dark.",
      "alt": "Two figures descending a slope with mountains behind"
     },
     {
-     "id": "highland-elopement-07",
+     "id": "rainier-elopement-07",
      "w": 1200,
      "h": 800,
-     "caption": "Glen Etive at dusk.",
+     "caption": "Chinook Pass at dusk.",
      "alt": "Dark mountain layers fading into evening mist"
     },
     {
-     "id": "highland-elopement-08",
+     "id": "rainier-elopement-08",
      "w": 960,
      "h": 1200,
      "caption": "Tea from a thermos, the best reception.",
@@ -273,134 +273,134 @@ var LENS = {
    ]
   },
   {
-   "slug": "kyoto-in-rain",
-   "title": "Kyoto in Rain",
+   "slug": "french-quarter-in-rain",
+   "title": "French Quarter in Rain",
    "category": "Travel",
-   "location": "Kyoto, Japan",
+   "location": "New Orleans, Louisiana",
    "date": "November 2025",
-   "summary": "A week of rain in Gion and Higashiyama: lanterns, umbrellas and wet stone reflecting everything twice.",
+   "summary": "A week of rain in the French Quarter and the Marigny: gas lanterns, umbrellas and wet stone reflecting everything twice.",
    "photos": [
     {
-     "id": "kyoto-in-rain-01",
+     "id": "french-quarter-in-rain-01",
      "w": 1200,
      "h": 800,
-     "caption": "Hanamikoji after dark.",
-     "alt": "A rainy night street lined with wooden houses and red lanterns"
+     "caption": "Royal Street after dark.",
+     "alt": "A rainy night street lined with iron balconies and gas lanterns"
     },
     {
-     "id": "kyoto-in-rain-02",
+     "id": "french-quarter-in-rain-02",
      "w": 800,
      "h": 1200,
-     "caption": "A red umbrella in Gion.",
+     "caption": "A red umbrella on Chartres Street.",
      "alt": "A figure with a red umbrella walking down a lantern-lit street"
     },
     {
-     "id": "kyoto-in-rain-03",
+     "id": "french-quarter-in-rain-03",
      "w": 960,
      "h": 1200,
-     "caption": "Yasaka Pagoda through the rain.",
-     "alt": "A pagoda silhouette above a wet street at night"
+     "caption": "St. Louis Cathedral through the rain.",
+     "alt": "Cathedral spires in silhouette above a wet street at night"
     },
     {
-     "id": "kyoto-in-rain-04",
+     "id": "french-quarter-in-rain-04",
      "w": 1200,
      "h": 800,
      "caption": "Closing time.",
      "alt": "A person walking past glowing shop windows in the rain"
     },
     {
-     "id": "kyoto-in-rain-05",
+     "id": "french-quarter-in-rain-05",
      "w": 1000,
      "h": 1000,
      "caption": "Lanterns, reflected.",
-     "alt": "Red paper lanterns reflected in a wet street"
+     "alt": "Gas lanterns reflected in a wet street"
     },
     {
-     "id": "kyoto-in-rain-06",
+     "id": "french-quarter-in-rain-06",
      "w": 800,
      "h": 1200,
-     "caption": "Late bus home.",
+     "caption": "Late streetcar home.",
      "alt": "A lone figure in the rain under warm street light"
     },
     {
-     "id": "kyoto-in-rain-07",
+     "id": "french-quarter-in-rain-07",
      "w": 1200,
      "h": 800,
-     "caption": "Higashiyama at 6am.",
-     "alt": "A quiet street with a pagoda behind wooden houses"
+     "caption": "Jackson Square at 6am.",
+     "alt": "A quiet street with cathedral spires behind iron balconies"
     },
     {
-     "id": "kyoto-in-rain-08",
+     "id": "french-quarter-in-rain-08",
      "w": 960,
      "h": 1200,
-     "caption": "The last tea house open.",
-     "alt": "A glowing window in a dark wooden facade"
+     "caption": "The last café open.",
+     "alt": "A glowing window in a dark townhouse facade"
     }
    ]
   },
   {
-   "slug": "atlas-and-erg",
-   "title": "Atlas & Erg",
+   "slug": "adobe-and-dune",
+   "title": "Adobe & Dune",
    "category": "Travel",
-   "location": "Morocco",
+   "location": "New Mexico and Colorado",
    "date": "March 2026",
-   "summary": "From the kasbahs of the Atlas to the dunes of Erg Chebbi: ten days of color, dust and enormous skies.",
+   "summary": "From the adobe churches of Taos to the Great Sand Dunes of Colorado: ten days of color, dust and enormous skies.",
    "photos": [
     {
-     "id": "atlas-and-erg-01",
+     "id": "adobe-and-dune-01",
      "w": 1200,
      "h": 800,
-     "caption": "Dunes at Erg Chebbi.",
-     "alt": "Rolling orange sand dunes under a pale sky"
+     "caption": "Great Sand Dunes at midday.",
+     "alt": "Rolling golden sand dunes below snow-capped peaks"
     },
     {
-     "id": "atlas-and-erg-02",
+     "id": "adobe-and-dune-02",
      "w": 800,
      "h": 1200,
-     "caption": "Aït Benhaddou at noon.",
-     "alt": "Earthen kasbah towers above dunes in bright sun"
+     "caption": "San Francisco de Asís at noon.",
+     "alt": "Adobe church bell towers against the mountains in bright sun"
     },
     {
-     "id": "atlas-and-erg-03",
+     "id": "adobe-and-dune-03",
      "w": 1200,
      "h": 800,
      "caption": "A night under the Milky Way.",
      "alt": "Dark dunes under a sky full of stars"
     },
     {
-     "id": "atlas-and-erg-04",
+     "id": "adobe-and-dune-04",
      "w": 960,
      "h": 1200,
-     "caption": "A caravan at first light.",
-     "alt": "A camel silhouette crossing a dune at sunrise"
+     "caption": "A lone hiker at first light.",
+     "alt": "A hiker in silhouette crossing a dune at sunrise"
     },
     {
-     "id": "atlas-and-erg-05",
+     "id": "adobe-and-dune-05",
      "w": 1000,
      "h": 1000,
      "caption": "Walls the color of the ground.",
-     "alt": "Close view of earthen kasbah walls and towers"
+     "alt": "Close view of adobe church walls, buttresses and towers"
     },
     {
-     "id": "atlas-and-erg-06",
+     "id": "adobe-and-dune-06",
      "w": 1200,
      "h": 800,
-     "caption": "Moonrise over the erg.",
+     "caption": "Moonrise over the dunes.",
      "alt": "Starry night sky above layered dunes"
     },
     {
-     "id": "atlas-and-erg-07",
+     "id": "adobe-and-dune-07",
      "w": 800,
      "h": 1200,
-     "caption": "The road to Merzouga.",
-     "alt": "A camel on a ridge of sand at golden hour"
+     "caption": "The long walk up High Dune.",
+     "alt": "A hiker on a ridge of sand at golden hour"
     },
     {
-     "id": "atlas-and-erg-08",
+     "id": "adobe-and-dune-08",
      "w": 960,
      "h": 1200,
-     "caption": "Tea at the camp.",
-     "alt": "Kasbah towers glowing in late afternoon light"
+     "caption": "Last light in Taos.",
+     "alt": "Adobe bell towers glowing in late afternoon light"
     }
    ]
   }
@@ -446,23 +446,23 @@ var LENS = {
  "deposit": 0.3,
  "proofLimit": 15,
  "proofIds": [
-  "amalfi-vows-01",
-  "amalfi-vows-02",
-  "amalfi-vows-03",
-  "amalfi-vows-04",
-  "amalfi-vows-05",
-  "amalfi-vows-06",
-  "amalfi-vows-07",
-  "amalfi-vows-08",
-  "amalfi-vows-09",
-  "highland-elopement-01",
-  "highland-elopement-02",
-  "highland-elopement-03",
-  "highland-elopement-04",
-  "highland-elopement-05",
-  "highland-elopement-06",
-  "highland-elopement-07",
-  "highland-elopement-08",
+  "catalina-vows-01",
+  "catalina-vows-02",
+  "catalina-vows-03",
+  "catalina-vows-04",
+  "catalina-vows-05",
+  "catalina-vows-06",
+  "catalina-vows-07",
+  "catalina-vows-08",
+  "catalina-vows-09",
+  "rainier-elopement-01",
+  "rainier-elopement-02",
+  "rainier-elopement-03",
+  "rainier-elopement-04",
+  "rainier-elopement-05",
+  "rainier-elopement-06",
+  "rainier-elopement-07",
+  "rainier-elopement-08",
   "fieldwork-01",
   "fieldwork-02",
   "fieldwork-03",

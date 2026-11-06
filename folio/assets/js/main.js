@@ -64,7 +64,7 @@
   /* Local time in the studio's city (footer + hero) */
   var clocks = document.querySelectorAll('[data-local-time]');
   if (clocks.length) {
-    var fmt = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Lisbon' });
+    var fmt = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' });
     var tick = function () {
       var t = fmt.format(new Date());
       clocks.forEach(function (c) { c.textContent = t; });
@@ -74,15 +74,15 @@
   }
 
   /* Rolling dates: [data-months-ahead="n"] shows the month n months from now ("November 2026"; "Feb 2027"
-     with data-month-format="short"; "15 December 2026" with data-day="15"), so availability, start dates and
+     with data-month-format="short"; "December 15, 2026" with data-day="15"), so availability, start dates and
      deadlines never go stale. Replace the span with plain text to show a fixed date. */
   document.querySelectorAll('[data-months-ahead]').forEach(function (el) {
     var n = parseInt(el.getAttribute('data-months-ahead'), 10);
     if (!(n >= 0 && n <= 36)) return;
     var now = new Date(), d = new Date(now.getFullYear(), now.getMonth() + n, 1);
     var day = parseInt(el.getAttribute('data-day'), 10);
-    var month = d.toLocaleDateString('en-GB', { month: el.getAttribute('data-month-format') === 'short' ? 'short' : 'long' });
-    el.textContent = (day >= 1 && day <= 28 ? day + ' ' : '') + month + ' ' + d.getFullYear();
+    var month = d.toLocaleDateString('en-US', { month: el.getAttribute('data-month-format') === 'short' ? 'short' : 'long' });
+    el.textContent = month + ' ' + (day >= 1 && day <= 28 ? day + ', ' : '') + d.getFullYear();
   });
 
   /* Current year */

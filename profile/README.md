@@ -4,7 +4,7 @@ A developer portfolio for the fictional engineer **Sam Lindqvist**: a printable 
 projects, a writing archive, a /uses page and a contact form, with a ⌘K command palette and dark mode.
 Plain HTML, Tailwind CSS v4 and a small vanilla JavaScript file.
 
-**Version 1.1.10** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.1.11** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/profile)
 
 ## Quick start

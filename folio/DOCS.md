@@ -3,9 +3,9 @@
 ## Overview
 
 Folio is a dark, type-led portfolio for product designers, developers and small studios. The demo
-content belongs to Mira Okafor, a fictional independent product designer in Lisbon, with six sample
+content belongs to Mira Okafor, a fictional independent product designer in Lancaster, PA, with six sample
 projects and one full case study. It is built with plain HTML5, Tailwind CSS v4 and a small vanilla
-JavaScript file, so it runs without a build step. This guide covers version 1.1.9.
+JavaScript file, so it runs without a build step. This guide covers version 1.1.10.
 
 Live demo: [freeframe.dev/templates/folio](https://freeframe.dev/templates/folio)
 
@@ -117,14 +117,14 @@ cards.
 example `project-verde.html`) and point each card's `href` at its copy. The "Next project" link at the
 bottom is plain HTML.
 
-**Local time:** the "Lisbon · 12:00" clocks are elements with `data-local-time`. The time zone is set
+**Local time:** the "Lancaster, PA · 12:00 PM" clocks are elements with `data-local-time`. The time zone is set
 in `assets/js/main.js`:
 
 ```js
-var fmt = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Lisbon' });
+var fmt = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' });
 ```
 
-Change `timeZone` to any IANA zone (for example `America/New_York`) and update the city text next to
+Change `timeZone` to any IANA zone (for example `America/Chicago`) and update the city text next to
 each clock. Elements with `data-year` are filled with the current year.
 
 **Rolling dates.** "Booking projects from November 2026" on the contact page is
@@ -231,7 +231,7 @@ Errors appear under each field (in `#<name>-error`, announced to screen readers)
 `aria-invalid`, and the first invalid field is focused. On success the form is hidden and
 `#form-success` is shown with the sender's first name and a short reference (`MO-` and four characters,
 made in the browser; use your form service's own reference instead if it returns one). The message promises
-a reply within two working days, like the "Response time" on the page: change both if yours differs.
+a reply within two business days, like the "Response time" on the page: change both if yours differs.
 
 **The form doesn't send anything until you connect it.** To use a form service such as
 [Formspree](https://formspree.io):

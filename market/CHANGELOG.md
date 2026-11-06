@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.10] - 2026-11-05
+
+### Changed
+
+- Set in Tacoma, Washington, with American spelling, US dollars, US phone numbers and local details.
+- US addresses at checkout now need a ZIP code (5 digits, optional +4); other countries keep the looser postal code check. Tax lines read "Sales tax" and prices say they are before sales tax. Sizes and temperatures are in inches, ounces, quarts and Fahrenheit.
+
 ## [1.1.9] - 2026-11-05
 
 ### Changed

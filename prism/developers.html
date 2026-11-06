@@ -75,7 +75,7 @@
           </div>
           <dl class="reveal reveal-d3 mt-12 grid max-w-md grid-cols-3 gap-4 sm:gap-6 border-t border-white/[.07] pt-7">
             <div><dt class="text-xs text-subtle">Uptime, 90 days</dt><dd class="mt-1 text-xl font-medium">99.98%</dd></div>
-            <div><dt class="text-xs text-subtle">Regions</dt><dd class="mt-1 text-xl font-medium">US, EU, CA</dd></div>
+            <div><dt class="text-xs text-subtle">Regions</dt><dd class="mt-1 text-xl font-medium">3 in US</dd></div>
             <div><dt class="text-xs text-subtle">SDKs</dt><dd class="mt-1 text-xl font-medium">4</dd></div>
           </dl>
         </div>
@@ -210,12 +210,12 @@ answer = client.answers.<span class="t-f">create</span>(
 <pre class="code" tabindex="0"><code><span class="t-k">curl</span> <span class="t-f">-N</span> https://api.prism.example/v1/answers \
   <span class="t-f">-H</span> <span class="t-s">"Authorization: Bearer $PRISM_API_KEY"</span> \
   <span class="t-f">-H</span> <span class="t-s">"Content-Type: application/json"</span> \
-  <span class="t-f">-d</span> <span class="t-s">'{"model": "prism-2-flash", "question": "Summarise this week in support", "stream": true}'</span></code></pre>
+  <span class="t-f">-d</span> <span class="t-s">'{"model": "prism-2-flash", "question": "Summarize this week in support", "stream": true}'</span></code></pre>
               </div>
               <div role="tabpanel" id="str-js" aria-labelledby="str-tab-js" hidden>
 <pre class="code" tabindex="0"><code><span class="t-k">const</span> stream = <span class="t-k">await</span> prism.answers.<span class="t-f">stream</span>({
   <span class="t-p">model</span>: <span class="t-s">"prism-2-flash"</span>,
-  <span class="t-p">question</span>: <span class="t-s">"Summarise this week in support"</span>,
+  <span class="t-p">question</span>: <span class="t-s">"Summarize this week in support"</span>,
 });
 
 <span class="t-k">for</span> <span class="t-k">await</span> (<span class="t-k">const</span> event <span class="t-k">of</span> stream) {
@@ -225,7 +225,7 @@ answer = client.answers.<span class="t-f">create</span>(
               <div role="tabpanel" id="str-python" aria-labelledby="str-tab-python" hidden>
 <pre class="code" tabindex="0"><code><span class="t-k">with</span> client.answers.<span class="t-f">stream</span>(
     <span class="t-p">model</span>=<span class="t-s">"prism-2-flash"</span>,
-    <span class="t-p">question</span>=<span class="t-s">"Summarise this week in support"</span>,
+    <span class="t-p">question</span>=<span class="t-s">"Summarize this week in support"</span>,
 ) <span class="t-k">as</span> stream:
     <span class="t-k">for</span> event <span class="t-k">in</span> stream:
         <span class="t-k">if</span> event.type == <span class="t-s">"text"</span>:
@@ -341,7 +341,7 @@ answer = client.answers.<span class="t-f">create</span>(
           <svg viewBox="0 0 32 32" class="h-7 w-7 shrink-0" aria-hidden="true"><path d="M16 3.5 28.5 26.5H16z" fill="#7cf2c8"/><path d="M16 3.5 3.5 26.5H16z" fill="#ff7eb3"/><path d="M16 3.5 16 26.5 9.75 26.5z" fill="#ffb86b" opacity=".9"/><path d="M16 3.5 22.25 26.5H16z" fill="#6fb6ff" opacity=".9"/><path d="M16 3.5 28.5 26.5h-25z" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.2" stroke-linejoin="round"/></svg>
           <span class="text-[17px] font-semibold tracking-[-0.02em]">Prism</span>
         </a>
-        <p class="mt-4 max-w-xs text-sm leading-relaxed text-muted">The research assistant that shows its work. Made by Prism Labs in Toronto and London.</p>
+        <p class="mt-4 max-w-xs text-sm leading-relaxed text-muted">The research assistant that shows its work. Made by Prism Labs in San Jose and Salt Lake City.</p>
         <p class="mt-6 inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[.03] px-3 py-1.5 text-xs text-muted"><span class="pulse-dot h-2 w-2 rounded-full bg-brand-400 text-brand-400" aria-hidden="true"></span>All systems normal</p>
       </div>
       <div class="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:col-span-5">

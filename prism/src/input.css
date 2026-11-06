@@ -32,7 +32,7 @@
   --color-brand-600: #10a886;
   --color-brand-700: #0c856b;
 
-  /* The spectrum: the colours light splits into. Used for the logo, gradients and charts. */
+  /* The spectrum: the colors light splits into. Used for the logo, gradients and charts. */
   --color-ray-rose: #ff7eb3;
   --color-ray-amber: #ffb86b;
   --color-ray-lemon: #f2ee82;
@@ -120,7 +120,7 @@
   .divider { @apply border-t border-white/[.07]; }
   .kbd { @apply rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px] text-muted; }
 
-  /* Hairline grid that fades out from the top centre. */
+  /* Hairline grid that fades out from the top center. */
   .bg-grid {
     background-image:
       linear-gradient(to right, rgba(255, 255, 255, .055) 1px, transparent 1px),
@@ -209,7 +209,7 @@
   .tab { @apply relative px-3 py-2.5 font-mono text-xs text-subtle transition hover:text-fg aria-selected:text-fg; }
   .tab[aria-selected="true"]::after { content: ""; position: absolute; left: .75rem; right: .75rem; bottom: -1px; height: 2px; border-radius: 2px; background: var(--spectrum); }
 
-  /* Code blocks. Token colours are applied by spans written into the HTML. */
+  /* Code blocks. Token colors are applied by spans written into the HTML. */
   .code { @apply overflow-x-auto p-5 font-mono text-[13px] leading-relaxed text-[#d5d9e6]; tab-size: 2; }
   .code .t-k { color: #c9a6ff; }   /* keyword */
   .code .t-s { color: #95f5d2; }   /* string */

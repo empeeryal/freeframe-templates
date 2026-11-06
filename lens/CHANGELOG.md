@@ -6,6 +6,14 @@ All notable changes to the Lens template are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.0.11] - 2026-11-06
+
+### Changed
+
+- Moved the destination stories to the US: Catalina Vows (Avalon, California), Rainier Elopement (Mount Rainier, Washington), French Quarter in Rain (New Orleans, Louisiana) and Adobe & Dune (New Mexico and Colorado), with new copy and redrawn photo stand-ins and social image.
+- Renamed the matching gallery slugs and photo files: `amalfi-vows` to `catalina-vows`, `highland-elopement` to `rainier-elopement`, `kyoto-in-rain` to `french-quarter-in-rain` and `atlas-and-erg` to `adobe-and-dune`. Links with an old `?g=` value now open the first gallery, and proofing selections saved with an old photo id are dropped.
+- The home page's key figures now count states rather than countries.
+
 ## [1.0.10] - 2026-11-05
 
 ### Changed

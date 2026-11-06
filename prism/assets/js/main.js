@@ -51,7 +51,7 @@ document.documentElement.classList.add('js');
   const PLAYGROUND = [
     {
       id: 'onboarding',
-      label: 'Summarise Q3 onboarding tickets',
+      label: 'Summarize Q3 onboarding tickets',
       prompt: 'What did customers say about onboarding in our Q3 support tickets?',
       seconds: 2.1, tokens: 168,
       sources: [

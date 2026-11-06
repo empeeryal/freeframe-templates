@@ -3,12 +3,12 @@
 ## Overview
 
 Prism is a marketing website for an AI startup, built for **Prism**, a fictional research assistant made by
-Prism Labs (Toronto and London). The product answers questions from a team's docs, tickets and the web with
+Prism Labs (San Jose and Salt Lake City). The product answers questions from a team's docs, tickets and the web with
 citations, in an app and through an API. The site has a home page with a streaming playground demo, a product
 page, API docs, pricing with a cost calculator, a changelog, a company and careers page and a sales form. It is
 plain HTML with Tailwind CSS v4 and one vanilla JavaScript file, with no build step needed to use it. The design
 is dark-first: near-black surfaces, a hairline grid, film grain and spectrum gradients taken from light passing
-through a prism. This guide covers version 1.0.2. See it live at
+through a prism. This guide covers version 1.0.5. See it live at
 [freeframe.dev/templates/prism](https://freeframe.dev/templates/prism).
 
 ## Quick start
@@ -28,7 +28,7 @@ through a prism. This guide covers version 1.0.2. See it live at
 | File | Purpose | Notable sections and features |
 |------|---------|-------------------------------|
 | `index.html` | Home | Hero, streaming playground, logo strip, feature grid, how it works, benchmark chart, testimonials, call to action |
-| `product.html` | Product | Search, write, briefs and analyse sections with UI mock-ups, integrations grid (`#integrations`), security badges and data retention table (`#security`), model cards and latency chart (`#models`) |
+| `product.html` | Product | Search, write, briefs and analyze sections with UI mock-ups, integrations grid (`#integrations`), security badges and data retention table (`#security`), model cards and latency chart (`#models`) |
 | `developers.html` | API docs | Example response, three-step quickstart with code tabs (`#quickstart`), endpoint list (`#endpoints`), SDK cards with copy buttons (`#sdks`), rate limits table (`#rate-limits`) |
 | `pricing.html` | Pricing | Monthly / annual switch, three plans, API price table, cost calculator (`#calculator`), FAQ accordion (`#faq`) |
 | `changelog.html` | Changelog | Dated releases on a timeline, topic filter with counts (`changelog.html?tag=api`) |
