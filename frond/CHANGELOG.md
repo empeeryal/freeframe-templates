@@ -4,6 +4,14 @@ All notable changes to Frond are documented here.
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-11-05
+
+### Changed
+
+- Set in Eugene, Oregon, with American spelling, US dollars, US phone numbers and local details.
+- Delivery checks now use 5-digit ZIP codes (optional +4) around Eugene, shipping and opening hours follow US federal
+  holidays by rule in Pacific time, and the cart and checkout note that Oregon has no sales tax, so none is added.
+
 ## [1.0.1] - 2026-11-05
 
 ### Changed

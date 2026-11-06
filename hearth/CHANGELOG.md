@@ -4,6 +4,17 @@ All notable changes to the Hearth template (HTML + Tailwind CSS) are documented 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the template uses
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.6] - 2026-11-05
+
+### Changed
+
+- Set in Woodstock, Vermont, with American spelling, US dollars, US phone numbers and local details.
+- The Fallow Hart is now a New England country inn with a tavern, in Eastern time, with US dates, Vermont trails in
+  miles and feet, and a redrawn trail map. Seasons follow Vermont (high season July to October), and prices show as
+  before tax.
+- Gift vouchers are now gift certificates that don't expire, sent by mail or email. Dogs stay in the snug and at the
+  porch tables rather than the tavern, and service animals are welcome everywhere.
+
 ## [1.0.5] - 2026-11-05
 
 ### Changed

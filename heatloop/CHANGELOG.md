@@ -6,6 +6,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-11-05
+
+### Changed
+
+- Set in Bangor, Maine, with American spelling, US dollars, US phone numbers and local details.
+- The savings estimator works in dollars, kWh, therms and gallons of heating oil or propane, with US home sizes in square feet, carbon in pounds and tons, and sample Maine prices labeled as estimates. The day chart and home teaser use a US rate plan, the 12-hour clock and a 90 kWh cold day that suits Maine. Some estimator and careers URL values changed to match, such as `region=eastern` and `location=bangor`.
+- The reservation checks 5-digit ZIP codes (with an optional +4), references read like `HL-04401-7K2Q`, and phone fields check for US numbers. Grant wording is now general wording about federal, state and utility incentives, with none promised.
+
 ## [1.0.2] - 2026-11-05
 
 ### Changed

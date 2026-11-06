@@ -2,12 +2,12 @@
  *
  * Sections
  *  1. Settings and data        6. Food: tabs, diet filter, specials   11. Forms
- *  2. Helpers and storage      7. Walks: filters, map, saved walks    12. Header, menu, reveal
- *  3. London time              8. Events: upcoming by date            13. Back to top
- *  4. Opening hours / status   9. Gift vouchers
+ *  2. Helpers and storage      7. Trails: filters, map, saved         12. Header, menu, reveal
+ *  3. Inn time (Eastern)       8. Events: upcoming by date            13. Back to top
+ *  4. Opening hours / status   9. Gift certificates
  *  5. Rooms: stay checker     10. Contact: topic, hours table
  *
- * Every time-dependent feature uses the inn's clock (Europe/London), not the visitor's.
+ * Every time-dependent feature uses the inn's clock (America/New_York), not the visitor's.
  */
 (function () {
   'use strict';
@@ -15,10 +15,10 @@
   /* ------------------------------------------------------------------
    * 1. Settings and data. Edit these to make the template yours.
    * ------------------------------------------------------------------ */
-  var TIME_ZONE = 'Europe/London';
+  var TIME_ZONE = 'America/New_York';
 
-  // Opening hours by weekday (0 = Sunday). Times are 'HH:MM' in London time.
-  // bar: when the doors are open. kitchen: food service windows. breakfast: residents only.
+  // Opening hours by weekday (0 = Sunday). Times are 'HH:MM' in Eastern time.
+  // bar: when the doors are open. kitchen: food service windows. breakfast: inn guests only.
   var HOURS = {
     0: { bar: ['12:00', '22:30'], kitchen: [['12:00', '16:00'], ['17:30', '20:00']], breakfast: ['08:00', '10:00'] },
     1: { bar: ['17:00', '23:00'], kitchen: [['18:00', '20:30']], breakfast: ['07:30', '09:30'] },
@@ -29,94 +29,95 @@
     6: { bar: ['12:00', '23:30'], kitchen: [['12:00', '14:30'], ['18:00', '21:00']], breakfast: ['08:00', '10:00'] }
   };
 
-  // Seasons by month (1-12). Each room has one nightly rate per season, in pounds, breakfast included.
+  // Seasons by month (1-12). Each room has one nightly rate per season, in dollars before tax, breakfast included.
+  // Vermont's busy months are summer and foliage; mud season and stick season are the quiet ones.
   var SEASONS = {
-    low: { label: 'Low season', months: [11, 12, 1, 2] },
-    mid: { label: 'Mid season', months: [3, 4, 5, 10] },
-    high: { label: 'High season', months: [6, 7, 8, 9] }
+    low: { label: 'Low season', months: [3, 4, 11] },
+    mid: { label: 'Mid season', months: [12, 1, 2, 5, 6] },
+    high: { label: 'High season', months: [7, 8, 9, 10] }
   };
 
   var ROOMS = {
-    snug: { name: 'The Snug', sleeps: 2, dogs: true, rates: { low: 95, mid: 110, high: 125 } },
-    hayloft: { name: 'The Hayloft', sleeps: 2, dogs: true, rates: { low: 125, mid: 145, high: 165 } },
-    shepherd: { name: 'Shepherd\u2019s Room', sleeps: 2, dogs: true, rates: { low: 120, mid: 140, high: 160 } },
-    beck: { name: 'Beck View', sleeps: 2, dogs: false, rates: { low: 140, mid: 160, high: 185 } },
-    cove: { name: 'The Cove Suite', sleeps: 4, dogs: false, rates: { low: 175, mid: 195, high: 225 } },
-    dairy: { name: 'The Old Dairy', sleeps: 4, dogs: true, rates: { low: 165, mid: 185, high: 215 } }
+    snug: { name: 'The Snug', sleeps: 2, dogs: true, rates: { low: 165, mid: 195, high: 235 } },
+    hayloft: { name: 'The Hayloft', sleeps: 2, dogs: true, rates: { low: 215, mid: 255, high: 305 } },
+    shepherd: { name: 'Shepherd\u2019s Room', sleeps: 2, dogs: true, rates: { low: 205, mid: 245, high: 295 } },
+    beck: { name: 'Brook View', sleeps: 2, dogs: false, rates: { low: 245, mid: 285, high: 345 } },
+    cove: { name: 'The Ledges Suite', sleeps: 4, dogs: false, rates: { low: 315, mid: 365, high: 435 } },
+    dairy: { name: 'The Old Dairy', sleeps: 4, dogs: true, rates: { low: 295, mid: 345, high: 415 } }
   };
   var ROOM_ORDER = ['snug', 'hayloft', 'shepherd', 'beck', 'cove', 'dairy'];
 
   var STAY_RULES = {
-    maxNights: 14,          // longer stays: phone the inn
+    maxNights: 14,          // longer stays: call the inn
     maxDaysAhead: 365,      // bookings open a year ahead
     saturdayMinNights: 2,   // a stay that includes a Saturday night needs at least this many nights
     maxGuests: 4,
     maxDogs: 2,
-    dogFee: 15              // pounds per dog per stay
+    dogFee: 30              // dollars per dog per stay
   };
 
   // Today's specials by weekday (0 = Sunday), chalked up on the food page.
   var SPECIALS = {
-    0: [['Rib of Dales beef, Yorkshire pudding, all the trimmings', 22], ['Nut roast, roast roots, proper gravy (vg)', 17], ['Treacle tart, clotted cream', 7.5]],
-    1: [['Shepherd’s pie, buttered greens', 15], ['Leek and Wensleydale tart (v)', 14], ['Parkin, custard', 6.5]],
-    2: [['Quiz-night pie: steak and Timothy Taylor’s', 17], ['Butternut and sage risotto (v, gf)', 14.5], ['Sticky toffee pudding', 7]],
-    3: [['Ham hock, parsley sauce, mash', 16], ['Mushroom and ale cobbler (vg)', 14], ['Bramley apple crumble', 7]],
-    4: [['Haddock, triple-cooked chips, mushy peas', 16.5], ['Cauliflower cheese gratin (v)', 13], ['Rhubarb fool (gf)', 6.5]],
-    5: [['Venison sausages, red onion gravy', 17.5], ['Beetroot, lentil and walnut bake (vg, gf)', 14.5], ['Chocolate pot, shortbread', 7]],
-    6: [['Slow lamb shoulder for two, rosemary roasties', 38], ['Wild mushrooms on toast (v)', 12], ['Bread and butter pudding', 7]]
+    0: [['Rib of Vermont beef, popover, all the trimmings', 36], ['Nut roast, roasted roots, proper gravy (vg)', 26], ['Maple pecan tart, whipped cream', 10.5]],
+    1: [['Shepherd’s pie, buttered greens', 24], ['Leek and Vermont cheddar tart (v)', 22], ['Gingerbread, whipped cream', 9.5]],
+    2: [['Trivia-night pie: steak and Vermont ale', 26], ['Butternut and sage risotto (v, gf)', 23], ['Sticky toffee pudding', 11]],
+    3: [['Ham, parsley sauce, mashed potatoes', 25], ['Mushroom and ale cobbler (vg)', 22], ['Vermont apple crisp', 10]],
+    4: [['Haddock, hand-cut fries, coleslaw', 26], ['Cauliflower and cheddar gratin (v)', 21], ['Rhubarb fool (gf)', 9.5]],
+    5: [['Venison sausages, red onion gravy', 27], ['Beet, lentil and walnut bake (vg, gf)', 23], ['Chocolate pot, shortbread', 10]],
+    6: [['Slow-roasted lamb shoulder for two, rosemary potatoes', 62], ['Wild mushrooms on toast (v)', 19], ['Bread and butter pudding', 10]]
   };
   var WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
   // Recurring events. weekday: 0 = Sunday. nth: which weeks of the month (1-5, or -1 = last).
   var EVENT_RULES = [
-    { id: 'quiz', type: 'quiz', title: 'The Hart Quiz', weekday: 2, time: '20:30', price: '£2 a head',
-      text: 'Teams of up to six, eight rounds and a picture round. Every penny goes to the local fell and cave rescue team.' },
+    { id: 'quiz', type: 'quiz', title: 'Hart Trivia Night', weekday: 2, time: '20:30', price: '$5 a person',
+      text: 'Teams of up to six, eight rounds and a picture round. Every dollar goes to local volunteer search and rescue.' },
     { id: 'folk', type: 'music', title: 'Folk session in the snug', weekday: 4, nth: [1, 3], time: '20:00', price: 'Free',
-      text: 'Fiddles, squeezeboxes and the odd song. Bring an instrument or just a good ear.' },
-    { id: 'supper', type: 'food', title: 'Supper club', weekday: 5, nth: [-1], time: '19:00', price: '£45, book ahead',
-      text: 'Five courses from what the farms and the moor give us that week, at one long table.' }
+      text: 'Fiddles, banjos and the odd song. Bring an instrument or just a good ear.' },
+    { id: 'supper', type: 'food', title: 'Supper club', weekday: 5, nth: [-1], time: '19:00', price: '$85, reserve ahead',
+      text: 'Five courses from what the farms and the woods give us that week, at one long table.' }
   ];
-  // One-off events (London dates). While KEEP_DEMO_CURRENT is true, an event whose date has passed comes
-  // back a year later, so the demo always has its seasonal specials: on the same date (Halloween, Bonfire
-  // Night, Burns Night), or with sameWeekday: true on the same weekday nearest that date (a Saturday stays
+  // One-off events (Eastern dates). While KEEP_DEMO_CURRENT is true, an event whose date has passed comes
+  // back a year later, so the demo always has its seasonal specials: on the same date (Halloween,
+  // New Year's Eve), or with sameWeekday: true on the same weekday nearest that date (a Saturday stays
   // a Saturday). Set it to false once EVENTS holds your real dates; past events then drop off.
   var KEEP_DEMO_CURRENT = true;
   var EVENTS = [
-    { id: 'lantern', type: 'special', date: '2026-10-31', time: '18:00', title: 'Lantern walk and ghost stories', price: '£8, children free', text: 'A slow walk to the church by lantern light, then stories by the fire.' },
-    { id: 'bonfire', type: 'special', date: '2026-11-05', time: '18:30', title: 'Bonfire on the green', price: 'Free', text: 'Bonfire, parkin and mulled cider. Dogs best kept at home tonight.' },
-    { id: 'wreath', type: 'special', date: '2026-11-28', time: '14:00', sameWeekday: true, title: 'Christmas wreath workshop', price: '£35, materials included', text: 'Holly, ivy and spruce from the dale, a mince pie and a glass of something.' },
-    { id: 'carols', type: 'music', date: '2026-12-19', time: '19:30', sameWeekday: true, title: 'Carols round the fire', price: 'Free', text: 'The village choir, the brass band and a lot of mince pies.' },
-    { id: 'ceilidh', type: 'music', date: '2026-12-31', time: '20:00', title: 'New Year’s Eve ceilidh', price: '£20', text: 'A caller, a band and dancing until the bells. Ticket includes a bowl of stew.' },
+    { id: 'lantern', type: 'special', date: '2026-10-31', time: '18:00', title: 'Lantern walk and ghost stories', price: '$12, children free', text: 'A slow walk to the church by lantern light, then stories by the fire.' },
+    { id: 'bonfire', type: 'special', date: '2026-11-07', time: '18:30', sameWeekday: true, title: 'Bonfire behind the barn', price: 'Free', text: 'Bonfire, cider doughnuts and mulled cider. Dogs best kept at home tonight.' },
+    { id: 'wreath', type: 'special', date: '2026-11-28', time: '14:00', sameWeekday: true, title: 'Christmas wreath workshop', price: '$55, materials included', text: 'Balsam, spruce and winterberry from the hillside, a Christmas cookie and a glass of something.' },
+    { id: 'carols', type: 'music', date: '2026-12-19', time: '19:30', sameWeekday: true, title: 'Carols around the fire', price: 'Free', text: 'The village choir, the town band and a lot of Christmas cookies.' },
+    { id: 'ceilidh', type: 'music', date: '2026-12-31', time: '20:00', title: 'New Year’s Eve contra dance', price: '$45', text: 'A caller, a band and dancing until midnight. Ticket includes a bowl of stew.' },
     { id: 'wassail', type: 'special', date: '2027-01-16', time: '17:00', sameWeekday: true, title: 'Orchard wassail', price: 'Free', text: 'Toast and cider for the old apple trees behind the barn, with songs and noise.' },
-    { id: 'burns', type: 'food', date: '2027-01-25', time: '19:00', title: 'Burns Night supper', price: '£42', text: 'Haggis, neeps and tatties, a piper and the Address to a Haggis.' },
-    { id: 'beerfest', type: 'food', date: '2027-03-20', time: '12:00', sameWeekday: true, title: 'Spring beer festival', price: 'Free entry', text: 'Twenty casks from Dales breweries, a hog roast and music in the barn.' }
+    { id: 'burns', type: 'food', date: '2027-01-23', time: '19:00', sameWeekday: true, title: 'Winter game supper', price: '$75', text: 'Farm-raised venison and rabbit, a fiddler and a long table by the fire.' },
+    { id: 'beerfest', type: 'food', date: '2027-03-20', time: '12:00', sameWeekday: true, title: 'Spring beer festival', price: 'Free entry', text: 'Twenty taps from Vermont breweries, a pig roast and music in the barn.' }
   ];
-  var EVENT_TYPES = { quiz: 'Quiz', music: 'Music', food: 'Food & drink', special: 'Special' };
+  var EVENT_TYPES = { quiz: 'Trivia', music: 'Music', food: 'Food & drink', special: 'Special' };
   var EVENT_WINDOW_DAYS = 60;
 
-  // Walks from the door. Must match the cards on walks.html (data-walk).
+  // Trails from the door. Must match the cards on walks.html (data-walk).
   var WALKS = {
-    village: { name: 'Village and riverside loop', miles: 2, level: 'easy' },
-    cove: { name: 'Malham Cove and the pavement', miles: 3, level: 'moderate' },
-    airton: { name: 'Pennine Way to Airton', miles: 4, level: 'easy' },
-    gordale: { name: 'Janet’s Foss and Gordale Scar', miles: 4.5, level: 'moderate' },
-    weets: { name: 'Weets Top and Calton Moor', miles: 6, level: 'moderate' },
-    tarn: { name: 'Malham Tarn by the dry valley', miles: 7.5, level: 'moderate' },
-    three: { name: 'The Malham big three', miles: 9.5, level: 'strenuous' },
-    fountains: { name: 'Fountains Fell', miles: 12, level: 'strenuous' }
+    village: { name: 'Village green and river loop', miles: 2, level: 'easy' },
+    cove: { name: 'Mount Tom by the Faulkner Trail', miles: 3, level: 'moderate' },
+    airton: { name: 'River Road along the Ottauquechee', miles: 4, level: 'easy' },
+    gordale: { name: 'The Pogue by the carriage roads', miles: 4.5, level: 'moderate' },
+    weets: { name: 'Mount Peg and Cox District Road', miles: 6, level: 'moderate' },
+    tarn: { name: 'Mount Tom ridge and the Pogue', miles: 7.5, level: 'moderate' },
+    three: { name: 'The Woodstock big three', miles: 9.5, level: 'strenuous' },
+    fountains: { name: 'Cloudland and the Appalachian Trail', miles: 12, level: 'strenuous' }
   };
   var WALK_LENGTHS = { short: [0, 4], half: [4, 8], full: [8, 100] }; // miles: from (inclusive) to (exclusive)
   var WALK_LEVELS = { easy: 'Easy', moderate: 'Moderate', strenuous: 'Strenuous' };
 
-  // Gift vouchers. 'amount' is a money voucher for any whole-pound value in range.
+  // Gift certificates. 'amount' is a certificate for any whole-dollar value in range.
   var VOUCHERS = {
-    amount: { label: 'Money voucher', price: null },
-    roast: { label: 'Sunday roast for two', price: 58 },
-    supper: { label: 'Three-course supper for two', price: 92 },
-    night: { label: 'Dinner, bed and breakfast for two', price: 265 }
+    amount: { label: 'Dollar-amount certificate', price: null },
+    roast: { label: 'Sunday roast for two', price: 88 },
+    supper: { label: 'Three-course supper for two', price: 125 },
+    night: { label: 'Dinner, bed and breakfast for two', price: 495 }
   };
-  var VOUCHER_LIMITS = { min: 10, max: 500, messageMax: 150, postage: 3 };
+  var VOUCHER_LIMITS = { min: 25, max: 1000, messageMax: 150, postage: 4 };
 
   var CONTACT_TOPICS = { general: 1, rooms: 1, table: 1, events: 1, vouchers: 1, dogs: 1 };
 
@@ -135,7 +136,7 @@
   function plural(n, one, many) { return n + ' ' + (n === 1 ? one : (many || one + 's')); }
   function money(n) {
     var whole = Math.round(n * 100) % 100 === 0;
-    return '£' + (whole ? String(Math.round(n)) : n.toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return '$' + (whole ? String(Math.round(n)) : n.toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
   function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
@@ -177,13 +178,13 @@
   }
 
   /* ------------------------------------------------------------------
-   * 3. London time. Calendar dates are handled as 'YYYY-MM-DD' strings
+   * 3. Inn time (Eastern). Calendar dates are handled as 'YYYY-MM-DD' strings
    *    and day numbers (days since 1970-01-01), so DST never shifts them.
    * ------------------------------------------------------------------ */
   var londonParts = (function () {
     var fmt;
     try {
-      fmt = new Intl.DateTimeFormat('en-GB', { timeZone: TIME_ZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+      fmt = new Intl.DateTimeFormat('en-US', { timeZone: TIME_ZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
     } catch (e) { fmt = null; }
     return function (date) {
       if (!fmt) return { y: date.getFullYear(), m: date.getMonth() + 1, d: date.getDate(), hh: date.getHours(), mm: date.getMinutes() };
@@ -215,8 +216,8 @@
     var suffix = h >= 12 ? 'pm' : 'am', h12 = h % 12 || 12;
     return h12 + (min ? ':' + pad(min) : '') + suffix;
   }
-  function shortDate(day) { var iso = isoOf(day); return WEEKDAYS[weekdayOf(day)].slice(0, 3) + ' ' + +iso.slice(8, 10) + ' ' + MONTHS[+iso.slice(5, 7) - 1].slice(0, 3); }
-  function longDate(day) { var iso = isoOf(day); return WEEKDAYS[weekdayOf(day)] + ' ' + +iso.slice(8, 10) + ' ' + MONTHS[+iso.slice(5, 7) - 1]; }
+  function shortDate(day) { var iso = isoOf(day); return WEEKDAYS[weekdayOf(day)].slice(0, 3) + ', ' + MONTHS[+iso.slice(5, 7) - 1].slice(0, 3) + ' ' + +iso.slice(8, 10); }
+  function longDate(day) { var iso = isoOf(day); return WEEKDAYS[weekdayOf(day)] + ', ' + MONTHS[+iso.slice(5, 7) - 1] + ' ' + +iso.slice(8, 10); }
 
   /* ------------------------------------------------------------------
    * 4. Opening hours and the "fire's lit" status
@@ -238,11 +239,11 @@
       var morning = t >= 5 * 60;
       return { state: 'resting', title: morning ? 'Morning at the Hart' : 'The fire’s banked for the night',
         short: 'Bar opens at ' + clock(today.bar[0]) + ' today',
-        detail: (morning && t < toMinutes(today.breakfast[1]) ? 'Breakfast for residents until ' + clock(today.breakfast[1]) + '. ' : '') +
+        detail: (morning && t < toMinutes(today.breakfast[1]) ? 'Breakfast for inn guests until ' + clock(today.breakfast[1]) + '. ' : '') +
           'The bar opens at ' + clock(today.bar[0]) + ' today.' };
     }
     return { state: 'resting', title: 'The fire’s banked for the night', short: 'Bar opens at ' + clock(tomorrow.bar[0]) + ' tomorrow',
-      detail: 'Residents, the night porter has your key. The bar opens at ' + clock(tomorrow.bar[0]) + ' tomorrow.' };
+      detail: 'Inn guests, the night manager has your key. The bar opens at ' + clock(tomorrow.bar[0]) + ' tomorrow.' };
   }
   function initStatus() {
     var now = nowLondon(), s = getStatus(now);
@@ -266,7 +267,7 @@
   }
 
   /* ------------------------------------------------------------------
-   * 5. Rooms: stay checker with seasonal prices and the saved enquiry
+   * 5. Rooms: stay checker with seasonal prices and the saved inquiry
    * ------------------------------------------------------------------ */
   function seasonOf(day) {
     var m = monthOf(day);
@@ -312,7 +313,7 @@
     if (!v.checkout) errors.checkout = 'Choose your departure date.';
     else if (!outOk) errors.checkout = 'Enter a real date.';
     else if (inOk && outDay <= inDay) errors.checkout = 'Departure must be after arrival.';
-    else if (inOk && outDay - inDay > STAY_RULES.maxNights) errors.checkout = 'For stays over ' + STAY_RULES.maxNights + ' nights, please ring us.';
+    else if (inOk && outDay - inDay > STAY_RULES.maxNights) errors.checkout = 'For stays over ' + STAY_RULES.maxNights + ' nights, please call us.';
     if (!errors.checkin && !errors.checkout && inOk && outOk) {
       var nights = outDay - inDay, hasSaturday = false;
       for (var d = inDay; d < outDay; d++) if (weekdayOf(d) === 6) hasSaturday = true;
@@ -352,7 +353,7 @@
     f.checkin.min = isoOf(today); f.checkout.min = isoOf(today + 1);
     f.checkin.max = isoOf(today + STAY_RULES.maxDaysAhead);
 
-    // Restore the saved enquiry, then let URL parameters (from a room card or the home page) win.
+    // Restore the saved inquiry, then let URL parameters (from a room card or the home page) win.
     var saved = cleanEnquiry(readJSON(ENQUIRY_KEY), today);
     var q = params();
     var fromUrl = {};
@@ -414,13 +415,13 @@
         if (!reason) {
           html += '<dl class="mt-3 grid gap-1 text-[0.98rem]">' + qd.lines.map(function (l) {
             return '<div class="flex justify-between gap-4"><dt>' + l.label + '</dt><dd class="tabular-nums">' + money(l.amount) + '</dd></div>';
-          }).join('') + '<div class="mt-1 flex justify-between gap-4 border-t-2 border-ink pt-2 font-display text-lg font-bold"><dt>Total</dt><dd class="tabular-nums" data-total>' + money(qd.total) + '</dd></div></dl>' +
-          '<button type="button" class="btn-green btn-sm mt-4" data-enquire="' + id + '">Enquire about ' + escapeHtml(room.name) + '</button>';
+          }).join('') + '<div class="mt-1 flex justify-between gap-4 border-t-2 border-ink pt-2 font-display text-lg font-bold"><dt>Total before tax</dt><dd class="tabular-nums" data-total>' + money(qd.total) + '</dd></div></dl>' +
+          '<button type="button" class="btn-green btn-sm mt-4" data-enquire="' + id + '">Inquire about ' + escapeHtml(room.name) + '</button>';
         }
         html += '</li>';
       });
       html += '</ul>';
-      if (!available) html += '<p class="mt-4">Nothing free for those dates' + (v.room ? ' in that room. Try <button type="button" class="link font-semibold" data-any-room>any room</button>, or ring' : '. Ring') + ' us on 01632 960 417: we sometimes have cancellations.</p>';
+      if (!available) html += '<p class="mt-4">Nothing free for those dates' + (v.room ? ' in that room. Try <button type="button" class="link font-semibold" data-any-room>any room</button>, or call' : '. Call') + ' us at (802) 555-0161: we sometimes have cancellations.</p>';
       results.innerHTML = html;
       if (focusResults) { results.focus(); }
     }
@@ -451,7 +452,7 @@
       var v = values(), r = checkStay(v, today);
       if (Object.keys(r.errors).length || !v.checkin || !v.checkout) return 'No dates chosen yet: check your dates above first, or just ask us below.';
       var room = has(ROOMS, v.room) ? ROOMS[v.room].name : 'Any room';
-      var total = v.room ? ' · ' + money(quote(v.room, r.inDay, r.outDay, v.dogs).total) : '';
+      var total = v.room ? ' · ' + money(quote(v.room, r.inDay, r.outDay, v.dogs).total) + ' before tax' : '';
       return room + ' · ' + shortDate(r.inDay) + ' to ' + shortDate(r.outDay) + ' (' + plural(r.outDay - r.inDay, 'night') + ') · ' + plural(v.guests, 'guest') + (v.dogs ? ', ' + plural(v.dogs, 'dog') : '') + total;
     }
     if (enquiry) {
@@ -520,7 +521,7 @@
       if (updateHash && window.history.replaceState) window.history.replaceState(null, '', '#' + id);
       applyDiet();
     }
-    // Default tab: the hash if valid, otherwise whichever menu is being served now in London.
+    // Default tab: the hash if valid, otherwise whichever menu is being served now at the inn.
     function defaultTab() {
       var now = nowLondon(), t = now.minutes;
       if (t < 11 * 60) return 'breakfast';
@@ -590,7 +591,7 @@
   }
 
   /* ------------------------------------------------------------------
-   * 7. Walks: filters, route map and saved walks
+   * 7. Trails: filters, route map and saved trails
    * ------------------------------------------------------------------ */
   function loadSavedWalks() {
     var raw = readJSON(WALKS_KEY), out = [];
@@ -629,7 +630,7 @@
           $('[data-save-label]', heart).textContent = on ? 'Saved' : 'Save';
         }
       });
-      count.textContent = 'Showing ' + plural(shown, 'walk') + ' of ' + cards.length + '.';
+      count.textContent = 'Showing ' + plural(shown, 'trail') + ' of ' + cards.length + '.';
       empty.hidden = shown > 0;
       // Keep the map in step: dim routes that are filtered out.
       $$('[data-route]').forEach(function (r) {
@@ -645,7 +646,7 @@
       $$('[data-route]').forEach(function (r) { r.toggleAttribute('data-active', r.getAttribute('data-route') === id); });
       $$('[data-show-route]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-show-route') === id)); });
       var label = $('[data-map-label]');
-      if (label) label.textContent = has(WALKS, id) ? WALKS[id].name + ' · ' + WALKS[id].miles + ' miles' : 'Choose a walk to see its route';
+      if (label) label.textContent = has(WALKS, id) ? WALKS[id].name + ' · ' + WALKS[id].miles + ' miles' : 'Choose a trail to see its route';
     }
     $$('[data-filter-length]').forEach(function (b) { b.addEventListener('click', function () { state.length = b.getAttribute('data-filter-length'); sync(); }); });
     $$('[data-filter-level]').forEach(function (b) { b.addEventListener('click', function () { state.level = b.getAttribute('data-filter-level'); sync(); }); });
@@ -659,7 +660,7 @@
         var i = saved.indexOf(id);
         if (i === -1) saved.push(id); else saved.splice(i, 1);
         writeJSON(WALKS_KEY, saved.length ? saved : null);
-        announce(i === -1 ? WALKS[id].name + ' saved.' : WALKS[id].name + ' removed from saved walks.');
+        announce(i === -1 ? WALKS[id].name + ' saved.' : WALKS[id].name + ' removed from saved trails.');
         sync();
       }
       var show = e.target.closest('[data-show-route]');
@@ -727,7 +728,7 @@
     if (next) {
       var first = upcomingEvents(now, EVENT_WINDOW_DAYS)[0];
       if (first) {
-        next.innerHTML = '<span class="font-display font-bold">' + escapeHtml(first.title) + '</span><br><span class="text-chalk/80">' + escapeHtml(whenLabel(first, now)) + (first.day > now.day + 1 ? ' ' + shortDate(first.day).slice(4) : '') + ', ' + clock(first.time) + '</span>';
+        next.innerHTML = '<span class="font-display font-bold">' + escapeHtml(first.title) + '</span><br><span class="text-chalk/80">' + escapeHtml(whenLabel(first, now)) + (first.day > now.day + 1 ? ' ' + shortDate(first.day).slice(5) : '') + ', ' + clock(first.time) + '</span>';
       }
     }
     var list = $('[data-event-list]');
@@ -756,7 +757,7 @@
   }
 
   /* ------------------------------------------------------------------
-   * 9. Gift vouchers: live preview and total
+   * 9. Gift certificates: live preview and total
    * ------------------------------------------------------------------ */
   function voucherState(form) {
     var f = form.elements, kind = (form.querySelector('input[name="kind"]:checked') || {}).value;
@@ -781,14 +782,14 @@
       var counter = $('[data-message-count]');
       counter.textContent = left >= 0 ? plural(left, 'character') + ' left' : plural(-left, 'character') + ' too many';
       counter.classList.toggle('text-oxblood', left < 0);
-      $('[data-preview-title]').textContent = s.kind === 'amount' ? (isFinite(s.value) && s.value >= VOUCHER_LIMITS.min && s.value <= VOUCHER_LIMITS.max ? money(s.value) : '£—') : VOUCHERS[s.kind].label;
+      $('[data-preview-title]').textContent = s.kind === 'amount' ? (isFinite(s.value) && s.value >= VOUCHER_LIMITS.min && s.value <= VOUCHER_LIMITS.max ? money(s.value) : '$—') : VOUCHERS[s.kind].label;
       $('[data-preview-sub]').textContent = s.kind === 'amount' ? 'to spend on rooms, food and drink' : 'worth ' + money(VOUCHERS[s.kind].price);
       $('[data-preview-to]').textContent = f.to.value.trim() || 'Someone special';
       $('[data-preview-from]').textContent = f.from.value.trim() || 'you';
-      $('[data-preview-message]').textContent = f.message.value.trim() || 'A night by the fire in the Dales. Enjoy!';
+      $('[data-preview-message]').textContent = f.message.value.trim() || 'A night by the fire in Vermont. Enjoy!';
       var okValue = isFinite(s.value) && s.value >= VOUCHER_LIMITS.min && s.value <= VOUCHER_LIMITS.max;
-      $('[data-voucher-total]').textContent = okValue ? money(s.total) : '£—';
-      $('[data-voucher-breakdown]').textContent = okValue ? (money(s.value) + ' voucher' + (s.postage ? ' + ' + money(s.postage) + ' printed card by post' : ', sent by email')) : 'Enter an amount between ' + money(VOUCHER_LIMITS.min) + ' and ' + money(VOUCHER_LIMITS.max) + '.';
+      $('[data-voucher-total]').textContent = okValue ? money(s.total) : '$—';
+      $('[data-voucher-breakdown]').textContent = okValue ? (money(s.value) + ' certificate' + (s.postage ? ' + ' + money(s.postage) + ' printed card by mail' : ', sent by email')) : 'Enter an amount between ' + money(VOUCHER_LIMITS.min) + ' and ' + money(VOUCHER_LIMITS.max) + '.';
     }
     form.addEventListener('input', update);
     form.addEventListener('change', update);
@@ -827,14 +828,14 @@
   function fieldError(form, input) {
     var v = input.value.trim(), name = input.name;
     if (input.disabled || input.closest('[hidden]')) return '';
-    if (input.type === 'checkbox' && input.required && !input.checked) return input.getAttribute('data-required-msg') || 'Please tick this box.';
+    if (input.type === 'checkbox' && input.required && !input.checked) return input.getAttribute('data-required-msg') || 'Please check this box.';
     if (input.required && !v) return input.getAttribute('data-required-msg') || 'This field is required.';
     if (v && input.type === 'email' && !EMAIL_RE.test(v)) return 'Enter an email address like name@example.com.';
     if (v && input.type === 'tel' && !/^[+()\d\s-]{7,20}$/.test(v)) return 'Enter a phone number using digits and spaces.';
     if (v && input.getAttribute('data-minlength') && v.length < +input.getAttribute('data-minlength')) return 'Please write at least ' + input.getAttribute('data-minlength') + ' characters.';
     if (input.getAttribute('data-maxlength') && input.value.length > +input.getAttribute('data-maxlength')) return 'Please keep it to ' + input.getAttribute('data-maxlength') + ' characters.';
     if (name === 'amount' && form.id === 'voucher-form') {
-      if (!/^\d+$/.test(v)) return 'Enter a whole number of pounds, e.g. 50.';
+      if (!/^\d+$/.test(v)) return 'Enter a whole number of dollars, such as 50.';
       if (+v < VOUCHER_LIMITS.min || +v > VOUCHER_LIMITS.max) return 'Choose an amount from ' + money(VOUCHER_LIMITS.min) + ' to ' + money(VOUCHER_LIMITS.max) + '.';
     }
     return '';
@@ -870,8 +871,8 @@
             $$('[data-success-total]', success).forEach(function (el) { el.textContent = money(s.total); });
             $$('[data-success-delivery]', success).forEach(function (el) {
               el.textContent = s.delivery === 'post'
-                ? 'We\u2019ll post the printed card second class within two working days and email your receipt to you shortly.'
-                : 'We\u2019ll email the voucher to its recipient and your receipt to you shortly.';
+                ? 'We\u2019ll mail the printed card first class within two business days and email your receipt to you shortly.'
+                : 'We\u2019ll email the certificate to its recipient and your receipt to you shortly.';
             });
           }
           success.hidden = false;

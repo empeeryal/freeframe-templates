@@ -3,20 +3,20 @@
 ## Overview
 
 Glaze is a shop website for a small pottery studio, built with plain HTML, Tailwind CSS v4 and vanilla
-JavaScript (no dependencies). The demo brand is **Vennick Clay**, a fictional studio and shop at 17 Kirkgate in
-Otley, West Yorkshire, run by Celandine Vennick and Tobi Akintola. It sells twelve stoneware pieces in five
-glazes, books workshops, and has a checkout with delivery or collection. Every pot is drawn in SVG from the
+JavaScript (no dependencies). The demo brand is **Vennick Clay**, a fictional studio and shop at 228 N Mesquite Street in
+Las Cruces, New Mexico, run by Celandine Vennick and Tobi Akintola. It sells twelve stoneware pieces in five
+glazes, books workshops, and has a checkout with shipping or pickup. Every pot is drawn in SVG from the
 product data, so the drawing changes when a visitor picks another glaze or size. This guide is for version
-**1.0.0** (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). The template page, with a link to the live
+**1.0.4** (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). The template page, with a link to the live
 demo, is at [freeframe.dev/templates/glaze](https://freeframe.dev/templates/glaze).
 
-All dates and opening times use the studio’s time zone, **Europe/London**, whatever the visitor’s own clock
-says. Prices are in pounds sterling.
+All dates and opening times use the studio’s time zone, **America/Denver** (Mountain time), whatever the visitor’s own clock
+says. Prices are in US dollars and exclude tax; the cart and checkout say “plus applicable tax” and don’t calculate it.
 
 ## Quick start
 
 1. Unzip the download and open `index.html` in a browser. Everything works from the file system, including
-   the basket and checkout.
+   the cart and checkout.
 2. Or serve the folder, which is closer to how it runs online:
 
    ```sh
@@ -25,21 +25,21 @@ says. Prices are in pounds sterling.
 
 3. To change styles you need Node.js 24 or newer (see [Building and deploying](#building-and-deploying)).
 
-Add `?now=2026-12-23T16:00` to any page to see it at another date and time (London time). The preview clock
-keeps ticking from there. It is handy for checking opening hours, Christmas closures and workshop dates.
+Add `?now=2026-12-23T16:00` to any page to see it at another date and time (Mountain time). The preview clock
+keeps ticking from there. It is handy for checking opening hours, holiday closures and workshop dates.
 
 ## Pages
 
 | File | Purpose | Notable sections and features |
 |------|---------|-------------------------------|
 | `index.html` | Home | Still life drawn from the pottery shapes, four featured pieces, shop by shape, the next kiln-opening Saturday, the next workshop dates with spaces, studio story, quote |
-| `shop.html` | Shop | Shape, glaze and “ready to send” filters, sorting, result count, shareable URLs, empty state |
+| `shop.html` | Shop | Shape, glaze and “ready to ship” filters, sorting, result count, shareable URLs, empty state |
 | `product.html` | One piece (`?piece=ripple`) | Glaze and size choices, price, quantity with a limit that says so, stock per glaze, delivery and collection dates, details, related pieces |
-| `workshops.html` | Workshops | Three workshops, booking form with rolling dates and places left, number of people, FAQ |
-| `basket.html` | Basket | Pottery and workshop places, quantity steppers, delivery or collection, free-delivery progress, arrival dates |
-| `checkout.html` | Checkout | Contact details, delivery address with UK postcode rules or collection, workshop names, gift option, order confirmation |
+| `workshops.html` | Workshops | Three workshops, booking form with rolling dates and spots left, number of people, FAQ |
+| `basket.html` | Cart | Pottery and workshop spots, quantity steppers, shipping or pickup, free-shipping progress, arrival dates |
+| `checkout.html` | Checkout | Contact details, shipping address with state and ZIP code rules, or pickup, workshop names, gift option, order confirmation |
 | `studio.html` | The studio | Story, how a piece is made (six steps), the five glazes, the people |
-| `care.html` | Care and delivery | Care advice, glaze-by-glaze guide, delivery table with live dates, returns and breakages |
+| `care.html` | Care and shipping | Care advice, glaze-by-glaze guide, shipping table with live dates, returns and breakages |
 | `contact.html` | Visit and contact | Live open or closed status, the next seven days’ hours, kiln-opening Saturdays, map, contact form |
 | `404.html` | Not found | A cracked bowl mended with gold, links back |
 
@@ -50,7 +50,7 @@ glaze/
 ├── index.html … 404.html   the ten pages (header and footer repeated in each)
 ├── assets/
 │   ├── css/style.css       compiled Tailwind CSS (generated: don't edit by hand)
-│   ├── js/main.js          all data and behaviour: pieces, glazes, workshops, dates, basket, forms
+│   ├── js/main.js          all data and behavior: pieces, glazes, workshops, dates, cart, forms
 │   └── img/
 │       ├── favicon.svg     the pot mark
 │       ├── og-image.svg    social image source (1200 × 630)
@@ -77,7 +77,7 @@ The colors and fonts are Tailwind theme tokens in `src/input.css`, so every util
 | `--color-ink` / `--color-muted` | `#29271f` / `#5f5749` | text |
 | `--color-clay` / `--color-clay-deep` / `--color-clay-tint` | `#a4472d` / `#803520` / `#f2ddd0` | brand: wordmark, italics, kiln band, errors |
 | `--color-cobalt` / `--color-cobalt-deep` / `--color-cobalt-tint` | `#2a46a8` / `#1d3281` / `#e1e6f5` | buttons, links, selected options |
-| `--color-moss` / `--color-moss-tint` | `#56653a` / `#e3e7d1` | “ready to send”, confirmations |
+| `--color-moss` / `--color-moss-tint` | `#56653a` / `#e3e7d1` | “ready to ship”, confirmations |
 | `--color-kiln` | `#2a2822` | dark bands and footer |
 
 To change the main button color, edit the cobalt tokens and rebuild the CSS:
@@ -116,9 +116,9 @@ sections:
 | Constant | What it holds |
 |----------|---------------|
 | `SHOP` | name, address, phone and email used in messages |
-| `TIMEZONE` | `'Europe/London'`: every date and time is worked out here |
+| `TIMEZONE` | `'America/Denver'`: every date and time is worked out here |
 | `HOURS` | opening hours, Sunday first: `['10:00', '17:00']` or `null` for closed |
-| `CLOSED_DATES` | days closed every year, as `'MM-DD'` (shop, workshops, dispatch and collection) |
+| `CLOSED_DATES` | extra days closed every year, as `'MM-DD'` (shop, workshops, shipping and pickup); US federal holidays are closed too, by rule, in `federalHolidays(year)` |
 | `KILN_OPENING` | the kiln-opening Saturday: `weekday` and the early `open` time |
 | `GLAZES`, `GLAZE_ORDER` | the five glazes: name, note, colors, tile class, care flags |
 | `CATEGORIES` | the five shapes used by the shop filter |
@@ -126,9 +126,9 @@ sections:
 | `PRODUCTS` | the twelve pieces |
 | `MADE_BY` | how a piece is formed, shown under “Made” |
 | `MAX_QTY` | the most of one piece (one glaze and size) per order online: `6` |
-| `DELIVERY` | delivery fee, free-delivery threshold, remote fee, dispatch and transit days |
-| `MADE_TO_ORDER_DAYS` | working days to make a piece that isn’t in stock: `15` |
-| `REMOTE_POSTCODES`, `NO_POST` | postcode areas with the remote fee, and areas you can’t post to |
+| `DELIVERY` | shipping fee, free-shipping threshold, remote fee, packing and transit days |
+| `MADE_TO_ORDER_DAYS` | business days to make a piece that isn’t in stock: `15` |
+| `REMOTE_POSTCODES`, `NO_POST` | ZIP code prefixes (first three digits) with the remote fee, and ones you can’t ship to |
 | `WORKSHOPS`, `WORKSHOP_ORDER` | the workshops and their date rules |
 | `RHYTHM_ANCHOR`, `BOOKING_LEAD_DAYS`, `WORKSHOP_HORIZON_DAYS`, `WORKSHOP_MAX_PLACES` | workshop date settings |
 | `DEMO_FULL_PERCENT` | demo availability (see [Workshops](#workshop-booking)) |
@@ -136,26 +136,26 @@ sections:
 A piece looks like this:
 
 ```js
-{ id: 'ripple', name: 'Ripple breakfast bowl', category: 'bowls', shape: 'bowl', price: 30, featured: 1,
+{ id: 'ripple', name: 'Ripple breakfast bowl', category: 'bowls', shape: 'bowl', price: 36, featured: 1,
   glazes: ['oat', 'cobalt', 'moss'], stock: { oat: 5, cobalt: 2, moss: 0 },
-  sizes: [{ id: 'cereal', label: 'Cereal', detail: '15cm across, holds 500ml', add: 0, scale: 0.88 },
-          { id: 'breakfast', label: 'Breakfast', detail: '17cm across, holds 650ml', add: 6, scale: 1 }],
-  blurb: 'A wide, rippled bowl for porridge, peaches and everything after.',
+  sizes: [{ id: 'cereal', label: 'Cereal', detail: '6 in across, holds 16 oz', add: 0, scale: 0.88 },
+          { id: 'breakfast', label: 'Breakfast', detail: '6¾ in across, holds 22 oz', add: 8, scale: 1 }],
+  blurb: 'A wide, rippled bowl for oatmeal, peaches and everything after.',
   description: 'Thrown in one pull and trimmed with a soft foot…' }
 ```
 
 - `id` goes in the URL (`product.html?piece=ripple`); keep it short, lowercase and unique.
-- `price` is the first size’s price in pounds; each size’s `add` is added on top. A piece with one size still
+- `price` is the first size’s price in dollars; each size’s `add` is added on top. A piece with one size still
   needs one entry in `sizes`.
 - `scale` draws a size larger or smaller; `count` draws two, three or six pots (pairs and sets).
-- `stock` is pieces ready to send per glaze. `0` means made to order (about three weeks).
+- `stock` is pieces ready to ship per glaze. `0` means made to order (about three weeks).
 - `shape` picks the drawing: `bowl`, `pasta`, `pinch`, `mug`, `beaker`, `espresso`, `plate`, `platter`,
   `jug`, `teapot`, `budvase` or `vessel`.
 - `featured` puts a piece on the home page, in that order (`0` = not featured). Keep it to four.
 - `made` (optional) is a key of `MADE_BY`; pieces without it are “thrown on the wheel”.
 
 To add a piece, copy one, give it a new `id`, and list only glazes that exist in `GLAZES`. Cards on the home
-page, shop, related pieces, basket and checkout all come from this one array; there are no static product
+page, shop, related pieces, cart and checkout all come from this one array; there are no static product
 cards to update.
 
 ### Images and artwork
@@ -198,7 +198,7 @@ if you like, the footer, in each file. Mark the current page’s links with `ari
 
 ### Shop filters
 
-`initShop()` builds the shape and glaze filter buttons from `CATEGORIES` and `GLAZES`. “Ready to send”
+`initShop()` builds the shape and glaze filter buttons from `CATEGORIES` and `GLAZES`. “Ready to ship”
 keeps pieces with stock in the chosen glaze (or any glaze). The cards then show the chosen glaze. Filters are
 toggle buttons with `aria-pressed`, the count is a polite live region, and the URL updates so a filtered view
 can be shared (see [URL parameters](#url-parameters)). An odd last card in the two-column phone grid spans
@@ -214,19 +214,19 @@ than the stock, the page says the rest are made to order and the delivery date m
 worked out by `relatedTo()`: same shape first, then pieces sharing a glaze, never the piece itself. An unknown
 `piece` (including `toString` or `__proto__`) shows a “couldn’t find that piece” message.
 
-### Delivery and collection dates
+### Shipping and pickup dates
 
-Dates are worked out from today in London time:
+Dates are worked out from today in Mountain time:
 
-- A piece in stock is dispatched `DELIVERY.dispatchDays` (2) working days from today and arrives 1 to 2
-  working days later (`transitDays`). Working days are Monday to Friday, not `CLOSED_DATES`.
-- Made-to-order pieces are dispatched after `MADE_TO_ORDER_DAYS` (15) working days.
-- Highlands, islands, Isle of Wight and Scilly (`REMOTE_POSTCODES`) take one day longer and cost
-  `DELIVERY.remoteFee` (£14).
-- Collection is free from the first opening day at least `collectReadyDays` (2) days ahead, or after the
+- A piece in stock ships `DELIVERY.dispatchDays` (2) business days from today and arrives 2 to 5
+  business days later (`transitDays`). Business days are Monday to Friday, not closed dates.
+- Made-to-order pieces ship after `MADE_TO_ORDER_DAYS` (15) business days.
+- Alaska and Hawaii (`REMOTE_POSTCODES`) take up to three days longer (`remoteExtraDays`) and cost
+  `DELIVERY.remoteFee` ($28).
+- Pickup is free from the first opening day at least `collectReadyDays` (2) days ahead, or after the
   made-to-order time.
-- Mainland delivery is `DELIVERY.fee` (£5.50), free when the pottery comes to `DELIVERY.freeFrom` (£80).
-  Workshop places don’t count towards it and need no delivery.
+- Shipping to the Lower 48 states and DC is `DELIVERY.fee` ($12), free when the pottery comes to
+  `DELIVERY.freeFrom` ($125). Workshop spots don’t count toward it and need no shipping.
 
 ### Workshop booking
 
@@ -234,32 +234,32 @@ Sessions come from a rule, never a list of dates, so the page is always current:
 
 | Workshop | Rule | Sessions listed |
 |----------|------|-----------------|
-| `taster` Wheel taster, £65 | every Sunday at 10am and 2pm (`rule: 'weekly'`) | next 8 |
-| `handbuild` Hand-building evening, £48 | every other Wednesday at 6:30pm (`'fortnightly'`, in step with `RHYTHM_ANCHOR`) | next 5 |
-| `course` Six-week wheel course, £285 | the first Tuesday of each month at 6:30pm (`'first'`) | next 3 |
+| `taster` Wheel intro, $75 | every Sunday at 10am and 2pm (`rule: 'weekly'`) | next 8 |
+| `handbuild` Hand-building evening, $60 | every other Wednesday at 6:30pm (`'fortnightly'`, in step with `RHYTHM_ANCHOR`) | next 5 |
+| `course` Six-week wheel course, $325 | the first Tuesday of each month at 6:30pm (`'first'`) | next 3 |
 
-Sessions start `BOOKING_LEAD_DAYS` (2) days from today and skip `CLOSED_DATES`. Places left come from
+Sessions start `BOOKING_LEAD_DAYS` (2) days from today and skip closed dates. Spots left come from
 `placesTaken()`, a stable pseudo-random number per session; `DEMO_FULL_PERCENT` (14) of sessions show as full.
-Replace `placesTaken()` with your booking system’s numbers for a real site. Places already in the basket are
-taken off, and a booking is up to `WORKSHOP_MAX_PLACES` (4) people. Places go into the basket next to any
-pottery; a session that has passed is removed from the basket with a notice.
+Replace `placesTaken()` with your booking system’s numbers for a real site. Spots already in the cart are
+taken off, and a booking is up to `WORKSHOP_MAX_PLACES` (4) people. Spots go into the cart next to any
+pottery; a session that has passed is removed from the cart with a notice.
 
-### Basket
+### Cart
 
-The basket (`basket.html`) lists pottery and workshop places with − and + steppers and Remove buttons.
+The cart (`basket.html`) lists pottery and workshop spots with − and + steppers and Remove buttons.
 Keyboard focus stays on the same control after a change, or moves to the next line. The summary has a
-delivery or collection choice, a free-delivery progress bar and the arrival or collection date. The header
-badge and its `aria-label` (“Basket, 3 items”) update on every page, and in other tabs through the `storage`
+shipping or pickup choice, a free-shipping progress bar and the arrival or pickup date. The header
+badge and its `aria-label` (“Cart, 3 items”) update on every page, and in other tabs through the `storage`
 event.
 
 ### Checkout
 
-`checkout.html` validates name, email, optional phone and, for delivery, the address and a UK postcode. It
-normalizes the postcode (`ls21 3ab` → `LS21 3AB`), charges the remote fee for remote postcodes and refuses
-Northern Ireland, Jersey, Guernsey and the Isle of Man (`NO_POST`) with a message. Collection hides the address
-and shows the collection date; a workshop-only order hides delivery entirely and asks for names. Placing the
+`checkout.html` validates name, email, optional phone and, for shipping, the address, state and a ZIP code (5 digits, optional +4). It
+normalizes the ZIP code (`880011234` → `88001-1234`), charges the remote fee for Alaska and Hawaii and refuses
+Puerto Rico, the US territories and military addresses (`NO_POST`) with a message. Pickup hides the address
+and shows the pickup date; a workshop-only order hides shipping entirely and asks for names. Placing the
 order shows a confirmation with an order number (`VC-` and five digits), the summary and the dates, saves it
-as the last order and empties the basket. No payment is taken: connect your payment provider in the
+as the last order and empties the cart. No payment is taken: connect your payment provider in the
 `setupValidation(form, …)` callback in `initCheckout()`, where the comment says so, and show the confirmation
 only after it succeeds.
 
@@ -273,10 +273,10 @@ content. Remove the “Back to top” block at the end of `main.js` and the `.ba
 
 | Page | Parameter | Values |
 |------|-----------|--------|
-| any | `now` | `YYYY-MM-DDTHH:MM`, London time: preview the site at that moment |
+| any | `now` | `YYYY-MM-DDTHH:MM`, Mountain time: preview the site at that moment |
 | `shop.html` | `category` | `cups`, `bowls`, `plates`, `pouring`, `vases` |
 | `shop.html` | `glaze` | `oat`, `cobalt`, `earth`, `moss`, `chalk` |
-| `shop.html` | `ready` | `1`: only pieces ready to send |
+| `shop.html` | `ready` | `1`: only pieces ready to ship |
 | `shop.html` | `sort` | `featured`, `price-asc`, `price-desc`, `name` |
 | `product.html` | `piece` | a product `id` (required) |
 | `product.html` | `glaze`, `size` | a glaze and size the piece comes in |
@@ -289,7 +289,7 @@ Every value is checked with an own-key lookup (`Object.prototype.hasOwnProperty.
 
 | Form | Where | Validates |
 |------|-------|-----------|
-| Checkout | `checkout.html` | name (2+ characters), email, optional phone, address, town, UK postcode |
+| Checkout | `checkout.html` | name (2+ characters), email, optional phone, address, city, state, ZIP code |
 | Contact | `contact.html` | name, email, topic, number of pieces (commissions and wholesale), message (15–1500 characters, with a counter) |
 | Kiln list | footer of every page | email |
 
@@ -310,23 +310,24 @@ The checkout sends nothing either: see [Checkout](#checkout).
 ## Saved data (localStorage)
 
 All saved data goes through `safeStorage`, which falls back to memory when the browser blocks
-`localStorage` (a sandboxed iframe or strict privacy settings), so the basket still works for that page view.
+`localStorage` (a sandboxed iframe or strict privacy settings), so the cart still works for that page view.
 
 | Key | Shape | Checked on read |
 |-----|-------|-----------------|
-| `glaze-basket` | `{ lines: [{ kind: 'piece', id, glaze, size, qty } \| { kind: 'workshop', id, date, slot, qty }], method: 'delivery' \| 'collect' }` | unknown pieces, glazes, sizes and workshops are dropped; quantities are clamped (6 per piece, 4 places); past or invalid sessions are removed with a notice; duplicates are merged; at most 40 lines; the repaired basket is written back |
+| `glaze-basket` | `{ lines: [{ kind: 'piece', id, glaze, size, qty } \| { kind: 'workshop', id, date, slot, qty }], method: 'delivery' \| 'collect' }` | unknown pieces, glazes, sizes and workshops are dropped; quantities are clamped (6 per piece, 4 spots); past or invalid sessions are removed with a notice; duplicates are merged; at most 40 lines; the repaired cart is written back |
 | `glaze-last-order` | `{ number: 'VC-12345', placedAt, summary, total }` | ignored unless the number, summary and total have the right form |
 
 To reset, run `localStorage.removeItem('glaze-basket')` in the browser console, or clear the site’s data.
 
 ## Time zone and demo dates
 
-Everything dated is computed in `Europe/London` from rules, so the demo never shows past dates:
+Everything dated is computed in `America/Denver` from rules, so the demo never shows past dates:
 
-- Workshop sessions: weekly, fortnightly and first-of-the-month rules (see [Workshop booking](#workshop-booking)).
+- Workshop sessions: weekly, every-other-week and first-of-the-month rules (see [Workshop booking](#workshop-booking)).
 - Kiln-opening Saturdays: the first Saturday of each month.
-- Delivery, dispatch and collection dates: working days from today.
-- Closures: `CLOSED_DATES` repeats every year.
+- Shipping and pickup dates: business days from today.
+- Closures: `federalHolidays(year)` works out US federal holidays by rule, with the weekday they’re observed on;
+  `CLOSED_DATES` adds Christmas Eve and New Year’s Eve, and repeats every year. Edit either for your own closures.
 - The copyright year fills itself in (`[data-year]`).
 
 There is no `KEEP_DEMO_CURRENT` switch because nothing is a fixed date. The workshop availability
@@ -379,9 +380,9 @@ There is no server code. `src/`, `package.json` and `node_modules/` aren’t nee
 
 - **A new color or class has no effect.** Rebuild the CSS (`npm run build`). If the class is only in
   `main.js`, check it is written out in full.
-- **The basket empties on every page.** The browser is blocking storage (private mode in some browsers, or the
-  page is in a sandboxed iframe). The basket then lasts for one page view; serve the site normally.
-- **Opening hours look wrong.** Check `HOURS` (Sunday first) and `CLOSED_DATES`, and preview with
+- **The cart empties on every page.** The browser is blocking storage (private mode in some browsers, or the
+  page is in a sandboxed iframe). The cart then lasts for one page view; serve the site normally.
+- **Opening hours look wrong.** Check `HOURS` (Sunday first), `CLOSED_DATES` and `federalHolidays()`, and preview with
   `?now=2026-12-24T11:00`.
 - **A product link shows “We couldn’t find that piece”.** The `piece` value must match an `id` in `PRODUCTS`
   exactly.

@@ -1,15 +1,15 @@
 /* Vennick Clay — site script for the Glaze template
  * Vanilla JavaScript, no dependencies. Sections:
  *  1. Studio settings: address, hours, closures, kiln-opening Saturdays
- *  2. Catalogue: glazes, categories, pieces
- *  3. Delivery and collection
+ *  2. Catalog: glazes, categories, pieces
+ *  3. Shipping and pickup
  *  4. Workshops
  *  5. Helpers and saved data (safeStorage)
- *  6. Studio clock: London time, working days, workshop sessions
+ *  6. Studio clock: Denver time, business days, workshop sessions
  *  7. Pottery artwork (SVG drawn from the product data)
- *  8. Basket (localStorage)
+ *  8. Cart (localStorage)
  *  9. Header, mobile menu, reveal, toast, open/closed status
- * 10. Product cards            14. Basket page
+ * 10. Product cards            14. Cart page
  * 11. Home and shop            15. Checkout
  * 12. Product page             16. Visit, care and studio pages
  * 13. Workshops page           17. Forms and boot
@@ -26,27 +26,28 @@ document.documentElement.classList.add('js');
    * ------------------------------------------------------------------ */
   const SHOP = {
     name: 'Vennick Clay',
-    address: '17 Kirkgate, Otley LS21 3AB',
-    phone: '01632 960759',
+    address: '228 N Mesquite Street, Las Cruces, NM 88001',
+    phone: '(575) 555-0159',
     email: 'hello@vennickclay.example'
   };
-  const TIMEZONE = 'Europe/London';
-  const LOCALE = 'en-GB';
+  const TIMEZONE = 'America/Denver';
+  const LOCALE = 'en-US';
 
   // Shop and studio opening hours, Sunday first: ['open', 'close'] or null when closed.
   const HOURS = [null, null, null, null, ['10:00', '17:00'], ['10:00', '17:00'], ['10:00', '17:00']];
 
-  // Days the studio is closed every year ('MM-DD'): no shop, workshops, dispatch or collection.
-  const CLOSED_DATES = ['12-24', '12-25', '12-26', '12-31', '01-01'];
+  // Extra days the studio is closed every year ('MM-DD'): no shop, workshops, shipping or pickup.
+  // US federal holidays are closed too: see federalHolidays() in section 6.
+  const CLOSED_DATES = ['12-24', '12-31'];
 
   // Kiln-opening Saturday: the first Saturday of every month (a rule, so it never goes stale).
   // We open early, unpack the kiln and put the seconds shelf out.
   const KILN_OPENING = { weekday: 6, open: '09:00' };
 
   /* ------------------------------------------------------------------
-   * 2. Catalogue
+   * 2. Catalog
    * ------------------------------------------------------------------ */
-  // Glazes. body: three colours for the pot's sides (shadow, light, mid); rim: where the glaze
+  // Glazes. body: three colors for the pot's sides (shadow, light, mid); rim: where the glaze
   // breaks thin; inside: the liner; speckle: iron spots or null; tile: the card background class.
   // dishwasher / microwave feed the care notes.
   const GLAZES = {
@@ -60,87 +61,87 @@ document.documentElement.classList.add('js');
 
   const CATEGORIES = {
     cups: { label: 'Mugs & cups', blurb: 'For the first cup and the last.' },
-    bowls: { label: 'Bowls', blurb: 'Porridge, pasta, olives, salt.' },
+    bowls: { label: 'Bowls', blurb: 'Oatmeal, pasta, olives, salt.' },
     plates: { label: 'Plates & platters', blurb: 'Everyday plates and generous platters.' },
-    pouring: { label: 'Jugs & teapots', blurb: 'Milk, water, flowers and a proper pot of tea.' },
+    pouring: { label: 'Pitchers & teapots', blurb: 'Milk, water, flowers and a good pot of tea.' },
     vases: { label: 'Vases & vessels', blurb: 'One stem, or simply the shape.' }
   };
 
   const SORTS = { featured: 'Our picks', 'price-asc': 'Price: low to high', 'price-desc': 'Price: high to low', name: 'Name: A to Z' };
 
-  // Every piece. price: the first size in pounds; sizes[].add: pounds on top. scale and count change
-  // the drawing (a larger bowl, a pair of beakers). stock: pieces ready to send per glaze; 0 means
+  // Every piece. price: the first size in dollars; sizes[].add: dollars on top. scale and count change
+  // the drawing (a larger bowl, a pair of beakers). stock: pieces ready to ship per glaze; 0 means
   // made to order (see MADE_TO_ORDER_DAYS). shape: how it is drawn (section 7).
   // featured: its place on the home page (0 = not featured). made: how it is formed (MADE_BY;
   // thrown on the wheel when left out).
   const PRODUCTS = [
-    { id: 'ripple', name: 'Ripple breakfast bowl', category: 'bowls', shape: 'bowl', price: 30, featured: 1,
+    { id: 'ripple', name: 'Ripple breakfast bowl', category: 'bowls', shape: 'bowl', price: 36, featured: 1,
       glazes: ['oat', 'cobalt', 'moss'], stock: { oat: 5, cobalt: 2, moss: 0 },
-      sizes: [{ id: 'cereal', label: 'Cereal', detail: '15cm across, holds 500ml', add: 0, scale: 0.88 }, { id: 'breakfast', label: 'Breakfast', detail: '17cm across, holds 650ml', add: 6, scale: 1 }],
-      blurb: 'A wide, rippled bowl for porridge, peaches and everything after.',
+      sizes: [{ id: 'cereal', label: 'Cereal', detail: '6 in across, holds 16 oz', add: 0, scale: 0.88 }, { id: 'breakfast', label: 'Breakfast', detail: '6¾ in across, holds 22 oz', add: 8, scale: 1 }],
+      blurb: 'A wide, rippled bowl for oatmeal, peaches and everything after.',
       description: 'Thrown in one pull and trimmed with a soft foot, the Ripple bowl keeps the lines the fingers leave behind. The glaze pools in each ring, so no two bowls catch the light the same way.' },
-    { id: 'pasta', name: 'Kirkgate pasta bowl', category: 'bowls', shape: 'pasta', price: 38, featured: 0,
+    { id: 'pasta', name: 'Mesquite pasta bowl', category: 'bowls', shape: 'pasta', price: 46, featured: 0,
       glazes: ['chalk', 'oat', 'cobalt'], stock: { chalk: 4, oat: 3, cobalt: 0 },
-      sizes: [{ id: 'one', label: 'One size', detail: '23cm across, 5cm deep', add: 0, scale: 1 }],
+      sizes: [{ id: 'one', label: 'One size', detail: '9 in across, 2 in deep', add: 0, scale: 1 }],
       blurb: 'Shallow and wide, with a rim to rest a fork on.',
       description: 'Our most-used shape at home: wide enough for a heap of pasta, shallow enough for a salad, with a flat rim that stays cool to hold.' },
-    { id: 'pinch', name: 'Pinch dishes', category: 'bowls', shape: 'pinch', price: 24, featured: 0, made: 'pinched',
+    { id: 'pinch', name: 'Pinch dishes', category: 'bowls', shape: 'pinch', price: 30, featured: 0, made: 'pinched',
       glazes: ['earth', 'cobalt', 'chalk'], stock: { earth: 6, cobalt: 3, chalk: 4 },
-      sizes: [{ id: 'three', label: 'Set of three', detail: 'Each about 8cm across', add: 0, count: 3 }, { id: 'six', label: 'Set of six', detail: 'Each about 8cm across', add: 20, count: 6 }],
+      sizes: [{ id: 'three', label: 'Set of three', detail: 'Each about 3 in across', add: 0, count: 3 }, { id: 'six', label: 'Set of six', detail: 'Each about 3 in across', add: 26, count: 6 }],
       blurb: 'Little pinched dishes for salt, olives, rings and keys.',
       description: 'Pinched by hand from a ball of clay, never thrown, so each one is slightly different in shape. The perfect first piece of handmade pottery to give.' },
-    { id: 'loop', name: 'Loop handle mug', category: 'cups', shape: 'mug', price: 28, featured: 2,
+    { id: 'loop', name: 'Loop handle mug', category: 'cups', shape: 'mug', price: 38, featured: 2,
       glazes: ['cobalt', 'oat', 'chalk', 'earth'], stock: { cobalt: 8, oat: 4, chalk: 0, earth: 2 },
-      sizes: [{ id: 'regular', label: 'Regular', detail: 'Holds 300ml', add: 0, scale: 0.9 }, { id: 'large', label: 'Large', detail: 'Holds 400ml', add: 4, scale: 1 }],
+      sizes: [{ id: 'regular', label: 'Regular', detail: 'Holds 10 oz', add: 0, scale: 0.9 }, { id: 'large', label: 'Large', detail: 'Holds 14 oz', add: 6, scale: 1 }],
       blurb: 'A generous morning mug with a hand-pulled handle.',
-      description: 'The handle is pulled, not moulded, so it fits four fingers and a thumb. Heavy enough to feel steady, light enough to carry upstairs full.' },
-    { id: 'beaker', name: 'Wharfe beaker', category: 'cups', shape: 'beaker', price: 22, featured: 0,
+      description: 'The handle is pulled, not molded, so it fits four fingers and a thumb. Heavy enough to feel steady, light enough to carry upstairs full.' },
+    { id: 'beaker', name: 'Rio tumbler', category: 'cups', shape: 'beaker', price: 30, featured: 0,
       glazes: ['moss', 'chalk', 'cobalt'], stock: { moss: 5, chalk: 6, cobalt: 1 },
-      sizes: [{ id: 'single', label: 'Single', detail: '11cm tall, holds 280ml', add: 0, count: 1 }, { id: 'pair', label: 'A pair', detail: 'Two beakers, 11cm tall', add: 20, count: 2 }],
-      blurb: 'A tall, handleless beaker for water, wine or a flat white.',
-      description: 'Named after the river at the bottom of the town. Straight-sided with a slight flare, so it sits well in the hand and stacks two high on the draining board.' },
-    { id: 'espresso', name: 'Thimble espresso cup', category: 'cups', shape: 'espresso', price: 24, featured: 0,
+      sizes: [{ id: 'single', label: 'Single', detail: '4½ in tall, holds 10 oz', add: 0, count: 1 }, { id: 'pair', label: 'A pair', detail: 'Two tumblers, 4½ in tall', add: 26, count: 2 }],
+      blurb: 'A tall, handleless tumbler for water, wine or a flat white.',
+      description: 'Named after the river at the edge of town. Straight-sided with a slight flare, so it sits well in the hand and stacks two high on the dish rack.' },
+    { id: 'espresso', name: 'Thimble espresso cup', category: 'cups', shape: 'espresso', price: 32, featured: 0,
       glazes: ['cobalt', 'earth', 'chalk'], stock: { cobalt: 3, earth: 0, chalk: 4 },
-      sizes: [{ id: 'single', label: 'Cup & saucer', detail: 'Holds 90ml', add: 0, count: 1 }, { id: 'pair', label: 'Two cups & saucers', detail: 'Each holds 90ml', add: 22, count: 2 }],
+      sizes: [{ id: 'single', label: 'Cup & saucer', detail: 'Holds 3 oz', add: 0, count: 1 }, { id: 'pair', label: 'Two cups & saucers', detail: 'Each holds 3 oz', add: 28, count: 2 }],
       blurb: 'A small cup and saucer for one strong coffee.',
       description: 'A thick wall keeps the coffee hot for the minute it lasts. The saucer has a shallow well, so the cup stays put when you carry it.' },
-    { id: 'plate', name: 'Everyday plate', category: 'plates', shape: 'plate', price: 24, featured: 0, made: 'jiggered',
+    { id: 'plate', name: 'Everyday plate', category: 'plates', shape: 'plate', price: 30, featured: 0, made: 'jiggered',
       glazes: ['chalk', 'moss', 'oat'], stock: { chalk: 10, moss: 3, oat: 6 },
-      sizes: [{ id: 'side', label: 'Side', detail: '21cm across', add: 0, scale: 0.8 }, { id: 'dinner', label: 'Dinner', detail: '27cm across', add: 10, scale: 1 }],
+      sizes: [{ id: 'side', label: 'Side', detail: '8¼ in across', add: 0, scale: 0.8 }, { id: 'dinner', label: 'Dinner', detail: '10½ in across', add: 14, scale: 1 }],
       blurb: 'A plain, sturdy plate with a soft raised edge.',
       description: 'Jiggered, then finished by hand, so the plates stack neatly but still feel made. The raised edge keeps the gravy where it should be.' },
-    { id: 'pebble', name: 'Pebble serving platter', category: 'plates', shape: 'platter', price: 48, featured: 0, made: 'slab',
+    { id: 'pebble', name: 'Pebble serving platter', category: 'plates', shape: 'platter', price: 68, featured: 0, made: 'slab',
       glazes: ['cobalt', 'oat'], stock: { cobalt: 1, oat: 2 },
-      sizes: [{ id: 'medium', label: 'Medium', detail: '30cm long', add: 0, scale: 0.86 }, { id: 'large', label: 'Large', detail: '38cm long', add: 18, scale: 1 }],
+      sizes: [{ id: 'medium', label: 'Medium', detail: '12 in long', add: 0, scale: 0.86 }, { id: 'large', label: 'Large', detail: '15 in long', add: 24, scale: 1 }],
       blurb: 'An uneven, pebble-shaped platter for the middle of the table.',
-      description: 'Rolled out as a slab and shaped over a hump mould, with an edge left as the rolling pin found it. Big enough for a roast chicken or a market haul of tomatoes.' },
-    { id: 'pour', name: 'Sunday pouring jug', category: 'pouring', shape: 'jug', price: 46, featured: 3,
+      description: 'Rolled out as a slab and shaped over a hump mold, with an edge left as the rolling pin found it. Big enough for a roast chicken or a farmers’ market haul of tomatoes.' },
+    { id: 'pour', name: 'Sunday pouring pitcher', category: 'pouring', shape: 'jug', price: 64, featured: 3,
       glazes: ['oat', 'cobalt', 'moss'], stock: { oat: 2, cobalt: 0, moss: 1 },
-      sizes: [{ id: 'small', label: 'Small', detail: 'Holds 0.6 litres', add: 0, scale: 0.84 }, { id: 'large', label: 'Large', detail: 'Holds 1.2 litres', add: 16, scale: 1 }],
+      sizes: [{ id: 'small', label: 'Small', detail: 'Holds 20 oz', add: 0, scale: 0.84 }, { id: 'large', label: 'Large', detail: 'Holds 40 oz', add: 22, scale: 1 }],
       blurb: 'An easy pour and a generous belly, for milk, water or flowers.',
-      description: 'The lip is pulled while the clay is wet, so it pours cleanly without a drip. Equally at home with custard on a Sunday or a handful of cow parsley.' },
-    { id: 'teapot', name: 'Chevin teapot', category: 'pouring', shape: 'teapot', price: 88, featured: 0,
+      description: 'The lip is pulled while the clay is wet, so it pours cleanly without a drip. Equally at home with gravy on a Sunday or a handful of wildflowers.' },
+    { id: 'teapot', name: 'Tortugas teapot', category: 'pouring', shape: 'teapot', price: 125, featured: 0,
       glazes: ['oat', 'cobalt', 'chalk'], stock: { oat: 1, cobalt: 0, chalk: 1 },
-      sizes: [{ id: 'two', label: 'Two-cup', detail: 'Holds 600ml', add: 0, scale: 0.86 }, { id: 'four', label: 'Four-cup', detail: 'Holds 1.1 litres', add: 16, scale: 1 }],
+      sizes: [{ id: 'two', label: 'Two-cup', detail: 'Holds 20 oz', add: 0, scale: 0.86 }, { id: 'four', label: 'Four-cup', detail: 'Holds 36 oz', add: 25, scale: 1 }],
       blurb: 'A round, steady teapot with a lid that stays on.',
-      description: 'Named for the ridge above the town. Six parts thrown separately and joined by hand: body, lid, knob, spout, strainer and a pulled handle. A locking tab keeps the lid on while you pour.' },
-    { id: 'stem', name: 'Stem bud vase', category: 'vases', shape: 'budvase', price: 34, featured: 4,
+      description: 'Named for the round-topped mountain east of town. Six parts thrown separately and joined by hand: body, lid, knob, spout, strainer and a pulled handle. A locking tab keeps the lid on while you pour.' },
+    { id: 'stem', name: 'Stem bud vase', category: 'vases', shape: 'budvase', price: 42, featured: 4,
       glazes: ['earth', 'moss', 'chalk'], stock: { earth: 4, moss: 2, chalk: 3 },
-      sizes: [{ id: 'one', label: 'One size', detail: '18cm tall, watertight', add: 0, scale: 1 }],
+      sizes: [{ id: 'one', label: 'One size', detail: '7 in tall, watertight', add: 0, scale: 1 }],
       blurb: 'A small, round-bellied vase for one stem or three.',
       description: 'A narrow neck holds a single stem upright without fuss. Glazed inside, so it is watertight; the unglazed foot is sanded smooth and will not scratch a table.' },
-    { id: 'totem', name: 'Totem vessel', category: 'vases', shape: 'vessel', price: 76, featured: 0, made: 'coiled',
+    { id: 'totem', name: 'Totem vessel', category: 'vases', shape: 'vessel', price: 110, featured: 0, made: 'coiled',
       glazes: ['earth', 'cobalt'], stock: { earth: 1, cobalt: 0 },
-      sizes: [{ id: 'one', label: 'One size', detail: '29cm tall, watertight', add: 0, scale: 1 }],
+      sizes: [{ id: 'one', label: 'One size', detail: '11½ in tall, watertight', add: 0, scale: 1 }],
       blurb: 'A tall, coil-built vessel with a grounded shape.',
-      description: 'Built slowly from coils over three days, then scraped smooth so only the faintest rings remain. Beautiful empty; better with a branch of something from the hedgerow.' }
+      description: 'Built slowly from coils over three days, then scraped smooth so only the faintest rings remain. Beautiful empty; better with a branch of desert willow.' }
   ];
 
   const MADE_BY = {
     thrown: 'Thrown on the wheel',
     pinched: 'Pinched by hand',
     jiggered: 'Formed on a jigger and finished by hand',
-    slab: 'Rolled as a slab and shaped over a mould',
+    slab: 'Rolled as a slab and shaped over a mold',
     coiled: 'Built from coils by hand'
   };
 
@@ -148,49 +149,54 @@ document.documentElement.classList.add('js');
   const MAX_QTY = 6;
 
   /* ------------------------------------------------------------------
-   * 3. Delivery and collection
+   * 3. Shipping and pickup
    * ------------------------------------------------------------------ */
-  // dispatchDays: working days (Monday to Friday, not CLOSED_DATES) to pack a piece we have ready.
-  // MADE_TO_ORDER_DAYS: working days to throw, dry, fire twice and pack a piece we don't.
+  // dispatchDays: business days (Monday to Friday, not closed dates) to pack a piece we have ready.
+  // MADE_TO_ORDER_DAYS: business days to throw, dry, fire twice and pack a piece we don't.
   const DELIVERY = {
-    fee: 5.5,           // UK mainland, per order
-    freeFrom: 80,       // pieces subtotal for free mainland delivery
-    remoteFee: 14,      // Highlands, islands, Isle of Wight and Scilly
+    fee: 12,            // Lower 48 states and DC, per order
+    freeFrom: 125,      // pieces subtotal for free shipping to the Lower 48
+    remoteFee: 28,      // Alaska and Hawaii
     dispatchDays: 2,
-    transitDays: [1, 2],
-    remoteExtraDays: 1,
-    collectReadyDays: 2 // calendar days before a ready piece can be collected
+    transitDays: [2, 5],
+    remoteExtraDays: 3,
+    collectReadyDays: 2 // calendar days before a ready piece can be picked up
   };
   const MADE_TO_ORDER_DAYS = 15;
-  // Postcode areas (letters) or districts we charge remoteFee for, and ones we can't post to.
-  const REMOTE_POSTCODES = ['HS', 'ZE', 'KW', 'IV', 'PH', 'PA', 'KA27', 'KA28', 'TR21', 'TR22', 'TR23', 'TR24', 'TR25',
-    'PO30', 'PO31', 'PO32', 'PO33', 'PO34', 'PO35', 'PO36', 'PO37', 'PO38', 'PO39', 'PO40', 'PO41'];
-  const NO_POST = { BT: 'Northern Ireland', JE: 'Jersey', GY: 'Guernsey', IM: 'the Isle of Man' };
+  // ZIP code prefixes (first three digits) we charge remoteFee for: Alaska and Hawaii.
+  const REMOTE_POSTCODES = ['995', '996', '997', '998', '999', '967', '968'];
+  // ZIP code prefixes we can't ship to yet: Puerto Rico, the territories and military addresses.
+  const NO_POST = {
+    '006': 'Puerto Rico', '007': 'Puerto Rico', '009': 'Puerto Rico', '008': 'the US Virgin Islands', '969': 'the Pacific territories',
+    '090': 'military addresses', '091': 'military addresses', '092': 'military addresses', '093': 'military addresses', '094': 'military addresses',
+    '095': 'military addresses', '096': 'military addresses', '097': 'military addresses', '098': 'military addresses', '340': 'military addresses',
+    '962': 'military addresses', '963': 'military addresses', '964': 'military addresses', '965': 'military addresses', '966': 'military addresses'
+  };
 
   /* ------------------------------------------------------------------
    * 4. Workshops. Sessions come from a rule, never a list of dates:
-   *    weekly (every `day`), fortnightly (every other `day`, in step
+   *    weekly (every `day`), fortnightly (every other week on `day`, in step
    *    with RHYTHM_ANCHOR) or first (the first `day` of each month).
    *    day: 0 = Sunday … 6 = Saturday. show: how many sessions to list.
    * ------------------------------------------------------------------ */
   const WORKSHOPS = {
-    taster: { name: 'Wheel taster', price: 65, capacity: 6, rule: 'weekly', day: 0, slots: ['10:00', '14:00'], hours: 2.5, show: 8,
-      length: '2½ hours', blurb: 'Your first go on the wheel. Throw four or five pots; we trim, glaze and fire your favourite two.',
-      includes: ['All clay, tools and an apron', 'Two pieces glazed and fired, ready four weeks later', 'Tea, and cake from the bakery next door'] },
-    handbuild: { name: 'Hand-building evening', price: 48, capacity: 8, rule: 'fortnightly', day: 3, slots: ['18:30'], hours: 2.5, show: 5,
+    taster: { name: 'Wheel intro', price: 75, capacity: 6, rule: 'weekly', day: 0, slots: ['10:00', '14:00'], hours: 2.5, show: 8,
+      length: '2½ hours', blurb: 'Your first try at the wheel. Throw four or five pots; we trim, glaze and fire your favorite two.',
+      includes: ['All clay, tools and an apron', 'Two pieces glazed and fired, ready four weeks later', 'Coffee, and biscochitos from the bakery next door'] },
+    handbuild: { name: 'Hand-building evening', price: 60, capacity: 8, rule: 'fortnightly', day: 3, slots: ['18:30'], hours: 2.5, show: 5,
       length: '2½ hours', blurb: 'Pinch, coil and slab a small vessel or a set of dishes. No wheel, no pressure, a lot of laughing.',
-      includes: ['Clay, tools and a glaze of your choice', 'Everything you make, fired and ready in four weeks', 'Wine or something soft'] },
-    course: { name: 'Six-week wheel course', price: 285, capacity: 6, rule: 'first', day: 2, slots: ['18:30'], hours: 2.5, weeks: 6, show: 3,
-      length: 'Six Tuesday evenings', blurb: 'Centre, open, pull, trim and glaze, one step a week, until you can throw a set of bowls on your own.',
-      includes: ['12.5kg of clay and all your firings', 'A shelf of your own in the studio for six weeks', 'A free practice session at the end'] }
+      includes: ['Clay, tools and a glaze of your choice', 'Everything you make, fired and ready in four weeks', 'Something cold to drink'] },
+    course: { name: 'Six-week wheel course', price: 325, capacity: 6, rule: 'first', day: 2, slots: ['18:30'], hours: 2.5, weeks: 6, show: 3,
+      length: 'Six Tuesday evenings', blurb: 'Center, open, pull, trim and glaze, one step a week, until you can throw a set of bowls on your own.',
+      includes: ['25 lb of clay and all your firings', 'A shelf of your own in the studio for six weeks', 'A free practice session at the end'] }
   };
   const WORKSHOP_ORDER = ['taster', 'handbuild', 'course'];
   const RHYTHM_ANCHOR = '2026-01-07';    // any Wednesday with a hand-building evening
   const BOOKING_LEAD_DAYS = 2;           // booking closes this many days before a session
   const WORKSHOP_HORIZON_DAYS = 120;     // how far ahead sessions are listed
-  const WORKSHOP_MAX_PLACES = 4;         // places per booking online
+  const WORKSHOP_MAX_PLACES = 4;         // spots per booking online
   // Demo availability: the share (0–100) of sessions that show as full, and a stable
-  // pseudo-random number of places taken on the rest. Replace with your real bookings.
+  // pseudo-random number of spots taken on the rest. Replace with your real bookings.
   const DEMO_FULL_PERCENT = 14;
 
   /* ------------------------------------------------------------------
@@ -201,9 +207,9 @@ document.documentElement.classList.add('js');
   const has = (obj, key) => typeof key === 'string' && Object.prototype.hasOwnProperty.call(obj, key);
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const round2 = (n) => Math.round(n * 100) / 100;
-  // £36, or £5.50 when there are pence.
+  // $36, or $9.50 when there are cents.
   function price(n) {
-    return '£' + (Number.isInteger(n) ? String(n) : n.toFixed(2));
+    return '$' + (Number.isInteger(n) ? String(n) : n.toFixed(2));
   }
   function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -286,9 +292,9 @@ document.documentElement.classList.add('js');
     d.setUTCDate(d.getUTCDate() + n);
     return d.toISOString().slice(0, 10);
   }
-  // 600 → "10am", 1110 → "6:30pm", 720 → "12 noon"
+  // 600 → "10am", 1110 → "6:30pm", 720 → "noon"
   function clock(mins) {
-    if (mins === 720) return '12 noon';
+    if (mins === 720) return 'noon';
     const h = Math.floor(mins / 60), m = mins % 60;
     return (h % 12 || 12) + (m ? ':' + pad(m) : '') + (h < 12 ? 'am' : 'pm');
   }
@@ -307,7 +313,7 @@ document.documentElement.classList.add('js');
       y = t.getUTCFullYear(); mo = t.getUTCMonth() + 1; d = t.getUTCDate(); h = t.getUTCHours(); mi = t.getUTCMinutes();
     } else {
       const parts = {};
-      new Intl.DateTimeFormat('en-GB', { timeZone: TIMEZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
+      new Intl.DateTimeFormat('en-US', { timeZone: TIMEZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
         .formatToParts(new Date()).forEach((p) => { parts[p.type] = p.value; });
       y = +parts.year; mo = +parts.month; d = +parts.day; h = +parts.hour % 24; mi = +parts.minute;
     }
@@ -318,7 +324,29 @@ document.documentElement.classList.add('js');
     return new Intl.DateTimeFormat(LOCALE, Object.assign({ weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' }, opts || {})).format(new Date(iso + 'T12:00:00Z'));
   }
   const shortDate = (iso) => fmtDate(iso, { weekday: 'short', month: 'short' });
-  const isClosedDate = (iso) => CLOSED_DATES.indexOf(iso.slice(5)) !== -1;
+  // US federal holidays for a year, worked out by rule so they never go stale: the day itself,
+  // plus the weekday it's observed on when it falls on a weekend. Add or remove them here.
+  const holidayCache = Object.create(null);
+  function federalHolidays(year) {
+    if (holidayCache[year]) return holidayCache[year];
+    const first = (month) => year + '-' + pad(month) + '-01';
+    // The nth given weekday of a month; n = 0 means the last one.
+    const nth = (month, weekday, n) => {
+      if (n) return addDays(first(month), ((weekday - dayOf(first(month)) + 7) % 7) + (n - 1) * 7);
+      const end = addDays(first(month + 1), -1);
+      return addDays(end, -((dayOf(end) - weekday + 7) % 7));
+    };
+    const out = [nth(1, 1, 3), nth(2, 1, 3), nth(5, 1, 0), nth(9, 1, 1), nth(10, 1, 2), nth(11, 4, 4)];
+    ['01-01', '06-19', '07-04', '11-11', '12-25'].forEach((md) => {
+      const iso = year + '-' + md;
+      out.push(iso);
+      if (dayOf(iso) === 6) out.push(addDays(iso, -1));
+      if (dayOf(iso) === 0) out.push(addDays(iso, 1));
+    });
+    holidayCache[year] = out;
+    return out;
+  }
+  const isClosedDate = (iso) => CLOSED_DATES.indexOf(iso.slice(5)) !== -1 || federalHolidays(+iso.slice(0, 4)).indexOf(iso) !== -1;
   const isWorkingDay = (iso) => dayOf(iso) >= 1 && dayOf(iso) <= 5 && !isClosedDate(iso);
   const isOpenDay = (iso) => !!HOURS[dayOf(iso)] && !isClosedDate(iso);
   function addWorkingDays(iso, n) {
@@ -391,7 +419,7 @@ document.documentElement.classList.add('js');
     const start = addDays(shopNow().date, BOOKING_LEAD_DAYS);
     return w.slots.indexOf(slot) !== -1 && ruleMatches(w, date) && date >= start && dayNum(date) - dayNum(start) <= WORKSHOP_HORIZON_DAYS;
   }
-  // Places already booked by other people (demo availability, stable for a session).
+  // Spots already booked by other people (demo availability, stable for a session).
   function placesTaken(id, date, slot) {
     const h = hash(id + '|' + date + '|' + slot);
     const w = WORKSHOPS[id];
@@ -407,7 +435,7 @@ document.documentElement.classList.add('js');
     return (short ? shortDate(date) : fmtDate(date)) + ', ' + clock(toMins(slot)) + '–' + clock(end) + (w.weeks ? (short ? ' · 6 weeks' : ', then five more Tuesdays') : '');
   }
 
-  // Delivery estimates for the pieces in a basket (or one piece). Returns ISO dates.
+  // Delivery estimates for the pieces in a cart (or one piece). Returns ISO dates.
   function dispatchDate(madeToOrder) {
     return addWorkingDays(shopNow().date, madeToOrder ? MADE_TO_ORDER_DAYS : DELIVERY.dispatchDays);
   }
@@ -422,21 +450,18 @@ document.documentElement.classList.add('js');
   }
   function rangeText(r) {
     if (r[0] === r[1]) return fmtDate(r[0]);
-    if (r[0].slice(0, 7) === r[1].slice(0, 7)) return DAY_NAMES[dayOf(r[0])] + ' ' + (+r[0].slice(8)) + ' – ' + fmtDate(r[1]);
-    return fmtDate(r[0]) + ' – ' + fmtDate(r[1]);
+    return fmtDate(r[0], { month: 'short' }) + ' – ' + fmtDate(r[1], { month: 'short' });
   }
 
-  // Postcode → { valid, postcode, area, district, remote, blocked }
+  // ZIP code (5 digits, optional +4) → { valid, postcode, area, district, remote, blocked }
+  // postcode: the tidied ZIP; area: its first three digits; district: its first five.
   function checkPostcode(v) {
-    const raw = String(v || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
-    const m = raw.match(/^([A-Z]{1,2})([0-9][A-Z0-9]?)([0-9][A-Z]{2})$/);
-    if (!m) return { valid: false };
-    const area = m[1], district = m[1] + m[2];
-    const postcode = district + ' ' + m[3];
-    const districtNum = district.replace(/[A-Z]$/, '');
+    const m = String(v || '').trim().match(/^(\d{5})(?:[-\s]?(\d{4}))?$/);
+    if (!m || +m[1].slice(0, 3) < 5) return { valid: false }; // no ZIP codes start below 005
+    const area = m[1].slice(0, 3);
     return {
-      valid: true, postcode: postcode, area: area, district: district,
-      remote: REMOTE_POSTCODES.indexOf(area) !== -1 || REMOTE_POSTCODES.indexOf(districtNum) !== -1,
+      valid: true, postcode: m[1] + (m[2] ? '-' + m[2] : ''), area: area, district: m[1],
+      remote: REMOTE_POSTCODES.indexOf(area) !== -1,
       blocked: has(NO_POST, area) ? NO_POST[area] : ''
     };
   }
@@ -446,7 +471,7 @@ document.documentElement.classList.add('js');
    *    a body path (clipped for the unglazed foot, speckle and shading),
    *    parts behind it (handles, spouts, saucers) and parts in front
    *    (rims, liners). The SVG has no background: the tile behind it
-   *    gives the colour, so there is never a box behind a pot.
+   *    gives the color, so there is never a box behind a pot.
    *    Coordinates: viewBox 0 0 600 520, the table at y = 430.
    * ------------------------------------------------------------------ */
   const CLAY_BODY = '#c19a74';  // raw stoneware where the glaze stops
@@ -579,7 +604,7 @@ document.documentElement.classList.add('js');
   }
 
   /* ------------------------------------------------------------------
-   * 8. Basket. Saved as glaze-basket:
+   * 8. Cart. Saved as glaze-basket:
    *    { lines: [ { kind: 'piece', id, glaze, size, qty }
    *             | { kind: 'workshop', id, date, slot, qty } ],
    *      method: 'delivery' | 'collect' }
@@ -619,7 +644,7 @@ document.documentElement.classList.add('js');
   function loadBasket() {
     const rawText = safeStorage.getItem(KEYS.basket);
     const b = normalizeBasket(read(KEYS.basket));
-    // Heal whatever was stored: write the repaired basket back.
+    // Heal whatever was stored: write the repaired cart back.
     if (rawText !== null && rawText !== JSON.stringify(b)) write(KEYS.basket, b);
     return b;
   }
@@ -640,7 +665,7 @@ document.documentElement.classList.add('js');
   const piecesSubtotal = () => round2(pieceLines().reduce((t, l) => t + lineTotal(l), 0));
   const subtotal = () => round2(basket.lines.reduce((t, l) => t + lineTotal(l), 0));
   const madeToOrder = (l) => l.qty > inStock(findProduct(l.id), l.glaze);
-  // Delivery charge for the pieces. postcode: optional, for the remote rate.
+  // Shipping charge for the pieces. postcode: optional ZIP code, for the remote rate.
   function deliveryCharge(method, postcode) {
     if (!pieceLines().length || method === 'collect') return 0;
     const pc = checkPostcode(postcode);
@@ -663,7 +688,7 @@ document.documentElement.classList.add('js');
     return findProduct(l.id).name;
   }
   function lineDetail(l, short) {
-    if (l.kind === 'workshop') return sessionLabel(l.id, l.date, l.slot, short) + ' · ' + plural(l.qty, 'place', 'places');
+    if (l.kind === 'workshop') return sessionLabel(l.id, l.date, l.slot, short) + ' · ' + plural(l.qty, 'spot', 'spots');
     const p = findProduct(l.id);
     const size = findSize(p, l.size);
     return GLAZES[l.glaze].name + (p.sizes.length > 1 ? ' · ' + size.label : '');
@@ -717,7 +742,7 @@ document.documentElement.classList.add('js');
   function renderBasketLinks() {
     const n = basketCount();
     $$('[data-basket-count]').forEach((el) => { el.textContent = String(n); el.hidden = n === 0; });
-    $$('[data-basket-link]').forEach((a) => a.setAttribute('aria-label', 'Basket, ' + plural(n, 'item', 'items')));
+    $$('[data-basket-link]').forEach((a) => a.setAttribute('aria-label', 'Cart, ' + plural(n, 'item', 'items')));
   }
   function popBadge() {
     if (reduceMotion) return;
@@ -771,7 +796,7 @@ document.documentElement.classList.add('js');
    * ------------------------------------------------------------------ */
   function stockTag(p, glaze) {
     return inStock(p, glaze) > 0
-      ? '<span class="tag bg-paper/90 text-moss"><span class="dot"></span>Ready to send</span>'
+      ? '<span class="tag bg-paper/90 text-moss"><span class="dot"></span>Ready to ship</span>'
       : '<span class="tag bg-paper/90 text-clay-deep"><span class="dot"></span>Made to order</span>';
   }
   function productCard(p, opts) {
@@ -793,7 +818,7 @@ document.documentElement.classList.add('js');
       '<div class="mt-auto flex items-center justify-between gap-3 pt-4">' +
         '<p class="flex flex-wrap items-center gap-1 sm:gap-1.5"><span class="sr-only">Glazes: ' + p.glazes.map((g) => GLAZES[g].name).join(', ') + '</span>' +
           p.glazes.map((g) => '<span class="swatch max-sm:size-3.5' + (g === glaze ? ' ring-2 ring-ink ring-offset-2 ring-offset-paper' : '') + '" style="background:' + GLAZES[g].swatch + '" title="' + GLAZES[g].name + '" aria-hidden="true"></span>').join('') + '</p>' +
-        '<button type="button" class="relative z-10 inline-flex min-h-10 shrink-0 items-center gap-1 rounded-full px-3 sm:gap-1.5 sm:px-3.5 text-[14.5px] font-semibold text-cobalt ring-[1.5px] ring-cobalt/30 ring-inset transition hover:bg-cobalt hover:text-white" data-quick-add="' + p.id + '" data-glaze="' + glaze + '" aria-label="Add ' + escapeHtml(p.name + ', ' + GLAZES[glaze].name + (p.sizes.length > 1 ? ', ' + size.label.toLowerCase() : '')) + ', to basket">' +
+        '<button type="button" class="relative z-10 inline-flex min-h-10 shrink-0 items-center gap-1 rounded-full px-3 sm:gap-1.5 sm:px-3.5 text-[14.5px] font-semibold text-cobalt ring-[1.5px] ring-cobalt/30 ring-inset transition hover:bg-cobalt hover:text-white" data-quick-add="' + p.id + '" data-glaze="' + glaze + '" aria-label="Add ' + escapeHtml(p.name + ', ' + GLAZES[glaze].name + (p.sizes.length > 1 ? ', ' + size.label.toLowerCase() : '')) + ', to cart">' +
           '<svg viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span data-btn-label>Add</span></button>' +
       '</div>' +
     '</article>';
@@ -809,7 +834,7 @@ document.documentElement.classList.add('js');
     if (!res.qty) { flashButton(btn, 'Limit reached'); toast(escapeHtml(capMessage(p.name))); return; }
     flashButton(btn, 'Added');
     popBadge();
-    toast('<strong>' + escapeHtml(p.name) + '</strong> in ' + escapeHtml(GLAZES[glaze].name.toLowerCase()) + ' is in your basket' + (res.total > 1 ? ' (' + res.total + ')' : '') + '. <a href="basket.html" class="font-semibold underline underline-offset-4">View basket</a>');
+    toast('<strong>' + escapeHtml(p.name) + '</strong> in ' + escapeHtml(GLAZES[glaze].name.toLowerCase()) + ' is in your cart' + (res.total > 1 ? ' (' + res.total + ')' : '') + '. <a href="basket.html" class="font-semibold underline underline-offset-4">View cart</a>');
   });
   // Odd number of cards in a two-column grid: the last one spans both columns.
   const LAST_WIDE = 'max-lg:[&>li:last-child:nth-child(odd)]:col-span-2';
@@ -842,7 +867,7 @@ document.documentElement.classList.add('js');
           '<h3 class="font-display text-2xl font-medium">' + escapeHtml(w.name) + '</h3>' +
           '<p class="mt-1 text-[15px] text-paper/75">' + escapeHtml(w.length) + ' · ' + price(w.price) + (w.weeks ? '' : ' a person') + '</p>' +
           '<p class="mt-4 text-[15px] leading-relaxed text-paper/90">' + escapeHtml(w.blurb) + '</p>' +
-          '<p class="mt-auto pt-5 text-[15px]"><span class="block text-[12.5px] font-semibold uppercase tracking-[0.18em] text-oat">Next with spaces</span>' + (s ? escapeHtml(sessionLabel(id, s.date, s.slot, true)) : 'New dates soon') + '</p>' +
+          '<p class="mt-auto pt-5 text-[15px]"><span class="block text-[12.5px] font-semibold uppercase tracking-[0.18em] text-oat">Next with openings</span>' + (s ? escapeHtml(sessionLabel(id, s.date, s.slot, true)) : 'New dates soon') + '</p>' +
           '<a href="workshops.html?workshop=' + id + '" class="mt-4 inline-flex items-center gap-2 font-semibold text-paper underline decoration-paper/40 underline-offset-4 hover:decoration-paper">Book ' + escapeHtml(w.name.toLowerCase()) + '<span aria-hidden="true">→</span></a></li>';
       }).join('');
     }
@@ -887,7 +912,7 @@ document.documentElement.classList.add('js');
       if (state.sort === 'price-desc') list = list.slice().sort((a, b) => b.price - a.price);
       if (state.sort === 'name') list = list.slice().sort((a, b) => a.name.localeCompare(b.name, LOCALE));
       grid.innerHTML = list.map((p) => '<li>' + productCard(p, { headingTag: 'h2', glaze: shownGlaze(p) }) + '</li>').join('');
-      const active = [state.category && CATEGORIES[state.category].label.toLowerCase(), state.glaze && 'in ' + GLAZES[state.glaze].name.toLowerCase(), state.ready && 'ready to send'].filter(Boolean);
+      const active = [state.category && CATEGORIES[state.category].label.toLowerCase(), state.glaze && 'in ' + GLAZES[state.glaze].name.toLowerCase(), state.ready && 'ready to ship'].filter(Boolean);
       $('#shop-count').textContent = plural(list.length, 'piece', 'pieces') + (active.length ? ' · ' + active.join(', ') : '');
       $('#shop-empty').hidden = list.length > 0;
       $('#shop-reset').hidden = !(state.category || state.glaze || state.ready || state.sort !== 'featured');
@@ -935,16 +960,16 @@ document.documentElement.classList.add('js');
     const params = urlParams();
     const p = findProduct(params.get('piece'));
     if (!p) {
-      document.title = 'Piece not found — Vennick Clay, Otley';
+      document.title = 'Piece not found — Vennick Clay, Las Cruces';
       root.innerHTML = '<section class="container-x py-20 text-center sm:py-28"><p class="kicker">The shop</p>' +
         '<h1 class="display mt-4 text-[2.8rem] sm:text-[3.8rem]">We couldn’t find that piece.</h1>' +
         '<p class="mx-auto mt-4 max-w-lg text-lg text-muted">It may have sold out of the last kiln. Everything we’re making now is in the shop.</p>' +
         '<a href="shop.html" class="btn-primary mt-8">See every piece</a></section>';
       return;
     }
-    document.title = p.name + ' — Vennick Clay, Otley';
+    document.title = p.name + ' — Vennick Clay, Las Cruces';
     const meta = $('meta[name="description"]');
-    if (meta) meta.setAttribute('content', p.blurb + ' Handmade stoneware from Vennick Clay in Otley.');
+    if (meta) meta.setAttribute('content', p.blurb + ' Handmade stoneware from Vennick Clay in Las Cruces.');
     const state = {
       glaze: p.glazes.indexOf(params.get('glaze')) !== -1 ? params.get('glaze') : p.glazes[0],
       size: findSize(p, params.get('size') || '') ? params.get('size') : p.sizes[0].id,
@@ -963,7 +988,7 @@ document.documentElement.classList.add('js');
       '<input type="radio" name="glaze" value="' + g + '" class="sr-only">' +
       '<span class="size-7 shrink-0 rounded-full ring-1 ring-ink/20" style="background:' + GLAZES[g].swatch + '" aria-hidden="true"></span>' +
       '<span class="min-w-0"><span class="block font-semibold leading-tight">' + GLAZES[g].name + '</span>' +
-      '<span class="block text-[13.5px] text-muted">' + (inStock(p, g) > 0 ? plural(inStock(p, g), 'ready', 'ready') + ' to send' : 'Made to order') + '</span></span></label>').join('');
+      '<span class="block text-[13.5px] text-muted">' + (inStock(p, g) > 0 ? plural(inStock(p, g), 'ready', 'ready') + ' to ship' : 'Made to order') + '</span></span></label>').join('');
     const sizeBox = $('#p-sizes');
     $('#p-size-group').hidden = p.sizes.length < 2;
     sizeBox.innerHTML = p.sizes.map((s) => '<label class="option min-w-0 flex-col gap-0.5 p-3 sm:p-4">' +
@@ -983,7 +1008,7 @@ document.documentElement.classList.add('js');
       $('[data-p-glaze-name]').textContent = g.name;
       $('[data-p-glaze-note]').textContent = g.note;
       $('[data-p-size]').textContent = size.detail;
-      $('[data-p-made]').textContent = MADE_BY[has(MADE_BY, p.made) ? p.made : 'thrown'] + ' at 17 Kirkgate, glazed by hand and fired twice to 1260°C.';
+      $('[data-p-made]').textContent = MADE_BY[has(MADE_BY, p.made) ? p.made : 'thrown'] + ' at 228 N Mesquite, glazed by hand and fired twice to 2,300°F.';
       $('[data-p-price]').textContent = price(unitPrice(p, state.size));
       $('[data-p-care]').textContent = (g.dishwasher ? 'Dishwasher and microwave safe.' : 'Microwave safe. Wash by hand to keep the satin finish.') + (p.category === 'vases' ? ' Watertight, glazed inside.' : ' Food safe.');
       qtyOut.textContent = String(state.qty);
@@ -995,9 +1020,9 @@ document.documentElement.classList.add('js');
       const mto = state.qty > ready;
       const stock = $('[data-p-stock]');
       stock.innerHTML = ready > 0
-        ? '<span class="dot text-moss"></span><span><strong>' + plural(ready, 'piece', 'pieces') + ' ready to send</strong> in ' + escapeHtml(g.name.toLowerCase()) + (mto ? '. The rest are made to order.' : '.') + '</span>'
-        : '<span class="dot text-clay"></span><span><strong>Made to order</strong> in ' + escapeHtml(g.name.toLowerCase()) + ': thrown, fired twice and sent in about three weeks.</span>';
-      $('[data-p-delivery]').textContent = 'Delivered ' + rangeText(arrivalRange(mto, false)) + ', or collect from Kirkgate from ' + fmtDate(collectFrom(mto)) + '.';
+        ? '<span class="dot text-moss"></span><span><strong>' + plural(ready, 'piece', 'pieces') + ' ready to ship</strong> in ' + escapeHtml(g.name.toLowerCase()) + (mto ? '. The rest are made to order.' : '.') + '</span>'
+        : '<span class="dot text-clay"></span><span><strong>Made to order</strong> in ' + escapeHtml(g.name.toLowerCase()) + ': thrown, fired twice and shipped in about three weeks.</span>';
+      $('[data-p-delivery]').textContent = 'Delivered ' + rangeText(arrivalRange(mto, false)) + ', or pick up on Mesquite Street starting ' + fmtDate(collectFrom(mto)) + '.';
       if (!fromInput) {
         try {
           const q = new URLSearchParams({ piece: p.id });
@@ -1018,11 +1043,11 @@ document.documentElement.classList.add('js');
       const res = addToBasket({ kind: 'piece', id: p.id, glaze: state.glaze, size: state.size, qty: state.qty });
       const name = p.name + ' in ' + GLAZES[state.glaze].name.toLowerCase();
       if (!res.qty) { flashButton(btn, 'Limit reached'); toast(escapeHtml(capMessage(p.name))); return; }
-      flashButton(btn, 'Added to basket');
+      flashButton(btn, 'Added to cart');
       popBadge();
-      toast('<strong>' + res.qty + ' × ' + escapeHtml(name) + '</strong> in your basket.' +
+      toast('<strong>' + res.qty + ' × ' + escapeHtml(name) + '</strong> in your cart.' +
         (res.capped ? ' We added ' + res.qty + ', as ' + MAX_QTY + ' is the most we can take online.' : '') +
-        ' <a href="basket.html" class="font-semibold underline underline-offset-4">View basket</a>');
+        ' <a href="basket.html" class="font-semibold underline underline-offset-4">View cart</a>');
     });
 
     $('#related').className += ' ' + LAST_WIDE;
@@ -1031,7 +1056,7 @@ document.documentElement.classList.add('js');
   }
 
   /* ------------------------------------------------------------------
-   * 13. Workshops: pick a class, a session and the number of places
+   * 13. Workshops: pick a class, a session and the number of spots
    * ------------------------------------------------------------------ */
   function initWorkshops() {
     const form = $('#ws-form');
@@ -1072,7 +1097,7 @@ document.documentElement.classList.add('js');
           '<input type="radio" name="session" value="' + s.key + '" class="sr-only"' + (left < 1 ? ' disabled' : '') + (s.key === state.key ? ' checked' : '') + '>' +
           '<span class="min-w-0"><span class="block font-semibold">' + escapeHtml(fmtDate(s.date, { month: 'short' })) + '</span>' +
           '<span class="block text-sm text-muted">' + clock(toMins(s.slot)) + '–' + clock(toMins(s.slot) + w.hours * 60) + (w.weeks ? ' · ' + w.weeks + ' weeks' : '') + '</span></span>' +
-          '<span class="shrink-0 text-sm font-semibold ' + (left < 1 ? 'text-muted' : left <= 2 ? 'text-clay-deep' : 'text-moss') + '">' + (left < 1 ? 'Full' : left <= 2 ? plural(left, 'place', 'places') + ' left' : plural(left, 'place', 'places')) + '</span></label>';
+          '<span class="shrink-0 text-sm font-semibold ' + (left < 1 ? 'text-muted' : left <= 2 ? 'text-clay-deep' : 'text-moss') + '">' + (left < 1 ? 'Full' : left <= 2 ? plural(left, 'spot', 'spots') + ' left' : plural(left, 'spot', 'spots')) + '</span></label>';
       }).join('');
       const s = chosen();
       const left = s ? placesLeft(s.id, s.date, s.slot) : 0;
@@ -1081,7 +1106,7 @@ document.documentElement.classList.add('js');
       qtyOut.textContent = String(state.qty);
       minus.disabled = state.qty <= 1;
       plusBtn.disabled = state.qty >= max;
-      $('#ws-qty-note').textContent = s && state.qty >= max ? (max === WORKSHOP_MAX_PLACES && left > max ? 'Booking for more than ' + WORKSHOP_MAX_PLACES + '? Email us about a private session.' : 'That’s every place left on this date.') : '';
+      $('#ws-qty-note').textContent = s && state.qty >= max ? (max === WORKSHOP_MAX_PLACES && left > max ? 'Booking for more than ' + WORKSHOP_MAX_PLACES + '? Email us about a private session.' : 'That’s every spot left on this date.') : '';
       $('[data-ws-total]').textContent = price(w.price * state.qty);
       $('[data-ws-summary]').textContent = s ? w.name + ', ' + sessionLabel(s.id, s.date, s.slot) + ', for ' + plural(state.qty, 'person', 'people') + '.' : 'Every listed date is full. New dates are added every week.';
       $('#ws-add').disabled = !s;
@@ -1098,10 +1123,10 @@ document.documentElement.classList.add('js');
       const s = chosen();
       if (!s || placesLeft(s.id, s.date, s.slot) < state.qty) { render(); return; }
       const res = addToBasket({ kind: 'workshop', id: s.id, date: s.date, slot: s.slot, qty: state.qty });
-      if (!res.qty) { toast('You already have ' + WORKSHOP_MAX_PLACES + ' places on this date in your basket, the most we can book online.'); return; }
-      flashButton($('#ws-add'), 'Added to basket');
+      if (!res.qty) { toast('You already have ' + WORKSHOP_MAX_PLACES + ' spots on this date in your cart, the most we can book online.'); return; }
+      flashButton($('#ws-add'), 'Added to cart');
       popBadge();
-      toast('<strong>' + escapeHtml(WORKSHOPS[s.id].name) + '</strong>, ' + escapeHtml(sessionLabel(s.id, s.date, s.slot, true)) + ', ' + plural(res.qty, 'place', 'places') + ' in your basket. <a href="basket.html" class="font-semibold underline underline-offset-4">View basket</a>');
+      toast('<strong>' + escapeHtml(WORKSHOPS[s.id].name) + '</strong>, ' + escapeHtml(sessionLabel(s.id, s.date, s.slot, true)) + ', ' + plural(res.qty, 'spot', 'spots') + ' in your cart. <a href="basket.html" class="font-semibold underline underline-offset-4">View cart</a>');
       state.qty = 1;
       render(true);
     });
@@ -1114,7 +1139,7 @@ document.documentElement.classList.add('js');
   }
 
   /* ------------------------------------------------------------------
-   * 14. Basket page
+   * 14. Cart page
    * ------------------------------------------------------------------ */
   function lineThumb(l) {
     if (l.kind === 'workshop') {
@@ -1129,7 +1154,7 @@ document.documentElement.classList.add('js');
     if (removedSessions.length) {
       const n = $('#basket-notice');
       n.hidden = false;
-      n.textContent = listText(removedSessions) + (removedSessions.length === 1 ? ' has' : ' have') + ' passed or closed for booking, so we took ' + (removedSessions.length === 1 ? 'it' : 'them') + ' out of your basket.';
+      n.textContent = listText(removedSessions) + (removedSessions.length === 1 ? ' has' : ' have') + ' passed or closed for booking, so we took ' + (removedSessions.length === 1 ? 'it' : 'them') + ' out of your cart.';
     }
     function render() {
       const n = basketCount();
@@ -1144,7 +1169,7 @@ document.documentElement.classList.add('js');
           ? '<a href="workshops.html?workshop=' + l.id + '" class="hover:underline underline-offset-4">' + name + '</a>'
           : '<a href="product.html?piece=' + l.id + '&glaze=' + l.glaze + '&size=' + l.size + '" class="hover:underline underline-offset-4">' + name + '</a>';
         const note = l.kind === 'piece'
-          ? (madeToOrder(l) ? '<span class="tag mt-2 bg-clay-tint text-clay-deep"><span class="dot"></span>Made to order, about 3 weeks</span>' : '<span class="tag mt-2 bg-moss-tint text-moss"><span class="dot"></span>Ready to send</span>')
+          ? (madeToOrder(l) ? '<span class="tag mt-2 bg-clay-tint text-clay-deep"><span class="dot"></span>Made to order, about 3 weeks</span>' : '<span class="tag mt-2 bg-moss-tint text-moss"><span class="dot"></span>Ready to ship</span>')
           : '';
         return '<li class="flex gap-4 py-5 sm:gap-6" data-line="' + escapeHtml(lineKey(l)) + '">' + lineThumb(l) +
           '<div class="min-w-0 flex-1"><div class="flex items-start justify-between gap-4">' +
@@ -1152,13 +1177,13 @@ document.documentElement.classList.add('js');
             '<p class="mt-1 text-[15px] text-muted">' + escapeHtml(lineDetail(l)) + '</p>' + note + '</div>' +
             '<p class="shrink-0 font-semibold tabular-nums">' + price(lineTotal(l)) + '</p></div>' +
           '<div class="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2">' +
-            '<div class="stepper" role="group" aria-label="' + (l.kind === 'workshop' ? 'Places' : 'Quantity') + ' for ' + name + '">' +
+            '<div class="stepper" role="group" aria-label="' + (l.kind === 'workshop' ? 'Spots' : 'Quantity') + ' for ' + name + '">' +
               '<button type="button" data-step="-1" data-index="' + i + '" aria-label="One fewer"' + (l.qty <= 1 ? ' disabled' : '') + '>−</button>' +
               '<span class="w-8 text-center font-semibold tabular-nums" aria-live="polite">' + l.qty + '</span>' +
               '<button type="button" data-step="1" data-index="' + i + '" aria-label="One more"' + (l.qty >= max ? ' disabled' : '') + '>+</button></div>' +
             '<button type="button" data-remove data-index="' + i + '" class="text-[15px] font-semibold text-muted underline decoration-ink/25 underline-offset-4 hover:text-clay-deep">Remove<span class="sr-only"> ' + name + '</span></button>' +
             (l.kind === 'piece' && l.qty >= MAX_QTY ? '<p class="w-full text-sm text-muted">' + MAX_QTY + ' is the most we can take online. Email us for a bigger set.</p>' : '') +
-            (l.kind === 'workshop' && l.qty >= max ? '<p class="w-full text-sm text-muted">' + (max === WORKSHOP_MAX_PLACES ? WORKSHOP_MAX_PLACES + ' places is the most we book online.' : 'That’s every place left on this date.') + '</p>' : '') +
+            (l.kind === 'workshop' && l.qty >= max ? '<p class="w-full text-sm text-muted">' + (max === WORKSHOP_MAX_PLACES ? WORKSHOP_MAX_PLACES + ' spots is the most we book online.' : 'That’s every spot left on this date.') + '</p>' : '') +
           '</div></div></li>';
       }).join('');
       renderSummary();
@@ -1173,18 +1198,18 @@ document.documentElement.classList.add('js');
       const left = round2(DELIVERY.freeFrom - pieces);
       $('#basket-summary').innerHTML =
         '<div class="flex justify-between gap-4"><dt>Subtotal</dt><dd class="tabular-nums">' + price(sub) + '</dd></div>' +
-        (hasPieces ? '<div class="flex justify-between gap-4"><dt>' + (basket.method === 'collect' ? 'Collection from Kirkgate' : 'UK delivery') + '</dt><dd class="tabular-nums">' + (charge ? price(charge) : 'Free') + '</dd></div>' : '') +
-        '<div class="flex justify-between gap-4 border-t border-ink/15 pt-3 text-lg font-semibold"><dt>Total</dt><dd class="tabular-nums">' + price(round2(sub + charge)) + '</dd></div>';
+        (hasPieces ? '<div class="flex justify-between gap-4"><dt>' + (basket.method === 'collect' ? 'Pickup on Mesquite Street' : 'US shipping') + '</dt><dd class="tabular-nums">' + (charge ? price(charge) : 'Free') + '</dd></div>' : '') +
+        '<div class="flex justify-between gap-4 border-t border-ink/15 pt-3 text-lg font-semibold"><dt>Total <span class="block text-sm font-normal text-muted">plus applicable tax</span></dt><dd class="tabular-nums">' + price(round2(sub + charge)) + '</dd></div>';
       const free = $('#basket-free');
       free.hidden = !hasPieces || basket.method === 'collect';
       if (!free.hidden) {
         const pct = Math.min(100, Math.round((pieces / DELIVERY.freeFrom) * 100));
-        free.innerHTML = '<p class="text-[15px]">' + (left > 0 ? 'Spend <strong>' + price(left) + '</strong> more on pottery for free UK delivery.' : '<strong>Free UK delivery</strong> on this order.') + '</p>' +
+        free.innerHTML = '<p class="text-[15px]">' + (left > 0 ? 'Add <strong>' + price(left) + '</strong> more in pottery for free US shipping.' : '<strong>Free US shipping</strong> on this order.') + '</p>' +
           '<div class="mt-2 h-2 overflow-hidden rounded-full bg-ink/10"><div class="h-full rounded-full bg-moss transition-[width] duration-500" style="width:' + pct + '%"></div></div>';
       }
-      $('#basket-when').textContent = !hasPieces ? 'Workshop places only: no delivery needed.'
-        : basket.method === 'collect' ? 'Ready to collect from ' + fmtDate(collectFrom(mto)) + ', Thursday to Saturday, 10am to 5pm.'
-          : 'Arrives ' + rangeText(arrivalRange(mto, false)) + (mto ? ', once the made-to-order pieces are out of the kiln.' : '.') + ' Highlands and islands: ' + price(DELIVERY.remoteFee) + '.';
+      $('#basket-when').textContent = !hasPieces ? 'Workshop spots only: nothing to ship.'
+        : basket.method === 'collect' ? 'Ready for pickup starting ' + fmtDate(collectFrom(mto)) + ', Thursday to Saturday, 10am to 5pm.'
+          : 'Arrives ' + rangeText(arrivalRange(mto, false)) + (mto ? ', once the made-to-order pieces are out of the kiln.' : '.') + ' Alaska and Hawaii: ' + price(DELIVERY.remoteFee) + '.';
     }
     linesBox.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-step], [data-remove]');
@@ -1216,7 +1241,7 @@ document.documentElement.classList.add('js');
   }
 
   /* ------------------------------------------------------------------
-   * 15. Checkout: contact, delivery or collection, order confirmation.
+   * 15. Checkout: contact, shipping or pickup, order confirmation.
    *     No payment step: connect your payment provider where marked.
    * ------------------------------------------------------------------ */
   function readLastOrder() {
@@ -1249,7 +1274,7 @@ document.documentElement.classList.add('js');
       $('#c-collect-note').hidden = !hasPieces || method() !== 'collect';
       $('#c-attendees').hidden = workshopLines().length === 0;
       const mto = pieceLines().some(madeToOrder);
-      $('#c-collect-note').textContent = 'Ready to collect from ' + fmtDate(collectFrom(mto)) + ' at ' + SHOP.address + ', Thursday to Saturday, 10am to 5pm. We’ll email when it’s on the shelf.';
+      $('#c-collect-note').textContent = 'Ready for pickup starting ' + fmtDate(collectFrom(mto)) + ' at ' + SHOP.address + ', Thursday to Saturday, 10am to 5pm. We’ll email when it’s on the shelf.';
       const charge = deliveryCharge(method(), pc.value);
       const pcRes = checkPostcode(pc.value);
       $('#checkout-summary').innerHTML = '<ul class="divide-y divide-line">' + basket.lines.map((l) =>
@@ -1259,8 +1284,8 @@ document.documentElement.classList.add('js');
           '<span class="shrink-0 tabular-nums">' + price(lineTotal(l)) + '</span></li>').join('') + '</ul>' +
         '<dl class="mt-3 space-y-2 border-t border-ink/15 pt-3 text-[15px]">' +
           '<div class="flex justify-between gap-4"><dt>Subtotal</dt><dd class="tabular-nums">' + price(subtotal()) + '</dd></div>' +
-          (hasPieces ? '<div class="flex justify-between gap-4"><dt>' + (method() === 'collect' ? 'Collection' : pcRes.valid && pcRes.remote ? 'Delivery (Highlands & islands)' : 'UK delivery') + '</dt><dd class="tabular-nums">' + (charge ? price(charge) : 'Free') + '</dd></div>' : '') +
-          '<div class="flex justify-between gap-4 text-lg font-semibold"><dt>Total</dt><dd class="tabular-nums">' + price(round2(subtotal() + charge)) + '</dd></div></dl>';
+          (hasPieces ? '<div class="flex justify-between gap-4"><dt>' + (method() === 'collect' ? 'Pickup' : pcRes.valid && pcRes.remote ? 'Shipping (Alaska & Hawaii)' : 'US shipping') + '</dt><dd class="tabular-nums">' + (charge ? price(charge) : 'Free') + '</dd></div>' : '') +
+          '<div class="flex justify-between gap-4 text-lg font-semibold"><dt>Total <span class="block text-sm font-normal text-muted">plus applicable tax</span></dt><dd class="tabular-nums">' + price(round2(subtotal() + charge)) + '</dd></div></dl>';
     }
     $$('input[name="c-method"]', form).forEach((r) => { r.checked = r.value === basket.method; });
     form.addEventListener('change', (e) => {
@@ -1279,9 +1304,9 @@ document.documentElement.classList.add('js');
       const pcRes = checkPostcode(pc.value);
       const mto = pieceLines().some(madeToOrder);
       const parts = [];
-      if (hasPieces) parts.push(plural(pieceLines().reduce((t, l) => t + l.qty, 0), 'piece', 'pieces') + (m === 'collect' ? ' to collect from ' + shortDate(collectFrom(mto)) : ' to ' + pcRes.postcode + ', arriving ' + shortDate(arrivalRange(mto, pcRes.remote)[0])));
-      workshopLines().forEach((l) => parts.push(plural(l.qty, 'place', 'places') + ' on the ' + WORKSHOPS[l.id].name.toLowerCase() + ', ' + shortDate(l.date)));
-      const summaryText = listText(parts) + '. Total ' + price(total) + '.';
+      if (hasPieces) parts.push(plural(pieceLines().reduce((t, l) => t + l.qty, 0), 'piece', 'pieces') + (m === 'collect' ? ' for pickup starting ' + shortDate(collectFrom(mto)) : ' to ' + pcRes.postcode + ', arriving ' + shortDate(arrivalRange(mto, pcRes.remote)[0])));
+      workshopLines().forEach((l) => parts.push(plural(l.qty, 'spot', 'spots') + ' on the ' + WORKSHOPS[l.id].name.toLowerCase() + ', ' + shortDate(l.date)));
+      const summaryText = listText(parts) + '. Total ' + price(total) + ' plus applicable tax.';
       // A real shop sends the order to its backend and takes payment here, before confirming.
       write(KEYS.lastOrder, { number: number, placedAt: new Date().toISOString(), summary: summaryText, total: total });
       const lines = basket.lines.map((l) => '<li class="flex justify-between gap-4 py-2"><span>' + (l.kind === 'piece' && l.qty > 1 ? l.qty + ' × ' : '') + escapeHtml(lineTitle(l)) + ' <span class="text-muted">· ' + escapeHtml(lineDetail(l, true)) + '</span></span><span class="shrink-0 tabular-nums">' + price(lineTotal(l)) + '</span></li>').join('');
@@ -1293,12 +1318,12 @@ document.documentElement.classList.add('js');
         '<div class="lg:col-span-7"><p class="kicker text-moss">Order ' + escapeHtml(number) + '</p>' +
         '<h2 class="display mt-3 text-[2.6rem] sm:text-[3.4rem]">Thank you, ' + escapeHtml(name.split(/\s+/)[0]) + '.</h2>' +
         '<p class="mt-4 max-w-xl text-lg leading-relaxed">' +
-          (hasPieces ? (m === 'collect' ? 'Your pottery will be ready to collect from ' + escapeHtml(fmtDate(collectFrom(mto))) + ' at 17 Kirkgate.' : 'Your pottery should arrive ' + escapeHtml(rangeText(arrivalRange(mto, pcRes.remote))) + ', wrapped in paper and wool, never plastic.') : '') +
+          (hasPieces ? (m === 'collect' ? 'Your pottery will be ready for pickup starting ' + escapeHtml(fmtDate(collectFrom(mto))) + ' at 228 N Mesquite Street.' : 'Your pottery should arrive ' + escapeHtml(rangeText(arrivalRange(mto, pcRes.remote))) + ', wrapped in paper and wool, never plastic.') : '') +
           (workshopLines().length ? ' We’ll see you at the studio for your workshop: come ten minutes early and wear something you don’t mind getting clay on.' : '') + '</p>' +
-        '<p class="mt-4 max-w-xl leading-relaxed text-muted">Your order number is ' + escapeHtml(number) + '. Quote it if you need to get in touch at ' + escapeHtml(SHOP.email) + '; we’ll use ' + escapeHtml(email) + ' for any questions about your order.</p>' +
+        '<p class="mt-4 max-w-xl leading-relaxed text-muted">Your order number is ' + escapeHtml(number) + '. Mention it if you need to get in touch at ' + escapeHtml(SHOP.email) + '; we’ll use ' + escapeHtml(email) + ' for any questions about your order.</p>' +
         '<a href="shop.html" class="btn-primary mt-7">Back to the shop</a></div>' +
         '<div class="lg:col-span-5"><h3 class="font-semibold">Order summary</h3><ul class="mt-2 divide-y divide-ink/10 text-[15px]">' + lines + '</ul>' +
-        '<p class="mt-2 flex justify-between border-t border-ink/20 pt-3 text-lg font-semibold"><span>Total</span><span class="tabular-nums">' + price(total) + '</span></p></div></div>';
+        '<p class="mt-2 flex justify-between border-t border-ink/20 pt-3 text-lg font-semibold"><span>Total <span class="block text-sm font-normal text-muted">plus applicable tax</span></span><span class="tabular-nums">' + price(total) + '</span></p></div></div>';
       placed = true;
       $('#checkout-main').replaceWith(box);
       $('[data-checkout-heading]').textContent = 'Order placed';
@@ -1323,7 +1348,7 @@ document.documentElement.classList.add('js');
         const h = hoursOn(d);
         html += '<tr class="border-b border-line' + (i === 0 ? ' font-semibold' : '') + '">' +
           '<th scope="row" class="py-2.5 pr-4 text-left font-[inherit]">' + DAY_NAMES[dayOf(d)] + (i === 0 ? ' <span class="text-muted">(today)</span>' : '') + '</th>' +
-          '<td class="py-2.5 text-right tabular-nums">' + (h ? clock(toMins(h[0])) + ' – ' + clock(toMins(h[1])) + (isKilnOpening(d) ? '<span class="block text-sm font-normal text-clay-deep">Kiln opening</span>' : '') : isClosedDate(d) ? 'Closed for the holidays' : 'Closed') + '</td></tr>';
+          '<td class="py-2.5 text-right tabular-nums">' + (h ? clock(toMins(h[0])) + ' – ' + clock(toMins(h[1])) + (isKilnOpening(d) ? '<span class="block text-sm font-normal text-clay-deep">Kiln opening</span>' : '') : isClosedDate(d) ? 'Closed for the holiday' : 'Closed') + '</td></tr>';
       }
       table.innerHTML = html;
     });
@@ -1348,9 +1373,9 @@ document.documentElement.classList.add('js');
       const mto = arrivalRange(true, false);
       const ready = arrivalRange(false, false);
       el.innerHTML =
-        '<tr class="border-b border-line"><th scope="row" class="py-3 pr-4 text-left align-top font-semibold">UK mainland</th><td class="py-3 pr-4 align-top">' + price(DELIVERY.fee) + ', free on pottery over ' + price(DELIVERY.freeFrom) + '</td><td class="py-3 align-top">Order today: ' + escapeHtml(rangeText(ready)) + '</td></tr>' +
-        '<tr class="border-b border-line"><th scope="row" class="py-3 pr-4 text-left align-top font-semibold">Highlands, islands, Isle of Wight and Scilly</th><td class="py-3 pr-4 align-top">' + price(DELIVERY.remoteFee) + '</td><td class="py-3 align-top">One working day longer</td></tr>' +
-        '<tr class="border-b border-line"><th scope="row" class="py-3 pr-4 text-left align-top font-semibold">Collect from Kirkgate</th><td class="py-3 pr-4 align-top">Free</td><td class="py-3 align-top">From ' + escapeHtml(fmtDate(collectFrom(false))) + '</td></tr>' +
+        '<tr class="border-b border-line"><th scope="row" class="py-3 pr-4 text-left align-top font-semibold">Lower 48 states</th><td class="py-3 pr-4 align-top">' + price(DELIVERY.fee) + ', free on pottery over ' + price(DELIVERY.freeFrom) + '</td><td class="py-3 align-top">Order today: ' + escapeHtml(rangeText(ready)) + '</td></tr>' +
+        '<tr class="border-b border-line"><th scope="row" class="py-3 pr-4 text-left align-top font-semibold">Alaska and Hawaii</th><td class="py-3 pr-4 align-top">' + price(DELIVERY.remoteFee) + '</td><td class="py-3 align-top">Up to three business days longer</td></tr>' +
+        '<tr class="border-b border-line"><th scope="row" class="py-3 pr-4 text-left align-top font-semibold">Pick up on Mesquite Street</th><td class="py-3 pr-4 align-top">Free</td><td class="py-3 align-top">From ' + escapeHtml(fmtDate(collectFrom(false))) + '</td></tr>' +
         '<tr><th scope="row" class="py-3 pr-4 text-left align-top font-semibold">Made-to-order pieces</th><td class="py-3 pr-4 align-top">As above</td><td class="py-3 align-top">Order today: ' + escapeHtml(rangeText(mto)) + '</td></tr>';
     });
   }
@@ -1361,19 +1386,19 @@ document.documentElement.classList.add('js');
   function fieldMessage(el) {
     const v = el.value.trim();
     const label = el.getAttribute('data-label') || 'This field';
-    if (el.type === 'checkbox') return el.required && !el.checked ? (el.getAttribute('data-msg') || 'Please tick this box.') : '';
+    if (el.type === 'checkbox') return el.required && !el.checked ? (el.getAttribute('data-msg') || 'Please check this box.') : '';
     if (el.required && !v) return el.getAttribute('data-required-msg') || label + ' is required.';
     if (!v) return '';
     const rule = el.getAttribute('data-validate') || el.type;
     if (rule === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return 'Enter an email address like name@example.com.';
     if (rule === 'tel') {
       const digits = v.replace(/\D/g, '');
-      if (!/^[+()\d\s.-]+$/.test(v) || digits.length < 10 || digits.length > 13) return 'Enter a phone number like 07700 900123.';
+      if (!/^[+()\d\s.-]+$/.test(v) || digits.length < 10 || digits.length > 13) return 'Enter a phone number like (575) 555-0123.';
     }
     if (rule === 'postcode') {
       const res = checkPostcode(v);
-      if (!res.valid) return 'Enter a UK postcode like LS21 3AB.';
-      if (res.blocked) return 'We can’t post pottery to ' + res.blocked + ' yet. Email ' + SHOP.email + ' and we’ll find a way.';
+      if (!res.valid) return 'Enter a ZIP code like 88001.';
+      if (res.blocked) return 'We can’t ship pottery to ' + res.blocked + ' yet. Email ' + SHOP.email + ' and we’ll find a way.';
     }
     const max = +el.getAttribute('maxlength');
     if (max && v.length > max) return label + ' can be up to ' + max + ' characters.';
@@ -1465,7 +1490,7 @@ document.documentElement.classList.add('js');
       setupValidation(form, () => {
         const first = cleanText($('#ct-name').value, 80).split(/\s+/)[0];
         successSwap(form, '<p class="display text-[2.2rem]">Thank you, ' + escapeHtml(first) + '.</p>' +
-          '<p class="mt-3 max-w-lg text-lg leading-relaxed">We read every message ourselves, between kiln firings, and reply within two working days. If it’s about an order, have your order number handy.</p>');
+          '<p class="mt-3 max-w-lg text-lg leading-relaxed">We read every message ourselves, between kiln firings, and reply within two business days. If it’s about an order, have your order number handy.</p>');
       });
     });
     // Live character counters: <textarea id="x" maxlength="600"> + <p data-count-for="x">.

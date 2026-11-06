@@ -3,12 +3,12 @@
  * Sections
  *  1. Settings and data           7. Technology: a day of charge and release
  *  2. Helpers and storage         8. Savings and carbon estimator
- *  3. London time and demo dates  9. Reserve: three-step reservation
+ *  3. Maine time and demo dates  9. Reserve: three-step reservation
  *  4. Theme, menu, reveal, top   10. Careers: filters, saved roles, role dialog
  *  5. Rolling dates and years    11. News: topic filter and coming-up events
  *  6. Home: shift teaser         12. Company: portraits   13. Forms
  *
- * Every date uses the company's clock (Europe/London), not the visitor's.
+ * Every date uses the company's clock (America/New_York, Eastern time), not the visitor's.
  */
 (function () {
   'use strict';
@@ -16,7 +16,7 @@
   /* ------------------------------------------------------------------
    * 1. Settings and data. Edit these to make the template yours.
    * ------------------------------------------------------------------ */
-  var TIME_ZONE = 'Europe/London';
+  var TIME_ZONE = 'America/New_York';
 
   // Demo dates. While KEEP_DEMO_CURRENT is true, every dated thing written for DEMO_ANCHOR (news posts,
   // milestone years, the reservation count) moves forward by the whole weeks elapsed since that day, so
@@ -24,126 +24,128 @@
   var KEEP_DEMO_CURRENT = true;
   var DEMO_ANCHOR = '2026-10-27';
 
-  // The three models. capacity: kWh of heat stored; power: kW charging element; price: indicative £,
-  // installed, before grants. Used by the shift teaser, the technology diagram, the estimator and Reserve.
+  // The three models. capacity: kWh of heat stored; power: kW charging element; price: indicative US dollars,
+  // installed, not counting any rebate or tax credit. Used by the shift teaser, the technology diagram, the estimator and Reserve.
   var MODELS = {
-    hl18: { name: 'Heatloop 18', capacity: 18, power: 5, price: 4900, fits: 'Flats and small terraces' },
-    hl28: { name: 'Heatloop 28', capacity: 28, power: 7, price: 6400, fits: 'Most terraces and semis' },
-    hl40: { name: 'Heatloop 40', capacity: 40, power: 9, price: 8200, fits: 'Detached and larger homes' }
+    hl18: { name: 'Heatloop 18', capacity: 18, power: 5, price: 8900, fits: 'Apartments and small homes' },
+    hl28: { name: 'Heatloop 28', capacity: 28, power: 7, price: 11500, fits: 'Most mid-size homes' },
+    hl40: { name: 'Heatloop 40', capacity: 40, power: 9, price: 14500, fits: 'Large homes' }
   };
   var MODEL_ORDER = ['hl18', 'hl28', 'hl40'];
 
   // Home teaser: share of a day's heat that is used during the cheap hours anyway (night-time demand).
   var NIGHT_SHARE = 0.12;
 
-  // An illustrative time-of-use tariff, pence per kWh, by time band ('HH:MM', London time).
+  // An illustrative time-of-use rate plan, cents per kWh, by time band ('HH:MM', Eastern time).
+  // Sample numbers for the demo, not any utility's rates.
   var TARIFF_BANDS = [
-    { from: '00:00', to: '00:30', p: 24.5 },
-    { from: '00:30', to: '07:30', p: 6.5 },
-    { from: '07:30', to: '13:00', p: 24.5 },
-    { from: '13:00', to: '16:00', p: 15 },
-    { from: '16:00', to: '19:00', p: 34 },
-    { from: '19:00', to: '24:00', p: 24.5 }
+    { from: '00:00', to: '07:00', p: 13 },
+    { from: '07:00', to: '12:00', p: 28 },
+    { from: '12:00', to: '16:00', p: 20 },
+    { from: '16:00', to: '20:00', p: 40 },
+    { from: '20:00', to: '23:00', p: 28 },
+    { from: '23:00', to: '24:00', p: 13 }
   ];
-  var CHARGE_BELOW = 7;      // charge flat out when the price is at or below this (p/kWh)
-  var TOPUP_BELOW = 15;      // top up when the price is at or below this...
+  var CHARGE_BELOW = 13;     // charge flat out when the price is at or below this (cents/kWh)
+  var TOPUP_BELOW = 20;      // top up when the price is at or below this...
   var TOPUP_TARGET = 0.85;    // ...until the store is this full (share of capacity)
   // Heat a home uses through a cold day, as relative weights for each hour (0 = midnight).
   var DEMAND_WEIGHTS = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.6, 2.4, 1.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 1.6, 2.4, 2.6, 2.4, 2.0, 1.6, 1.0, 0.6];
-  var DAY_HEAT = 46;         // kWh of heat on the technology page's cold day
+  var DAY_HEAT = 90;         // kWh of heat on the technology page's cold day
 
   // Estimator. heat: kWh of heat a year (space heating and hot water) before the regional factor.
   var HOMES = {
-    flat: { label: 'Flat', heat: 6500, model: 'hl18' },
-    terrace: { label: 'Terraced house', heat: 10000, model: 'hl18' },
-    semi: { label: 'Semi-detached house', heat: 12500, model: 'hl28' },
-    detached: { label: 'Detached house', heat: 17000, model: 'hl40' }
+    apartment: { label: 'Apartment, under 1,000 sq ft', heat: 9000, model: 'hl18' },
+    small: { label: 'Small home, 1,000-1,500 sq ft', heat: 15000, model: 'hl18' },
+    midsize: { label: 'Mid-size home, 1,500-2,500 sq ft', heat: 22000, model: 'hl28' },
+    large: { label: 'Large home, over 2,500 sq ft', heat: 32000, model: 'hl40' }
   };
-  // price: pence per kWh of fuel or electricity; eff: heat out per kWh in; co2: kg CO2e per kWh in.
+  // Sample prices, labeled as estimates on the page. price: US dollars per unit; unit: how the fuel is sold;
+  // kwhPerUnit: kWh in one unit; eff: heat out per kWh in; co2: lb CO2e per kWh in.
   var HEATING = {
-    gas: { label: 'Gas boiler', price: 6.3, eff: 0.85, co2: 0.183 },
-    oil: { label: 'Oil boiler', price: 7.8, eff: 0.85, co2: 0.247 },
-    lpg: { label: 'LPG boiler', price: 9.5, eff: 0.85, co2: 0.214 },
-    storage: { label: 'Old storage heaters', price: 13, eff: 0.9, co2: 0.13 },
-    electric: { label: 'Panel or direct electric heaters', price: 24.5, eff: 1, co2: 0.165 }
+    gas: { label: 'Natural gas boiler', price: 1.75, unit: 'therm', kwhPerUnit: 29.3, eff: 0.85, co2: 0.399 },
+    oil: { label: 'Oil boiler', price: 5.75, unit: 'gallon', kwhPerUnit: 40.6, eff: 0.85, co2: 0.552 },
+    propane: { label: 'Propane boiler', price: 3.5, unit: 'gallon', kwhPerUnit: 26.8, eff: 0.85, co2: 0.47 },
+    storage: { label: 'Electric thermal storage heaters', price: 0.2, unit: 'kWh', kwhPerUnit: 1, eff: 0.9, co2: 0.57 },
+    electric: { label: 'Electric baseboard or panel heaters', price: 0.28, unit: 'kWh', kwhPerUnit: 1, eff: 1, co2: 0.58 }
   };
-  // Tariffs for running a Heatloop. shift: share of its electricity bought at the off-peak price.
+  // Rate plans for running a Heatloop, in cents per kWh. shift: share of its electricity bought at the off-peak price.
   var TARIFFS = {
-    tou: { label: 'Smart time-of-use tariff', off: 6.5, peak: 24.5, shift: 0.92 },
-    e7: { label: 'Economy 7', off: 9.5, peak: 27, shift: 0.85 },
-    single: { label: 'Single-rate tariff', off: 24.5, peak: 24.5, shift: 0 }
+    tou: { label: 'Time-of-use rate', off: 13, peak: 28, shift: 0.85 },
+    offpeak: { label: 'Off-peak heating rate', off: 15, peak: 30, shift: 0.75 },
+    single: { label: 'Standard flat rate', off: 28, peak: 28, shift: 0 }
   };
   // climate: multiplies a home's heat use for colder or milder regions.
   var REGIONS = {
-    nescot: { label: 'North East Scotland', climate: 1.1 },
-    highland: { label: 'Highlands and Islands', climate: 1.15 },
-    central: { label: 'Central and Southern Scotland', climate: 1.05 },
-    north: { label: 'Northern England', climate: 1 },
-    midlands: { label: 'Midlands and Wales', climate: 0.95 },
-    south: { label: 'Southern England', climate: 0.9 }
+    eastern: { label: 'Bangor and eastern Maine', climate: 1 },
+    northern: { label: 'Northern Maine', climate: 1.15 },
+    central: { label: 'Central Maine', climate: 0.98 },
+    western: { label: 'Western Maine mountains', climate: 1.08 },
+    midcoast: { label: 'Midcoast and Downeast', climate: 0.93 },
+    southern: { label: 'Southern Maine and coastal New Hampshire', climate: 0.9 }
   };
   var HEATLOOP_EFF = 0.95;                 // heat delivered per kWh of electricity, store losses included
-  var GRID_CO2 = { off: 0.11, peak: 0.19 }; // kg CO2e per kWh, illustrative averages
-  var ESTIMATE_DEFAULTS = { size: 'semi', heat: 'oil', tariff: 'tou', region: 'nescot' };
+  var GRID_CO2 = { off: 0.55, peak: 0.6 }; // lb CO2e per kWh, illustrative New England grid figures
+  var ESTIMATE_DEFAULTS = { size: 'midsize', heat: 'oil', tariff: 'tou', region: 'eastern' };
 
-  // Reservations. Postcode districts we install in now, and the ones coming next.
+  // Reservations. ZIP codes we install in now, and the ones coming next.
   var COVERAGE = {
-    AB10: 'Aberdeen city centre', AB11: 'Aberdeen, Torry and the harbour', AB12: 'Altens, Cove Bay and Portlethen',
-    AB15: 'Aberdeen West and Cults', AB16: 'Mastrick and Northfield', AB21: 'Dyce and Newmachar',
-    AB22: 'Bridge of Don', AB23: 'Danestone and Balmedie', AB24: 'Old Aberdeen and Seaton',
-    AB25: 'Rosemount and Ashgrove', AB32: 'Westhill', AB39: 'Stonehaven and Newtonhill'
+    '04401': 'Bangor, Hermon, Veazie and Glenburn', '04412': 'Brewer', '04473': 'Orono',
+    '04429': 'Holden and Dedham', '04427': 'Corinth', '04419': 'Carmel',
+    '04428': 'Eddington and Clifton', '04450': 'Kenduskeag', '04456': 'Levant',
+    '04461': 'Milford', '04474': 'Orrington', '04489': 'Stillwater'
   };
-  var COMING_NEXT = { AB41: 'Ellon', AB51: 'Inverurie and Kintore', AB31: 'Banchory' };
+  var COMING_NEXT = { '04605': 'Ellsworth', '04416': 'Bucksport', '04953': 'Newport' };
   var RESERVATIONS_AT_ANCHOR = 2140;   // reservations so far on DEMO_ANCHOR
   var RESERVATIONS_PER_WEEK = 26;      // how fast the count grows while KEEP_DEMO_CURRENT is true
-  var SURVEY_LEAD_MONTHS = 3;          // covered postcodes: first surveys from this many months ahead
+  var SURVEY_LEAD_MONTHS = 3;          // covered ZIP codes: first home assessments from this many months ahead
 
   // Careers. team and location keys must exist in TEAMS and LOCATIONS; mode: onsite | hybrid | remote.
   var TEAMS = { engineering: 'Engineering', manufacturing: 'Manufacturing', installs: 'Installations', operations: 'Operations', commercial: 'Commercial' };
-  var LOCATIONS = { aberdeen: 'Aberdeen office', dyce: 'Dyce workshop', field: 'Aberdeenshire, on the road', remote: 'Remote, UK' };
+  var LOCATIONS = { bangor: 'Bangor office', hermon: 'Hermon workshop', field: 'Penobscot County, on the road', remote: 'Remote, US' };
   var MODES = { onsite: 'On site', hybrid: 'Hybrid', remote: 'Remote' };
   var ROLES = [
-    { id: 'thermal-engineer', title: 'Senior Thermal Engineer', team: 'engineering', location: 'aberdeen', mode: 'hybrid', salary: '£58,000–£70,000',
+    { id: 'thermal-engineer', title: 'Senior Thermal Engineer', team: 'engineering', location: 'bangor', mode: 'hybrid', salary: '$105,000–$130,000',
       summary: 'Own the design of the phase-change store, from cell geometry to the heat exchanger.',
       do: ['Model charge and discharge for new store sizes', 'Run cell cycling and calorimetry tests in the lab', 'Work with manufacturing on tolerances and sealing'],
       bring: ['Heat transfer or thermal storage experience in industry or research', 'Comfort with test rigs as well as simulation', 'Clear writing about trade-offs'] },
-    { id: 'firmware-engineer', title: 'Embedded Firmware Engineer', team: 'engineering', location: 'aberdeen', mode: 'hybrid', salary: '£50,000–£62,000',
+    { id: 'firmware-engineer', title: 'Embedded Firmware Engineer', team: 'engineering', location: 'bangor', mode: 'hybrid', salary: '$95,000–$120,000',
       summary: 'Write the code that decides when to charge, how hot to run and when to call for help.',
       do: ['Develop controller firmware in C on ARM microcontrollers', 'Build safe over-the-air updates', 'Instrument the field fleet so we learn from every home'],
-      bring: ['Shipped embedded products', 'Experience with safety interlocks or power electronics', 'Interest in energy tariffs'] },
-    { id: 'controls-data', title: 'Controls and Data Scientist', team: 'engineering', location: 'remote', mode: 'remote', salary: '£52,000–£64,000',
+      bring: ['Shipped embedded products', 'Experience with safety interlocks or power electronics', 'Interest in electricity rate plans'] },
+    { id: 'controls-data', title: 'Controls and Data Scientist', team: 'engineering', location: 'remote', mode: 'remote', salary: '$95,000–$120,000',
       summary: 'Turn half-hourly prices, weather and household habits into better charging schedules.',
       do: ['Forecast each home’s heat demand a day ahead', 'Design schedules that respect comfort first', 'Publish what we learn in our research notes'],
-      bring: ['Time-series forecasting or optimisation experience', 'Python and SQL', 'A sceptical eye for your own results'] },
-    { id: 'manufacturing-engineer', title: 'Manufacturing Engineer', team: 'manufacturing', location: 'dyce', mode: 'onsite', salary: '£42,000–£52,000',
-      summary: 'Take the production line in Dyce from twenty units a week to a hundred.',
+      bring: ['Time-series forecasting or optimization experience', 'Python and SQL', 'A skeptical eye for your own results'] },
+    { id: 'manufacturing-engineer', title: 'Manufacturing Engineer', team: 'manufacturing', location: 'hermon', mode: 'onsite', salary: '$78,000–$95,000',
+      summary: 'Take the production line in Hermon from twenty units a week to a hundred.',
       do: ['Design jigs, fixtures and work instructions', 'Run time studies and remove bottlenecks', 'Bring new suppliers up to standard'],
-      bring: ['Manufacturing or process engineering background', 'Lean or similar methods, used sensibly', 'Hands that like a spanner'] },
-    { id: 'production-technician', title: 'Production Technician (two roles)', team: 'manufacturing', location: 'dyce', mode: 'onsite', salary: '£29,000–£34,000',
-      summary: 'Build, fill, seal and test Heatloop stores on our line in Dyce.',
+      bring: ['Manufacturing or process engineering background', 'Lean or similar methods, used sensibly', 'Hands that like a wrench'] },
+    { id: 'production-technician', title: 'Production Technician (two roles)', team: 'manufacturing', location: 'hermon', mode: 'onsite', salary: '$45,000–$55,000',
+      summary: 'Build, fill, seal and test Heatloop stores on our line in Hermon.',
       do: ['Assemble stores to work instructions', 'Run pressure and electrical end-of-line tests', 'Suggest improvements to the line'],
       bring: ['Experience in assembly, fabrication or a trade', 'Care with detail and with paperwork', 'Day shifts, Monday to Friday'] },
-    { id: 'quality-lead', title: 'Quality Lead', team: 'manufacturing', location: 'dyce', mode: 'onsite', salary: '£45,000–£54,000',
-      summary: 'Set up the quality system that every unit leaving Dyce goes through.',
+    { id: 'quality-lead', title: 'Quality Lead', team: 'manufacturing', location: 'hermon', mode: 'onsite', salary: '$80,000–$98,000',
+      summary: 'Set up the quality system that every unit leaving Hermon goes through.',
       do: ['Own incoming, in-process and final inspection', 'Lead root-cause work on field returns', 'Prepare for product certification audits'],
       bring: ['Quality engineering in a regulated product', 'ISO 9001 experience', 'Calm under audit'] },
-    { id: 'heating-engineer', title: 'Heating Engineer, Installs', team: 'installs', location: 'field', mode: 'onsite', salary: '£38,000–£46,000 plus van',
-      summary: 'Fit Heatloops in homes around Aberdeen and leave every customer confident with it.',
-      do: ['Install and commission units on wet heating systems', 'Remove old boilers and tidy up after', 'Show customers how their Heatloop works'],
-      bring: ['Qualified heating engineer with wet system experience', 'Unvented hot water qualification, or willing to gain it', 'A full UK driving licence'] },
-    { id: 'surveyor', title: 'Home Surveyor and Install Planner', team: 'installs', location: 'aberdeen', mode: 'hybrid', salary: '£34,000–£40,000',
+    { id: 'heating-engineer', title: 'Heating Technician, Installs', team: 'installs', location: 'field', mode: 'onsite', salary: '$60,000–$78,000 plus company truck',
+      summary: 'Fit Heatloops in homes around Bangor and leave every customer confident with it.',
+      do: ['Install and commission units on hot-water heating systems', 'Remove old boilers and tidy up after', 'Show customers how their Heatloop works'],
+      bring: ['Experienced heating technician who knows hot-water systems', 'A plumbing or heating license, or working toward one', 'A valid driver’s license'] },
+    { id: 'surveyor', title: 'Home Energy Assessor and Install Planner', team: 'installs', location: 'bangor', mode: 'hybrid', salary: '$58,000–$70,000',
       summary: 'Visit homes, size the right model and plan each install day.',
-      do: ['Survey homes and heating systems', 'Recommend a model and explain why', 'Plan routes and parts for the install teams'],
-      bring: ['Surveying, retrofit or heating background', 'Friendly and clear with homeowners', 'A full UK driving licence'] },
-    { id: 'customer-success', title: 'Customer Success Lead', team: 'operations', location: 'remote', mode: 'remote', salary: '£40,000–£48,000',
+      do: ['Assess homes and heating systems', 'Recommend a model and explain why', 'Plan routes and parts for the install teams'],
+      bring: ['Home energy, retrofit or heating background', 'Friendly and clear with homeowners', 'A valid driver’s license'] },
+    { id: 'customer-success', title: 'Customer Success Lead', team: 'operations', location: 'remote', mode: 'remote', salary: '$68,000–$82,000',
       summary: 'Look after every household from reservation to its first winter, and after.',
-      do: ['Build our support processes and help centre', 'Spot patterns in questions and feed them to product', 'Handle tricky cases yourself'],
+      do: ['Build our support processes and help center', 'Spot patterns in questions and feed them to product', 'Handle tricky cases yourself'],
       bring: ['Customer support leadership at a hardware or energy company', 'Patience and warmth', 'Good with simple data'] },
-    { id: 'partnerships', title: 'Partnerships Manager, Housing', team: 'commercial', location: 'aberdeen', mode: 'hybrid', salary: '£48,000–£58,000 plus bonus',
-      summary: 'Bring Heatloop to housing associations and councils across the north east.',
-      do: ['Run pilots with social landlords', 'Build business cases with their asset teams', 'Represent Heatloop at sector events'],
-      bring: ['Experience selling to or working in social housing', 'Understanding of retrofit funding', 'Patience with long decisions'] },
-    { id: 'product-designer', title: 'Product Designer', team: 'commercial', location: 'remote', mode: 'remote', salary: '£45,000–£55,000',
+    { id: 'partnerships', title: 'Partnerships Manager, Housing', team: 'commercial', location: 'bangor', mode: 'hybrid', salary: '$85,000–$100,000 plus bonus',
+      summary: 'Bring Heatloop to housing authorities and nonprofit landlords across Maine.',
+      do: ['Run pilots with affordable-housing owners', 'Build business cases with their asset teams', 'Represent Heatloop at sector events'],
+      bring: ['Experience selling to or working in affordable housing', 'Understanding of weatherization and retrofit funding', 'Patience with long decisions'] },
+    { id: 'product-designer', title: 'Product Designer', team: 'commercial', location: 'remote', mode: 'remote', salary: '$80,000–$100,000',
       summary: 'Design the app, the display on the unit and the reservation journey.',
       do: ['Research with pilot households', 'Design and test the Heatloop app', 'Keep our web and print materials consistent'],
       bring: ['A portfolio of shipped product design', 'Interest in physical products and energy', 'Comfort with accessibility'] }
@@ -152,14 +154,14 @@
   // Coming-up events: rules, so the list is always in the future. weekday: 0 = Sunday;
   // nth: 1-4 for the first to fourth weekday of the month, -1 for the last.
   var EVENT_RULES = [
-    { id: 'open-morning', title: 'Open morning at the Dyce workshop', weekday: 6, nth: 1, time: '10:00', end: '12:30', where: 'Howe Moss Avenue, Dyce', text: 'See stores being built, look inside a cutaway and ask the engineers anything. Children welcome.' },
-    { id: 'webinar', title: 'Online: is a heat battery right for my home?', weekday: 3, nth: 2, time: '19:00', end: '20:00', where: 'Online', text: 'A forty-minute talk on how Heatloop works, what a survey involves and how to read your own estimate, with questions at the end.' },
-    { id: 'installers', title: 'Installer partner evening', weekday: 4, nth: -1, time: '18:00', end: '20:00', where: 'Union Terrace office, Aberdeen', text: 'For heating engineers interested in fitting Heatloops: product training, commissioning and how partner work is paid.' }
+    { id: 'open-morning', title: 'Open house at the Hermon workshop', weekday: 6, nth: 1, time: '10:00', end: '12:30', where: 'Coldbrook Road, Hermon', text: 'See stores being built, look inside a cutaway and ask the engineers anything. Children welcome.' },
+    { id: 'webinar', title: 'Online: is a heat battery right for my home?', weekday: 3, nth: 2, time: '19:00', end: '20:00', where: 'Online', text: 'A forty-minute talk on how Heatloop works, what a home assessment involves and how to read your own estimate, with questions at the end.' },
+    { id: 'installers', title: 'Installer partner evening', weekday: 4, nth: -1, time: '18:00', end: '20:00', where: 'Exchange Street office, Bangor', text: 'For heating technicians interested in fitting Heatloops: product training, commissioning and how partner work is paid.' }
   ];
   var EVENTS_SHOWN = 3;
 
   var CONTACT_TYPES = { homeowner: 'Homeowner', installer: 'Installer partner', housing: 'Housing and landlords', press: 'Press', investor: 'Investors', careers: 'Careers', other: 'Something else' };
-  var CONTACT_REPLY = { homeowner: 'our customer team', installer: 'our installs team', housing: 'our partnerships team', press: 'our press office', investor: 'Seonaid Ogston’s office', careers: 'our hiring team', other: 'our team' };
+  var CONTACT_REPLY = { homeowner: 'our customer team', installer: 'our installs team', housing: 'our partnerships team', press: 'our press office', investor: 'Margot Thibodeau’s office', careers: 'our hiring team', other: 'our team' };
 
   var WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -179,7 +181,7 @@
 
   function plural(n, one, many) { return n + ' ' + (n === 1 ? one : (many || one + 's')); }
   function groupThousands(s) { return s.replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
-  function money(n) { return '£' + groupThousands(String(Math.round(n))); }
+  function money(n) { return '$' + groupThousands(String(Math.round(n))); }
   function num(n, digits) { return groupThousands(n.toFixed(digits || 0)); }
   function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
@@ -224,12 +226,12 @@
   }
 
   /* ------------------------------------------------------------------
-   * 3. London time and demo dates. Calendar dates are 'YYYY-MM-DD' strings and day numbers
+   * 3. Maine time and demo dates (londonParts keeps its old name; it reads TIME_ZONE). Calendar dates are 'YYYY-MM-DD' strings and day numbers
    *    (days since 1970-01-01), so daylight saving never shifts them.
    * ------------------------------------------------------------------ */
   var londonParts = (function () {
     var fmt;
-    try { fmt = new Intl.DateTimeFormat('en-GB', { timeZone: TIME_ZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }); } catch (e) { fmt = null; }
+    try { fmt = new Intl.DateTimeFormat('en-US', { timeZone: TIME_ZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }); } catch (e) { fmt = null; }
     return function (date) {
       if (!fmt) return { y: date.getFullYear(), m: date.getMonth() + 1, d: date.getDate(), hh: date.getHours(), mm: date.getMinutes() };
       var out = {};
@@ -245,8 +247,10 @@
     var iso = p.y + '-' + pad(p.m) + '-' + pad(p.d);
     return { iso: iso, day: dayNumber(iso), y: p.y, m: p.m, minutes: p.hh * 60 + p.mm };
   }
-  function longDate(iso) { var p = iso.split('-'); return +p[2] + ' ' + MONTHS[+p[1] - 1] + ' ' + p[0]; }
-  function shortDay(iso) { var day = dayNumber(iso); var p = iso.split('-'); return WEEKDAYS[weekdayOf(day)].slice(0, 3) + ' ' + +p[2] + ' ' + MONTHS[+p[1] - 1].slice(0, 3); }
+  function longDate(iso) { var p = iso.split('-'); return MONTHS[+p[1] - 1] + ' ' + +p[2] + ', ' + p[0]; }
+  function shortDay(iso) { var day = dayNumber(iso); var p = iso.split('-'); return WEEKDAYS[weekdayOf(day)].slice(0, 3) + ', ' + MONTHS[+p[1] - 1].slice(0, 3) + ' ' + +p[2]; }
+  // 'HH:MM' on the 24-hour clock to the 12-hour clock used in copy: '17:30' to '5:30 PM'.
+  function clock12(hhmm) { var p = hhmm.split(':'), h = +p[0] % 24; return (h % 12 || 12) + ':' + p[1] + (h < 12 ? ' AM' : ' PM'); }
 
   var NOW = today();
   // Whole weeks since DEMO_ANCHOR (0 on the anchor day, and always 0 when KEEP_DEMO_CURRENT is false).
@@ -351,7 +355,7 @@
       $$('[data-reserve-cta]').forEach(function (a) { a.textContent = a.classList.contains('btn-sm') ? 'Your place' : 'View your reservation'; });
       var t = $('[data-cta-title]'), x = $('[data-cta-text]');
       if (t) t.textContent = 'You’re number ' + num(saved.place) + ' in the queue.';
-      if (x) x.textContent = 'Reference ' + saved.ref + ' for a ' + MODELS[saved.model].name + ' in ' + saved.district + '. We’ll be in touch before your survey.';
+      if (x) x.textContent = 'Reference ' + saved.ref + ' for a ' + MODELS[saved.model].name + ' in ' + saved.district + '. We’ll be in touch before your home assessment.';
     }
   }
 
@@ -368,7 +372,7 @@
     if (!root) return;
     var model = 'hl28', range = $('[data-shift-need]', root);
     function render() {
-      var need = parseInt(range.value, 10) || 46;
+      var need = parseInt(range.value, 10) || 90;
       var r = shiftEstimate(model, need);
       $('[data-shift-need-out]').textContent = need + ' kWh';
       $('[data-shift-pct]').textContent = String(r.pct);
@@ -387,7 +391,7 @@
   }
 
   /* ------------------------------------------------------------------
-   * 7. Technology: a day of charging and releasing over the tariff
+   * 7. Technology: a day of charging and releasing over the rate plan
    * ------------------------------------------------------------------ */
   function minutesOf(hhmm) { var p = hhmm.split(':'); return +p[0] * 60 + +p[1]; }
   function priceAt(slot) { // slot: half-hour index 0-47
@@ -425,10 +429,10 @@
     charge: ['Charging', 'Cheap rate: the element is on and the cells are melting.'],
     topup: ['Topping up', 'Midday shoulder rate: topping the store up before the evening peak.'],
     hold: ['Holding', 'Full and holding: heat for the home still comes straight from the cheap rate.'],
-    release: ['Releasing', 'Peak or day rate: the radiators and taps are fed from the store.'],
+    release: ['Releasing', 'Peak or day rate: the radiators and faucets are fed from the store.'],
     backup: ['Backup', 'The store is running low, so some heat comes straight from the grid.']
   };
-  function slotTime(s) { return pad(Math.floor(s / 2)) + ':' + (s % 2 ? '30' : '00'); }
+  function slotTime(s) { return clock12(pad(Math.floor(s / 2)) + ':' + (s % 2 ? '30' : '00')); }
 
   function initDayChart() {
     var root = $('[data-day]');
@@ -440,14 +444,14 @@
     function size() { var narrow = svgHost.clientWidth < 560; W = narrow ? 430 : 720; L = narrow ? 50 : 44; FS = narrow ? 15 : 11; HOUR_STEP = narrow ? 6 : 3; return narrow; }
     var tick = function (x0, y0, anchor, label) { return '<text x="' + x0 + '" y="' + y0 + '" text-anchor="' + anchor + '" font-family="Source Code Pro, monospace" font-size="' + FS + '" fill="currentColor" opacity=".8">' + label + '</text>'; };
     var x = function (s) { return L + (W - L - R) * s / 48; };
-    var py = function (p) { return T + priceH - priceH * p / 36; };
+    var py = function (p) { return T + priceH - priceH * p / 42; };
     var sy = function (pct) { return socTop + socH - socH * pct / 100; };
 
     function draw() {
       size();
       sim = simulateDay(model, DAY_HEAT);
       var out = [];
-      out.push('<title id="day-chart-title">Tariff price and the store’s state of charge over 24 hours for the ' + MODELS[model].name + '</title>');
+      out.push('<title id="day-chart-title">Electricity price and the store’s state of charge over 24 hours for the ' + MODELS[model].name + '</title>');
       // cheap windows
       var runStart = -1;
       sim.slots.concat([{ slot: 48, price: Infinity }]).forEach(function (d) {
@@ -458,9 +462,9 @@
       // grid and axes
       [0, 50, 100].forEach(function (p) { out.push('<path d="M' + L + ' ' + sy(p) + 'H' + (W - R) + '" stroke="var(--rule)" stroke-width="1"/>' + tick(L - 8, sy(p) + 4, 'end', p + '%')); });
       [25, 75].forEach(function (p) { out.push('<path d="M' + L + ' ' + sy(p) + 'H' + (W - R) + '" stroke="var(--rule)" stroke-width="1"/>'); });
-      [0, 34].forEach(function (p) { out.push(tick(L - 8, py(p) + 4, 'end', p + 'p')); });
+      [0, 40].forEach(function (p) { out.push(tick(L - 8, py(p) + 4, 'end', p + '¢')); });
       out.push('<path d="M' + L + ' ' + (T + priceH) + 'H' + (W - R) + '" stroke="currentColor" stroke-width="1" opacity=".5"/>');
-      for (var h = 0; h <= 24; h += HOUR_STEP) out.push('<path d="M' + x(h * 2) + ' ' + (H - 28) + 'v5" stroke="currentColor" opacity=".6"/>' + tick(x(h * 2), H - 8, 'middle', pad(h % 24) + ':00'));
+      for (var h = 0; h <= 24; h += HOUR_STEP) out.push('<path d="M' + x(h * 2) + ' ' + (H - 28) + 'v5" stroke="currentColor" opacity=".6"/>' + tick(x(h * 2), H - 8, 'middle', ((h % 12) || 12) + (h % 24 < 12 ? ' AM' : ' PM')));
       // price step line
       var pd = '';
       sim.slots.forEach(function (d, i) { pd += (i ? 'H' + x(d.slot) + 'V' : 'M' + x(0) + ' ') + py(d.price); });
@@ -471,11 +475,11 @@
       sim.slots.forEach(function (d) { sd += 'L' + x(d.slot + 1) + ' ' + sy(d.soc / sim.cap * 100); });
       out.push('<path d="' + sd + 'V' + sy(0) + 'H' + x(0) + 'Z" fill="var(--forest)" opacity=".16"/>');
       out.push('<path d="' + sd + '" fill="none" stroke="var(--forest)" stroke-width="2.2"/>');
-      out.push(tick(L + 6, T - 4, 'start', 'TARIFF, P/KWH'));
+      out.push(tick(L + 6, T - 4, 'start', 'RATE, ¢/KWH'));
       out.push(tick(L + 6, socTop - 6, 'start', 'STATE OF CHARGE'));
       out.push('<g data-cursor><path d="" stroke="currentColor" stroke-width="1" stroke-dasharray="3 3"/><circle r="5" fill="var(--forest)"/><circle r="5" fill="var(--forest)" class="pulse"/><circle r="4" fill="var(--ochre)"/></g>');
       svgHost.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="h-auto w-full text-ink" role="img" aria-labelledby="day-chart-title">' + out.join('') + '</svg>';
-      $('[data-day-summary]', root).textContent = 'Over this cold day the ' + MODELS[model].name + ' buys ' + sim.bought.toFixed(1) + ' kWh, ' + sim.cheapShare + '% of it at the cheap rate, for about ' + money(sim.cost) + ' on this tariff.';
+      $('[data-day-summary]', root).textContent = 'Over this cold day the ' + MODELS[model].name + ' buys ' + sim.bought.toFixed(1) + ' kWh, ' + sim.cheapShare + '% of it at the cheap rate, for about ' + money(sim.cost) + ' on this rate plan.';
       update();
     }
     function update() {
@@ -486,12 +490,12 @@
       $$('circle', g).forEach(function (c, i) { c.setAttribute('cx', cx); c.setAttribute('cy', i < 2 ? sy(pct) : py(d.price)); });
       var mt = MODE_TEXT[d.mode];
       $('[data-day-out="time"]', root).textContent = slotTime(s) + '–' + slotTime((s + 1) % 48);
-      $('[data-day-out="price"]', root).textContent = d.price + 'p / kWh';
+      $('[data-day-out="price"]', root).textContent = d.price + '¢ / kWh';
       $('[data-day-out="mode"]', root).textContent = mt[0];
       $('[data-day-out="mode-text"]', root).textContent = mt[1];
       $('[data-day-out="soc"]', root).textContent = pct + '% · ' + d.soc.toFixed(1) + ' kWh';
       $('[data-day-out="heat"]', root).textContent = d.demand.toFixed(2) + ' kWh';
-      range.setAttribute('aria-valuetext', slotTime(s) + ', ' + d.price + 'p, ' + mt[0] + ', ' + pct + '% charged');
+      range.setAttribute('aria-valuetext', slotTime(s) + ', ' + d.price + ' cents, ' + mt[0] + ', ' + pct + '% charged');
       $('[data-day-time-out]', root).textContent = slotTime(s);
     }
     function stop() { if (timer) { clearInterval(timer); timer = null; } play.setAttribute('aria-pressed', 'false'); $('[data-day-play-label]', play).textContent = 'Play the day'; }
@@ -526,13 +530,14 @@
     var home = HOMES[o.size], cur = HEATING[o.heat], tar = TARIFFS[o.tariff], reg = REGIONS[o.region];
     var heat = home.heat * reg.climate;
     var curIn = heat / cur.eff;
-    var curCost = curIn * cur.price / 100;
+    var curUnits = curIn / cur.kwhPerUnit;
+    var curCost = curUnits * cur.price;
     var curCo2 = curIn * cur.co2;
     var hlIn = heat / HEATLOOP_EFF;
     var hlPrice = tar.shift * tar.off + (1 - tar.shift) * tar.peak;
     var hlCost = hlIn * hlPrice / 100;
     var hlCo2 = hlIn * (tar.shift * GRID_CO2.off + (1 - tar.shift) * GRID_CO2.peak);
-    return { heat: heat, curIn: curIn, curCost: curCost, curCo2: curCo2, hlIn: hlIn, hlPrice: hlPrice, hlCost: hlCost, hlCo2: hlCo2, model: home.model,
+    return { heat: heat, curIn: curIn, curUnits: curUnits, curCost: curCost, curCo2: curCo2, hlIn: hlIn, hlPrice: hlPrice, hlCost: hlCost, hlCo2: hlCo2, model: home.model,
       saving: curCost - hlCost, co2Saving: curCo2 - hlCo2, co2Pct: Math.round((curCo2 - hlCo2) / curCo2 * 100) };
   }
   function readEstimateParams() {
@@ -547,7 +552,7 @@
     var o = readEstimateParams();
     $$('input[type="radio"]', form).forEach(function (r) { r.checked = o[r.name] === r.value; });
     $$('select', form).forEach(function (s) { s.value = o[s.name]; });
-    function tonnes(kg) { return (kg / 1000).toFixed(1) + ' t'; }
+    function tonnes(lb) { return (lb / 2000).toFixed(1) + ' tons'; } // US short tons from pounds
     function render() {
       $$('input[type="radio"]:checked, select', form).forEach(function (el) { if (has(ESTIMATE_DEFAULTS, el.name)) o[el.name] = el.value; });
       var r = estimate(o), out = function (k) { return $('[data-est="' + k + '"]'); };
@@ -560,8 +565,8 @@
       out('saving').textContent = Math.abs(diff) < 1 ? 'About the same' : money(Math.abs(diff)) + (diff > 0 ? ' less a year' : ' more a year');
       out('saving-note').textContent = diff >= 0
         ? 'Estimated yearly running cost with a Heatloop compared with your ' + HEATING[o.heat].label.toLowerCase() + '.'
-        : 'On these prices a Heatloop is estimated to cost more to run than your ' + HEATING[o.heat].label.toLowerCase() + '. The carbon saving below may still matter to you; a cheaper off-peak tariff narrows the gap.';
-      out('co2-saving').textContent = r.co2Saving > 0 ? tonnes(r.co2Saving) + ' less CO₂e (' + r.co2Pct + '%)' : tonnes(-r.co2Saving) + ' more CO₂e';
+        : 'On these prices a Heatloop is estimated to cost more to run than your ' + HEATING[o.heat].label.toLowerCase() + '. The carbon saving below may still matter to you; a cheaper off-peak rate narrows the gap.';
+      out('co2-saving').textContent = Math.abs(r.co2Saving) < 100 ? 'About the same CO₂e' : r.co2Saving > 0 ? tonnes(r.co2Saving) + ' less CO₂e (' + r.co2Pct + '%)' : tonnes(-r.co2Saving) + ' more CO₂e';
       out('model').textContent = MODELS[r.model].name;
       out('model-link').setAttribute('href', 'reserve.html?model=' + r.model);
       // bars
@@ -573,9 +578,9 @@
       // the formula, with this estimate's numbers
       var h = HOMES[o.size], reg = REGIONS[o.region], cur = HEATING[o.heat], tar = TARIFFS[o.tariff];
       out('f-heat').textContent = num(h.heat) + ' kWh × ' + reg.climate.toFixed(2) + ' (' + reg.label + ') = ' + num(r.heat) + ' kWh of heat a year';
-      out('f-cur').textContent = num(r.heat) + ' ÷ ' + cur.eff.toFixed(2) + ' efficiency = ' + num(r.curIn) + ' kWh × ' + cur.price.toFixed(1) + 'p = ' + money(r.curCost) + '; × ' + cur.co2.toFixed(3) + ' kg = ' + num(r.curCo2) + ' kg CO₂e';
-      out('f-price').textContent = Math.round(tar.shift * 100) + '% × ' + tar.off.toFixed(1) + 'p + ' + Math.round((1 - tar.shift) * 100) + '% × ' + tar.peak.toFixed(1) + 'p = ' + r.hlPrice.toFixed(2) + 'p per kWh';
-      out('f-hl').textContent = num(r.heat) + ' ÷ ' + HEATLOOP_EFF.toFixed(2) + ' = ' + num(r.hlIn) + ' kWh × ' + r.hlPrice.toFixed(2) + 'p = ' + money(r.hlCost) + '; carbon ' + num(r.hlCo2) + ' kg CO₂e';
+      out('f-cur').textContent = num(r.heat) + ' ÷ ' + cur.eff.toFixed(2) + ' efficiency = ' + num(r.curIn) + ' kWh' + (cur.unit === 'kWh' ? ' × ' + (cur.price * 100).toFixed(1) + '¢' : ' ÷ ' + cur.kwhPerUnit.toFixed(1) + ' kWh per ' + cur.unit + ' = ' + num(r.curUnits) + ' ' + cur.unit + 's × $' + cur.price.toFixed(2)) + ' = ' + money(r.curCost) + '; ' + num(r.curIn) + ' kWh × ' + cur.co2.toFixed(3) + ' lb = ' + num(r.curCo2) + ' lb CO₂e';
+      out('f-price').textContent = Math.round(tar.shift * 100) + '% × ' + tar.off.toFixed(1) + '¢ + ' + Math.round((1 - tar.shift) * 100) + '% × ' + tar.peak.toFixed(1) + '¢ = ' + r.hlPrice.toFixed(2) + '¢ per kWh';
+      out('f-hl').textContent = num(r.heat) + ' ÷ ' + HEATLOOP_EFF.toFixed(2) + ' = ' + num(r.hlIn) + ' kWh × ' + r.hlPrice.toFixed(2) + '¢ = ' + money(r.hlCost) + '; carbon ' + num(r.hlCo2) + ' lb CO₂e';
       // keep the inputs in the URL so the result can be shared
       var url = window.location.pathname + '?size=' + o.size + '&heat=' + o.heat + '&tariff=' + o.tariff + '&region=' + o.region;
       try { window.history.replaceState(null, '', url); } catch (e) { /* file:// in some browsers */ }
@@ -595,14 +600,15 @@
   }
 
   /* ------------------------------------------------------------------
-   * 9. Reserve: model, postcode check, contact; saved for returning visitors
+   * 9. Reserve: model, ZIP code check, contact; saved for returning visitors
    * ------------------------------------------------------------------ */
   function districtOf(postcode) {
-    var pc = String(postcode || '').toUpperCase().replace(/\s+/g, '');
-    if (!/^[A-Z]{1,2}\d[A-Z\d]?\d[A-Z]{2}$/.test(pc)) return null;
-    return pc.slice(0, pc.length - 3);
+    // A US ZIP code: 5 digits, with an optional +4. The district is the 5-digit ZIP.
+    var pc = String(postcode || '').replace(/\s+/g, '');
+    if (!/^\d{5}(-\d{4})?$/.test(pc)) return null;
+    return pc.slice(0, 5);
   }
-  function formatPostcode(postcode) { var pc = String(postcode).toUpperCase().replace(/\s+/g, ''); return pc.slice(0, pc.length - 3) + ' ' + pc.slice(-3); }
+  function formatPostcode(postcode) { return String(postcode).replace(/\s+/g, ''); }
   function surveyMonth() {
     var m = NOW.m - 1 + SURVEY_LEAD_MONTHS;
     return MONTHS[m % 12] + ' ' + (NOW.y + Math.floor(m / 12));
@@ -616,7 +622,7 @@
   function loadReservation() {
     var r = readJSON(RESERVATION_KEY);
     if (!r || typeof r !== 'object') return null;
-    if (typeof r.ref !== 'string' || !/^HL-[A-Z0-9]{2,4}-[A-Z0-9]{4}$/.test(r.ref)) return null;
+    if (typeof r.ref !== 'string' || !/^HL-[A-Z0-9]{2,5}-[A-Z0-9]{4}$/.test(r.ref)) return null;
     if (!has(MODELS, r.model) || typeof r.postcode !== 'string' || !districtOf(r.postcode)) return null;
     if (typeof r.name !== 'string' || !r.name.trim() || typeof r.email !== 'string') return null;
     if (typeof r.place !== 'number' || !isFinite(r.place) || r.place < 1) return null;
@@ -655,15 +661,15 @@
     function checkPostcode(show) {
       var input = $('#res-postcode'), out = $('[data-postcode-result]');
       var d = districtOf(input.value);
-      if (!input.value.trim()) { setError(input, 'Enter your postcode.'); out.hidden = true; return null; }
-      if (!d) { setError(input, 'Enter a full UK postcode, like AB15 4XY.'); out.hidden = true; return null; }
+      if (!input.value.trim()) { setError(input, 'Enter your ZIP code.'); out.hidden = true; return null; }
+      if (!d) { setError(input, 'Enter a 5-digit ZIP code, like 04401.'); out.hidden = true; return null; }
       setError(input, '');
       var c = coverageOf(d);
       if (show) {
         out.hidden = false;
         out.setAttribute('data-covered', c.covered ? 'yes' : 'no');
         out.innerHTML = c.covered
-          ? '<p class="font-serif text-xl">Good news: we install in ' + escapeHtml(d) + '.</p><p class="mt-1 text-muted">' + escapeHtml(c.area) + '. First home surveys for new reservations from ' + surveyMonth() + '.</p>'
+          ? '<p class="font-serif text-xl">Good news: we install in ' + escapeHtml(d) + '.</p><p class="mt-1 text-muted">' + escapeHtml(c.area) + '. First home assessments for new reservations from ' + surveyMonth() + '.</p>'
           : (c.next
             ? '<p class="font-serif text-xl">' + escapeHtml(d) + ' is next on our list.</p><p class="mt-1 text-muted">We plan to reach ' + escapeHtml(c.area) + ' next. Reserve now and you keep your place in the queue.</p>'
             : '<p class="font-serif text-xl">We don’t install in ' + escapeHtml(d) + ' yet.</p><p class="mt-1 text-muted">You can still reserve. We’ll write to you when installs reach your area, and you won’t lose your place.</p>');
@@ -673,7 +679,7 @@
     function validateStep(i) {
       if (i === 0) {
         var picked = $('input[name="model"]:checked', form), err = $('#res-model-error');
-        err.textContent = picked ? '' : 'Choose a model. Not sure? Pick the one for your home type; the survey confirms it.';
+        err.textContent = picked ? '' : 'Choose a model. Not sure? Pick the one for your home type; the home assessment confirms it.';
         return !!picked;
       }
       if (i === 1) return !!checkPostcode(true);
@@ -682,8 +688,8 @@
       ok = setError(name, name.value.trim() ? '' : 'Enter your name.') && ok;
       var em = email.value.trim();
       ok = setError(email, !em ? 'Enter your email address.' : (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em) ? '' : 'Enter an email address like name@example.com.')) && ok;
-      var ph = phone.value.replace(/[\s()-]/g, '');
-      ok = setError(phone, !ph || /^(\+44|0)\d{9,10}$/.test(ph) ? '' : 'Enter a UK phone number, or leave it blank.') && ok;
+      var ph = phone.value.replace(/[\s().-]/g, '');
+      ok = setError(phone, !ph || /^(\+?1)?[2-9]\d{9}$/.test(ph) ? '' : 'Enter a US phone number, or leave it blank.') && ok;
       return ok;
     }
     $$('[data-next]', form).forEach(function (b) {
@@ -706,7 +712,7 @@
       // { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })) and only
       // save and show the success state when it answers OK. See DOCS.md "Forms".
       var r = {
-        ref: editing ? editing.ref : 'HL-' + pc.district.replace(/[^A-Z0-9]/g, '').slice(0, 4) + '-' + refCode('X').slice(2),
+        ref: editing ? editing.ref : 'HL-' + pc.district.replace(/[^A-Z0-9]/g, '').slice(0, 5) + '-' + refCode('X').slice(2),
         model: $('input[name="model"]:checked', form).value,
         postcode: formatPostcode($('#res-postcode').value),
         name: $('#res-name').value.trim(),
@@ -736,7 +742,7 @@
       $('[data-res-postcode]', panel).textContent = r.postcode;
       $('[data-res-date]', panel).textContent = longDate(r.created);
       $('[data-res-next]', panel).textContent = c.covered
-        ? 'We install in ' + r.district + '. Our survey team will email ' + r.email + ' to book a home survey, with first slots from ' + surveyMonth() + '.'
+        ? 'We install in ' + r.district + '. Our team will email ' + r.email + ' to book a home assessment, with first slots from ' + surveyMonth() + '.'
         : 'We don’t install in ' + r.district + ' yet. We’ll email ' + r.email + ' as soon as installs reach your area; your place in the queue is kept.';
       if (justNow) { panel.focus(); announce('Reservation ' + r.ref + ' saved.'); }
     }
@@ -755,7 +761,7 @@
         writeJSON(RESERVATION_KEY, null);
         editing = null; form.reset(); showStep(0);
         savedPanel.hidden = true; success.hidden = true; form.hidden = false;
-        announce('Reservation cancelled. You can reserve again at any time.');
+        announce('Reservation canceled. You can reserve again at any time.');
         $('legend', steps[0]).setAttribute('tabindex', '-1'); $('legend', steps[0]).focus();
       });
     });
@@ -898,7 +904,7 @@
       return '<li class="grid grid-cols-[4.5rem_1fr] gap-4 border-t border-rule py-5">' +
         '<p class="text-center"><span class="block font-mono text-[0.72rem] uppercase tracking-[0.12em] text-copper">' + MONTHS[+p[1] - 1].slice(0, 3) + '</span><span class="block font-serif text-4xl leading-none">' + +p[2] + '</span><span class="block font-mono text-[0.72rem] uppercase text-muted">' + WEEKDAYS[weekdayOf(e.day)].slice(0, 3) + '</span></p>' +
         '<div><h3 class="font-serif text-xl leading-snug">' + escapeHtml(e.rule.title) + '</h3>' +
-        '<p class="mt-1 font-mono text-[0.8rem] uppercase tracking-[0.06em] text-muted"><time datetime="' + iso + 'T' + e.rule.time + '">' + shortDay(iso) + ', ' + e.rule.time + '–' + e.rule.end + '</time> · ' + escapeHtml(e.rule.where) + '</p>' +
+        '<p class="mt-1 font-mono text-[0.8rem] uppercase tracking-[0.06em] text-muted"><time datetime="' + iso + 'T' + e.rule.time + '">' + shortDay(iso) + ', ' + clock12(e.rule.time) + '–' + clock12(e.rule.end) + '</time> · ' + escapeHtml(e.rule.where) + '</p>' +
         '<p class="mt-2 text-[0.98rem] text-muted">' + escapeHtml(e.rule.text) + '</p></div></li>';
     }).join('');
   }
@@ -969,7 +975,7 @@
           var err = document.getElementById(el.id + '-error'), msg = '', v = (el.value || '').trim();
           if (el.required && !v) msg = el.getAttribute('data-required-msg') || 'This field is required.';
           else if (v && el.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) msg = 'Enter an email address like name@example.com.';
-          else if (v && el.type === 'tel' && !/^(\+44|0)\d{9,10}$/.test(v.replace(/[\s()-]/g, ''))) msg = 'Enter a UK phone number, or leave it blank.';
+          else if (v && el.type === 'tel' && !/^(\+?1)?[2-9]\d{9}$/.test(v.replace(/[\s().-]/g, ''))) msg = 'Enter a US phone number, or leave it blank.';
           else if (v && el.hasAttribute('data-minlength') && v.length < +el.getAttribute('data-minlength')) msg = 'Please write a little more (at least ' + el.getAttribute('data-minlength') + ' characters).';
           if (err) err.textContent = msg;
           if (el.type !== 'checkbox') el.setAttribute('aria-invalid', msg ? 'true' : 'false');

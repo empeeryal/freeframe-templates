@@ -7,6 +7,15 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.3] - 2026-11-05
+
+### Changed
+
+- Set in Billings, Montana, with American spelling, US dollars, US phone numbers and local details.
+- The clinic is now Ledgerock Physical Therapy, with US credentials and direct access wording, a health plan checker
+  with fictional plan names, and emergency advice that points to 911.
+- Acupuncture is now dry needling, and the diary closes on US federal holidays, worked out by rule, in Mountain Time.
+
 ## [1.1.2] - 2026-11-05
 
 ### Changed

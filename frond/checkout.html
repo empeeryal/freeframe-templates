@@ -1,22 +1,22 @@
 <!doctype html>
-<html lang="en-GB">
+<html lang="en-US">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Checkout — Frond</title>
     <meta
       name="description"
-      content="Check out at Frond: your details, tracked delivery or free collection in Knaresborough, gift wrapping and a card message, and secure payment."
+      content="Check out at Frond: your details, tracked delivery or free pickup in Eugene, gift wrapping and a card message, and secure payment."
     />
     <meta name="theme-color" content="#104b46" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Checkout — Frond" />
     <meta
       property="og:description"
-      content="Check out at Frond: your details, tracked delivery or free collection in Knaresborough, gift wrapping and a card message, and secure payment."
+      content="Check out at Frond: your details, tracked delivery or free pickup in Eugene, gift wrapping and a card message, and secure payment."
     />
     <meta property="og:image" content="assets/img/og-image.png" />
-    <meta property="og:locale" content="en_GB" />
+    <meta property="og:locale" content="en_US" />
     <link rel="icon" href="assets/img/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -34,8 +34,7 @@
     >
     <div class="bg-teal px-5 py-2 text-center text-xs tracking-wide text-white">
       A good place to start growing.
-      <span class="hidden sm:inline">Independent plants &amp; proper advice, Knaresborough.</span> Free mainland
-      delivery over £65.
+      <span class="hidden sm:inline">Independent plants &amp; real advice, Eugene.</span> Free local delivery over $75.
     </div>
     <header class="relative z-30 border-b border-line bg-white">
       <div class="wrap flex min-h-24 items-center justify-between gap-5">
@@ -62,8 +61,7 @@
               aria-hidden="true"
             >
               <path d="m4 8 1 13h14l1-13H4Zm4 0V6a4 4 0 0 1 8 0v2" /></svg
-            >Basket
-            <span data-basket-count class="flex size-6 items-center justify-center rounded-full bg-acid text-xs"
+            >Cart <span data-basket-count class="flex size-6 items-center justify-center rounded-full bg-acid text-xs"
               >0</span
             ></a
           ><button
@@ -133,7 +131,7 @@
       <section class="wrap">
         <div id="checkout-empty" hidden class="rounded-2xl bg-cloud p-9">
           <h2 class="font-display text-3xl">First, a plant or two.</h2>
-          <p class="mt-4">Your basket is empty. Find something green before continuing.</p>
+          <p class="mt-4">Your cart is empty. Find something green before continuing.</p>
           <a href="shop.html" class="btn mt-5">Find your plant</a>
           <div id="checkout-last-order"></div>
         </div>
@@ -192,7 +190,7 @@
                       aria-describedby="checkout-phone-error checkout-phone-hint"
                     />
                     <p id="checkout-phone-error" class="error"></p>
-                    <p id="checkout-phone-hint" class="mt-2 text-sm text-muted">Only for a delivery query.</p>
+                    <p id="checkout-phone-hint" class="mt-2 text-sm text-muted">Only for a delivery question.</p>
                   </div>
                 </div>
                 <button class="btn mt-7" type="button" data-next="2">Next: getting home</button>
@@ -202,11 +200,9 @@
                 <fieldset class="mt-6">
                   <legend class="label">Choose a route</legend>
                   <label class="choice mb-3"
-                    ><input name="shipping" type="radio" value="standard" checked /> Tracked mainland delivery, 1–2
-                    working days after dispatch</label
+                    ><input name="shipping" type="radio" value="standard" checked /> Tracked local delivery, 1–2 business days after shipping</label
                   ><label class="choice"
-                    ><input name="shipping" type="radio" value="collect" /> Collect from Frond, Gracious Street ·
-                    free</label
+                    ><input name="shipping" type="radio" value="collect" /> Pick up at Frond, East 5th Avenue · free</label
                   >
                 </fieldset>
                 <div id="delivery-fields" class="mt-6 grid gap-5 sm:grid-cols-2">
@@ -223,7 +219,7 @@
                     <p id="checkout-address-error" class="error"></p>
                   </div>
                   <div>
-                    <label class="label" for="checkout-town">Town or city</label
+                    <label class="label" for="checkout-town">City</label
                     ><input
                       id="checkout-town"
                       class="field"
@@ -235,7 +231,7 @@
                     <p id="checkout-town-error" class="error"></p>
                   </div>
                   <div>
-                    <label class="label" for="checkout-postcode">Mainland postcode</label
+                    <label class="label" for="checkout-postcode">ZIP code</label
                     ><input
                       id="checkout-postcode"
                       class="field"
@@ -248,8 +244,7 @@
                   </div>
                 </div>
                 <div id="collection-info" hidden class="mt-5 rounded-2xl bg-cloud p-5 leading-relaxed">
-                  Collect from 14 Gracious Street, Knaresborough, from <strong data-collect-date></strong>, during shop
-                  hours: Tuesday–Saturday 10am–5pm, Sunday 11am–3pm. Bring your order number.
+                  Pick up at 18 East 5th Avenue, Eugene, from <strong data-collect-date></strong>, during shop hours: Tuesday–Saturday 10am–5pm, Sunday 11am–3pm. Bring your order number.
                 </div>
                 <div class="mt-6 rounded-2xl border border-line p-5">
                   <label class="flex cursor-pointer items-start gap-3"
@@ -260,7 +255,7 @@
                       class="mt-1 size-5 shrink-0 accent-teal"
                     /><span
                       ><span class="font-bold">Sending it as a gift?</span>
-                      <span class="text-muted">Add a card message or gift wrap. No prices go in the parcel.</span></span
+                      <span class="text-muted">Add a card message or gift wrap. No prices go in the package.</span></span
                     ></label
                   >
                   <div id="gift-fields" hidden class="mt-5 space-y-5">
@@ -280,7 +275,7 @@
                     </div>
                     <label class="choice"
                       ><input id="checkout-wrap" name="wrap" type="checkbox" /> Gift wrap in kraft paper and twine, with
-                      a handwritten card · £3.50</label
+                      a handwritten card · $5</label
                     >
                   </div>
                 </div>
@@ -333,7 +328,7 @@
                       <p id="card-number-error" class="error"></p>
                     </div>
                     <div>
-                      <label class="label" for="card-expiry">Expiry date (MM / YY)</label
+                      <label class="label" for="card-expiry">Expiration date (MM / YY)</label
                       ><input
                         id="card-expiry"
                         class="field"
@@ -388,7 +383,7 @@
             <div id="checkout-lines" class="mt-5 space-y-4"></div>
             <div id="checkout-totals" class="mt-6 border-t border-line pt-5"></div>
             <p id="checkout-when" class="mt-5 rounded-2xl bg-white p-4 text-sm"></p>
-            <a href="basket.html" class="link mt-5 inline-block text-sm">Back to your basket</a>
+            <a href="basket.html" class="link mt-5 inline-block text-sm">Back to your cart</a>
           </aside>
         </div>
       </section>
@@ -410,12 +405,12 @@
           <div>
             <h2 class="eyebrow mb-5 text-acid">Come and say hello</h2>
             <p class="text-sm leading-7">
-              14 Gracious Street, Knaresborough<br />Tuesday–Saturday, 10am–5pm<br />Sunday, 11am–3pm · Monday, closed
+              18 East 5th Avenue, Eugene, OR 97401<br />Tuesday–Saturday, 10am–5pm<br />Sunday, 11am–3pm · Monday, closed
             </p>
             <a class="mt-3 inline-block text-sm underline underline-offset-4" href="mailto:hello@frond.example"
               >hello@frond.example</a
             >
-            <p class="mt-2 text-sm"><a href="tel:01632960916">01632 960916</a></p>
+            <p class="mt-2 text-sm"><a href="tel:+15415550137">(541) 555-0137</a></p>
           </div>
         </div>
         <div class="flex flex-wrap justify-between gap-3 pt-6 text-xs text-white/70">

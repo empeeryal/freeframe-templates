@@ -3,9 +3,9 @@
 ## Overview
 
 Mend is a multi-page website template for an independent physical therapy and sports injury clinic. The demo
-is **Lavant Physiotherapy**, a fictional clinic at 48 Whyke Road in Chichester, West Sussex, with five
+is **Ledgerock Physical Therapy**, a fictional clinic at 418 Yellowstone Avenue in Billings, Montana, with five
 physical therapists and a sports massage therapist. It is built with plain HTML, Tailwind CSS v4 and one
-vanilla JavaScript file (`assets/js/main.js`), with no other dependencies. This is version 1.1.0 (see
+vanilla JavaScript file (`assets/js/main.js`), with no other dependencies. This is version 1.1.3 (see
 `template.json` and [CHANGELOG.md](CHANGELOG.md)). Live demo:
 [freeframe.dev/templates/mend](https://freeframe.dev/templates/mend).
 
@@ -13,8 +13,8 @@ The design is a clinician's notepad: biro-blue ink on warm paper, pale blue rule
 down the left of each section with index numbers (`§ 01`) and margin notes, and a yellow highlighter for
 whatever is selected. The way in is the home page's body map, "Where does it hurt?".
 
-The demo never goes stale: opening hours, bank holidays, the booking diary, "next available
-appointment" and each clinician's "in clinic today" badge are worked out from today's date in UK time, so
+The demo never goes stale: opening hours, federal holidays, the booking schedule, "next available
+appointment" and each clinician's "in clinic today" badge are worked out from today's date in Mountain Time, so
 there are no fixed dates to update.
 
 ## Quick start
@@ -31,14 +31,14 @@ classes; see [Building and deploying](#building-and-deploying).
 
 | File | Purpose | Notable sections and features |
 |------|---------|-------------------------------|
-| `index.html` | Home | "Where does it hurt?" body map (front and back) with a notes panel for the chosen area and a booking link that carries `?area=`, open-now line, "when not to wait", a first-visit timeline, a seven-day diary strip of free initial assessments, the treatment index, patient stories, team and a visit section with hours |
+| `index.html` | Home | "Where does it hurt?" body map (front and back) with a notes panel for the chosen area and a booking link that carries `?area=`, open-now line, "when not to wait", a first-visit timeline, a seven-day schedule strip of open initial evaluation times, the treatment index, patient stories, team and a visit section with hours |
 | `treatments.html` | Treatments | Ten treatments as ruled entries with art, length, price, what's included, who offers them and the next free slot; filters in the left rail (`?for=`) |
 | `conditions.html` | Conditions | Index of eight areas, then one section per area (`?area=` jumps to it) with a locator figure, common problems, suggested appointments, matching exercises and red flags; a sticky side index marks the area in view |
-| `exercises.html` | Exercise library | 18 exercises filtered by area, level and equipment (`?area=`, `?level=`, `?equipment=`), a saved "my plan" with daily ticks, a rep and hold counter |
+| `exercises.html` | Exercise library | 18 exercises filtered by area, level and equipment (`?area=`, `?level=`, `?equipment=`), a saved "my plan" with daily checkmarks, a rep and hold counter |
 | `team.html` | Our team | A board of six portraits, then each clinician's profile with special interests, working days, "in clinic today", what they offer and their first free slot; filter by treatment (`?treatment=`) |
 | `book.html` | Book online | The clinic's next seven days, then four steps: treatment, clinician, day and time, details with health screening; live summary; confirmation with a reference (`?treatment=`, `?clinician=`, `?area=`, `?day=`) |
-| `prices.html` | Prices and insurance | Self-pay table, packages with savings, a cost estimator (`?treatment=`), insurer checker (`?insurer=`), with a sticky side index |
-| `contact.html` | Contact | Contact details beside the map, hours with bank holiday notice, contact form (`?topic=`), getting here, FAQ |
+| `prices.html` | Prices and insurance | Self-pay table, packages with savings, a cost estimator (`?treatment=`), health plan checker (`?insurer=`), with a sticky side index |
+| `contact.html` | Contact | Contact details beside the map, hours with federal holiday notice, contact form (`?topic=`), getting here, FAQ |
 | `404.html` | Not found | Friendly message and links |
 
 ## Project structure
@@ -54,7 +54,7 @@ mend/
       treatment-room.svg treatments hero: couch, wall chart of the spine, foam roller and kettlebell
       exercise-sheet.svg exercises hero: a home exercise sheet on a clipboard with a stopwatch
       receipt.svg        prices hero: a receipt, card reader and appointment card
-      clinic-front.svg   home "Visit us": the Georgian house with the green door
+      clinic-front.svg   home "Visit us": the old brick house with the green door
       spine-study.svg    lumbar spine and pelvis (conditions page, "Pain, explained simply")
       hamstring.svg      404 illustration
       map.svg            illustrated map (contact)
@@ -83,7 +83,7 @@ All design tokens live in the `@theme` block at the top of `src/input.css`. The 
 |-------|----------|
 | `--color-biro-*` | The ink color: buttons (`biro-600`), links, headings (`biro-900` = `--color-ink`), the dark bands and footer (`biro-900`), pale fills (`biro-50`) |
 | `--color-margin-*` | The red margin rule and "don't wait" warnings (`margin-50` fill, `margin-500` rule, `margin-600`/`700` text) |
-| `--color-hi`, `--color-hi-soft` | Highlighter: selected body map region, pressed chips, today in the diary, the `.hl` swipe behind headline words |
+| `--color-hi`, `--color-hi-soft` | Highlighter: selected body map region, pressed chips, today in the schedule, the `.hl` swipe behind headline words |
 | `--color-ink`, `--color-body`, `--color-muted` | Heading, body and secondary text |
 | `--color-paper`, `--color-paper-dark`, `--color-sheet` | Page background, warm panels and white sheets |
 | `--color-rule`, `--color-rule-strong` | Ruled lines and borders |
@@ -126,19 +126,19 @@ Page text is plain HTML in each file. Everything the scripts use is a constant a
 
 | Constant | What it holds |
 |----------|---------------|
-| `CLINIC` | Name, time zone (`Europe/London`) and phone number |
+| `CLINIC` | Name, time zone (`America/Denver`) and phone number |
 | `HOURS` | Opening hours by weekday (0 = Sunday), 24-hour strings; `null` means closed |
-| `CLOSE_ON_BANK_HOLIDAYS` | `true` to close on bank holidays in England and Wales |
-| `CLOSED_EVERY_YEAR` | Dates closed every year (Christmas Day, Boxing Day, New Year's Day) |
+| `CLOSE_ON_BANK_HOLIDAYS` | `true` to close on US federal holidays (the name is kept so older customizations still work) |
+| `CLOSED_EVERY_YEAR` | Dates closed every year, even on a Saturday (Christmas Day, Independence Day, New Year's Day) |
 | `EXTRA_CLOSED` | One-off closures, `{ date: 'YYYY-MM-DD', label: '...' }` |
 | `TREATMENTS` | Treatments: name, minutes, price, tags, blurb, what's included, who it's for |
 | `TREATMENT_TAGS` | Filter names on `treatments.html` |
 | `CLINICIANS` | People: name, role, the treatments they offer, shifts by weekday |
-| `BOOKING` | Diary settings (see [Booking diary](#booking-diary)) |
+| `BOOKING` | Schedule settings (see [Booking schedule](#booking-schedule)) |
 | `BODY_AREAS` | Body map areas: label, intro, conditions, suggested treatments, exercise filter, red flags |
 | `EXERCISES`, `EXERCISE_AREAS`, `LEVELS`, `EQUIPMENT` | Exercise library and its filters |
 | `PACKAGES`, `PACKAGE_MONTHS` | Packages on `prices.html` |
-| `INSURERS` | Insurers: name, `direct` or `claim`, whether they need an authorization number or GP referral |
+| `INSURERS` | Fictional health plans: name, `direct` or `claim`, whether they need prior authorization (`auth`) or a primary care referral (`gp`). The keys (`solent`, `wealden` and so on) are kept for compatibility; replace them with your real plans |
 
 The opening hours are also written out in the HTML (every `dl[data-hours]` in the footer, the home page's
 "Visit us" section and the contact page). If you change `HOURS`, change those lists too.
@@ -150,9 +150,9 @@ key (a 96 x 96 SVG fragment), and add the key to the `treatments` list of each c
 var TREATMENTS = {
   // ...
   hydro: {
-    name: 'Hydrotherapy', minutes: 45, price: 55, tags: ['surgery', 'pain'],
+    name: 'Aquatic therapy', minutes: 45, price: 110, tags: ['surgery', 'pain'],
     blurb: 'Exercise in a warm pool, where the water takes some of your weight.',
-    includes: ['Sessions at a partner pool', 'A programme to carry on alone'],
+    includes: ['Sessions at a partner pool', 'A program to continue on your own'],
     who: 'After joint replacements and for widespread pain.'
   }
 };
@@ -165,7 +165,7 @@ the top). The script fills in the profile's
 
 ```js
 pemberton: {
-  name: 'Ada Pemberton', first: 'Ada', role: 'Physiotherapist',
+  name: 'Ada Pemberton', first: 'Ada', role: 'Physical therapist',
   treatments: ['initial', 'followup'],
   shifts: { 2: ['09:00', '17:00'], 4: ['09:00', '17:00'] }
 }
@@ -206,30 +206,31 @@ with `aria-current="page"` on its links.
 
 ## Features
 
-### Opening hours and bank holidays
+### Opening hours and federal holidays
 
 `renderHours()` highlights today's row in every `[data-hours]` list, fills the open-now line
 (`[data-open-status]`: "Open now · until 8 pm" or "Closed now · opens tomorrow at 7:30 am") and writes the
 next closure into each `[data-holiday-note]` element. The number in `data-holiday-note="21"` is how many
 days ahead to look. It runs again every minute.
 
-`bankHolidays(year)` works out the bank holidays in England and Wales for any year: New Year's Day, Good
-Friday and Easter Monday (from the date of Easter), the early May, spring and summer bank holidays,
-Christmas Day and Boxing Day, including the substitute weekdays when a holiday falls at a weekend.
-`closedReason(key)` combines those with `CLOSED_EVERY_YEAR` and `EXTRA_CLOSED`. For Scotland or Northern
-Ireland, add the extra days to `bankHolidays()`; for a one-off extra bank holiday, use `EXTRA_CLOSED`.
+`bankHolidays(year)` works out the US federal holidays for any year: New Year's Day, Martin Luther King Jr.
+Day, Presidents' Day, Memorial Day, Juneteenth, Independence Day, Labor Day, Columbus Day, Veterans Day,
+Thanksgiving Day and Christmas Day. A holiday on a Saturday is observed on the Friday before, and one on a
+Sunday on the Monday after. `closedReason(key)` combines those with `CLOSED_EVERY_YEAR` and `EXTRA_CLOSED`.
+Many clinics stay open on some of these days: remove them from `bankHolidays()`, and use `EXTRA_CLOSED` for a
+one-off closure.
 
-All times are in `Europe/London` (`CLINIC.timeZone`), whatever the visitor's own time zone.
+All times are in `America/Denver`, Mountain Time (`CLINIC.timeZone`), whatever the visitor's own time zone.
 
-### Booking diary
+### Booking schedule
 
-The diary is built from data, not stored appointments:
+The schedule is built from data, not stored appointments:
 
 1. For each clinician who offers the treatment, `shiftOn()` takes their shift for that weekday and clamps
    it to the opening hours (no shift on closed days).
 2. `slotsFor()` steps through the shift every `BOOKING.slotStep` minutes, keeps starts where the whole
    appointment fits, skips anything sooner than `BOOKING.noticeMinutes` from now and marks a share of
-   slots as taken (`BOOKING.demoBusyShare`) using a stable hash, so the diary looks lived-in.
+   slots as taken (`BOOKING.demoBusyShare`) using a stable hash, so the schedule looks lived-in.
 3. `firstAvailable()` scans `BOOKING.daysPerPage * BOOKING.pages` days (14 by default) for the first free
    start.
 
@@ -237,21 +238,21 @@ The diary is built from data, not stored appointments:
 |---------|---------|---------|
 | `slotStep` | `30` | Minutes between start times |
 | `daysPerPage` | `7` | Days shown at once in the day picker |
-| `pages` | `2` | Pages of days (the diary covers 14 days, today included) |
+| `pages` | `2` | Pages of days (the schedule covers 14 days, today included) |
 | `noticeMinutes` | `120` | Earliest bookable start after now |
-| `demoBusyShare` | `0.45` | Share of slots shown as taken; set to `0` when you connect a real diary |
+| `demoBusyShare` | `0.45` | Share of slots shown as taken; set to `0` when you connect a real schedule |
 | `refPrefix` | `'LP'` | Prefix of booking and message references |
 
-Because everything is worked out from today, the diary always rolls forward. Any element with
+Because everything is worked out from today, the schedule always rolls forward. Any element with
 `data-next-slot="<treatment>"` shows the next free slot (`[data-next-slot-text]`, `[data-next-slot-who]`)
 and its link is pointed at that treatment and clinician; the home and treatments pages use
 `data-next-slot="initial"`.
 
-**Diary strips.** `renderDiaryStrips()` fills every `<ol data-diary-strip>` with the next seven days. With a
+**Schedule strips.** `renderDiaryStrips()` fills every `<ol data-diary-strip>` with the next seven days. With a
 treatment key (`data-diary-strip="initial"` on the home page) each open day shows how many times are free
 and the first one, and links to `book.html?treatment=initial&day=YYYY-MM-DD`; with `data-diary-strip="hours"`
 (the booking page) it shows the opening hours. Closed days are hatched and say why: "Closed on Sundays",
-"Christmas Day", "The spring bank holiday" and so on. It runs again every minute.
+"Christmas Day", "Memorial Day" and so on. It runs again every minute.
 
 To show real availability, replace `slotsFor()` with a call to your booking system's API, or link the
 "Book online" buttons to your practice management software's booking page instead.
@@ -272,17 +273,17 @@ The step list and the summary sit in the left rail (above the form on phones) an
 parameters prefill it: `?treatment=` (a `TREATMENTS` key, which skips to step 2), `?clinician=` (a
 `CLINICIANS` key, used if they offer the treatment), `?area=` (a `BODY_AREAS` key: it fills the area select
 and, on step 1, shows a note and marks that area's suggested treatments with "Suggested for the knee") and
-`?day=` (a `YYYY-MM-DD` date inside the diary, used with `?treatment=`: it opens step 3 on that day). Values
-are checked with own-key lookups and the date against the diary, so anything else is ignored.
+`?day=` (a `YYYY-MM-DD` date inside the schedule, used with `?treatment=`: it opens step 3 on that day). Values
+are checked with own-key lookups and the date against the schedule, so anything else is ignored.
 
 **Health screening.** Four yes/no questions (`[data-redflag="cauda" | "trauma" | "systemic" |
 "weakness"]`) must be answered. Any "yes" shows `[data-redflag-panel]` with the advice from
-`REDFLAG_ADVICE` (A&E, 999 or NHS 111) and disables the submit button until the answer is changed. The
+`REDFLAG_ADVICE` (911, the ER, urgent care or the patient's doctor) and disables the submit button until the answer is changed. The
 optional checkboxes (pregnancy, recent surgery, blood thinners, pacemaker) add notes for treatments where
-they matter, such as shockwave or acupuncture. Review this wording with your own clinical team: it is
+they matter, such as shockwave or dry needling. Review this wording with your own clinical team: it is
 general guidance, not a triage tool.
 
-On submit, the form shows `[data-confirm]` with the first name, a reference like `LP-4K7Q`, the appointment,
+On submit, the form shows `[data-confirm]` with the first name, a reference like `LP-4K7Q` (LP for Ledgerock Physical), the appointment,
 price and when reception will confirm (the end of the next open day, from `confirmBy()`).
 
 Keyboard and screen reader notes: the step list uses `aria-current="step"`, focus moves to each step's
@@ -298,7 +299,7 @@ map (`[data-area-btn]`) do the same for touch screens and small displays, where 
 are hidden; on narrower screens choosing one scrolls to the notes.
 
 Choosing an area fills the notes panel (`[data-area-panel]`) from `BODY_AREAS`: the title, intro and three
-common problems, "Book an assessment" (`book.html?treatment=initial&area=<area>`) and "Read about the knee"
+common problems, "Book an evaluation" (`book.html?treatment=initial&area=<area>`) and "Read about the knee"
 (`conditions.html?area=<area>`). `?area=` selects an area on load (default `lower-back`) and is updated as
 you choose. Regions are shaded on hover and turn highlighter yellow when chosen (the yellow multiplies over
 the line drawing, so the anatomy stays visible).
@@ -308,7 +309,7 @@ the line drawing, so the anatomy stays visible).
 `conditions.html` renders one `<article data-area-section>` per `BODY_AREAS` entry into
 `[data-area-sections]`: the intro, a locator figure with the area marked, common problems (how they often
 feel and what usually helps), the suggested appointments (booking links with `?area=`), a link to the
-matching exercises and "Don't wait for physio if…" with the red flags. The index at the top and the side
+matching exercises and "Don't wait for PT if…" with the red flags. The index at the top and the side
 index (`[data-area-link]`) link to `#<area>`; an IntersectionObserver marks the area in view with
 `aria-current="true"`. `?area=` scrolls to that area on load.
 
@@ -319,16 +320,16 @@ it" disclosure. Filters: the area chips (`?area=`), level (`?level=`) and equipm
 validated against `EXERCISE_AREAS`, `LEVELS` and `EQUIPMENT`.
 
 "Add to my plan" (`[data-plan-toggle]`, with `aria-pressed`) saves the exercise to the plan on the right.
-The library is a grid of ruled sheets; cards in the plan are marked "In my plan". Plan entries can be ticked off for today, moved up or removed; "Print" prints the page with the plan
+The library is a grid of ruled sheets; cards in the plan are marked "In my plan". Plan entries can be checked off for today, moved up or removed; "Print" prints the page with the plan
 (the counter is hidden in print) and "Clear plan" empties it. The plan holds up to `PLAN_MAX` (12)
 exercises and is saved in `localStorage` (see [Saved data](#saved-data-localstorage)).
 
 ### Rep and hold counter
 
 The counter under the plan works with any exercise (plan exercises are listed first; "Start next
-exercise" picks the first one not yet ticked today). For rep exercises, "+1 rep" counts towards the
+exercise" picks the first one not yet checked off today). For rep exercises, "+1 rep" counts toward the
 target; for holds it runs a countdown, which can be paused. After each set it counts down the exercise's
-`rest` seconds (or you can skip the rest), and when all sets are done it ticks the exercise off in your
+`rest` seconds (or you can skip the rest), and when all sets are done it checks the exercise off in your
 plan. Progress is announced through a polite live region at the end of each set, not every second.
 
 ### Team
@@ -337,23 +338,31 @@ plan. Progress is announced through a polite live region at the end of each set,
 today, until 5 pm" or "Next in clinic tomorrow, from 9 am", the treatments each person offers and their
 first free slot. The chips filter cards by treatment (`?treatment=`).
 
-### Prices, estimator and insurers
+### Prices, estimator and health plans
 
 `prices.html` builds the price table from `TREATMENTS` and the package list from `PACKAGES` (the saving is
 `price x sessions - package price`). The table sits in a scrolling wrapper with `tabindex="0"`,
 `role="region"` and an `aria-label`, so keyboard users can scroll it if a long treatment name ever makes it
 wider than the screen; keep those attributes if you add columns. The estimator multiplies the chosen treatment by the number of
-sessions and, when "Use a package" is ticked, uses as many whole packages for that treatment as fit.
+sessions and, when "Use a package" is checked, uses as many whole packages for that treatment as fit.
 `?treatment=` preselects a treatment.
 
-The insurer checker lists `INSURERS` and, for the one you pick, explains whether the clinic bills them
-directly or you pay and claim, and whether an authorization number or GP referral is needed. `?insurer=`
-preselects one.
+The health plan checker lists `INSURERS` and, for the one you pick, explains whether the clinic bills them
+directly or you pay and claim, and whether prior authorization or a referral from a primary care provider is
+needed. `?insurer=` preselects one. Every plan in the demo is fictional. Before you publish, replace them with the
+plans you actually work with and confirm the details with each one, because benefits and rules change.
+
+The home page and contact FAQ say a referral usually isn't needed. Montana is generally listed as a direct access
+state, but health plans and employers can still ask for one. Check the wording against the current rules from the
+Montana Board of Physical Therapy Examiners, or your own state's board.
+
+The "Dry needling" treatment keeps the key `acupuncture`. Rules on who may offer dry needling and what training it
+takes differ by state; check yours, or remove the treatment.
 
 ### Previewing another date
 
-Add `?now=YYYY-MM-DDTHH:MM` (UK time) to any page to see it at another moment, for example
-`book.html?now=2027-12-24T16:30` to see the diary around Christmas. Invalid values are ignored.
+Add `?now=YYYY-MM-DDTHH:MM` (Mountain Time) to any page to see it at another moment, for example
+`book.html?now=2027-12-24T16:30` to see the schedule around Christmas. Invalid values are ignored.
 
 ### Scroll reveals, mobile menu and back to top
 
@@ -395,13 +404,15 @@ fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept
 The booking form has its own "Connect here" comment in the submit handler. Post `new FormData(bookingForm)`
 along with the chosen slot (`state.slot`: date key, minutes and clinician id) to your booking system or form
 service, and show `[data-confirm]` only on success. Health information is sensitive: use a service that is
-suitable for it under UK GDPR, and keep the clinic's privacy notice up to date.
+suitable for it under HIPAA, with a signed business associate agreement where one is required, and keep the
+clinic's Notice of Privacy Practices up to date. Check with your own adviser: this is general information, not
+legal advice.
 
 ## Saved data (localStorage)
 
 | Key | Shape | Validated on read |
 |-----|-------|-------------------|
-| `mend-plan` | `{ "items": ["glute-bridge", "calf-raise"], "done": { "date": "2026-10-21", "ids": ["calf-raise"] } }` | Only known exercise ids, no duplicates, at most `PLAN_MAX`; ticks are kept only if `date` is today (UK time) and the id is in the plan |
+| `mend-plan` | `{ "items": ["glute-bridge", "calf-raise"], "done": { "date": "2026-10-21", "ids": ["calf-raise"] } }` | Only known exercise ids, no duplicates, at most `PLAN_MAX`; checkmarks are kept only if `date` is today (Mountain Time) and the id is in the plan |
 
 All access goes through one `safeStorage` object. When `localStorage` is unavailable (sandboxed iframes,
 strict privacy settings), it falls back to memory, so the plan still works for the page view. To reset,
@@ -415,7 +426,7 @@ Each page has its own `<title>`, meta description and Open Graph tags in the `<h
   `<meta property="og:image" content="https://www.yourclinic.example/assets/img/og-image.png">`, and add
   `og:url` with each page's address.
 - Add a `sitemap.xml` and `robots.txt` at the site root.
-- Consider `Physiotherapy` or `MedicalClinic` structured data (JSON-LD) with your address, phone and
+- Consider `PhysicalTherapy` or `MedicalClinic` structured data (JSON-LD) with your address, phone and
   opening hours.
 
 ## Accessibility
@@ -446,12 +457,12 @@ server. There is no server-side code. All links are relative, so it also works i
 
 ## Troubleshooting
 
-- **The diary shows times on a day we're closed.** Add the date to `EXTRA_CLOSED`, or check `HOURS` and the
+- **The schedule shows times on a day we're closed.** Add the date to `EXTRA_CLOSED`, or check `HOURS` and the
   clinician's `shifts` (weekday 0 is Sunday).
 - **A treatment has no times at all.** Make sure at least one clinician lists its key in `treatments`, and
   that their shifts are long enough for the treatment's `minutes`.
-- **Times are an hour out.** All times are UK time. If your clinic is elsewhere, change
-  `CLINIC.timeZone` and `bankHolidays()`.
+- **Times are an hour out.** All times are Mountain Time. If your clinic is elsewhere, change
+  `CLINIC.timeZone` and the time zone named on the home page.
 - **New Tailwind classes have no effect.** Rebuild the CSS (`npm run build`). Classes used only in
   `main.js` must be written out in full there.
 - **The exercise plan disappears after reloading.** The browser is blocking storage (private mode or a
@@ -468,5 +479,5 @@ MIT. The code and all included artwork are free for personal and commercial use;
 The fonts, Piazzolla, Reddit Sans and Reddit Mono, are licensed under the SIL Open Font License and served
 by Google Fonts.
 
-Lavant Physiotherapy, its staff, patients, insurers and contact details are fictional. The health
+Ledgerock Physical Therapy, its staff, patients, health plans and contact details are fictional. The health
 information is general and should be reviewed by a qualified clinician before you publish it.

@@ -1,20 +1,20 @@
 /* Flow (Salt & Sage Yoga) — site scripts. Vanilla JavaScript, no dependencies.
-   All studio data (teachers, class styles, the weekly timetable, prices, workshops) lives at the
+   All studio data (teachers, class styles, the weekly schedule, prices, workshops) lives at the
    top of this file. Keep it in step with the HTML pages; see DOCS.md, "Content". */
 (function () {
   'use strict';
 
   /* ---------- Studio ----------
-     Every time on the site is wall-clock time in Falmouth (UK time), whatever the visitor's own
+     Every time on the site is wall-clock time in Santa Cruz (Pacific time), whatever the visitor's own
      time zone is. */
   var STUDIO = {
     name: 'Salt & Sage Yoga',
-    timeZone: 'Europe/London',
-    zoneName: 'UK time',
-    phone: '01632 960352',
+    timeZone: 'America/Los_Angeles',
+    zoneName: 'Pacific time',
+    phone: '(831) 555-0171',
     email: 'hello@saltandsageyoga.example',
-    address: 'The Sail Loft, 9 Pendennis Mews, Falmouth TR11 4DE',
-    daysAhead: 7,          // the timetable shows today plus the next six days
+    address: 'The Sail Loft, 9 Spinnaker Lane, Santa Cruz, CA 95062',
+    daysAhead: 7,          // the schedule shows today plus the next six days
     bookingCutoff: 0,      // minutes before the start when booking closes (0 = until it starts)
     demoFill: 0.45         // share of mats shown as taken so the demo looks real. Set to 0 when connected.
   };
@@ -53,8 +53,8 @@
     strong: { name: 'Strong', dots: 3 }
   };
 
-  /* ---------- Weekly timetable ----------
-     day: 0 = Sunday ... 6 = Saturday. start: 24-hour UK time. mins: length.
+  /* ---------- Weekly schedule ----------
+     day: 0 = Sunday ... 6 = Saturday. start: 24-hour Pacific time (shown on the page in 12-hour form). mins: length.
      id must be unique: bookings are saved against it. */
   var CLASSES = [
     { id: 'mon-0700', day: 1, start: '07:00', mins: 60, style: 'vinyasa', level: 'steady', teacher: 'jago', room: 'loft' },
@@ -92,22 +92,22 @@
   /* ---------- Prices (pricing.html calculator) ----------
      Keep in step with the price cards in pricing.html. */
   var PRICES = {
-    dropIn: 14,
-    intro: { price: 35, weeks: 3 },
-    concession: 0.2,       // off memberships for students and over-65s
+    dropIn: 25,
+    intro: { price: 59, weeks: 3 },
+    concession: 0.2,       // off memberships for students, anyone 65 or over and anyone on CalFresh or Medi-Cal
     options: {
       dropin: { name: 'Drop-in', kind: 'pass' },
-      five: { name: '5-class pass', kind: 'pass', classes: 5, price: 62 },
-      ten: { name: '10-class pass', kind: 'pass', classes: 10, price: 115 },
-      eight: { name: 'Eight a month', kind: 'member', price: 68, included: 8, extra: 9 },
-      unlimited: { name: 'Unlimited', kind: 'member', price: 89 }
+      five: { name: '5-class pass', kind: 'pass', classes: 5, price: 110 },
+      ten: { name: '10-class pass', kind: 'pass', classes: 10, price: 190 },
+      eight: { name: 'Eight a month', kind: 'member', price: 128, included: 8, extra: 15 },
+      unlimited: { name: 'Unlimited', kind: 'member', price: 159 }
     }
   };
 
   /* ---------- Workshops and retreats (workshops.html, home page teasers) ----------
      The cards are in the HTML (data-event="<id>"); this list gives their dates, fills them in and hides
      past events. Each event has EITHER a rolling rule, so the demo always has upcoming dates, OR fixed
-     UK dates:
+     dates:
        rule: { monthsAhead: 1, weekday: 6, nth: 1 }  -> the 1st Saturday (0 = Sunday) of next month
        date: '2027-03-13', end: '2027-03-14'          -> fixed dates (end is optional)
      days: how many days a rolling event lasts (default 1). Keep the ids: ?event=<id> links use them. */
@@ -116,12 +116,12 @@
     inversions: { title: 'Arm balances & inversions, step by step', kind: 'workshop', rule: { monthsAhead: 1, weekday: 0, nth: 3 } },
     'solstice-yin': { title: 'Candlelit yin evening', kind: 'workshop', rule: { monthsAhead: 2, weekday: 6, nth: 2 } },
     'new-year': { title: 'Beginners’ weekend', kind: 'course', rule: { monthsAhead: 2, weekday: 6, nth: 3 }, days: 2 },
-    'lizard-day': { title: 'Lizard coast day retreat', kind: 'retreat', rule: { monthsAhead: 3, weekday: 0, nth: 2 } },
-    scilly: { title: 'Isles of Scilly sea & stillness retreat', kind: 'retreat', rule: { monthsAhead: 4, weekday: 5, nth: 2 }, days: 4 }
+    'lizard-day': { title: 'Davenport coast day retreat', kind: 'retreat', rule: { monthsAhead: 3, weekday: 0, nth: 2 } },
+    scilly: { title: 'Big Sur sea & stillness retreat', kind: 'retreat', rule: { monthsAhead: 4, weekday: 5, nth: 2 }, days: 4 }
   };
 
   /* ---------- Contact form topics (contact.html?topic=<key>) ---------- */
-  var TOPICS = { classes: 'Classes and booking', private: 'Private or small-group sessions', hire: 'Studio hire', teaching: 'Teaching at Salt & Sage', other: 'Something else' };
+  var TOPICS = { classes: 'Classes and booking', private: 'Private or small-group sessions', hire: 'Studio rental', teaching: 'Teaching at Salt & Sage', other: 'Something else' };
 
   /* ---------- Saved data ---------- */
   var BOOKINGS_KEY = 'flow.bookings';
@@ -134,7 +134,7 @@
   function has(obj, key) { return typeof key === 'string' && Object.prototype.hasOwnProperty.call(obj, key); }
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function plural(n, one, many) { return n + ' ' + (n === 1 ? one : (many || one + 's')); }
-  function money(n, pence) { return '£' + Number(n).toLocaleString('en-GB', { minimumFractionDigits: pence ? 2 : 0, maximumFractionDigits: pence ? 2 : 0 }); }
+  function money(n, pence) { return '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: pence ? 2 : 0, maximumFractionDigits: pence ? 2 : 0 }); }
   var CLASS_BY_ID = {};
   CLASSES.forEach(function (c) { CLASS_BY_ID[c.id] = c; });
 
@@ -175,10 +175,11 @@
 
   /* ---------- Time helpers (everything is in the studio's time zone) ---------- */
   function toMin(hhmm) { var p = hhmm.split(':'); return Number(p[0]) * 60 + Number(p[1]); }
-  function hhmm(mins) { return String(Math.floor(mins / 60)).padStart(2, '0') + ':' + String(mins % 60).padStart(2, '0'); }
+  // 12-hour clock for display, like 7:00 AM. The data in CLASSES stays 24-hour.
+  function hhmm(mins) { var h = Math.floor(mins / 60); return (h % 12 || 12) + ':' + String(mins % 60).padStart(2, '0') + ' ' + (h < 12 ? 'AM' : 'PM'); }
   function partsIn(date, zone) {
     var out = {};
-    new Intl.DateTimeFormat('en-GB', { timeZone: zone, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
+    new Intl.DateTimeFormat('en-US', { timeZone: zone, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
       .formatToParts(date).forEach(function (p) { if (p.type !== 'literal') out[p.type] = parseInt(p.value, 10); });
     if (out.hour === 24) out.hour = 0;
     return out;
@@ -191,7 +192,7 @@
   function weekday(key) { var d = key.split('-').map(Number); return new Date(Date.UTC(d[0], d[1] - 1, d[2])).getUTCDay(); }
   function dateLabel(key, opts) {
     var d = key.split('-').map(Number);
-    return new Date(Date.UTC(d[0], d[1] - 1, d[2], 12)).toLocaleDateString('en-GB', Object.assign({ timeZone: 'UTC' }, opts));
+    return new Date(Date.UTC(d[0], d[1] - 1, d[2], 12)).toLocaleDateString('en-US', Object.assign({ timeZone: 'UTC' }, opts));
   }
   function studioNow() {
     var p = partsIn(new Date(), STUDIO.timeZone);
@@ -256,7 +257,7 @@
   }
 
   /* ---------- Bookings (saved in this browser) ----------
-     Shape: [{ c: 'mon-0700', d: '2026-10-19', m: 7 }] — class id, UK date, mat number. */
+     Shape: [{ c: 'mon-0700', d: '2026-10-19', m: 7 }] — class id, studio date, mat number. */
   function readBookings() {
     var list;
     try { list = JSON.parse(safeStorage.getItem(BOOKINGS_KEY) || '[]'); } catch (e) { list = []; }
@@ -306,7 +307,8 @@
     for (var i = 1; i <= 3; i++) dots += '<i class="' + (i <= lv.dots ? 'on' : '') + '"></i>';
     return '<span class="level"><span class="level-dots" aria-hidden="true">' + dots + '</span>' + esc(lv.name) + '</span>';
   }
-  function timeRange(occ) { return hhmm(occ.start) + '–' + hhmm(occ.end); }
+  // 7:00–8:00 AM, or 11:45 AM–12:45 PM across noon.
+  function timeRange(occ) { var a = hhmm(occ.start), b = hhmm(occ.end); return (a.slice(-2) === b.slice(-2) ? a.slice(0, -3) : a) + '–' + b; }
   // "today", "tomorrow" or a weekday name, for use inside a sentence.
   function dayPhrase(date) { var r = relativeDay(date, NOW.key); return r === 'Today' || r === 'Tomorrow' ? r.toLowerCase() : r; }
   function occLabel(occ) { return STYLES[occ.cls.style].name + ', ' + dayPhrase(occ.date) + ' at ' + hhmm(occ.start); }
@@ -481,7 +483,7 @@
     var occ = findOccurrence(occKey);
     bookings = bookings.filter(function (b) { return b.c + '@' + b.d !== occKey; });
     bookingsChanged();
-    if (occ) toast('Booking cancelled: ' + occLabel(occ) + '.');
+    if (occ) toast('Booking canceled: ' + occLabel(occ) + '.');
   }
   document.addEventListener('click', function (e) {
     var b = e.target.closest ? e.target.closest('[data-book]') : null;
@@ -548,7 +550,7 @@
     });
   }
 
-  /* ---------- Timetable: filters, now/next markers, rolling week ---------- */
+  /* ---------- Schedule: filters, now/next markers, rolling week ---------- */
   var tt = $('[data-timetable]');
   if (tt) {
     var form = $('[data-tt-filters]');
@@ -597,7 +599,7 @@
       });
     });
     onBookingsChange(renderTimetable);
-    $('[data-tt-now]').textContent = 'It’s ' + hhmm(NOW.mins) + ' in Falmouth on ' + dateLabel(NOW.key, { weekday: 'long', day: 'numeric', month: 'long' }) + '. All times are UK time.';
+    $('[data-tt-now]').textContent = 'It’s ' + hhmm(NOW.mins) + ' in Santa Cruz on ' + dateLabel(NOW.key, { weekday: 'long', day: 'numeric', month: 'long' }) + '. All times are Pacific time.';
   }
 
   /* ---------- Class styles and teachers: next class + classes a week ---------- */
@@ -642,7 +644,7 @@
         money(PRICES.intro.price / introClasses, true) + ' a class. At drop-in prices it would cost ' + money(introClasses * PRICES.dropIn) + ', so you save ' + money(introClasses * PRICES.dropIn - PRICES.intro.price) + '.';
       $('[data-calc-best]', calc).textContent = o[best.key].name;
       $('[data-calc-best-cost]', calc).textContent = money(best.cost) + ' a month';
-      $('[data-calc-best-note]', calc).textContent = 'About ' + money(best.cost / month, true) + ' a class at ' + plural(n, 'class', 'classes') + ' a week' + (conc.checked && o[best.key].kind === 'member' ? ', with the 20% concession.' : '.');
+      $('[data-calc-best-note]', calc).textContent = 'About ' + money(best.cost / month, true) + ' a class at ' + plural(n, 'class', 'classes') + ' a week' + (conc.checked && o[best.key].kind === 'member' ? ', with the 20% discount.' : '.');
       $('[data-calc-bars]', calc).innerHTML = costs.map(function (c) {
         var isBest = c.key === best.key;
         return '<li><div class="flex items-baseline justify-between gap-3 text-sm"><span class="font-semibold text-ink">' + esc(o[c.key].name) + (isBest ? ' <span class="tag tag-clay ml-1">Best value</span>' : '') + '</span>' +
@@ -655,7 +657,7 @@
     paintCalc();
   }
 
-  /* ---------- Workshops: dates, hide past events, kind filter, ?event= for the enquiry form ---------- */
+  /* ---------- Workshops: dates, hide past events, kind filter, ?event= for the inquiry form ---------- */
   // The nth weekday (0 = Sunday) of a month; nth -1 is the last one.
   function nthWeekday(year, month, day, nth) {
     var first = keyOf(year, month, 1), offset = (day - weekday(first) + 7) % 7;
@@ -674,10 +676,9 @@
   }
   function eventWhen(d) {
     var long = function (k) { return dateLabel(k, { weekday: 'long', day: 'numeric', month: 'long' }); };
-    var year = ' ' + d.end.slice(0, 4);
+    var year = ', ' + d.end.slice(0, 4);
     if (d.start === d.end) return long(d.start) + year;
-    if (d.start.slice(0, 7) === d.end.slice(0, 7)) return dateLabel(d.start, { weekday: 'long', day: 'numeric' }) + ' to ' + long(d.end) + year;
-    return long(d.start) + (d.start.slice(0, 4) !== d.end.slice(0, 4) ? ' ' + d.start.slice(0, 4) : '') + ' to ' + long(d.end) + year;
+    return long(d.start) + (d.start.slice(0, 4) !== d.end.slice(0, 4) ? ', ' + d.start.slice(0, 4) : '') + ' to ' + long(d.end) + year;
   }
   function eventShort(d) {
     var s = dateLabel(d.start, { weekday: 'short', day: 'numeric', month: 'short' });
@@ -815,7 +816,7 @@
     var rule = field.getAttribute('data-validate') || '';
     var label = field.getAttribute('data-label') || 'This field';
     var msg = '';
-    if (field.required && !v) msg = field.type === 'checkbox' ? 'Please tick this box to continue.' : (field.tagName === 'SELECT' ? 'Please choose ' + label.toLowerCase() + '.' : 'Please enter ' + label.toLowerCase() + '.');
+    if (field.required && !v) msg = field.type === 'checkbox' ? 'Please check this box to continue.' : (field.tagName === 'SELECT' ? 'Please choose ' + label.toLowerCase() + '.' : 'Please enter ' + label.toLowerCase() + '.');
     else if (v && rule === 'email' && !EMAIL.test(v)) msg = 'Please enter an email address like name@example.com.';
     else if (v && rule === 'phone' && !/^[+()\d\s-]{7,20}$/.test(v)) msg = 'Please enter a phone number using digits and spaces.';
     else if (rule === 'message' && v.length < 10) msg = v ? 'Please write a little more (at least 10 characters).' : 'Please enter ' + label.toLowerCase() + '.';

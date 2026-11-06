@@ -1,6 +1,6 @@
 /* Frond: the plant room.
- * All prices and availability come from FROND_PRODUCTS in data.js. Dates (dispatch, collection,
- * bank holidays, the copyright year) are worked out in Europe/London time from today, so the demo
+ * All prices and availability come from FROND_PRODUCTS in data.js. Dates (shipping, pickup,
+ * federal holidays, the copyright year) are worked out in America/Los_Angeles time from today, so the demo
  * never goes stale. Add ?now=YYYY-MM-DDTHH:MM to any page to preview another moment.
  * No requests, payments or orders are made by this script.
  */
@@ -12,19 +12,19 @@
   const BASKET_KEY = "frond-basket-v1";
   const OPTIONS_KEY = "frond-options-v1";
   const LAST_ORDER_KEY = "frond-last-order-v1";
-  const TIME_ZONE = "Europe/London";
-  const FREE_DELIVERY = 6500; // pence, after discounts
-  const DELIVERY_PRICE = 595;
-  const GIFT_WRAP_PRICE = 350;
+  const TIME_ZONE = "America/Los_Angeles";
+  const FREE_DELIVERY = 7500; // cents, after discounts
+  const DELIVERY_PRICE = 895;
+  const GIFT_WRAP_PRICE = 500;
   const GIFT_MESSAGE_MAX = 150;
   const COUPON = "GROW10";
-  const SHOP_ADDRESS = "14 Gracious Street, Knaresborough HG5 8DS";
+  const SHOP_ADDRESS = "18 East 5th Avenue, Eugene, OR 97401";
 
-  // Dispatch rule. Plants go out Monday to Thursday only, so they never sit in a courier depot over a
-  // weekend. Orders placed before the cut-off on a dispatch day leave that afternoon; later orders go
-  // on the next dispatch day. England and Wales bank holidays (computed below) are never dispatch days.
-  const DISPATCH = { cutoff: "12:00", days: [1, 2, 3, 4], transit: "1–2 working days" };
-  // Opening hours by weekday (0 = Sunday), as [open, close]; null = closed. Collection orders are
+  // Shipping rule. Plants go out Monday through Thursday only, so they never sit in a courier warehouse
+  // over a weekend. Orders placed before the cutoff on a shipping day leave that afternoon; later orders
+  // go on the next shipping day. US federal holidays (computed below) are never shipping days.
+  const DISPATCH = { cutoff: "12:00", days: [1, 2, 3, 4], transit: "1–2 business days" };
+  // Opening hours by weekday (0 = Sunday), as [open, close]; null = closed. Pickup orders are
   // ready the next day the shop is open, so we can check and wrap each plant.
   const HOURS = {
     0: ["11:00", "15:00"],
@@ -37,10 +37,12 @@
   };
   const BANK_HOLIDAY_HOURS = ["11:00", "15:00"];
   // Days the shop is shut every year ('MM-DD'), whatever the weekday. Add one-off closures here too.
-  const SHOP_CLOSED = ["12-25", "12-26", "01-01"];
+  const SHOP_CLOSED = ["12-25", "01-01"];
+  // Thanksgiving moves every year, so it is closed by name rather than by date.
+  const THANKSGIVING = "Thanksgiving";
 
   const SIZES = { standard: "Standard", large: "Large" };
-  const POTS = { growing: "Growing pot", ceramic: "Ceramic cover pot" };
+  const POTS = { growing: "Nursery pot", ceramic: "Ceramic cover pot" };
   const LIGHTS = {
     bright: "Bright, indirect light",
     soft: "Soft, indirect light",
@@ -57,48 +59,47 @@
     Shelf: "a shelf or trailing plant",
     Statement: "a floor-standing statement plant",
   };
-  // Postcodes we can't reach with a 48-hour courier: Northern Ireland, the Channel Islands, the Isle of
-  // Man, the Western Isles and Shetland by area; Orkney, Scilly, the Inner Hebrides, Arran, Cumbrae
-  // and Bute by district.
-  const OFFSHORE_AREAS = ["BT", "GY", "JE", "IM", "HS", "ZE"];
-  const OFFSHORE_DISTRICTS = {
-    KW: [[15, 17]],
-    TR: [[21, 25]],
-    PA: [
-      [20, 20],
-      [41, 49],
-      [60, 78],
-    ],
-    KA: [[27, 28]],
-    IV: [
-      [41, 49],
-      [51, 51],
-      [55, 56],
-    ],
-    PH: [[42, 44]],
-  };
+  // ZIP codes our courier reaches, around Eugene: Eugene and Coburg, Springfield, Pleasant Hill, Creswell,
+  // Cottage Grove, Junction City, Veneta and Harrisburg. PO box ZIP codes are left out on purpose.
+  // Oregon has no sales tax, and every ZIP code here is in Oregon, so no checkout adds any.
+  const DELIVERY_ZIPS = [
+    "97401",
+    "97402",
+    "97403",
+    "97404",
+    "97405",
+    "97408",
+    "97477",
+    "97478",
+    "97455",
+    "97426",
+    "97424",
+    "97448",
+    "97487",
+    "97446",
+  ];
   const SYMPTOMS = {
     yellow: {
-      title: "Start with the compost.",
-      copy: "An occasional older leaf can yellow naturally. Several at once, with wet compost, can point to roots staying too damp. Check the drainage hole and empty any water in the cover pot.",
+      title: "Start with the soil.",
+      copy: "An occasional older leaf can yellow naturally. Several at once, with wet soil, can point to roots staying too damp. Check the drainage hole and empty any water in the cover pot.",
       action:
         "Let the plant dry to its recommended depth before watering again. If the stems are soft or there is a sour smell, ask us to look at a photo of the roots.",
     },
     brown: {
       title: "Check the air, then the water.",
-      copy: "Brown tips can follow a dry spell, hot air from a radiator or mineral build-up. They cannot turn green again, but the next leaves can grow well.",
+      copy: "Brown tips can follow a dry spell, hot air from a heating vent or mineral build-up. They cannot turn green again, but the next leaves can grow well.",
       action:
         "Move away from heat and check the soil before changing your routine. For sensitive plants, try rainwater or filtered water. Don’t compensate with repeated heavy watering.",
     },
     droop: {
       title: "Drooping can mean two things.",
-      copy: "A dry plant and an overwatered plant can both droop. Feel the compost and lift the pot before reaching for a watering can.",
+      copy: "A dry plant and an overwatered plant can both droop. Feel the soil and lift the pot before reaching for a watering can.",
       action:
         "If dry and light, water thoroughly and let it drain. If wet and heavy, stop watering and check for blocked drainage. Avoid feeding a plant while it is struggling.",
     },
     pests: {
       title: "Give this one a little space.",
-      copy: "Fine webs, sticky patches or moving specks deserve a closer look. Isolate the plant from its neighbours and check both sides of each leaf.",
+      copy: "Fine webs, sticky patches or moving specks deserve a closer look. Isolate the plant from its neighbors and check both sides of each leaf.",
       action:
         "Wipe accessible leaves with a damp cloth and photograph what you see. Ask us to help identify the pest before choosing a treatment; follow product instructions carefully.",
     },
@@ -126,9 +127,9 @@
         })[character],
     );
   const money = (pence) =>
-    new Intl.NumberFormat("en-GB", {
+    new Intl.NumberFormat("en-US", {
       style: "currency",
-      currency: "GBP",
+      currency: "USD",
       minimumFractionDigits: pence % 100 ? 2 : 0,
     }).format(pence / 100);
   const plural = (number, one, many = `${one}s`) => (number === 1 ? one : many);
@@ -151,7 +152,7 @@
     '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" class="mt-0.5 shrink-0"><path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/></svg>';
 
   /* ------------------------------------------------------------------
-   * Dates in Europe/London: today, bank holidays, dispatch and collection
+   * Dates in America/Los_Angeles: today, federal holidays, shipping and pickup
    * ------------------------------------------------------------------ */
   const pad = (n) => String(n).padStart(2, "0");
   const keyOf = (y, m, d) => `${y}-${pad(m)}-${pad(d)}`;
@@ -170,7 +171,7 @@
     return `${h % 12 || 12}${m ? `:${pad(m)}` : ""}${h < 12 ? "am" : "pm"}`;
   };
   const fmtDate = (key, opts = {}) =>
-    new Intl.DateTimeFormat("en-GB", {
+    new Intl.DateTimeFormat("en-US", {
       weekday: "long",
       day: "numeric",
       month: "long",
@@ -178,7 +179,7 @@
       ...opts,
     }).format(toDate(key));
 
-  // ?now=2026-12-24T15:30 previews the site at that London time (for review and screenshots).
+  // ?now=2026-12-24T15:30 previews the site at that Pacific time (for review and screenshots).
   const PREVIEW = (() => {
     const raw = new URLSearchParams(window.location.search).get("now");
     if (typeof raw !== "string") return null;
@@ -201,7 +202,7 @@
   function shopNow() {
     if (PREVIEW) return PREVIEW;
     const parts = Object.fromEntries(
-      new Intl.DateTimeFormat("en-GB", {
+      new Intl.DateTimeFormat("en-US", {
         timeZone: TIME_ZONE,
         year: "numeric",
         month: "2-digit",
@@ -217,57 +218,45 @@
   }
 
   const holidayCache = Object.create(null);
-  // England and Wales bank holidays for any year, from the rules (no list of dates to go out of date).
+  // US federal holidays for any year, from the rules (no list of dates to go out of date). A holiday on
+  // a Saturday is observed on the Friday before and one on a Sunday on the Monday after, so New Year's
+  // Day can fall on December 31 of the year before. The second Monday of October is a federal holiday
+  // under the name Columbus Day; Oregon calls it Indigenous Peoples' Day.
   function bankHolidays(y) {
     if (holidayCache[y]) return holidayCache[y];
     const out = Object.create(null);
-    const mondayOnOrAfter = (key) => {
-      let k = key;
-      while (weekday(k) !== 1) k = addDays(k, 1);
-      return k;
+    // The nth given weekday of a month, for example the third Monday of January.
+    const nthWeekday = (month, day, n) => {
+      let k = keyOf(y, month, 1);
+      while (weekday(k) !== day) k = addDays(k, 1);
+      return addDays(k, (n - 1) * 7);
     };
     const lastMonday = (month) => {
-      let k = addDays(month === 12 ? keyOf(y + 1, 1, 1) : keyOf(y, month + 1, 1), -1);
+      let k = addDays(keyOf(y, month + 1, 1), -1);
       while (weekday(k) !== 1) k = addDays(k, -1);
       return k;
     };
-    let newYear = keyOf(y, 1, 1);
-    if (weekday(newYear) === 6 || weekday(newYear) === 0) newYear = mondayOnOrAfter(newYear);
-    out[newYear] = "New Year’s Day";
-    // Easter Sunday (anonymous Gregorian computus)
-    const a = y % 19;
-    const b = Math.floor(y / 100);
-    const c = y % 100;
-    const d = Math.floor(b / 4);
-    const e = b % 4;
-    const f = Math.floor((b + 8) / 25);
-    const g = Math.floor((b - f + 1) / 3);
-    const h = (19 * a + b - d - g + 15) % 30;
-    const i = Math.floor(c / 4);
-    const k = c % 4;
-    const l = (32 + 2 * e + 2 * i - h - k) % 7;
-    const m = Math.floor((a + 11 * h + 22 * l) / 451);
-    const easter = keyOf(y, Math.floor((h + l - 7 * m + 114) / 31), ((h + l - 7 * m + 114) % 31) + 1);
-    out[addDays(easter, -2)] = "Good Friday";
-    out[addDays(easter, 1)] = "Easter Monday";
-    out[mondayOnOrAfter(keyOf(y, 5, 1))] = "Early May bank holiday";
-    out[lastMonday(5)] = "Spring bank holiday";
-    out[lastMonday(8)] = "Summer bank holiday";
-    const christmas = keyOf(y, 12, 25);
-    const xd = weekday(christmas);
-    if (xd === 6) {
-      out[keyOf(y, 12, 27)] = "Christmas Day (substitute day)";
-      out[keyOf(y, 12, 28)] = "Boxing Day (substitute day)";
-    } else if (xd === 0) {
-      out[keyOf(y, 12, 26)] = "Boxing Day";
-      out[keyOf(y, 12, 27)] = "Christmas Day (substitute day)";
-    } else if (xd === 5) {
-      out[christmas] = "Christmas Day";
-      out[keyOf(y, 12, 28)] = "Boxing Day (substitute day)";
-    } else {
-      out[christmas] = "Christmas Day";
-      out[keyOf(y, 12, 26)] = "Boxing Day";
-    }
+    const fixed = (key, name) => {
+      const day = weekday(key);
+      if (day === 6) return [addDays(key, -1), `${name} (observed)`];
+      if (day === 0) return [addDays(key, 1), `${name} (observed)`];
+      return [key, name];
+    };
+    const add = ([key, name]) => {
+      if (key.startsWith(`${y}-`)) out[key] = name;
+    };
+    add(fixed(keyOf(y, 1, 1), "New Year’s Day"));
+    out[nthWeekday(1, 1, 3)] = "Martin Luther King Jr. Day";
+    out[nthWeekday(2, 1, 3)] = "Presidents’ Day";
+    out[lastMonday(5)] = "Memorial Day";
+    add(fixed(keyOf(y, 6, 19), "Juneteenth"));
+    add(fixed(keyOf(y, 7, 4), "Independence Day"));
+    out[nthWeekday(9, 1, 1)] = "Labor Day";
+    out[nthWeekday(10, 1, 2)] = "Indigenous Peoples’ Day";
+    add(fixed(keyOf(y, 11, 11), "Veterans Day"));
+    out[nthWeekday(11, 4, 4)] = THANKSGIVING;
+    add(fixed(keyOf(y, 12, 25), "Christmas Day"));
+    add(fixed(keyOf(y + 1, 1, 1), "New Year’s Day"));
     holidayCache[y] = out;
     return out;
   }
@@ -281,23 +270,25 @@
     while (!isDispatchDay(k)) k = addDays(k, 1);
     return k;
   }
-  // The day an order placed now leaves us: today before the cut-off on a dispatch day, else the next one.
+  // The day an order placed now leaves us: today before the cutoff on a shipping day, else the next one.
   function dispatchDate(now = shopNow()) {
     if (isDispatchDay(now.date) && now.mins < toMins(DISPATCH.cutoff)) return now.date;
     return nextDispatchDay(addDays(now.date, 1));
   }
   function hoursOn(key) {
     if (SHOP_CLOSED.includes(key.slice(5))) return null;
-    if (isBankHoliday(key)) return BANK_HOLIDAY_HOURS;
+    const holiday = bankHolidays(Number(key.slice(0, 4)))[key];
+    if (holiday === THANKSGIVING) return null;
+    if (holiday) return BANK_HOLIDAY_HOURS;
     return HOURS[weekday(key)];
   }
-  // Collection orders are ready the next day the shop is open.
+  // Pickup orders are ready the next day the shop is open.
   function collectionDate(now = shopNow()) {
     let k = addDays(now.date, 1);
     while (!hoursOn(k)) k = addDays(k, 1);
     return k;
   }
-  // "today", "tomorrow" or "on Tuesday 20 October".
+  // "today", "tomorrow" or "on Tuesday, October 20".
   function relativeDay(key, now = shopNow()) {
     if (key === now.date) return `today, ${fmtDate(key)}`;
     if (key === addDays(now.date, 1)) return `tomorrow, ${fmtDate(key)}`;
@@ -312,9 +303,9 @@
       const within = hrs
         ? `${hrs} ${plural(hrs, "hr")}${mins ? ` ${mins} ${plural(mins, "min")}` : ""}`
         : `${mins} ${plural(mins, "min")}`;
-      return `Order within ${within} and we dispatch it today, ${fmtDate(sent)}.`;
+      return `Order within ${within} and we ship it today, ${fmtDate(sent)}.`;
     }
-    return `Order now and we dispatch it ${relativeDay(sent, now)}.`;
+    return `Order now and we ship it ${relativeDay(sent, now)}.`;
   }
 
   /* ------------------------------------------------------------------
@@ -418,16 +409,15 @@
       shipping: candidate.shipping === "collect" ? "collect" : "standard",
       postcode:
         typeof candidate.postcode === "string"
-          ? candidate.postcode
-              .replace(/[^A-Za-z0-9 ]/g, "")
-              .slice(0, 10)
-              .toUpperCase()
+          ? /^[\d-]{1,10}$/.test(candidate.postcode.trim())
+            ? candidate.postcode.trim()
+            : ""
           : "",
       coupon: candidate.coupon === COUPON ? COUPON : "",
     };
   }
 
-  // The last order placed in this browser: { number: "FR-12345", items, total (pence), when }.
+  // The last order placed in this browser: { number: "FR-12345", items, total (cents), when }.
   function readLastOrder() {
     const order = readJSON(LAST_ORDER_KEY, null);
     if (!order || typeof order !== "object" || Array.isArray(order)) return null;
@@ -447,7 +437,7 @@
 
   let basket = cleanBasket(readJSON(BASKET_KEY, []));
   let options = cleanOptions(readJSON(OPTIONS_KEY, {}));
-  // Persist the sanitised representation, never prices or personal information.
+  // Persist the sanitized representation, never prices or personal information.
   safeStorage.set(BASKET_KEY, JSON.stringify(basket));
   safeStorage.set(OPTIONS_KEY, JSON.stringify(options));
 
@@ -466,7 +456,7 @@
     const count = countBasket();
     $$("[data-basket-count]").forEach((badge) => {
       badge.textContent = String(count);
-      badge.parentElement.setAttribute("aria-label", `Basket, ${count} ${plural(count, "item")}`);
+      badge.parentElement.setAttribute("aria-label", `Cart, ${count} ${plural(count, "item")}`);
     });
   }
 
@@ -495,7 +485,7 @@
     const plant = PRODUCT_MAP[id];
     const available = availableToAdd(id, size);
     if (!available) {
-      announce(`Every ${plant.name.toLowerCase()} we have in this size is already in your basket.`);
+      announce(`Every ${plant.name.toLowerCase()} we have in this size is already in your cart.`);
       return false;
     }
     const qty = integer(requested, 1, available);
@@ -506,12 +496,12 @@
     persist();
     document.dispatchEvent(new CustomEvent("frond:basket-change"));
     announce(
-      `${qty} ${plural(qty, "plant")} added: ${plant.name}. Basket: ${countBasket()} ${plural(countBasket(), "item")}.`,
+      `${qty} ${plural(qty, "plant")} added: ${plant.name}. Cart: ${countBasket()} ${plural(countBasket(), "item")}.`,
     );
     return true;
   }
 
-  // Totals in pence. `extras.giftWrap` adds gift wrapping at checkout.
+  // Totals in cents. `extras.giftWrap` adds gift wrapping at checkout.
   function totals(extras = {}) {
     const subtotal = basket.reduce((sum, item) => sum + price(PRODUCT_MAP[item.id], item.size, item.pot) * item.qty, 0);
     const discount = options.coupon === COUPON ? Math.round(subtotal * 0.1) : 0;
@@ -529,9 +519,9 @@
       <div class="flex justify-between gap-4"><dt>Plants &amp; pots</dt><dd>${money(total.subtotal)}</dd></div>
       ${total.discount ? `<div class="flex justify-between gap-4"><dt>Welcome, 10% off</dt><dd>−${money(total.discount)}</dd></div>` : ""}
       ${total.wrap ? `<div class="flex justify-between gap-4"><dt>Gift wrapping</dt><dd>${money(total.wrap)}</dd></div>` : ""}
-      <div class="flex justify-between gap-4"><dt>${options.shipping === "collect" ? "Shop collection" : "Mainland delivery"}</dt><dd>${total.shipping ? money(total.shipping) : "Free"}</dd></div>
+      <div class="flex justify-between gap-4"><dt>${options.shipping === "collect" ? "Store pickup" : "Local delivery"}</dt><dd>${total.shipping ? money(total.shipping) : "Free"}</dd></div>
       <div class="flex justify-between gap-4 border-t border-line pt-4 text-xl font-bold"><dt>Total</dt><dd data-grand-total>${money(total.total)}</dd></div>
-      </dl>${showRemaining && basket.length && options.shipping === "standard" && remaining ? `<p class="mt-4 text-sm text-muted">${money(remaining)} away from free delivery after discounts.</p>` : ""}`;
+      </dl><p class="mt-4 text-xs text-muted">Oregon has no sales tax, so none is added.</p>${showRemaining && basket.length && options.shipping === "standard" && remaining ? `<p class="mt-4 text-sm text-muted">${money(remaining)} away from free delivery after discounts.</p>` : ""}`;
   }
 
   function productCard(plant, extra = {}) {
@@ -545,7 +535,7 @@
       <p class="mt-1 text-xs text-muted sm:text-sm">${botanicalHTML(plant)}</p>
       <p class="mt-3 text-xs text-muted">${LIGHTS[plant.light]} · ${CARE_LEVELS[plant.effort]}</p>
       ${reason ? `<p class="mt-3 text-sm leading-relaxed">${html(reason)}</p>` : ""}
-      <button type="button" data-add="${plant.id}" class="mt-4 inline-flex min-h-10 items-center gap-2 text-sm font-bold text-teal">Add plant ${iconPlus}<span class="sr-only">: ${html(plant.name)}, standard growing pot, ${money(plant.price * 100)}</span></button></div></article>`;
+      <button type="button" data-add="${plant.id}" class="mt-4 inline-flex min-h-10 items-center gap-2 text-sm font-bold text-teal">Add plant ${iconPlus}<span class="sr-only">: ${html(plant.name)}, standard nursery pot, ${money(plant.price * 100)}</span></button></div></article>`;
   }
 
   function setupQuickAdd() {
@@ -659,11 +649,11 @@
     });
     let searchTimer;
     function render(updateURL = true) {
-      const query = fields.q.value.trim().toLocaleLowerCase("en-GB");
+      const query = fields.q.value.trim().toLocaleLowerCase("en-US");
       let matches = PRODUCTS.filter((plant) => {
         const text =
           `${plant.name} ${botanicalText(plant)} ${plant.aka || ""} ${plant.blurb} ${plant.room}`.toLocaleLowerCase(
-            "en-GB",
+            "en-US",
           );
         return (
           (!query || text.includes(query)) &&
@@ -675,7 +665,7 @@
       });
       if (fields.sort.value === "price-asc") matches.sort((a, b) => a.price - b.price);
       if (fields.sort.value === "price-desc") matches.sort((a, b) => b.price - a.price);
-      if (fields.sort.value === "name") matches.sort((a, b) => a.name.localeCompare(b.name, "en-GB"));
+      if (fields.sort.value === "name") matches.sort((a, b) => a.name.localeCompare(b.name, "en-US"));
       $("#shop-grid").innerHTML = matches.map((plant) => productCard(plant)).join("");
       $("#shop-empty").hidden = matches.length > 0;
       $("#result-count").textContent =
@@ -738,11 +728,11 @@
       ${requested && !validRequest ? `<p class="mt-4 rounded-xl bg-cloud p-4 text-sm" role="status">That plant isn’t on our shelves. Meet our ${html(plant.name.toLowerCase())} instead.</p>` : ""}
       <div class="mt-5 flex flex-wrap gap-2"><span class="pill">${LIGHTS[plant.light]}</span><span class="pill">${CARE_LEVELS[plant.effort]}</span><span class="pill">${plant.pets ? "Pet-friendly" : "Keep away from pets"}</span></div>
       <p class="mt-6 font-display text-4xl" id="product-price" aria-live="polite"></p>
-      <form id="product-options" class="mt-7 space-y-5"><div><label class="label" for="product-size">A size for your space</label><select id="product-size" class="field" name="size"><option value="standard">Standard · approx. ${plant.height}cm tall</option><option value="large" ${!plant.largeStock ? "disabled" : ""}>Large · approx. ${Math.round(plant.height * 1.4)}cm tall${!plant.largeStock ? " · not available" : ""}</option></select></div>
-      <div><label class="label" for="product-pot">Make a pair</label><select id="product-pot" class="field" name="pot"><option value="growing">Growing pot only · included</option><option value="ceramic">Add the ${html(plant.pot)} cover pot, ${html(plant.glaze)} glaze</option></select><p class="mt-2 text-sm text-muted">Cover pot is sized to fit your chosen plant, with room to lift it out for watering.</p></div>
-      <div class="flex flex-wrap items-end gap-3"><div class="w-24"><label class="label" for="product-quantity">Quantity</label><input id="product-quantity" class="field" type="number" name="qty" min="1" max="${plant.stock}" value="1" inputmode="numeric"/></div><button id="product-add" class="btn min-w-0 flex-1" type="submit">Add to basket ${iconPlus}</button></div><p id="product-stock" class="text-sm text-muted" role="status"></p>
-      <p class="flex gap-3 rounded-2xl bg-cloud p-4 text-sm">${iconVan}<span><strong data-dispatch-line></strong> Tracked delivery takes ${DISPATCH.transit}; collection orders are ready from <span data-collect-date></span>.</span></p>
-      <p class="text-xs text-muted">Care card included. Free delivery from £65 after discounts.</p></form></div></div>`;
+      <form id="product-options" class="mt-7 space-y-5"><div><label class="label" for="product-size">A size for your space</label><select id="product-size" class="field" name="size"><option value="standard">Standard · approx. ${plant.height} in. tall</option><option value="large" ${!plant.largeStock ? "disabled" : ""}>Large · approx. ${Math.round(plant.height * 1.4)} in. tall${!plant.largeStock ? " · not available" : ""}</option></select></div>
+      <div><label class="label" for="product-pot">Make a pair</label><select id="product-pot" class="field" name="pot"><option value="growing">Nursery pot only · included</option><option value="ceramic">Add the ${html(plant.pot)} cover pot, ${html(plant.glaze)} glaze</option></select><p class="mt-2 text-sm text-muted">Cover pot is sized to fit your chosen plant, with room to lift it out for watering.</p></div>
+      <div class="flex flex-wrap items-end gap-3"><div class="w-24"><label class="label" for="product-quantity">Quantity</label><input id="product-quantity" class="field" type="number" name="qty" min="1" max="${plant.stock}" value="1" inputmode="numeric"/></div><button id="product-add" class="btn min-w-0 flex-1" type="submit">Add to cart ${iconPlus}</button></div><p id="product-stock" class="text-sm text-muted" role="status"></p>
+      <p class="flex gap-3 rounded-2xl bg-cloud p-4 text-sm">${iconVan}<span><strong data-dispatch-line></strong> Tracked delivery takes ${DISPATCH.transit}; pickup orders are ready from <span data-collect-date></span>.</span></p>
+      <p class="text-xs text-muted">Care card included. Free local delivery from $75 after discounts.</p></form></div></div>`;
     const form = $("#product-options");
     const size = $("#product-size");
     const pot = $("#product-pot");
@@ -757,8 +747,8 @@
       quantity.value = String(integer(quantity.value, 1, Math.max(1, available)));
       $("#product-price").textContent = money(price(plant, selectedSize, cover));
       $("#product-stock").textContent = available
-        ? `${available} ${plural(available, "plant")} available in this size. ${cover === "ceramic" ? `Cover pot adds ${money(coverPrice(selectedSize))}.` : "Growing pot included."}`
-        : "You have all available plants in this size in your basket.";
+        ? `${available} ${plural(available, "plant")} available in this size. ${cover === "ceramic" ? `Cover pot adds ${money(coverPrice(selectedSize))}.` : "Nursery pot included."}`
+        : "You have all available plants in this size in your cart.";
       $("#product-add").disabled = !available;
       const next = new URLSearchParams({ plant: plant.id, size: selectedSize, pot: cover });
       if (PREVIEW) next.set("now", new URLSearchParams(window.location.search).get("now"));
@@ -779,10 +769,10 @@
     updateOptions();
     $("#panel-care").innerHTML =
       `<article class="rounded-2xl bg-cloud p-6"><h2 class="font-display text-2xl">Light</h2><p class="mt-3 font-bold">${LIGHTS[plant.light]}</p><p class="mt-2 leading-relaxed text-muted">${html(plant.lightNote)}</p></article>
-      <article class="rounded-2xl bg-cloud p-6"><h2 class="font-display text-2xl">Water &amp; feed</h2><p class="mt-3 leading-relaxed text-muted">${html(plant.water)}</p><p class="mt-3 leading-relaxed text-muted">${html(plant.feed)}</p></article>
+      <article class="rounded-2xl bg-cloud p-6"><h2 class="font-display text-2xl">Water &amp; fertilizer</h2><p class="mt-3 leading-relaxed text-muted">${html(plant.water)}</p><p class="mt-3 leading-relaxed text-muted">${html(plant.feed)}</p></article>
       <article class="rounded-2xl bg-cloud p-6"><h2 class="font-display text-2xl">Good to know</h2><p class="mt-3 leading-relaxed text-muted">${html(plant.extra)}</p><p class="mt-3 text-sm text-muted">${html(plant.petNote)}${plant.pets ? " Any plant can upset a stomach if eaten in quantity." : ""}</p></article>`;
     $("#panel-size").innerHTML =
-      `<h2 class="font-display text-2xl">A living thing, with a little variation.</h2><p class="mt-4 leading-relaxed text-muted">Standard: approximately ${plant.height}cm tall in a ${plant.diameter}cm growing pot. Large: approximately ${Math.round(plant.height * 1.4)}cm tall in a ${plant.diameter + 3}cm growing pot. Height includes the growing pot. Markings and leaf counts vary.</p><p class="mt-4 leading-relaxed text-muted">The optional ${html(plant.pot)} cover pot (${html(plant.glaze)} glaze) adds 2cm of internal clearance and has no drainage hole. Lift the growing pot out to water, allow it to drain fully, then return it. Never leave the roots standing in water.</p>`;
+      `<h2 class="font-display text-2xl">A living thing, with a little variation.</h2><p class="mt-4 leading-relaxed text-muted">Standard: approximately ${plant.height} in. tall in a nursery pot about ${plant.diameter} in. wide. Large: approximately ${Math.round(plant.height * 1.4)} in. tall in a nursery pot about ${plant.diameter + 2} in. wide. Height includes the nursery pot. Markings and leaf counts vary.</p><p class="mt-4 leading-relaxed text-muted">The optional ${html(plant.pot)} cover pot (${html(plant.glaze)} glaze) adds about an inch of internal clearance and has no drainage hole. Lift the nursery pot out to water, allow it to drain fully, then return it. Never leave the roots standing in water.</p>`;
     $("#related-plants").innerHTML = PRODUCTS.filter((item) => item.id !== plant.id)
       .sort((a, b) => Number(b.light === plant.light) - Number(a.light === plant.light))
       .slice(0, 4)
@@ -820,28 +810,23 @@
   }
 
   /* ------------------------------------------------------------------
-   * Basket and postcodes
+   * Cart and ZIP codes
    * ------------------------------------------------------------------ */
   function postcodeResult(raw) {
-    const compact = String(raw).replace(/\s+/g, "").toUpperCase();
-    if (!/^[A-Z]{1,2}[0-9][A-Z0-9]?[0-9][A-Z]{2}$/.test(compact))
-      return { valid: false, text: "Enter a full UK postcode, for example HG5 8DS." };
-    const outward = compact.slice(0, -3);
-    const area = outward.match(/^[A-Z]+/)[0];
-    const district = Number(outward.slice(area.length).replace(/[A-Z]$/, ""));
-    const offshore =
-      OFFSHORE_AREAS.includes(area) ||
-      (own(OFFSHORE_DISTRICTS, area) &&
-        OFFSHORE_DISTRICTS[area].some(([from, to]) => district >= from && district <= to));
-    if (offshore)
+    const match = String(raw)
+      .replace(/\s+/g, "")
+      .match(/^(\d{5})(?:-(\d{4}))?$/);
+    if (!match) return { valid: false, text: "Enter a 5-digit ZIP code, for example 97401." };
+    const zip = match[1];
+    if (!DELIVERY_ZIPS.includes(zip))
       return {
         valid: false,
-        text: `We can’t send plants to ${outward}: our 48-hour courier covers mainland Great Britain only. Choose collection, or call us on 01632 960916.`,
+        text: `We can’t send plants to ${zip}: our courier covers ZIP codes around Eugene only. Choose pickup, or call us at (541) 555-0137.`,
       };
     return {
       valid: true,
-      text: `We deliver to ${outward}. Tracked, ${DISPATCH.transit} after dispatch.`,
-      postcode: `${outward} ${compact.slice(-3)}`,
+      text: `We deliver to ${zip}. Tracked, ${DISPATCH.transit} after shipping.`,
+      postcode: match[2] ? `${zip}-${match[2]}` : zip,
     };
   }
 
@@ -879,7 +864,7 @@
         .map((item, index) => {
           const plant = PRODUCT_MAP[item.id];
           return `<article class="grid grid-cols-[90px_1fr] gap-4 py-6 sm:grid-cols-[130px_1fr]" data-line="${index}">
-          <a href="product.html?plant=${plant.id}&amp;size=${item.size}&amp;pot=${item.pot}"><img src="assets/img/${plant.id}.svg" alt="${html(plant.name)}" width="400" height="420" class="w-full rounded-2xl"/></a><div class="min-w-0"><div class="flex flex-wrap justify-between gap-2"><h2 class="font-display text-2xl"><a href="product.html?plant=${plant.id}">${html(plant.name)}</a></h2><p class="font-bold">${money(price(plant, item.size, item.pot) * item.qty)}</p></div><p class="mt-2 text-sm text-muted">${SIZES[item.size]} · ${item.pot === "ceramic" ? `${html(plant.pot)} cover pot, ${html(plant.glaze)}` : "Growing pot only"}</p><p class="mt-1 text-xs text-muted">${money(price(plant, item.size, item.pot))} each</p><div class="mt-4 flex flex-wrap items-center justify-between gap-3"><div class="inline-flex items-center rounded-full border border-line"><button type="button" class="flex size-10 items-center justify-center rounded-full hover:bg-cloud" data-quantity="${index}" data-delta="-1" aria-label="Decrease ${html(plant.name)} quantity" ${item.qty <= 1 ? "disabled" : ""}>${iconMinus}</button><span class="w-7 text-center text-sm" aria-label="Quantity ${item.qty}">${item.qty}</span><button type="button" class="flex size-10 items-center justify-center rounded-full hover:bg-cloud" data-quantity="${index}" data-delta="1" aria-label="Increase ${html(plant.name)} quantity" ${!availableToAdd(item.id, item.size) ? "disabled" : ""}>${iconPlus}</button></div><button type="button" class="link text-sm" data-remove="${index}" aria-label="Remove ${html(plant.name)} ${SIZES[item.size].toLowerCase()} with ${item.pot === "ceramic" ? "cover" : "growing"} pot">Remove</button></div></div></article>`;
+          <a href="product.html?plant=${plant.id}&amp;size=${item.size}&amp;pot=${item.pot}"><img src="assets/img/${plant.id}.svg" alt="${html(plant.name)}" width="400" height="420" class="w-full rounded-2xl"/></a><div class="min-w-0"><div class="flex flex-wrap justify-between gap-2"><h2 class="font-display text-2xl"><a href="product.html?plant=${plant.id}">${html(plant.name)}</a></h2><p class="font-bold">${money(price(plant, item.size, item.pot) * item.qty)}</p></div><p class="mt-2 text-sm text-muted">${SIZES[item.size]} · ${item.pot === "ceramic" ? `${html(plant.pot)} cover pot, ${html(plant.glaze)}` : "Nursery pot only"}</p><p class="mt-1 text-xs text-muted">${money(price(plant, item.size, item.pot))} each</p><div class="mt-4 flex flex-wrap items-center justify-between gap-3"><div class="inline-flex items-center rounded-full border border-line"><button type="button" class="flex size-10 items-center justify-center rounded-full hover:bg-cloud" data-quantity="${index}" data-delta="-1" aria-label="Decrease ${html(plant.name)} quantity" ${item.qty <= 1 ? "disabled" : ""}>${iconMinus}</button><span class="w-7 text-center text-sm" aria-label="Quantity ${item.qty}">${item.qty}</span><button type="button" class="flex size-10 items-center justify-center rounded-full hover:bg-cloud" data-quantity="${index}" data-delta="1" aria-label="Increase ${html(plant.name)} quantity" ${!availableToAdd(item.id, item.size) ? "disabled" : ""}>${iconPlus}</button></div><button type="button" class="link text-sm" data-remove="${index}" aria-label="Remove ${html(plant.name)} ${SIZES[item.size].toLowerCase()} with ${item.pot === "ceramic" ? "cover" : "growing"} pot">Remove</button></div></div></article>`;
         })
         .join("");
       $("#basket-empty").hidden = basket.length > 0;
@@ -900,7 +885,7 @@
         persist();
         drawItems(index);
         announce(
-          `${plant.name} removed. ${countBasket()} ${plural(countBasket(), "item")} in your basket. Total ${money(totals().total)}.`,
+          `${plant.name} removed. ${countBasket()} ${plural(countBasket(), "item")} in your cart. Total ${money(totals().total)}.`,
         );
       }
       const stepper = event.target.closest("[data-quantity]");
@@ -915,7 +900,7 @@
         const replacement = $(`[data-quantity="${index}"][data-delta="${delta}"]`);
         if (replacement && !replacement.disabled) replacement.focus();
         else $(`[data-remove="${index}"]`)?.focus();
-        announce(`${PRODUCT_MAP[item.id].name}: ${item.qty}. Basket total ${money(totals().total)}.`);
+        announce(`${PRODUCT_MAP[item.id].name}: ${item.qty}. Cart total ${money(totals().total)}.`);
       }
     });
     shippingInputs.forEach((input) =>
@@ -924,7 +909,7 @@
         persist();
         drawTotals();
         announce(
-          `Basket total ${money(totals().total)} with ${options.shipping === "collect" ? "shop collection" : "mainland delivery"}.`,
+          `Cart total ${money(totals().total)} with ${options.shipping === "collect" ? "store pickup" : "local delivery"}.`,
         );
       }),
     );
@@ -940,10 +925,10 @@
       persist();
       drawTotals();
       if (value && value !== COUPON)
-        $("#coupon-status").textContent = "That code is not recognised. Try GROW10 for your first visit.";
+        $("#coupon-status").textContent = "That code is not recognized. Try GROW10 for your first visit.";
       if (!value) $("#coupon-status").textContent = "Welcome code removed. Use GROW10 for 10% off plants and pots.";
-      announce(`Discount ${options.coupon ? "applied" : "not applied"}. Basket total ${money(totals().total)}.`);
-    });
+      announce(`Discount ${options.coupon ? "applied" : "not applied"}. Cart total ${money(totals().total)}.`);
+      });
     optionForm.addEventListener("submit", (event) => {
       event.preventDefault();
       $("#apply-coupon").click();
@@ -1045,12 +1030,12 @@
         (value) =>
           !value || (/^[+()\d\s-]{7,25}$/.test(value) && value.replace(/\D/g, "").length >= 10)
             ? ""
-            : "Enter a phone number like 07700 900123, or leave it blank.",
+            : "Enter a phone number like (541) 555-0164, or leave it blank.",
       ],
     ];
     const addressRules = [
       ["address", (value) => (value.length >= 5 ? "" : "Please enter a street address, at least 5 characters.")],
-      ["town", (value) => (value.length >= 2 ? "" : "Please enter your town or city.")],
+      ["town", (value) => (value.length >= 2 ? "" : "Please enter your city.")],
       ["postcode", (value) => (postcodeResult(value).valid ? "" : postcodeResult(value).text)],
     ];
     const giftRules = [
@@ -1082,7 +1067,7 @@
           const nowYear = Number(today.slice(0, 4));
           const nowMonth = Number(today.slice(5, 7));
           if (year < nowYear || (year === nowYear && Number(match[1]) < nowMonth)) return "This card has expired.";
-          return year > nowYear + 20 ? "Check the expiry year." : "";
+          return year > nowYear + 20 ? "Check the expiration year." : "";
         },
       ],
       ["card-cvc", (value) => (/^\d{3,4}$/.test(value) ? "" : "Enter the 3 or 4 digit security code.")],
@@ -1090,8 +1075,8 @@
 
     function whenText() {
       return options.shipping === "collect"
-        ? `Ready to collect from ${fmtDate(collectionDate())}`
-        : `Dispatched ${relativeDay(dispatchDate())}`;
+        ? `Ready for pickup from ${fmtDate(collectionDate())}`
+        : `Ships ${relativeDay(dispatchDate())}`;
     }
 
     function updateSummary() {
@@ -1104,7 +1089,7 @@
       $("#checkout-totals").innerHTML = totalsHTML(extras());
       $("#checkout-when").textContent =
         options.shipping === "collect"
-          ? `Ready to collect from ${fmtDate(collectionDate())}.`
+          ? `Ready for pickup from ${fmtDate(collectionDate())}.`
           : `${dispatchLine()} Tracked delivery, ${DISPATCH.transit}.`;
       const collection = options.shipping === "collect";
       $("#delivery-fields").hidden = collection;
@@ -1122,12 +1107,12 @@
       const note = html(controls("note").value.trim());
       const destination =
         options.shipping === "collect"
-          ? `Collect from ${html(SHOP_ADDRESS)}, from ${fmtDate(collectionDate())}.`
-          : `${html(controls("address").value.trim())}, ${html(controls("town").value.trim())}, ${html(controls("postcode").value.trim().toUpperCase())}. ${html(whenText())}.`;
+          ? `Pick up at ${html(SHOP_ADDRESS)}, from ${fmtDate(collectionDate())}.`
+          : `${html(controls("address").value.trim())}, ${html(controls("town").value.trim())}, OR ${html(controls("postcode").value.trim())}. ${html(whenText())}.`;
       const giftLine = gift()
-        ? `<div><h3 class="text-sm font-bold">Gift</h3><p class="mt-2 break-words">${controls("wrap").checked ? "Gift wrapped, " : ""}no prices in the parcel.${controls("gift-message").value.trim() ? ` Card: “${html(controls("gift-message").value.trim())}”` : ""}</p></div>`
+        ? `<div><h3 class="text-sm font-bold">Gift</h3><p class="mt-2 break-words">${controls("wrap").checked ? "Gift wrapped, " : ""}no prices in the package.${controls("gift-message").value.trim() ? ` Card: “${html(controls("gift-message").value.trim())}”` : ""}</p></div>`
         : "";
-      return `<div><h3 class="text-sm font-bold">Your details</h3><p class="mt-2 break-words">${name}<br>${email}${phone ? `<br>${phone}` : ""}</p></div><div><h3 class="text-sm font-bold">${options.shipping === "collect" ? "Collection" : "Delivery"}</h3><p class="mt-2">${destination}</p></div>${giftLine}${note ? `<div><h3 class="text-sm font-bold">Your note</h3><p class="mt-2 whitespace-pre-wrap break-words">${note}</p></div>` : ""}`;
+      return `<div><h3 class="text-sm font-bold">Your details</h3><p class="mt-2 break-words">${name}<br>${email}${phone ? `<br>${phone}` : ""}</p></div><div><h3 class="text-sm font-bold">${options.shipping === "collect" ? "Pickup" : "Delivery"}</h3><p class="mt-2">${destination}</p></div>${giftLine}${note ? `<div><h3 class="text-sm font-bold">Your note</h3><p class="mt-2 whitespace-pre-wrap break-words">${note}</p></div>` : ""}`;
     }
     function goToStep(next) {
       step = next;
@@ -1232,8 +1217,8 @@
         .join("");
       const where =
         options.shipping === "collect"
-          ? `Collect it from ${html(SHOP_ADDRESS)} from ${fmtDate(collectionDate())}, during opening hours.`
-          : `We’ll dispatch it ${relativeDay(dispatchDate())}. It travels by tracked courier to ${html(options.postcode)} and arrives ${DISPATCH.transit} later.`;
+          ? `Pick it up at ${html(SHOP_ADDRESS)} from ${fmtDate(collectionDate())}, during opening hours.`
+          : `We’ll ship it ${relativeDay(dispatchDate())}. It travels by tracked courier to ${html(options.postcode)} and arrives ${DISPATCH.transit} later.`;
       $("#order-number").textContent = number;
       $("#order-heading").textContent = `Thank you, ${first}.`;
       $("#order-when").innerHTML = where;
@@ -1382,7 +1367,7 @@
       const key = own(SYMPTOMS, symptom.value) ? symptom.value : "yellow";
       const advice = SYMPTOMS[key];
       $("#symptom-result").innerHTML =
-        `<h3 class="font-display text-2xl">${advice.title}</h3><p class="leading-relaxed">${advice.copy}</p><p class="leading-relaxed">${advice.action}</p><p class="pt-3 text-xs">General growing guidance, not a diagnosis. If unsure, email clear photos of the whole plant, leaves and compost.</p>`;
+        `<h3 class="font-display text-2xl">${advice.title}</h3><p class="leading-relaxed">${advice.copy}</p><p class="leading-relaxed">${advice.action}</p><p class="pt-3 text-xs">General growing guidance, not a diagnosis. If unsure, email clear photos of the whole plant, leaves and soil.</p>`;
     }
     symptom.addEventListener("change", drawSymptom);
     drawPlantCare();
@@ -1390,7 +1375,7 @@
   }
 
   /* ------------------------------------------------------------------
-   * Visit page: today's hours and the next bank holiday
+   * Visit page: today's hours and the next federal holiday
    * ------------------------------------------------------------------ */
   function setupVisit() {
     const today = $("[data-today-hours]");
@@ -1413,7 +1398,7 @@
     const nextHoliday = $("[data-next-holiday]");
     if (next && nextHoliday) {
       const nextHours = hoursOn(next.key);
-      nextHoliday.textContent = `Next bank holiday opening: ${next.name}, ${fmtDate(next.key)}, ${clock(toMins(nextHours[0]))}–${clock(toMins(nextHours[1]))}.`;
+      nextHoliday.textContent = `Next holiday hours: ${next.name}, ${fmtDate(next.key)}, ${clock(toMins(nextHours[0]))}–${clock(toMins(nextHours[1]))}.`;
     }
   }
   function nextOpenText(now) {
@@ -1429,7 +1414,7 @@
   /* ------------------------------------------------------------------
    * Contact form
    * ------------------------------------------------------------------ */
-  // To receive enquiries, create a form at https://formspree.io, then in the submit handler below
+  // To receive inquiries, create a form at https://formspree.io, then in the submit handler below
   // replace showThanks() with:
   //   fetch("https://formspree.io/f/your-form-id", {
   //     method: "POST",
@@ -1448,7 +1433,7 @@
     ];
     controls("message").addEventListener("input", () => {
       $("#contact-count").textContent =
-        `${controls("message").value.length.toLocaleString("en-GB")} / 1,200 characters`;
+        `${controls("message").value.length.toLocaleString("en-US")} / 1,200 characters`;
     });
     form.addEventListener("input", (event) => {
       if (event.target.getAttribute("aria-invalid") === "true") fieldError(event.target, "");

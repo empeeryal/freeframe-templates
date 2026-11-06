@@ -2,10 +2,10 @@
  * Vanilla JavaScript, no dependencies. Sections:
  *  1. Shop settings: address, hours, delivery rules, delivery zones
  *  2. Seasons
- *  3. Catalogue: occasions, colours, price bands, sizes, bouquets
+ *  3. Catalog: occasions, colors, price bands, sizes, bouquets
  *  4. Subscriptions, weddings and flower care data
  *  5. Helpers and saved data (safeStorage)
- *  6. Shop clock: London time, delivery days, the same-day cut-off
+ *  6. Shop clock: Eastern time, delivery days, the same-day cut-off
  *  7. Bouquet artwork (SVG drawn from the product data)
  *  8. Basket (localStorage)
  *  9. Header, mobile menu, reveal, season, countdown, toast
@@ -26,13 +26,13 @@ document.documentElement.classList.add('js');
    * ------------------------------------------------------------------ */
   const SHOP = {
     name: 'Hollyhock',
-    address: '14 Wyle Cop, Shrewsbury SY1 1XB',
-    phone: '01632 960 763',
+    address: '447 Mulberry Street, Macon, GA 31201',
+    phone: '(478) 555-0163',
     email: 'hello@hollyhockflowers.example'
   };
-  const TIMEZONE = 'Europe/London';
-  const LOCALE = 'en-GB';
-  const CURRENCY = 'GBP';
+  const TIMEZONE = 'America/New_York';
+  const LOCALE = 'en-US';
+  const CURRENCY = 'USD';
 
   // Studio opening hours, Sunday first, ['open', 'close'] or null when closed.
   const HOURS = [
@@ -53,8 +53,18 @@ document.documentElement.classList.add('js');
   //  maxQty: most of one bouquet per line
   const DELIVERY = { cutoff: '13:00', days: [1, 2, 3, 4, 5, 6], daysAhead: 27, messageMax: 200, fromMax: 40, maxQty: 10 };
 
-  // Days we never deliver, every year ('MM-DD').
-  const CLOSED_DATES = ['12-25', '12-26', '01-01'];
+  // Days we never deliver, every year ('MM-DD'): New Year's Day, the Fourth of July, Christmas Day.
+  const CLOSED_DATES = ['01-01', '07-04', '12-25'];
+  // Holidays that move, worked out for any year: [month, weekday (0 = Sunday), nth (-1 = last)].
+  // Memorial Day, Labor Day and Thanksgiving. A holiday closes the day itself, not an observed day.
+  const CLOSED_RULES = [[5, 1, -1], [9, 1, 1], [11, 4, 4]];
+
+  // Our busiest days, worked out for any year (the FAQ on about.html shows the next dates):
+  // a fixed month and day, or a month and [weekday, nth].
+  const PEAK_DAYS = [
+    { name: 'Valentine’s Day', month: 2, day: 14 },
+    { name: 'Mother’s Day', month: 5, rule: [0, 2] }
+  ];
 
   // Days the vans are full. KEEP_DEMO_CURRENT moves these forward in whole weeks from
   // DEMO_ANCHOR so the demo always shows some fully booked days ahead (weekdays never change).
@@ -63,27 +73,27 @@ document.documentElement.classList.add('js');
   const DEMO_ANCHOR = '2026-10-17';
   const FULLY_BOOKED = ['2026-10-22', '2026-10-28', '2026-10-31'];
 
-  // Delivery zones by postcode district. fee is per delivery day; sameDay false means
+  // Delivery zones by 5-digit ZIP code. fee is per delivery day; sameDay false means
   // the earliest delivery there is the next delivery day.
   const ZONES = [
-    { id: 'town', label: 'Shrewsbury town', districts: ['SY1', 'SY2', 'SY3'], fee: 5, sameDay: true },
-    { id: 'villages', label: 'Villages around Shrewsbury', districts: ['SY4', 'SY5'], fee: 8, sameDay: true },
-    { id: 'county', label: 'Further afield in Shropshire', districts: ['SY6', 'SY7', 'TF1', 'TF2', 'TF3', 'TF4', 'TF6'], fee: 12, sameDay: false }
+    { id: 'town', label: 'Macon', districts: ['31201', '31204', '31206', '31210', '31211', '31216', '31217', '31220'], fee: 10, sameDay: true },
+    { id: 'villages', label: 'Towns around Macon', districts: ['31008', '31020', '31052'], fee: 15, sameDay: true },
+    { id: 'county', label: 'Farther out in Middle Georgia', districts: ['31028', '31029', '31061', '31088', '31093'], fee: 25, sameDay: false }
   ];
 
   /* ------------------------------------------------------------------
-   * 2. Seasons, by month in the shop's time zone. The colours live in
+   * 2. Seasons, by month in the shop's time zone. The colors live in
    *    src/input.css (:root[data-season=…]); this is the wording.
    * ------------------------------------------------------------------ */
   const SEASONS = {
-    spring: { label: 'spring', months: [3, 4, 5], flowers: ['Tulips', 'Ranunculus', 'Narcissi', 'Hyacinths', 'Blossom'] },
-    summer: { label: 'summer', months: [6, 7, 8], flowers: ['Peonies', 'Sweet peas', 'Cornflowers', 'Garden roses', 'Larkspur'] },
-    autumn: { label: 'autumn', months: [9, 10, 11], flowers: ['Dahlias', 'Chrysanthemums', 'Rose hips', 'Amaranthus', 'Beech'] },
-    winter: { label: 'winter', months: [12, 1, 2], flowers: ['Amaryllis', 'Hellebores', 'Anemones', 'Eucalyptus', 'Ilex berries'] }
+    spring: { label: 'spring', months: [3, 4, 5], flowers: ['Ranunculus', 'Tulips', 'Snapdragons', 'Sweet peas', 'Cherry blossom'] },
+    summer: { label: 'summer', months: [6, 7, 8], flowers: ['Zinnias', 'Sunflowers', 'Lisianthus', 'Celosia', 'Hydrangeas'] },
+    autumn: { label: 'fall', months: [9, 10, 11], flowers: ['Dahlias', 'Chrysanthemums', 'Marigolds', 'Beautyberry', 'Cotton stems'] },
+    winter: { label: 'winter', months: [12, 1, 2], flowers: ['Amaryllis', 'Camellias', 'Anemones', 'Magnolia leaves', 'Winterberry'] }
   };
 
   /* ------------------------------------------------------------------
-   * 3. Catalogue
+   * 3. Catalog
    * ------------------------------------------------------------------ */
   const OCCASIONS = {
     birthday: 'Birthday',
@@ -102,11 +112,11 @@ document.documentElement.classList.add('js');
     purple: { label: 'Purple', swatch: '#8e5bd6' },
     white: { label: 'White', swatch: '#ffffff' }
   };
-  // Price bands for the shop filter (classic size), in pounds: [min, max).
+  // Price bands for the shop filter (classic size), in dollars: [min, max).
   const PRICE_BANDS = {
-    'under-40': { label: 'Under £40', min: 0, max: 40 },
-    '40-50': { label: '£40 to £50', min: 40, max: 50.01 },
-    'over-50': { label: 'Over £50', min: 50.01, max: Infinity }
+    'under-60': { label: 'Under $60', min: 0, max: 60 },
+    '60-80': { label: '$60 to $80', min: 60, max: 80.01 },
+    'over-80': { label: 'Over $80', min: 80.01, max: Infinity }
   };
   const SORTS = {
     featured: 'Featured',
@@ -114,84 +124,84 @@ document.documentElement.classList.add('js');
     'price-desc': 'Price, high to low',
     name: 'Name, A to Z'
   };
-  // Every bouquet comes in three sizes. add: pounds on top of the classic price; extra: flower heads added to the drawing.
+  // Every bouquet comes in three sizes. add: dollars on top of the classic price; extra: flower heads added to the drawing.
   const SIZES = {
     classic: { label: 'Classic', add: 0, stems: 'About 15 stems', extra: 0 },
-    generous: { label: 'Generous', add: 15, stems: 'About 22 stems', extra: 2 },
-    abundant: { label: 'Abundant', add: 30, stems: 'About 30 stems', extra: 4 }
+    generous: { label: 'Generous', add: 20, stems: 'About 22 stems', extra: 2 },
+    abundant: { label: 'Abundant', add: 40, stems: 'About 30 stems', extra: 4 }
   };
   const SIZE_ORDER = ['classic', 'generous', 'abundant'];
 
   // tint: card background (tint-pink, tint-yellow, tint-blue, tint-green, tint-purple, tint-snow).
   // art: how the bouquet is drawn (see section 7).
   const PRODUCTS = [
-    { id: 'florists-choice', name: 'The Florist’s Choice', price: 40, tint: 'tint-season', bestseller: 1,
+    { id: 'florists-choice', name: 'The Florist’s Choice', price: 65, tint: 'tint-season', bestseller: 1,
       occasions: ['birthday', 'thank-you', 'just-because', 'anniversary'], colours: ['pink', 'orange', 'purple'],
       blurb: 'Whatever is best at the market this morning, wrapped the way Oonagh would want it for herself.',
       details: 'Different every day, always seasonal. Expect five or six varieties and plenty of foliage.',
       art: { wrap: 'paper', paper: '#f4ead8', ribbon: '#14201a', shape: 'dome', foliage: 'eucalyptus',
         heads: [['dahlia', '#ec5f12'], ['rose', '#f47fa4'], ['ranunculus', '#ffb020'], ['anemone', '#ffffff'], ['dahlia', '#c2185b'], ['rose', '#ffb020'], ['ranunculus', '#f47fa4'], ['anemone', '#8e5bd6'], ['rose', '#ec5f12']], spikes: ['#8e5bd6'] } },
-    { id: 'peony-blush', name: 'Blush Peony Posy', price: 48, tint: 'tint-pink', bestseller: 2,
+    { id: 'peony-blush', name: 'Blush Peony Posy', price: 75, tint: 'tint-pink', bestseller: 2,
       occasions: ['birthday', 'anniversary', 'new-baby'], colours: ['pink', 'white'],
       blurb: 'Fat pink peonies with white spray roses and a cloud of waxflower.',
-      details: 'Peonies arrive in bud and open over two or three days. In autumn and winter we use garden roses instead.',
+      details: 'Peonies arrive in bud and open over two or three days. In fall and winter we use garden roses instead.',
       art: { wrap: 'paper', paper: '#ffffff', ribbon: '#e0306f', shape: 'dome', foliage: 'leaf',
         heads: [['peony', '#f7a1c0'], ['peony', '#f47fa4'], ['rose', '#ffffff'], ['peony', '#fbc9da'], ['rose', '#f7a1c0'], ['daisy', '#ffffff'], ['peony', '#f47fa4'], ['rose', '#ffffff'], ['daisy', '#ffffff']] } },
-    { id: 'marmalade-sky', name: 'Marmalade Sky', price: 42, tint: 'tint-yellow', bestseller: 3,
+    { id: 'marmalade-sky', name: 'Marmalade Sky', price: 70, tint: 'tint-yellow', bestseller: 3,
       occasions: ['birthday', 'thank-you', 'just-because'], colours: ['orange', 'yellow'],
       blurb: 'Burnt orange dahlias, apricot roses and golden craspedia. Loud in the best way.',
       details: 'A warm, bright mix that suits a kitchen table. Dahlias last about five days; the roses go on for longer.',
       art: { wrap: 'paper', paper: '#14201a', ribbon: '#ffb020', shape: 'loose', foliage: 'leaf',
         heads: [['dahlia', '#ec5f12'], ['rose', '#ffb020'], ['dahlia', '#ff8a3d'], ['daisy', '#ffc83d'], ['rose', '#ff8a3d'], ['dahlia', '#ffb020'], ['daisy', '#ffffff'], ['rose', '#ec5f12'], ['dahlia', '#ffc83d']] } },
-    { id: 'meadow-blue', name: 'Meadow Blue', price: 38, tint: 'tint-blue', bestseller: 4,
+    { id: 'meadow-blue', name: 'Meadow Blue', price: 55, tint: 'tint-blue', bestseller: 4,
       occasions: ['thank-you', 'just-because', 'birthday'], colours: ['blue', 'white'],
       blurb: 'Cornflowers, delphinium and white scabious, loose and a little wild.',
       details: 'Picked to look like it came from a field edge. Delphinium spires add height.',
       art: { wrap: 'paper', paper: '#e2e8ff', ribbon: '#3d5bd9', shape: 'tall', foliage: 'fern',
         heads: [['daisy', '#3d5bd9'], ['anemone', '#ffffff'], ['daisy', '#6f86e8'], ['anemone', '#3d5bd9'], ['daisy', '#ffffff'], ['daisy', '#3d5bd9'], ['anemone', '#ffffff'], ['daisy', '#6f86e8'], ['anemone', '#3d5bd9']], spikes: ['#3d5bd9', '#6f86e8'] } },
-    { id: 'white-garden', name: 'White Garden', price: 50, tint: 'tint-green',
+    { id: 'white-garden', name: 'White Garden', price: 80, tint: 'tint-green',
       occasions: ['sympathy', 'new-baby', 'anniversary'], colours: ['white'],
       blurb: 'White roses, anemones and lisianthus with silver eucalyptus. Quiet and generous.',
-      details: 'Our most-asked-for sympathy bouquet. We can deliver it to a funeral director; add their details at checkout.',
+      details: 'Our most-asked-for sympathy bouquet. We can deliver it to a funeral home; add their details at checkout.',
       art: { wrap: 'paper', paper: '#dcf2e5', ribbon: '#14201a', shape: 'dome', foliage: 'eucalyptus',
         heads: [['rose', '#ffffff'], ['anemone', '#ffffff'], ['peony', '#ffffff'], ['rose', '#f5f1e8'], ['anemone', '#ffffff'], ['ranunculus', '#ffffff'], ['rose', '#ffffff'], ['daisy', '#ffffff'], ['peony', '#f5f1e8']] } },
-    { id: 'tulip-armful', name: 'Tulip Armful', price: 35, tint: 'tint-purple',
+    { id: 'tulip-armful', name: 'Tulip Armful', price: 55, tint: 'tint-purple',
       occasions: ['birthday', 'just-because', 'thank-you'], colours: ['pink', 'purple'],
       blurb: 'Twenty-five tulips in pinks and plums, tied simply and left to bend.',
       details: 'Tulips keep growing in the vase, so give them a trim every couple of days and let them wander.',
       art: { wrap: 'paper', paper: '#efe7ff', ribbon: '#8e5bd6', shape: 'tall', foliage: 'leaf',
         heads: [['tulip', '#f47fa4'], ['tulip', '#8e5bd6'], ['tulip', '#c2185b'], ['tulip', '#f7a1c0'], ['tulip', '#6b3fb0'], ['tulip', '#f47fa4'], ['tulip', '#c2185b'], ['tulip', '#8e5bd6'], ['tulip', '#f7a1c0']] } },
-    { id: 'velvet-red', name: 'Velvet Red', price: 58, tint: 'tint-pink',
+    { id: 'velvet-red', name: 'Velvet Red', price: 95, tint: 'tint-pink',
       occasions: ['anniversary', 'birthday'], colours: ['red'],
       blurb: 'Deep red roses and ranunculus with dark foliage. The grown-up romantic.',
-      details: 'Long-lasting Ecuadorian roses with English ranunculus when in season.',
+      details: 'Long-lasting Ecuadorian roses with Georgia-grown ranunculus when in season.',
       art: { wrap: 'paper', paper: '#ffffff', ribbon: '#c8102e', shape: 'dome', foliage: 'leaf',
         heads: [['rose', '#c8102e'], ['rose', '#9e0c25'], ['ranunculus', '#c8102e'], ['rose', '#c8102e'], ['rose', '#9e0c25'], ['ranunculus', '#e0306f'], ['rose', '#c8102e'], ['rose', '#9e0c25'], ['ranunculus', '#c8102e']] } },
-    { id: 'little-sunshine', name: 'Little Sunshine', price: 30, tint: 'tint-yellow',
+    { id: 'little-sunshine', name: 'Little Sunshine', price: 45, tint: 'tint-yellow',
       occasions: ['new-baby', 'thank-you', 'just-because'], colours: ['yellow', 'white'],
       blurb: 'A small, sunny posy of yellow ranunculus, chamomile and solidago.',
       details: 'Sized for a bedside table or a desk. Lovely for a new arrival.',
       art: { wrap: 'paper', paper: '#fff0c7', ribbon: '#14201a', shape: 'dome', foliage: 'fern',
         heads: [['ranunculus', '#ffc83d'], ['daisy', '#ffffff'], ['ranunculus', '#ffb020'], ['daisy', '#ffffff'], ['ranunculus', '#ffe08a'], ['daisy', '#ffffff'], ['ranunculus', '#ffc83d'], ['daisy', '#ffffff'], ['ranunculus', '#ffb020']] } },
-    { id: 'lilac-haze', name: 'Lilac Haze', price: 44, tint: 'tint-purple',
+    { id: 'lilac-haze', name: 'Lilac Haze', price: 70, tint: 'tint-purple',
       occasions: ['sympathy', 'just-because', 'anniversary'], colours: ['purple', 'white'],
       blurb: 'Lilac stocks, lavender roses and veronica in soft, smoky purples.',
       details: 'Stocks are scented, so this one fills a room. Change the water every other day.',
       art: { wrap: 'paper', paper: '#ffffff', ribbon: '#8e5bd6', shape: 'loose', foliage: 'eucalyptus',
         heads: [['rose', '#b79ae8'], ['anemone', '#ffffff'], ['rose', '#8e5bd6'], ['peony', '#d8c7f5'], ['rose', '#b79ae8'], ['anemone', '#8e5bd6'], ['rose', '#ffffff'], ['peony', '#b79ae8'], ['rose', '#8e5bd6']], spikes: ['#8e5bd6', '#b79ae8'] } },
-    { id: 'rose-hatbox', name: 'Rose Hatbox', price: 65, tint: 'tint-pink',
+    { id: 'rose-hatbox', name: 'Rose Hatbox', price: 110, tint: 'tint-pink',
       occasions: ['anniversary', 'birthday'], colours: ['pink', 'red'],
       blurb: 'Roses packed into a keepsake hatbox on wet foam. No vase needed.',
       details: 'Top up the foam with a little water every day and it lasts about a week. The box is yours to keep.',
       art: { wrap: 'box', box: '#14201a', band: '#e0306f', shape: 'dome', foliage: 'none',
         heads: [['rose', '#f47fa4'], ['rose', '#c8102e'], ['rose', '#f7a1c0'], ['rose', '#e0306f'], ['rose', '#f47fa4'], ['rose', '#c8102e'], ['rose', '#f7a1c0'], ['rose', '#e0306f'], ['rose', '#f47fa4']] } },
-    { id: 'hedgerow-jug', name: 'Hedgerow Jug', price: 46, tint: 'tint-green',
+    { id: 'hedgerow-jug', name: 'Fencerow Pitcher', price: 75, tint: 'tint-green',
       occasions: ['thank-you', 'just-because', 'sympathy'], colours: ['white', 'orange'],
-      blurb: 'Garden flowers, grasses and berries, arranged in an enamel jug.',
-      details: 'Arrives arranged and watered in a white enamel jug you can keep.',
+      blurb: 'Garden flowers, grasses and berries, arranged in an enamel pitcher.',
+      details: 'Arrives arranged and watered in a white enamel pitcher you can keep.',
       art: { wrap: 'jug', jug: '#ffffff', rim: '#14201a', shape: 'loose', foliage: 'fern',
         heads: [['daisy', '#ffffff'], ['dahlia', '#ec5f12'], ['anemone', '#ffffff'], ['daisy', '#ffc83d'], ['rose', '#ff8a3d'], ['daisy', '#ffffff'], ['dahlia', '#ffb020'], ['anemone', '#ffffff'], ['daisy', '#ffffff']], spikes: ['#ffffff'] } },
-    { id: 'silver-birch', name: 'Silver Birch', price: 34, tint: 'tint-snow',
+    { id: 'silver-birch', name: 'River Birch', price: 50, tint: 'tint-snow',
       occasions: ['sympathy', 'new-baby', 'thank-you'], colours: ['white'],
       blurb: 'White ranunculus and spray roses with silver eucalyptus and twigs.',
       details: 'Simple and calm. The eucalyptus dries beautifully once the flowers are over.',
@@ -206,41 +216,41 @@ document.documentElement.classList.add('js');
   const SUBSCRIPTION = {
     plans: {
       weekly: { label: 'Weekly', perYear: 52, discount: 0.2, every: 7 },
-      fortnightly: { label: 'Fortnightly', perYear: 26, discount: 0.15, every: 14 },
+      fortnightly: { label: 'Every two weeks', perYear: 26, discount: 0.15, every: 14 },
       monthly: { label: 'Monthly', perYear: 12, discount: 0.1, every: 28 }
     },
     sizes: {
-      classic: { label: 'Classic', price: 36 },
-      generous: { label: 'Generous', price: 48 },
-      abundant: { label: 'Abundant', price: 62 }
+      classic: { label: 'Classic', price: 60 },
+      generous: { label: 'Generous', price: 80 },
+      abundant: { label: 'Abundant', price: 100 }
     },
     days: [2, 3, 4, 5], // Tuesday to Friday
     preview: 4         // upcoming deliveries listed
   };
 
-  // Wedding and event estimate. price per item, max per enquiry.
+  // Wedding and event estimate. price per item, max per inquiry.
   const WEDDING = {
     items: [
-      { id: 'bridal', label: 'Bridal bouquet', price: 140, max: 3 },
-      { id: 'bridesmaid', label: 'Bridesmaid bouquets', price: 65, max: 10 },
-      { id: 'buttonhole', label: 'Buttonholes', price: 14, max: 40 },
-      { id: 'corsage', label: 'Corsages', price: 22, max: 20 },
-      { id: 'centrepiece', label: 'Table centrepieces', price: 48, max: 40 },
-      { id: 'arch', label: 'Ceremony arch or arbour', price: 480, max: 1 }
+      { id: 'bridal', label: 'Bridal bouquet', price: 225, max: 3 },
+      { id: 'bridesmaid', label: 'Bridesmaid bouquets', price: 95, max: 10 },
+      { id: 'buttonhole', label: 'Boutonnieres', price: 18, max: 40 },
+      { id: 'corsage', label: 'Corsages', price: 30, max: 20 },
+      { id: 'centrepiece', label: 'Table centerpieces', price: 85, max: 40 },
+      { id: 'arch', label: 'Ceremony arch or arbor', price: 1200, max: 1 }
     ],
-    setupRate: 0.12,  // set-up and collection, as a share of the flowers
-    setupMin: 90,
-    minSpend: 600,
+    setupRate: 0.15,  // setup and teardown, as a share of the flowers
+    setupMin: 250,
+    minSpend: 1000,
     leadWeeks: 8      // earliest event date, in weeks from today
   };
 
   // The care guide's day-by-day plan, counted from delivery day (day 1).
   const CARE_PLAN = [
-    { from: 1, to: 1, title: 'Unwrap and trim', text: 'Fill a clean vase with cool water and the flower food. Cut 2cm off each stem at an angle and strip any leaves below the waterline.' },
-    { from: 2, to: 2, title: 'Find the right spot', text: 'Out of direct sun, away from radiators and the fruit bowl (ripening fruit makes flowers fade faster).' },
-    { from: 3, to: 4, title: 'Fresh water, fresh cut', text: 'Change the water completely, rinse the vase and trim another centimetre off the stems.' },
+    { from: 1, to: 1, title: 'Unwrap and trim', text: 'Fill a clean vase with cool water and the flower food. Cut about an inch off each stem at an angle and strip any leaves below the waterline.' },
+    { from: 2, to: 2, title: 'Find the right spot', text: 'Out of direct sun, away from heat vents and the fruit bowl (ripening fruit makes flowers fade faster).' },
+    { from: 3, to: 4, title: 'Fresh water, fresh cut', text: 'Change the water completely, rinse the vase and trim another half inch off the stems.' },
     { from: 5, to: 6, title: 'Edit the bunch', text: 'Take out anything that has gone over so it doesn’t shorten the life of the rest. Re-cut and re-water.' },
-    { from: 7, to: 9, title: 'Make a smaller vase', text: 'Cut the strongest stems short and put them in a jam jar or a tumbler. Eucalyptus can be hung up to dry.' },
+    { from: 7, to: 9, title: 'Make a smaller vase', text: 'Cut the strongest stems short and put them in a mason jar or a tumbler. Eucalyptus can be hung up to dry.' },
     { from: 10, to: 99, title: 'Compost and come back', text: 'Most bouquets are over by now. Compost the stems and wash the vase with hot soapy water before it goes away.' }
   ];
 
@@ -252,7 +262,7 @@ document.documentElement.classList.add('js');
     { name: 'Dahlias', vase: '4–6 days', tip: 'Change the water daily: dahlias drink a lot and dirty water shortens their life.' },
     { name: 'Ranunculus', vase: '7–10 days', tip: 'Keep the water shallow; their hollow stems go soft if they stand too deep.' },
     { name: 'Anemones', vase: '5–7 days', tip: 'They close at night and open in the light. Keep them cool overnight.' },
-    { name: 'Sweet peas', vase: '4–5 days', tip: 'Enjoy the scent while it lasts. Keep them away from fruit and radiators.' },
+    { name: 'Sweet peas', vase: '4–5 days', tip: 'Enjoy the scent while it lasts. Keep them away from fruit and heat vents.' },
     { name: 'Chrysanthemums', vase: '10–14 days', tip: 'Remove leaves below the waterline; they rot quickly and cloud the water.' },
     { name: 'Eucalyptus', vase: '2–3 weeks', tip: 'Once the flowers are done, hang eucalyptus upside down to dry for a winter vase.' },
     { name: 'Hydrangeas', vase: '5–7 days', tip: 'If a head wilts, submerge it in cool water for an hour. They drink through their petals.' },
@@ -269,7 +279,7 @@ document.documentElement.classList.add('js');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const round2 = (n) => Math.round(n * 100) / 100;
   const money = new Intl.NumberFormat(LOCALE, { style: 'currency', currency: CURRENCY });
-  // £38.40, but whole pounds without pence (£40).
+  // $38.40, but whole dollars without cents ($40).
   function price(n) {
     return Number.isInteger(round2(n)) ? money.format(n).replace(/\.00$/, '') : money.format(n);
   }
@@ -368,7 +378,7 @@ document.documentElement.classList.add('js');
       y = t.getUTCFullYear(); mo = t.getUTCMonth() + 1; d = t.getUTCDate(); h = t.getUTCHours(); mi = t.getUTCMinutes(); s = t.getUTCSeconds();
     } else {
       const parts = {};
-      new Intl.DateTimeFormat('en-GB', { timeZone: TIMEZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' })
+      new Intl.DateTimeFormat(LOCALE, { timeZone: TIMEZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' })
         .formatToParts(new Date()).forEach((p) => { parts[p.type] = p.value; });
       y = +parts.year; mo = +parts.month; d = +parts.day; h = +parts.hour % 24; mi = +parts.minute; s = +parts.second;
     }
@@ -382,8 +392,8 @@ document.documentElement.classList.add('js');
     return new Intl.DateTimeFormat(LOCALE, Object.assign({ weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' }, opts || {}))
       .format(new Date(iso + 'T12:00:00Z'));
   }
-  // "Today", "Tomorrow", or "Monday 19 October" (short: "Mon 19 Oct").
-  // The same, for the middle of a sentence ("delivered today, 17 October").
+  // "Today", "Tomorrow", or "Monday, October 19" (short: "Mon, Oct 19").
+  // The same, for the middle of a sentence ("delivered today, October 17").
   const inSentence = (iso, short) => dateLabel(iso, short).replace(/^(Today|Tomorrow)/, (m) => m.toLowerCase());
   function dateLabel(iso, short) {
     const today = shopNow().date;
@@ -398,7 +408,15 @@ document.documentElement.classList.add('js');
     FULLY_BOOKED.forEach((iso) => { if (isIsoDate(iso)) set[addDays(iso, shift)] = true; });
     return set;
   })();
-  const isClosedDate = (iso) => CLOSED_DATES.indexOf(iso.slice(5)) !== -1;
+  // The nth given weekday (0 = Sunday) of a month, as 'YYYY-MM-DD'; nth -1 is the last one.
+  function nthWeekday(year, month, weekday, nth) {
+    const first = year + '-' + pad(month) + '-01';
+    if (nth > 0) return addDays(first, (weekday - dayOf(first) + 7) % 7 + (nth - 1) * 7);
+    const last = addDays(month === 12 ? (year + 1) + '-01-01' : year + '-' + pad(month + 1) + '-01', -1);
+    return addDays(last, -((dayOf(last) - weekday + 7) % 7));
+  }
+  const isClosedDate = (iso) => CLOSED_DATES.indexOf(iso.slice(5)) !== -1 ||
+    CLOSED_RULES.some((c) => nthWeekday(+iso.slice(0, 4), c[0], c[1], c[2]) === iso);
   const isBooked = (iso) => BOOKED[iso] === true;
 
   // Can we deliver on this date? { ok, reason: 'past' | 'far' | 'sunday' | 'closed' | 'booked' | 'cutoff', text }
@@ -459,15 +477,30 @@ document.documentElement.classList.add('js');
     return { open: false, text: 'Studio closed' };
   }
 
-  // Postcode → { district, zone } ; zone is null when we don't deliver there.
+  // The next Valentine's Day and Mother's Day, and the day we'd deliver for each when we don't
+  // deliver on the day itself ("Valentine's Day is Sunday, February 14, 2027, and …").
+  function peakDayText() {
+    const today = shopNow().date, year = +today.slice(0, 4);
+    const dateIn = (p, y) => (p.rule ? nthWeekday(y, p.month, p.rule[0], p.rule[1]) : y + '-' + pad(p.month) + '-' + pad(p.day));
+    return PEAK_DAYS.map((p) => ({ name: p.name, date: dateIn(p, year) >= today ? dateIn(p, year) : dateIn(p, year + 1) }))
+      .sort((a, b) => (a.date < b.date ? -1 : 1))
+      .map((p) => {
+        let d = p.date;
+        while (DELIVERY.days.indexOf(dayOf(d)) === -1 || isClosedDate(d)) d = addDays(d, -1);
+        return p.name + ' is ' + fmtDate(p.date, { year: 'numeric' }) + (d === p.date ? '.' : ', and we don’t deliver that day, so those bouquets go out the day before, on ' + fmtDate(d) + '.');
+      }).join(' ');
+  }
+
+  // ZIP code → { district, zone } ; district is the first five digits; zone is null when we don't deliver there.
   function normalisePostcode(v) {
-    const s = String(v || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
-    return s.length > 3 ? s.slice(0, -3) + ' ' + s.slice(-3) : s;
+    const s = String(v || '').trim();
+    const m = s.match(/^(\d{5})[-\s]?(\d{4})?$/);
+    return m ? m[1] + (m[2] ? '-' + m[2] : '') : s;
   }
   function checkPostcode(v) {
     const pc = normalisePostcode(v);
-    if (!/^[A-Z]{1,2}\d[A-Z\d]? \d[A-Z]{2}$/.test(pc)) return { valid: false, postcode: pc, district: '', zone: null };
-    const district = pc.split(' ')[0];
+    if (!/^\d{5}(-\d{4})?$/.test(pc)) return { valid: false, postcode: pc, district: '', zone: null };
+    const district = pc.slice(0, 5);
     const zone = ZONES.find((z) => z.districts.indexOf(district) !== -1) || null;
     return { valid: true, postcode: pc, district: district, zone: zone };
   }
@@ -476,9 +509,9 @@ document.documentElement.classList.add('js');
    * 7. Bouquet artwork. Art.bouquet(art, extra, key) returns a 240×280
    *    hand-drawn SVG from a product's art settings:
    *      wrap: 'paper' | 'box' | 'jug'      shape: 'dome' | 'tall' | 'loose'
-   *      heads: [[kind, colour], …] kinds: rose, peony, dahlia, ranunculus, anemone, daisy, tulip
-   *      spikes: colours of delphinium-style spires   foliage: 'eucalyptus' | 'leaf' | 'fern' | 'none'
-   *    Colours can be CSS variables ('var(--season-1)').
+   *      heads: [[kind, color], …] kinds: rose, peony, dahlia, ranunculus, anemone, daisy, tulip
+   *      spikes: colors of delphinium-style spires   foliage: 'eucalyptus' | 'leaf' | 'fern' | 'none'
+   *    Colors can be CSS variables ('var(--season-1)').
    * ------------------------------------------------------------------ */
   /* ART:START */
   const Art = (function () {
@@ -702,13 +735,13 @@ document.documentElement.classList.add('js');
   const lineTotal = (l) => unitPrice(findProduct(l.id), l.size) * l.qty;
   const subtotal = () => round2(basket.lines.reduce((t, l) => t + lineTotal(l), 0));
   const deliveryDays = () => basket.lines.map((l) => l.date).filter((d, i, a) => a.indexOf(d) === i).sort();
-  // Delivery charge: the zone's fee for each delivery day. null when the postcode isn't known.
+  // Delivery charge: the zone's fee for each delivery day. null when the ZIP code isn't known.
   function deliveryCharge(postcode) {
     const res = checkPostcode(postcode);
     if (!res.zone) return null;
     return { zone: res.zone, days: deliveryDays().length, fee: res.zone.fee * deliveryDays().length };
   }
-  // Lines that can't go to this postcode's zone on their date (no same-day further afield).
+  // Lines that can't go to this ZIP code's zone on their date (no same-day farther out).
   function zoneConflicts(postcode) {
     const res = checkPostcode(postcode);
     if (!res.zone || res.zone.sameDay) return [];
@@ -781,7 +814,7 @@ document.documentElement.classList.add('js');
     });
   }
 
-  // Season: colours via <html data-season>, words via [data-season-name] and [data-season-flowers].
+  // Season: colors via <html data-season>, words via [data-season-name] and [data-season-flowers].
   function renderSeason() {
     const id = seasonId(shopNow().month);
     document.documentElement.setAttribute('data-season', id);
@@ -795,7 +828,7 @@ document.documentElement.classList.add('js');
   function renderClock() {
     const msg = deliveryMessage();
     $$('[data-delivery-band]').forEach((el) => {
-      el.textContent = msg.sameDay ? msg.text + ' in Shrewsbury' : (msg.why ? msg.why + ' ' : '') + msg.text;
+      el.textContent = msg.sameDay ? msg.text + ' in Macon' : (msg.why ? msg.why + ' ' : '') + msg.text;
     });
     $$('[data-countdown]').forEach((el) => {
       const big = $('[data-countdown-digits]', el), label = $('[data-countdown-label]', el), note = $('[data-countdown-note]', el), sr = $('[data-countdown-sr]', el);
@@ -806,7 +839,7 @@ document.documentElement.classList.add('js');
         big.setAttribute('aria-hidden', 'true');
         sr.textContent = (h ? plural(h, 'hour', 'hours') + ' ' : '') + plural(m, 'minute', 'minutes');
         label.textContent = 'left to order for delivery today';
-        note.textContent = 'Order by ' + clock(toMins(DELIVERY.cutoff)) + ', Monday to Saturday, and we deliver the same afternoon.';
+        note.textContent = 'Order by ' + clock(toMins(DELIVERY.cutoff)) + ', Monday through Saturday, and we deliver the same afternoon.';
       } else {
         big.textContent = msg.next ? dateLabel(msg.next, true) : 'Soon';
         big.removeAttribute('aria-hidden');
@@ -834,7 +867,7 @@ document.documentElement.classList.add('js');
   // Basket count in the header.
   function renderBasketLinks() {
     const n = basketCount();
-    $$('[data-basket-link]').forEach((a) => { a.setAttribute('aria-label', 'Basket, ' + plural(n, 'item', 'items')); });
+    $$('[data-basket-link]').forEach((a) => { a.setAttribute('aria-label', 'Cart, ' + plural(n, 'item', 'items')); });
     $$('[data-basket-count]').forEach((el) => { el.textContent = n; el.hidden = n === 0; });
   }
   function popBadge() {
@@ -877,7 +910,7 @@ document.documentElement.classList.add('js');
         '<p class="mt-1 shrink-0 text-[15px] font-semibold tabular-nums"><span class="sr-only">From </span>' + price(p.price) + '</p>' +
       '</div>' +
       '<p class="mt-1.5 text-[15px] leading-relaxed text-muted">' + escapeHtml(p.blurb) + '</p>' +
-      '<p class="mt-3 flex flex-wrap items-center gap-1.5" aria-label="Colours: ' + p.colours.map((c) => COLOURS[c].label).join(', ') + '">' +
+      '<p class="mt-3 flex flex-wrap items-center gap-1.5" aria-label="Colors: ' + p.colours.map((c) => COLOURS[c].label).join(', ') + '">' +
         p.colours.map((c) => '<span class="swatch-dot" style="background:' + COLOURS[c].swatch + '" title="' + COLOURS[c].label + '"></span>').join('') + '</p>' +
     '</article>';
   }
@@ -911,7 +944,7 @@ document.documentElement.classList.add('js');
     const sortSel = $('#shop-sort'), count = $('#shop-count'), empty = $('#shop-empty');
     occBox.innerHTML = '<button type="button" class="pill" data-filter="occasion" data-value="">All occasions</button>' +
       Object.keys(OCCASIONS).map((k) => '<button type="button" class="pill" data-filter="occasion" data-value="' + k + '">' + OCCASIONS[k] + '</button>').join('');
-    colBox.innerHTML = '<button type="button" class="pill" data-filter="colour" data-value="">Any colour</button>' +
+    colBox.innerHTML = '<button type="button" class="pill" data-filter="colour" data-value="">Any color</button>' +
       Object.keys(COLOURS).map((k) => '<button type="button" class="pill" data-filter="colour" data-value="' + k + '"><span class="swatch-dot" style="background:' + COLOURS[k].swatch + '" aria-hidden="true"></span>' + COLOURS[k].label + '</button>').join('');
     priceBox.innerHTML = '<button type="button" class="pill" data-filter="price" data-value="">Any price</button>' +
       Object.keys(PRICE_BANDS).map((k) => '<button type="button" class="pill" data-filter="price" data-value="' + k + '">' + PRICE_BANDS[k].label + '</button>').join('');
@@ -969,14 +1002,14 @@ document.documentElement.classList.add('js');
     const params = urlParams();
     const p = findProduct(params.get('id')) || null;
     if (!p) {
-      document.title = 'Bouquet not found — Hollyhock, florist in Shrewsbury';
+      document.title = 'Bouquet not found — Hollyhock, florist in Macon';
       root.innerHTML = '<section class="container-x py-20 text-center"><p class="kicker">Shop</p>' +
         '<h1 class="display mt-4 text-[2.8rem] sm:text-[3.8rem]">We couldn’t find that bouquet.</h1>' +
         '<p class="mx-auto mt-4 max-w-lg text-lg text-muted">It may have gone out of season. Everything we have today is in the shop.</p>' +
         '<a href="shop.html" class="btn-primary mt-8">See all bouquets</a></section>';
       return;
     }
-    document.title = p.name + ' — Hollyhock, florist in Shrewsbury';
+    document.title = p.name + ' — Hollyhock, florist in Macon';
     const meta = $('meta[name="description"]');
     if (meta) meta.setAttribute('content', p.blurb);
     const state = { size: has(SIZES, params.get('size')) ? params.get('size') : 'classic', date: earliestDelivery() };
@@ -1102,7 +1135,7 @@ document.documentElement.classList.add('js');
       message.value = ''; from.value = '';
       renderCounter(); renderPreview();
       popBadge();
-      toast('<strong>' + escapeHtml(SIZES[state.size].label + ' ' + p.name) + '</strong> added for ' + escapeHtml(inSentence(state.date, true)) + '. <a href="basket.html" class="font-semibold underline underline-offset-4">View basket</a>');
+      toast('<strong>' + escapeHtml(SIZES[state.size].label + ' ' + p.name) + '</strong> added for ' + escapeHtml(inSentence(state.date, true)) + '. <a href="basket.html" class="font-semibold underline underline-offset-4">View cart</a>');
     });
 
     $('#related').innerHTML = PRODUCTS.filter((x) => x.id !== p.id && x.occasions.some((o) => p.occasions.indexOf(o) !== -1)).slice(0, 4)
@@ -1245,12 +1278,12 @@ document.documentElement.classList.add('js');
       const days = deliveryDays();
       summary.innerHTML =
         '<div class="flex justify-between gap-4"><dt>Flowers</dt><dd class="tabular-nums">' + price(sub) + '</dd></div>' +
-        '<div class="flex justify-between gap-4"><dt>Delivery' + (charge ? ' <span class="block text-sm text-muted">' + plural(charge.days, 'delivery day', 'delivery days') + ' × ' + price(charge.zone.fee) + '</span>' : ' <span class="block text-sm text-muted">' + plural(days.length, 'delivery day', 'delivery days') + ', add your postcode</span>') + '</dt><dd class="tabular-nums">' + (charge ? price(charge.fee) : '–') + '</dd></div>' +
-        '<div class="flex justify-between gap-4 border-t border-ink/15 pt-3 text-lg font-semibold"><dt>Total</dt><dd class="tabular-nums">' + price(sub + (charge ? charge.fee : 0)) + '</dd></div>';
+        '<div class="flex justify-between gap-4"><dt>Delivery' + (charge ? ' <span class="block text-sm text-muted">' + plural(charge.days, 'delivery day', 'delivery days') + ' × ' + price(charge.zone.fee) + '</span>' : ' <span class="block text-sm text-muted">' + plural(days.length, 'delivery day', 'delivery days') + ', add your ZIP code</span>') + '</dt><dd class="tabular-nums">' + (charge ? price(charge.fee) : '–') + '</dd></div>' +
+        '<div class="flex justify-between gap-4 border-t border-ink/15 pt-3 text-lg font-semibold"><dt>Total before tax</dt><dd class="tabular-nums">' + price(sub + (charge ? charge.fee : 0)) + '</dd></div>';
       const go = $('#basket-checkout');
       const ready = !!charge && !conflicts.length;
       go.setAttribute('aria-disabled', String(!ready));
-      $('#basket-checkout-hint').textContent = ready ? '' : !basket.postcode ? 'Check your delivery postcode to continue.' : !charge ? 'We can’t deliver to that postcode yet.' : 'Choose another delivery day for the flagged bouquet.';
+      $('#basket-checkout-hint').textContent = ready ? '' : !basket.postcode ? 'Check your delivery ZIP code to continue.' : !charge ? 'We can’t deliver to that ZIP code yet.' : 'Choose another delivery day for the flagged bouquet.';
       $('#basket-days').textContent = days.length ? 'Delivering ' + listText(days.map((d) => dateLabel(d, true))) : '';
     }
 
@@ -1275,7 +1308,7 @@ document.documentElement.classList.add('js');
         const i = +rm.getAttribute('data-remove');
         const name = findProduct(basket.lines[i].id).name;
         keepLineFocus(rm, () => saveBasket({ lines: basket.lines.filter((l, j) => j !== i), postcode: basket.postcode }));
-        toast(escapeHtml(name) + ' removed from your basket.');
+        toast(escapeHtml(name) + ' removed from your cart.');
       }
     });
     lines.addEventListener('change', (e) => {
@@ -1313,10 +1346,10 @@ document.documentElement.classList.add('js');
     pcForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const res = checkPostcode(pcInput.value);
-      if (!pcInput.value.trim()) { showError(pcInput, 'Enter the postcode we’re delivering to.'); pcInput.focus(); return; }
-      if (!res.valid) { showError(pcInput, 'That doesn’t look like a UK postcode. Try something like SY1 1XB.'); pcInput.focus(); return; }
+      if (!pcInput.value.trim()) { showError(pcInput, 'Enter the ZIP code we’re delivering to.'); pcInput.focus(); return; }
+      if (!res.valid) { showError(pcInput, 'That doesn’t look like a ZIP code. Try something like 31201.'); pcInput.focus(); return; }
       if (!res.zone) {
-        showError(pcInput, 'Sorry, we don’t deliver to ' + res.district + ' yet. We cover SY1 to SY7 and parts of Telford (TF1 to TF4 and TF6). Call us on ' + SHOP.phone + ' and we’ll suggest a florist nearby.');
+        showError(pcInput, 'Sorry, we don’t deliver to ' + res.district + ' yet. We cover Macon, Byron, Dry Branch and Lizella, plus Centerville, Forsyth, Milledgeville and Warner Robins. Call us at ' + SHOP.phone + ' and we’ll suggest a florist nearby.');
         saveBasket({ lines: basket.lines, postcode: '' });
         pcInput.focus();
         return;
@@ -1377,8 +1410,9 @@ document.documentElement.classList.add('js');
       }).join('') + '</ul>' +
         '<dl class="mt-3 space-y-2 border-t border-ink/15 pt-3 text-[15px]">' +
           '<div class="flex justify-between gap-4"><dt>Flowers</dt><dd class="tabular-nums">' + price(sub) + '</dd></div>' +
-          '<div class="flex justify-between gap-4"><dt>Delivery' + (charge ? ' (' + plural(charge.days, 'day', 'days') + ' × ' + price(charge.zone.fee) + ')' : '') + '</dt><dd class="tabular-nums">' + (charge ? price(charge.fee) : 'Enter postcode') + '</dd></div>' +
-          '<div class="flex justify-between gap-4 text-lg font-semibold"><dt>Total</dt><dd class="tabular-nums">' + price(sub + (charge ? charge.fee : 0)) + '</dd></div></dl>';
+          '<div class="flex justify-between gap-4"><dt>Delivery' + (charge ? ' (' + plural(charge.days, 'day', 'days') + ' × ' + price(charge.zone.fee) + ')' : '') + '</dt><dd class="tabular-nums">' + (charge ? price(charge.fee) : 'Enter ZIP code') + '</dd></div>' +
+          '<div class="flex justify-between gap-4 text-lg font-semibold"><dt>Total before tax</dt><dd class="tabular-nums">' + price(sub + (charge ? charge.fee : 0)) + '</dd></div></dl>' +
+        '<p class="mt-3 text-sm text-muted">Prices don’t include sales tax, which is added when you pay.</p>';
     }
     pc.addEventListener('input', render);
     pc.addEventListener('change', () => {
@@ -1401,7 +1435,7 @@ document.documentElement.classList.add('js');
     });
     setupValidation(form, () => {
       if (zoneConflicts(pc.value).length) {
-        showError(pc, 'Same-day delivery isn’t available to ' + checkPostcode(pc.value).district + '. Change the delivery day in your basket.');
+        showError(pc, 'Same-day delivery isn’t available to ' + checkPostcode(pc.value).district + '. Change the delivery day in your cart.');
         pc.focus();
         return;
       }
@@ -1409,7 +1443,7 @@ document.documentElement.classList.add('js');
       const total = round2(subtotal() + charge.fee);
       const number = 'HH-' + String(Math.floor(10000 + Math.random() * 90000));
       const recipient = $('#c-recipient').value.trim();
-      const summaryText = plural(basketCount(), 'bouquet', 'bouquets') + ' for ' + recipient + ', ' + listText(deliveryDays().map((d) => fmtDate(d, { weekday: 'short', month: 'short' }))) + ', ' + price(total);
+      const summaryText = plural(basketCount(), 'bouquet', 'bouquets') + ' for ' + recipient + ', ' + listText(deliveryDays().map((d) => fmtDate(d, { weekday: 'short', month: 'short' }))) + ', ' + price(total) + ' before tax';
       // A real shop sends the order and takes payment here, before showing the confirmation.
       write(KEYS.lastOrder, { number: number, placedAt: new Date().toISOString(), summary: summaryText, total: total });
       const days = deliveryDays();
@@ -1419,7 +1453,7 @@ document.documentElement.classList.add('js');
       box.className = 'rounded-xl bg-mint p-6 focus:outline-none sm:p-10';
       box.innerHTML = '<p class="kicker">Order ' + escapeHtml(number) + '</p>' +
         '<h2 class="display mt-3 text-4xl sm:text-5xl">Thank you. We’re on it.</h2>' +
-        '<p class="mt-4 max-w-xl text-lg leading-relaxed">' + escapeHtml(plural(basketCount(), 'bouquet', 'bouquets')) + ' for ' + escapeHtml(recipient) + ' at ' + escapeHtml(checkPostcode(pc.value).postcode) + ', delivered ' + escapeHtml(listText(days.map((d) => inSentence(d)))) + '. Total ' + price(total) + '.</p>' +
+        '<p class="mt-4 max-w-xl text-lg leading-relaxed">' + escapeHtml(plural(basketCount(), 'bouquet', 'bouquets')) + ' for ' + escapeHtml(recipient) + ' at ' + escapeHtml(checkPostcode(pc.value).postcode) + ', delivered ' + escapeHtml(listText(days.map((d) => inSentence(d)))) + '. Total before sales tax ' + price(total) + '.</p>' +
         '<p class="mt-3 text-muted">We’ll email your confirmation to ' + escapeHtml($('#c-email').value.trim()) + '. If anything needs changing, call us or reply to that email with your order number.</p>' +
         '<a href="shop.html" class="btn-primary mt-6">Back to the shop</a>';
       placed = true;
@@ -1489,7 +1523,7 @@ document.documentElement.classList.add('js');
       $('[data-sub-month]').textContent = price(month);
       $('[data-sub-year]').textContent = price(year);
       $('[data-sub-saved]').textContent = price(saved);
-      $('[data-sub-summary]').textContent = pl.label + ' ' + sz.label.toLowerCase() + ' bouquet on ' + DAY_NAMES[state.day] + 's: ' + price(each) + ' a delivery (' + Math.round(pl.discount * 100) + '% off ' + price(sz.price) + '), about ' + price(month) + ' a month, ' + price(year) + ' a year. You save ' + price(saved) + ' a year.';
+      $('[data-sub-summary]').textContent = sz.label + ' bouquet, ' + pl.label.toLowerCase() + ', on ' + DAY_NAMES[state.day] + 's: ' + price(each) + ' a delivery (' + Math.round(pl.discount * 100) + '% off ' + price(sz.price) + '), about ' + price(month) + ' a month, ' + price(year) + ' a year. You save ' + price(saved) + ' a year.';
       $('#sub-dates').innerHTML = upcoming().map((u, i) => '<li class="flex items-center justify-between gap-3 py-2.5"><span>' + (i === 0 ? '<strong>First:</strong> ' : '') + escapeHtml(fmtDate(u.date)) + (u.moved ? ' <span class="text-sm text-white/75">(moved for the holiday)</span>' : '') + '</span><span class="tabular-nums text-white/75">' + price(each) + '</span></li>').join('');
       try {
         const q = new URLSearchParams({ plan: state.plan, size: state.size });
@@ -1504,7 +1538,7 @@ document.documentElement.classList.add('js');
       successSwap(form, '<p class="kicker">Subscription request</p><p class="display mt-3 text-4xl">Lovely, ' + escapeHtml(first) + '.</p>' +
         '<p class="mt-4 text-lg leading-relaxed">' + escapeHtml($('[data-sub-summary]').textContent) + '</p>' +
         '<p class="mt-2 leading-relaxed">First delivery ' + escapeHtml(fmtDate(firstDelivery())) + ' to ' + escapeHtml(checkPostcode($('#s-postcode').value).postcode) + '.</p>' +
-        '<p class="mt-3 text-muted">Your reference is <strong class="text-ink">' + makeRef('HH') + '</strong>. We’ll email you within a working day to confirm your subscription and set up payment before your first delivery.</p>');
+        '<p class="mt-3 text-muted">Your reference is <strong class="text-ink">' + makeRef('HH') + '</strong>. We’ll email you within a business day to confirm your subscription and set up payment before your first delivery.</p>');
     });
     render();
   }
@@ -1542,7 +1576,7 @@ document.documentElement.classList.add('js');
       const under = total < WEDDING.minSpend;
       $('[data-est-note]').textContent = !total ? 'Add a few things to see a rough figure.'
         : under ? 'Our minimum for weddings is ' + price(WEDDING.minSpend) + '. We’re happy to talk about smaller celebrations, though: ask about our posy packages.'
-        : 'A rough guide, including set-up and collection. Your final quote depends on the season, flowers and venue.';
+        : 'A rough guide, including setup and teardown. Your final quote depends on the season, flowers and venue.';
       const hidden = $('#w-estimate');
       if (hidden) hidden.value = price(total);
     }
@@ -1561,13 +1595,13 @@ document.documentElement.classList.add('js');
       const today = shopNow().date;
       date.min = addDays(today, WEDDING.leadWeeks * 7);
       date.max = addDays(today, 730);
-      $('#w-date-hint').textContent = 'We book weddings from ' + fmtDate(date.min, { weekday: undefined, year: 'numeric' }) + ' onwards (' + WEDDING.leadWeeks + ' weeks’ notice).';
+      $('#w-date-hint').textContent = 'We book weddings from ' + fmtDate(date.min, { weekday: undefined, year: 'numeric' }) + ' onward (' + WEDDING.leadWeeks + ' weeks’ notice).';
     }
     const form = $('#wedding-form');
     setupValidation(form, () => {
       const first = $('#w-name').value.trim().split(/\s+/)[0];
-      successSwap(form, '<p class="kicker">Enquiry received</p><p class="display mt-3 text-4xl">Thank you, ' + escapeHtml(first) + '.</p>' +
-        '<p class="mt-4 text-lg leading-relaxed">Bettany has your enquiry for ' + escapeHtml(fmtDate($('#w-date').value, { year: 'numeric' })) + ' at ' + escapeHtml($('#w-venue').value.trim()) + ' (rough estimate ' + escapeHtml($('#w-estimate').value) + ') and will reply within two working days to arrange a consultation.</p>' +
+      successSwap(form, '<p class="kicker">Inquiry received</p><p class="display mt-3 text-4xl">Thank you, ' + escapeHtml(first) + '.</p>' +
+        '<p class="mt-4 text-lg leading-relaxed">Bettany has your inquiry for ' + escapeHtml(fmtDate($('#w-date').value, { year: 'numeric' })) + ' at ' + escapeHtml($('#w-venue').value.trim()) + ' (rough estimate ' + escapeHtml($('#w-estimate').value) + ') and will reply within two business days to arrange a consultation.</p>' +
         '<p class="mt-3 text-muted">Your reference is <strong class="text-ink">' + makeRef('HH') + '</strong>.</p>');
     });
   }
@@ -1633,19 +1667,19 @@ document.documentElement.classList.add('js');
   function fieldMessage(el) {
     const v = el.value.trim();
     const label = el.getAttribute('data-label') || 'This field';
-    if (el.type === 'checkbox') return el.required && !el.checked ? (el.getAttribute('data-msg') || 'Please tick this box.') : '';
+    if (el.type === 'checkbox') return el.required && !el.checked ? (el.getAttribute('data-msg') || 'Please check this box.') : '';
     if (el.required && !v) return el.getAttribute('data-required-msg') || label + ' is required.';
     if (!v) return '';
     const rule = el.getAttribute('data-validate') || el.type;
     if (rule === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return 'Enter an email address like name@example.com.';
     if (rule === 'tel') {
       const digits = v.replace(/\D/g, '');
-      if (!/^[+()\d\s.-]+$/.test(v) || digits.length < 10 || digits.length > 13) return 'Enter a phone number like 07700 900 123.';
+      if (!/^[+()\d\s.-]+$/.test(v) || digits.length < 10 || digits.length > 13) return 'Enter a phone number like (478) 555-0142.';
     }
     if (rule === 'postcode' || rule === 'postcode-any') {
       const res = checkPostcode(v);
-      if (!res.valid) return 'Enter a UK postcode like SY1 1XB.';
-      if (!res.zone) return 'Sorry, we don’t deliver to ' + res.district + '. We cover SY1 to SY7 and parts of Telford (TF1 to TF4 and TF6).';
+      if (!res.valid) return 'Enter a ZIP code like 31201.';
+      if (!res.zone) return 'Sorry, we don’t deliver to ' + res.district + '. We cover Macon, Byron, Dry Branch and Lizella, plus Centerville, Forsyth, Milledgeville and Warner Robins.';
     }
     if (rule === 'order' && !/^HH-?\d{5}$/i.test(v)) return 'Order numbers look like HH-12345.';
     if (rule === 'card') {
@@ -1767,12 +1801,12 @@ document.documentElement.classList.add('js');
   //   .then((r) => r.ok ? successSwap(form, '…') : alert('Sorry, that didn’t send.'));
   function initForms() {
     $$('[data-form="newsletter"]').forEach((form) => setupValidation(form, () => {
-      successSwap(form, '<p class="font-display text-xl font-semibold">You’re on the flower post.</p><p class="mt-1 text-sm text-white/85">Look out for a confirmation email from us; once you click the link, next month’s flower post is yours.</p>', true);
+      successSwap(form, '<p class="font-display text-xl font-semibold">You’re on the list.</p><p class="mt-1 text-sm text-white/85">Look out for a confirmation email from us; once you click the link, next month’s flower note is yours.</p>', true);
     }));
     $$('[data-form="contact"]').forEach((form) => setupValidation(form, () => {
       const first = $('#ct-name').value.trim().split(/\s+/)[0];
       successSwap(form, '<p class="display text-3xl">Thanks, ' + escapeHtml(first) + '.</p>' +
-        '<p class="mt-3 leading-relaxed">Your message is with the studio and we’ll reply within a working day (usually much sooner).</p>' +
+        '<p class="mt-3 leading-relaxed">Your message is with the studio and we’ll reply within a business day (usually much sooner).</p>' +
         '<p class="mt-2 text-sm text-muted">Your reference is <strong class="text-ink">' + makeRef('HH') + '</strong>.</p>');
     }));
     // Live character counters: <textarea id="x" maxlength="600"> + <p data-count-for="x">.
@@ -1783,14 +1817,14 @@ document.documentElement.classList.add('js');
       field.addEventListener('input', upd);
       upd();
     });
-    // Postcode checker (home page): a quick "do you deliver to me?".
+    // ZIP code checker (home page): a quick "do you deliver to me?".
     $$('[data-form="zone-check"]').forEach((form) => {
       const input = $('input', form), out = $('[data-zone-result]', form.parentNode);
       form.setAttribute('novalidate', '');
       form.addEventListener('submit', (e) => {
         e.preventDefault();
         const res = checkPostcode(input.value);
-        if (!input.value.trim() || !res.valid) { showError(input, 'Enter a UK postcode like SY3 8LP.'); input.focus(); out.textContent = ''; return; }
+        if (!input.value.trim() || !res.valid) { showError(input, 'Enter a ZIP code like 31204.'); input.focus(); out.textContent = ''; return; }
         showError(input, '');
         input.value = res.postcode;
         out.innerHTML = res.zone
@@ -1807,6 +1841,7 @@ document.documentElement.classList.add('js');
     const size = el.getAttribute('data-size');
     if (p) el.innerHTML = bouquetArt(p, has(SIZES, size) ? size : 'classic');
   });
+  $$('[data-peak-days]').forEach((el) => { el.textContent = peakDayText(); });
   renderSeason();
   renderClock();
   setInterval(renderClock, 1000);

@@ -1,5 +1,5 @@
-/* Mend (Lavant Physiotherapy) — site scripts. Vanilla JavaScript, no dependencies.
-   All clinic data (hours, bank holiday rules, treatments, clinicians, body map, exercises, prices and
+/* Mend (Ledgerock Physical Therapy) — site scripts. Vanilla JavaScript, no dependencies.
+   All clinic data (hours, federal holiday rules, treatments, clinicians, body map, exercises, prices and
    insurers) lives at the top of this file. Keep it in step with the HTML pages; see DOCS.md, "Content". */
 (function () {
   'use strict';
@@ -8,13 +8,13 @@
      1. Clinic settings
      ====================================================================== */
 
-  /* Time zone and opening hours. Times are 24-hour wall-clock times in Chichester (UK time).
+  /* Time zone and opening hours. Times are 24-hour wall-clock times in Billings (Mountain Time).
      Day 0 is Sunday; null means closed. Keep in step with the hours lists in the HTML (data-hours). */
   var CLINIC = {
-    name: 'Lavant Physiotherapy',
-    timeZone: 'Europe/London',
-    phone: '01632 960517',
-    phoneHref: 'tel:+441632960517'
+    name: 'Ledgerock Physical Therapy',
+    timeZone: 'America/Denver',
+    phone: '(406) 555-0126',
+    phoneHref: 'tel:+14065550126'
   };
   var HOURS = {
     0: null,
@@ -25,81 +25,81 @@
     5: ['07:30', '18:00'],
     6: ['08:30', '13:00']
   };
-  /* Bank holidays in England and Wales are worked out for every year by bankHolidays() below, so the
-     diary never shows a past date. Set to false to stay open on bank holidays. */
+  /* US federal holidays are worked out for every year by bankHolidays() below, so the schedule never
+     shows a past date. Set to false to stay open on federal holidays. */
   var CLOSE_ON_BANK_HOLIDAYS = true;
-  // Closed every year on these dates even when they fall at a weekend (the bank holiday then moves to a weekday).
+  // Closed every year on these dates even when they fall on a Saturday (the observed holiday then moves to a weekday).
   var CLOSED_EVERY_YEAR = [
     { md: '12-25', label: 'Christmas Day' },
-    { md: '12-26', label: 'Boxing Day' },
+    { md: '07-04', label: 'Independence Day' },
     { md: '01-01', label: 'New Year’s Day' }
   ];
   // One-off closures (clinic date 'YYYY-MM-DD'), e.g. { date: '2027-03-12', label: 'a staff training day' }.
   var EXTRA_CLOSED = [];
 
   /* ---------- Treatments (treatments.html, book.html, prices.html, home) ----------
-     minutes: appointment length. price: self-pay price in pounds. tags: filters on treatments.html.
+     minutes: appointment length. price: self-pay price in dollars. tags: filters on treatments.html.
      Order here is the order on every page. Art for each is in ART below. */
   var TREATMENTS = {
     initial: {
-      name: 'Initial assessment', minutes: 45, price: 68, tags: ['pain', 'sport', 'surgery'],
+      name: 'Initial evaluation', minutes: 45, price: 140, tags: ['pain', 'sport', 'surgery'],
       blurb: 'Your first visit for a new problem: we listen, assess how you move and agree a plan together.',
       includes: ['A full history and movement assessment', 'A clear explanation of what is going on', 'Hands-on treatment if it helps on the day', 'Your first home exercises, written down'],
       who: 'Anyone new to us, or back with a new problem.'
     },
     followup: {
-      name: 'Follow-up physiotherapy', minutes: 30, price: 52, tags: ['pain', 'sport', 'surgery'],
+      name: 'Follow-up physical therapy', minutes: 30, price: 95, tags: ['pain', 'sport', 'surgery'],
       blurb: 'Review your progress, adjust the exercises and add hands-on treatment where it helps.',
-      includes: ['Progress check against your goals', 'Exercises updated as you get stronger', 'Joint mobilisation, soft tissue work or taping'],
-      who: 'After an initial assessment with any of our physios.'
+      includes: ['Progress check against your goals', 'Exercises updated as you get stronger', 'Joint mobilization, soft tissue work or taping'],
+      who: 'After an initial evaluation with any of our PTs.'
     },
     massage: {
-      name: 'Sports massage', minutes: 45, price: 50, tags: ['sport', 'pain'],
+      name: 'Sports massage', minutes: 45, price: 85, tags: ['sport', 'pain'],
       blurb: 'Firm, focused soft tissue work for tight, overworked muscles, before or after a big event.',
-      includes: ['A quick chat about training and niggles', 'Deep tissue and trigger point work', 'Simple stretches to take away'],
+      includes: ['A quick chat about training and nagging aches', 'Deep tissue and trigger point work', 'Simple stretches to take away'],
       who: 'Runners, cyclists, desk workers and weekend gardeners.'
     },
     acupuncture: {
-      name: 'Acupuncture', minutes: 30, price: 48, tags: ['pain'],
-      blurb: 'Western medical acupuncture from trained physios, used alongside exercise for pain relief.',
+      name: 'Dry needling', minutes: 30, price: 75, tags: ['pain'],
+      blurb: 'Trigger point dry needling from PTs with added training, used alongside exercise for pain relief.',
       includes: ['A safety check before your first session', 'Fine single-use needles, usually 10–20 minutes', 'Advice on how to keep the benefit going'],
       who: 'Persistent neck, back, shoulder and knee pain.'
     },
     postop: {
-      name: 'Post-operative rehab', minutes: 45, price: 58, tags: ['surgery'],
+      name: 'Post-operative rehab', minutes: 45, price: 105, tags: ['surgery'],
       blurb: 'Step-by-step rehab after joint replacements, ACL reconstruction, shoulder and foot surgery.',
-      includes: ['Your surgeon’s protocol, followed to the letter', 'Swelling, scar and range of movement work', 'Strength and return-to-activity milestones'],
+      includes: ['Your surgeon’s protocol, followed to the letter', 'Swelling, scar and range of motion work', 'Strength and return-to-activity milestones'],
       who: 'From a few days after surgery, once you are home.'
     },
     pelvic: {
-      name: 'Pelvic health physiotherapy', minutes: 60, price: 80, tags: ['pregnancy'],
-      blurb: 'Private, unhurried care for pregnancy-related pain, postnatal recovery and bladder symptoms.',
+      name: 'Pelvic health physical therapy', minutes: 60, price: 165, tags: ['pregnancy'],
+      blurb: 'Private, unhurried care for pregnancy-related pain, postpartum recovery and bladder symptoms.',
       includes: ['A longer first appointment in a private room', 'Pelvic floor assessment, only with your consent', 'A return-to-exercise plan after birth'],
-      who: 'Pregnancy, postnatal, menopause and continence concerns.'
+      who: 'Pregnancy, postpartum, menopause and continence concerns.'
     },
     running: {
-      name: 'Running gait analysis', minutes: 60, price: 85, tags: ['sport'],
-      blurb: 'Slow-motion video of you running, a strength screen and a plan to run further with fewer niggles.',
+      name: 'Running gait analysis', minutes: 60, price: 150, tags: ['sport'],
+      blurb: 'Slow-motion video of you running, a strength screen and a plan to run farther with fewer aches.',
       includes: ['Treadmill video from three angles', 'Strength and mobility screen', 'A video summary and four-week plan'],
       who: 'New runners, marathon builds and recurring running injuries.'
     },
     pilates: {
-      name: 'Clinical Pilates (1:1)', minutes: 45, price: 50, tags: ['pain', 'pregnancy'],
-      blurb: 'One-to-one Pilates with a physio, built around your injury, your back or your pregnancy.',
+      name: 'Clinical Pilates (1:1)', minutes: 45, price: 90, tags: ['pain', 'pregnancy'],
+      blurb: 'One-on-one Pilates with a PT, built around your injury, your back or your pregnancy.',
       includes: ['Mat and small equipment work', 'Breathing and deep core control', 'A short routine for home'],
-      who: 'Back pain, hypermobility, pre- and postnatal strength.'
+      who: 'Back pain, hypermobility, prenatal and postpartum strength.'
     },
     shockwave: {
-      name: 'Shockwave therapy', minutes: 20, price: 60, tags: ['sport', 'pain'],
-      blurb: 'Radial shockwave for stubborn tendon pain, alongside a loading programme.',
+      name: 'Shockwave therapy', minutes: 20, price: 110, tags: ['sport', 'pain'],
+      blurb: 'Radial shockwave for stubborn tendon pain, alongside a loading program.',
       includes: ['Suitability check at your first session', 'Usually three to five weekly sessions', 'Tendon loading exercises in between'],
       who: 'Plantar heel pain, Achilles, tennis elbow and hip tendons.'
     },
     video: {
-      name: 'Video consultation', minutes: 30, price: 45, tags: ['online', 'pain', 'pregnancy'],
+      name: 'Video visit', minutes: 30, price: 75, tags: ['online', 'pain', 'pregnancy'],
       blurb: 'Advice, exercise reviews and progressions from home, on your phone or laptop.',
       includes: ['A secure video link sent before your appointment', 'Exercise checks with your camera', 'Notes and videos afterwards'],
-      who: 'Follow-ups, busy weeks and anyone further afield.'
+      who: 'Follow-ups, busy weeks and patients farther away in Montana.'
     }
   };
   var TREATMENT_TAGS = {
@@ -116,27 +116,27 @@
      Portraits are assets/img/team-<id>.svg. Keep the cards on team.html in step. */
   var CLINICIANS = {
     varcoe: {
-      name: 'Thea Varcoe', first: 'Thea', role: 'Clinic director, MSK physiotherapist',
+      name: 'Thea Varcoe', first: 'Thea', role: 'Clinic director, orthopedic physical therapist',
       treatments: ['initial', 'followup', 'acupuncture', 'shockwave', 'video'],
       shifts: { 1: ['08:00', '16:00'], 2: ['08:00', '16:00'], 4: ['12:00', '20:00'], 5: ['08:00', '14:00'] }
     },
     brannigan: {
-      name: 'Ruairi Brannigan', first: 'Ruairi', role: 'Sports physiotherapist',
+      name: 'Ruairi Brannigan', first: 'Ruairi', role: 'Sports physical therapist',
       treatments: ['initial', 'followup', 'running', 'acupuncture', 'shockwave'],
       shifts: { 1: ['12:00', '20:00'], 3: ['07:30', '15:30'], 4: ['07:30', '15:30'], 6: ['08:30', '13:00'] }
     },
     adeyinka: {
-      name: 'Folake Adeyinka', first: 'Folake', role: 'Senior physiotherapist, orthopaedic rehab',
+      name: 'Folake Adeyinka', first: 'Folake', role: 'Senior physical therapist, orthopedic rehab',
       treatments: ['initial', 'followup', 'postop', 'acupuncture', 'pilates'],
       shifts: { 1: ['07:30', '15:30'], 3: ['12:00', '20:00'], 4: ['08:00', '16:00'], 5: ['12:00', '18:00'] }
     },
     lydgate: {
-      name: 'Harriet Lydgate', first: 'Harriet', role: 'Pelvic health physiotherapist',
+      name: 'Harriet Lydgate', first: 'Harriet', role: 'Pelvic health physical therapist',
       treatments: ['initial', 'followup', 'pelvic', 'pilates', 'video'],
       shifts: { 2: ['12:00', '20:00'], 3: ['09:00', '17:00'], 5: ['09:00', '17:00'] }
     },
     kimber: {
-      name: 'Farah Kimber', first: 'Farah', role: 'Physiotherapist, clinical Pilates',
+      name: 'Farah Kimber', first: 'Farah', role: 'Physical therapist, clinical Pilates',
       treatments: ['initial', 'followup', 'pilates', 'video'],
       shifts: { 1: ['16:00', '20:00'], 2: ['08:00', '14:00'], 3: ['15:00', '20:00'], 5: ['07:30', '13:00'] }
     },
@@ -159,7 +159,7 @@
 
   /* ---------- Body map (conditions.html) ----------
      view: which figure the hotspot sits on. treatments: suggested treatment ids. exercises: area filter
-     on exercises.html. redFlags: when not to wait for physio. General information, not a diagnosis. */
+     on exercises.html. redFlags: when not to wait for physical therapy. General information, not a diagnosis. */
   var BODY_AREAS = {
     neck: {
       label: 'Neck', view: 'back', exercises: 'neck', treatments: ['initial', 'acupuncture', 'video'],
@@ -167,49 +167,49 @@
       conditions: [
         { name: 'Mechanical neck pain', feel: 'Stiffness and an ache that is worse after long spells at a desk or driving.', help: 'Regular movement breaks, mobility exercises and a look at your set-up.' },
         { name: 'Whiplash-associated pain', feel: 'Neck pain and headaches in the days after a car accident or fall.', help: 'Staying gently active, reassurance and a graded exercise plan.' },
-        { name: 'Trapped nerve (cervical radiculopathy)', feel: 'Pain, pins and needles or weakness running down one arm.', help: 'Positions that ease the arm pain, nerve mobility and strength work.' }
+        { name: 'Pinched nerve (cervical radiculopathy)', feel: 'Pain, pins and needles or weakness running down one arm.', help: 'Positions that ease the arm pain, nerve mobility and strength work.' }
       ],
-      redFlags: ['Neck pain after a significant fall, crash or blow, with numbness or weakness: call 999.', 'Sudden dizziness, double vision, slurred speech or trouble swallowing: call 999.']
+      redFlags: ['Neck pain after a significant fall, crash or blow, with numbness or weakness: call 911.', 'Sudden dizziness, double vision, slurred speech or trouble swallowing: call 911.']
     },
     shoulder: {
       label: 'Shoulder', view: 'front', exercises: 'shoulder', treatments: ['initial', 'followup', 'acupuncture'],
       intro: 'Shoulders are very mobile, so they rely on good muscle control. Most problems respond well to the right exercise.',
       conditions: [
-        { name: 'Rotator cuff related pain', feel: 'An ache on the outside of the arm, worse lifting overhead or lying on that side.', help: 'Load management and a progressive strengthening programme.' },
-        { name: 'Frozen shoulder', feel: 'Gradual pain then marked stiffness, especially reaching behind your back.', help: 'Pain relief strategies, gentle range of movement work and patience.' },
-        { name: 'Shoulder instability', feel: 'The shoulder feels loose or has slipped out, often after a sporting fall.', help: 'Strength and control work, and referral for a scan if it keeps happening.' }
+        { name: 'Rotator cuff related pain', feel: 'An ache on the outside of the arm, worse lifting overhead or lying on that side.', help: 'Load management and a progressive strengthening program.' },
+        { name: 'Frozen shoulder', feel: 'Gradual pain then marked stiffness, especially reaching behind your back.', help: 'Pain relief strategies, gentle range of motion work and patience.' },
+        { name: 'Shoulder instability', feel: 'The shoulder feels loose or has slipped out, often after a sporting fall.', help: 'Strength and control work, and referral for imaging if it keeps happening.' }
       ],
-      redFlags: ['Shoulder or arm pain with chest pain, breathlessness or sweating: call 999.', 'A hot, red, swollen joint with a fever: call NHS 111 today.']
+      redFlags: ['Shoulder or arm pain with chest pain, breathlessness or sweating: call 911.', 'A hot, red, swollen joint with a fever: call your doctor or go to urgent care today.']
     },
     'elbow-wrist': {
       label: 'Elbow and wrist', view: 'front', exercises: 'shoulder', treatments: ['initial', 'shockwave', 'acupuncture'],
       intro: 'Elbow and wrist pain is often linked to grip-heavy work, a new hobby or a sudden jump in training.',
       conditions: [
-        { name: 'Tennis elbow', feel: 'Pain on the outside of the elbow when gripping, lifting a kettle or using a mouse.', help: 'Tendon loading exercises, activity changes and sometimes shockwave.' },
+        { name: 'Tennis elbow', feel: 'Pain on the outside of the elbow when gripping, lifting a gallon of milk or using a mouse.', help: 'Tendon loading exercises, activity changes and sometimes shockwave.' },
         { name: 'Golfer’s elbow', feel: 'Pain on the inside of the elbow, worse with gripping and wrist bending.', help: 'Progressive loading and a look at technique or tools.' },
-        { name: 'Carpal tunnel syndrome', feel: 'Tingling in the thumb and first fingers, often waking you at night.', help: 'Night splints, nerve gliding and advice on when to see your GP.' }
+        { name: 'Carpal tunnel syndrome', feel: 'Tingling in the thumb and first fingers, often waking you at night.', help: 'Night splints, nerve gliding and advice on when to see your doctor.' }
       ],
-      redFlags: ['An obvious deformity or you cannot move the wrist after a fall: go to an urgent treatment centre or A&E.', 'Numbness that is spreading or a hand that is getting weaker: call NHS 111 today.']
+      redFlags: ['An obvious deformity or you cannot move the wrist after a fall: go to urgent care or the ER.', 'Numbness that is spreading or a hand that is getting weaker: call your doctor or go to urgent care today.']
     },
     'upper-back': {
       label: 'Upper back', view: 'back', exercises: 'back', treatments: ['initial', 'followup', 'massage'],
       intro: 'The upper back is built for rotation. Long hours sitting still can leave it stiff and sore.',
       conditions: [
         { name: 'Thoracic stiffness', feel: 'A band of ache between the shoulder blades, eased by moving about.', help: 'Rotation and extension exercises, and breaking up long sitting spells.' },
-        { name: 'Rib joint pain', feel: 'A sharp catch on breathing in or twisting, often after lifting or coughing.', help: 'Gentle mobilisation, breathing exercises and reassurance.' },
+        { name: 'Rib joint pain', feel: 'A sharp catch on breathing in or twisting, often after lifting or coughing.', help: 'Gentle mobilization, breathing exercises and reassurance.' },
         { name: 'Muscle strain', feel: 'Tender, tight muscles after a new activity or a heavy lift.', help: 'Staying active, heat, massage and gradual return to load.' }
       ],
-      redFlags: ['Chest pain spreading to the arm, jaw or back, or with breathlessness: call 999.', 'Upper back pain with fever, unexplained weight loss or a history of cancer: see your GP or call NHS 111.']
+      redFlags: ['Chest pain spreading to the arm, jaw or back, or with breathlessness: call 911.', 'Upper back pain with fever, unexplained weight loss or a history of cancer: see your doctor today.']
     },
     'lower-back': {
       label: 'Lower back', view: 'back', exercises: 'back', treatments: ['initial', 'pilates', 'acupuncture'],
       intro: 'Low back pain is very common and usually improves within six weeks. Gentle movement helps more than rest.',
       conditions: [
-        { name: 'Non-specific low back pain', feel: 'Ache or spasm across the lower back, worse with bending or sitting.', help: 'Reassurance, staying active and a graded strength programme.' },
+        { name: 'Non-specific low back pain', feel: 'Ache or spasm across the lower back, worse with bending or sitting.', help: 'Reassurance, staying active and a graded strength program.' },
         { name: 'Sciatica', feel: 'Pain, tingling or numbness running from the buttock down the leg.', help: 'Calming positions, nerve mobility and a gradual return to normal activity.' },
         { name: 'Disc-related pain', feel: 'Pain after lifting or bending, sometimes with leg symptoms.', help: 'Most settle without surgery; exercise and pacing are the mainstays.' }
       ],
-      redFlags: ['Numbness around your bottom or genitals, or new problems controlling your bladder or bowels: go to A&E now.', 'Weakness in both legs or pain with fever and feeling unwell: call NHS 111 straight away.']
+      redFlags: ['Numbness around your buttocks or genitals, or new problems controlling your bladder or bowels: go to the ER now.', 'Weakness in both legs or pain with fever and feeling unwell: go to urgent care or the ER right away.']
     },
     hip: {
       label: 'Hip and groin', view: 'front', exercises: 'hip', treatments: ['initial', 'followup', 'shockwave'],
@@ -219,7 +219,7 @@
         { name: 'Lateral hip pain', feel: 'Pain on the outside of the hip, worse lying on that side or climbing stairs.', help: 'Avoiding compressed positions and progressive glute strengthening.' },
         { name: 'Groin strain', feel: 'Sharp pain in the groin after kicking, sprinting or changing direction.', help: 'A staged return to sport with adductor strength milestones.' }
       ],
-      redFlags: ['You cannot stand or put weight on the leg after a fall: go to A&E.', 'A hot, painful hip with a fever: call NHS 111 today.']
+      redFlags: ['You cannot stand or put weight on the leg after a fall: go to the ER.', 'A hot, painful hip with a fever: call your doctor or go to urgent care today.']
     },
     knee: {
       label: 'Knee', view: 'front', exercises: 'knee', treatments: ['initial', 'postop', 'running'],
@@ -227,19 +227,19 @@
       conditions: [
         { name: 'Runner’s knee (patellofemoral pain)', feel: 'Ache around the kneecap on stairs, squats or after sitting.', help: 'Hip and thigh strength and adjusting training load.' },
         { name: 'Knee osteoarthritis', feel: 'Stiffness and an ache that varies day to day, sometimes with swelling.', help: 'Exercise is the first-line treatment, alongside pacing.' },
-        { name: 'Ligament and meniscus injuries', feel: 'A twist with swelling, giving way or catching.', help: 'Early rehab, and referral for a scan or surgical opinion where needed.' }
+        { name: 'Ligament and meniscus injuries', feel: 'A twist with swelling, giving way or catching.', help: 'Early rehab, and referral for imaging or a surgical opinion where needed.' }
       ],
-      redFlags: ['A swollen, hot or red calf, especially after surgery or a long journey: call NHS 111 straight away.', 'A knee that is locked and will not straighten after an injury: go to an urgent treatment centre.']
+      redFlags: ['A swollen, hot or red calf, especially after surgery or a long trip: go to urgent care or the ER right away.', 'A knee that is locked and will not straighten after an injury: go to urgent care.']
     },
     'ankle-foot': {
       label: 'Ankle and foot', view: 'front', exercises: 'ankle', treatments: ['initial', 'shockwave', 'running'],
       intro: 'Ankle sprains and heel pain are among the things we see most. Early, guided rehab cuts the chance of them coming back.',
       conditions: [
         { name: 'Ankle sprain', feel: 'Swelling and bruising on the outside of the ankle after rolling it.', help: 'Early weight bearing, then balance and strength work.' },
-        { name: 'Achilles tendinopathy', feel: 'Stiffness above the heel, worst first thing and at the start of a run.', help: 'Calf loading programme, footwear and training changes.' },
+        { name: 'Achilles tendinopathy', feel: 'Stiffness above the heel, worst first thing and at the start of a run.', help: 'Calf loading program, footwear and training changes.' },
         { name: 'Plantar heel pain', feel: 'Sharp heel pain on your first steps in the morning.', help: 'Calf and foot strengthening, load changes and sometimes shockwave.' }
       ],
-      redFlags: ['You cannot take four steps after an injury, or there is bone tenderness: go to an urgent treatment centre for an X-ray.', 'A swollen, painful calf after being in a cast or boot: call NHS 111 straight away.']
+      redFlags: ['You cannot take four steps after an injury, or there is bone tenderness: go to urgent care for an X-ray.', 'A swollen, painful calf after being in a cast or boot: go to urgent care or the ER right away.']
     }
   };
 
@@ -256,7 +256,7 @@
       steps: ['Sit tall with your feet flat.', 'Glide your chin straight back, as if making a double chin.', 'Hold for two seconds, then relax.'], tip: 'Keep your eyes level: it is a slide, not a nod.',
       pose: { props: CHAIR, torso: [[68, 38], [66, 62]], head: [70, 28], far: { arm: [[67, 40], [70, 52], [78, 59]], leg: [[66, 63], [81, 63], [81, 87], [88, 89]] }, near: { arm: [[68, 40], [73, 52], [81, 58]], leg: [[66, 62], [83, 62], [84, 87], [91, 89]] }, marks: '<path d="M90 27h-9m3-3-3 3 3 3"/>' } },
     { id: 'trap-stretch', name: 'Upper trapezius stretch', area: 'neck', level: 'easy', equipment: 'none', dose: { sets: 3, hold: 20 }, rest: 15,
-      steps: ['Stand or sit tall and let your shoulders drop.', 'Tilt your ear towards one shoulder.', 'Rest your hand lightly on your head and breathe.'], tip: 'A gentle stretch, never a pull. Swap sides each set.',
+      steps: ['Stand or sit tall and let your shoulders drop.', 'Tilt your ear toward one shoulder.', 'Rest your hand lightly on your head and breathe.'], tip: 'A gentle stretch, never a pull. Swap sides each set.',
       pose: { torso: [[80, 34], [80, 58]], head: [73, 26], far: { arm: [[74, 36], [70, 48], [68, 60]], leg: [[76, 58], [75, 74], [74, 89]] }, near: { arm: [[86, 36], [96, 28], [82, 18]], leg: [[84, 58], [85, 74], [86, 89]] }, marks: '<path d="M86 33q6 3 11 1" stroke-dasharray="3 3"/>' } },
     { id: 'pendulum', name: 'Shoulder pendulums', area: 'shoulder', level: 'easy', equipment: 'none', dose: { sets: 2, reps: 15 }, rest: 20,
       steps: ['Lean forward with one hand on a table.', 'Let the sore arm hang loose.', 'Rock your body so the arm swings in small circles.'], tip: 'Let gravity do the work: the shoulder muscles stay relaxed.',
@@ -268,13 +268,13 @@
       steps: ['Anchor a band at elbow height in a door.', 'Keep your elbow tucked to your side, bent to a right angle.', 'Turn your forearm out against the band, then return slowly.'], tip: 'A rolled towel under the arm helps keep the elbow in.',
       pose: { props: '<path d="M146 6v84" stroke="#97a7d8" stroke-width="3"/>', torso: [[80, 34], [80, 58]], head: [80, 24], far: { arm: [[74, 36], [72, 48], [70, 60]], leg: [[76, 58], [75, 74], [74, 89]] }, near: { arm: [[86, 36], [88, 50], [104, 46]], leg: [[84, 58], [85, 74], [86, 89]] }, marks: '<path d="M104 46 146 50" stroke-width="2"/><path d="M98 38q6-2 8 4"/>' } },
     { id: 'cat-camel', name: 'Cat–camel', area: 'back', level: 'easy', equipment: 'mat', dose: { sets: 2, reps: 10 }, rest: 20,
-      steps: ['Kneel on all fours, hands under shoulders.', 'Slowly round your back up towards the ceiling.', 'Then let it sag gently, lifting your head a little.'], tip: 'Move with your breath and keep it slow and comfortable.',
+      steps: ['Kneel on all fours, hands under shoulders.', 'Slowly round your back up toward the ceiling.', 'Then let it sag gently, lifting your head a little.'], tip: 'Move with your breath and keep it slow and comfortable.',
       pose: { props: MAT, torso: [[60, 60], [82, 42], [104, 60]], head: [50, 64], far: { arm: [[58, 61], [57, 74], [56, 88]], leg: [[102, 61], [100, 87], [122, 88]] }, near: { arm: [[60, 60], [61, 74], [62, 88]], leg: [[104, 60], [105, 87], [127, 88]] }, marks: '<path d="M82 34v-9m-3 3 3-3 3 3"/>' } },
     { id: 'knee-to-chest', name: 'Knee to chest', area: 'back', level: 'easy', equipment: 'mat', dose: { sets: 3, hold: 20 }, rest: 15,
-      steps: ['Lie on your back with your knees bent.', 'Hug one knee gently towards your chest.', 'Hold, breathe, then swap legs.'], tip: 'Keep your head and shoulders relaxed on the floor.',
+      steps: ['Lie on your back with your knees bent.', 'Hug one knee gently toward your chest.', 'Hold, breathe, then swap legs.'], tip: 'Keep your head and shoulders relaxed on the floor.',
       pose: { props: MAT, torso: [[30, 85], [72, 85]], head: [20, 83], far: { arm: [[30, 86], [44, 87], [58, 87]], leg: [[72, 86], [96, 86], [120, 86], [125, 81]] }, near: { arm: [[32, 85], [52, 74], [76, 64]], leg: [[72, 85], [78, 64], [94, 71]] }, marks: '<path d="M90 56q-8-6-16-2m3-4-3 4 5 1"/>' } },
     { id: 'bird-dog', name: 'Bird dog', area: 'back', level: 'moderate', equipment: 'mat', dose: { sets: 3, reps: 8 }, rest: 30,
-      steps: ['Start on all fours with a flat back.', 'Reach one arm forward and the opposite leg back.', 'Hold for three seconds without tipping, then swap.'], tip: 'Imagine a cup of tea balanced on your lower back.',
+      steps: ['Start on all fours with a flat back.', 'Reach one arm forward and the opposite leg back.', 'Hold for three seconds without tipping, then swap.'], tip: 'Imagine a cup of coffee balanced on your lower back.',
       pose: { props: MAT, torso: [[60, 60], [100, 60]], head: [50, 57], far: { arm: [[60, 61], [60, 74], [60, 88]], leg: [[100, 61], [100, 87], [122, 88]] }, near: { arm: [[60, 60], [46, 56], [32, 52]], leg: [[100, 60], [117, 60], [134, 60], [138, 55]] }, marks: '<path d="M24 52h-8M146 58h8"/>' } },
     { id: 'glute-bridge', name: 'Glute bridge', area: 'hip', level: 'easy', equipment: 'mat', dose: { sets: 3, reps: 12 }, rest: 30,
       steps: ['Lie on your back, knees bent, feet hip-width apart.', 'Squeeze your buttocks and lift your hips.', 'Pause at the top, then lower slowly.'], tip: 'Push through your heels and avoid arching your lower back.',
@@ -298,7 +298,7 @@
       steps: ['Stand holding the back of a chair.', 'Rise up onto your toes as high as you can.', 'Lower slowly over three seconds.'], tip: 'Progress to one leg at a time when two feel easy.',
       pose: { props: '<path d="M112 50h22M114 50v40M132 50v40" stroke="#97a7d8" stroke-width="3"/>', torso: [[80, 30], [80, 54]], head: [82, 20], far: { arm: [[79, 33], [92, 43], [108, 50]], leg: [[78, 54], [78, 70], [80, 83], [87, 89]] }, near: { arm: [[81, 32], [95, 42], [112, 50]], leg: [[80, 54], [81, 70], [83, 83], [90, 89]] }, marks: '<path d="M71 88V76m-3 3 3-3 3 3"/>' } },
     { id: 'single-leg-balance', name: 'Single leg balance', area: 'ankle', level: 'moderate', equipment: 'none', dose: { sets: 3, hold: 30 }, rest: 20,
-      steps: ['Stand near a worktop for safety.', 'Lift one foot and balance on the other.', 'Keep your hips level and your gaze steady.'], tip: 'Too easy? Try it with your eyes closed, still near the worktop.',
+      steps: ['Stand near a counter for safety.', 'Lift one foot and balance on the other.', 'Keep your hips level and your gaze steady.'], tip: 'Too easy? Try it with your eyes closed, still near the counter.',
       pose: { torso: [[80, 32], [80, 56]], head: [81, 22], far: { arm: [[79, 34], [68, 42], [56, 46]], leg: [[80, 57], [92, 62], [90, 76]] }, near: { arm: [[81, 34], [92, 42], [104, 46]], leg: [[80, 56], [81, 72], [82, 89], [89, 89]] }, marks: '<path d="M70 92h-6M100 92h6"/>' } },
     { id: 'ankle-alphabet', name: 'Ankle alphabet', area: 'ankle', level: 'easy', equipment: 'chair', dose: { sets: 2, reps: 1 }, rest: 15,
       steps: ['Sit with one leg out straight.', 'Draw the letters A to Z in the air with your big toe.', 'Move from the ankle, not the knee.'], tip: 'Great in the first days after a sprain, little and often.',
@@ -312,23 +312,24 @@
 
   /* ---------- Prices, packages and insurers (prices.html) ---------- */
   var PACKAGES = [
-    { id: 'rehab-4', name: 'Rehab block', treatment: 'followup', sessions: 4, price: 188, note: 'Four follow-up sessions with your physio.' },
-    { id: 'massage-5', name: 'Massage card', treatment: 'massage', sessions: 5, price: 225, note: 'Five sports massages, shareable within a household.' },
-    { id: 'pilates-6', name: 'Pilates course', treatment: 'pilates', sessions: 6, price: 270, note: 'Six one-to-one clinical Pilates sessions.' },
-    { id: 'acu-4', name: 'Acupuncture course', treatment: 'acupuncture', sessions: 4, price: 176, note: 'Four acupuncture sessions, after an assessment.' }
+    { id: 'rehab-4', name: 'Rehab block', treatment: 'followup', sessions: 4, price: 340, note: 'Four follow-up sessions with your PT.' },
+    { id: 'massage-5', name: 'Massage card', treatment: 'massage', sessions: 5, price: 385, note: 'Five sports massages, shareable within a household.' },
+    { id: 'pilates-6', name: 'Pilates course', treatment: 'pilates', sessions: 6, price: 485, note: 'Six one-to-one clinical Pilates sessions.' },
+    { id: 'acu-4', name: 'Dry needling course', treatment: 'acupuncture', sessions: 4, price: 270, note: 'Four dry needling sessions, after an evaluation.' }
   ];
   var PACKAGE_MONTHS = 6; // packages are valid for this many months from the first session
-  /* status: 'direct' = we invoice the insurer, 'claim' = you pay and claim back. auth: needs an
-     authorisation number before the first visit. gp: needs a GP referral first. */
+  /* All plan names are fictional. status: 'direct' = we bill the plan, 'claim' = you pay and submit a
+     claim. auth: needs prior authorization before the first visit. gp: needs a referral from a primary
+     care provider first. */
   var INSURERS = {
-    solent: { name: 'Solent Mutual Health', status: 'direct', auth: true, gp: false },
-    wealden: { name: 'Wealden Shield', status: 'direct', auth: true, gp: true },
-    harbourgate: { name: 'Harbourgate Health', status: 'direct', auth: true, gp: false },
-    downland: { name: 'Downland Care', status: 'claim', auth: false, gp: false },
-    northmere: { name: 'Northmere Medical', status: 'claim', auth: true, gp: true },
-    fernhurst: { name: 'Fernhurst Assurance', status: 'direct', auth: true, gp: false },
-    tidewell: { name: 'Tidewell Health Cash Plan', status: 'claim', auth: false, gp: false },
-    brightling: { name: 'Brightling Workplace Health', status: 'claim', auth: false, gp: false }
+    solent: { name: 'Cottonwood Mutual PPO', status: 'direct', auth: true, gp: false },
+    wealden: { name: 'Meadowlark HMO', status: 'direct', auth: true, gp: true },
+    harbourgate: { name: 'Prairie Gate Health PPO', status: 'direct', auth: true, gp: false },
+    downland: { name: 'Bluestem Care Indemnity', status: 'claim', auth: false, gp: false },
+    northmere: { name: 'Granite Peak Medical POS', status: 'claim', auth: true, gp: true },
+    fernhurst: { name: 'Tallgrass Assurance PPO', status: 'direct', auth: true, gp: false },
+    tidewell: { name: 'Homestead Health Savings Plan', status: 'claim', auth: false, gp: false },
+    brightling: { name: 'Bright Prairie Workplace Health', status: 'claim', auth: false, gp: false }
   };
 
   /* ======================================================================
@@ -341,7 +342,7 @@
   // Own-key lookups, so URL or stored values like "constructor" never match built-in properties.
   function has(obj, key) { return typeof key === 'string' && Object.prototype.hasOwnProperty.call(obj, key); }
   function plural(n, one, many) { return n + ' ' + (n === 1 ? one : (many || one + 's')); }
-  function money(n) { return '£' + (n % 1 ? n.toFixed(2) : String(n)); }
+  function money(n) { return '$' + (n % 1 ? n.toFixed(2) : String(n)); }
   function param(name) { try { return new URLSearchParams(window.location.search).get(name); } catch (e) { return null; } }
   function setParams(values) {
     try {
@@ -411,7 +412,7 @@
   function fmtRange(r) { return fmtTime(toMin(r[0])) + ' – ' + fmtTime(toMin(r[1])); }
   function partsIn(date, zone) {
     var out = {};
-    new Intl.DateTimeFormat('en-GB', { timeZone: zone, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
+    new Intl.DateTimeFormat('en-US', { timeZone: zone, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
       .formatToParts(date).forEach(function (p) { if (p.type !== 'literal') out[p.type] = parseInt(p.value, 10); });
     if (out.hour === 24) out.hour = 0;
     return out;
@@ -424,7 +425,7 @@
   function weekday(key) { var d = key.split('-').map(Number); return new Date(Date.UTC(d[0], d[1] - 1, d[2])).getUTCDay(); }
   function dateLabel(key, opts) {
     var d = key.split('-').map(Number);
-    return new Date(Date.UTC(d[0], d[1] - 1, d[2], 12)).toLocaleDateString('en-GB', Object.assign({ timeZone: 'UTC' }, opts));
+    return new Date(Date.UTC(d[0], d[1] - 1, d[2], 12)).toLocaleDateString('en-US', Object.assign({ timeZone: 'UTC' }, opts));
   }
   /* Preview another moment with ?now=YYYY-MM-DDTHH:MM (clinic time), e.g. ?now=2027-12-24T16:30. */
   var NOW_OVERRIDE = (function () {
@@ -445,38 +446,38 @@
     return dateLabel(key, { weekday: 'short', day: 'numeric', month: 'short' });
   }
 
-  /* ---------- Bank holidays (England and Wales) ----------
-     Worked out for any year, including substitute weekdays when Christmas, Boxing Day or New Year's
-     Day fall at a weekend. Returns { 'YYYY-MM-DD': name }. One-off extra holidays (a coronation, say)
-     go in EXTRA_CLOSED. */
+  /* ---------- US federal holidays ----------
+     Worked out for any year by rule. A holiday on a Saturday is observed on the Friday before and one on a
+     Sunday on the Monday after, as federal offices do. Returns { 'YYYY-MM-DD': name }. One-off extra
+     closures go in EXTRA_CLOSED. */
   var holidayCache = Object.create(null);
   function bankHolidays(y) {
     if (holidayCache[y]) return holidayCache[y];
     var out = Object.create(null);
-    function mondayOnOrAfter(key) { while (weekday(key) !== 1) key = addDays(key, 1); return key; }
-    function lastMonday(month) { var k = addDays(month === 12 ? keyOf(y + 1, 1, 1) : keyOf(y, month + 1, 1), -1); while (weekday(k) !== 1) k = addDays(k, -1); return k; }
-    var ny = keyOf(y, 1, 1);
-    if (weekday(ny) === 6 || weekday(ny) === 0) ny = mondayOnOrAfter(ny);
-    out[ny] = 'New Year’s Day';
-    // Easter Sunday (anonymous Gregorian computus)
-    var a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4;
-    var f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30;
-    var i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
-    var easter = keyOf(y, Math.floor((h + l - 7 * m + 114) / 31), ((h + l - 7 * m + 114) % 31) + 1);
-    out[addDays(easter, -2)] = 'Good Friday';
-    out[addDays(easter, 1)] = 'Easter Monday';
-    out[mondayOnOrAfter(keyOf(y, 5, 1))] = 'the early May bank holiday';
-    out[lastMonday(5)] = 'the spring bank holiday';
-    out[lastMonday(8)] = 'the summer bank holiday';
-    var xmas = keyOf(y, 12, 25), xd = weekday(xmas);
-    if (xd === 6) { out[keyOf(y, 12, 27)] = 'Christmas Day (substitute day)'; out[keyOf(y, 12, 28)] = 'Boxing Day (substitute day)'; }
-    else if (xd === 0) { out[keyOf(y, 12, 26)] = 'Boxing Day'; out[keyOf(y, 12, 27)] = 'Christmas Day (substitute day)'; }
-    else if (xd === 5) { out[xmas] = 'Christmas Day'; out[keyOf(y, 12, 28)] = 'Boxing Day (substitute day)'; }
-    else { out[xmas] = 'Christmas Day'; out[keyOf(y, 12, 26)] = 'Boxing Day'; }
+    function dayOnOrAfter(key, wd) { while (weekday(key) !== wd) key = addDays(key, 1); return key; }
+    function lastMonday(month) { var k = addDays(keyOf(y, month + 1, 1), -1); while (weekday(k) !== 1) k = addDays(k, -1); return k; }
+    function fixed(year, month, date, name) {
+      var key = keyOf(year, month, date), wd = weekday(key);
+      if (wd === 6) out[addDays(key, -1)] = name + ' (observed)';
+      else if (wd === 0) out[addDays(key, 1)] = name + ' (observed)';
+      else out[key] = name;
+    }
+    fixed(y, 1, 1, 'New Year’s Day');
+    fixed(y + 1, 1, 1, 'New Year’s Day'); // a Saturday New Year's Day is observed on Dec 31 of this year
+    out[dayOnOrAfter(keyOf(y, 1, 15), 1)] = 'Martin Luther King Jr. Day';
+    out[dayOnOrAfter(keyOf(y, 2, 15), 1)] = 'Presidents’ Day';
+    out[lastMonday(5)] = 'Memorial Day';
+    fixed(y, 6, 19, 'Juneteenth');
+    fixed(y, 7, 4, 'Independence Day');
+    out[dayOnOrAfter(keyOf(y, 9, 1), 1)] = 'Labor Day';
+    out[dayOnOrAfter(keyOf(y, 10, 8), 1)] = 'Columbus Day';
+    fixed(y, 11, 11, 'Veterans Day');
+    out[dayOnOrAfter(keyOf(y, 11, 22), 4)] = 'Thanksgiving Day';
+    fixed(y, 12, 25, 'Christmas Day');
     holidayCache[y] = out;
     return out;
   }
-  // Why the clinic is shut on a date (bank holiday or extra closure), or null.
+  // Why the clinic is closed on a date (federal holiday or extra closure), or null.
   function closedReason(key) {
     var hol = bankHolidays(Number(key.slice(0, 4)));
     if (CLOSE_ON_BANK_HOLIDAYS && has(hol, key)) return hol[key];
@@ -534,7 +535,7 @@
   $$('[data-year]').forEach(function (el) { el.textContent = String(clinicNow().year); });
 
   /* ======================================================================
-     5. Opening hours: today's row, open-now pill, bank holiday notice
+     5. Opening hours: today's row, open-now pill, federal holiday notice
      ====================================================================== */
   function openStatus() {
     var now = clinicNow(), h = hoursOn(now.key);
@@ -569,7 +570,7 @@
           return;
         }
       }
-      el.textContent = 'Closed on bank holidays.';
+      el.textContent = 'Closed on federal holidays.';
       el.hidden = false;
     });
   }
@@ -669,7 +670,7 @@
       for (var i = 0; i < 7; i++) {
         var key = addDays(now.key, i), h = hoursOn(key), today = i === 0;
         var date = '<span class="flex items-baseline gap-1.5"><span class="font-mono text-[.75rem] tracking-[.06em] uppercase ' + (today ? 'font-semibold text-ink' : 'text-muted') + '">' + (today ? 'Today' : dateLabel(key, { weekday: 'short' })) + '</span>' +
-          '<span class="font-display text-[1.6rem] leading-tight text-ink">' + dateLabel(key, { day: 'numeric' }) + '</span><span class="font-mono text-[.75rem] text-muted">' + dateLabel(key, { month: 'short' }) + '</span></span>';
+          '<span class="font-mono text-[.75rem] text-muted">' + dateLabel(key, { month: 'short' }) + '</span><span class="font-display text-[1.6rem] leading-tight text-ink">' + dateLabel(key, { day: 'numeric' }) + '</span></span>';
         var base = 'flex h-full flex-col items-start gap-1 rounded-sm border px-3 py-2.5 lg:py-3 ';
         if (!h) {
           html += '<li><div class="' + base + 'border-rule-strong bg-[repeating-linear-gradient(135deg,var(--color-paper-dark)_0_6px,var(--color-paper)_6px_12px)]">' + date +
@@ -841,7 +842,7 @@
             '<span class="grid size-12 shrink-0 place-items-center rounded-sm bg-biro-50">' + artSVG(tid, 'size-9') + '</span><span class="min-w-0 flex-1"><span class="block font-semibold text-ink group-hover:underline">' + esc(t.name) + '</span>' +
             '<span class="font-mono text-[.8rem] text-muted">' + t.minutes + ' min · ' + money(t.price) + '</span></span><span class="text-biro-600">' + ICON.arrow + '</span></a></li>';
         }).join('') + '</ul><p class="mt-3"><a class="arrow-link" href="exercises.html?area=' + a.exercises + '">See ' + esc(plural(n, EXERCISE_AREAS[a.exercises].toLowerCase() + ' exercise')) + ICON.arrow + '</a></p></div>' +
-        '<div class="self-start border-l-[3px] border-margin-500 bg-margin-50 p-5"><h3 class="flex items-center gap-2 font-display text-xl font-medium text-margin-700">' + ICON.alert + 'Don’t wait for physio if…</h3>' +
+        '<div class="self-start border-l-[3px] border-margin-500 bg-margin-50 p-5"><h3 class="flex items-center gap-2 font-display text-xl font-medium text-margin-700">' + ICON.alert + 'Don’t wait for PT if…</h3>' +
         '<ul class="dash-list mt-3 grid gap-2.5 text-ink">' + a.redFlags.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('') + '</ul></div></div></article>';
     }).join('');
     // Side index: mark the area in view.
@@ -890,7 +891,7 @@
     var badge = $('[data-in-clinic]', card);
     if (badge) {
       var n = nextInClinic(id);
-      badge.textContent = !n ? 'Away for the next fortnight' : n.today ? 'In clinic today, until ' + fmtTime(n.shift[1]) : 'Next in clinic ' + relativeDay(n.key, clinicNow().key).replace('Tomorrow', 'tomorrow') + ', from ' + fmtTime(n.shift[0]);
+      badge.textContent = !n ? 'Away for the next two weeks' : n.today ? 'In clinic today, until ' + fmtTime(n.shift[1]) : 'Next in clinic ' + relativeDay(n.key, clinicNow().key).replace('Tomorrow', 'tomorrow') + ', from ' + fmtTime(n.shift[0]);
       badge.className = 'tag ' + (n && n.today ? 'tag-hi' : 'tag-mute');
     }
     var offers = $('[data-offers]', card);
@@ -1053,10 +1054,10 @@
 
     // Health screening: any "yes" to a red-flag question stops the online booking.
     var REDFLAG_ADVICE = {
-      cauda: 'Numbness around your bottom or genitals, or new bladder or bowel problems, need checking today. Go to A&E now or call 999.',
-      trauma: 'After a significant fall, crash or blow, you need to be checked for a fracture first. Go to an urgent treatment centre or A&E, or call 999 if you are badly hurt.',
-      systemic: 'Pain with a fever, unexplained weight loss or feeling generally unwell should be seen by a doctor first. Call NHS 111 or contact your GP today.',
-      weakness: 'Weakness that is getting worse needs to be assessed urgently. Call NHS 111 now, or 999 if it came on suddenly.'
+      cauda: 'Numbness around your buttocks or genitals, or new bladder or bowel problems, need checking today. Go to the ER now or call 911.',
+      trauma: 'After a significant fall, crash or blow, you need to be checked for a fracture first. Go to urgent care or the ER, or call 911 if you are badly hurt.',
+      systemic: 'Pain with a fever, unexplained weight loss or feeling generally unwell should be seen by a doctor first. Call your doctor or go to urgent care today.',
+      weakness: 'Weakness that is getting worse needs to be assessed urgently. Go to urgent care or the ER now, or call 911 if it came on suddenly.'
     };
     function redFlags() {
       return $$('[data-redflag]', bookingForm).filter(function (q) {
@@ -1071,7 +1072,7 @@
       submitBtn.disabled = flags.length > 0;
       var notes = [], t = state.treatment;
       var checked = function (name) { var el = $('input[name="' + name + '"]', bookingForm); return el && el.checked; };
-      if (checked('pregnant') && (t === 'shockwave' || t === 'acupuncture')) notes.push('Shockwave and some acupuncture points are not used in pregnancy. We will suggest another option when we confirm.');
+      if (checked('pregnant') && (t === 'shockwave' || t === 'acupuncture')) notes.push('Shockwave and some dry needling sites are not used in pregnancy. We will suggest another option when we confirm.');
       if (checked('pacemaker') && t === 'shockwave') notes.push('Shockwave is not suitable with a pacemaker. We will call you to talk through alternatives.');
       if (checked('anticoagulants') && (t === 'acupuncture' || t === 'massage')) notes.push('Let your therapist know which blood thinner you take: we may adapt the treatment.');
       if (checked('surgery') && t !== 'postop') notes.push('Recent surgery? Post-operative rehab may suit you better. We will check when we confirm.');
@@ -1142,7 +1143,7 @@
          and only show the confirmation below when the response is OK. See DOCS.md, "Forms". */
       var name = $('#bk-name').value.trim(), firstName = name.split(/\s+/)[0];
       var ref = BOOKING.refPrefix + '-' + Math.floor(hash(name + state.slot.key + state.slot.mins + Date.now()) * 0xfffff).toString(36).toUpperCase().padStart(4, '0');
-      var who = state.slot.who ? CLINICIANS[state.slot.who].name : 'one of our physios';
+      var who = state.slot.who ? CLINICIANS[state.slot.who].name : 'one of our PTs';
       var t = TREATMENTS[state.treatment];
       var confirm = $('[data-confirm]');
       $('[data-confirm-name]', confirm).textContent = firstName;
@@ -1169,7 +1170,7 @@
         if (!h || (i === 0 && now.mins >= toMin(h[1]) - 60)) continue;
         return (i === 0 ? 'today' : i === 1 ? 'tomorrow' : dateLabel(key, { weekday: 'long' })) + ' by ' + fmtTime(toMin(h[1]));
       }
-      return 'within one working day';
+      return 'within one business day';
     }
 
     // Prefill from the URL: ?treatment=, ?clinician=, ?area=, ?day=
@@ -1391,7 +1392,7 @@
           setRing(h.remaining / x.rest);
         } else if (h.phase === 'finished') {
           display.textContent = '✓';
-          phaseText.textContent = 'Nicely done. Ticked off in your plan for today.';
+          phaseText.textContent = 'Nicely done. Checked off in your plan for today.';
           mainBtn.textContent = 'Start again';
           setRing(1);
         } else if (holdMode) {
@@ -1539,20 +1540,20 @@
       var title = $('[data-ins-title]', out), list = $('[data-ins-steps]', out);
       if (!has(INSURERS, k)) {
         title.textContent = 'We can still see you';
-        list.innerHTML = ['Pay for each appointment at the clinic.', 'We give you an itemised invoice with our registration numbers.', 'Check with your insurer whether they will pay you back, and whether they need a GP referral.'].map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('');
+        list.innerHTML = ['Pay for each appointment at the clinic.', 'We give you an itemized receipt with our provider details.', 'Check with your insurer whether they will reimburse you, and whether they need a referral from your primary care provider.'].map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('');
         return;
       }
       var i = INSURERS[k], steps = [];
-      if (i.gp) steps.push('Ask your GP for a referral letter first: ' + i.name + ' asks for one.');
-      if (i.auth) steps.push('Call ' + i.name + ' for an authorisation number before your first visit.');
+      if (i.gp) steps.push('Ask your primary care provider for a referral first: ' + i.name + ' asks for one.');
+      if (i.auth) steps.push('Call ' + i.name + ' for prior authorization before your first visit.');
       if (i.status === 'direct') {
-        title.textContent = 'We invoice ' + i.name + ' directly';
-        steps.push('Bring your membership and authorisation numbers to your first appointment.');
-        steps.push('We bill them for covered sessions. You pay any excess, or anything over your limit.');
+        title.textContent = 'We bill ' + i.name + ' directly';
+        steps.push('Bring your insurance card and any authorization number to your first appointment.');
+        steps.push('We bill them for covered sessions. You pay any copay or deductible, and anything over your visit limit.');
       } else {
         title.textContent = 'Pay us, then claim from ' + i.name;
         steps.push('Pay at each appointment by card.');
-        steps.push('We email an itemised invoice so you can claim the money back.');
+        steps.push('We email an itemized receipt so you can submit your claim.');
       }
       list.innerHTML = steps.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('');
       setParams({ insurer: k });
@@ -1573,13 +1574,13 @@
   }
   function fieldMessage(f) {
     var v = f.value.trim();
-    if (f.type === 'checkbox') return f.required && !f.checked ? 'Please tick this box to continue.' : '';
+    if (f.type === 'checkbox') return f.required && !f.checked ? 'Please check this box to continue.' : '';
     if (f.required && !v) {
       var lbl = f.id && $('label[for="' + f.id + '"]');
       return 'Please fill in ' + (lbl ? lbl.textContent.replace(/\(.*\)/, '').trim().toLowerCase() : 'this field') + '.';
     }
     if (v && f.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return 'Enter an email address like name@example.com.';
-    if (v && f.type === 'tel' && v.replace(/\D/g, '').length < 10) return 'Enter a phone number with the area code, like 01632 960517.';
+    if (v && f.type === 'tel' && v.replace(/\D/g, '').length < 10) return 'Enter a phone number with the area code, like (406) 555-0126.';
     var min = Number(f.getAttribute('minlength'));
     if (v && min && v.length < min) return 'Please write at least ' + plural(min, 'character') + '.';
     return '';

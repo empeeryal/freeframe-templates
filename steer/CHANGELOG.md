@@ -7,6 +7,14 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-05
+
+### Changed
+
+- Set in Eau Claire, Wisconsin, with American spelling, US dollars, US phone numbers and local details.
+- The pick-up checker takes ZIP codes (5 digits, optional +4), the booking form checks US phone numbers, and lessons skip US federal holidays by rule, in Central time.
+- The steps, FAQ and quiz follow the Wisconsin DMV process: knowledge and signs tests, instruction permit, road test. The quiz has 26 new questions, with a passing score of 80%. Automatic is now the preselected transmission, and Pass Plus is now a Winter & Highway course.
+
 ## [1.0.4] - 2026-11-05
 
 ### Changed

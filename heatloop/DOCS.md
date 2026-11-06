@@ -3,11 +3,11 @@
 ## Overview
 
 Heatloop is a complete website for a technology startup, especially a hardware or climate-tech company with a
-physical product, shown as **Heatloop**, a fictional Aberdeen company that makes a thermal battery: a cabinet that
+physical product, shown as **Heatloop**, a fictional company in Bangor, Maine, that makes a thermal battery: a cabinet that
 charges from cheap off-peak electricity, stores the energy as heat in phase-change cells and feeds radiators and
-hot taps later. The look is editorial deep-tech: off-white paper, forest green and copper, a large serif for
+hot faucets later. The look is editorial deep-tech: off-white paper, forest green and copper, a large serif for
 headlines, numbered sections with hairline rules, technical line drawings and charts drawn in SVG, and a deep
-green-black dark mode. This is the **HTML + Tailwind CSS v4** version (1.0.0): plain HTML files, one stylesheet
+green-black dark mode. This is the **HTML + Tailwind CSS v4** version (1.0.3): plain HTML files, one stylesheet
 and one vanilla JavaScript file, with no build step needed to run it.
 
 Live demo: [freeframe.dev/templates/heatloop](https://freeframe.dev/templates/heatloop)
@@ -31,9 +31,9 @@ You only need Node.js 24 (for `npm`) if you change `src/input.css` or add Tailwi
 | File | Page | Notable sections and features |
 |------|------|-------------------------------|
 | `index.html` | Home | Hero with the product cutaway (Fig. 1) and a numbered key, key figures, how it works in three steps, the "how much could you shift" teaser, press quotes, milestones, latest news, reservation call to action |
-| `technology.html` | Technology | Exploded view (Fig. 2), the interactive 24-hour charge and tariff diagram, three charts about the store (melting curve, heat loss, controls), specification table (`#specs`), questions in `<details>` |
-| `estimator.html` | Savings and carbon estimator | Home, heating, tariff and region inputs; yearly cost and CO2e with bars; suggested model; copy-link button; the formula with your numbers; assumptions table |
-| `reserve.html` | Reserve | Coverage map (Fig. 3), the three-step reservation, saved reservation for returning visitors, list of covered postcode districts |
+| `technology.html` | Technology | Exploded view (Fig. 2), the interactive 24-hour charge and electric rate diagram, three charts about the store (melting curve, heat loss, controls), specification table (`#specs`), questions in `<details>` |
+| `estimator.html` | Savings and carbon estimator | Home size, heating, rate plan and region inputs; yearly cost and CO2e with bars; suggested model; copy-link button; the formula with your numbers; assumptions table |
+| `reserve.html` | Reserve | Coverage map (Fig. 3), the three-step reservation, saved reservation for returning visitors, list of covered ZIP codes |
 | `careers.html` | Careers | Workshop drawing, roles with team, location and remote filters, saved roles, role details dialog, benefits, hiring steps |
 | `company.html` | Company | Story and key figures, principles, team with drawn portraits, backers with their marks, timeline, press kit downloads (`#press`) |
 | `news.html` | News | Nine dated posts that expand in place (`#post-<id>`), topic filter, coming-up events, press contact |
@@ -58,7 +58,7 @@ heatloop/
       heatloop-logo-reversed.svg  press kit: logo, cream on green
       heatloop-28-cutaway.svg     press kit: product cutaway drawing
       heatloop-fact-sheet.txt     press kit: fact sheet
-  src/input.css                   Tailwind source: colour tokens, fonts and components
+  src/input.css                   Tailwind source: color tokens, fonts and components
   package.json                    npm scripts to rebuild the CSS
   README.md, DOCS.md, CHANGELOG.md
   LICENSE.txt                     MIT license (in the download)
@@ -83,7 +83,7 @@ with the theme automatically.
 | `--rule` | `#c9c1ad` | `#2c4035` | Hairline rules and borders |
 | `--forest`, `--forest-2` | `#1f4a37`, `#2b6149` | `#7cc29d`, `#9bd3b4` | Buttons, state of charge, pressed toggles |
 | `--copper` | `#8c4f17` | `#e3a663` | Labels, section numbers, links, focus outline |
-| `--ochre`, `--ember` | `#c98a3a`, `#d4682a` | `#e0a052`, `#ee8a4c` | Tariff line and heat in drawings (decorative) |
+| `--ochre`, `--ember` | `#c98a3a`, `#d4682a` | `#e0a052`, `#ee8a4c` | Rate line and heat in drawings (decorative) |
 | `--field`, `--danger` | `#fbf9f4`, `#a3301c` | `#0f1b15`, `#ff9a85` | Form inputs, error messages |
 
 Three fixed colors in `@theme` don't change with the theme: `--color-pine` and `--color-pine-deep` (the green
@@ -117,13 +117,13 @@ Page text lives in the HTML files. Data that drives the interactions is at the t
 |----------|---------------|
 | `MODELS`, `MODEL_ORDER` | The three models: `capacity` (kWh of heat), `power` (kW element), indicative `price`, `fits` |
 | `NIGHT_SHARE` | Home teaser: share of a day's heat used in the cheap hours anyway (0.12) |
-| `TARIFF_BANDS` | The illustrative time-of-use tariff for the technology diagram, pence per kWh by time band |
-| `CHARGE_BELOW`, `TOPUP_BELOW`, `TOPUP_TARGET` | When the simulated store charges (at or below 7p), tops up (at or below 15p, to 85%) |
-| `DEMAND_WEIGHTS`, `DAY_HEAT` | Hourly shape of a cold day's heat use and its total (46 kWh) |
-| `HOMES`, `HEATING`, `TARIFFS`, `REGIONS` | Estimator inputs: heat use, fuel prices, efficiencies, carbon factors, tariffs, climate factors |
-| `HEATLOOP_EFF`, `GRID_CO2`, `ESTIMATE_DEFAULTS` | Estimator: overall efficiency (0.95), grid carbon at night and by day, default inputs |
-| `COVERAGE`, `COMING_NEXT` | Postcode districts installed now, and next |
-| `RESERVATIONS_AT_ANCHOR`, `RESERVATIONS_PER_WEEK`, `SURVEY_LEAD_MONTHS` | Reservation count and queue place, survey month |
+| `TARIFF_BANDS` | The illustrative time-of-use rate plan for the technology diagram, cents per kWh by time band (the `p` key holds cents) |
+| `CHARGE_BELOW`, `TOPUP_BELOW`, `TOPUP_TARGET` | When the simulated store charges (at or below 13¢), tops up (at or below 20¢, to 85%) |
+| `DEMAND_WEIGHTS`, `DAY_HEAT` | Hourly shape of a cold day's heat use and its total (90 kWh) |
+| `HOMES`, `HEATING`, `TARIFFS`, `REGIONS` | Estimator inputs: heat use, sample fuel prices with their units, efficiencies, carbon factors, rate plans, climate factors |
+| `HEATLOOP_EFF`, `GRID_CO2`, `ESTIMATE_DEFAULTS` | Estimator: overall efficiency (0.95), grid carbon in pounds per kWh at night and by day, default inputs |
+| `COVERAGE`, `COMING_NEXT` | ZIP codes installed now, and next |
+| `RESERVATIONS_AT_ANCHOR`, `RESERVATIONS_PER_WEEK`, `SURVEY_LEAD_MONTHS` | Reservation count and queue place, home assessment month |
 | `TEAMS`, `LOCATIONS`, `MODES`, `ROLES` | Careers: filters and the eleven roles |
 | `EVENT_RULES`, `EVENTS_SHOWN` | Coming-up events on the news page |
 | `CONTACT_TYPES`, `CONTACT_REPLY` | Contact inquiry types and which team replies |
@@ -131,10 +131,10 @@ Page text lives in the HTML files. Data that drives the interactions is at the t
 Adding a role is one object in `ROLES` (the `team` and `location` keys must exist in `TEAMS` and `LOCATIONS`):
 
 ```js
-{ id: 'electrical-engineer', title: 'Electrical Design Engineer', team: 'engineering', location: 'aberdeen', mode: 'hybrid', salary: '£48,000–£58,000',
+{ id: 'electrical-engineer', title: 'Electrical Design Engineer', team: 'engineering', location: 'bangor', mode: 'hybrid', salary: '$90,000–$110,000',
   summary: 'Design the power electronics and protection for the charging element.',
   do: ['Design and test power boards', 'Own electrical safety documentation'],
-  bring: ['Power electronics experience', 'Knowledge of UK wiring regulations'] }
+  bring: ['Power electronics experience', 'Knowledge of the National Electrical Code'] }
 ```
 
 News posts are written in `news.html`, one `<details id="post-<id>" data-topic="...">` each, with a
@@ -172,9 +172,9 @@ to remove dark mode, delete the button, the script's `classList.add('dark')` and
 
 ### How much could you shift (home)
 
-`initShift()` reads the model toggles (`[data-shift-model]`) and the heat slider (`#shift-need`, 20 to 80 kWh).
-Cheap-rate heat is `min(need, need × NIGHT_SHARE + capacity)`. Expected values for 46 kWh: Heatloop 18, 51%
-(23.5 kWh cheap); Heatloop 28, 73% (33.5 kWh); Heatloop 40, 99% (45.5 kWh). The bar is an SVG `rect` whose width
+`initShift()` reads the model toggles (`[data-shift-model]`) and the heat slider (`#shift-need`, 40 to 160 kWh).
+Cheap-rate heat is `min(need, need × NIGHT_SHARE + capacity)`. Expected values for 90 kWh: Heatloop 18, 32%
+(28.8 kWh cheap); Heatloop 28, 43% (38.8 kWh); Heatloop 40, 56% (50.8 kWh). The bar is an SVG `rect` whose width
 is set from the share. Toggles use `aria-pressed`; the slider has a visible label with the current value.
 
 ### A day of charge and release (technology)
@@ -182,14 +182,14 @@ is set from the share. Toggles use `aria-pressed`; the slider has a visible labe
 `initDayChart()` runs `simulateDay(model, DAY_HEAT)` in 48 half-hour slots: at or below `CHARGE_BELOW` the element
 charges flat out (half the model's kW per slot) and the home is heated directly; once full it holds; at or below
 `TOPUP_BELOW` it tops up to `TOPUP_TARGET`; otherwise heat comes from the store, and from the grid ("Backup") if
-the store is empty. The day runs twice so it starts as it ended. It then draws an SVG with the tariff (ochre step
+the store is empty. The day runs twice so it starts as it ended. It then draws an SVG with the rate plan (ochre step
 line), the state of charge (green area), shaded cheap hours and a cursor for the time slider (`#day-time`, 0 to
-47; default 35 = 17:30). On narrow screens it redraws with a narrower viewBox and larger labels.
+47; default 35 = 5:30 PM). On narrow screens it redraws with a narrower viewBox and larger labels.
 
-Expected values for the Heatloop 28 at 17:30: 34p / kWh, Releasing, 62% · 17.4 kWh, 1.93 kWh heat to the home;
-at 04:00 it is full (Charging, 100%); at 13:00 it is Topping up. Over the day: Heatloop 18 buys 46.0 kWh, 59% at
-the cheap rate, about £5; Heatloop 28, 79%, about £4; Heatloop 40, 84%, about £4. "Play the day" steps through
-the slots (slower with reduced motion) and stops at 23:30; the slider has an `aria-valuetext` and the readouts are
+Expected values for the Heatloop 28 at 5:30 PM: 40¢ / kWh, Releasing, 36% · 10.0 kWh, 3.78 kWh heat to the home;
+at 4:00 AM it is full (Holding, 100%); at 1:00 PM it is Topping up. Over the day: Heatloop 18 buys 90.0 kWh, 38% at
+the cheap rate, about $20; Heatloop 28, 49%, about $17; Heatloop 40, 63%, about $15. "Play the day" steps through
+the slots (slower with reduced motion) and stops at 11:30 PM; the slider has an `aria-valuetext` and the readouts are
 in a polite live region.
 
 ### Savings and carbon estimator
@@ -197,13 +197,16 @@ in a polite live region.
 `initEstimator()` reads the radios and selects in `[data-estimator]` and calls `estimate()`:
 
 1. Heat = `HOMES[size].heat × REGIONS[region].climate`.
-2. Now: heat ÷ `eff` = fuel kWh; × `price` = cost; × `co2` = kg CO2e.
-3. Blended Heatloop price = `shift × off + (1 − shift) × peak`.
+2. Now: heat ÷ `eff` = fuel kWh; ÷ `kwhPerUnit` = therms, gallons or kWh; × `price` (dollars) = cost; fuel kWh × `co2` = lb CO2e.
+3. Blended Heatloop price in cents = `shift × off + (1 − shift) × peak`.
 4. Heatloop: heat ÷ `HEATLOOP_EFF` = electricity; × blended price = cost; carbon uses `GRID_CO2.off` and `.peak`.
 
-Expected results: semi, oil, time-of-use, North East Scotland (the defaults): £1,262 now, £1,149 with a Heatloop,
-"£113 less a year", 4.0 t to 1.7 t (58% less), Heatloop 28. Semi with gas: "£130 more a year", 3.0 t to 1.7 t.
-Flat, direct electric, Economy 7, Southern England: "£687 less a year", Heatloop 18. The estimate is labeled as an
+Expected results: mid-size home, oil, time-of-use, Bangor and eastern Maine (the defaults): $3,666 now, $3,532 with
+a Heatloop, "$134 less a year", 7.1 tons to 6.5 tons (10% less), Heatloop 28. Mid-size with natural gas: "$1,986 more a
+year", 5.2 tons to 6.5 tons. Apartment, electric baseboard, off-peak heating rate, Southern Maine and coastal New
+Hampshire: "$669 less a year", Heatloop 18. All prices are samples, not quotes: heating oil $5.75 a gallon, propane
+$3.50 a gallon, natural gas $1.75 a therm, and electricity from 13¢ to 40¢ a kWh. Update `HEATING` and `TARIFFS` with
+your own. Grid carbon is illustrative, near New England's published average. The estimate is labeled as an
 estimate, says when a Heatloop would cost more to run, and the formula section shows every step with the
 visitor's numbers. Inputs are kept in the URL (see [URL parameters](#url-parameters)); "Copy link to this
 estimate" copies it, with the link shown as text if the clipboard isn't available.
@@ -213,14 +216,14 @@ estimate" copies it, with the link shown as text if the clipboard isn't availabl
 `initReserve()` runs three `<fieldset data-step>` steps with a step indicator (`aria-current="step"`):
 
 1. **Model**: radio cards for `hl18`, `hl28`, `hl40` (preselected from `?model=`).
-2. **Postcode**: checked against a UK postcode pattern; the outward code (e.g. `AB15`) is looked up in `COVERAGE`
-   ("Good news: we install in AB15", with first surveys from the month `SURVEY_LEAD_MONTHS` ahead), then
+2. **ZIP code**: 5 digits with an optional +4; the 5-digit ZIP (e.g. `04401`) is looked up in `COVERAGE`
+   ("Good news: we install in 04401", with first home assessments from the month `SURVEY_LEAD_MONTHS` ahead), then
    `COMING_NEXT` ("next on our list") or neither ("We don't install in … yet"; you can still reserve).
-3. **Contact**: name, email, optional UK phone, optional newsletter.
+3. **Contact**: name, email, optional US phone, optional newsletter.
 
 On submit it saves the reservation (see [Saved data](#saved-data-localstorage)) and shows the success panel with a
-reference like `HL-AB15-7K2Q`, the place in the queue (`RESERVATIONS_AT_ANCHOR + 1`, plus growth while
-`KEEP_DEMO_CURRENT` is on; 2,141 on 27 October 2026) and what happens next. Returning visitors see the saved
+reference like `HL-04401-7K2Q`, the place in the queue (`RESERVATIONS_AT_ANCHOR + 1`, plus growth while
+`KEEP_DEMO_CURRENT` is on; 2,141 on Oct 27, 2026) and what happens next. Returning visitors see the saved
 panel ("Welcome back, …"), and the home page and header buttons change to "View your reservation" / "Your place".
 "Change details" reopens the form filled in (keeping the reference and place); "Cancel reservation" deletes it.
 
@@ -238,8 +241,8 @@ Esc and the close buttons close the dialog and focus returns to the button that 
 
 `initNewsFilter()` filters posts by `data-topic` with `[data-topic-filter]` toggles, kept in `?topic=`; the count
 reads "9 posts". A link to `news.html#post-<id>` opens that post. `initEvents()` builds the coming-up list from
-`EVENT_RULES` (first Saturday open morning, second Wednesday webinar, last Thursday installer evening): the next
-date of each rule after now, in London time, so the list is never empty or in the past.
+`EVENT_RULES` (first Saturday open house, second Wednesday webinar, last Thursday installer evening): the next
+date of each rule after now, in Eastern time, so the list is never empty or in the past.
 
 ### Demo dates
 
@@ -251,8 +254,8 @@ everything written for `DEMO_ANCHOR` (`'2026-10-27'`) moves forward by the **who
 - Milestone and timeline years (`[data-shift-year]`), by the whole years in that shift.
 - The reservation count (`[data-reservations]`) and new queue places, by `RESERVATIONS_PER_WEEK`.
 
-On 27 October 2026 nothing moves, so the page shows exactly the text it was written with. Always computed from
-today, regardless of the switch: the copyright year (`[data-year]`), the coming-up events and the survey month
+On Oct 27, 2026 nothing moves, so the page shows exactly the text it was written with. Always computed from
+today, regardless of the switch: the copyright year (`[data-year]`), the coming-up events and the home assessment month
 (`[data-survey-month]`). For a real site with fixed dates, set `KEEP_DEMO_CURRENT = false`.
 
 ### Contact type and role
@@ -270,8 +273,8 @@ The menu button toggles `#mobile-menu` with `aria-expanded`; Esc closes it and r
 
 | Form | Page | Validates |
 |------|------|-----------|
-| `[data-reserve]` | `reserve.html` | Model chosen; postcode format; name; email; optional UK phone |
-| `#contact-form` | `contact.html` | Inquiry type, name, email, optional UK phone, message of at least 20 characters |
+| `[data-reserve]` | `reserve.html` | Model chosen; ZIP code format; name; email; optional US phone |
+| `#contact-form` | `contact.html` | Inquiry type, name, email, optional US phone, message of at least 20 characters |
 | `#newsletter` | every page | Email |
 
 Errors appear under each field (linked with `aria-describedby`) and set `aria-invalid`; focus moves to the first
@@ -294,7 +297,7 @@ fetch('https://formspree.io/f/your-id', {
   form.hidden = true;
   panel.focus();
 }).catch(function () {
-  announce('Sorry, that didn’t send. Please call us on 01632 960776.');
+  announce('Sorry, that didn’t send. Please call us at (207) 555-0176.');
 });
 ```
 
@@ -305,7 +308,7 @@ The reservation form takes no payment; the page says so.
 | Key | Shape | Validated on read |
 |-----|-------|-------------------|
 | `heatloop:theme` | `"dark"` or `"light"` | Anything else is ignored and the system setting is used |
-| `heatloop:reservation` | `{ ref, model, postcode, name, email, phone, updates, place, created }` | `ref` matches `HL-XXXX-XXXX`; `model` an own key of `MODELS`; `postcode` a valid UK postcode; `name` non-empty; `email` a string; `place` a positive number; `created` a `YYYY-MM-DD` date. Otherwise the reservation is ignored |
+| `heatloop:reservation` | `{ ref, model, postcode, name, email, phone, updates, place, created }` | `ref` matches `HL-XXXX-XXXX`; `model` an own key of `MODELS`; `postcode` a valid US ZIP code; `name` non-empty; `email` a string; `place` a positive number; `created` a `YYYY-MM-DD` date. Otherwise the reservation is ignored |
 | `heatloop:saved-roles` | `["firmware-engineer", "surveyor"]` | Only ids in `ROLES`, without duplicates |
 
 All storage goes through one `safeStorage` object: `localStorage`, or an in-memory stand-in when the browser blocks
@@ -316,7 +319,7 @@ the reservation, unsave roles, or run `localStorage.removeItem('heatloop:reserva
 
 | Page | Parameters |
 |------|------------|
-| `estimator.html` | `size` (`flat`, `terrace`, `semi`, `detached`), `heat` (`gas`, `oil`, `lpg`, `storage`, `electric`), `tariff` (`tou`, `e7`, `single`), `region` (`nescot`, `highland`, `central`, `north`, `midlands`, `south`) |
+| `estimator.html` | `size` (`apartment`, `small`, `midsize`, `large`), `heat` (`gas`, `oil`, `propane`, `storage`, `electric`), `tariff` (`tou`, `offpeak`, `single`), `region` (`eastern`, `northern`, `central`, `western`, `midcoast`, `southern`) |
 | `reserve.html` | `model` (`hl18`, `hl28`, `hl40`) |
 | `careers.html` | `team`, `location`, `remote=1`, `role=<id>` |
 | `news.html` | `topic` (`product`, `installs`, `research`, `company`) |
@@ -327,13 +330,13 @@ to the defaults.
 
 ### Time zone
 
-All dates use `TIME_ZONE = 'Europe/London'`, not the visitor's clock.
+All dates use `TIME_ZONE = 'America/New_York'` (Eastern time), not the visitor's clock.
 
 ## SEO and sharing
 
 Every page has its own `<title>`, meta description, `theme-color` (light and dark), Open Graph tags (`og:locale`
-`en_GB`) and a Twitter card. `og:image` is the relative path `assets/img/og-image.png`; social sites need an
-absolute URL, so after deploying change it to e.g. `https://www.example.co.uk/assets/img/og-image.png` on every
+`en_US`) and a Twitter card. `og:image` is the relative path `assets/img/og-image.png`; social sites need an
+absolute URL, so after deploying change it to e.g. `https://www.example.com/assets/img/og-image.png` on every
 page. To regenerate the PNG after editing the SVG, open `og-image.svg` in a browser at 1200 x 630 and take a
 screenshot, or use any SVG-to-PNG converter.
 
@@ -380,8 +383,8 @@ plain web hosting. Configure your host to serve `404.html` for missing pages. Yo
 ## Troubleshooting
 
 - **The estimator says a Heatloop costs more than gas.** That's the honest result with the illustrative prices
-  in `HEATING` and `TARIFFS`. Update them to current prices for your market.
-- **A postcode I cover shows as not covered.** Add its outward code (the part before the space) to `COVERAGE`,
+  in `HEATING` and `TARIFFS`. Natural gas is cheap next to resistance heat in much of the US. Update them to current prices for your market.
+- **A ZIP code I cover shows as not covered.** Add its 5 digits to `COVERAGE`,
   and to the list on `reserve.html`.
 - **News dates look a year later than I wrote them.** `KEEP_DEMO_CURRENT` is on. Set it to `false` once the posts
   are real.

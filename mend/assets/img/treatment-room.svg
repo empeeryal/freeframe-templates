@@ -36,7 +36,7 @@
     <path d="M66 400c-10-24-6-52 6-70-14 6-24 22-26 40"/>
   </g>
   <path d="M66 400c-4-30-22-46-40-50M66 400c0-38 10-66 30-80" stroke-width="1.4"/>
-  <!-- Treatment couch -->
+  <!-- Treatment table -->
   <rect x="150" y="300" width="330" height="24" rx="8" fill="#2a3b81"/>
   <path d="M380 300h92a8 8 0 0 1 8 8v0H380Z" fill="#ffffff" stroke-width="1.6"/>
   <rect x="160" y="282" width="56" height="20" rx="10" fill="#fbf3b8"/>
@@ -57,7 +57,7 @@
   <ellipse cx="596" cy="423" rx="10" ry="17" fill="#fbf3b8"/>
   <ellipse cx="596" cy="423" rx="4" ry="7" fill="#ffffff" stroke-width="1.6"/>
   <path d="M496 408v30M514 408v30M532 408v30M550 408v30M568 408v30" stroke-width="1.4" stroke-dasharray="3 4"/>
-  <!-- Towel folded on the couch end -->
+  <!-- Towel folded on the table end -->
   <path d="M410 286h56v14h-56Z" fill="#f8ddd9"/>
   <path d="M410 293h56" stroke-width="1.4"/>
 </svg>

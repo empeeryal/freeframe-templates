@@ -11,7 +11,7 @@
   --font-display: "Saira Extra Condensed", "Arial Narrow", "Roboto Condensed", ui-sans-serif, sans-serif;
   --font-gauge: "Chakra Petch", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  /* Number-plate yellow: big fills and accents on dark. Black text on it, never yellow text on light. */
+  /* License-plate yellow: big fills and accents on dark. Black text on it, never yellow text on light. */
   --color-plate: #ffd21f;
   --color-plate-deep: #f0bf00;
   --color-plate-soft: #fff1b0;
@@ -129,7 +129,7 @@
   .lede { @apply text-lg leading-relaxed text-steel; }
   .on-dark .lede { @apply text-chrome; }
 
-  /* Number plates */
+  /* License plates */
   .plate {
     @apply inline-flex items-center gap-0 overflow-hidden rounded-[6px] border-[3px] border-ink bg-plate font-display font-extrabold uppercase leading-none tracking-[0.06em] text-ink;
   }
@@ -268,7 +268,7 @@
   .rating-bar { @apply h-3 flex-1 border-2 border-ink bg-white; }
   .rating-fill { @apply block h-full bg-ink; }
 
-  /* MOT timeline */
+  /* Inspection timeline */
   .mot-status { @apply inline-flex items-center gap-2 border-2 px-3 py-1 font-gauge text-xs font-semibold uppercase tracking-[0.14em]; }
   .mot-status[data-state="ok"] { @apply border-go bg-go text-white; }
   .mot-status[data-state="soon"] { @apply border-ink bg-plate text-ink; }

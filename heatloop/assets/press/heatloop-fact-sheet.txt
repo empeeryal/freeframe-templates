@@ -1,38 +1,40 @@
 HEATLOOP FACT SHEET
 ===================
 
-Company      Heatloop Ltd, Union Terrace, Aberdeen AB10
-Workshop     Howe Moss Avenue, Dyce, Aberdeen AB21
+Company      Heatloop, Inc., Exchange Street, Bangor, ME 04401
+Workshop     Coldbrook Road, Hermon, ME 04401
 Web          https://heatloop.example
-Press        press@heatloop.example / 01632 960787
+Press        press@heatloop.example / (207) 555-0187
 
 WHAT WE MAKE
 Heatloop is a thermal battery for homes. It charges from cheap off-peak
 electricity, stores the energy as heat in sealed phase-change cells that
-melt at 58 C, and delivers it to wet radiators and hot taps on demand.
-No combustion, no flue, no gas supply.
+melt at 136 F, and delivers it to hot-water radiators or baseboard and to
+hot faucets on demand. No combustion, no flue, no fuel tank.
 
-MODELS (indicative prices, installed, before grants)
-  Heatloop 18   18 kWh heat   5 kW element   600 x 600 x 1150 mm   from GBP 4,900
-  Heatloop 28   28 kWh heat   7 kW element   600 x 600 x 1650 mm   from GBP 6,400
-  Heatloop 40   40 kWh heat   9 kW element   750 x 600 x 1850 mm   from GBP 8,200
+MODELS (indicative prices, installed, not counting any rebate or tax credit)
+  Heatloop 18   18 kWh heat   5 kW element   24 x 24 x 45 in   from $8,900
+  Heatloop 28   28 kWh heat   7 kW element   24 x 24 x 65 in   from $11,500
+  Heatloop 40   40 kWh heat   9 kW element   30 x 24 x 73 in   from $14,500
 
 IN NUMBERS
   People                 34
-  Raised to date         GBP 8.1m (pre-seed GBP 1.6m, seed GBP 6.5m)
+  Raised to date         $10.5M (pre-seed $2M, seed $8.5M)
   Pilot homes            50, logging every half hour
   Pilot heat bought off-peak    84% on average over a winter
   Store heat loss        under 3% a day in lab tests
   Cell cycling           10,000 melt-freeze cycles tested
 
 LEADERSHIP
-  Seonaid Ogston         Co-founder, Chief Executive
-  Dr Rasmus Bergqvist    Co-founder, Chief Technology Officer
+  Margot Thibodeau       Co-founder, Chief Executive
+  Dr. Rasmus Bergqvist   Co-founder, Chief Technology Officer
   Magnus Sangster        Independent chair
 
 BACKERS
-  Firthside Ventures (seed lead), Cairnmoor Capital,
-  Brackwater Climate Fund, Haar Angels
+  Tidehead Ventures (seed lead), Ledgewood Capital,
+  Brackwater Climate Fund, Sea Smoke Angels
 
-Savings and carbon figures published by Heatloop are estimates and depend on
-each home, tariff and the weather. They are not financial advice.
+Savings and carbon figures published by Heatloop are estimates that use sample
+prices, and they depend on each home, rate plan and the weather. They are not
+financial advice. Federal, state and utility incentives change, and Heatloop
+does not promise any.

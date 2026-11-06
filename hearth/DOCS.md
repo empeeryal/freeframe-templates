@@ -2,12 +2,12 @@
 
 ## Overview
 
-Hearth is a complete website for a pub with rooms, a country inn or a bed and breakfast, shown as **The Fallow
-Hart**, a fictional old drovers' inn with six rooms on the green at Kirkby Malham in the Yorkshire Dales. It has a
+Hearth is a complete website for a country inn with a tavern or a bed and breakfast, shown as **The Fallow
+Hart**, a fictional old stagecoach inn with six rooms just off the green in Woodstock, Vermont. It has a
 "fire's lit" status worked out from the opening hours, rooms with seasonal prices and a stay checker, tabbed
-menus with a dietary filter and a daily specials board, walks from the door with a route map, events, gift
-vouchers and directions. The look is rustic and warm: woodcut-style SVG artwork, cream paper, forest green and
-ox-blood, a slab serif and a chalkboard. This is the **HTML + Tailwind CSS v4** version (1.0.3): plain HTML
+menus with a dietary filter and a daily specials board, trails from the door with a route map, events, gift
+certificates and directions. The look is rustic and warm: woodcut-style SVG artwork, cream paper, forest green and
+ox-blood, a slab serif and a chalkboard. This is the **HTML + Tailwind CSS v4** version (1.0.6): plain HTML
 files, one stylesheet and one vanilla JavaScript file, with no build step needed to run it.
 
 Live demo: [freeframe.dev/templates/hearth](https://freeframe.dev/templates/hearth)
@@ -30,13 +30,13 @@ You only need Node.js 24 (for `npm`) if you change `src/input.css` or add Tailwi
 
 | File | Page | Notable sections and features |
 |------|------|-------------------------------|
-| `index.html` | Home | Woodcut hero with the "fire's lit" status card, a check-a-stay bar, today's hours and the next event, three rooms, food, walks, dogs, guest book, voucher ticket |
+| `index.html` | Home | Woodcut hero with the "fire's lit" status card, a check-a-stay bar, today's hours and the next event, three rooms, food, trails, dogs, guest book, gift certificate ticket |
 | `rooms.html` | Rooms and prices | Six rooms with features and a price per season, the stay checker (`#check`), the booking inquiry form and house notes |
-| `food.html` | Food & drink | Menus in tabs (breakfast, lunch, dinner, Sunday roast), diet filter, chalkboard specials for today, ales on handpull |
-| `walks.html` | Walks from the door | Eight walks with length, difficulty and saved filters, an SVG route map, save buttons |
+| `food.html` | Food & drink | Menus in tabs (breakfast, lunch, dinner, Sunday roast), diet filter, chalkboard specials for today, ales on tap |
+| `walks.html` | Trails from the door | Eight trails with length, difficulty and saved filters, an SVG route map, save buttons |
 | `dogs.html` | Dogs & good to know | Dog policy, what's provided for dogs, FAQ (`<details>`), house rules |
-| `events.html` | What's on | Upcoming events for the next 60 days, filterable by type; the regulars; barn hire |
-| `vouchers.html` | Gift vouchers | Voucher builder with live preview, character counter, delivery choice and total |
+| `events.html` | What's on | Upcoming events for the next 60 days, filterable by type; the regulars; barn rental |
+| `vouchers.html` | Gift certificates | Certificate builder with live preview, character counter, delivery choice and total |
 | `contact.html` | Contact & getting here | Contact form (topic from `?topic=`), address, opening hours with today highlighted, directions and a sketch map |
 | `404.html` | Not found | Friendly 404 page for your host to serve |
 
@@ -50,7 +50,7 @@ hearth/
     css/style.css        compiled Tailwind CSS (generated, don't edit by hand)
     js/main.js           all interactions; settings and data at the top
     img/
-      hero.svg           home page woodcut (inn, fells, walls, stag)
+      hero.svg           home page woodcut (inn, hills, walls, stag)
       room-*.svg         one woodcut per room (snug, hayloft, shepherd, beck, cove, dairy)
       food.svg           pie and pint
       hearth.svg         fireplace and sleeping dog
@@ -116,20 +116,20 @@ Text lives in the HTML files. Data that features compute with lives in constants
 
 | Constant | What it holds |
 |----------|---------------|
-| `TIME_ZONE` | `'Europe/London'`: every clock-based feature uses the inn's time, not the visitor's |
+| `TIME_ZONE` | `'America/New_York'`: every clock-based feature uses the inn's time, not the visitor's |
 | `HOURS` | Per weekday (`0` = Sunday): `bar` `[open, close]`, `kitchen` list of `[from, to]`, `breakfast` `[from, to]`, all `'HH:MM'` |
-| `SEASONS` | `low` (Nov to Feb), `mid` (Mar to May, Oct), `high` (Jun to Sep): a `label` and its `months` |
-| `ROOMS` | Per room id: `name`, `sleeps`, `dogs` (true if dogs allowed), `rates` per season in pounds |
+| `SEASONS` | `low` (Mar, Apr, Nov), `mid` (Dec to Feb, May, Jun), `high` (Jul to Oct): a `label` and its `months` |
+| `ROOMS` | Per room id: `name`, `sleeps`, `dogs` (true if dogs allowed), `rates` per season in dollars, before tax |
 | `ROOM_ORDER` | Room ids in display order (also used by the demo availability) |
-| `STAY_RULES` | `maxNights` 14, `maxDaysAhead` 365, `saturdayMinNights` 2, `maxGuests` 4, `maxDogs` 2, `dogFee` 15 |
+| `STAY_RULES` | `maxNights` 14, `maxDaysAhead` 365, `saturdayMinNights` 2, `maxGuests` 4, `maxDogs` 2, `dogFee` 30 |
 | `SPECIALS` | Per weekday: a list of `[dish, price]` for the chalkboard |
 | `EVENT_RULES` | Recurring events: `weekday`, optional `nth` weeks of the month (`-1` = last), `time`, `title`, `price`, `text`, `type` |
 | `EVENTS` | One-off events with an ISO `date`; `sameWeekday: true` keeps the weekday when the demo moves it to a later year |
 | `KEEP_DEMO_CURRENT` | `true`: past one-off events come back a year later so the demo always has seasonal specials (see [Events](#events)). Set it to `false` once `EVENTS` holds your real dates |
 | `EVENT_TYPES`, `EVENT_WINDOW_DAYS` | Type labels (`quiz`, `music`, `food`, `special`) and how far ahead to list (60 days) |
-| `WALKS` | Per walk id: `name`, `miles`, `level`; must match the cards on `walks.html` |
+| `WALKS` | Per trail id: `name`, `miles`, `level`; must match the cards on `walks.html` |
 | `WALK_LENGTHS`, `WALK_LEVELS` | Length buckets in miles (`short` under 4, `half` 4 to 8, `full` 8 or more) and level labels |
-| `VOUCHERS`, `VOUCHER_LIMITS` | Voucher kinds and prices; `min` 10, `max` 500, `messageMax` 150, `postage` 3 |
+| `VOUCHERS`, `VOUCHER_LIMITS` | Gift certificate kinds and prices; `min` 25, `max` 1000, `messageMax` 150, `postage` 4 |
 | `CONTACT_TOPICS` | Topics allowed in `contact.html?topic=` |
 
 Room prices appear in two places: the `ROOMS` constant (used by the stay checker) and the price tables in
@@ -138,7 +138,7 @@ Room prices appear in two places: the `ROOMS` constant (used by the stay checker
 ```js
 var ROOMS = {
   // ...
-  barn: { name: 'The Barn Loft', sleeps: 3, dogs: true, rates: { low: 150, mid: 170, high: 195 } }
+  barn: { name: 'The Barn Loft', sleeps: 3, dogs: true, rates: { low: 240, mid: 280, high: 335 } }
 };
 var ROOM_ORDER = ['snug', 'hayloft', 'shepherd', 'beck', 'cove', 'dairy', 'barn'];
 ```
@@ -155,11 +155,11 @@ match the vegetarian filter:
   <div class="min-w-0"><h4 class="inline font-display text-lg font-bold">Lentil stew</h4>
     <abbr class="diet diet-vg ml-1 align-[2px] no-underline" title="Vegan">vg</abbr>
     <p class="mt-0.5 text-muted">Smoked paprika, kale, herb dumplings</p></div>
-  <p class="font-display text-lg font-bold tabular-nums">&pound;13</p>
+  <p class="font-display text-lg font-bold tabular-nums">$19</p>
 </li>
 ```
 
-Walks are cards in `walks.html` (`<li data-walk="id" data-miles="..." data-level="...">`) plus a route path in
+Trails are cards in `walks.html` (`<li data-walk="id" data-miles="..." data-level="...">`) plus a route path in
 the map (`<path class="route" data-route="id" d="...">`), and an entry in `WALKS`. The map uses a 600 x 520
 coordinate space; the inn is at about (300, 380).
 
@@ -171,7 +171,7 @@ events then drop off by themselves.
 All artwork is SVG drawn for this template in a woodcut style: `hero.svg` (1200 x 800, shown at 3:2), the room
 pictures and `food.svg`, `hearth.svg`, `fiddle.svg` (800 x 600, shown at 4:3). To use photos, replace the `src`
 of the `<img>` and keep the aspect ratio of its frame (`aspect-[3/2]`, `aspect-[4/3]`); the `art` class crops
-with `object-fit: cover`. The walk map, the getting-here map and the 404 picture are inline SVG in their pages.
+with `object-fit: cover`. The trail map, the getting-here map and the 404 picture are inline SVG in their pages.
 
 The social image is `assets/img/og-image.png` (1200 x 630), made from `og-image.svg`. The favicon is
 `assets/img/favicon.svg`.
@@ -202,7 +202,7 @@ The green strip above the header shows the short status (`[data-status-short]`),
 - `[data-hours-day]` rows on `contact.html`: today's row gets `data-today`, `aria-current="date"` and a "Today"
   stamp.
 
-Times are written the British way ("12 noon", "11:30pm"). The static text in the HTML is what shows without
+Times use the 12-hour clock ("12 noon", "11:30pm"). The static text in the HTML is what shows without
 JavaScript. The opening hours table in `contact.html` is plain HTML: keep it in step with `HOURS`.
 
 ### Check a stay (home page)
@@ -214,17 +214,17 @@ checker, then opens `rooms.html?checkin=YYYY-MM-DD&checkout=YYYY-MM-DD&guests=N#
 
 `initStayChecker()` drives `#stay-check` on `rooms.html`:
 
-- **Validation** (`checkStay()`): arrival is required, a real date, not before today in London and at most
+- **Validation** (`checkStay()`): arrival is required, a real date, not before today at the inn and at most
   `maxDaysAhead` days away; departure is after arrival and at most `maxNights` nights later. If the stay
-  includes a Saturday night it must be at least `saturdayMinNights` nights ("Try leaving on Monday 26
-  October."). When a room is chosen, guests must fit (`sleeps`) and dogs must be allowed. Errors appear under
+  includes a Saturday night it must be at least `saturdayMinNights` nights ("Try leaving on Monday,
+  October 26."). When a room is chosen, guests must fit (`sleeps`) and dogs must be allowed. Errors appear under
   each field with `aria-invalid`.
 - **Prices** (`quote()`): each night is priced at the room's rate for that night's season, so a stay across
-  October and November mixes mid and low rates. The breakdown shows one line per season ("3 nights x £145 (mid
-  season)") and a dog line ("1 dog x £15 per stay"), then the total. Text uses the right singular or plural.
-- **Availability** (`isBooked()`) is a fixed demo pattern so some rooms show "Booked on Sat 24 Oct". Replace
+  October and November mixes high and low rates. The breakdown shows one line per season ("3 nights x $255 (mid
+  season)") and a dog line ("1 dog x $30 per stay"), then the total before tax. Text uses the right singular or plural.
+- **Availability** (`isBooked()`) is a fixed demo pattern so some rooms show "Booked on Sat, Oct 24". Replace
   it with a call to your booking system.
-- With no room chosen, all six rooms are listed: available ones with prices and an "Enquire about ..." button
+- With no room chosen, all six rooms are listed: available ones with prices and an "Inquire about ..." button
   that fills the inquiry form; others with the reason (too small, dog-free, booked).
 - URL parameters prefill the form and show prices at once: `room` (a room id), `checkin`, `checkout`
   (`YYYY-MM-DD`), `guests` (1 to 4), `dogs` (0 to 2). Room ids are checked with
@@ -243,7 +243,7 @@ the inquiry fields are saved as you type (see [Saved data](#saved-data-localstor
 `initMenu()` on `food.html` follows the ARIA tabs pattern: arrow keys, Home and End move between tabs, only the
 selected tab is in the tab order. The hash selects a tab (`food.html#roast`; ids `breakfast`, `lunch`,
 `dinner`, `roast`, checked against the tabs on the page). Without a hash it opens what the kitchen is serving now
-in London: breakfast before 11am, Sunday roast on Sundays until 4pm, lunch until 5pm, dinner after.
+at the inn: breakfast before 11am, Sunday roast on Sundays until 4pm, lunch until 5pm, dinner after.
 
 The diet toggles (`[data-diet-filter="v|vg|gf"]`, `aria-pressed`) combine: pressing vegan and gluten-free shows
 dishes that are both. Empty groups hide, `[data-menu-empty]` shows when nothing matches, and
@@ -251,45 +251,47 @@ dishes that are both. Empty groups hide, `[data-menu-empty]` shows when nothing 
 
 ### Specials board
 
-`initSpecials()` writes today's `SPECIALS` (London weekday) into `[data-specials]` and the day name into
-`[data-specials-day]`. Prices are formatted as `£7.50` or `£22`.
+`initSpecials()` writes today's `SPECIALS` (Eastern weekday) into `[data-specials]` and the day name into
+`[data-specials-day]`. Prices are formatted as `$10.50` or `$36`.
 
-### Walks: filters, map and saved walks
+### Trails: filters, map and saved trails
 
 `initWalks()` on `walks.html`:
 
 - Length (`[data-filter-length]`: `any`, `short`, `half`, `full`) and difficulty (`[data-filter-level]`: `any`,
-  `easy`, `moderate`, `strenuous`) filter the cards; "Saved walks only" (`[data-saved-only]`) shows saved ones.
+  `easy`, `moderate`, `strenuous`) filter the cards; "Saved trails only" (`[data-saved-only]`) shows saved ones.
 - Filters are kept in the URL as `?length=` and `?level=` (validated with own-key checks against
   `WALK_LENGTHS` and `WALK_LEVELS`), so a filtered list can be shared. `dogs.html` links to
   `walks.html?level=easy`.
 - "Show on map" (`[data-show-route]`, `aria-pressed`) draws that route in ox-blood on the map; routes of
-  filtered-out walks fade. `[data-map-label]` names the shown walk.
-- "Save" (`[data-walk-save]`, `aria-pressed`) adds or removes a walk; the count shows in `[data-saved-count]`.
-- `[data-walk-count]` reads "Showing 3 walks of 8."; `[data-walk-empty]` offers "Show all walks".
+  filtered-out trails fade. `[data-map-label]` names the shown trail.
+- "Save" (`[data-walk-save]`, `aria-pressed`) adds or removes a trail; the count shows in `[data-saved-count]`.
+- `[data-walk-count]` reads "Showing 3 trails of 8."; `[data-walk-empty]` offers "Show all trails".
 
 ### Events
 
 `initEvents()` builds the list for the next `EVENT_WINDOW_DAYS` days from `EVENT_RULES` and `EVENTS`, sorted by
-date and time in London. Today's events stay listed until three hours after they start and are labeled
+date and time at the inn. Today's events stay listed until three hours after they start and are labeled
 "Today" or "Tonight" (from 5pm); tomorrow's say "Tomorrow". The type filter (`[data-event-type]`) is kept in the
 URL as `?type=quiz|music|food|special`. On the home page `[data-next-event]` shows the next event.
 
 Demo dates: while `KEEP_DEMO_CURRENT` is `true`, a one-off event whose date has passed is moved on by whole
-years until it is today or later, so the lantern walk is always on 31 October and Burns Night on 25 January.
-Events with `sameWeekday: true` (the wreath workshop, carols, wassail and beer festival) move to the nearest
+years until it is today or later, so the lantern walk is always on October 31 and the contra dance on December 31.
+Events with `sameWeekday: true` (the bonfire, wreath workshop, carols, wassail, game supper and beer festival) move to the nearest
 day with the same weekday instead, so a Saturday event stays on a Saturday. Set `KEEP_DEMO_CURRENT = false`
 when you enter real dates.
 
-Rules in the demo: The Hart Quiz every Tuesday at 8:30pm, the folk session on the first and third Thursday at
+Rules in the demo: Hart Trivia Night every Tuesday at 8:30pm, the folk session on the first and third Thursday at
 8pm, supper club on the last Friday at 7pm.
 
-### Gift vouchers
+### Gift certificates
 
-`initVouchers()` on `vouchers.html` updates the preview ticket as you type: the voucher title (`£50` or the
+`initVouchers()` on `vouchers.html` updates the preview ticket as you type: the certificate title (`$50` or the
 experience name), recipient, sender and message, the message counter ("150 characters left", "1 character too
-many") and the total (voucher plus £3 postage for a printed card). Choosing "Printed card by post" swaps the
-recipient email field for a postal address. Money vouchers must be a whole number of pounds from £10 to £500.
+many") and the total (certificate plus $4 postage for a printed card). Choosing "Printed card by mail" swaps the
+recipient email field for a mailing address. Dollar-amount certificates must be a whole number of dollars from $25
+to $1,000. The page says certificates don't expire; federal and state rules limit gift certificate expiry, so check
+current rules before you add a date.
 
 ### Contact topic
 
@@ -314,7 +316,7 @@ success panel.
 | `#stay-check` | `rooms.html` | Dates, Saturday minimum, guests and dogs for the room (see above) |
 | `#quick-check` | `index.html` | Arrival and departure dates |
 | `#enquiry` | `rooms.html` | Name, email, optional phone format, message length |
-| `#voucher-form` | `vouchers.html` | Amount (money voucher), to, from, message length, recipient email or postal address, your email |
+| `#voucher-form` | `vouchers.html` | Amount (dollar-amount certificate), to, from, message length, recipient email or mailing address, your email |
 | `#contact-form` | `contact.html` | Name, email, message (10 to 2000 characters) |
 | `#newsletter` | every page | Email |
 
@@ -335,19 +337,19 @@ fetch('https://formspree.io/f/your-id', {
   form.hidden = true;
   success.focus();
 }).catch(function () {
-  announce('Sorry, that didn\'t send. Please ring us instead.');
+  announce('Sorry, that didn\'t send. Please call us instead.');
 });
 ```
 
-The inquiry, voucher and contact panels show a short reference in `[data-success-ref]` (`FH-` and four
+The inquiry, gift certificate and contact panels show a short reference in `[data-success-ref]` (`FH-` and four
 characters, made in the browser by `makeRef()`; show your form service's or booking system's own reference
-instead if it returns one). The voucher panel's `[data-success-delivery]` line depends on the delivery choice.
+instead if it returns one). The gift certificate panel's `[data-success-delivery]` line depends on the delivery choice.
 The newsletter panel asks subscribers to look out for a confirmation email.
 
 **Nothing is sent anywhere** until you connect the forms. The panels say what happens next ("we'll reply within
-a day", "replies within a day with a booking link", "we'll post the printed card second class within two
-working days"): change them in the HTML (and the delivery lines in `initForms()`) to match how you actually
-handle requests. The voucher form takes no payment; connect it to your payment provider's checkout instead of a
+a day", "replies within a day with a booking link", "we'll mail the printed card first class within two
+business days"): change them in the HTML (and the delivery lines in `initForms()`) to match how you actually
+handle requests. The gift certificate form takes no payment; connect it to your payment provider's checkout instead of a
 form service.
 
 ## Saved data (localStorage)
@@ -360,14 +362,14 @@ form service.
 URL parameters override the saved inquiry for that visit. All storage goes through one `safeStorage` object: it
 is `localStorage`, or an in-memory stand-in when the browser blocks storage (a sandboxed iframe, strict privacy
 settings), so saving still works for the rest of the page view. To reset, use "Clear saved details" on the rooms
-page, unsave the walks, or run `localStorage.removeItem('hearth:enquiry')` in the browser console.
+page, unsave the trails, or run `localStorage.removeItem('hearth:enquiry')` in the browser console.
 
 ## SEO and sharing
 
 Every page has its own `<title>`, meta description, `theme-color`, Open Graph tags (`og:title`,
-`og:description`, `og:image`, `og:locale` `en_GB`) and a Twitter card, in its `<head>`. `og:image` is the
+`og:description`, `og:image`, `og:locale` `en_US`) and a Twitter card, in its `<head>`. `og:image` is the
 relative path `assets/img/og-image.png`; social sites need an absolute URL, so after deploying change it to e.g.
-`https://www.example.co.uk/assets/img/og-image.png` on every page. To regenerate the PNG after editing the SVG,
+`https://www.fallowhart.example/assets/img/og-image.png` on every page. To regenerate the PNG after editing the SVG,
 open `og-image.svg` in a browser at 1200 x 630 and take a screenshot, or use any SVG-to-PNG converter.
 
 Add a `sitemap.xml` listing the eight pages and a `robots.txt` that points to it. For richer search results you
@@ -415,16 +417,16 @@ don't need to upload `src/`, `package.json` or the Markdown files.
 ## Troubleshooting
 
 - **The status says the fire's lit when the inn is shut.** Check `HOURS` in `assets/js/main.js`. The status
-  uses London time on purpose; change `TIME_ZONE` if your inn is elsewhere.
+  uses Eastern time on purpose; change `TIME_ZONE` if your inn is elsewhere.
 - **A room never shows as available.** The demo `isBooked()` marks a fixed pattern of nights as booked. Replace
   it with your real availability, or return `false` to show every room as free.
 - **Prices in the checker don't match the room cards.** Prices live in both `ROOMS` (JavaScript) and the tables
   in `rooms.html`; update both.
 - **New Tailwind classes have no effect.** Rebuild the CSS (`npm run build`). Classes built from pieces in JS
-  (`'bg-' + colour`) aren't found; write them in full.
-- **Saved walks or the inquiry disappear after closing the tab.** The browser is blocking storage (private
+  (`'bg-' + color`) aren't found; write them in full.
+- **Saved trails or the inquiry disappear after closing the tab.** The browser is blocking storage (private
   mode, a sandboxed iframe); the site falls back to memory for that page view.
-- **The specials board or events show the wrong day.** They use London time, so a visitor in another time zone
+- **The specials board or events show the wrong day.** They use Eastern time, so a visitor in another time zone
   can see tomorrow's board late at night. That's intended; change `TIME_ZONE` to suit.
 - **The social preview has no image.** Make `og:image` an absolute URL after deploying.
 

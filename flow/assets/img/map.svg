@@ -17,14 +17,14 @@
   </g>
   <path d="M330 382c18-6 40-6 58 4" fill="none" stroke="#dfa585" stroke-width="10" stroke-linecap="round"/>
   <g font-family="Mulish, Arial, sans-serif" font-size="13" font-weight="700" fill="#5d625a">
-    <text x="58" y="330">Falmouth Town station</text>
-    <text x="300" y="414">Gyllyngvase Beach</text>
-    <text x="196" y="96">High Street</text>
-    <text x="40" y="186">Kimberley Park</text>
+    <text x="58" y="330">Seabright bus stop</text>
+    <text x="300" y="414">Seabright Beach</text>
+    <text x="196" y="96">Seabright Avenue</text>
+    <text x="40" y="186">Frederick Street Park</text>
   </g>
   <g font-family="Mulish, Arial, sans-serif" font-size="13" font-weight="700" fill="#2c524d" letter-spacing="2">
-    <text x="476" y="166">HARBOUR</text>
-    <text x="452" y="330">FALMOUTH BAY</text>
+    <text x="476" y="166">HARBOR</text>
+    <text x="452" y="330">MONTEREY BAY</text>
   </g>
   <rect x="64" y="292" width="14" height="14" rx="3" fill="#2c524d"/>
   <g transform="translate(300 210)">

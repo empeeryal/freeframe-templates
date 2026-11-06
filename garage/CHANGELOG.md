@@ -7,6 +7,14 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-05
+
+### Changed
+
+- Set in Keene, New Hampshire, with American spelling, US dollars, US phone numbers and local details.
+- The MOT feature is now an annual safety inspection on the shop's own suggested schedule: the due date runs a year through the end of the month, the keep-your-date window is the month it's due, and a newly registered vehicle gets a suggested first inspection within 10 days. Booking, reminders and the price checker work as before, and the site says to check New Hampshire's current rules.
+- The calendar and closures use US federal holidays, worked out for any year, including observed days. License plates accept any 2 to 8 letters and digits, and phone fields check for US numbers.
+
 ## [1.0.4] - 2026-11-05
 
 ### Changed

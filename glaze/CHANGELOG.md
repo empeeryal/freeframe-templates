@@ -7,6 +7,14 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-11-05
+
+### Changed
+
+- Set in Las Cruces, New Mexico, with American spelling, US dollars, US phone numbers and local details.
+- Checkout takes a state and a ZIP code (5 digits, optional +4), with an Alaska and Hawaii rate; the shop closes on US
+  federal holidays, worked out by rule; prices say "plus applicable tax".
+
 ## [1.0.3] - 2026-11-05
 
 ### Changed

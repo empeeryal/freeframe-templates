@@ -1,19 +1,19 @@
 /* Brayline Driving School (Steer template) — all template JavaScript. Vanilla, no dependencies.
  *
  *  1. Data            school, prices, discounts, intensive courses, areas, instructors,
- *                     lesson availability rules, theory questions, pupil passes (edit here)
- *  2. Helpers         DOM, storage, money, London time, dates, bank holidays, postcodes
+ *                     lesson availability rules, permit test questions, student passes (edit here)
+ *  2. Helpers         DOM, storage, money, Eau Claire time, dates, federal holidays, ZIP codes
  *  3. Availability    free lesson times worked out from today for each instructor
  *  4. Header          sticky header, accessible mobile menu, next free lesson in the top strip
  *  5. Reveal          fade content in as it scrolls into view
- *  6. Postcode check  every [data-postcode-form] and the booking form's postcode
+ *  6. ZIP code check  every [data-postcode-form] and the booking form's ZIP code
  *  7. Home            next free lesson card, instructor strip, latest passes
  *  8. Lessons         block price table, intensive courses, price calculator
  *  9. Instructors     filters, cards, choose an instructor (saved)
  * 10. Booking         week-view slot picker and booking request
- * 11. Theory quiz     multiple-choice quiz with scoring, review and best scores (saved)
+ * 11. Permit quiz     multiple-choice quiz with scoring, review and best scores (saved)
  * 12. Areas           district map and panel
- * 13. Passes          pupil passes wall with filters and stats
+ * 13. Passes          student passes wall with filters and stats
  * 14. FAQ             live search
  * 15. Contact         office status, hours and the contact form
  * 16. Back to top     (separate block at the end of the file)
@@ -24,194 +24,194 @@
   /* ------------------------------------------------------------------
    * 1. Data — times are "HH:MM" in TIME_ZONE. Weekday indexes: 0 = Sunday … 6 = Saturday.
    * ------------------------------------------------------------------ */
-  const TIME_ZONE = 'Europe/London';
+  const TIME_ZONE = 'America/Chicago';
 
   const SCHOOL = {
     name: 'Brayline Driving School',
-    phone: '01632 960437',
-    phoneHref: '+441632960437'
+    phone: '(715) 555-0137',
+    phoneHref: '+17155550137'
   };
 
-  // Hourly lesson prices in £ (including VAT).
+  // Hourly lesson prices in $.
   const TRANSMISSIONS = {
-    manual: { name: 'Manual', rate: 38 },
-    automatic: { name: 'Automatic', rate: 41 }
+    manual: { name: 'Manual', rate: 82 },
+    automatic: { name: 'Automatic', rate: 75 }
   };
   // Lesson lengths offered in the booking form, in minutes.
   const LESSON_LENGTHS = { 60: '1 hour', 90: '1½ hours', 120: '2 hours' };
   const LESSON_ADJ = { 60: '1-hour', 90: '1½-hour', 120: '2-hour' };
-  // New pupils: the first FIRST_HOURS hours at FIRST_RATE an hour.
-  const FIRST_RATE = 25;
+  // New students: the first FIRST_HOURS hours at FIRST_RATE an hour.
+  const FIRST_RATE = 55;
   const FIRST_HOURS = 2;
-  // Block bookings: £ off every hour when booking at least `min` hours (highest tier first).
+  // Block bookings: $ off every hour when booking at least `min` hours (highest tier first).
   const BLOCK_TIERS = [
-    { min: 30, off: 4 },
-    { min: 20, off: 3 },
-    { min: 10, off: 2 }
+    { min: 30, off: 8 },
+    { min: 20, off: 6 },
+    { min: 10, off: 4 }
   ];
   const STUDENT_DISCOUNT = 0.05; // blocks of 10+ hours and intensive courses
-  const TEST_CAR_PRICE = 80;     // the car for the test, with a one-hour warm-up lesson
-  const PASS_PLUS_PRICE = 195;
+  const TEST_CAR_PRICE = 145;    // the car for the road test, with a one-hour warm-up lesson
+  const PASS_PLUS_PRICE = 420;   // the Winter & Highway course, six hours after the road test
 
   // Intensive courses: fixed prices including the car for the test.
   const INTENSIVES = {
-    i15: { name: '15-hour course', hours: 15, weeks: 1, price: { manual: 585, automatic: 630 }, suits: 'You’ve driven before, or failed a test and want to sharpen up.' },
-    i20: { name: '20-hour course', hours: 20, weeks: 2, price: { manual: 760, automatic: 820 }, suits: 'You’ve had some lessons and know the basics.' },
-    i30: { name: '30-hour course', hours: 30, weeks: 3, price: { manual: 1095, automatic: 1185 }, suits: 'A few hours behind the wheel, but not many.' },
-    i40: { name: '40-hour course', hours: 40, weeks: 4, price: { manual: 1420, automatic: 1540 }, suits: 'Complete beginners who want to learn fast.' }
+    i15: { name: '15-hour course', hours: 15, weeks: 1, price: { manual: 1290, automatic: 1190 }, suits: 'You’ve driven before, or didn’t pass a road test and want to sharpen up.' },
+    i20: { name: '20-hour course', hours: 20, weeks: 2, price: { manual: 1660, automatic: 1530 }, suits: 'You’ve had some lessons and know the basics.' },
+    i30: { name: '30-hour course', hours: 30, weeks: 3, price: { manual: 2390, automatic: 2190 }, suits: 'A few hours behind the wheel, but not many.' },
+    i40: { name: '40-hour course', hours: 40, weeks: 4, price: { manual: 3090, automatic: 2840 }, suits: 'Complete beginners who want to learn fast.' }
   };
-  // Intensive courses start on a Monday at least this many days away (time to book a test).
+  // Intensive courses start on a Monday at least this many days away (time to schedule a road test).
   const INTENSIVE_LEAD_DAYS = 14;
 
-  // Postcode districts we cover, and nearby ones we cover by arrangement.
+  // ZIP codes we cover, and nearby ones we cover by arrangement.
   const AREAS = {
-    LN1: { name: 'Lincoln west and Saxilby', places: ['City centre', 'West End', 'Burton', 'Saxilby'] },
-    LN2: { name: 'Uphill Lincoln and the north', places: ['Uphill', 'Ermine', 'Nettleham', 'Welton'] },
-    LN3: { name: 'East of Lincoln', places: ['Cherry Willingham', 'Reepham', 'Fiskerton'] },
-    LN4: { name: 'South-east villages', places: ['Washingborough', 'Heighington', 'Branston', 'Bracebridge Heath'] },
-    LN5: { name: 'Lincoln south and Waddington', places: ['Bracebridge', 'Boultham', 'Waddington', 'Navenby'] },
-    LN6: { name: 'North Hykeham and Birchwood', places: ['North Hykeham', 'Birchwood', 'Doddington Park', 'Skellingthorpe'] }
+    54701: { name: 'South Eau Claire', places: ['Randall Park', 'Putnam Heights', 'Oakwood', 'Town of Washington'] },
+    54703: { name: 'Downtown, north and west Eau Claire', places: ['Downtown', 'North Side Hill', 'Water Street', 'Town of Union'] },
+    54720: { name: 'Altoona', places: ['Altoona', 'River Prairie', 'Lake Altoona'] },
+    54729: { name: 'Chippewa Falls and Lake Hallie', places: ['Chippewa Falls', 'Lake Hallie', 'Lake Wissota', 'Anson'] },
+    54739: { name: 'Elk Mound and the west', places: ['Elk Mound', 'Town of Elk Mound', 'Spring Brook'] },
+    54742: { name: 'Fall Creek and the southeast', places: ['Fall Creek', 'Foster', 'Town of Ludington'] }
   };
   const NEARBY = {
-    LN8: 'Market Rasen',
-    LN10: 'Woodhall Spa',
-    NG31: 'Grantham'
+    54724: 'Bloomer',
+    54751: 'Menomonie',
+    54758: 'Osseo'
   };
 
-  // Instructors. t: the car's gearbox; days: weekdays they teach; hours: first start and finish time;
-  // car.body: hatch | suv | saloon | estate (drawn by carSvg()).
+  // Instructors. t: the car's transmission; days: weekdays they teach; hours: first start and finish time;
+  // car.body: hatch | suv | saloon (sedan) | estate (station wagon), drawn by carSvg().
   const INSTRUCTORS = {
     lowri: {
       name: 'Lowri Pennick', short: 'Lowri', role: 'Founder · instructor since 2009', t: 'manual',
-      car: { body: 'hatch', colour: '#0b4f6c', label: 'Blue five-door hatchback', fuel: 'Petrol' },
-      areas: ['LN1', 'LN2', 'LN6'], languages: ['English', 'Welsh'], days: [1, 2, 3, 4, 5], hours: ['09:00', '17:00'],
+      car: { body: 'hatch', colour: '#0b4f6c', label: 'Blue five-door hatchback', fuel: 'Gas' },
+      areas: ['54703', '54729', '54739'], languages: ['English', 'Spanish'], days: [1, 2, 3, 4, 5], hours: ['09:00', '17:00'],
       firstTime: 72, good: ['Nervous learners', 'Refresher lessons'],
-      bio: 'Started Brayline after ten years as a paramedic. Calm, methodical and known for getting nervous drivers round their first big roundabout.'
+      bio: 'Started Brayline after ten years as a paramedic. Calm, methodical and known for getting nervous drivers around their first big roundabout.'
     },
     kwabena: {
       name: 'Kwabena Frimpong', short: 'Kwabena', role: 'Instructor since 2016', t: 'automatic',
       car: { body: 'suv', colour: '#f2ae00', label: 'Yellow compact SUV', fuel: 'Electric' },
-      areas: ['LN2', 'LN3', 'LN4'], languages: ['English', 'Twi'], days: [2, 3, 4, 5, 6], hours: ['08:00', '16:00'],
+      areas: ['54729', '54720', '54742'], languages: ['English', 'Twi'], days: [2, 3, 4, 5, 6], hours: ['08:00', '16:00'],
       firstTime: 69, good: ['Electric cars', 'Later starters'],
-      bio: 'Drove buses round Lincoln for twelve years and still enjoys the ring road at rush hour. His electric car is quiet enough to talk everything through.'
+      bio: 'Drove city buses in Eau Claire for twelve years and still enjoys Clairemont Avenue at rush hour. His electric car is quiet enough to talk everything through.'
     },
     agnieszka: {
       name: 'Agnieszka Wolny', short: 'Agnieszka', role: 'Instructor since 2014', t: 'manual',
-      car: { body: 'estate', colour: '#b42318', label: 'Red estate', fuel: 'Petrol' },
-      areas: ['LN4', 'LN5', 'LN6'], languages: ['English', 'Polish'], days: [1, 2, 3, 4, 6], hours: ['07:00', '15:00'],
+      car: { body: 'estate', colour: '#b42318', label: 'Red station wagon', fuel: 'Gas' },
+      areas: ['54742', '54701', '54739'], languages: ['English', 'Polish'], days: [1, 2, 3, 4, 6], hours: ['07:00', '15:00'],
       firstTime: 70, good: ['Early mornings', 'Lessons in Polish'],
       bio: 'Teaches in English or Polish and happily explains anything twice. Early starts suit her, so she’s ideal before school, college or a shift.'
     },
     rhona: {
       name: 'Rhona Tealby', short: 'Rhona', role: 'Instructor since 2018', t: 'automatic',
-      car: { body: 'saloon', colour: '#0c6e78', label: 'Teal hybrid saloon', fuel: 'Hybrid' },
-      areas: ['LN1', 'LN5', 'LN6'], languages: ['English', 'British Sign Language'], days: [1, 3, 5, 6], hours: ['10:00', '18:00'],
+      car: { body: 'saloon', colour: '#0c6e78', label: 'Teal hybrid sedan', fuel: 'Hybrid' },
+      areas: ['54703', '54701', '54739'], languages: ['English', 'American Sign Language'], days: [1, 3, 5, 6], hours: ['10:00', '18:00'],
       firstTime: 66, good: ['Neurodivergent learners', 'Deaf learners'],
-      bio: 'Trained to teach autistic, ADHD and dyslexic learners, and signs in BSL. Breaks every drive into small steps with a picture-based lesson plan.'
+      bio: 'Trained to teach autistic, ADHD and dyslexic learners, and signs in ASL. Breaks every drive into small steps with a picture-based lesson plan.'
     },
     fergal: {
-      name: 'Fergal Brackenbury', short: 'Fergal', role: 'Intensive courses and Pass Plus', t: 'manual',
-      car: { body: 'hatch', colour: '#062536', label: 'Black five-door hatchback', fuel: 'Petrol' },
-      areas: ['LN1', 'LN2', 'LN3', 'LN4', 'LN5', 'LN6'], languages: ['English'], days: [1, 2, 3, 4, 5, 6], hours: ['08:00', '16:00'],
-      firstTime: 65, good: ['Intensive courses', 'Pass Plus'],
-      bio: 'Runs our intensive courses and Pass Plus. A former rally co-driver who is very relaxed about speed and very strict about mirrors.'
+      name: 'Fergal Brackenbury', short: 'Fergal', role: 'Intensive courses and Winter & Highway', t: 'manual',
+      car: { body: 'hatch', colour: '#062536', label: 'Black five-door hatchback', fuel: 'Gas' },
+      areas: ['54703', '54729', '54720', '54742', '54701', '54739'], languages: ['English'], days: [1, 2, 3, 4, 5, 6], hours: ['08:00', '16:00'],
+      firstTime: 65, good: ['Intensive courses', 'Winter & Highway'],
+      bio: 'Runs our intensive courses and Winter & Highway. A former rally co-driver who is very relaxed about speed and very strict about mirrors.'
     },
     harpreet: {
       name: 'Harpreet Dhaliwal', short: 'Harpreet', role: 'Instructor since 2020', t: 'automatic',
       car: { body: 'hatch', colour: '#5b3f8c', label: 'Purple hybrid hatchback', fuel: 'Hybrid' },
-      areas: ['LN1', 'LN2', 'LN3'], languages: ['English', 'Punjabi', 'Hindi'], days: [1, 2, 3, 4, 5], hours: ['13:00', '20:00'],
-      firstTime: 67, good: ['Evening lessons', 'Mature learners'],
-      bio: 'Teaches afternoons and evenings, so lessons fit round college and shifts. Speaks Punjabi and Hindi and is brilliant with mature learners.'
+      areas: ['54703', '54729', '54720'], languages: ['English', 'Punjabi', 'Hindi'], days: [1, 2, 3, 4, 5], hours: ['13:00', '20:00'],
+      firstTime: 67, good: ['Evening lessons', 'Older learners'],
+      bio: 'Teaches afternoons and evenings, so lessons fit around college and shifts. Speaks Punjabi and Hindi and is great with older learners.'
     }
   };
 
   // Lessons can be booked from tomorrow up to this many days ahead.
   const BOOK_AHEAD_DAYS = 28;
-  // Demo availability: roughly this share (0–100) of each instructor's diary shows as already booked.
+  // Demo availability: roughly this share (0–100) of each instructor's schedule shows as already booked.
   const DEMO_BUSY = 45;
-  // No lessons on bank holidays (England and Wales, worked out for any year in bankHolidays()).
+  // No lessons on US federal holidays (worked out for any year in bankHolidays()).
   const CLOSE_ON_BANK_HOLIDAYS = true;
-  // The Christmas break: no lessons from 24 December to 1 January inclusive ("MM-DD"), every year, whatever
-  // weekday Christmas falls on. Set it to null to teach through it (bank holidays still apply).
-  const CHRISTMAS_BREAK = { from: '12-24', to: '01-01', label: 'Christmas break' };
-  // Extra days with no lessons, on top of Sundays, bank holidays and the Christmas break:
-  // { md: 'MM-DD', label } every year, or { md: 'YYYY-MM-DD', label } for one year only (a coronation, a jubilee).
+  // The holiday break: no lessons from December 24 to January 1 inclusive ("MM-DD"), every year, whatever
+  // weekday Christmas falls on. Set it to null to teach through it (federal holidays still apply).
+  const CHRISTMAS_BREAK = { from: '12-24', to: '01-01', label: 'Holiday break' };
+  // Extra days with no lessons, on top of Sundays, federal holidays and the holiday break:
+  // { md: 'MM-DD', label } every year, or { md: 'YYYY-MM-DD', label } for one year only (a staff day, a move).
   const EXTRA_CLOSED = [];
   // Office hours per weekday (contact page status); null = closed.
   const OFFICE_HOURS = [null, ['09:00', '17:00'], ['09:00', '17:00'], ['09:00', '17:00'], ['09:00', '17:00'], ['09:00', '17:00'], ['09:00', '12:00']];
 
-  // Theory quiz. answer: the index of the right option. Written for this school, not taken
-  // from the official question bank.
+  // Permit test quiz. answer: the index of the right option. Written for this school from the Wisconsin
+  // Motorists' Handbook, not taken from the official test.
   const TOPICS = {
     hazards: 'Hazards and attitude',
     rules: 'Rules of the road',
     weather: 'Weather and night',
-    people: 'Vulnerable road users',
+    people: 'Sharing the road',
     car: 'Car and safety',
-    fast: 'Motorways and fast roads'
+    fast: 'Highways and interstates'
   };
   const QUESTIONS = [
-    { topic: 'hazards', q: 'In good, dry conditions, what is the minimum gap you should leave behind the vehicle in front?', options: ['One second', 'Two seconds', 'Five seconds', 'One car length'], answer: 1, why: 'Leave at least a two-second gap on a dry road. Pick a fixed point; you shouldn’t pass it until two seconds after the car in front has.' },
-    { topic: 'weather', q: 'The road is wet. How should your gap to the vehicle in front change?', options: ['Keep it at two seconds', 'At least double it', 'Halve it, so you can see past', 'It doesn’t matter if your tyres are new'], answer: 1, why: 'Stopping distances at least double on wet roads, so at least double your gap to four seconds or more.' },
-    { topic: 'weather', q: 'Your steering suddenly feels very light on a wet road. What is most likely happening?', options: ['The power steering has failed', 'The tyres are riding on a layer of water', 'The tyre pressures are too high', 'The handbrake is partly on'], answer: 1, why: 'That’s aquaplaning. Ease off the accelerator and don’t brake or steer sharply until the tyres grip again.' },
-    { topic: 'weather', q: 'How much longer can braking distances be on ice than on a dry road?', options: ['Twice as long', 'Three times as long', 'Up to ten times as long', 'About the same with anti-lock brakes'], answer: 2, why: 'On ice, braking distances can be up to ten times longer. Drive slowly, gently and leave a very big gap.' },
-    { topic: 'weather', q: 'When should you use front or rear fog lights?', options: ['Whenever it’s raining', 'When visibility is seriously reduced, generally under 100 metres', 'At dusk in winter', 'On any unlit road'], answer: 1, why: 'Use them only when you can’t see more than about 100 metres, and switch them off when it clears so you don’t dazzle others.' },
-    { topic: 'weather', q: 'You’re dazzled by the headlights of an oncoming car at night. What should you do?', options: ['Flash your headlights at them', 'Slow down or stop if you need to', 'Look straight at the lights until they pass', 'Switch on your main beam'], answer: 1, why: 'Slow down, or stop if you have to, and look towards the left edge of your lane until your eyes recover.' },
-    { topic: 'car', q: 'What is the legal minimum tread depth for car tyres in the UK?', options: ['1 mm', '1.6 mm', '2.5 mm', '3 mm'], answer: 1, why: '1.6 mm across the central three-quarters of the tread, all the way round. Many drivers replace tyres at 3 mm.' },
-    { topic: 'car', q: 'You’ve driven through a deep puddle or ford. What should you do next?', options: ['Speed up to dry the engine', 'Test your brakes gently', 'Pump the clutch several times', 'Turn on the hazard lights'], answer: 1, why: 'Wet brakes work less well. Test them gently as soon as it’s safe, and keep going slowly until they feel normal.' },
-    { topic: 'car', q: 'Who is responsible for making sure passengers under 14 wear a seat belt or child restraint?', options: ['The passengers themselves', 'Their parents, even if they aren’t in the car', 'The driver', 'Nobody, if the journey is short'], answer: 2, why: 'The driver is legally responsible for passengers under 14. Adults are responsible for wearing their own belt.' },
-    { topic: 'car', q: 'Children usually need a child car seat until they reach which age or height, whichever comes first?', options: ['8 years or 120 cm', '12 years or 135 cm', '14 years or 150 cm', '10 years or 140 cm'], answer: 1, why: 'Children must normally use the right child restraint until they’re 12 years old or 135 cm tall, whichever comes first.' },
-    { topic: 'hazards', q: 'You feel tired on a long journey. What is the safest thing to do?', options: ['Open a window and carry on', 'Turn the radio up', 'Stop somewhere safe and rest', 'Drive faster to get there sooner'], answer: 2, why: 'Fresh air and music don’t fix tiredness. Find a safe place to stop, such as a service area, and rest before you go on.' },
-    { topic: 'hazards', q: 'Is it legal to hold your phone to check a map while you’re stopped in a queue of traffic?', options: ['Yes, if the engine is running', 'Yes, if traffic is stationary', 'No, not while you’re driving, even if stopped in traffic', 'Only if it’s on loudspeaker'], answer: 2, why: 'Holding a phone while driving is illegal, including when you’re stopped at lights or in a queue. Set your sat nav before you set off.' },
-    { topic: 'hazards', q: 'What does the routine “mirrors, signal, manoeuvre” help you do?', options: ['Pass the eyesight test', 'Check it’s safe and tell others before you change speed or direction', 'Park more quickly', 'Save fuel'], answer: 1, why: 'Check what’s around you, let other road users know what you plan to do, then do it smoothly. Your instructor will remind you often.' },
-    { topic: 'hazards', q: 'Why is it a bad idea to coast downhill with the clutch pressed down or in neutral?', options: ['It wears out the tyres', 'It reduces your control of the car', 'It uses more fuel in every car', 'It’s only a problem in automatics'], answer: 1, why: 'Without engine braking you have less control, especially on bends or when you need to slow down. Stay in gear.' },
-    { topic: 'rules', q: 'When may you enter a box junction with yellow criss-cross lines?', options: ['Whenever the light is green', 'Only when your exit road or lane is clear', 'Never, it’s for buses only', 'Whenever you’re turning left'], answer: 1, why: 'Don’t enter unless your exit is clear. You may wait in the box when turning right if you’re only stopped by oncoming traffic.' },
-    { topic: 'rules', q: 'A pelican crossing shows a flashing amber light. What should you do?', options: ['Stop and wait for green, even if the crossing is empty', 'Give way to anyone on the crossing, then go if it’s clear', 'Speed up before it turns red', 'Sound your horn to warn pedestrians'], answer: 1, why: 'Flashing amber means give way to pedestrians still crossing. If the crossing is clear you may go on with care.' },
-    { topic: 'rules', q: 'Someone is waiting at the kerb by a zebra crossing. What should you do?', options: ['Carry on, they haven’t stepped out yet', 'Be ready to stop and give way to them', 'Wave them across', 'Flash your headlights'], answer: 1, why: 'You should give way to people waiting to cross at a zebra crossing. Don’t wave or flash: let them decide when it’s safe.' },
-    { topic: 'rules', q: 'You’re turning left into a side road and someone is waiting to cross it. Who has priority?', options: ['You do, because you’re on the main road', 'The person waiting to cross the side road', 'Whoever is faster', 'Nobody: it depends on the road markings'], answer: 1, why: 'The Highway Code says you should give way to pedestrians crossing or waiting to cross the road you’re turning into.' },
-    { topic: 'rules', q: 'An ambulance with blue lights is behind you at a red traffic light. What should you do?', options: ['Drive through the red light to let it pass', 'Mount the pavement to make room', 'Stay where you are unless you can move safely and legally', 'Brake hard and stop wherever you are'], answer: 2, why: 'Help it through only if you can do so safely and legally. Don’t go through a red light or mount a pavement.' },
-    { topic: 'rules', q: 'When should you check your mirrors?', options: ['Only before you overtake', 'Before signalling, changing direction or changing speed', 'Every ten minutes', 'Only on motorways'], answer: 1, why: 'Use your mirrors often, and always before you signal, change direction or change speed.' },
-    { topic: 'people', q: 'At speeds up to 30 mph, how much room should you leave when overtaking a cyclist?', options: ['Half a metre', 'At least 1.5 metres', 'One car width plus a bit', 'Room only matters above 40 mph'], answer: 1, why: 'Leave at least 1.5 metres at up to 30 mph, and more at higher speeds. Wait behind if you can’t.' },
-    { topic: 'people', q: 'How should you pass a horse rider?', options: ['Quickly, to get it over with', 'At 10 mph or less, leaving at least 2 metres', 'Sounding the horn first', 'At normal speed if the horse looks calm'], answer: 1, why: 'Pass wide and slow, at no more than 10 mph and at least 2 metres away, and never sound your horn or rev the engine.' },
-    { topic: 'people', q: 'Why should you look out for motorcyclists at junctions?', options: ['They always have priority', 'They’re small and easy to miss, especially in your blind spots', 'They’re slower than cars', 'They aren’t allowed to filter'], answer: 1, why: 'Motorcycles are easy to miss behind pillars, signs and other vehicles. Look properly and look twice.' },
-    { topic: 'people', q: 'You see a pedestrian holding a white cane with a red band. What does this tell you?', options: ['They’re a school crossing patrol', 'They may be deaf as well as blind', 'They’re asking you to stop', 'They’re a road worker'], answer: 1, why: 'A white cane with a red band means the person may be deafblind. Give them plenty of time and room.' },
-    { topic: 'fast', q: 'When may you use hazard warning lights while driving?', options: ['To say thank you', 'When parked on double yellow lines', 'On a motorway or dual carriageway, briefly, to warn of a hazard ahead', 'Whenever you’re driving slowly'], answer: 2, why: 'While moving, use them only on motorways or unrestricted dual carriageways to warn drivers behind of a hazard or queue ahead.' },
-    { topic: 'fast', q: 'A lane on a motorway shows a red X above it. What does that mean?', options: ['Use the lane only to overtake', 'Don’t drive in that lane', 'The lane is for lorries only', 'Speed cameras are working'], answer: 1, why: 'A red X means the lane is closed, perhaps for a broken-down vehicle or people ahead. Move out of it safely and don’t drive in it.' }
+    { topic: 'hazards', q: 'In good, dry conditions, what following distance does the Wisconsin Motorists’ Handbook recommend?', options: ['One second', 'Two seconds', 'Four seconds', 'One car length'], answer: 2, why: 'Use the four-second rule: pick a fixed point ahead and count. If you reach it before “one thousand four,” you’re too close.' },
+    { topic: 'weather', q: 'It’s starting to snow. How should your four-second gap change?', options: ['Keep it at four seconds', 'Add extra seconds', 'Cut it in half, so you can see past', 'It doesn’t matter if your tires are new'], answer: 1, why: 'Add a second for every adverse condition, such as heavier traffic, rain, snow or ice.' },
+    { topic: 'weather', q: 'Your steering suddenly feels very light on a wet road. What is most likely happening?', options: ['The power steering has failed', 'The tires are riding on a layer of water', 'The tire pressures are too high', 'The parking brake is partly on'], answer: 1, why: 'That’s hydroplaning. Ease off the gas, keep the wheel straight and don’t try to stop or turn until the tires grip again.' },
+    { topic: 'weather', q: 'On a cold, wet day, which part of the road is likely to freeze first?', options: ['Bridges and overpasses', 'Uphill stretches', 'The lane next to the curb', 'Intersections with signals'], answer: 0, why: 'Bridges and overpasses freeze before the rest of the road. Shady spots are slippery early too, so slow down before you reach them.' },
+    { topic: 'weather', q: 'When must your low-beam headlights be on?', options: ['Only when it’s fully dark', 'From half an hour past sunset to half an hour before sunrise, and when you can’t see 500 feet ahead', 'Only on unlit roads', 'Only when it’s raining'], answer: 1, why: 'Those are the times you must use them. They’re also recommended whenever your wipers are on, or it’s rainy, snowy or foggy.' },
+    { topic: 'weather', q: 'An oncoming driver has left their high beams on at night. What should you do?', options: ['Flash your high beams at them', 'Look toward the right side of the road', 'Look straight at the lights until they pass', 'Switch on your own high beams'], answer: 1, why: 'Look toward the right side of the road until they pass, and slow down if you need to. Don’t answer with your own high beams.' },
+    { topic: 'car', q: 'Why are bald tires dangerous in bad weather?', options: ['They make the steering heavy', 'They reduce traction and increase stopping distance', 'They only hurt your gas mileage', 'They switch off the anti-lock brakes'], answer: 1, why: 'Worn tires grip less and take longer to stop, and they can hydroplane even at low speeds.' },
+    { topic: 'car', q: 'It snowed overnight. What should you clear before you drive?', options: ['Just enough of the windshield to see', 'The windshield and the rear window', 'All windows, lights, side mirrors and license plates', 'Nothing: it will blow off'], answer: 2, why: 'Clear snow and ice from all windows, lights, side mirrors and license plates, so you can see and others can see you.' },
+    { topic: 'car', q: 'Who has to wear a seat belt in Wisconsin?', options: ['Only the driver', 'Only people in the front seats', 'You and your passengers, at any age', 'Only children under 8'], answer: 2, why: 'Wisconsin law requires you and your passengers to wear seat belts at any age, even in a car with air bags.' },
+    { topic: 'car', q: 'Generally, until what age does a child in Wisconsin need a booster seat?', options: ['Age 4', 'Age 6', 'Age 8', 'Age 12'], answer: 2, why: 'Generally, children ride in a child safety seat until age 4 and a booster seat until age 8. Check the seat’s manual for its weight and height limits.' },
+    { topic: 'hazards', q: 'You feel tired on a long drive and keep drifting in your lane. What is the safest thing to do?', options: ['Open a window and carry on', 'Turn the radio up', 'Pull over somewhere safe and rest', 'Drive faster to get there sooner'], answer: 2, why: 'Fresh air and music don’t fix tiredness. Yawning, drifting from your lane or hitting the rumble strip all mean it’s time to pull over and rest.' },
+    { topic: 'hazards', q: 'You hold an instruction permit. When may you use a cell phone while driving?', options: ['When you’re stopped at a red light', 'Only to report an emergency', 'Whenever it’s on speaker', 'On quiet country roads'], answer: 1, why: 'Instruction permit and probationary license holders can use a cell phone only to report an emergency. Set your GPS before you start out.' },
+    { topic: 'hazards', q: 'About how far before a turn should you start signaling?', options: ['About three seconds, or 100 feet', 'Just as you start turning', 'A full block', 'Only if someone is behind you'], answer: 0, why: 'Start about three seconds, or about 100 feet, before the turn. If you’re turning just after an intersection, wait until you’ve crossed it.' },
+    { topic: 'hazards', q: 'It’s dusk on a rural road and you see eyes shining in your headlights. What should you do?', options: ['Speed up to get past', 'Slow down, use your horn and be ready to stop', 'Flash your high beams', 'Swerve into the other lane'], answer: 1, why: 'Deer are most active from sunset to sunrise, and there’s often more than one. Slow down, use your horn and be ready to stop.' },
+    { topic: 'rules', q: 'Two cars reach a four-way stop at the same time. Who goes first?', options: ['The bigger vehicle', 'The driver on the right', 'The driver on the left', 'Whoever signals first'], answer: 1, why: 'The first to arrive goes first. If you arrive together, the driver on the right goes first.' },
+    { topic: 'rules', q: 'A traffic signal shows a flashing yellow arrow. What should you do?', options: ['Stop and wait for a green arrow', 'Yield first, then turn with caution', 'Speed up before it turns red', 'Turn straight away: you have the right of way'], answer: 1, why: 'A flashing yellow arrow means you may turn, but you must yield to oncoming traffic and people crossing first.' },
+    { topic: 'rules', q: 'When may you turn right on a red light?', options: ['Never', 'After stopping and yielding, unless a sign prohibits it', 'Without stopping, if nothing is coming', 'Only with a green arrow'], answer: 1, why: 'Come to a stop, yield to all traffic and people crossing, then go if it’s safe and no sign prohibits the turn.' },
+    { topic: 'rules', q: 'You’re turning at an intersection and someone is still crossing the road you’re turning onto. Who has the right of way?', options: ['You do, because you have a green light', 'The person crossing', 'Whoever is faster', 'Nobody: it depends on the road markings'], answer: 1, why: 'Yield to pedestrians and bicyclists who are still in the intersection, even when your light is green.' },
+    { topic: 'rules', q: 'An ambulance is coming with its lights and siren on. What should you do?', options: ['Speed up to stay ahead of it', 'Pull over to the side of the road and stop until it passes', 'Stop right where you are, even in an intersection', 'Keep going at the same speed'], answer: 1, why: 'Pull over to the side and stop until it has passed. Don’t stop in the middle of an intersection.' },
+    { topic: 'rules', q: 'A school bus has stopped ahead with its red lights flashing. What must you do?', options: ['Slow down and pass with care', 'Stop at least 20 feet away', 'Stop only if you’re behind it', 'Sound your horn and go around'], answer: 1, why: 'Stop at least 20 feet away, whichever side of the road it’s on. The one exception is the far side of a divided highway.' },
+    { topic: 'people', q: 'How much room should you give a bicyclist when you pass?', options: ['One foot', 'At least three feet', 'Half a car width', 'Room only matters above 40 mph'], answer: 1, why: 'Give at least three feet, and wait for oncoming traffic to clear before you pass. Bicyclists can use the whole lane.' },
+    { topic: 'people', q: 'You come up behind a tractor with an orange triangle on the back. What does the triangle tell you?', options: ['It’s carrying a wide load', 'It could be traveling at 25 mph or less', 'It’s about to turn', 'It has the right of way everywhere'], answer: 1, why: 'That’s the slow-moving vehicle sign. Be patient: farm equipment may not have brake lights or turn signals.' },
+    { topic: 'people', q: 'Why should you look out for motorcyclists at intersections?', options: ['They always have the right of way', 'They’re small and easy to miss, especially in your blind spots', 'They’re slower than cars', 'They can’t stop quickly'], answer: 1, why: 'Motorcycles are easy to miss behind pillars, signs and other vehicles. Check your blind spots and look twice.' },
+    { topic: 'people', q: 'You see a pedestrian with a white cane or a guide dog about to cross. What must you do?', options: ['Sound your horn to warn them', 'Stop at least 10 feet away until they’re off the road', 'Drive around them slowly', 'Wave them across'], answer: 1, why: 'Yield even if they aren’t in an intersection. Stop at least 10 feet away until the person is off the road.' },
+    { topic: 'fast', q: 'What is the right way to get onto a highway from an on-ramp?', options: ['Stop at the end of the ramp and wait for a gap', 'Use the acceleration lane to match the flow, then merge', 'Merge slowly: others will brake for you', 'Go straight across to the left lane'], answer: 1, why: 'Speed up in the acceleration lane to merge with the flow of traffic, and don’t count on others to make room.' },
+    { topic: 'fast', q: 'An emergency vehicle is stopped on the shoulder with its lights flashing. What should you do?', options: ['Stay in your lane at the same speed', 'Sound your horn as you pass', 'Move into a lane not next to it, or slow down if you can’t', 'Stop beside it'], answer: 2, why: 'It’s the law: move into a lane that isn’t next to the stopped vehicle, or slow down if you can’t, and stay there until you’re past it.' }
   ];
 
-  // Pupil passes (past dates, written for the week of DEMO_ANCHOR). minors: driving faults on
-  // the test; hours: hours of lessons with us before the test.
+  // Student passes (past dates, written for the week of DEMO_ANCHOR). minors: notes from the examiner
+  // on the road test; hours: hours of lessons with us before the road test.
   const PASSES = [
-    { name: 'Tegan W.', date: '2026-10-20', instructor: 'agnieszka', t: 'manual', first: true, minors: 2, hours: 41, area: 'North Hykeham', quote: 'Two minors, both for mirrors. Agnieszka will never let me forget it.' },
-    { name: 'Haris M.', date: '2026-10-19', instructor: 'harpreet', t: 'automatic', first: true, minors: 4, hours: 28, area: 'Welton', quote: 'Evening lessons after college made it all fit. Passed on my 18th birthday week.' },
-    { name: 'Bethany O.', date: '2026-10-16', instructor: 'lowri', t: 'manual', first: false, minors: 3, hours: 52, area: 'West End', quote: 'Second go. Lowri never once made me feel bad about the first.' },
-    { name: 'Kobe A.', date: '2026-10-15', instructor: 'kwabena', t: 'automatic', first: true, minors: 1, hours: 26, area: 'Cherry Willingham', quote: 'One minor! The electric car made hill starts a non-event.' },
-    { name: 'Anais J.', date: '2026-10-13', instructor: 'rhona', t: 'automatic', first: true, minors: 5, hours: 47, area: 'Bracebridge', quote: 'Rhona’s picture plans were the first time lessons made sense to me.' },
-    { name: 'Kacper Z.', date: '2026-10-10', instructor: 'fergal', t: 'manual', first: true, minors: 3, hours: 30, area: 'Saxilby', quote: 'Three-week intensive, test on the Friday. Tired but very happy.' },
-    { name: 'Lacey D.', date: '2026-10-08', instructor: 'agnieszka', t: 'manual', first: true, minors: 2, hours: 36, area: 'Waddington', quote: '7am lessons before work. Worth every early alarm.' },
-    { name: 'Ollie P.', date: '2026-10-06', instructor: 'lowri', t: 'manual', first: true, minors: 4, hours: 40, area: 'Nettleham', quote: 'I was terrified of roundabouts. Now I go out of my way to use them.' },
-    { name: 'Iqra S.', date: '2026-10-02', instructor: 'harpreet', t: 'automatic', first: false, minors: 2, hours: 33, area: 'Ermine', quote: 'Harpreet explained everything in Punjabi for my mum too.' },
-    { name: 'Jaylen B.', date: '2026-09-30', instructor: 'kwabena', t: 'automatic', first: true, minors: 3, hours: 24, area: 'Branston', quote: 'Kwabena knows every lane on every roundabout in Lincoln.' },
-    { name: 'Dominika K.', date: '2026-09-28', instructor: 'agnieszka', t: 'manual', first: true, minors: 1, hours: 38, area: 'Doddington Park', quote: 'Lessons in Polish and English. Passed with one minor!' },
-    { name: 'Rory F.', date: '2026-09-25', instructor: 'fergal', t: 'manual', first: false, minors: 6, hours: 20, area: 'Uphill', quote: 'Refresher block after failing elsewhere. Sorted in five weeks.' },
-    { name: 'Yasmin H.', date: '2026-09-23', instructor: 'rhona', t: 'automatic', first: true, minors: 2, hours: 44, area: 'Birchwood', quote: 'Calm, patient and never in a rush. Exactly what I needed.' },
-    { name: 'Brodie C.', date: '2026-09-19', instructor: 'fergal', t: 'manual', first: true, minors: 3, hours: 40, area: 'Washingborough', quote: 'Did the 40-hour course over the summer holidays.' },
-    { name: 'Kiera N.', date: '2026-09-17', instructor: 'lowri', t: 'manual', first: true, minors: 2, hours: 37, area: 'Burton', quote: 'Passed first time and my mum cried more than I did.' },
-    { name: 'Wiktor L.', date: '2026-09-15', instructor: 'agnieszka', t: 'manual', first: true, minors: 4, hours: 34, area: 'Navenby', quote: 'Pick-up from work every Tuesday. Couldn’t have done it otherwise.' },
-    { name: 'Paige T.', date: '2026-09-11', instructor: 'kwabena', t: 'automatic', first: true, minors: 2, hours: 22, area: 'Fiskerton', quote: 'Learned at 34 in an automatic. Should have done it years ago.' },
-    { name: 'Corin E.', date: '2026-09-09', instructor: 'harpreet', t: 'automatic', first: false, minors: 5, hours: 39, area: 'City centre', quote: 'Third time lucky, thanks to Harpreet’s mock tests.' },
-    { name: 'Ilona V.', date: '2026-09-05', instructor: 'rhona', t: 'automatic', first: true, minors: 3, hours: 50, area: 'Skellingthorpe', quote: 'Rhona signed the whole way through. First time pass!' },
-    { name: 'Alfie R.', date: '2026-09-03', instructor: 'fergal', t: 'manual', first: true, minors: 1, hours: 15, area: 'Heighington', quote: 'One-week intensive after a year of driving with my dad.' },
-    { name: 'Darcey G.', date: '2026-09-01', instructor: 'lowri', t: 'manual', first: false, minors: 4, hours: 46, area: 'Boultham', quote: 'Failed on a roundabout, passed on the same one a month later.' },
-    { name: 'Shanice Q.', date: '2026-08-28', instructor: 'kwabena', t: 'automatic', first: true, minors: 2, hours: 27, area: 'Reepham', quote: 'Quiet car, calm instructor, clean pass.' },
-    { name: 'Leyton U.', date: '2026-08-26', instructor: 'agnieszka', t: 'manual', first: true, minors: 3, hours: 35, area: 'Bracebridge Heath', quote: 'Agnieszka’s parking tricks got me through the bay park.' },
-    { name: 'Jemima Y.', date: '2026-08-21', instructor: 'harpreet', t: 'automatic', first: true, minors: 2, hours: 30, area: 'Nettleham', quote: 'Lessons after my shifts at the hospital. Brilliant teacher.' },
-    { name: 'Mischa I.', date: '2026-08-19', instructor: 'rhona', t: 'automatic', first: false, minors: 4, hours: 42, area: 'North Hykeham', quote: 'My anxiety used to win. Rhona helped me find a way through it.' },
-    { name: 'Kenzie X.', date: '2026-08-14', instructor: 'fergal', t: 'manual', first: true, minors: 2, hours: 30, area: 'Saxilby', quote: 'Did Pass Plus a week later too. Motorways no problem now.' },
-    { name: 'Sasha B.', date: '2026-08-12', instructor: 'lowri', t: 'manual', first: true, minors: 3, hours: 43, area: 'Welton', quote: 'Lowri’s little notebook of “what went well” kept me going.' },
-    { name: 'Ewa N.', date: '2026-08-07', instructor: 'agnieszka', t: 'manual', first: true, minors: 1, hours: 33, area: 'Waddington', quote: 'Learned on the same roads as the test. No surprises on the day.' },
-    { name: 'Ryley M.', date: '2026-08-05', instructor: 'kwabena', t: 'automatic', first: true, minors: 3, hours: 25, area: 'Washingborough', quote: 'Kwabena made the ring road feel like a quiet lane.' },
-    { name: 'Keeley S.', date: '2026-07-31', instructor: 'harpreet', t: 'automatic', first: true, minors: 2, hours: 29, area: 'Ermine', quote: 'Passed, then drove my nan to the coast the next weekend.' }
+    { name: 'Tegan W.', date: '2026-10-20', instructor: 'agnieszka', t: 'manual', first: true, minors: 2, hours: 41, area: 'Elk Mound', quote: 'Two notes from the examiner, both for mirrors. Agnieszka will never let me forget it.' },
+    { name: 'Haris M.', date: '2026-10-19', instructor: 'harpreet', t: 'automatic', first: true, minors: 4, hours: 28, area: 'Chippewa Falls', quote: 'Evening lessons after college made it all fit. Passed on my 18th birthday week.' },
+    { name: 'Bethany O.', date: '2026-10-16', instructor: 'lowri', t: 'manual', first: false, minors: 3, hours: 52, area: 'Randall Park', quote: 'Second go. Lowri never once made me feel bad about the first.' },
+    { name: 'Kobe A.', date: '2026-10-15', instructor: 'kwabena', t: 'automatic', first: true, minors: 1, hours: 26, area: 'Altoona', quote: 'Just one note from the examiner! The electric car made hill starts a non-event.' },
+    { name: 'Anais J.', date: '2026-10-13', instructor: 'rhona', t: 'automatic', first: true, minors: 5, hours: 47, area: 'Putnam Heights', quote: 'Rhona’s picture plans were the first time lessons made sense to me.' },
+    { name: 'Kacper Z.', date: '2026-10-10', instructor: 'fergal', t: 'manual', first: true, minors: 3, hours: 30, area: 'North Side Hill', quote: 'Three-week intensive, road test that Friday. Tired but very happy.' },
+    { name: 'Lacey D.', date: '2026-10-08', instructor: 'agnieszka', t: 'manual', first: true, minors: 2, hours: 36, area: 'Oakwood', quote: '7am lessons before work. Worth every early alarm.' },
+    { name: 'Ollie P.', date: '2026-10-06', instructor: 'lowri', t: 'manual', first: true, minors: 4, hours: 40, area: 'Lake Hallie', quote: 'I was terrified of roundabouts. Now I go out of my way to use them.' },
+    { name: 'Iqra S.', date: '2026-10-02', instructor: 'harpreet', t: 'automatic', first: false, minors: 2, hours: 33, area: 'Lake Wissota', quote: 'Harpreet explained everything in Punjabi for my mom too.' },
+    { name: 'Jaylen B.', date: '2026-09-30', instructor: 'kwabena', t: 'automatic', first: true, minors: 3, hours: 24, area: 'Fall Creek', quote: 'Kwabena knows every lane on every roundabout in the Chippewa Valley.' },
+    { name: 'Dominika K.', date: '2026-09-28', instructor: 'agnieszka', t: 'manual', first: true, minors: 1, hours: 38, area: 'Spring Brook', quote: 'Lessons in Polish and English. Passed with one note from the examiner!' },
+    { name: 'Rory F.', date: '2026-09-25', instructor: 'fergal', t: 'manual', first: false, minors: 6, hours: 20, area: 'Anson', quote: 'Refresher block after failing elsewhere. All set in five weeks.' },
+    { name: 'Yasmin H.', date: '2026-09-23', instructor: 'rhona', t: 'automatic', first: true, minors: 2, hours: 44, area: 'Town of Elk Mound', quote: 'Calm, patient and never in a rush. Exactly what I needed.' },
+    { name: 'Brodie C.', date: '2026-09-19', instructor: 'fergal', t: 'manual', first: true, minors: 3, hours: 40, area: 'Foster', quote: 'Did the 40-hour course over summer break.' },
+    { name: 'Kiera N.', date: '2026-09-17', instructor: 'lowri', t: 'manual', first: true, minors: 2, hours: 37, area: 'Water Street', quote: 'Passed first time and my mom cried more than I did.' },
+    { name: 'Wiktor L.', date: '2026-09-15', instructor: 'agnieszka', t: 'manual', first: true, minors: 4, hours: 34, area: 'Town of Washington', quote: 'Pick-up from work every Tuesday. Couldn’t have done it otherwise.' },
+    { name: 'Paige T.', date: '2026-09-11', instructor: 'kwabena', t: 'automatic', first: true, minors: 2, hours: 22, area: 'Lake Altoona', quote: 'Learned at 34 in an automatic. Should have done it years ago.' },
+    { name: 'Corin E.', date: '2026-09-09', instructor: 'harpreet', t: 'automatic', first: false, minors: 5, hours: 39, area: 'Downtown', quote: 'Third time’s the charm, thanks to Harpreet’s mock tests.' },
+    { name: 'Ilona V.', date: '2026-09-05', instructor: 'rhona', t: 'automatic', first: true, minors: 3, hours: 50, area: 'Elk Mound', quote: 'Rhona signed the whole way through. First time pass!' },
+    { name: 'Alfie R.', date: '2026-09-03', instructor: 'fergal', t: 'manual', first: true, minors: 1, hours: 15, area: 'Town of Ludington', quote: 'One-week intensive after a year of driving with my dad.' },
+    { name: 'Darcey G.', date: '2026-09-01', instructor: 'lowri', t: 'manual', first: false, minors: 4, hours: 46, area: 'Randall Park', quote: 'Failed on a roundabout, passed on the same one a month later.' },
+    { name: 'Shanice Q.', date: '2026-08-28', instructor: 'kwabena', t: 'automatic', first: true, minors: 2, hours: 27, area: 'River Prairie', quote: 'Quiet car, calm instructor, clean pass.' },
+    { name: 'Leyton U.', date: '2026-08-26', instructor: 'agnieszka', t: 'manual', first: true, minors: 3, hours: 35, area: 'Foster', quote: 'Agnieszka’s parking tricks got me through the backing and parking.' },
+    { name: 'Jemima Y.', date: '2026-08-21', instructor: 'harpreet', t: 'automatic', first: true, minors: 2, hours: 30, area: 'Lake Hallie', quote: 'Lessons after my shifts at the hospital. Great teacher.' },
+    { name: 'Mischa I.', date: '2026-08-19', instructor: 'rhona', t: 'automatic', first: false, minors: 4, hours: 42, area: 'Elk Mound', quote: 'My anxiety used to win. Rhona helped me find a way through it.' },
+    { name: 'Kenzie X.', date: '2026-08-14', instructor: 'fergal', t: 'manual', first: true, minors: 2, hours: 30, area: 'North Side Hill', quote: 'Did Winter & Highway a week later too. I-94 is no problem now.' },
+    { name: 'Sasha B.', date: '2026-08-12', instructor: 'lowri', t: 'manual', first: true, minors: 3, hours: 43, area: 'Chippewa Falls', quote: 'Lowri’s little notebook of “what went well” kept me going.' },
+    { name: 'Ewa N.', date: '2026-08-07', instructor: 'agnieszka', t: 'manual', first: true, minors: 1, hours: 33, area: 'Oakwood', quote: 'Learned on the same roads as the test. No surprises on the day.' },
+    { name: 'Ryley M.', date: '2026-08-05', instructor: 'kwabena', t: 'automatic', first: true, minors: 3, hours: 25, area: 'Foster', quote: 'Kwabena made Clairemont Avenue feel like a quiet lane.' },
+    { name: 'Keeley S.', date: '2026-07-31', instructor: 'harpreet', t: 'automatic', first: true, minors: 2, hours: 29, area: 'Lake Wissota', quote: 'Passed, then drove my grandma up to Lake Superior the next weekend.' }
   ];
 
   // Demo dates: the passes above are written for the week of DEMO_ANCHOR. While KEEP_DEMO_CURRENT
@@ -268,10 +268,10 @@
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const plural = (n, one, many) => n + ' ' + (n === 1 ? one : (many || one + 's'));
   const round2 = (n) => Math.round(n * 100) / 100;
-  function money(n) { const v = round2(n); return (v < 0 ? '−£' : '£') + (Number.isInteger(Math.abs(v)) ? Math.abs(v).toLocaleString('en-GB') : Math.abs(v).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })); }
+  function money(n) { const v = round2(n); return (v < 0 ? '−$' : '$') + (Number.isInteger(Math.abs(v)) ? Math.abs(v).toLocaleString('en-US') : Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })); }
   function hoursText(h) { return (h % 1 ? String(Math.floor(h)) + '½' : String(h)) + (h === 1 ? ' hour' : ' hours'); }
   function toMin(hhmm) { const p = hhmm.split(':'); return +p[0] * 60 + +p[1]; }
-  // Minutes after midnight to British clock times: "7am", "1:30pm", "12pm".
+  // Minutes after midnight to 12-hour clock times: "7am", "1:30pm", "12pm".
   function clock(min) {
     const h = Math.floor(min / 60) % 24, m = min % 60;
     return (h % 12 || 12) + (m ? ':' + String(m).padStart(2, '0') : '') + (h < 12 ? 'am' : 'pm');
@@ -297,18 +297,18 @@
     const p = s.split('-');
     return +p[1] >= 1 && +p[1] <= 12 && keyOfDate(dateOfKey(s)) === s;
   }
-  const shortDate = (key) => { const d = dateOfKey(key); return DAY[d.getUTCDay()] + ' ' + d.getUTCDate() + ' ' + MONTH[d.getUTCMonth()]; };
-  const longDate = (key) => { const d = dateOfKey(key); return DAY_LONG[d.getUTCDay()] + ' ' + d.getUTCDate() + ' ' + MONTH_LONG[d.getUTCMonth()]; };
-  const fullDate = (key) => dateOfKey(key).getUTCDate() + ' ' + MONTH_LONG[dateOfKey(key).getUTCMonth()] + ' ' + key.slice(0, 4);
+  const shortDate = (key) => { const d = dateOfKey(key); return DAY[d.getUTCDay()] + ', ' + MONTH[d.getUTCMonth()] + ' ' + d.getUTCDate(); };
+  const longDate = (key) => { const d = dateOfKey(key); return DAY_LONG[d.getUTCDay()] + ', ' + MONTH_LONG[d.getUTCMonth()] + ' ' + d.getUTCDate(); };
+  const fullDate = (key) => MONTH_LONG[dateOfKey(key).getUTCMonth()] + ' ' + dateOfKey(key).getUTCDate() + ', ' + key.slice(0, 4);
 
-  // Wall-clock time in London, whatever the visitor's own time zone is.
-  const tzParts = new Intl.DateTimeFormat('en-GB', { timeZone: TIME_ZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+  // Wall-clock time in Eau Claire, whatever the visitor's own time zone is.
+  const tzParts = new Intl.DateTimeFormat('en-US', { timeZone: TIME_ZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
   function partsAt(date) {
     const o = {};
     tzParts.formatToParts(date).forEach((p) => { o[p.type] = p.value; });
     return { y: +o.year, m: +o.month, d: +o.day, h: +o.hour % 24, min: +o.minute };
   }
-  // ?at=2026-10-21T10:30 previews the site at a London date and time (for testing availability).
+  // ?at=2026-10-21T10:30 previews the site at an Eau Claire date and time (for testing availability).
   const AT = /^(\d{4}-\d{2}-\d{2})T(\d{2}):(\d{2})$/.exec(params.get('at') || '');
   function nowLondon() {
     if (AT && validKey(AT[1]) && +AT[2] < 24 && +AT[3] < 60) {
@@ -341,41 +341,45 @@
     return h >>> 0;
   }
 
-  // Bank holidays in England and Wales for a year, as { "YYYY-MM-DD": name }, including the
-  // substitute weekdays when Christmas, Boxing Day or New Year's Day fall at a weekend.
+  // US federal holidays for a year, as { "YYYY-MM-DD": name }, on the day they're observed: one that falls
+  // on a Saturday is observed on the Friday before, one on a Sunday on the Monday after.
   const holidayCache = Object.create(null);
   function bankHolidays(y) {
     if (holidayCache[y]) return holidayCache[y];
     const out = Object.create(null);
-    const mondayOnOrAfter = (key) => { let k = key; while (weekday(k) !== 1) k = addDays(k, 1); return k; };
+    // The nth Monday (or other weekday) of a month, and the last Monday of a month.
+    const nth = (month, day, n) => { let k = keyOf(y, month, 1); while (weekday(k) !== day) k = addDays(k, 1); return addDays(k, (n - 1) * 7); };
     const lastMonday = (month) => { let k = addDays(keyOf(month === 12 ? y + 1 : y, month === 12 ? 1 : month + 1, 1), -1); while (weekday(k) !== 1) k = addDays(k, -1); return k; };
-    let ny = keyOf(y, 1, 1);
-    if (weekday(ny) === 6 || weekday(ny) === 0) ny = mondayOnOrAfter(ny);
-    out[ny] = "New Year's Day";
-    // Easter (anonymous Gregorian computus)
-    const a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4;
-    const f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30;
-    const i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
-    const easter = keyOf(y, Math.floor((h + l - 7 * m + 114) / 31), ((h + l - 7 * m + 114) % 31) + 1);
-    out[addDays(easter, -2)] = 'Good Friday';
-    out[addDays(easter, 1)] = 'Easter Monday';
-    out[mondayOnOrAfter(keyOf(y, 5, 1))] = 'Early May bank holiday';
-    out[lastMonday(5)] = 'Spring bank holiday';
-    out[lastMonday(8)] = 'Summer bank holiday';
-    const xmas = keyOf(y, 12, 25), xd = weekday(xmas);
-    if (xd === 6) { out[keyOf(y, 12, 27)] = 'Christmas Day (substitute day)'; out[keyOf(y, 12, 28)] = 'Boxing Day (substitute day)'; }
-    else if (xd === 0) { out[keyOf(y, 12, 26)] = 'Boxing Day'; out[keyOf(y, 12, 27)] = 'Christmas Day (substitute day)'; }
-    else if (xd === 5) { out[xmas] = 'Christmas Day'; out[keyOf(y, 12, 28)] = 'Boxing Day (substitute day)'; }
-    else { out[xmas] = 'Christmas Day'; out[keyOf(y, 12, 26)] = 'Boxing Day'; }
+    const fixed = (key, name) => {
+      const d = weekday(key);
+      if (d === 6) out[addDays(key, -1)] = name + ' (observed)';
+      else if (d === 0) out[addDays(key, 1)] = name + ' (observed)';
+      else out[key] = name;
+    };
+    fixed(keyOf(y, 1, 1), "New Year's Day");
+    out[nth(1, 1, 3)] = 'MLK Day';
+    out[nth(2, 1, 3)] = "Presidents' Day";
+    out[lastMonday(5)] = 'Memorial Day';
+    fixed(keyOf(y, 6, 19), 'Juneteenth');
+    fixed(keyOf(y, 7, 4), 'Independence Day');
+    out[nth(9, 1, 1)] = 'Labor Day';
+    out[nth(10, 1, 2)] = 'Columbus Day';
+    fixed(keyOf(y, 11, 11), 'Veterans Day');
+    out[nth(11, 4, 4)] = 'Thanksgiving';
+    fixed(keyOf(y, 12, 25), 'Christmas Day');
+    // New Year's Day on a Saturday is observed on December 31 of the year before.
+    if (weekday(keyOf(y + 1, 1, 1)) === 6) out[keyOf(y, 12, 31)] = "New Year's Day (observed)";
+    // Drop the observed day that landed in the previous year.
+    Object.keys(out).forEach((k) => { if (k.slice(0, 4) !== String(y)) delete out[k]; });
     holidayCache[y] = out;
     return out;
   }
-  // Why there are no lessons on a date (bank holiday or extra closed day), or null.
+  // Why there are no lessons on a date (federal holiday or extra closed day), or null.
   function closedReason(key) {
     const hol = bankHolidays(+key.slice(0, 4));
     if (CLOSE_ON_BANK_HOLIDAYS && hasOwn(hol, key)) return hol[key];
     const md = key.slice(5);
-    if (md === '12-25' || md === '12-26') return 'Christmas';
+    if (md === '12-25') return 'Christmas Day';
     if (CHRISTMAS_BREAK) {
       const b = CHRISTMAS_BREAK;
       if (b.from <= b.to ? md >= b.from && md <= b.to : md >= b.from || md <= b.to) return b.label;
@@ -384,16 +388,12 @@
     return extra ? extra.label : null;
   }
 
-  // UK postcodes: a full postcode ("LN6 7TS"), the first half ("LN6") or the first half and the
-  // sector ("LN6 7"). Returns { outward, text } or null.
+  // US ZIP codes: five digits ("54701"), with or without the +4 ("54701-1234", "547011234").
+  // Returns { outward: the five digits, text } or null.
   function parsePostcode(raw) {
-    const s = String(raw || '').toUpperCase().replace(/[^A-Z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
-    if (!s) return null;
-    let m = /^([A-Z]{1,2}\d[A-Z\d]?) ?(\d[A-Z]{2})$/.exec(s);
-    if (m) return { outward: m[1], text: m[1] + ' ' + m[2] };
-    m = /^([A-Z]{1,2}\d[A-Z\d]?)(?: (\d))?$/.exec(s);
-    if (m) return { outward: m[1], text: m[2] ? m[1] + ' ' + m[2] : m[1] };
-    return null;
+    const m = /^(\d{5})(?:-?(\d{4}))?$/.exec(String(raw || '').replace(/\s+/g, ''));
+    if (!m) return null;
+    return { outward: m[1], text: m[2] ? m[1] + '-' + m[2] : m[1] };
   }
   // { status: 'covered' | 'nearby' | 'outside', outward, text }
   function coverage(pc) {
@@ -414,10 +414,10 @@
     const bad = $('[aria-invalid="true"]', form);
     if (bad) bad.focus();
   }
-  // A UK phone number: 10 or 11 digits starting 0, or +44 followed by 10 digits.
+  // A US phone number: 10 digits, with or without a leading 1 or +1.
   function validPhone(s) {
-    const d = String(s).replace(/[\s()-]/g, '');
-    return /^0\d{9,10}$/.test(d) || /^\+44\d{10}$/.test(d);
+    const d = String(s).replace(/[\s().-]/g, '');
+    return /^(?:\+?1)?[2-9]\d{2}[2-9]\d{6}$/.test(d);
   }
   // A short booking or message reference, e.g. "BL-7K2Q9".
   function reference(seed) {
@@ -427,7 +427,7 @@
   const instructorList = () => Object.keys(INSTRUCTORS);
   const portrait = (id, cls) => '<img src="assets/img/instructors/' + id + '.svg" alt="" width="200" height="200" class="' + cls + '">';
 
-  // A side-on drawing of an instructor's car, with L plates and a roof sign.
+  // A side-on drawing of an instructor's car, with a student-driver sign on the door and a roof sign.
   const CAR_BODIES = {
     hatch: { body: 'M20 84V66Q20 56 32 54L62 50 84 28Q90 22 100 22H150Q160 22 166 30L184 52Q198 54 200 66V84Z', glass: 'M70 50 88 32Q92 28 98 28H122V50ZM128 28H148Q156 28 160 34L172 50H128Z', roof: 112 },
     suv: { body: 'M18 84V60Q18 50 30 48L58 44 74 20Q78 14 88 14H162Q172 14 176 22L190 44Q202 46 204 58V84Z', glass: 'M66 44 80 22Q82 20 88 20H124V44ZM130 20H162Q168 20 171 26L180 44H130Z', roof: 104 },
@@ -445,15 +445,15 @@
       '<path d="' + b.glass + '" fill="#dcf0f1"/>' +
       '<rect x="' + (car.body === 'saloon' || car.body === 'estate' ? 196 : 192) + '" y="62" width="10" height="7" rx="2" fill="#fff3d0"/>' +
       '<rect x="' + (car.body === 'saloon' ? 14 : 18) + '" y="62" width="7" height="8" rx="2" fill="#b42318"/>' +
-      '<g transform="translate(' + (car.body === 'saloon' ? 26 : 30) + ' 66)"><rect width="13" height="13" rx="1.5" fill="#fff"/><path d="M4 2.5v8h6" fill="none" stroke="#b42318" stroke-width="2.4"/></g>' +
+      '<g transform="translate(88 60)"><rect width="46" height="13" rx="2" fill="#fff"/><text x="23" y="9.6" text-anchor="middle" font-family="Readex Pro, sans-serif" font-size="8.5" font-weight="700" fill="#b42318">STUDENT</text></g>' +
       wheel(car.body === 'saloon' ? 54 : 56) + wheel(car.body === 'estate' ? 168 : 164) +
-      (car.fuel === 'Electric' ? '<path d="m108 56-6 10h5l-3 9 9-12h-5l3-7Z" fill="#fff"/>' : '') +
+      (car.fuel === 'Electric' ? '<path d="m146 52-6 10h5l-3 9 9-12h-5l3-7Z" fill="#fff"/>' : '') +
       '</svg>';
   }
 
   /* ------------------------------------------------------------------
-   * 3. Availability — each instructor's diary is worked out from rules and today's date, so it
-   *    never goes stale. Replace freeUnits() with your real diary to go live.
+   * 3. Availability — each instructor's schedule is worked out from rules and today's date, so it
+   *    never goes stale. Replace freeUnits() with your real schedule to go live.
    * ------------------------------------------------------------------ */
   const FIRST_BOOKABLE = addDays(TODAY, 1);
   const LAST_BOOKABLE = addDays(TODAY, BOOK_AHEAD_DAYS);
@@ -605,9 +605,9 @@
   }
 
   /* ------------------------------------------------------------------
-   * 6. Postcode check
+   * 6. ZIP code check
    * ------------------------------------------------------------------ */
-  // The result box for a checked postcode (HTML), used on the home, areas and booking pages.
+  // The result box for a checked ZIP code (HTML), used on the home, areas and booking pages.
   function coverageHtml(c, withBook) {
     if (c.status === 'covered') {
       const who = eligible({ area: c.outward }).map((id) => INSTRUCTORS[id].short);
@@ -617,12 +617,12 @@
     }
     if (c.status === 'nearby') {
       return '<div class="mt-3 rounded-2xl bg-sun-soft p-4 text-sm"><p class="font-display text-base font-semibold text-ink">' + esc(c.outward) + ' (' + esc(NEARBY[c.outward]) + ') is by arrangement.</p>' +
-        '<p class="mt-1 text-ink">We pick up there for intensive courses, or you can meet your instructor at our office in Lincoln. Call ' + SCHOOL.phone + ' to arrange it.</p></div>';
+        '<p class="mt-1 text-ink">We pick up there for intensive courses, or you can meet your instructor at our office in Eau Claire. Call ' + SCHOOL.phone + ' to arrange it.</p></div>';
     }
     return '<div class="mt-3 rounded-2xl bg-cloud p-4 text-sm"><p class="font-display text-base font-semibold text-route">We don’t cover ' + esc(c.outward) + ' yet.</p>' +
-      '<p class="mt-1 text-ink">Our instructors teach in LN1 to LN6. If you work or study in Lincoln, we can pick you up from there instead.</p></div>';
+      '<p class="mt-1 text-ink">Our instructors teach in 54701, 54703, 54720, 54729, 54739 and 54742. If you work or study in one of those, we can pick you up from there instead.</p></div>';
   }
-  const POSTCODE_ERROR = 'Enter a UK postcode, like LN6 7TS, or just the first half, like LN6.';
+  const POSTCODE_ERROR = 'Enter a 5-digit ZIP code, like 54701.';
 
   $$('[data-postcode-form]').forEach((form) => {
     const input = $('[name="postcode"]', form), out = $('[data-postcode-result]', form);
@@ -716,7 +716,7 @@
   const intensiveList = $('[data-intensive-list]');
   if (intensiveList) {
     const starts = intensiveStarts(3);
-    $('[data-intensive-next]').textContent = longDate(starts[0]) + ' ' + starts[0].slice(0, 4);
+    $('[data-intensive-next]').textContent = longDate(starts[0]) + ', ' + starts[0].slice(0, 4);
     intensiveList.innerHTML = Object.keys(INTENSIVES).map((id, i) => {
       const c = INTENSIVES[id];
       return '<li class="reveal card flex flex-col p-6' + (i === 3 ? ' border-sun' : '') + '">' +
@@ -724,8 +724,8 @@
         '<h3 class="mt-4 font-display text-xl font-semibold text-route">' + c.name + '</h3>' +
         '<p class="mt-2 flex-1 text-sm text-slate">' + esc(c.suits) + '</p>' +
         '<dl class="mt-4"><div class="spec-row"><dt>Manual</dt><dd>' + money(c.price.manual) + '</dd></div><div class="spec-row"><dt>Automatic</dt><dd>' + money(c.price.automatic) + '</dd></div></dl>' +
-        '<p class="mt-4 text-sm text-slate">Starts ' + starts.map((s) => dateOfKey(s).getUTCDate() + ' ' + MONTH[dateOfKey(s).getUTCMonth()]).join(', ') + '</p>' +
-        '<a href="lessons.html?mode=intensive&amp;course=' + id + '#calculator" class="link-arrow mt-4 text-sm">Price it up</a></li>';
+        '<p class="mt-4 text-sm text-slate">Starts ' + starts.map((s) => MONTH[dateOfKey(s).getUTCMonth()] + ' ' + dateOfKey(s).getUTCDate()).join(', ') + '</p>' +
+        '<a href="lessons.html?mode=intensive&amp;course=' + id + '#calculator" class="link-arrow mt-4 text-sm">Price it out</a></li>';
     }).join('');
   }
 
@@ -737,22 +737,22 @@
       hours = o.h;
       const tier = BLOCK_TIERS.find((t) => hours >= t.min), off = tier ? tier.off : 0;
       const firstHrs = o.first ? Math.min(FIRST_HOURS, hours) : 0, rest = hours - firstHrs;
-      if (firstHrs) lines.push({ label: hoursText(firstHrs) + ' at the new-pupil rate, ' + money(FIRST_RATE), amount: firstHrs * FIRST_RATE });
+      if (firstHrs) lines.push({ label: hoursText(firstHrs) + ' at the new-student rate, ' + money(FIRST_RATE), amount: firstHrs * FIRST_RATE });
       if (rest) lines.push({ label: hoursText(rest) + ' at ' + money(rate - off) + (off ? ' (block rate)' : ''), amount: rest * (rate - off) });
       if (o.student && hours >= BLOCK_TIERS[BLOCK_TIERS.length - 1].min) {
         const lessons = lines.reduce((s, l) => s + l.amount, 0);
         lines.push({ label: 'Student discount, ' + STUDENT_DISCOUNT * 100 + '%', amount: -Math.round(lessons * STUDENT_DISCOUNT) });
       }
       paygo = hours * rate;
-      if (o.testcar) { lines.push({ label: 'Car for the test, with warm-up', amount: TEST_CAR_PRICE }); paygo += TEST_CAR_PRICE; }
+      if (o.testcar) { lines.push({ label: 'Car for the road test, with warm-up', amount: TEST_CAR_PRICE }); paygo += TEST_CAR_PRICE; }
     } else {
       const c = INTENSIVES[o.course];
       hours = c.hours;
-      lines.push({ label: c.name + ', test car included', amount: c.price[o.t] });
+      lines.push({ label: c.name + ', road test car included', amount: c.price[o.t] });
       if (o.student) lines.push({ label: 'Student discount, ' + STUDENT_DISCOUNT * 100 + '%', amount: -Math.round(c.price[o.t] * STUDENT_DISCOUNT) });
       paygo = hours * rate + TEST_CAR_PRICE;
     }
-    if (o.plus) { lines.push({ label: 'Pass Plus, six hours', amount: PASS_PLUS_PRICE }); paygo += PASS_PLUS_PRICE; }
+    if (o.plus) { lines.push({ label: 'Winter & Highway, six hours', amount: PASS_PLUS_PRICE }); paygo += PASS_PLUS_PRICE; }
     const total = round2(lines.reduce((s, l) => s + l.amount, 0));
     return { lines: lines, total: total, paygo: paygo, saving: round2(paygo - total), hours: hours };
   }
@@ -766,7 +766,7 @@
 
     // Saved choices first, then the URL (?mode=, ?t=, ?h=, ?course=) wins.
     const saved = store.get(STORE_PLAN);
-    const plan = { mode: 'weekly', t: 'manual', h: 20, course: 'i30', first: true, student: false, testcar: true, plus: false };
+    const plan = { mode: 'weekly', t: 'automatic', h: 20, course: 'i30', first: true, student: false, testcar: true, plus: false };
     if (saved && typeof saved === 'object') {
       if (saved.mode === 'weekly' || saved.mode === 'intensive') plan.mode = saved.mode;
       if (hasOwn(TRANSMISSIONS, saved.t)) plan.t = saved.t;
@@ -809,7 +809,7 @@
       $('[data-calc-hours-out]').textContent = plural(o.h, 'hour');
       const q = quote(o);
       $('[data-calc-total]').textContent = money(q.total);
-      $('[data-calc-summary]').textContent = TRANSMISSIONS[o.t].name + ', ' + (intensive ? INTENSIVES[o.course].name + ' over ' + plural(INTENSIVES[o.course].weeks, 'week') : plural(o.h, 'hour') + ' of lessons') + (q.hours ? ' · ' + money(round2((q.total - (o.plus ? PASS_PLUS_PRICE : 0)) / q.hours)) + ' an hour on average' + (intensive || o.testcar ? ', test car included' : '') : '');
+      $('[data-calc-summary]').textContent = TRANSMISSIONS[o.t].name + ', ' + (intensive ? INTENSIVES[o.course].name + ' over ' + plural(INTENSIVES[o.course].weeks, 'week') : plural(o.h, 'hour') + ' of lessons') + (q.hours ? ' · ' + money(round2((q.total - (o.plus ? PASS_PLUS_PRICE : 0)) / q.hours)) + ' an hour on average' + (intensive || o.testcar ? ', road test car included' : '') : '');
       $('[data-calc-lines]').innerHTML = q.lines.map((l) => '<li class="flex items-baseline justify-between gap-4 border-b border-dashed border-white/20 py-2.5"><span class="text-mist">' + esc(l.label) + '</span><span class="font-semibold tabular-nums ' + (l.amount < 0 ? 'text-sun' : '') + '">' + money(l.amount) + '</span></li>').join('');
       const weeks = Math.ceil(o.h / 2);
       $('[data-calc-saving]').textContent = (q.saving > 0 ? 'You save ' + money(q.saving) + ' on pay-as-you-go prices. ' : 'Pay as you go: no commitment. ') +
@@ -866,7 +866,7 @@
         '<ul class="mt-3 flex flex-wrap gap-2"><li class="badge ' + (ins.t === 'manual' ? 'badge-night' : 'badge-sun') + '">' + TRANSMISSIONS[ins.t].name + '</li>' + ins.good.map((g) => '<li class="badge badge-teal">' + esc(g) + '</li>').join('') + '</ul>' +
         '<p class="mt-4 text-slate">' + esc(ins.bio) + '</p></div></div>' +
         '<div class="grid gap-5 border-t border-line bg-cloud/60 p-6 sm:grid-cols-[12rem_1fr] sm:p-7">' +
-        '<div><div class="rounded-2xl bg-white p-2">' + carSvg(ins.car, ins.car.label + ' with L plates') + '</div><p class="mt-2 text-xs text-slate">' + esc(ins.car.label) + ' · ' + esc(ins.car.fuel) + ' · dual controls</p></div>' +
+        '<div><div class="rounded-2xl bg-white p-2">' + carSvg(ins.car, ins.car.label + ' with a student-driver sign') + '</div><p class="mt-2 text-xs text-slate">' + esc(ins.car.label) + ' · ' + esc(ins.car.fuel) + ' · dual controls</p></div>' +
         '<dl class="min-w-0 text-sm">' +
         '<div class="spec-row"><dt>Areas</dt><dd>' + ins.areas.join(', ') + '</dd></div>' +
         '<div class="spec-row"><dt>Teaches in</dt><dd>' + esc(ins.languages.join(', ')) + '</dd></div>' +
@@ -921,7 +921,7 @@
    * ------------------------------------------------------------------ */
   const booking = $('[data-booking]');
   if (booking) {
-    const st = { t: 'manual', d: 120, instructor: 'any', area: null, postcode: null, week: 0, slot: null };
+    const st = { t: 'automatic', d: 120, instructor: 'any', area: null, postcode: null, week: 0, slot: null };
     const insSel = $('[name="instructor"]', booking), pcInput = $('[name="postcode"]', booking), pcOut = $('[data-postcode-result]', booking);
     const weekEl = $('[data-week]');
     // The week view shows seven days at a time, starting tomorrow.
@@ -972,7 +972,7 @@
       const f = filterNow();
       weekEl.innerHTML = [0, 1, 2, 3, 4, 5, 6].map((i) => {
         const k = addDays(mon, i), d = dateOfKey(k);
-        const head = '<p class="week-head"><span class="block font-semibold text-route">' + DAY[d.getUTCDay()] + '</span><span class="block text-xs text-slate">' + d.getUTCDate() + ' ' + MONTH[d.getUTCMonth()] + '</span></p>';
+        const head = '<p class="week-head"><span class="block font-semibold text-route">' + DAY[d.getUTCDay()] + '</span><span class="block text-xs text-slate">' + MONTH[d.getUTCMonth()] + ' ' + d.getUTCDate() + '</span></p>';
         let note = '';
         if (k < FIRST_BOOKABLE) note = k === TODAY ? 'Today' : 'Past';
         else if (k > LAST_BOOKABLE) note = 'Opens later';
@@ -994,7 +994,7 @@
     }
     function summary() {
       const set = (k, v) => { $('[data-sum="' + k + '"]').textContent = v; };
-      set('area', st.postcode ? st.postcode : 'Postcode not checked');
+      set('area', st.postcode ? st.postcode : 'ZIP code not checked');
       set('lesson', TRANSMISSIONS[st.t].name + ', ' + LESSON_LENGTHS[st.d]);
       set('instructor', st.slot ? INSTRUCTORS[st.slot.id].name : st.instructor === 'any' ? 'Whoever is free first' : INSTRUCTORS[st.instructor].name);
       set('when', st.slot ? shortDate(st.slot.key) + ', ' + clock(st.slot.mins) + '–' + clock(st.slot.mins + st.d) : 'Not picked yet');
@@ -1082,10 +1082,10 @@
       }
       const name = $('[name="name"]', booking).value.trim(), phone = $('[name="phone"]', booking).value.trim(), email = $('[name="email"]', booking).value.trim();
       ok = setError(booking, 'name', name.length >= 2 ? '' : 'Enter your name.') && ok;
-      ok = setError(booking, 'phone', validPhone(phone) ? '' : 'Enter a UK mobile number, like 07700 900123.') && ok;
+      ok = setError(booking, 'phone', validPhone(phone) ? '' : 'Enter a 10-digit US cell number, like (715) 555-0199.') && ok;
       ok = setError(booking, 'email', EMAIL.test(email) ? '' : 'Enter an email address, like sam@example.com.') && ok;
       const lic = $('[name="licence"]:checked', booking);
-      ok = setError(booking, 'licence', lic ? '' : 'Tell us whether you have a provisional licence.') && ok;
+      ok = setError(booking, 'licence', lic ? '' : 'Tell us whether you have your instruction permit.') && ok;
       if (!ok) {
         const bad = $('[aria-invalid="true"]', booking);
         if (bad) bad.focus(); else if (!st.slot) weekEl.scrollIntoView({ block: 'center' });
@@ -1095,11 +1095,11 @@
       $('[data-done-title]').textContent = 'Thanks, ' + first + '. We’ve got your request.';
       $('[data-done-ref]').textContent = reference(name + st.slot.key + st.slot.mins);
       const row = (k, v) => '<div class="spec-row"><dt>' + k + '</dt><dd>' + esc(v) + '</dd></div>';
-      $('[data-done-summary]').innerHTML = row('When', longDate(st.slot.key) + ' ' + st.slot.key.slice(0, 4) + ', ' + clock(st.slot.mins) + ' to ' + clock(st.slot.mins + st.d)) +
+      $('[data-done-summary]').innerHTML = row('When', longDate(st.slot.key) + ', ' + st.slot.key.slice(0, 4) + ', ' + clock(st.slot.mins) + ' to ' + clock(st.slot.mins + st.d)) +
         row('Lesson', TRANSMISSIONS[st.t].name + ', ' + LESSON_LENGTHS[st.d]) + row('Instructor', ins.name) + row('Pick-up', pcInput.value) + row('Price', money(lessonPrice()) + ', paid at the end of the lesson');
       $('[data-done-next]').innerHTML = [
-        ins.short + ' will text ' + esc(phone) + ' within one working day to confirm the time and the exact pick-up point.',
-        lic.value === 'have' ? 'Bring your provisional licence photocard: ' + ins.short + ' checks it before you drive.' : 'Your provisional licence must arrive before the lesson. Call us to move it if it hasn’t.',
+        ins.short + ' will text ' + esc(phone) + ' within one business day to confirm the time and the exact pick-up point.',
+        lic.value === 'have' ? 'Bring your instruction permit: ' + ins.short + ' checks it before you drive.' : 'You need your instruction permit in hand before the lesson. Call us to move it if you don’t have it yet.',
         'Need to change it? Move or cancel free of charge up to 48 hours before on ' + SCHOOL.phone + '.'
       ].map((t) => '<li>' + t + '</li>').join('');
       $('[data-booking-wrap]').hidden = true;
@@ -1113,10 +1113,10 @@
   }
 
   /* ------------------------------------------------------------------
-   * 11. Theory quiz — best scores saved in STORE_QUIZ
+   * 11. Permit test quiz — best scores saved in STORE_QUIZ
    * ------------------------------------------------------------------ */
   const QUIZ_MODES = { quick: { name: 'Quick ten', size: 10 }, full: { name: 'All ' + QUESTIONS.length, size: QUESTIONS.length } };
-  const PASS_SHARE = 0.86; // the real test's pass mark: 43 out of 50
+  const PASS_SHARE = 0.8; // the Wisconsin knowledge test's passing score: 40 out of 50
   // Best-score keys: a mode ("quick", "full") or "topic-<id>".
   function bestKeyValid(k) { return hasOwn(QUIZ_MODES, k) || (typeof k === 'string' && k.indexOf('topic-') === 0 && hasOwn(TOPICS, k.slice(6))); }
   function readBest() {
@@ -1237,9 +1237,9 @@
       $('[data-quiz-bar]').style.width = '100%';
       $('[data-quiz-ring]').innerHTML = ring(score, total);
       const title = $('[data-quiz-result-title]');
-      title.textContent = share >= PASS_SHARE ? 'That’s a pass mark.' : share >= 0.6 ? 'Getting there.' : 'Keep practising.';
+      title.textContent = share >= PASS_SHARE ? 'That’s a passing score.' : share >= 0.6 ? 'Getting there.' : 'Keep practicing.';
       $('[data-quiz-result-text]').textContent = 'You scored ' + score + ' out of ' + total + '. ' +
-        (share >= PASS_SHARE ? 'The real test needs 43 out of 50, about 86%.' : 'The real test needs about 86% (43 out of 50). Read the explanations below and try again.') +
+        (share >= PASS_SHARE ? 'The Wisconsin knowledge test needs 40 out of 50, or 80%.' : 'The Wisconsin knowledge test needs 80% (40 out of 50). Read the explanations below and try again.') +
         (isBest ? (prev ? ' A new best for ' + bestLabel(run.key) + '!' : ' Saved as your best for ' + bestLabel(run.key) + '.') : ' Your best for ' + bestLabel(run.key) + ' is still ' + prev.score + ' out of ' + prev.total + '.');
       wrongOnly = false;
       $('[data-quiz-wrong-only]').setAttribute('aria-pressed', 'false');
@@ -1287,7 +1287,7 @@
       }
     });
     const pa = params.get('area');
-    pick(hasOwn(AREAS, pa) ? pa : 'LN1');
+    pick(hasOwn(AREAS, pa) ? pa : '54701');
   }
 
   /* ------------------------------------------------------------------
@@ -1403,13 +1403,13 @@
       let ok = true;
       ok = setError(contact, 'name', v('name').length >= 2 ? '' : 'Enter your name.') && ok;
       ok = setError(contact, 'email', EMAIL.test(v('email')) ? '' : 'Enter an email address, like sam@example.com.') && ok;
-      ok = setError(contact, 'phone', !v('phone') || validPhone(v('phone')) ? '' : 'Enter a UK phone number, or leave it blank.') && ok;
+      ok = setError(contact, 'phone', !v('phone') || validPhone(v('phone')) ? '' : 'Enter a 10-digit US phone number, or leave it blank.') && ok;
       ok = setError(contact, 'message', v('message').length >= 10 ? '' : 'Tell us a little more (at least 10 characters).') && ok;
       if (!ok) { focusFirstError(contact); return; }
       const first = v('name').split(/\s+/)[0];
       $('[data-contact-done-title]').textContent = 'Thanks, ' + first + '.';
       $('[data-contact-ref]').textContent = reference(v('email') + v('message'));
-      $('[data-contact-done-text]').textContent = 'Shona will reply to ' + v('email') + ' within one working day. If it’s about a lesson in the next 48 hours, call ' + SCHOOL.phone + ' instead.';
+      $('[data-contact-done-text]').textContent = 'Shona will reply to ' + v('email') + ' within one business day. If it’s about a lesson in the next 48 hours, call ' + SCHOOL.phone + ' instead.';
       contact.hidden = true;
       const done = $('[data-contact-done]');
       done.hidden = false;

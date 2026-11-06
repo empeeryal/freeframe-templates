@@ -4,7 +4,7 @@
 @source not "../*.md";
 @source not "../*.json";
 
-/* Lavant Physiotherapy — brand tokens. Change these and rebuild (npm run build).
+/* Ledgerock Physical Therapy — brand tokens. Change these and rebuild (npm run build).
    The look is a clinician's notepad: biro-blue ink on warm paper, pale blue ruled lines,
    a red margin rule and a highlighter for whatever you have selected. */
 @theme {
@@ -13,7 +13,7 @@
   --font-sans: "Reddit Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-mono: "Reddit Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
-  /* Biro: the ink colour. 600 for links and buttons, 800/900 for headings and dark bands. */
+  /* Biro: the ink color. 600 for links and buttons, 800/900 for headings and dark bands. */
   --color-biro-50: #eff2fa;
   --color-biro-100: #dfe5f5;
   --color-biro-200: #c0cbea;
@@ -34,7 +34,7 @@
   --color-margin-600: #b23a2d;
   --color-margin-700: #922e23;
 
-  /* Highlighter: selection marks only, always with ink-coloured text on top. */
+  /* Highlighter: selection marks only, always with ink-colored text on top. */
   --color-hi: #f6e46b;
   --color-hi-soft: #fbf3b8;
 

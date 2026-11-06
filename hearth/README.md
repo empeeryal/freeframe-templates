@@ -1,12 +1,12 @@
 # Hearth: free HTML5 + Tailwind CSS inn and bed and breakfast website template
 
-A rustic, dog-friendly website for a pub with rooms or a bed and breakfast, built for the fictional **The Fallow
-Hart**, an old drovers' inn on the green at Kirkby Malham in the Yorkshire Dales: a "fire's lit" status from the
-opening hours, rooms with a seasonal price checker, tabbed menus with a dietary filter and a specials board, walks
-from the door with a route map, events, gift vouchers and directions. Plain HTML, Tailwind CSS v4 and one vanilla
+A rustic, dog-friendly website for a country inn with a tavern or a bed and breakfast, built for the fictional **The
+Fallow Hart**, an old stagecoach inn just off the green in Woodstock, Vermont: a "fire's lit" status from the
+opening hours, rooms with a seasonal price checker, tabbed menus with a dietary filter and a specials board, trails
+from the door with a route map, events, gift certificates and directions. Plain HTML, Tailwind CSS v4 and one vanilla
 JavaScript file, illustrated in a woodcut style.
 
-**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/hearth)
 
 ## Quick start
@@ -23,7 +23,7 @@ npm run build
 ## Documentation
 
 [DOCS.md](DOCS.md) is the full guide: pages and files, colors and fonts, rooms, seasons and prices, opening
-hours, menus, walks, events and vouchers, connecting the forms, saved data, SEO, accessibility, deploying and
+hours, menus, trails, events and gift certificates, connecting the forms, saved data, SEO, accessibility, deploying and
 troubleshooting. Changes are listed in [CHANGELOG.md](CHANGELOG.md).
 
 ## License

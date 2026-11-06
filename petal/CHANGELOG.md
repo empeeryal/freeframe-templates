@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-05
+
+### Changed
+
+- Set in Macon, Georgia, with American spelling, US dollars, US phone numbers and local details.
+- Delivery areas use ZIP codes around Macon (5 digits, with an optional +4) on Eastern time. Closures use US holidays, with Memorial Day, Labor Day and Thanksgiving worked out for any year, and the about page gives the next Valentine's Day and Mother's Day by rule. In-season flowers follow Middle Georgia, and totals show that prices don't include sales tax.
+
 ## [1.0.5] - 2026-11-05
 
 ### Changed

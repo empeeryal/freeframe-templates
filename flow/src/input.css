@@ -18,7 +18,7 @@
   --color-drift: #dccbb0;  /* deeper panels, decorative fills */
   --color-line: #ddd0bb;   /* borders and hairlines */
 
-  /* Sea: the brand colour. 700 for buttons and links, 900 for the dark bands. */
+  /* Sea: the brand color. 700 for buttons and links, 900 for the dark bands. */
   --color-sea-50: #eef4f2;
   --color-sea-100: #d9e7e3;
   --color-sea-200: #b5d0ca;
@@ -175,7 +175,7 @@
   .pulse-dot::after { content: ""; position: absolute; inset: -4px; border-radius: 999px; border: 1.5px solid currentColor; opacity: .6; animation: breathe 3.2s ease-in-out infinite; }
   @keyframes breathe { 0%, 100% { transform: scale(.7); opacity: 0; } 50% { transform: scale(1.15); opacity: .6; } }
 
-  /* ---------- Timetable ---------- */
+  /* ---------- Schedule ---------- */
   .tt-row { display: grid; grid-template-columns: 5.6rem 1fr; gap: .4rem 1rem; align-items: start; padding: 1.05rem 1.1rem; border-radius: 1.1rem; background: var(--color-shell);
     box-shadow: 0 0 0 1px var(--color-line); }
   @media (min-width: 768px) { .tt-row { grid-template-columns: 6.6rem minmax(0, 1fr) auto; align-items: center; padding: 1.1rem 1.4rem; } }

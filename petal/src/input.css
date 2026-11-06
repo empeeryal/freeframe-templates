@@ -118,7 +118,7 @@
   .badge { @apply inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[12px] font-semibold leading-none text-ink shadow-[0_1px_0_rgb(20_32_26/.08)]; }
   .dot { @apply inline-block size-2 shrink-0 rounded-full bg-current; }
 
-  /* Hand-drawn underline in the season colour. */
+  /* Hand-drawn underline in the season color. */
   .scribble { background: no-repeat 0 92% / 100% .22em; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'%3E%3Cpath d='M2 7C40 2 70 3 100 5s62 2 98-3' fill='none' stroke='%23ffb020' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E"); }
 
   /* Delivery date calendar on the product page. */

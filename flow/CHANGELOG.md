@@ -6,6 +6,13 @@ All notable changes to the Flow HTML template are documented here. The format fo
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-05
+
+### Changed
+
+- Set in Santa Cruz, California, with American spelling, US dollars, US phone numbers and local details.
+- Times show on a 12-hour clock in Pacific time, dates use the US format, and the retreats move to Davenport and Big Sur.
+
 ## [1.0.5] - 2026-11-05
 
 ### Changed

@@ -1,16 +1,16 @@
 /* Bellcrank Motor Works (Garage template) — all template JavaScript. Vanilla, no dependencies.
  *
  *  1. Data            garage details, hours, drop-off slots, services, prices (edit here)
- *  2. Helpers         DOM, storage, money, London time, dates, bank holidays, number plates
+ *  2. Helpers         DOM, storage, money, Eastern time, dates, federal holidays, license plates
  *  3. Header          sticky header, accessible mobile menu
  *  4. Reveal          fade content in as it scrolls into view
- *  5. Open now        status badges, today's hours, the workshop-day gauge, next free MOT, closures
- *  6. Plate inputs    live UK-style formatting for every [data-plate-input]
- *  7. Quick MOT form  home page "enter your reg" form
+ *  5. Open now        status badges, today's hours, the shop-day gauge, next free inspection, closures
+ *  6. Plate inputs    live formatting for every [data-plate-input]
+ *  7. Quick form      home page "got your plate" form
  *  8. Services        category filter
  *  9. Price checker   service type + fuel + engine size -> fixed guide price
- * 10. Booking         booking request: vehicle, jobs, drop-off day and slot, courtesy car
- * 11. MOT reminder    next MOT due date from the last test, saved reminders
+ * 10. Booking         booking request: vehicle, jobs, drop-off day and slot, loaner car
+ * 11. Inspection      next due date from the last inspection, saved reminders
  * 12. Reviews         rating breakdown, filter, sort, relative dates
  * 13. FAQ             live search
  * 14. Contact form
@@ -22,15 +22,15 @@
   /* ------------------------------------------------------------------
    * 1. Data — times are "HH:MM" in TIME_ZONE. Weekday indexes: 0 = Sunday … 6 = Saturday.
    * ------------------------------------------------------------------ */
-  const TIME_ZONE = 'Europe/London';
+  const TIME_ZONE = 'America/New_York';
 
   const GARAGE = {
     name: 'Bellcrank Motor Works',
-    phone: '01632 960418',
-    phoneHref: '+441632960418'
+    phone: '(603) 555-0164',
+    phoneHref: '+16035550164'
   };
 
-  // Workshop opening hours per weekday; null = closed all day.
+  // Shop hours per weekday; null = closed all day.
   const HOURS = [
     null,               // Sunday
     ['07:30', '18:00'], // Monday
@@ -47,65 +47,65 @@
 
   // Booking window: from tomorrow up to this many days ahead.
   const BOOK_AHEAD_DAYS = 28;
-  // Courtesy cars on the fleet (the demo marks some as already out on each day).
+  // Loaner cars available (the demo marks some as already out on each day).
   const COURTESY_CARS = 2;
   // The longest job list (minutes) a customer can wait in the lounge for.
   const MAX_WAIT_MINUTES = 90;
-  // Extra days the workshop closes every year, on top of Sundays and bank holidays ("MM-DD").
+  // Extra days the shop closes every year, on top of Sundays and federal holidays ("MM-DD").
   const EXTRA_CLOSED = [{ md: '12-24', label: 'Christmas Eve' }];
-  // Bank holidays (England and Wales) are worked out for any year in bankHolidays(); set to
-  // false to stay open on them.
+  // US federal holidays are worked out for any year in bankHolidays(); set to false to stay
+  // open on them.
   const CLOSE_ON_BANK_HOLIDAYS = true;
   // Demo availability: the share (0–100) of drop-off slots that show as already taken.
   const DEMO_SLOTS_TAKEN = 35;
 
-  // Jobs in the booking form. price: guide price in £ (0 = free check, quoted after);
-  // from: true when the price depends on the car; mins: workshop time.
+  // Jobs in the booking form. price: guide price in $ (0 = free check, quoted after);
+  // from: true when the price depends on the car; mins: time in the shop.
   const JOBS = {
-    mot: { name: 'MOT test', price: 45, from: false, mins: 60 },
-    interim: { name: 'Interim service', price: 99, from: true, mins: 90, level: true },
-    full: { name: 'Full service', price: 169, from: true, mins: 180, level: true },
-    major: { name: 'Major service', price: 239, from: true, mins: 300, level: true },
+    mot: { name: 'Safety inspection', price: 45, from: false, mins: 60 },
+    interim: { name: 'Basic service', price: 79, from: true, mins: 90, level: true },
+    full: { name: 'Full service', price: 179, from: true, mins: 180, level: true },
+    major: { name: 'Major service', price: 289, from: true, mins: 300, level: true },
     brakes: { name: 'Brake check', price: 0, from: false, mins: 30 },
-    tyres: { name: 'Tyres and wheel alignment', price: 69, from: true, mins: 60 },
-    diagnostics: { name: 'Diagnostics', price: 60, from: false, mins: 60 },
-    ev: { name: 'EV and hybrid health check', price: 69, from: false, mins: 60 },
-    aircon: { name: 'Air con re-gas', price: 79, from: false, mins: 45 },
+    tyres: { name: 'Tires and wheel alignment', price: 129, from: true, mins: 60 },
+    diagnostics: { name: 'Diagnostics', price: 149, from: false, mins: 60 },
+    ev: { name: 'EV and hybrid health check', price: 99, from: false, mins: 60 },
+    aircon: { name: 'A/C recharge', price: 169, from: false, mins: 45 },
     fault: { name: 'A fault or a noise', price: 0, from: false, mins: 120, needsNotes: true }
   };
-  // An MOT booked with any service costs this instead of the full MOT price.
+  // An inspection booked with any service costs this instead of the usual inspection price.
   const MOT_WITH_SERVICE = 35;
 
   // Service filter categories on services.html (?cat=<id>).
   const CATEGORIES = {
     all: 'All work',
-    servicing: 'Servicing',
-    mot: 'MOT',
-    'brakes-tyres': 'Brakes & tyres',
+    servicing: 'Maintenance',
+    mot: 'Inspection',
+    'brakes-tyres': 'Brakes & tires',
     diagnostics: 'Diagnostics',
     ev: 'EV & hybrid',
     repairs: 'Repairs'
   };
 
-  // Price checker. Prices in £ including VAT, for engine bands [small, mid, large];
-  // electric cars have one price. MOT is the same for every car.
-  const ENGINE_BANDS = { small: 'Up to 1.4 litres', mid: '1.4 to 2.0 litres', large: 'Over 2.0 litres' };
-  const FUELS = { petrol: 'Petrol', diesel: 'Diesel', hybrid: 'Hybrid', electric: 'Electric' };
+  // Price checker. Prices in $ for engine bands [small, mid, large] (New Hampshire has no sales
+  // tax); electric cars have one price. The inspection is the same for every car.
+  const ENGINE_BANDS = { small: 'Up to 1.4 liters', mid: '1.4 to 2.0 liters', large: 'Over 2.0 liters' };
+  const FUELS = { petrol: 'Gas', diesel: 'Diesel', hybrid: 'Hybrid', electric: 'Electric' };
   const SERVICE_TYPES = {
-    mot: { name: 'MOT test', price: 45, mins: { engine: 60, electric: 60 } },
+    mot: { name: 'Safety inspection', price: 45, mins: { engine: 60, electric: 60 } },
     interim: {
-      name: 'Interim service',
-      price: { petrol: [129, 149, 169], diesel: [149, 169, 189], hybrid: [144, 164, 184], electric: 99 },
+      name: 'Basic service',
+      price: { petrol: [79, 89, 109], diesel: [129, 149, 169], hybrid: [89, 99, 119], electric: 79 },
       mins: { engine: 90, electric: 60 }
     },
     full: {
       name: 'Full service',
-      price: { petrol: [219, 249, 289], diesel: [249, 279, 319], hybrid: [244, 274, 314], electric: 169 },
+      price: { petrol: [229, 259, 299], diesel: [279, 319, 359], hybrid: [249, 279, 319], electric: 179 },
       mins: { engine: 180, electric: 120 }
     },
     major: {
       name: 'Major service',
-      price: { petrol: [329, 369, 419], diesel: [369, 409, 459], hybrid: [364, 404, 454], electric: 239 },
+      price: { petrol: [449, 499, 579], diesel: [529, 589, 659], hybrid: [479, 529, 609], electric: 289 },
       mins: { engine: 300, electric: 180 }
     }
   };
@@ -114,14 +114,14 @@
   const ENGINES = ['petrol', 'diesel', 'hybrid'];
   const SERVICES_ALL = ['interim', 'full', 'major'];
   const INCLUDED = [
-    { t: 'Full MOT test to the DVSA standard (class 4)', levels: ['mot'], fuels: ALL_FUELS },
-    { t: 'Free partial retest within 10 working days', levels: ['mot'], fuels: ALL_FUELS },
-    { t: 'Result logged with the DVSA the same day', levels: ['mot'], fuels: ALL_FUELS },
-    { t: 'Every advisory explained, with photos', levels: ['mot'], fuels: ALL_FUELS },
+    { t: 'Full safety inspection, bumper to bumper', levels: ['mot'], fuels: ALL_FUELS },
+    { t: 'Free reinspection within 10 business days', levels: ['mot'], fuels: ALL_FUELS },
+    { t: 'Written report the same day', levels: ['mot'], fuels: ALL_FUELS },
+    { t: 'Every concern explained, with photos', levels: ['mot'], fuels: ALL_FUELS },
     { t: 'Engine oil and filter change', levels: SERVICES_ALL, fuels: ENGINES },
-    { t: 'Screenwash, coolant and brake fluid topped up', levels: SERVICES_ALL, fuels: ALL_FUELS },
-    { t: 'Brake pads, discs and pipes checked', levels: SERVICES_ALL, fuels: ALL_FUELS },
-    { t: 'Tyre tread, pressures and condition checked', levels: SERVICES_ALL, fuels: ALL_FUELS },
+    { t: 'Washer fluid, coolant and brake fluid topped off', levels: SERVICES_ALL, fuels: ALL_FUELS },
+    { t: 'Brake pads, rotors and lines checked', levels: SERVICES_ALL, fuels: ALL_FUELS },
+    { t: 'Tire tread, pressure and condition checked', levels: SERVICES_ALL, fuels: ALL_FUELS },
     { t: 'Lights, horn and wipers checked', levels: SERVICES_ALL, fuels: ALL_FUELS },
     { t: 'Steering and suspension checked', levels: SERVICES_ALL, fuels: ALL_FUELS },
     { t: 'Exhaust checked for leaks and security', levels: SERVICES_ALL, fuels: ENGINES },
@@ -129,22 +129,22 @@
     { t: 'Fault codes read and warning lights checked', levels: SERVICES_ALL, fuels: ALL_FUELS },
     { t: 'High-voltage battery health report', levels: SERVICES_ALL, fuels: ['hybrid', 'electric'] },
     { t: 'Charging port and cable inspected', levels: SERVICES_ALL, fuels: ['electric'] },
-    { t: 'Service book stamped and digital record updated', levels: SERVICES_ALL, fuels: ALL_FUELS },
+    { t: 'Service record updated', levels: SERVICES_ALL, fuels: ALL_FUELS },
     { t: 'Air filter replaced', levels: ['full', 'major'], fuels: ENGINES },
     { t: 'Fuel filter replaced', levels: ['full', 'major'], fuels: ['diesel'] },
-    { t: 'Cabin pollen filter replaced', levels: ['full', 'major'], fuels: ALL_FUELS },
-    { t: 'Wheel bearings and drive shaft gaiters checked', levels: ['full', 'major'], fuels: ALL_FUELS },
+    { t: 'Cabin air filter replaced', levels: ['full', 'major'], fuels: ALL_FUELS },
+    { t: 'Wheel bearings and CV boots checked', levels: ['full', 'major'], fuels: ALL_FUELS },
     { t: 'Coolant strength tested', levels: ['full', 'major'], fuels: ALL_FUELS },
     { t: 'Inverter and battery cooling circuit checked', levels: ['full', 'major'], fuels: ['hybrid', 'electric'] },
     { t: 'Road test by your technician', levels: ['full', 'major'], fuels: ALL_FUELS },
     { t: 'Spark plugs replaced', levels: ['major'], fuels: ['petrol', 'hybrid'] },
     { t: 'Brake fluid replaced', levels: ['major'], fuels: ALL_FUELS },
     { t: 'Auxiliary drive belt inspected', levels: ['major'], fuels: ENGINES },
-    { t: 'Gearbox oil level checked', levels: ['major'], fuels: ENGINES },
+    { t: 'Transmission fluid level checked', levels: ['major'], fuels: ENGINES },
     { t: 'Reduction gear oil checked', levels: ['major'], fuels: ['electric'] }
   ];
 
-  // MOT reminders: how many weeks before the due date a reminder can be sent.
+  // Inspection reminders: how many weeks before the due date a reminder can be sent.
   const REMINDER_LEADS = { 7: '1 week before', 14: '2 weeks before', 28: '4 weeks before' };
   const REMINDER_VIA = { email: 'email', text: 'text message' };
   const MAX_REMINDERS = 6;
@@ -162,6 +162,8 @@
   const params = new URLSearchParams(window.location.search);
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  // A US phone number with its punctuation stripped: 10 digits, with an optional leading 1 or +1.
+  const US_PHONE = /^(\+?1)?[2-9]\d{2}[2-9]\d{6}$/;
 
   // localStorage, or an in-memory stand-in when the browser blocks it (a sandboxed iframe, strict
   // privacy settings): saved state then lasts for this page view instead of the feature doing nothing.
@@ -198,14 +200,14 @@
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const plural = (n, one, many) => n + ' ' + (n === 1 ? one : (many || one + 's'));
 
-  function money(n) { return '£' + (Math.round(n) === n ? String(n) : n.toFixed(2)); }
+  function money(n) { return '$' + (Math.round(n) === n ? String(n) : n.toFixed(2)); }
   function duration(m) {
     const h = Math.floor(m / 60), mm = m % 60;
     if (h && mm) return plural(h, 'hr') + ' ' + mm + ' min';
     return h ? plural(h, 'hour') : mm + ' min';
   }
   function toMin(hhmm) { const p = hhmm.split(':'); return +p[0] * 60 + +p[1]; }
-  // Minutes after midnight to British clock times: "7:30am", "6pm", "12:30pm".
+  // Minutes after midnight to 12-hour clock times: "7:30am", "6pm", "12:30pm".
   function clock(min) {
     const h = Math.floor(min / 60) % 24, m = min % 60;
     return (h % 12 || 12) + (m ? ':' + String(m).padStart(2, '0') : '') + (h < 12 ? 'am' : 'pm');
@@ -229,7 +231,7 @@
     const p = s.split('-');
     return +p[1] >= 1 && +p[1] <= 12 && keyOfDate(dateOfKey(s)) === s;
   }
-  // Add whole months or years; the 29th–31st clamp to the end of a shorter month (29 Feb + 1 year = 28 Feb).
+  // Add whole months or years; the 29th–31st clamp to the end of a shorter month (Feb 29 + 1 year = Feb 28).
   function addMonths(key, n) {
     const p = key.split('-').map(Number);
     const total = p[0] * 12 + (p[1] - 1) + n;
@@ -237,18 +239,18 @@
     const last = new Date(Date.UTC(y, m, 0)).getUTCDate();
     return keyOf(y, m, Math.min(p[2], last));
   }
-  const shortDate = (key) => { const d = dateOfKey(key); return DAY[d.getUTCDay()] + ' ' + d.getUTCDate() + ' ' + MONTH[d.getUTCMonth()]; };
-  const longDate = (key) => { const d = dateOfKey(key); return DAY_LONG[d.getUTCDay()] + ' ' + d.getUTCDate() + ' ' + MONTH_LONG[d.getUTCMonth()] + ' ' + d.getUTCFullYear(); };
-  const dayMonth = (key) => { const d = dateOfKey(key); return d.getUTCDate() + ' ' + MONTH_LONG[d.getUTCMonth()]; };
+  const shortDate = (key) => { const d = dateOfKey(key); return DAY[d.getUTCDay()] + ', ' + MONTH[d.getUTCMonth()] + ' ' + d.getUTCDate(); };
+  const longDate = (key) => { const d = dateOfKey(key); return DAY_LONG[d.getUTCDay()] + ', ' + MONTH_LONG[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', ' + d.getUTCFullYear(); };
+  const dayMonth = (key) => { const d = dateOfKey(key); return MONTH_LONG[d.getUTCMonth()] + ' ' + d.getUTCDate(); };
 
-  // Wall-clock time in London, whatever the visitor's own time zone is.
-  const tzParts = new Intl.DateTimeFormat('en-GB', { timeZone: TIME_ZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+  // Wall-clock time in Keene (TIME_ZONE), whatever the visitor's own time zone is.
+  const tzParts = new Intl.DateTimeFormat('en-US', { timeZone: TIME_ZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
   function partsAt(date) {
     const o = {};
     tzParts.formatToParts(date).forEach((p) => { o[p.type] = p.value; });
     return { y: +o.year, m: +o.month, d: +o.day, h: +o.hour % 24, min: +o.minute };
   }
-  // ?at=2026-10-19T10:30 previews the site at a London date and time (for testing hours and slots).
+  // ?at=2026-10-19T10:30 previews the site at an Eastern date and time (for testing hours and slots).
   const AT = /^(\d{4}-\d{2}-\d{2})T(\d{2}):(\d{2})$/.exec(params.get('at') || '');
   function nowLondon() {
     if (AT && validKey(AT[1]) && +AT[2] < 24 && +AT[3] < 60) {
@@ -269,38 +271,38 @@
     return h >>> 0;
   }
 
-  // Bank holidays in England and Wales for a year, as { "YYYY-MM-DD": name }, including the
-  // substitute weekdays when Christmas, Boxing Day or New Year's Day fall at a weekend.
+  // US federal holidays for a year, as { "YYYY-MM-DD": name }, plus the weekday they're observed on
+  // when they fall at a weekend (Saturday: the Friday before; Sunday: the Monday after).
   const holidayCache = Object.create(null);
   function bankHolidays(y) {
     if (holidayCache[y]) return holidayCache[y];
     const out = Object.create(null);
-    const mondayOnOrAfter = (key) => { let k = key; while (weekday(k) !== 1) k = addDays(k, 1); return k; };
-    const lastMonday = (month) => { let k = addDays(keyOf(month === 12 ? y + 1 : y, month === 12 ? 1 : month + 1, 1), -1); while (weekday(k) !== 1) k = addDays(k, -1); return k; };
-    // New Year's Day (the next Monday if it falls at a weekend)
-    let ny = keyOf(y, 1, 1);
-    if (weekday(ny) === 6 || weekday(ny) === 0) ny = mondayOnOrAfter(ny);
-    out[ny] = "New Year's Day";
-    // Easter (anonymous Gregorian computus)
-    const a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4;
-    const f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30;
-    const i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
-    const easter = keyOf(y, Math.floor((h + l - 7 * m + 114) / 31), ((h + l - 7 * m + 114) % 31) + 1);
-    out[addDays(easter, -2)] = 'Good Friday';
-    out[addDays(easter, 1)] = 'Easter Monday';
-    out[mondayOnOrAfter(keyOf(y, 5, 1))] = 'Early May bank holiday';
-    out[lastMonday(5)] = 'Spring bank holiday';
-    out[lastMonday(8)] = 'Summer bank holiday';
-    // Christmas and Boxing Day with substitute days
-    const xmas = keyOf(y, 12, 25), xd = weekday(xmas);
-    if (xd === 6) { out[keyOf(y, 12, 27)] = 'Christmas Day (substitute day)'; out[keyOf(y, 12, 28)] = 'Boxing Day (substitute day)'; }
-    else if (xd === 0) { out[keyOf(y, 12, 26)] = 'Boxing Day'; out[keyOf(y, 12, 27)] = 'Christmas Day (substitute day)'; }
-    else if (xd === 5) { out[xmas] = 'Christmas Day'; out[keyOf(y, 12, 28)] = 'Boxing Day (substitute day)'; }
-    else { out[xmas] = 'Christmas Day'; out[keyOf(y, 12, 26)] = 'Boxing Day'; }
+    // The nth (1 = first) given weekday (0 = Sunday) of a month.
+    const nthWeekday = (month, dow, n) => { let k = keyOf(y, month, 1); while (weekday(k) !== dow) k = addDays(k, 1); return addDays(k, (n - 1) * 7); };
+    const lastMonday = (month) => { let k = addDays(keyOf(y, month + 1, 1), -1); while (weekday(k) !== 1) k = addDays(k, -1); return k; };
+    const fixed = (month, day, name) => {
+      const k = keyOf(y, month, day), d = weekday(k);
+      out[k] = name;
+      if (d === 6) out[addDays(k, -1)] = name + ' (observed)';
+      if (d === 0) out[addDays(k, 1)] = name + ' (observed)';
+    };
+    fixed(1, 1, "New Year's Day");
+    out[nthWeekday(1, 1, 3)] = 'Martin Luther King Jr. Day';
+    out[nthWeekday(2, 1, 3)] = "Presidents' Day";
+    out[lastMonday(5)] = 'Memorial Day';
+    fixed(6, 19, 'Juneteenth');
+    fixed(7, 4, 'Independence Day');
+    out[nthWeekday(9, 1, 1)] = 'Labor Day';
+    out[nthWeekday(10, 1, 2)] = 'Columbus Day';
+    fixed(11, 11, 'Veterans Day');
+    out[nthWeekday(11, 4, 4)] = 'Thanksgiving Day';
+    fixed(12, 25, 'Christmas Day');
+    // Next New Year's Day on a Saturday is observed on December 31 of this year.
+    if (weekday(keyOf(y + 1, 1, 1)) === 6) out[keyOf(y, 12, 31)] = "New Year's Day (observed)";
     holidayCache[y] = out;
     return out;
   }
-  // Why the workshop is shut on a date (bank holiday or extra closed day), or null.
+  // Why the shop is closed on a date (federal holiday or extra closed day), or null.
   function closedReason(key) {
     const hol = bankHolidays(+key.slice(0, 4));
     if (CLOSE_ON_BANK_HOLIDAYS && hasOwn(hol, key)) return hol[key];
@@ -314,29 +316,17 @@
     return [toMin(h[0]), toMin(h[1])];
   }
 
-  // UK registration numbers. Returns { ok, text, compact, kind, year } for the formats in use:
-  // current (AB12 CDE), prefix (A123 BCD), suffix (ABC 123D) and dateless (1 ABC, ABC 1234).
+  // US license plates vary by state and vanity plates are common, so any 2 to 8 letters and digits
+  // pass. Returns { ok, text, compact, kind }; the check is about format only, not a lookup.
   function parsePlate(raw) {
     const compact = String(raw || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
-    const fail = { ok: false, text: compact, compact: compact };
-    if (compact.length < 2 || compact.length > 7) return fail;
+    if (compact.length < 2 || compact.length > 8) return { ok: false, text: compact, compact: compact };
     let m;
-    if ((m = /^([A-Z]{2})([0-9]{2})([A-Z]{3})$/.exec(compact))) {
-      return { ok: true, compact: compact, text: m[1] + m[2] + ' ' + m[3], kind: 'current', year: plateAge(m[2]) };
-    }
-    if ((m = /^([A-Z])([0-9]{1,3})([A-Z]{3})$/.exec(compact))) return { ok: true, compact: compact, text: m[1] + m[2] + ' ' + m[3], kind: 'prefix' };
-    if ((m = /^([A-Z]{3})([0-9]{1,3})([A-Z])$/.exec(compact))) return { ok: true, compact: compact, text: m[1] + ' ' + m[2] + m[3], kind: 'suffix' };
-    if ((m = /^([0-9]{1,4})([A-Z]{1,3})$/.exec(compact)) || (m = /^([A-Z]{1,3})([0-9]{1,4})$/.exec(compact))) {
-      return { ok: true, compact: compact, text: m[1] + ' ' + m[2], kind: 'dateless' };
-    }
-    return fail;
-  }
-  // The age identifier in a current-format plate ("17" = March 2017, "67" = September 2017).
-  function plateAge(digits) {
-    const n = +digits;
-    if (n >= 2 && n <= 50) return { month: 3, year: 2000 + n };
-    if (n >= 51) return { month: 9, year: 2000 + n - 50 };
-    return null;
+    // New Hampshire's usual 3 + 4 digits, like 294 1086
+    if ((m = /^([0-9]{3})([0-9]{4})$/.exec(compact))) return { ok: true, compact: compact, text: m[1] + ' ' + m[2], kind: 'numeric' };
+    // Letters then digits, common in other states, like ABC 1234
+    if ((m = /^([A-Z]{3})([0-9]{3,4})$/.exec(compact))) return { ok: true, compact: compact, text: m[1] + ' ' + m[2], kind: 'lettered' };
+    return { ok: true, compact: compact, text: compact, kind: 'other' };
   }
   // Formats a typed plate while keeping the caret near where it was.
   function formatPlateInput(input) {
@@ -423,7 +413,7 @@
   /* ------------------------------------------------------------------
    * 5. Open now
    * ------------------------------------------------------------------ */
-  // When the workshop next opens after now: { key, mins }.
+  // When the shop next opens after now: { key, mins }.
   function nextOpening(now) {
     for (let i = 0; i < 21; i++) {
       const key = addDays(now.key, i), h = hoursOn(key);
@@ -472,7 +462,7 @@
       tr.toggleAttribute('data-today', isToday);
       if (isToday) tr.setAttribute('aria-current', 'date'); else tr.removeAttribute('aria-current');
     });
-    // Workshop-day gauge: one segment per half hour of today's opening
+    // Shop-day gauge: one segment per half hour of today's opening
     $$('[data-rev]').forEach((el) => {
       const bar = $('[data-rev-bar]', el), label = $('[data-rev-label]', el);
       if (!h) {
@@ -490,26 +480,26 @@
       }
       bar.innerHTML = html;
       if (now.mins < h[0]) label.textContent = 'Doors open at ' + clock(h[0]) + ' · drop-offs from ' + clock(h[0]);
-      else if (now.mins >= h[1]) label.textContent = 'Workshop finished for today · keys in the safe drop';
-      else label.textContent = duration(Math.ceil((h[1] - now.mins) / 5) * 5) + ' of workshop time left today';
+      else if (now.mins >= h[1]) label.textContent = 'Shop closed for today · keys in the drop box';
+      else label.textContent = duration(Math.ceil((h[1] - now.mins) / 5) * 5) + ' of shop time left today';
     });
-    // Next free MOT drop-off
+    // Next free inspection drop-off
     const next = firstFreeSlot(now);
     $$('[data-next-mot]').forEach((el) => {
       el.textContent = next ? shortDate(next.key) + ' · ' + clock(toMin(next.time)) : 'Call us';
     });
-    // Upcoming closures (bank holidays and extra closed days)
+    // Upcoming closures (federal holidays and extra closed days)
     $$('[data-closures]').forEach((list) => {
       const items = [];
       for (let i = 0; i < 400 && items.length < (+list.getAttribute('data-closures') || 3); i++) {
         const key = addDays(now.key, i), why = closedReason(key);
-        if (why && HOURS[weekday(key)]) items.push('<li class="flex justify-between gap-4 border-b border-dashed border-ink/25 py-2.5"><span class="font-semibold">' + esc(why) + '</span><span class="gauge text-steel">' + shortDate(key) + ' ' + key.slice(0, 4) + '</span></li>');
+        if (why && HOURS[weekday(key)]) items.push('<li class="flex justify-between gap-4 border-b border-dashed border-ink/25 py-2.5"><span class="font-semibold">' + esc(why) + '</span><span class="gauge text-steel">' + shortDate(key) + ', ' + key.slice(0, 4) + '</span></li>');
       }
       list.innerHTML = items.join('') || '<li class="py-2.5 text-steel">No closures in the next year.</li>';
     });
   }
 
-  // Booking availability (shared with the home page "next free MOT").
+  // Booking availability (shared with the home page "next free inspection").
   function slotTaken(key, time) { return hash('slot|' + key + '|' + time) % 100 < DEMO_SLOTS_TAKEN; }
   function slotsOn(key) {
     if (!hoursOn(key)) return [];
@@ -530,7 +520,7 @@
   window.setInterval(paintStatus, 60000);
 
   /* ------------------------------------------------------------------
-   * 6. Plate inputs — format as you type: "ab12cde" -> "AB12 CDE"
+   * 6. Plate inputs — format as you type: "2941086" -> "294 1086"
    * ------------------------------------------------------------------ */
   $$('[data-plate-input]').forEach((input) => {
     input.addEventListener('input', () => formatPlateInput(input));
@@ -538,14 +528,14 @@
   });
 
   /* ------------------------------------------------------------------
-   * 7. Quick MOT form (home page)
+   * 7. Quick inspection form (home page)
    * ------------------------------------------------------------------ */
   const quick = $('[data-quick-mot]');
   if (quick) {
     quick.addEventListener('submit', (e) => {
       e.preventDefault();
       const p = parsePlate($('[name="reg"]', quick).value);
-      if (!setError(quick, 'reg', p.ok ? '' : 'Enter a UK registration, like AB12 CDE.')) { focusFirstError(quick); return; }
+      if (!setError(quick, 'reg', p.ok ? '' : 'Enter a license plate, like 294 1086.')) { focusFirstError(quick); return; }
       window.location.href = 'book.html?service=mot&reg=' + encodeURIComponent(p.compact);
     });
   }
@@ -622,7 +612,7 @@
       $$('input[name="engine"]', checker).forEach((r) => { r.disabled = engineless; r.checked = r.value === state.engine; });
       $$('input[name="service"]', checker).forEach((r) => { r.checked = r.value === state.service; });
       $$('input[name="fuel"]', checker).forEach((r) => { r.checked = r.value === state.fuel; });
-      out.engineNote.textContent = state.service === 'mot' ? 'The MOT costs the same for every car.' : state.fuel === 'electric' ? 'Electric cars have one price: no engine size.' : '';
+      out.engineNote.textContent = state.service === 'mot' ? 'The inspection costs the same for every car.' : state.fuel === 'electric' ? 'Electric cars have one price: no engine size.' : '';
       const withMot = state.mot && state.service !== 'mot';
       out.motWrap.hidden = state.service === 'mot';
       $('input[name="mot"]', checker).checked = state.mot;
@@ -632,17 +622,17 @@
       const total = base + (withMot ? MOT_WITH_SERVICE : 0);
       out.total.textContent = money(total);
       const what = t.name + (state.service === 'mot' ? '' : ' · ' + FUELS[state.fuel] + (state.fuel === 'electric' ? '' : ' · ' + ENGINE_BANDS[state.engine].toLowerCase()));
-      out.summary.textContent = what + (withMot ? ' + MOT' : '');
-      out.label.textContent = 'Guide price for ' + t.name.toLowerCase() + (withMot ? ' and MOT' : '') + ', including VAT';
+      out.summary.textContent = what + (withMot ? ' + inspection' : '');
+      out.label.textContent = 'Guide price for ' + t.name.toLowerCase() + (withMot ? ' and inspection' : '') + '. No NH sales tax.';
       let lines = '<div class="spec-row"><dt>' + esc(t.name) + '</dt><dd class="gauge">' + money(base) + '</dd></div>';
-      if (withMot) lines += '<div class="spec-row"><dt>MOT with a service (save ' + money(SERVICE_TYPES.mot.price - MOT_WITH_SERVICE) + ')</dt><dd class="gauge">' + money(MOT_WITH_SERVICE) + '</dd></div>';
+      if (withMot) lines += '<div class="spec-row"><dt>Inspection with a service (save ' + money(SERVICE_TYPES.mot.price - MOT_WITH_SERVICE) + ')</dt><dd class="gauge">' + money(MOT_WITH_SERVICE) + '</dd></div>';
       out.lines.innerHTML = lines;
 
       const items = INCLUDED.filter((x) => x.fuels.indexOf(state.fuel) !== -1 && (x.levels.indexOf(state.service) !== -1 || (withMot && x.levels.indexOf('mot') !== -1)));
       out.list.innerHTML = items.map((x) => '<li>' + esc(x.t) + '</li>').join('');
       out.count.textContent = plural(items.length, 'item') + ' included';
       const fuelKey = state.fuel === 'electric' ? 'electric' : 'engine';
-      out.time.textContent = 'About ' + duration(t.mins[fuelKey] + (withMot ? SERVICE_TYPES.mot.mins[fuelKey] : 0)) + ' in the workshop';
+      out.time.textContent = 'About ' + duration(t.mins[fuelKey] + (withMot ? SERVICE_TYPES.mot.mins[fuelKey] : 0)) + ' in the shop';
       out.book.href = 'book.html?service=' + state.service + (withMot ? ',mot' : '');
       store.set(STORE_QUOTE, state);
     }
@@ -669,7 +659,7 @@
     const cal = $('[data-cal]', form), slotsBox = $('[data-slots]', form), slotNote = $('[data-slot-note]', form);
     const regInput = $('[name="reg"]', form), regNote = $('[data-reg-note]', form);
 
-    // Prefill from ?service=mot,full and ?reg=AB12CDE
+    // Prefill from ?service=mot,full and ?reg=2941086
     (params.get('service') || '').split(',').forEach((id) => {
       if (!hasOwn(JOBS, id)) return;
       const box = $('input[name="jobs"][value="' + id + '"]', form);
@@ -685,22 +675,12 @@
 
     function paintReg() {
       const p = parsePlate(regInput.value);
-      if (!p.ok || !regInput.value.trim()) { regNote.textContent = 'Front or rear plate, spaces optional.'; return p; }
-      const thisMonth = +now.key.slice(0, 4) * 12 + +now.key.slice(5, 7);
-      const reg = p.year ? p.year.year * 12 + p.year.month : null;
-      if (reg && reg <= thisMonth) {
-        const from = MONTH_LONG[p.year.month - 1] + ' ' + p.year.year;
-        regNote.textContent = p.text + ': registered from ' + from + '. ' + (reg + 36 > thisMonth
-          ? 'First MOT due from ' + MONTH_LONG[p.year.month - 1] + ' ' + (p.year.year + 3) + '.'
-          : 'Needs an MOT every year.');
-      } else {
-        regNote.textContent = 'Looks good: ' + p.text + '.';
-      }
+      regNote.textContent = p.ok && regInput.value.trim() ? 'Looks good: ' + p.text + '.' : 'Plate number, spaces optional.';
       return p;
     }
     regInput.addEventListener('input', paintReg);
 
-    // Only one service level at a time (interim, full or major)
+    // Only one service level at a time (basic, full or major)
     $$('input[name="jobs"]', form).forEach((box) => {
       box.addEventListener('change', () => {
         if (box.checked && JOBS[box.value] && JOBS[box.value].level) {
@@ -720,28 +700,28 @@
       }).join('') : '<li class="py-2 text-chrome">No jobs picked yet.</li>';
       const total = ids.reduce((s, id) => s + jobPrice(id, ids), 0);
       const anyFrom = ids.some((id) => JOBS[id].from || JOBS[id].price === 0);
-      $('[data-summary-total]', form).textContent = ids.length ? (anyFrom ? 'from ' : '') + money(total) : '£0';
+      $('[data-summary-total]', form).textContent = ids.length ? (anyFrom ? 'from ' : '') + money(total) : '$0';
       $('[data-summary-when]', form).textContent = state.date && state.slot ? shortDate(state.date) + ', drop off ' + clock(toMin(state.slot)) : 'Pick a day and drop-off time';
       const transport = $('input[name="transport"]:checked', form);
       $('[data-summary-transport]', form).textContent = transport ? $('[data-transport-name]', transport.parentNode).textContent : '';
       const p = parsePlate(regInput.value);
       const plate = $('[data-summary-plate]', form);
-      plate.textContent = p.ok ? p.text : 'YOUR REG';
+      plate.textContent = p.ok ? p.text : 'YOUR PLATE';
     }
 
-    // Transport: leave the car, wait in the lounge (short jobs only) or a courtesy car (if one is free that day)
+    // Transport: leave the car, wait in the lounge (short jobs only) or a loaner car (if one is free that day)
     function paintTransport() {
       const ids = chosenJobs();
       const waitable = ids.length > 0 && totalMins(ids) <= MAX_WAIT_MINUTES;
       const wait = $('input[name="transport"][value="wait"]', form);
       wait.disabled = !waitable;
-      $('[data-wait-note]', form).textContent = waitable ? 'About ' + duration(totalMins(ids)) + '. Wi-Fi, coffee and a sofa.' : 'For jobs under ' + duration(MAX_WAIT_MINUTES) + ' in total, like an MOT on its own.';
+      $('[data-wait-note]', form).textContent = waitable ? 'About ' + duration(totalMins(ids)) + '. Wi-Fi, coffee and a couch.' : 'For jobs under ' + duration(MAX_WAIT_MINUTES) + ' in total, like an inspection on its own.';
       const car = $('input[name="transport"][value="courtesy"]', form);
       const left = state.date ? courtesyLeft(state.date) : null;
       car.disabled = left === 0;
-      $('[data-courtesy-note]', form).textContent = left === null ? 'Free. Pick a day to see if one is free. Drivers 21+ with a full licence.'
-        : left === 0 ? 'No courtesy cars left on ' + shortDate(state.date) + '. Try another day, or we can drop you in town.'
-          : plural(left, 'courtesy car') + ' left on ' + shortDate(state.date) + '. Free; drivers 21+ with a full licence.';
+      $('[data-courtesy-note]', form).textContent = left === null ? 'Free. Pick a day to see if one is free. Drivers 21+ with a valid license.'
+        : left === 0 ? 'No loaner cars left on ' + shortDate(state.date) + '. Try another day, or we can give you a ride downtown.'
+          : plural(left, 'loaner car') + ' left on ' + shortDate(state.date) + '. Free; drivers 21+ with a valid license.';
       if ((wait.disabled && wait.checked) || (car.disabled && car.checked)) $('input[name="transport"][value="leave"]', form).checked = true;
     }
     $$('input[name="transport"]', form).forEach((r) => r.addEventListener('change', paintSummary));
@@ -827,7 +807,7 @@
       }
       const slots = slotsOn(state.date);
       const free = slots.filter((s) => !s.taken).length;
-      slotNote.textContent = longDate(state.date) + ': ' + plural(free, 'drop-off time') + ' free. Collection is usually the same afternoon.';
+      slotNote.textContent = longDate(state.date) + ': ' + plural(free, 'drop-off time') + ' free. Pickup is usually the same afternoon.';
       slotsBox.innerHTML = slots.map((s) => '<button type="button" class="slot" data-slot="' + s.time + '" aria-pressed="' + (state.slot === s.time) + '"' + (s.taken ? ' disabled' : '') + '>' +
         clock(toMin(s.time)) + (s.taken ? '<span class="sr-only"> (taken)</span>' : '') + '</button>').join('');
     }
@@ -845,7 +825,7 @@
       const ids = chosenJobs();
       const p = parsePlate(regInput.value);
       let ok = true;
-      ok = setError(form, 'reg', !regInput.value.trim() ? 'Enter your registration.' : p.ok ? '' : 'That doesn’t look like a UK registration. Try the format AB12 CDE.') && ok;
+      ok = setError(form, 'reg', !regInput.value.trim() ? 'Enter your license plate.' : p.ok ? '' : 'That doesn’t look like a license plate. Use 2 to 8 letters and numbers, like 294 1086.') && ok;
       ok = setError(form, 'jobs', ids.length ? '' : 'Pick at least one job.') && ok;
       const notes = $('[name="notes"]', form).value.trim();
       ok = setError(form, 'notes', ids.indexOf('fault') !== -1 && notes.length < 10 ? 'Tell us a little about the fault or noise (at least 10 characters).' : '') && ok;
@@ -855,8 +835,8 @@
       if (dateMsg) ok = false;
       const name = $('[name="name"]', form).value.trim();
       ok = setError(form, 'name', name ? '' : 'Enter your name.') && ok;
-      const phone = $('[name="phone"]', form).value.replace(/[\s()-]/g, '');
-      ok = setError(form, 'phone', /^(\+44\d{9,10}|0\d{9,10})$/.test(phone) ? '' : 'Enter a UK phone number, like 07700 900123.') && ok;
+      const phone = $('[name="phone"]', form).value.replace(/[\s().-]/g, '');
+      ok = setError(form, 'phone', US_PHONE.test(phone) ? '' : 'Enter a US phone number, like (603) 555-0137.') && ok;
       const email = $('[name="email"]', form).value.trim();
       ok = setError(form, 'email', EMAIL.test(email) ? '' : 'Enter an email address, like you@example.com.') && ok;
       if (!ok) {
@@ -888,14 +868,17 @@
   }
 
   /* ------------------------------------------------------------------
-   * 11. MOT reminder — due date from the last test (or first registration)
+   * 11. Inspection reminder — the shop's suggested yearly schedule, from the last inspection
+   *     (or from registering a vehicle that's new to the owner). Dates here are the shop's
+   *     suggestion, not a statement of state law; see DOCS.md.
    * ------------------------------------------------------------------ */
-  // An MOT certificate runs out a year (less a day) after the test: tested 3 Nov 2025 -> due 2 Nov 2026.
-  function motDueFromTest(key) { return addMonths(addDays(key, -1), 12); }
-  // A new car's first MOT is due by the third anniversary of its registration.
-  function motDueFromRegistration(key) { return addMonths(key, 36); }
-  // The earliest test that keeps the same renewal date: a month (minus a day) before it runs out.
-  function earliestKeepDate(due) { return addDays(addMonths(due, -1), 1); }
+  // An inspection is good for a year, through the end of the month: Nov 3, 2025 -> Nov 30, 2026.
+  function motDueFromTest(key) { const d = addMonths(key, 12); return addDays(addMonths(d.slice(0, 8) + '01', 1), -1); }
+  // A vehicle that's new to its owner: a first inspection within this many days of registering it.
+  const FIRST_INSPECTION_DAYS = 10;
+  function motDueFromRegistration(key) { return addDays(key, FIRST_INSPECTION_DAYS); }
+  // Any day in the month it's due keeps the next one in that month.
+  function earliestKeepDate(due) { return due.slice(0, 8) + '01'; }
 
   function readReminders() {
     const raw = store.get(STORE_REMINDERS);
@@ -927,15 +910,15 @@
     const basis = () => ($('input[name="basis"]:checked', motForm) || { value: 'test' }).value;
     function paintBasis() {
       const isTest = basis() === 'test';
-      $('[data-date-label]', motForm).textContent = isTest ? 'Date of the last MOT test' : 'Date first registered';
-      $('[data-date-hint]', motForm).textContent = isTest ? 'It’s on the certificate, or check the car’s MOT history on GOV.UK.' : 'It’s on the V5C logbook. Cars need their first MOT at three years old.';
+      $('[data-date-label]', motForm).textContent = isTest ? 'Date of the last inspection' : 'Date registered';
+      $('[data-date-hint]', motForm).textContent = isTest ? 'It’s on your last inspection report, or on the sticker if your vehicle has one.' : 'It’s on your registration certificate. We suggest a first inspection within ' + FIRST_INSPECTION_DAYS + ' days.';
     }
     function dateProblem(key) {
       if (!key) return 'Enter a date.';
       if (!validKey(key)) return 'Enter a real date.';
       if (key > now.key) return 'That date is in the future.';
-      if (basis() === 'test' && key < addMonths(now.key, -36)) return 'That’s over three years ago. If it hasn’t had an MOT since, it’s overdue: call us on ' + GARAGE.phone + '.';
-      if (basis() === 'reg' && motDueFromRegistration(key) < addMonths(now.key, -12)) return 'This car is over three years old, so it needs an MOT every year. Choose “Date of the last MOT test”.';
+      if (basis() === 'test' && key < addMonths(now.key, -36)) return 'That’s over three years ago. If it hasn’t been inspected since, it’s overdue: call us at ' + GARAGE.phone + '.';
+      if (basis() === 'reg' && motDueFromRegistration(key) < addMonths(now.key, -12)) return 'That’s over a year ago, so go by the last inspection instead. Choose “Date of the last inspection”.';
       return '';
     }
     function compute() {
@@ -943,7 +926,7 @@
       if (dateProblem(key)) return null;
       const due = basis() === 'test' ? motDueFromTest(key) : motDueFromRegistration(key);
       const lead = +($('[name="lead"]', motForm).value);
-      return { from: key, due: due, days: daysBetween(now.key, due), earliest: earliestKeepDate(due), remind: addDays(due, -(hasOwn(REMINDER_LEADS, String(lead)) ? lead : 14)) };
+      return { from: key, due: due, days: daysBetween(now.key, due), earliest: basis() === 'test' ? earliestKeepDate(due) : key, remind: addDays(due, -(hasOwn(REMINDER_LEADS, String(lead)) ? lead : 14)) };
     }
     function stateOf(days) { return days < 0 ? 'overdue' : days <= DUE_SOON_DAYS ? 'soon' : 'ok'; }
     function countdown(days) {
@@ -960,25 +943,26 @@
       const st = stateOf(r.days);
       const badge = $('[data-mot-state]', result);
       badge.setAttribute('data-state', st);
-      badge.textContent = st === 'overdue' ? 'MOT expired' : st === 'soon' ? 'Due soon' : 'In date';
+      badge.textContent = st === 'overdue' ? 'Overdue' : st === 'soon' ? 'Due soon' : 'In date';
       $('[data-mot-due]', result).textContent = longDate(r.due);
       $('[data-mot-countdown]', result).textContent = countdown(r.days);
       const earliestPast = r.earliest <= now.key;
-      $('[data-mot-earliest]', result).textContent = r.days < 0 ? 'Book a test as soon as you can.'
-        : earliestPast ? 'You can book now and keep ' + dayMonth(r.due) + ' as your renewal date.'
-          : 'Test from ' + longDate(r.earliest) + ' to keep ' + dayMonth(r.due) + ' as your renewal date.';
+      $('[data-mot-earliest]', result).textContent = r.days < 0 ? 'Book an inspection as soon as you can.'
+        : basis() !== 'test' ? 'Book any day up to ' + dayMonth(r.due) + '.'
+          : earliestPast ? 'You can book now and keep ' + dayMonth(r.due) + ' as your due date.'
+            : 'Come in from ' + longDate(r.earliest) + ' to keep ' + dayMonth(r.due) + ' as your due date.';
       $('[data-mot-remind]', result).textContent = r.remind <= now.key ? 'The reminder date has passed: book now.' : 'Reminder on ' + longDate(r.remind) + '.';
       $('[data-mot-warning]', result).hidden = r.days >= 0;
       const p = parsePlate($('[name="reg"]', motForm).value);
       $('[data-mot-book]', result).href = 'book.html?service=mot' + (p.ok ? '&reg=' + encodeURIComponent(p.compact) : '');
-      // Timeline: from the last test (or registration) to the due date, with today marked
+      // Timeline: from the last inspection (or registration) to the due date, with today marked
       const span = Math.max(1, daysBetween(r.from, r.due));
       const pos = (k) => Math.max(0, Math.min(100, (daysBetween(r.from, k) / span) * 100));
       $('[data-tl-today]', result).style.left = pos(now.key) + '%';
       $('[data-tl-window]', result).style.left = pos(r.earliest) + '%';
       $('[data-tl-window]', result).style.right = '0%';
-      $('[data-tl-from]', result).textContent = (basis() === 'test' ? 'Tested ' : 'Registered ') + shortDate(r.from) + ' ' + r.from.slice(0, 4);
-      $('[data-tl-to]', result).textContent = 'Due ' + shortDate(r.due) + ' ' + r.due.slice(0, 4);
+      $('[data-tl-from]', result).textContent = (basis() === 'test' ? 'Inspected ' : 'Registered ') + shortDate(r.from) + ', ' + r.from.slice(0, 4);
+      $('[data-tl-to]', result).textContent = 'Due ' + shortDate(r.due) + ', ' + r.due.slice(0, 4);
     }
 
     function paintList() {
@@ -990,9 +974,9 @@
         const days = daysBetween(now.key, r.due), st = stateOf(days), p = parsePlate(r.reg);
         return '<li class="card flex flex-wrap items-center gap-x-5 gap-y-3 p-4">' +
           '<span class="plate text-2xl"><span class="plate-text">' + esc(p.text) + '</span></span>' +
-          '<div class="min-w-0 flex-1"><p class="font-semibold">MOT due ' + esc(longDate(r.due)) + '</p>' +
+          '<div class="min-w-0 flex-1"><p class="font-semibold">Inspection due ' + esc(longDate(r.due)) + '</p>' +
           '<p class="text-sm text-steel">' + esc(countdown(days)) + ' · reminder by ' + esc(REMINDER_VIA[r.via]) + ', ' + esc(REMINDER_LEADS[r.lead]) + '</p></div>' +
-          '<span class="mot-status" data-state="' + st + '">' + (st === 'overdue' ? 'Expired' : st === 'soon' ? 'Due soon' : 'In date') + '</span>' +
+          '<span class="mot-status" data-state="' + st + '">' + (st === 'overdue' ? 'Overdue' : st === 'soon' ? 'Due soon' : 'In date') + '</span>' +
           '<button type="button" class="btn-line btn-sm" data-remove="' + esc(r.reg) + '">Remove<span class="sr-only"> reminder for ' + esc(p.text) + '</span></button></li>';
       }).join('');
     }
@@ -1023,15 +1007,15 @@
     motForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const p = parsePlate($('[name="reg"]', motForm).value);
-      let ok = setError(motForm, 'reg', !$('[name="reg"]', motForm).value.trim() ? 'Enter your registration.' : p.ok ? '' : 'That doesn’t look like a UK registration. Try the format AB12 CDE.');
+      let ok = setError(motForm, 'reg', !$('[name="reg"]', motForm).value.trim() ? 'Enter your license plate.' : p.ok ? '' : 'That doesn’t look like a license plate. Use 2 to 8 letters and numbers, like 294 1086.');
       ok = setError(motForm, 'date', dateProblem(dateInput.value)) && ok;
       const via = ($('input[name="via"]:checked', motForm) || { value: 'email' }).value;
       if (via === 'email') {
         ok = setError(motForm, 'email', EMAIL.test($('[name="email"]', motForm).value.trim()) ? '' : 'Enter an email address, like you@example.com.') && ok;
         setError(motForm, 'mobile', '');
       } else {
-        const mob = $('[name="mobile"]', motForm).value.replace(/[\s()-]/g, '');
-        ok = setError(motForm, 'mobile', /^(07\d{9}|\+447\d{9})$/.test(mob) ? '' : 'Enter a UK mobile number, like 07700 900123.') && ok;
+        const mob = $('[name="mobile"]', motForm).value.replace(/[\s().-]/g, '');
+        ok = setError(motForm, 'mobile', US_PHONE.test(mob) ? '' : 'Enter a US cell number, like (603) 555-0137.') && ok;
         setError(motForm, 'email', '');
       }
       if (!ok) { focusFirstError(motForm); return; }
@@ -1043,8 +1027,8 @@
       // This demo only keeps them in this browser (localStorage).
       store.set(STORE_REMINDERS, reminders);
       paintList();
-      $('[data-reminder-status]').textContent = 'Saved: ' + p.text + ', MOT due ' + longDate(r.due) + '. ' +
-        (r.remind > now.key ? 'We’ll remind you by ' + REMINDER_VIA[via] + ' on ' + longDate(r.remind) + '.' : 'That’s soon, so book your MOT now.');
+      $('[data-reminder-status]').textContent = 'Saved: ' + p.text + ', inspection due ' + longDate(r.due) + '. ' +
+        (r.remind > now.key ? 'We’ll remind you by ' + REMINDER_VIA[via] + ' on ' + longDate(r.remind) + '.' : 'That’s soon, so book your inspection now.');
     });
 
     paintBasis();
@@ -1182,7 +1166,7 @@
       let ok = setError(contact, 'name', $('[name="name"]', contact).value.trim() ? '' : 'Enter your name.');
       ok = setError(contact, 'email', EMAIL.test($('[name="email"]', contact).value.trim()) ? '' : 'Enter an email address, like you@example.com.') && ok;
       const regVal = $('[name="reg"]', contact).value.trim();
-      ok = setError(contact, 'reg', !regVal || parsePlate(regVal).ok ? '' : 'That doesn’t look like a UK registration. Leave it blank if you’re not sure.') && ok;
+      ok = setError(contact, 'reg', !regVal || parsePlate(regVal).ok ? '' : 'That doesn’t look like a license plate. Leave it blank if you’re not sure.') && ok;
       ok = setError(contact, 'message', $('[name="message"]', contact).value.trim().length >= 10 ? '' : 'Write a short message (at least 10 characters).') && ok;
       if (!ok) { focusFirstError(contact); return; }
       // Connect a real endpoint here, e.g. Formspree:
