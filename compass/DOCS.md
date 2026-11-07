@@ -271,7 +271,7 @@ the end of `main.js` and the `.back-to-top` styles in `src/input.css`.
 There are four forms. None of them sends anything until you connect it, even though the success states read as if
 it had been. The contact form and the booking confirmation show a short reference (`BL-` and four characters) made
 in the browser by `makeRef()` in `main.js`; if your form service or booking tool returns its own reference, show
-that instead. Check that the promises in those states (a reply within one working day, Nadia confirming each
+that instead. Check that the promises in those states (a reply within one business day, Nadia confirming each
 booking request personally, a confirmation email for the guide) match how you work.
 
 | Form | Where | Validates |

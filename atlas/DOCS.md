@@ -6,7 +6,7 @@ Atlas is a personal-brand website template for an independent real estate agent 
 **Delia Quintero**, a fictional Nashville agent who trained as an architect and works in six neighborhoods. It is
 built with plain HTML5, Tailwind CSS v4 and one vanilla JavaScript file with no dependencies. Listings, neighborhoods,
 the home value formula and the booking rules all live in data constants at the top of `assets/js/main.js`, and every
-house and room picture is an SVG drawn from that data, so there are no photos to license. This is version 1.0.3 (see
+house and room picture is an SVG drawn from that data, so there are no photos to license. This is version 1.0.4 (see
 [CHANGELOG.md](CHANGELOG.md)). Live demo: [freeframe.dev/templates/atlas](https://freeframe.dev/templates/atlas).
 
 ## Quick start

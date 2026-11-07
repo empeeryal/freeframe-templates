@@ -197,7 +197,7 @@ How the range is worked out:
    `mult` (`emergency` multiplies by `[1.5, 1.5]`). Multipliers apply to the whole running total, add-ons included.
 5. Round the low figure down and the high figure up to the nearest $10.
 
-The result doesn't depend on the order the visitor ticks the options in, and the HTML and Next.js versions give the
+The result doesn't depend on the order the visitor checks the options in, and the HTML and Next.js versions give the
 same figures for the same choices.
 
 Examples from the default data:

@@ -192,7 +192,7 @@ Sundays and other closed days, past days and days with no free times are disable
 (`[data-sum="service"]`, `"clinician"`, `"when"`, `"length"`) follows the choices. Each step is validated
 before moving on, and focus moves to the step's heading. The confirmation (`[data-done]`) shows a
 reference in `[data-done-ref]` (see [Forms](#forms)), says the practice will confirm by email within one
-working day and gives the phone number for changes. Nothing is booked until you connect it.
+business day and gives the phone number for changes. Nothing is booked until you connect it.
 
 **To take real bookings**, replace `isTaken()` with availability from your scheduling system and send
 the booking in the submit handler (see [Forms](#forms)). Many practices embed their practice-management
@@ -250,7 +250,7 @@ form uses it; the booking wizard shows one too. If your form service or scheduli
 reference, show that instead.
 
 The confirmations read as if the form had been sent: the contact form promises a reply within one working
-day, the booking wizard a confirming email within one working day, and the newsletter a confirmation email.
+day, the booking wizard a confirming email within one business day, and the newsletter a confirmation email.
 Check those promises match how your practice works.
 
 **Nothing is sent until you connect the forms.** For the contact and newsletter forms, add an `action`

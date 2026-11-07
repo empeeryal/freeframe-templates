@@ -14,7 +14,7 @@
   <g font-family="Inter, Arial, sans-serif" font-weight="800" fill="#f3f4f1">
     <rect x="430" y="470" width="176" height="74" rx="12" fill="#131517" stroke="#2a2e33"/>
     <text x="448" y="500" font-size="13" fill="#9ca3a9" letter-spacing="2">TODAY'S LIFT</text>
-    <text x="448" y="530" font-size="24">Snatch · 62 kg</text>
+    <text x="448" y="530" font-size="24">Snatch · 135 lb</text>
     <rect x="34" y="150" width="150" height="74" rx="12" fill="#131517" stroke="#2a2e33"/>
     <text x="52" y="180" font-size="13" fill="#9ca3a9" letter-spacing="2">HEART RATE</text>
     <text x="52" y="210" font-size="24">168 <tspan fill="#ff5a36" font-size="15">bpm</tspan></text>

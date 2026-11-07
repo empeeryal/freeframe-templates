@@ -6,6 +6,12 @@ All notable changes to the Keystone HTML template are documented here. The forma
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-07
+
+### Changed
+
+- American wording throughout, including US terms for checkboxes, business days, schedules and units.
+
 ## [1.0.5] - 2026-11-05
 
 ### Changed

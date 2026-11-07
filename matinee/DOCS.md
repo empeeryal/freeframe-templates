@@ -301,7 +301,7 @@ each saved film with its next screening.
    tickets ask for a member number (`GM-` and five digits).
 3. **Seats**: the map from `SEAT_ROWS`. Sold seats come from `soldSeats(show)`, a steady pattern per
    screening (busier on weekend evenings and Q&As, quieter at matinees and relaxed screenings) plus seats
-   booked on this device, which show as "Booked by you" (brass with a tick, `.seat.is-held`). Picking a seat
+   booked on this device, which show as "Booked by you" (brass with a check mark, `.seat.is-held`). Picking a seat
    adds an adult ticket if needed. **Best available** (`bestSeats()`)
    finds the most central run of seats together, from the middle rows outward. The map is one tab stop:
    arrow keys move between free seats, Home/End jump along the row, Enter or Space chooses. On narrow screens the map scrolls sideways inside `[data-seat-scroller]`, a focusable region that starts centered on the screen.

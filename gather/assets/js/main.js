@@ -41,7 +41,7 @@ document.documentElement.classList.add('js');
 
   /* ------------------------------------------------------------------
    * 2. People, series and sermons
-   *    avatar: colours and shapes for the SVG portrait drawn by avatar().
+   *    avatar: colors and shapes for the SVG portrait drawn by avatar().
    *    style: short | long | bun | curly | coily | waves | bald
    * ------------------------------------------------------------------ */
   const PEOPLE = {
@@ -109,7 +109,7 @@ document.documentElement.classList.add('js');
       summary: 'Jesus tells a dinner host to invite the people who can never invite him back. Dana asks who is missing from our tables, and what it costs to set another place.',
       verse: { text: 'But when thou makest a feast, call the poor, the maimed, the lame, the blind.', ref: 'Luke 14:13 (KJV)' },
       notes: [
-        ['Invitations are a kind of sermon', 'Who we eat with says what we believe about who matters. In Luke, Jesus is criticised more for his dinner guests than for anything he teaches.'],
+        ['Invitations are a kind of sermon', 'Who we eat with says what we believe about who matters. In Luke, Jesus is criticized more for his dinner guests than for anything he teaches.'],
         ['The excuses sound reasonable', 'A field, some oxen, a new marriage. None of the guests in the parable are villains; they are simply busy. Busyness is the quietest way to decline grace.'],
         ['The house will be full', 'The host does not cancel the party. He widens the guest list until the house is full, and the people who come are the ones nobody expected.']
       ],
@@ -240,7 +240,7 @@ document.documentElement.classList.add('js');
       notes: [
         ['Searched and known', 'The psalm begins with God knowing our sitting down and rising up. Nothing about us is a surprise.'],
         ['Nowhere to flee', 'Heaven, the grave, the far side of the sea. The psalmist runs out of places God is not.'],
-        ['Fearfully and wonderfully', 'Our bodies, our stories and our quirks are described as marvellous work.']
+        ['Fearfully and wonderfully', 'Our bodies, our stories and our quirks are described as marvelous work.']
       ],
       questions: [
         'Does being fully known feel comforting or uncomfortable to you? Why?',
@@ -352,9 +352,9 @@ document.documentElement.classList.add('js');
     { id: 'newcomers-lunch', title: 'Newcomers’ Lunch', cat: 'community', date: '2026-10-18', start: '12:30', end: '13:45', place: 'The River Room', summary: 'New to Riverbend? Have lunch with our pastors, ask anything and meet other people who are new too. Kids welcome; childcare in Room 104.' },
     { id: 'kids-volunteer-training', title: 'Kids Check-in Volunteer Training', cat: 'serve', date: '2026-10-21', start: '19:00', end: '20:30', place: 'Riverbend Kids wing', summary: 'Everything you need to serve on the Sunday check-in team, including our safeguarding training. Background checks can be done on the night.' },
     { id: 'block-party', title: 'Riverbend Block Party', cat: 'community', date: '2026-10-24', start: '11:00', end: '15:00', place: 'Riverside Avenue (closed to traffic)', summary: 'Food trucks, a bouncy castle, live music and a chili cook-off on the street outside the church. Free and for the whole neighborhood.' },
-    { id: 'baptism-sunday', title: 'Baptism Sunday', cat: 'worship', date: '2026-10-25', start: '11:00', end: '12:30', place: 'Main auditorium', summary: 'We celebrate baptisms at the 11:00 gathering. Thinking about being baptised? Talk to any pastor by the Sunday before.' },
-    { id: 'family-movie-night', title: 'Family Movie Night', cat: 'kids', date: '2026-10-30', start: '18:00', end: '20:00', place: 'The River Room', summary: 'A family film on the big screen, free popcorn and blankets on the floor. Rated G, pyjamas encouraged.' },
-    { id: 'starting-point', title: 'Starting Point', cat: 'classes', date: '2026-11-01', start: '16:00', end: '18:00', place: 'Room 210', summary: 'A two-hour class on who we are, what we believe and how to get involved. The first step towards membership, and dinner is included.' },
+    { id: 'baptism-sunday', title: 'Baptism Sunday', cat: 'worship', date: '2026-10-25', start: '11:00', end: '12:30', place: 'Main auditorium', summary: 'We celebrate baptisms at the 11:00 gathering. Thinking about being baptized? Talk to any pastor by the Sunday before.' },
+    { id: 'family-movie-night', title: 'Family Movie Night', cat: 'kids', date: '2026-10-30', start: '18:00', end: '20:00', place: 'The River Room', summary: 'A family film on the big screen, free popcorn and blankets on the floor. Rated G, pajamas encouraged.' },
+    { id: 'starting-point', title: 'Starting Point', cat: 'classes', date: '2026-11-01', start: '16:00', end: '18:00', place: 'Room 210', summary: 'A two-hour class on who we are, what we believe and how to get involved. The first step toward membership, and dinner is included.' },
     { id: 'mens-breakfast', title: 'Men’s Breakfast', cat: 'community', date: '2026-11-07', start: '07:30', end: '09:00', place: 'The River Room', summary: 'Pancakes, bacon and an honest conversation. This month: fathers, sons and the things we never said.' },
     { id: 'pantry-packing', title: 'Pantry Packing Day', cat: 'serve', date: '2026-11-14', start: '09:00', end: '12:00', place: 'Riverbend Pantry (north door)', summary: 'Pack 300 family food boxes for the Riverbend Pantry. Great for families with children over eight.' },
     { id: 'grief-workshop', title: 'Grief Doesn’t Keep a Calendar', cat: 'classes', date: '2026-11-19', start: '18:30', end: '20:30', place: 'The Chapel', summary: 'A gentle evening workshop with Pastor Hannah Brooks for anyone carrying loss. Come alone or bring someone.' },
@@ -1658,7 +1658,7 @@ document.documentElement.classList.add('js');
   function fieldMessage(el) {
     const v = el.value.trim();
     const label = el.getAttribute('data-label') || 'This field';
-    if (el.type === 'checkbox') return el.required && !el.checked ? (el.getAttribute('data-msg') || 'Please tick this box.') : '';
+    if (el.type === 'checkbox') return el.required && !el.checked ? (el.getAttribute('data-msg') || 'Please check this box.') : '';
     if (el.required && !v) return el.tagName === 'SELECT' ? 'Please choose ' + label.charAt(0).toLowerCase() + label.slice(1) + '.' : label + ' is required.';
     if (!v) return '';
     const rule = el.getAttribute('data-validate') || el.type;
@@ -1768,7 +1768,7 @@ document.documentElement.classList.add('js');
         note.hidden = false;
       }
       setupValidation(contact, () => {
-        successSwap(contact, `<p class="font-display text-2xl font-extrabold">Thanks, ${escapeHtml($('#c-name').value.trim().split(' ')[0])}.</p><p class="mt-3 leading-relaxed text-muted">Your message has reached the church office, and someone will reply within two working days. Your reference is <strong class="text-ink">${makeRef('RC')}</strong>.</p>`);
+        successSwap(contact, `<p class="font-display text-2xl font-extrabold">Thanks, ${escapeHtml($('#c-name').value.trim().split(' ')[0])}.</p><p class="mt-3 leading-relaxed text-muted">Your message has reached the church office, and someone will reply within two business days. Your reference is <strong class="text-ink">${makeRef('RC')}</strong>.</p>`);
       });
     }
 

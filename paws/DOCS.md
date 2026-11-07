@@ -227,7 +227,7 @@ call the nearest 24-hour emergency vet now. It refreshes every minute. The home 
    counter) and a consent box.
 
 The summary (`[data-summary]`) updates as you go. The success panel says "Request sent" with the details,
-a reference (see [Forms](#forms)) and a promise to confirm by phone or email within one working day. URL parameters preselect choices: `book.html?pet=cat&service=dental&vet=mbatha`.
+a reference (see [Forms](#forms)) and a promise to confirm by phone or email within one business day. URL parameters preselect choices: `book.html?pet=cat&service=dental&vet=mbatha`.
 Each is ignored unless it is a key of `SPECIES`, `SERVICES` or `VETS` (own-key check).
 
 Accessibility: each step's heading takes focus when shown, errors are announced (`role="alert"`) and linked
@@ -245,7 +245,7 @@ ages in weeks). It shows:
 - **Coming up:** the next stage, dated from today ("in about 2 weeks" or "around November 2026"), so the
   dates roll forward on their own.
 - **Every year after that:** `yearly`.
-- **Because of their lifestyle:** `extras[box name]` for ticked boxes.
+- **Because of their lifestyle:** `extras[box name]` for checked boxes.
 
 Saved dog, cat, rabbit and ferret pets from the booking form appear as quick-fill chips. Changes update
 the URL (`planner.html?pet=dog&age=10&unit=weeks`), and the home page form links to it the same way. The
@@ -259,8 +259,8 @@ with that species. Buttons use `aria-pressed`; the count is a live region.
 
 ### Pricing estimator
 
-`<form data-estimator>` sums the ticked services for the chosen pet size: "$124 – $170" for a medium dog
-with a wellness exam and core vaccines. Items that don't apply to a pet are hidden and unticked, with a
+`<form data-estimator>` sums the checked services for the chosen pet size: "$124 – $170" for a medium dog
+with a wellness exam and core vaccines. Items that don't apply to a pet are hidden and unchecked, with a
 note. `?pet=` preselects a size (`dog-s`, `dog-m`, `dog-l`, `cat`, `rabbit`, `exotic`; `dog` means medium).
 The box is labeled "Estimate only" and says it is not a quote.
 
@@ -278,7 +278,7 @@ or "In the clinic Tuesday", from `VETS[key].shifts`, the opening hours and holid
 
 ### New-client checklist and FAQ
 
-The packing list on `new-clients.html` counts ticked items ("3 of 6 packed"). It is not saved. The FAQs
+The packing list on `new-clients.html` counts checked items ("3 of 6 packed"). It is not saved. The FAQs
 are native `<details>` elements, so they work with the keyboard and without JavaScript.
 
 ### Mobile menu, reveals, back to top and toast
@@ -305,7 +305,7 @@ valid, show the `data-success-text` message in `[data-success]` and reset. A `{r
 replaced with a short reference (`SW-` and four characters, made in the browser by `makeRef()` in
 `assets/js/main.js`); the appointment request shows one in `[data-success-ref]` too. If your form service or
 practice software returns its own reference, show that instead. The messages promise a reply within one
-working day (contact and appointment requests) and records within two or three working days, as the pages
+business day (contact and appointment requests) and records within two or three business days, as the pages
 already say, and the newsletter asks people to look out for a confirmation email: change them to match how
 your clinic works.
 

@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.13] - 2026-11-07
+
+### Changed
+
+- Set in New Bedford, Massachusetts, as Keel Athletic Club, with 12-hour times and US units.
+- American wording throughout, including US terms for checkboxes, business days, schedules and units.
+
 ## [1.1.12] - 2026-11-05
 
 ### Changed

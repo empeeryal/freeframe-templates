@@ -7,7 +7,7 @@ store pickup or shipping, an events calendar with RSVPs, five book clubs with mo
 finder, a visit page with live hours and holidays, and a 404 page. Every cover is drawn from the book data, so there
 are no photos to replace. Plain HTML, Tailwind CSS v4 and vanilla JavaScript.
 
-**Version 1.0.4** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/spine)
 
 ## Quick start

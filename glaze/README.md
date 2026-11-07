@@ -8,7 +8,7 @@ studio story and glaze guide, care and shipping, a visit page with live opening 
 Saturdays, and a 404 page. Every pot is drawn from the product data, so there are no photos to replace. Plain
 HTML, Tailwind CSS v4 and vanilla JavaScript.
 
-**Version 1.0.4** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/glaze)
 
 ## Quick start

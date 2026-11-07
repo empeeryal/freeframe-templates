@@ -145,7 +145,7 @@
       out.push({
         id: 'NS-' + (4821 - i),
         customer: NAMES[Math.floor(r() * NAMES.length)],
-        date: new Date(TODAY.getTime() - Math.floor(i * 0.8 * 86400000 + r() * 40000000)),
+        date: new Date(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate(), 0, 0, 0, -Math.floor(i * 0.8 * 86400000 + r() * 40000000)),
         status: STATUSES[st][0],
         badge: STATUSES[st][1],
         channel: CHANNELS[Math.floor(r() * CHANNELS.length)],

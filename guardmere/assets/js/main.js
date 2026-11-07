@@ -334,7 +334,7 @@
       service: "recovery",
       intro: "The best record explains what was restored, what was needed and what happened.",
       steps: [
-        "Set a safe and authorised exercise boundary.",
+        "Set a safe and authorized exercise boundary.",
         "Record dependencies and elapsed time.",
         "Give each gap an owner and a due date.",
       ],

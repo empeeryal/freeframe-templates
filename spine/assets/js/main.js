@@ -1,5 +1,5 @@
 /* Larchmere Books — site script for the Spine template
- * Vanilla JavaScript, no dependencies. The catalogue, events, clubs and finder questions live in
+ * Vanilla JavaScript, no dependencies. The catalog, events, clubs and finder questions live in
  * assets/js/data.js (window.LARCHMERE). Sections:
  *  1. Shop settings: address, hours, holidays, shipping, demo dates
  *  2. Helpers and saved data (safeStorage)
@@ -468,7 +468,7 @@
       '</svg>';
   }
 
-  // The bookshelf in the home hero: spines drawn from the catalogue, two shelves deep.
+  // The bookshelf in the home hero: spines drawn from the catalog, two shelves deep.
   function shelfArt() {
     const W = 560;
     const rows = [BOOKS.slice(0, 12), BOOKS.slice(12, 24)];
@@ -823,7 +823,7 @@
   }
   function addedToast(b, format, res) {
     if (!res.added) {
-      toast('You already have ' + MAX_QTY + ' copies of <strong>' + escapeHtml(b.title) + '</strong> in your bag, the most we take online. For more, call us on ' + SHOP.phone + '.');
+      toast('You already have ' + MAX_QTY + ' copies of <strong>' + escapeHtml(b.title) + '</strong> in your bag, the most we take online. For more, call us at ' + SHOP.phone + '.');
       return;
     }
     popBadge();

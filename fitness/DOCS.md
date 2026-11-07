@@ -2,9 +2,9 @@
 
 ## Overview
 
-Fitness is a bold, dark website for a gym or fitness studio: a weekly class timetable with booking,
+Fitness is a bold, dark website for a gym or fitness studio: a weekly class schedule with booking,
 class and coach profiles, membership pricing with a BMI and calorie calculator, and a three-step free
-trial sign-up. The demo is **Keel Athletic Club**, a fictional club with two locations, six class
+trial sign-up. The demo is **Keel Athletic Club**, a fictional club in New Bedford, Massachusetts, with two locations, six class
 types, six coaches and 36 weekly sessions. It is built with HTML5, Tailwind CSS v4 and one vanilla
 JavaScript file, and needs no build step. This guide covers version 1.1.8.
 
@@ -27,7 +27,7 @@ Node.js 24 is only needed to rebuild the CSS (see [Building and deploying](#buil
 | File | Purpose | Notable sections |
 |------|---------|------------------|
 | `index.html` | Home | Hero, class-name strip, "next up today" sessions, class cards, count-up results, membership teaser, coaches, member stories, facilities, free-trial banner |
-| `classes.html` | Timetable | Week grid (day tabs on phones), filters by class, intensity and coach, spots left, booking dialog |
+| `classes.html` | Schedule | Week grid (day tabs on phones), filters by class, intensity and coach, spots left, booking dialog |
 | `class.html` | One class type (`class.html?type=box`) | What to expect, intensity meter, equipment, coaches, upcoming sessions |
 | `trainers.html` | Coaches | Six coach cards with a specialty filter |
 | `trainer.html` | One coach (`trainer.html?id=lena`) | Bio, quote, certifications, classes, booking link |
@@ -91,7 +91,7 @@ and the two tokens to change them.
 
 ### Content
 
-Static text is plain HTML. **Classes, coaches, locations and the timetable are data** in the `FORGE`
+Static text is plain HTML. **Classes, coaches, locations and the schedule are data** in the `FORGE`
 object at the very top of `assets/js/main.js`:
 
 | Key | Contents |
@@ -99,7 +99,7 @@ object at the very top of `assets/js/main.js`:
 | `FORGE.classes` | Class types keyed by id: `strength`, `ignite`, `ride`, `box`, `flow`, `engine` |
 | `FORGE.coaches` | Coaches keyed by id: `maya`, `dev`, `jonah`, `lena`, `sami`, `chloe` |
 | `FORGE.locations` | Clubs keyed by id (`harbor`, `northgate`) with weekly opening hours |
-| `FORGE.sessions` | The weekly timetable (36 sessions) |
+| `FORGE.sessions` | The weekly schedule (36 sessions) |
 
 A class type:
 
@@ -128,7 +128,7 @@ Monday**:
 "harbor": { "name": "Keel Harbor", "hours": [["05:30", "22:00"], /* Tue … Sat */ ["08:00", "18:00"]] }
 ```
 
-A session in the timetable:
+A session in the schedule:
 
 ```js
 { "id": "s00", "day": 0, "time": "06:00", "type": "ignite", "coach": "dev", "loc": "northgate", "cap": 20, "booked": 9 }
@@ -147,9 +147,11 @@ cards on `index.html`, the class filter `<select>` on `classes.html` and the "ot
 The printed opening hours (`data-hours` lists on `contact.html` and the footers) are plain HTML; keep them
 in step with `FORGE.locations`.
 
+Times stay 24-hour in the data (`"06:00"`, `"22:00"`) and show as 12-hour on the page (`6am`, `10pm`). `clock()` in `assets/js/main.js` does the conversion.
+
 **Time zone.** `TIMEZONE` near the top of the interactions script in `assets/js/main.js` (default
 `'America/New_York'`) is the club's IANA time zone. `businessNow()` reads "now" there, so the open/closed
-status, today's row and timetable day, "next up" classes and the earliest trial date are the same for every
+status, today's row and schedule day, "next up" classes and the earliest trial date are the same for every
 visitor, wherever their device is.
 
 ### Images and artwork
@@ -168,7 +170,7 @@ content inside `<main>`, and add the link to the desktop and mobile menus on eve
 
 ## Features
 
-### Timetable
+### Schedule
 
 `classes.html` renders the week from `FORGE.sessions` into `[data-timetable]`:
 
@@ -179,7 +181,7 @@ content inside `<main>`, and add the link to the desktop and mobile menus on eve
 - Each session shows its time, intensity meter, coach, club and a badge: "12 spots", "2 left",
   "Full · waitlist" or "Booked".
 - Links can preselect filters and the day: `classes.html?type=box`, `?coach=lena`, `?day=4` (ids match regardless of case;
-  unknown ids are ignored, so the timetable shows every class).
+  unknown ids are ignored, so the schedule shows every class).
 
 ### Booking dialog
 
@@ -196,7 +198,7 @@ TeamUp...) and replace the action button's handler, or link each session to thei
 ### Next up today
 
 On the home page `[data-next-up]` lists the next four sessions later today (or tomorrow's first four if
-none are left), each linking to that day on the timetable.
+none are left), each linking to that day on the schedule.
 
 ### Class and coach pages
 
@@ -249,12 +251,12 @@ Each step is validated before moving on, focus moves to the step's legend, and `
 plan (the value must match an `<option>` in `#t-plan`, in any letter case: `?plan=Elite` works like
 `?plan=elite`). The confirmation says the free week is booked, shows a reference in `[data-done-ref]` (`FA-`
 and four characters, made in the browser by `makeRef()`) and promises the first-visit details by email within
-one working day.
+one business day.
 
 ### Open/closed status and today's hours
 
-Elements with `data-open-status="harbor"` (or another location id) show "Open now · until 22:00" or
-"Closed · opens 06:00". Hours lists with `data-hours` highlight today's `[data-hours-row]` (counted from
+Elements with `data-open-status="harbor"` (or another location id) show "Open now · until 10pm" or
+"Closed · opens 6am". Hours lists with `data-hours` highlight today's `[data-hours-row]` (counted from
 Monday) in the accent color and mark it with `aria-current="date"`.
 
 ### Mobile menu, header, reveals and counters
@@ -285,7 +287,7 @@ it, delete that JavaScript block and the CSS rules, then rebuild the CSS.
 Forms use the browser's constraints (`required`, `type="email"`, `pattern`, `minlength`, `min`/`max`)
 with friendly messages from `fieldMessage()`. Errors appear under each field, fields get `aria-invalid`,
 and the first problem is focused. Simple forms reveal their `[data-success]` message on success. The contact
-message confirms the message reached the team, promises a reply within one working day and fills any
+message confirms the message reached the team, promises a reply within one business day and fills any
 `[data-ref]` inside it with a reference like `FA-7K2Q` from `makeRef()`; the newsletter one asks subscribers to
 look out for a confirmation email. If your form service returns its own reference, show that instead, and change
 the reply times to match how you actually handle messages.
@@ -320,7 +322,7 @@ For the free trial, follow the comment "To send for real" in the trial's submit 
 | `forge-bookings` | Array of session ids, e.g. `["s04", "s17"]` | Classes the visitor booked |
 
 `getBookings()` validates the value on every read: anything that isn't an array of known, unique session
-ids is dropped and the stored value is repaired, so corrupt or tampered data can't break the timetable.
+ids is dropped and the stored value is repaired, so corrupt or tampered data can't break the schedule.
 Visitors can clear bookings with the "Clear my bookings" button; developers can run
 `localStorage.removeItem('forge-bookings')`. If you change session ids, old bookings for removed ids are
 simply ignored.
@@ -372,9 +374,9 @@ Cloudflare Pages or any web host. No build command is needed on the host.
 - **A session doesn't appear.** Its `type`, `coach` and `loc` must be existing ids, and `day` must be
   0–6 (Monday–Sunday).
 - **A class page shows Strength Lab instead of the class I linked.** The `?type=` value must be a key in
-  `FORGE.classes` (any letter case: `?type=BOX` works like `?type=box`, as on the timetable).
+  `FORGE.classes` (any letter case: `?type=BOX` works like `?type=box`, as on the schedule).
 - **A coach page shows Maya Torres instead of the coach I linked.** The `?id=` value must be a key
-  in `FORGE.coaches` (any letter case: `?id=DEV` works like `?id=dev`, as with the timetable's `?coach=`).
+  in `FORGE.coaches` (any letter case: `?id=DEV` works like `?id=dev`, as with the schedule's `?coach=`).
 - **A coach card disappears with every filter.** Its `data-tags` must contain the filter values
   (space-separated; case doesn't matter).
 - **The open/closed status is an hour or more out.** Set `TIMEZONE` in `assets/js/main.js` to the club's

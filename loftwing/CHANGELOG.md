@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-11-07
+
+### Changed
+
+- American wording throughout, including US terms for checkboxes, business days, schedules and units.
+
 ## [1.0.0] - 2026-11-04
 
 ### Added

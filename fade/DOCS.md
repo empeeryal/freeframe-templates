@@ -29,7 +29,7 @@ You only need Node.js 24 if you change the styles and rebuild the CSS (see
 |------|------|-------------------------------|
 | `index.html` | Home | Hero with the current-wait board, services preview, barbers, house rules, reviews, both shops with open-now status, gift card call to action |
 | `services.html` | Services and prices | Price list by category with times, category filter with live count, "Book" link per service, FAQ accordion |
-| `barbers.html` | Barbers | Six profiles, filters by shop and speciality, days in the chair, next free time, "Book with" links |
+| `barbers.html` | Barbers | Six profiles, filters by shop and specialty, days in the chair, next free time, "Book with" links |
 | `book.html` | Book a chair | Five-step booking flow with a running summary, confirmation and `.ics` download |
 | `shop.html` | Shop and gift cards | Product grid with category filter, the bag (quantities, pickup or shipping, checkout), gift card builder |
 | `locations.html` | Locations and hours | SVG map, each shop's hours, open-now status, transit, parking, walk-in wait, how the estimate works |
@@ -122,7 +122,7 @@ Text lives in the HTML files. Data that the scripts need lives in one object, `F
 | `locations` | The two shops: id, address, phone, number of chairs, `hours` per weekday (0 = Sunday, `null` = closed), transit and parking |
 | `categories` | Service categories (`cuts`, `beard`, `shaves`, `kids`, `packages`) |
 | `services` | Each service: `id`, `cat`, `name`, `mins`, `price`, optional `needs` and `popular` |
-| `specialties` | The speciality filter on the barbers page |
+| `specialties` | The specialty filter on the barbers page |
 | `barbers` | Each barber: `id`, `short` name, `role`, `skills`, `specialties` and `schedule` per shop per weekday |
 | `traffic` | The demo walk-in traffic curve used by the wait estimate |
 | `products`, `productCategories` | Shop products and their filter categories |
@@ -208,7 +208,7 @@ Slots come from `slotsFor(locId, key, ids, barberId, now)`:
 - The shop's hours that day, the barber's `schedule` at that shop, and the total minutes of the chosen services.
 - Start times every `SLOT_STEP` (15) minutes; today's earliest is `LEAD_TIME` (30) minutes from now.
 - Visitors can book `BOOK_AHEAD` (42) days ahead.
-- `isBooked()` marks about a third of each barber's half-hours as taken, using a stable hash so the diary looks real
+- `isBooked()` marks about a third of each barber's half-hours as taken, using a stable hash so the calendar looks real
   and doesn't change on reload. Replace it with your booking system's availability.
 
 ```js
@@ -261,7 +261,7 @@ every `[data-hours]` table is highlighted and marked `aria-current="date"`. Ever
 
 ### Barber filters and next free time
 
-`barbers.html`, section 8. Two chip groups filter by shop (`data-barber-loc`) and speciality (`data-barber-spec`);
+`barbers.html`, section 8. Two chip groups filter by shop (`data-barber-loc`) and specialty (`data-barber-spec`);
 cards carry `data-locs` and `data-specs`. If no barber matches, an empty state offers to reset. `?location=pilsen` and
 `?speciality=curly` preselect filters. Each card shows the barber's next free time for a Classic cut.
 
@@ -301,7 +301,7 @@ back-to-top button is the last block of `main.js`; delete it and the `.back-to-t
 | Newsletter | footer of every page | Email |
 
 Errors appear inline next to each field, fields get `aria-invalid`, and focus moves to the first problem. On success
-the contact form says the message was received, promises a reply within one working day (as the page already says)
+the contact form says the message was received, promises a reply within one business day (as the page already says)
 and shows a reference (`FB-` and four characters from `makeRef()`; use your form service's own reference instead if
 it returns one). The footer newsletter message asks subscribers to look out for a confirmation email, so use a
 mailing list tool that sends one (double opt-in) or reword it. **No form sends anything until you connect it.**

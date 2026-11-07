@@ -730,7 +730,7 @@
 
   // Deterministic "already booked" blocks so the schedule looks realistic. Replace with your
   // booking system's availability. FNV-1a hash of member + date + 30-minute block, with a
-  // final mix so neighbouring blocks don't fall into a repeating pattern.
+  // final mix so neighboring blocks don't fall into a repeating pattern.
   function hash(str) {
     var h = 2166136261;
     for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }

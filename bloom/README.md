@@ -2,7 +2,7 @@
 
 A complete website for a hair salon and day spa, built for the fictional **Bloom Hair & Spa** in Sarasota, Florida: a service menu, a team page with level-based pricing, a five-step booking wizard with real time slots from business hours, staff schedules and treatment length, gift cards, and a gallery with saved looks. Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.9** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.10** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/bloom)
 
 ## Quick start

@@ -29,7 +29,7 @@ You only need Node 24 if you change Tailwind classes or `src/input.css` and want
 | `index.html` | Home | Hero collage, "This week at Mosaic" (next six sessions, one per listing), eight category tiles with live date counts, the current exhibition, how it works, quote and numbers, get involved and rental teasers |
 | `whats-on.html` | The program | Seven-day strip, filters (category, age, price, when, custom dates, saved only), list grouped into Today / This week / Next week / months, "Show three more weeks", winter break note |
 | `event.html` | One listing | Artwork, description, included and bring lists, upcoming dates to choose from, .ics download, booking request form or drop-in note, "More like this" |
-| `workshops.html` | Classes | Weekly timetable (Monday to Sunday), filterable class cards with next session, first-class steps, FAQ |
+| `workshops.html` | Classes | Weekly schedule (Monday to Sunday), filterable class cards with next session, first-class steps, FAQ |
 | `hire.html` | Room rental | Four rooms with floor plans, live estimate (room, date, start, hours, people, layout, extras, community discount) and inquiry form, FAQ |
 | `get-involved.html` | Volunteering and support | On-page navigation, six volunteer roles, volunteer form, Friends membership tiers, teach / exhibit / start a group |
 | `about.html` | Our story | Story and timeline, values, team with cut-paper portraits, how the center is funded |
@@ -150,7 +150,7 @@ A listing looks like this:
 | `motif` | Optional: which artwork to draw instead of the category's (see [Images and artwork](#images-and-artwork)) |
 
 To add a listing, copy one in `LISTINGS`, give it a new `id` and edit the fields. It appears on what's on, the
-home page, the event page and (with `workshop: true`) the workshops page and timetable.
+home page, the event page and (with `workshop: true`) the workshops page and schedule.
 
 ### Date rules
 
@@ -256,7 +256,7 @@ Press **Save** on any card, row or event page. Saved ids are stored under `mosai
 
 `initWorkshops()` lists every listing with `workshop: true`, with filters for type (`?type=`, a category that has
 workshops) and time (`?time=any|day|evening|weekend`). Weekday sessions starting at 5:00 PM or later count as
-evenings. The timetable shows every regular listing by weekday.
+evenings. The schedule shows every regular listing by weekday.
 
 ### Rental estimate
 

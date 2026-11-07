@@ -265,7 +265,7 @@ replaces the sample with their own progress (`makeOwn()`).
 
 `lesson.html`, function `pages.lesson`.
 
-- The sidebar lists every module and lesson with completion ticks, and marks the current one with
+- The sidebar lists every module and lesson with completion check marks, and marks the current one with
   `aria-current="page"`. On small screens it's a drawer opened by the "Course contents" button.
 - **Mark as complete** (`data-complete`) toggles the lesson, updates the streak and moves "last lesson" to the
   next unfinished one. Its state is exposed with `aria-pressed`.

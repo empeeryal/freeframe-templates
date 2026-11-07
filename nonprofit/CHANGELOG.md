@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.9] - 2026-11-07
+
+### Changed
+
+- Contact addresses use the reserved `.example` domain.
+- American wording throughout, including US terms for checkboxes, business days, schedules and units.
+
 ## [1.1.8] - 2026-11-05
 
 ### Changed

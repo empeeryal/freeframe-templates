@@ -313,7 +313,7 @@ error messages come from `data-name`; checkbox and radio messages from `data-req
 
 **Contact routing:** choosing a topic shows that topic's fields (`data-topic-fields`) and says who the
 message goes to, from `CONTACT_TOPICS`. Booking is routed by the "Where is the show?" select: North America
-goes to the North American agent, everything else to the UK and Europe agent. Fields marked `data-required` are only
+goes to the North American agent, everything else to the international agent. Fields marked `data-required` are only
 required while their topic is selected; dates marked `data-future` can't be in the past.
 
 **The forms don't send anything** until you connect them. Submissions end in `onValid()` in `main.js`. To

@@ -7,7 +7,7 @@ integrations directory, filterable customer stories, a changelog, an about and c
 routes by team size, a three-step free trial sign-up and a 404 page. Plain HTML, Tailwind CSS v4 and vanilla
 JavaScript; every illustration is SVG or CSS.
 
-**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/orbit)
 
 ## Quick start

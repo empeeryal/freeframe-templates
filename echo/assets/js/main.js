@@ -1459,7 +1459,7 @@
     if (f.minLength > 0 && v.length < f.minLength) return 'Please write at least ' + f.minLength + ' characters (' + (f.minLength - v.length) + ' to go).';
     return '';
   }
-  // A group of checkboxes where at least one must be ticked: <fieldset data-required-group id="x">.
+  // A group of checkboxes where at least one must be checked: <fieldset data-required-group id="x">.
   function groupMessage(g) {
     return $$('input:checked', g).length ? '' : (g.getAttribute('data-msg') || 'Choose at least one option.');
   }

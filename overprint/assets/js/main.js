@@ -2,13 +2,13 @@
  * Vanilla JavaScript, no dependencies. The content lives in assets/js/data.js.
  * Sections:
  *  1. Helpers and saved data (safeStorage)
- *  2. Studio clock: Louisville time, holidays, working days, ?now= preview
+ *  2. Studio clock: Louisville time, holidays, business days, ?now= preview
  *  3. Theme (light and dark paper)
  *  4. Artwork: riso plates drawn in SVG from a motif
  *  5. Header, mobile menu, reveal, toast, footer year
  *  6. Cart (localStorage) and the cart drawer
  *  7. Home            11. Checkout
- *  8. Work            12. Commissions (multi-step enquiry and estimate)
+ *  8. Work            12. Commissions (multi-step inquiry and estimate)
  *  9. Case study      13. About and contact
  * 10. Shop            14. Forms and boot
  */
@@ -168,7 +168,7 @@
     while (!isWorkingDay(d)) d = addDays(d, 1);
     return d;
   }
-  // The working day `n` working days after `iso` (n = 0 returns iso itself when it's a working day).
+  // The business day `n` business days after `iso` (n = 0 returns iso itself when it's a business day).
   function addWorkingDays(iso, n) {
     let d = nextWorkingDay(iso, true);
     for (let i = 0; i < n; i++) d = nextWorkingDay(d, false);
@@ -1140,7 +1140,7 @@
         (e.fit ? '<p class="mt-3 text-[0.95rem]" data-estimate-fit>' + fitText[e.fit] + '</p>' : '') +
         paceNote +
         '<ol class="mt-5 space-y-0 border-l-4 border-dotted border-pink pl-5" data-estimate-timeline>' + rows.map((r) => '<li class="relative pb-3"><span class="absolute -left-[1.85rem] top-1.5 size-3.5 rounded-full border-2 border-ink bg-yellow" aria-hidden="true"></span><span class="block text-sm text-muted">' + r[0] + '</span><span class="font-bold">' + escapeHtml(fmtDate(r[1])) + '</span></li>').join('') + '</ol>' +
-        '<p class="mt-1 text-sm text-muted">Working days only, around US holidays and the studio’s winter break. A guide, not a quote.</p>';
+        '<p class="mt-1 text-sm text-muted">Business days only, around US holidays and the studio’s winter break. A guide, not a quote.</p>';
     }
 
     function showStep(n, focus) {
@@ -1237,7 +1237,7 @@
   function fieldMessage(el) {
     const v = el.value.trim();
     const label = el.getAttribute('data-label') || 'This field';
-    if (el.type === 'checkbox') return el.required && !el.checked ? (el.getAttribute('data-msg') || 'Please tick this box.') : '';
+    if (el.type === 'checkbox') return el.required && !el.checked ? (el.getAttribute('data-msg') || 'Please check this box.') : '';
     if (el.required && !v) return el.getAttribute('data-required-msg') || label + ' is required.';
     if (!v) return '';
     const rule = el.getAttribute('data-validate') || el.type;

@@ -5,7 +5,7 @@ School** in San Antonio: a course catalog with filters, course pages with syllab
 test that recommends a course, a weekly schedule, teachers, fees and a four-step enrollment form with a live fee
 summary. Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.7** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.8** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/lingua)
 
 ## Quick start

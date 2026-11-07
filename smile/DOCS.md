@@ -7,7 +7,7 @@ fictional practice in Boise, Idaho, with four dentists, three hygienists and a p
 five-step booking flow whose time slots come from each clinician's schedule and the length of the visit, a pricing page
 with a cost estimator and a payment-plan calculator, an emergency symptom guide, a multi-step new patient form and
 filterable treatments and team pages. It's plain HTML5, Tailwind CSS v4 and one vanilla JavaScript file with no
-dependencies. This guide covers version 1.0.7 of the HTML version. Live demo:
+dependencies. This guide covers version 1.0.8 of the HTML version. Live demo:
 [freeframe.dev/templates/smile](https://freeframe.dev/templates/smile).
 
 All health content is general information written for a fictional practice. Have a qualified professional review
@@ -34,7 +34,7 @@ You only need Node.js 24 if you change `src/input.css` or add Tailwind classes t
 | `index.html` | Home | Hero with "Book an appointment" and "Dental emergency?" buttons, live open-now badge, next available checkup card, emergency strip, $99 new patient offer, six treatment cards, why-us cards, four dentists, review carousel, insurance and Grin Club teaser, hours with map, call-to-action band |
 | `treatments.html` | Treatments | 16 treatments filterable by category (`?category=`), each with what to expect, duration, from-price and a booking link; general-information note; FAQ accordion |
 | `pricing.html` | Pricing and insurance | Fee table (stacks into cards on phones), three Grin Club plans, cost estimator, illustrative payment-plan calculator, insurance help |
-| `team.html` | Team | Nine team members filterable by role (`?role=`) and by language, with training, specialities, days in the practice and "Book with" links |
+| `team.html` | Team | Nine team members filterable by role (`?role=`) and by language, with training, specialties, days in the practice and "Book with" links |
 | `new-patients.html` | New patients | First-visit timeline, what to bring, nervous-patient guide in tabs, five-step patient form with review screen, privacy summary (`#privacy`) |
 | `book.html` | Book online | Five-step booking flow with a summary sidebar; accepts `?reason=` and `?clinician=` |
 | `emergency.html` | Dental emergencies | Call and book buttons, "call 911 first" box, three-question symptom guide, first-aid tips, emergency hours |
@@ -316,7 +316,7 @@ Validation is driven by attributes, handled by `validateFields()` and `fieldMess
 
 | Attribute | Rule |
 |-----------|------|
-| `required` | Must be filled, ticked or chosen (use `data-required-msg` for a custom message) |
+| `required` | Must be filled, checked or chosen (use `data-required-msg` for a custom message) |
 | `type="email"` | Must look like an email address |
 | `data-phone` | At least 10 digits |
 | `data-past-date` | A valid date in the past (date of birth) |

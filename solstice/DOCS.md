@@ -9,7 +9,7 @@ village with dietary filters and a map, and a visitor guide with an interactive 
 FAQ. The demo event is **Solstice 2027**, a fictional three-day festival at Birch Bluff Farm, Traverse City, Michigan
 (Friday – Sunday, June 25–27, 2027) with 40 acts on four stages and 16 food and drink vendors. It is built
 with HTML5, Tailwind CSS v4 and vanilla JavaScript, and needs no build step. This guide covers version
-1.0.7
+1.0.8
 
 Live demo: [freeframe.dev/templates/solstice](https://freeframe.dev/templates/solstice)
 

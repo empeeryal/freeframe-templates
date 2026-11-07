@@ -216,7 +216,7 @@ Everything else that is dated works from today by rule: the copyright year, open
 
 ### Review-call booking
 
-`contact.html`, `initContact()`. The day picker shows the next `BOOKING.businessDays` (10) working days that have a slot at least `BOOKING.leadHours` (18) hours away, skipping weekends and holidays. Start times come from `SLOT_TIMES` by weekday. About three in ten slots show as taken; `slotTaken()` decides this from the date and time, so the same slots are taken on every visit. Fully taken days are disabled. The chosen slot is described in Mountain Time and, when the visitor's time zone differs, in their own time too. `?service=` preselects an option from `SERVICES`.
+`contact.html`, `initContact()`. The day picker shows the next `BOOKING.businessDays` (10) business days that have a slot at least `BOOKING.leadHours` (18) hours away, skipping weekends and holidays. Start times come from `SLOT_TIMES` by weekday. About three in ten slots show as taken; `slotTaken()` decides this from the date and time, so the same slots are taken on every visit. Fully taken days are disabled. The chosen slot is described in Mountain Time and, when the visitor's time zone differs, in their own time too. `?service=` preselects an option from `SERVICES`.
 
 ### Recovery-phrase guard
 
@@ -245,7 +245,7 @@ const response = await fetch("https://formspree.io/f/your-form-id", {
 });
 if (!response.ok) {
   summary.hidden = false;
-  summary.textContent = "Something went wrong. Please call us on (505) 555-0172.";
+  summary.textContent = "Something went wrong. Please call us at (505) 555-0172.";
   return;
 }
 ```

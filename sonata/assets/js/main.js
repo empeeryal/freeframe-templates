@@ -255,7 +255,7 @@
     TODAY.getUTCDay() !== 0 && isTeachingWeek(mondayOf(TODAY)) ? mondayOf(TODAY) : nextTeachingMonday(addDays(TODAY, 1));
   const WEEK_IS_CURRENT = iso(WEEK_START) === iso(mondayOf(TODAY));
   const WEEK_TERM = termOf(WEEK_START);
-  // New starters join from the next teaching Monday, or the next term when fewer than three teaching weeks are left.
+  // New students join from the next teaching Monday, or the next term when fewer than three teaching weeks are left.
   function teachingWeeksLeft(monday, term) {
     let count = 0;
     for (let week = monday; week <= term.end; week = addDays(week, 7)) if (isTeachingWeek(week)) count++;
@@ -302,7 +302,7 @@
       introduction:
         "Rhoswen makes the keyboard feel like familiar territory. She starts with patterns, favorite tunes and a relaxed pair of hands, then brings reading and technique into the picture.",
       approach:
-        "A short demonstration, time to try, and one useful observation. Expect pencil marks, gentle humour and a tune you can recognize by the end of the first lesson.",
+        "A short demonstration, time to try, and one useful observation. Expect pencil marks, gentle humor and a tune you can recognize by the end of the first lesson.",
       interests: "Folk melodies, film music and the small details that make a phrase sing.",
       quote: "The next note is easier when you know why you want to play it.",
       access: "Happy to use large-print scores, color-coded plans and a slower-paced introduction.",
@@ -866,7 +866,7 @@
       node.textContent = today().getUTCFullYear();
     });
     $$("[data-term-pill]").forEach((node) => {
-      node.textContent = `${termLabel(JOIN_TERM)} · new starters from ${dateLabel(JOIN_DATE)}`;
+      node.textContent = `${termLabel(JOIN_TERM)} · new students from ${dateLabel(JOIN_DATE)}`;
     });
     $$("[data-week-heading]").forEach((node) => {
       const halfTermNow = CURRENT_TERM && iso(mondayOf(TODAY)) === iso(CURRENT_TERM.halfTerm);
@@ -883,7 +883,7 @@
       node.textContent = termSummary(WEEK_TERM);
     });
     $$("[data-join-date]").forEach((node) => {
-      node.textContent = `New starters join from ${dateLabel(JOIN_DATE, true)}.`;
+      node.textContent = `New students join from ${dateLabel(JOIN_DATE, true)}.`;
     });
     const menu = $("#mobile-menu");
     const toggle = $("#menu-toggle");
@@ -1009,8 +1009,8 @@
     $('meta[property="og:title"]').content = document.title;
     $('meta[property="og:description"]').content = course.description;
     target.innerHTML = `<section class="bg-celadon border-b border-line"><div class="wrap grid gap-9 py-12 sm:py-16 lg:grid-cols-[1.3fr_1fr] lg:items-center"><div><a class="link text-sm" href="courses.html">All courses</a><p class="eyebrow mt-6">${esc(FAMILY_LABELS[course.family])} · ${esc(course.ageText)} · ${esc(LEVEL_LABELS[course.level])}</p><h1 class="display mt-5 text-5xl sm:text-6xl">${esc(course.title)}</h1><p class="font-display mt-5 text-2xl">${esc(course.subtitle)}</p><div class="mt-7 flex flex-wrap gap-3"><a href="enrol.html?course=${id}" class="btn">Find your lesson ${icon}</a><button type="button" data-save="${id}" aria-pressed="${readSaved().includes(id)}" class="btn-line"><svg aria-hidden="true" viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3h12v18l-6-4-6 4z"/></svg>Save course</button></div></div><img class="w-full rounded-3xl border border-ink/15" src="assets/img/${id}.svg" width="370" height="280" alt="${esc(FAMILY_LABELS[course.family])} course illustration"></div></section>
-    <section class="section"><div class="wrap grid gap-12 lg:grid-cols-[1.5fr_1fr]"><div><h2 class="display text-4xl">A little more about your course.</h2><p class="mt-6 text-lg leading-relaxed">${esc(course.description)}</p><h3 class="font-display mt-9 text-2xl">By the end of the term</h3><ul class="mt-5 space-y-3">${course.outcomes.map((outcome) => `<li class="flex gap-3"><span aria-hidden="true" class="text-vermillion">—</span>${esc(outcome)}</li>`).join("")}</ul><h3 class="font-display mt-9 text-2xl">The shape of your term</h3><ol class="mt-5 space-y-4">${course.weeks.map((week) => `<li class="border-l-2 border-vermillion pl-4 leading-relaxed">${esc(week)}</li>`).join("")}</ol><h3 class="font-display mt-9 text-2xl">What to bring</h3><p class="mt-4 leading-relaxed text-muted">${esc(course.bring)}</p></div><aside><div class="rounded-2xl border border-ink/30 p-7"><p class="eyebrow">The practical bits</p><p class="font-display mt-5 text-4xl">${money(course.price * TERM_WEEKS)} <span class="font-sans text-base">per term</span></p><p class="mt-3">${TERM_WEEKS} lessons · ${course.minutes} minutes each</p><p class="mt-2 text-sm text-muted">${money(course.price)} per lesson · 4–6 in a group</p><p class="mt-6 border-t border-line pt-5 text-sm">${esc(termLabel(JOIN_TERM))} · new starters join from ${dateLabel(JOIN_DATE, true)}. Joining part-way through a term, you pay only for the lessons left. An introduction costs ${money(INTRO_PRICE)}, credited against your first term.</p><a href="fees.html?course=${id}" class="link mt-5 inline-flex">Compare lesson prices</a></div><div class="mt-6 rounded-2xl bg-lilac p-6"><div class="flex items-center gap-4"><img src="assets/img/${course.tutor}.svg" width="80" height="80" alt="${esc(tutor.name)}" class="size-20 rounded-full object-cover"><div><p class="eyebrow">Your teacher</p><h3 class="font-display mt-2 text-2xl">${esc(tutor.name)}</h3></div></div><p class="mt-4 leading-relaxed">${esc(tutor.introduction)}</p><a href="tutors.html?instrument=${course.family}" class="link mt-4 inline-flex">Meet your teacher</a></div></aside></div></section>
-    <section class="section bg-butter"><div class="wrap"><p class="eyebrow">Choose a regular session</p><h2 class="display mt-4 text-4xl">A time that fits your week.</h2><div class="mt-8 grid gap-5 md:grid-cols-2">${sessions.map((session) => `<article class="rounded-2xl bg-paper p-6"><h3 class="font-display text-2xl">${DAYS[session.day]} · ${clock(session.time)}</h3><p class="mt-3">${esc(session.room)} · ${course.minutes} minutes</p><p class="mt-2 text-sm text-muted">${plural(session.places, "spot")} left · new starters’ first lesson ${dateLabel(lessonsFrom(session.day)[0] || JOIN_DATE)}</p><a href="enrol.html?course=${id}&session=${session.id}" class="link mt-5 inline-flex">Choose this session</a></article>`).join("")}</div></div></section>`;
+    <section class="section"><div class="wrap grid gap-12 lg:grid-cols-[1.5fr_1fr]"><div><h2 class="display text-4xl">A little more about your course.</h2><p class="mt-6 text-lg leading-relaxed">${esc(course.description)}</p><h3 class="font-display mt-9 text-2xl">By the end of the term</h3><ul class="mt-5 space-y-3">${course.outcomes.map((outcome) => `<li class="flex gap-3"><span aria-hidden="true" class="text-vermillion">—</span>${esc(outcome)}</li>`).join("")}</ul><h3 class="font-display mt-9 text-2xl">The shape of your term</h3><ol class="mt-5 space-y-4">${course.weeks.map((week) => `<li class="border-l-2 border-vermillion pl-4 leading-relaxed">${esc(week)}</li>`).join("")}</ol><h3 class="font-display mt-9 text-2xl">What to bring</h3><p class="mt-4 leading-relaxed text-muted">${esc(course.bring)}</p></div><aside><div class="rounded-2xl border border-ink/30 p-7"><p class="eyebrow">The practical bits</p><p class="font-display mt-5 text-4xl">${money(course.price * TERM_WEEKS)} <span class="font-sans text-base">per term</span></p><p class="mt-3">${TERM_WEEKS} lessons · ${course.minutes} minutes each</p><p class="mt-2 text-sm text-muted">${money(course.price)} per lesson · 4–6 in a group</p><p class="mt-6 border-t border-line pt-5 text-sm">${esc(termLabel(JOIN_TERM))} · new students join from ${dateLabel(JOIN_DATE, true)}. Joining part-way through a term, you pay only for the lessons left. An introduction costs ${money(INTRO_PRICE)}, credited against your first term.</p><a href="fees.html?course=${id}" class="link mt-5 inline-flex">Compare lesson prices</a></div><div class="mt-6 rounded-2xl bg-lilac p-6"><div class="flex items-center gap-4"><img src="assets/img/${course.tutor}.svg" width="80" height="80" alt="${esc(tutor.name)}" class="size-20 rounded-full object-cover"><div><p class="eyebrow">Your teacher</p><h3 class="font-display mt-2 text-2xl">${esc(tutor.name)}</h3></div></div><p class="mt-4 leading-relaxed">${esc(tutor.introduction)}</p><a href="tutors.html?instrument=${course.family}" class="link mt-4 inline-flex">Meet your teacher</a></div></aside></div></section>
+    <section class="section bg-butter"><div class="wrap"><p class="eyebrow">Choose a regular session</p><h2 class="display mt-4 text-4xl">A time that fits your week.</h2><div class="mt-8 grid gap-5 md:grid-cols-2">${sessions.map((session) => `<article class="rounded-2xl bg-paper p-6"><h3 class="font-display text-2xl">${DAYS[session.day]} · ${clock(session.time)}</h3><p class="mt-3">${esc(session.room)} · ${course.minutes} minutes</p><p class="mt-2 text-sm text-muted">${plural(session.places, "spot")} left · new students’ first lesson ${dateLabel(lessonsFrom(session.day)[0] || JOIN_DATE)}</p><a href="enrol.html?course=${id}&session=${session.id}" class="link mt-5 inline-flex">Choose this session</a></article>`).join("")}</div></div></section>`;
     updateSaved();
   }
   function tutors() {

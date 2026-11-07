@@ -111,7 +111,7 @@ Everything that lists, filters or calculates lives in `assets/js/data.js`, in on
 | Constant | What it holds |
 |----------|---------------|
 | `STUDIO` | name, address, phones, emails, `timeZone`, `startLeadDays` (14), `replyWorkingDays` (2), `mailDays` (Tuesday and Friday), `openStudio` (first Saturday, 11am to 4pm), `winterBreakFrom` (`12-24`) |
-| `TYPES` | commission types with their starting fee (`from`) and phase lengths in working days |
+| `TYPES` | commission types with their starting fee (`from`) and phase lengths in business days |
 | `USAGES`, `BUDGETS`, `RUSH` | license options and their fee factor, budget bands, the rush squeeze (0.7) and fee (25%) |
 | `CATEGORIES`, `PROJECTS` | the four kinds of work and the twelve projects |
 | `SHOP_FILTERS`, `PRODUCTS` | the shop filters and the twelve products with their options |
@@ -228,12 +228,12 @@ is taken; connect a real payment provider (for example a hosted checkout) before
 - the fee range: `TYPES[type].from` × the license factor × 1.2 for worldwide (× 1.25 for a rush), to 1.6
   times that, rounded to $50. Editorial for one-time print in North America reads "$650 to $1,050";
 - whether the budget band is under, in or above that range;
-- a timeline in working days from the earliest start (the first working Monday at least 14 days away): kickoff,
+- a timeline in business days from the earliest start (the first working Monday at least 14 days away): kickoff,
   sketches, revisions, final art and print-ready files;
 - a rush or too-soon warning when the deadline is before the usual or the squeezed delivery.
 
 The deadline field's minimum is tomorrow; when a type is chosen it suggests the usual delivery plus five
-working days. `commissions.html?type=posters` preselects a type (the work and case study pages link this
+workdays. `commissions.html?type=posters` preselects a type (the work and case study pages link this
 way).
 
 ### Dates, holidays and the preview clock
@@ -246,7 +246,7 @@ and from `winterBreakFrom` to December 31, by rule, for any year. These fill:
 |-----------|-------|
 | `data-booking-from` | month of the earliest start |
 | `data-start-date` | earliest start date |
-| `data-reply-by` | two working days from today |
+| `data-reply-by` | two business days from today |
 | `data-mail-day` | next Tuesday or Friday the studio is open |
 | `data-open-studio` | next first Saturday of the month |
 | `data-next-event` | the next event |

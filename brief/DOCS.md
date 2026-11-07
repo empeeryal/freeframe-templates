@@ -6,7 +6,7 @@ Brief is a website template for a solo lawyer or attorney. The demo content is f
 Employment Law**, the fictional Dayton, Ohio, practice of independent employment attorney Tessa Pennington, who
 advises employees and senior staff on severance agreements, layoffs, wrongful termination, discrimination and
 problems at work, mostly for fixed fees. It is built with plain HTML5, Tailwind CSS v4 and one vanilla
-JavaScript file with no dependencies. This is version 1.0.7 (see [CHANGELOG.md](CHANGELOG.md)). Live demo:
+JavaScript file with no dependencies. This is version 1.0.8 (see [CHANGELOG.md](CHANGELOG.md)). Live demo:
 [freeframe.dev/templates/brief](https://freeframe.dev/templates/brief).
 
 The sample copy is general information about employment law in Ohio and under federal law, written for a fictional
@@ -229,7 +229,7 @@ On `book.html`, inside `[data-booking]`. Code: `initBooking()`.
    looks realistic; set it to `0` when you connect a real calendar.
 3. **Details**: name, email, optional phone, topic (`book.html?topic=settlement` preselects it), the
    conflict-check fields (employer, required; anyone else involved, optional), an optional deadline, a short
-   description and a required acknowledgement that booking doesn't create a client relationship.
+   description and a required acknowledgment that booking doesn't create a client relationship.
 4. **Confirmation** with a summary, a short reference (see [Forms](#forms)), what to do to change the time and a
    **Save a calendar hold (.ics)** button.
 
@@ -280,7 +280,7 @@ change them all if yours differs.
 
 | Form | Where | Validates |
 |------|-------|-----------|
-| Booking details (`[data-booking-form]`) | `book.html`, step 3 | Name, email, optional phone (10+ digits), topic, employer, description (20+ characters), acknowledgement |
+| Booking details (`[data-booking-form]`) | `book.html`, step 3 | Name, email, optional phone (10+ digits), topic, employer, description (20+ characters), acknowledgment |
 | Message (`[data-contact-form]`) | `book.html` | Name, email, message (20+ characters) |
 | Deadline calculator (`[data-deadline]`) | `check.html` | A date within the last two years or the next six months |
 

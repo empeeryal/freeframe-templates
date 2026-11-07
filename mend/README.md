@@ -7,7 +7,7 @@ screening, and has treatments with prices, conditions from neck to heel, a home 
 saved plan and rep counter, clinician profiles, prices and insurance, and contact. Plain HTML, Tailwind
 CSS v4 and one vanilla JavaScript file.
 
-**Version 1.1.3** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.1.4** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/mend)
 
 ## Quick start

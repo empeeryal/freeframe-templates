@@ -1,6 +1,6 @@
 /* First Crack Coffee — shop script
  * Vanilla JavaScript, no dependencies. Sections:
- *  1. Catalogue and store settings   7. Shop page            13. Wholesale estimator
+ *  1. Catalog and store settings   7. Shop page            13. Wholesale estimator
  *  2. Helpers                        8. Product page         14. Forms
  *  3. Bag and bean artwork           9. Subscription builder 15. Boot
  *  4. Cart (localStorage)           10. Checkout
@@ -13,9 +13,9 @@ document.documentElement.classList.add('js');
   'use strict';
 
   /* ------------------------------------------------------------------
-   * 1. Catalogue and store settings — edit, add or remove coffees here.
+   * 1. Catalog and store settings — edit, add or remove coffees here.
    *    origin, roast and process use the keys of ORIGINS, ROASTS and
-   *    PROCESSES. price is the 250 g price in dollars; other sizes are
+   *    PROCESSES. price is the 12 oz price in dollars; other sizes are
    *    worked out from SIZES. profile values run from 1 to 5.
    * ------------------------------------------------------------------ */
   const COFFEES = [
@@ -108,11 +108,11 @@ document.documentElement.classList.add('js');
   const ROASTS = { light: 'Light', medium: 'Medium', dark: 'Dark' };
   const PROCESSES = { washed: 'Washed', natural: 'Natural', honey: 'Honey', anaerobic: 'Anaerobic', decaf: 'Decaf' };
 
-  // Bag sizes: price = 250 g price × factor, rounded to whole dollars.
+  // Bag sizes: price = 12 oz price × factor, rounded to whole dollars.
   const SIZES = [
-    { id: '250g', label: '250 g', grams: 250, factor: 1 },
-    { id: '500g', label: '500 g', grams: 500, factor: 1.85 },
-    { id: '1kg', label: '1 kg', grams: 1000, factor: 3.4 }
+    { id: '250g', label: '12 oz', grams: 340, factor: 1 },
+    { id: '500g', label: '2 lb', grams: 907, factor: 2.4 },
+    { id: '1kg', label: '5 lb', grams: 2268, factor: 5.2 }
   ];
   const GRINDS = [
     { id: 'whole', label: 'Whole bean' },
@@ -125,13 +125,13 @@ document.documentElement.classList.add('js');
 
   const FREE_SHIPPING = 45;
   const SHIPPING = {
-    standard: { label: 'Standard', note: '2–4 working days', price: 6 },
-    express: { label: 'Express', note: 'Next working day', price: 12 },
+    standard: { label: 'Standard', note: '2–4 business days', price: 6 },
+    express: { label: 'Express', note: 'Next business day', price: 12 },
     pickup: { label: 'Pick up at the roastery', note: 'Ready the day after roasting', price: 0 }
   };
   const MAX_QTY = 20;
 
-  // Subscription styles: price is the 250 g price before the subscriber discount.
+  // Subscription styles: price is the 12 oz price before the subscriber discount.
   const STYLES = [
     { id: 'bright', name: 'Bright & floral', price: 20, desc: 'Light roasts from East Africa: tea-like, fruity, aromatic.', example: 'Like Kochere Lot 7' },
     { id: 'balanced', name: 'Sweet & balanced', price: 18, desc: 'Medium roasts from Latin America: caramel, apple, cocoa.', example: 'Like La Esperanza' },
@@ -146,14 +146,14 @@ document.documentElement.classList.add('js');
   const ROAST_DAY = 1;         // Monday (0 = Sunday)
   const DELIVERY_LAG = 3;      // days from roasting to the door (Thursday)
 
-  // Brew methods: ratio is grams of water per gram of coffee; cup is millilitres per cup.
+  // Brew methods: ratio is grams of water per gram of coffee; cup is milliliters per cup.
   const METHODS = {
-    v60: { name: 'V60 pour-over', ratio: 16, cup: 250, grind: 'Medium-fine, like table salt', temp: '94 °C', time: '3:00' },
-    aeropress: { name: 'AeroPress', ratio: 14, cup: 200, grind: 'Fine, like caster sugar', temp: '88 °C', time: '2:00' },
-    french: { name: 'French press', ratio: 15, cup: 250, grind: 'Coarse, like sea salt', temp: '96 °C', time: '8:00' },
+    v60: { name: 'V60 pour-over', ratio: 16, cup: 250, grind: 'Medium-fine, like table salt', temp: '201 °F', time: '3:00' },
+    aeropress: { name: 'AeroPress', ratio: 14, cup: 200, grind: 'Fine, like superfine sugar', temp: '190 °F', time: '2:00' },
+    french: { name: 'French press', ratio: 15, cup: 250, grind: 'Coarse, like sea salt', temp: '205 °F', time: '8:00' },
     moka: { name: 'Moka pot', ratio: 10, cup: 100, grind: 'Fine, a little coarser than espresso', temp: 'Hot from the kettle', time: '5:00' },
     cold: { name: 'Cold brew', ratio: 8, cup: 200, grind: 'Very coarse, like breadcrumbs', temp: 'Room temperature, then fridge', time: '16 h' },
-    espresso: { name: 'Espresso', ratio: 2, cup: 36, grind: 'Espresso fine', temp: '93 °C', time: '0:28' }
+    espresso: { name: 'Espresso', ratio: 2, cup: 36, grind: 'Espresso fine', temp: '200 °F', time: '0:28' }
   };
 
   const CART_KEY = 'firstcrack-cart';
@@ -385,7 +385,7 @@ document.documentElement.classList.add('js');
         '<p class="mt-1.5 text-sm text-muted">' + escapeHtml(c.notes.join(' · ')) + '</p>' +
         '<div class="mt-4 flex items-center justify-between gap-3">' +
           roastMeter(c.roast) +
-          '<button type="button" data-add="' + c.id + '" class="rounded-full border-2 border-navy px-3.5 py-1.5 text-xs font-semibold transition hover:bg-navy hover:text-butter">Add 250 g<span class="sr-only"> of ' + escapeHtml(c.name) + '</span></button>' +
+          '<button type="button" data-add="' + c.id + '" class="rounded-full border-2 border-navy px-3.5 py-1.5 text-xs font-semibold transition hover:bg-navy hover:text-butter">Add 12 oz<span class="sr-only"> of ' + escapeHtml(c.name) + '</span></button>' +
         '</div>' +
       '</article>';
   }
@@ -921,7 +921,7 @@ document.documentElement.classList.add('js');
   /* ------------------------------------------------------------------
    * 9. Subscription builder — plan saved as { style, size, bags, freq, grind }
    * ------------------------------------------------------------------ */
-  const DEFAULT_PLAN = { style: 'balanced', size: '500g', bags: 1, freq: 2, grind: 'whole' };
+  const DEFAULT_PLAN = { style: 'balanced', size: '250g', bags: 1, freq: 2, grind: 'whole' };
 
   function normalizePlan(raw) {
     const p = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
@@ -1233,13 +1233,14 @@ document.documentElement.classList.add('js');
   }
 
   /* ------------------------------------------------------------------
-   * 13. Wholesale estimator — cups a day → kilos a week and price tier
+   * 13. Wholesale estimator — cups a day → pounds a week and price tier
    * ------------------------------------------------------------------ */
   const WHOLESALE_DOSE = 18; // grams per espresso-based drink
+  // min is pounds a week; perKg keeps its name but holds dollars per pound.
   const TIERS = [
-    { name: 'Starter', min: 0, perKg: 26 },
-    { name: 'Café', min: 5, perKg: 23 },
-    { name: 'Volume', min: 15, perKg: 20 }
+    { name: 'Starter', min: 0, perKg: 12 },
+    { name: 'Café', min: 10, perKg: 10.5 },
+    { name: 'Volume', min: 35, perKg: 9 }
   ];
   function initWholesale() {
     const cups = $('#est-cups');
@@ -1248,13 +1249,13 @@ document.documentElement.classList.add('js');
     function update() {
       const perDay = wholeNumber(cups.value, 0, 1000, 0);
       const d = wholeNumber(days.value, 1, 7, 6);
-      const kg = Math.round((perDay * WHOLESALE_DOSE * d) / 100) / 10;
+      const lb = Math.round((perDay * WHOLESALE_DOSE * d) / 45.36) / 10; // grams to pounds, one decimal
       let tier = TIERS[0];
-      TIERS.forEach((t) => { if (kg >= t.min) tier = t; });
+      TIERS.forEach((t) => { if (lb >= t.min) tier = t; });
       $('#est-cups-value').textContent = plural(perDay, 'drink', 'drinks') + ' a day';
-      $('#est-kg').textContent = kg + ' kg';
-      $('#est-tier').textContent = tier.name + ' · ' + fmt(tier.perKg) + '/kg';
-      $('#est-cost').textContent = fmt(Math.round(kg * tier.perKg));
+      $('#est-kg').textContent = lb + ' lb';
+      $('#est-tier').textContent = tier.name + ' · ' + fmt(tier.perKg) + '/lb';
+      $('#est-cost').textContent = fmt(Math.round(lb * tier.perKg));
       $$('[data-tier]').forEach((row) => row.classList.toggle('is-current', row.getAttribute('data-tier') === tier.name));
     }
     cups.addEventListener('input', update);
@@ -1268,7 +1269,7 @@ document.documentElement.classList.add('js');
   function fieldMessage(el) {
     const v = el.value.trim();
     const label = el.getAttribute('data-label') || 'This field';
-    if (el.type === 'checkbox') return el.required && !el.checked ? (el.getAttribute('data-msg') || 'Please tick this box.') : '';
+    if (el.type === 'checkbox') return el.required && !el.checked ? (el.getAttribute('data-msg') || 'Please check this box.') : '';
     if (el.required && !v) return label + ' is required.';
     if (!v) return '';
     const rule = el.getAttribute('data-validate') || el.type;
@@ -1379,12 +1380,12 @@ document.documentElement.classList.add('js');
   }));
   $$('[data-form="contact"]').forEach((form) => setupValidation(form, () => {
     successSwap(form, '<p class="font-display text-xl font-semibold">Thanks for writing.</p>' +
-      '<p class="mt-2 text-muted">Your message has reached the roastery, and we’ll reply within one working day. Your reference is <strong class="font-semibold">' + makeRef('FC') + '</strong>.</p>');
+      '<p class="mt-2 text-muted">Your message has reached the roastery, and we’ll reply within one business day. Your reference is <strong class="font-semibold">' + makeRef('FC') + '</strong>.</p>');
   }));
   $$('[data-form="wholesale"]').forEach((form) => setupValidation(form, () => {
     const name = ($('#w-business') || {}).value || '';
     successSwap(form, '<p class="font-display text-xl font-semibold">Thanks, ' + escapeHtml(name.trim()) + '.</p>' +
-      '<p class="mt-2 text-muted">Our wholesale team will be in touch within two working days to set up a tasting. Your reference is <strong class="font-semibold">' + makeRef('FC') + '</strong>.</p>');
+      '<p class="mt-2 text-muted">Our wholesale team will be in touch within two business days to set up a tasting. Your reference is <strong class="font-semibold">' + makeRef('FC') + '</strong>.</p>');
   }));
   $$('[data-form="subscribe"]').forEach((form) => setupValidation(form, () => {
     const plan = normalizePlan(read(PLAN_KEY));

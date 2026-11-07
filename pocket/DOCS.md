@@ -5,7 +5,7 @@
 Pocket is a launch website for a mobile app, built for **Pocket**, a fictional budgeting app from Tulsa.
 It has layered phone mockups, a scroll-driven feature tour, a screenshot carousel with a lightbox, pricing,
 release notes, a help center, a press kit and a privacy policy. Every phone screen is plain HTML and SVG, with no
-image files. This is the **HTML + Tailwind CSS v4** version, **1.0.7**: static pages and one vanilla JavaScript
+image files. This is the **HTML + Tailwind CSS v4** version, **1.0.8**: static pages and one vanilla JavaScript
 file, no build step needed to run it.
 
 Live demo: [freeframe.dev/templates/pocket](https://freeframe.dev/templates/pocket)

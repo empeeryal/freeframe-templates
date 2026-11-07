@@ -39,7 +39,7 @@
   var FINISH = {
     standard: { label: 'Standard', desc: 'Durable, well-detailed, quality-grade materials.', meta: 'Base rate', mult: [1, 1] },
     premium: { label: 'Premium', desc: 'Upgraded glazing, timber, stone and fixtures.', meta: '+18–28%', mult: [1.18, 1.28] },
-    signature: { label: 'Signature', desc: 'Bespoke joinery, specialist trades, every detail drawn.', meta: '+45–65%', mult: [1.45, 1.65] }
+    signature: { label: 'Signature', desc: 'Custom millwork, specialist trades, every detail drawn.', meta: '+45–65%', mult: [1.45, 1.65] }
   };
   var TIMELINE = {
     flexible: { label: 'Flexible', desc: 'Start when trades are free; 12+ months away.', meta: '−3–4%', mult: [0.96, 0.97], pace: 1.15 },
@@ -219,7 +219,7 @@
     var v = (field.value || '').trim();
     var type = field.getAttribute('data-validate');
     var msg = '';
-    if (field.type === 'checkbox') { if (field.required && !field.checked) msg = 'Please tick this box to continue.'; }
+    if (field.type === 'checkbox') { if (field.required && !field.checked) msg = 'Please check this box to continue.'; }
     else if (field.required && !v) msg = field.tagName === 'SELECT' ? 'Please choose an option.' : 'Please fill in this field.';
     else if (field.type === 'email' && v && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) msg = 'Enter a valid email address, like name@example.com.';
     else if ((type === 'phone' || (type === 'phone-optional' && v)) && v.replace(/\D/g, '').length < 10) msg = 'Enter a phone number with at least 10 digits.';
@@ -481,7 +481,7 @@
         TYPES[state.type].label + ', ' + state.size.toLocaleString('en-US') + ' ft² (' + Math.round(state.size * 0.092903).toLocaleString('en-US') + ' m²), ' +
         FINISH[state.finish].label.toLowerCase() + ' finish, ' + TIMELINE[state.timeline].label.toLowerCase() + ' timeline' +
         (state.design ? ', with architecture and permits' : '') + '. Estimate ' + compact(r.low) + ' – ' + compact(r.high) +
-        '. A project director will reply to ' + form.email.value.trim() + ' within one working day to book a site walk.';
+        '. A project director will reply to ' + form.email.value.trim() + ' within one business day to book a site walk.';
       form.classList.add('hidden');
       quoteOk.classList.remove('hidden');
       quoteOk.focus();
@@ -507,7 +507,7 @@
       var name = form.querySelector('[name=name]').value.trim().split(/\s+/)[0];
       var office = form.querySelector('input[name=office]:checked');
       ok.querySelector('[data-success-text]').textContent = 'Thanks, ' + name + '. Your message about “' + form.topic.value.toLowerCase() + '” has reached our ' +
-        (office && office.value === 'madison' ? 'Madison studio' : 'Milwaukee office') + '. We will reply to ' + form.email.value.trim() + ' within one working day.';
+        (office && office.value === 'madison' ? 'Madison studio' : 'Milwaukee office') + '. We will reply to ' + form.email.value.trim() + ' within one business day.';
       // A short reference, like CB-7K2Q (no 0/O or 1/I to misread over the phone).
       ok.querySelector('[data-success-ref]').textContent = makeRef('CB');
       form.reset();

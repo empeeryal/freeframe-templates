@@ -385,7 +385,7 @@
     if (inDay < today) return 'That arrival date has passed.';
     if (inDay > today + STAY_RULES.maxDaysAhead) return 'We take bookings up to ' + Math.round(STAY_RULES.maxDaysAhead / 30) + ' months ahead.';
     if (outDay <= inDay) return 'Departure must be after arrival.';
-    if (outDay - inDay > STAY_RULES.maxNights) return 'For stays over ' + STAY_RULES.maxNights + ' nights, please call us on ' + PHONE + '.';
+    if (outDay - inDay > STAY_RULES.maxNights) return 'For stays over ' + STAY_RULES.maxNights + ' nights, please call us at ' + PHONE + '.';
     var hasSaturday = false;
     for (var d = inDay; d < outDay; d++) {
       if (!inSeason(d)) return 'We\u2019re closed on ' + shortDate(d) + '. The season runs ' + monthDay(seasonOf(yearOf(d)).open) + ' to ' + monthDay(seasonOf(yearOf(d)).close) + '.';
@@ -913,7 +913,7 @@
       var id = state.site;
       if (!id) { announce('Choose a site first.'); siteSel.focus(); return; }
       var d = nextFreeStay(id, firstBookableDay(now), 2, 5);
-      if (d == null) { announce('No free weekend found. Call us on ' + PHONE + '.'); return; }
+      if (d == null) { announce('No free weekend found. Call us at ' + PHONE + '.'); return; }
       state.arrive = d; state.depart = d + 2; state.focus = d; state.view = { y: yearOf(d), m: monthOf(d) };
       update(false);
       announce('Next free weekend at ' + id + ': ' + longDate(d) + ' to ' + longDate(d + 2) + '.');
@@ -1333,7 +1333,7 @@
   function fieldError(form, input) {
     var v = input.value.trim();
     if (input.disabled || input.closest('[hidden]')) return '';
-    if (input.type === 'checkbox' && input.required && !input.checked) return input.getAttribute('data-required-msg') || 'Please tick this box.';
+    if (input.type === 'checkbox' && input.required && !input.checked) return input.getAttribute('data-required-msg') || 'Please check this box.';
     if (input.required && !v) return input.getAttribute('data-required-msg') || 'This field is required.';
     if (v && input.type === 'email' && !EMAIL_RE.test(v)) return 'Enter an email address like name@example.com.';
     if (v && input.type === 'tel' && !/^[+()\d\s.-]{7,20}$/.test(v)) return 'Enter a phone number using digits and spaces.';

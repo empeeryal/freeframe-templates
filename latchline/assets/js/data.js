@@ -341,7 +341,7 @@ window.LATCHLINE = (() => {
         "Blocker escalates after 48 hours",
         "Credentials never stored in tasks",
       ],
-      signal: "A blocker older than two working days",
+      signal: "A blocker older than two business days",
       tasks: [
         { lane: "customer", label: "SSO configured", status: "doing" },
         { lane: "customer", label: "Data export", status: "blocked" },
@@ -459,7 +459,7 @@ window.LATCHLINE = (() => {
       quote: "Most stalls were a decision nobody knew was theirs. Now the board tells them, politely, every morning.",
       body: [
         "Northmill moves warehouse and pipeline data for finance teams. Migrations stalled when a field-mapping question sat with the wrong person for a week.",
-        "With the data migration playbook, every decision is a task with an owner on the customer side, and blockers escalate after two working days instead of at the next steering call.",
+        "With the data migration playbook, every decision is a task with an owner on the customer side, and blockers escalate after two business days instead of at the next steering call.",
       ],
       metrics: [
         { label: "Stalled migrations per quarter", before: 16, after: 11, unit: "", better: "lower" },
@@ -523,7 +523,7 @@ window.LATCHLINE = (() => {
       quote: "Every morning I can see exactly which carrier is missing an insurance certificate, and so can they.",
       body: [
         "Ironpine runs a freight platform for regional shippers. Lane setup and carrier paperwork were handled by email, so new shippers waited weeks before tendering a load.",
-        "Carriers now upload certificates straight to their task, lanes import from the shipper's spreadsheet and the first tendered load is the milestone everyone works towards.",
+        "Carriers now upload certificates straight to their task, lanes import from the shipper's spreadsheet and the first tendered load is the milestone everyone works toward.",
       ],
       metrics: [
         { label: "Days to first tendered load", before: 26, after: 11, unit: "days", better: "lower" },
@@ -898,7 +898,7 @@ window.LATCHLINE = (() => {
    * Office and booking (company.html and contact.html), in America/Los_Angeles.
    * HOURS: day of week (0 = Sunday) to [open, close] in 24-hour "HH:MM"; days not listed are closed.
    * Holidays are worked out by rule in main.js (usHolidays); add one-off closures to CLOSED_DATES.
-   * DEMO_SLOTS are the start times offered for a 30-minute demo on each working day.
+   * DEMO_SLOTS are the start times offered for a 30-minute demo on each business day.
    */
   const HOURS = {
     1: ["07:00", "17:00"],

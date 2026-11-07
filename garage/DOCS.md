@@ -8,7 +8,7 @@ filterable services with guide prices, a fixed-price service checker, a booking 
 formatting, a drop-off calendar that skips Sundays and federal holidays and a loaner car option, an inspection
 due-date calculator with saved reminders, reviews, a team page, a searchable FAQ and directions. The look is bold
 and mechanical: license-plate yellow on charcoal, condensed industrial type, chamfered "cut metal" corners, checkered
-strips and technical SVG line drawings of cars and parts. This is the **HTML + Tailwind CSS v4** version (1.0.5):
+strips and technical SVG line drawings of cars and parts. This is the **HTML + Tailwind CSS v4** version (1.0.6):
 plain HTML files, one stylesheet and one vanilla JavaScript file, with no build step needed to run it.
 
 Nothing on the site goes out of date: opening status, drop-off days, federal holidays, review dates and inspection
@@ -248,7 +248,7 @@ They override the saved choice (see [Saved data](#saved-data-localstorage)). The
   `BOOK_AHEAD_DAYS`, Sundays, federal holidays, `EXTRA_CLOSED` days and fully booked days are disabled with the reason in
   their label. Arrow keys move by day and week, Home/End to the week's ends. Only one day is in the tab order.
 - **Slots**: `DROP_OFF_SLOTS` for the weekday; `slotTaken(date, time)` marks the demo's taken slots with a stable hash
-  of the date and time (about `DEMO_SLOTS_TAKEN`% of them). Replace `slotTaken()` with your real diary.
+  of the date and time (about `DEMO_SLOTS_TAKEN`% of them). Replace `slotTaken()` with your real calendar.
 - **While we work**: "Wait in the lounge" is only enabled when the jobs add up to `MAX_WAIT_MINUTES` or less;
   "Loaner car" shows how many of `COURTESY_CARS` are left on the chosen day (`courtesyLeft()`, also a demo hash) and
   is disabled when none are ("1 loaner car left on Tue, Oct 20").
@@ -352,7 +352,7 @@ keep working for the page view. To reset, remove the reminders on `mot.html` or 
 | `?at=2026-10-19T10:30` | every page | Preview the site at an Eastern date and time (status, slots, inspection countdowns) |
 | `?cat=` | `services.html` | A `CATEGORIES` id |
 | `?service=`, `?fuel=`, `?engine=`, `?mot=1` | `prices.html` | Price checker choices |
-| `?service=mot,full`, `?reg=2941086` | `book.html` | Jobs to tick and the plate |
+| `?service=mot,full`, `?reg=2941086` | `book.html` | Jobs to check and the plate |
 | `?reg=` | `mot.html` | The plate |
 | `?q=` | `faq.html` | Search words (first 80 characters) |
 | `?topic=` | `contact.html` | `booking`, `quote`, `mot`, `collection` or `other` |
@@ -411,7 +411,7 @@ files and `assets/`.
 - **Prices don't match between pages.** Prices live in `SERVICE_TYPES` and `JOBS` (JavaScript) and in the HTML of
   `prices.html`, `services.html` and `index.html`; update them together.
 - **Every slot is free or every day is full.** The demo availability is `slotTaken()` and `courtesyLeft()`; set
-  `DEMO_SLOTS_TAKEN` to `0` or connect your booking diary there.
+  `DEMO_SLOTS_TAKEN` to `0` or connect your booking calendar there.
 - **A plate is rejected.** `parsePlate()` accepts 2 to 8 letters and digits; widen it if you need dashes or longer
   plates.
 - **Reminders disappear after closing the tab.** The browser is blocking storage (private mode, a sandboxed iframe);

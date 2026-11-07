@@ -338,7 +338,7 @@
   function fieldMessage(field) {
     var type = field.getAttribute('data-validate');
     var v = (field.value || '').trim();
-    if (field.type === 'checkbox') return field.required && !field.checked ? 'Please tick this box to continue.' : '';
+    if (field.type === 'checkbox') return field.required && !field.checked ? 'Please check this box to continue.' : '';
     if (field.required && !v) return field.tagName === 'SELECT' ? 'Please choose an option.' : 'Please fill in this field.';
     if (type === 'email' && v && !EMAIL.test(v)) return 'Please enter an email address like name@company.example.';
     if (type === 'phone-optional' && v && v.replace(/\D/g, '').length < 7) return 'Please enter a phone number we can call, or leave it blank.';

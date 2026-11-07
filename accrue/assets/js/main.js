@@ -33,7 +33,7 @@
   const page = document.body.getAttribute('data-page') || '';
 
   // localStorage, or an in-memory stand-in when the browser blocks it (a sandboxed iframe, strict
-  // privacy settings): saved ticks then last for this page view instead of the feature doing nothing.
+  // privacy settings): saved checks then last for this page view instead of the feature doing nothing.
   const safeStorage = (function () {
     let local = null;
     try { local = window.localStorage; local.getItem('_'); } catch (e) { local = null; /* blocked */ }

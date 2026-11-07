@@ -16,14 +16,14 @@
   var AGENTS = [
     { id: 1, name: 'Eleanor Vance', role: 'Founding Partner', phone: '(207) 555-0156', email: 'eleanor@example.com', img: 'assets/img/agent-1.svg' },
     { id: 2, name: 'Marcus Bell', role: 'Senior Agent, Coastal Homes', phone: '(207) 555-0151', email: 'marcus@example.com', img: 'assets/img/agent-2.svg' },
-    { id: 3, name: 'Priya Nair', role: 'Lettings Director', phone: '(207) 555-0152', email: 'priya@example.com', img: 'assets/img/agent-3.svg' },
+    { id: 3, name: 'Priya Nair', role: 'Rentals Director', phone: '(207) 555-0152', email: 'priya@example.com', img: 'assets/img/agent-3.svg' },
     { id: 4, name: 'Tom Okafor', role: 'Agent, Waterfront Apartments', phone: '(207) 555-0153', email: 'tom@example.com', img: 'assets/img/agent-4.svg' },
     { id: 5, name: 'Grace Lindholm', role: 'Agent, Family Homes', phone: '(207) 555-0154', email: 'grace@example.com', img: 'assets/img/agent-5.svg' },
     { id: 6, name: 'Daniel Ruiz', role: 'Valuation Specialist', phone: '(207) 555-0155', email: 'daniel@example.com', img: 'assets/img/agent-6.svg' }
   ];
 
   // status: 'buy' or 'rent' (rent prices are per month). listed: days since listing.
-  // look: exterior style, time of day and colours used by the artwork.
+  // look: exterior style, time of day and colors used by the artwork.
   var PROPERTIES = [
     { id: 1, title: 'Glasshouse on Cedar Ridge', address: '18 Cedar Ridge Road', area: 'Cedar Heights', status: 'buy', type: 'House',
       price: 1450000, beds: 4, baths: 3, sqft: 3200, year: 2021, parking: '2-car garage', lot: '0.4 acres', listed: 2, agent: 1, badges: ['New'],
@@ -33,7 +33,7 @@
     { id: 2, title: 'Harborside Loft', address: 'Unit 6C, 40 Quay Street', area: 'The Docklands', status: 'buy', type: 'Apartment',
       price: 685000, beds: 2, baths: 2, sqft: 1240, year: 2016, parking: '1 secure space', lot: '—', listed: 5, agent: 4, badges: [],
       look: { kind: 'apartment', time: 'night', wall: '#d8d0c3', trim: '#2f3633', accent: '#3d4f6b', room: '#e9e3d8' },
-      summary: 'A corner loft with exposed brick, 3-metre ceilings and a balcony that looks straight across the working harbor.',
+      summary: 'A corner loft with exposed brick, 10-foot ceilings and a balcony that looks straight across the working harbor.',
       features: ['Corner unit with two aspects', 'Private balcony', 'Exposed brick and timber beams', 'Concierge and gym', 'Bike storage', 'Walk to ferry terminal'] },
     { id: 3, title: 'Rose Cottage', address: '7 Orchard Lane', area: 'Linden Park', status: 'buy', type: 'Cottage',
       price: 540000, beds: 3, baths: 1, sqft: 1500, year: 1912, parking: 'Driveway', lot: '0.2 acres', listed: 9, agent: 5, badges: ['Open house Sat'],
@@ -78,7 +78,7 @@
     { id: 11, title: 'Orchard Cottage', address: '2 Apple Tree Close', area: 'Cedar Heights', status: 'rent', type: 'Cottage',
       price: 2600, beds: 2, baths: 1, sqft: 980, year: 1938, parking: 'Driveway', lot: '0.15 acres', listed: 4, agent: 3, badges: [],
       look: { kind: 'cottage', time: 'day', wall: '#f3ede0', trim: '#4e5d52', accent: '#7d8f7a', room: '#f1ebdf' },
-      summary: 'A cosy two-bedroom cottage beside an old apple orchard, with a wood stove and a garden shed for projects.',
+      summary: 'A cozy two-bedroom cottage beside an old apple orchard, with a wood stove and a garden shed for projects.',
       features: ['Wood-burning stove', 'Large garden with shed', 'Quiet cul-de-sac', 'Updated kitchen', 'Unfurnished', 'Twelve-month lease'] },
     { id: 12, title: 'The Wharf Penthouse', address: 'Penthouse, 1 Wharf Road', area: 'The Docklands', status: 'buy', type: 'Apartment',
       price: 2350000, beds: 3, baths: 3, sqft: 2600, year: 2020, parking: '2 secure spaces', lot: '—', listed: 8, agent: 4, badges: ['Exclusive'],
@@ -100,7 +100,7 @@
     return function () { a = (a * 16807) % 2147483647; return (a % 10000) / 10000; };
   }
 
-  // Mix a hex colour toward another colour by t (0..1).
+  // Mix a hex color toward another color by t (0..1).
   function mix(a, b, t) {
     var pa = parseInt(a.slice(1), 16), pb = parseInt(b.slice(1), 16);
     var r = Math.round(((pa >> 16) & 255) * (1 - t) + ((pb >> 16) & 255) * t);
@@ -563,7 +563,7 @@
   //   fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
   function validateField(field) {
     var msg = '', v = field.validity;
-    if (v.valueMissing) msg = field.type === 'checkbox' ? 'Please tick this box to continue.' : 'Please fill in this field.';
+    if (v.valueMissing) msg = field.type === 'checkbox' ? 'Please check this box to continue.' : 'Please fill in this field.';
     else if (v.typeMismatch && field.type === 'email') msg = 'Please enter a valid email address, like name@example.com.';
     else if (v.patternMismatch) msg = field.dataset.patternMessage || 'Please check the format.';
     else if (v.tooShort) msg = 'Please write at least ' + field.minLength + ' characters.';

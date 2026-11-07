@@ -6,6 +6,12 @@ All notable changes to the Handy HTML template are documented here. The format f
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-11-07
+
+### Changed
+
+- American wording throughout, including US terms for checkboxes, business days, schedules and units.
+
 ## [1.0.6] - 2026-11-04
 
 ### Fixed

@@ -336,7 +336,7 @@ fetch('https://formspree.io/f/your-id', {
   headers: { Accept: 'application/json' }
 }).then(function (r) {
   if (r.ok) { /* the existing success code */ }
-  else toast('Sorry, that didn’t send. Please call us on (360) 555-0142.');
+  else toast('Sorry, that didn’t send. Please call us at (360) 555-0142.');
 });
 ```
 

@@ -459,7 +459,7 @@
   const LAST_BOOKABLE = addDays(TODAY, BOOK_AHEAD_DAYS);
   const unitCache = Object.create(null);
 
-  // Free half-hour units in an instructor's working day: an array of booleans from their first
+  // Free half-hour units in an instructor's workday: an array of booleans from their first
   // start time, or null when they don't teach that day.
   function freeUnits(id, key) {
     const cacheKey = id + '|' + key;

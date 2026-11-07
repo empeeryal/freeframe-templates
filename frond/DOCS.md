@@ -2,7 +2,7 @@
 
 ## Overview
 
-Frond is a complete HTML and Tailwind CSS v4 website for an independent houseplant shop on East 5th Avenue in Eugene, Oregon. Version 1.0.2 has nine pages and a 404: a catalog of fifteen illustrated plants with sizes and
+Frond is a complete HTML and Tailwind CSS v4 website for an independent houseplant shop on East 5th Avenue in Eugene, Oregon. Version 1.0.3 has nine pages and a 404: a catalog of fifteen illustrated plants with sizes and
 cover pots, a saved cart, a three-step checkout with gift options, a card step and an order confirmation, a
 four-question plant finder, per-plant care cards and a visit page with a map and live opening hours. The business and
 people are fictional. See the [template page](https://freeframe.dev/templates/frond) for the live demo and download.

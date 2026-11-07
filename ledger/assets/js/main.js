@@ -290,7 +290,7 @@
       var v = field.validity;
       var label = field.getAttribute('data-label') || 'this field';
       if (v.valueMissing) {
-        if (field.type === 'checkbox') return 'Please tick this box to continue.';
+        if (field.type === 'checkbox') return 'Please check this box to continue.';
         return (field.tagName === 'SELECT' ? 'Please choose ' : 'Please enter ') + label + '.';
       }
       if (v.typeMismatch && field.type === 'email') return 'Please enter a valid email address, like name@example.com.';

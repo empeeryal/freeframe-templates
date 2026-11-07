@@ -738,7 +738,7 @@
           fieldError(input, msg);
           if (msg && !bad) bad = input;
         });
-        var consent = $('input[name="consent"]', bookingForm), cm = consent.checked ? '' : 'Please tick this box to continue.';
+        var consent = $('input[name="consent"]', bookingForm), cm = consent.checked ? '' : 'Please check this box to continue.';
         fieldError(consent, cm);
         if (cm && !bad) bad = consent;
         if (bad) { showError(4, 'Please check the highlighted fields.'); bad.focus(); return false; }
@@ -915,7 +915,7 @@
         var box = $('input[name="' + k + '"]', planner);
         if (box && box.checked) extras = extras.concat(data.extras[k]);
       });
-      $('[data-plan-list="extras"]', plan).innerHTML = extras.length ? listHTML(extras) : '<li class="text-muted">' + (Object.keys(data.extras).length ? 'Tick a lifestyle box to see extra vaccines or checks.' : 'Ferrets don’t usually need lifestyle vaccines.') + '</li>';
+      $('[data-plan-list="extras"]', plan).innerHTML = extras.length ? listHTML(extras) : '<li class="text-muted">' + (Object.keys(data.extras).length ? 'Check a lifestyle box to see extra vaccines or checks.' : 'Ferrets don’t usually need lifestyle vaccines.') + '</li>';
       $('[data-plan-book]', plan).href = 'book.html?pet=' + (sp === 'ferret' ? 'exotic' : sp) + '&service=vaccines';
     }
     planner.addEventListener('change', function () { render(false, true); });
@@ -1059,7 +1059,7 @@
       });
       $('[data-est-pet]', estimator).textContent = PRICE_PETS[pet].label;
       $('[data-est-total]', estimator).textContent = lines.length ? range([low, high]) : '$0';
-      $('[data-est-count]', estimator).textContent = lines.length ? plural(lines.length, 'service') : 'Tick a service to start';
+      $('[data-est-count]', estimator).textContent = lines.length ? plural(lines.length, 'service') : 'Check a service to start';
       $('[data-est-lines]', estimator).innerHTML = lines.join('');
       var note = $('[data-est-hidden-note]', estimator);
       note.hidden = !hidden.length;
@@ -1099,7 +1099,7 @@
 
   function fieldMessage(f) {
     var v = f.value.trim();
-    if (f.type === 'checkbox') return f.required && !f.checked ? 'Please tick this box to continue.' : '';
+    if (f.type === 'checkbox') return f.required && !f.checked ? 'Please check this box to continue.' : '';
     if (f.required && !v) {
       var lbl = f.id && $('label[for="' + f.id + '"]');
       return 'Please fill in ' + (lbl ? lbl.textContent.replace(/\(.*\)/, '').trim().toLowerCase() : 'this field') + '.';

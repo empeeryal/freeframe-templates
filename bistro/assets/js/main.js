@@ -342,7 +342,7 @@
     update();
   });
 
-  // "Enquire about this package" links preselect the package in the events form.
+  // "Inquire about this package" links preselect the package in the events form.
   document.querySelectorAll('[data-package]').forEach(function (link) {
     link.addEventListener('click', function () {
       var select = document.querySelector('[name="package"]');

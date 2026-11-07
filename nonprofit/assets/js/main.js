@@ -144,7 +144,7 @@
   /* ---------- Generic form validation ---------- */
   function fieldMessage(f) {
     var v = f.validity;
-    if (v.valueMissing) return f.type === 'checkbox' ? 'Please tick this box to continue.' : (f.tagName === 'SELECT' ? 'Please choose an option.' : 'Please fill in this field.');
+    if (v.valueMissing) return f.type === 'checkbox' ? 'Please check this box to continue.' : (f.tagName === 'SELECT' ? 'Please choose an option.' : 'Please fill in this field.');
     if (v.typeMismatch) return 'Please enter a valid email address.';
     if (v.tooShort) return 'Please write at least ' + f.minLength + ' characters.';
     if (v.rangeUnderflow) return 'Please enter at least ' + f.min + '.';

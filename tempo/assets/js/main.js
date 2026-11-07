@@ -1413,7 +1413,7 @@
   function message(f) {
     var v = f.validity, label = f.getAttribute('data-name') || 'This field';
     if (v.valueMissing) {
-      if (f.type === 'checkbox') return f.getAttribute('data-required-msg') || 'Please tick this box to continue.';
+      if (f.type === 'checkbox') return f.getAttribute('data-required-msg') || 'Please check this box to continue.';
       if (f.type === 'radio') return f.getAttribute('data-required-msg') || 'Choose one option.';
       if (f.tagName === 'SELECT') return 'Choose ' + label.toLowerCase() + '.';
       return label + ' is required.';

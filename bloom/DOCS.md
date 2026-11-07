@@ -211,7 +211,7 @@ steps, a progress list (`.steps` with `data-step-indicator`) and a running summa
 | 1. Treatments | Checkboxes `name="services"` | At least one |
 | 2. Stylist | Radio list built by `renderStylists()`: "Anyone available" plus everyone who can do all the chosen treatments | None |
 | 3. Date and time | 21 day buttons from today (`renderDates()`), then time buttons (`renderSlots()`) | A time is chosen |
-| 4. Your details | Name, email, cell phone, notes, first visit, remember details, cancellation policy | Name 2+ characters, valid email, 10–15 digit phone, policy ticked |
+| 4. Your details | Name, email, cell phone, notes, first visit, remember details, cancellation policy | Name 2+ characters, valid email, 10–15 digit phone, policy checked |
 | 5. Review | Rows with "Change" buttons that jump back to a step | None |
 
 "Continue" validates the current step and moves on; on step 5 it becomes "Confirm booking" and calls `confirm()`, which
@@ -221,7 +221,7 @@ characters, from `makeRef()`) and the email address the confirmation will go to.
 
 Preselect from links:
 
-- `book.html?service=balayage` ticks a treatment (must be a service `id`).
+- `book.html?service=balayage` checks a treatment (must be a service `id`).
 - `book.html?stylist=amara` preselects a team member (must be a team `id`). If they can't do the chosen treatments, the
   wizard falls back to "Anyone available".
 
@@ -240,7 +240,7 @@ Changing the treatments clears the chosen date and time.
 - **Who can do it:** `eligibleMembers()` returns team members whose `cats` include every chosen category. With
   "Anyone available", each start time is offered if any eligible member is free; the slot remembers who
   (`data-member`), and the summary and confirmation name them.
-- **Working days:** a member is only considered on days listed in their `days`.
+- **Workdays:** a member is only considered on days listed in their `days`.
 - **Schedule:** `isBusy(memberId, dateKey, block)` marks about one in five 30-minute blocks as already booked, using a
   deterministic hash so the same schedule appears on every visit. A member is free only if every block the treatment
   touches is free.
@@ -427,7 +427,7 @@ server (for example Stripe Checkout) and redirect to it instead of showing the c
 | Key | Shape | Written |
 |-----|-------|---------|
 | `bloom-saved-looks` | Array of look ids, for example `["honey-balayage", "french-bob"]` | When a heart is toggled |
-| `bloom-details` | `{"name": "…", "email": "…", "phone": "…"}` | On booking confirmation, only if "Remember my details on this device" is ticked |
+| `bloom-details` | `{"name": "…", "email": "…", "phone": "…"}` | On booking confirmation, only if "Remember my details on this device" is checked |
 
 Validation on read:
 
@@ -436,7 +436,7 @@ Validation on read:
 - `readDetails()` requires an object, keeps `name` (up to 80 characters), `email` (up to 120, and only if it looks like
   an email) and `phone` (up to 30), and removes the key if nothing valid is left.
 
-Confirming a booking with "remember" unticked removes `bloom-details`. All storage access is wrapped in `try`/`catch`
+Confirming a booking with "remember" unchecked removes `bloom-details`. All storage access is wrapped in `try`/`catch`
 (the `store` helper), so private browsing just disables saving. To reset, delete the keys in your browser's developer
 tools (Application, Local Storage).
 
@@ -505,7 +505,7 @@ leave out `src/`, `package.json` and the Markdown files when uploading.
 
 - **A new treatment doesn't appear in the booking wizard.** Add both the `BLOOM.services` entry and the checkbox in
   `book.html`; the checkbox `value` must equal the `id`.
-- **The booking breaks when a new treatment is ticked.** The checkbox `value` has no matching service in
+- **The booking breaks when a new treatment is checked.** The checkbox `value` has no matching service in
   `BLOOM.services`. Check spelling.
 - **No times appear for a day.** The salon is closed that day in `BLOOM.hours`, nobody eligible works it (`days`), or
   every slot is taken in the demo schedule. Try "Anyone available".

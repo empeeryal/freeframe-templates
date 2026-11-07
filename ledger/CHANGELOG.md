@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.10] - 2026-11-07
+
+### Changed
+
+- American wording throughout, including US terms for checkboxes, business days, schedules and units.
+
 ## [1.1.9] - 2026-11-06
 
 ### Changed

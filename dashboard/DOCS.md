@@ -6,7 +6,7 @@ Dashboard is a complete admin interface for the fictional outdoor-gear shop behi
 KPI cards and charts, analytics, a full orders table, customers with a detail panel, a product catalog
 with inventory, settings (profile, team, billing, notifications) and a sign-in screen, in light and dark
 themes. Every chart is SVG drawn by plain JavaScript; there are no frameworks or chart libraries. This is
-the HTML + Tailwind CSS v4 version, **version 1.1.11**. See it live at
+the HTML + Tailwind CSS v4 version, **version 1.1.12**. See it live at
 [freeframe.dev/templates/dashboard](https://freeframe.dev/templates/dashboard).
 
 ## Quick start

@@ -2,7 +2,7 @@
 
 A bold, mechanical website for an independent auto repair shop or mechanic, built for the fictional **Bellcrank Motor Works** in Keene, New Hampshire: a fixed-price service checker, a booking request with license plate formatting and a drop-off calendar that skips Sundays and federal holidays, a loaner car option, an inspection due-date calculator with saved reminders, filterable services, reviews and a searchable FAQ. Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/garage)
 
 ## Quick start

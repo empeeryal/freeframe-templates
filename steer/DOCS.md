@@ -5,7 +5,7 @@
 Steer is a website template for a driving school or an independent driving instructor. The demo brand is
 **Brayline Driving School**, a fictional school in Eau Claire, Wisconsin with six instructors teaching automatic and
 manual lessons across six ZIP codes around the city. It is built with plain HTML, Tailwind CSS v4 and one vanilla
-JavaScript file, with no build step needed to run it. This is version 1.0.5 (see `template.json` and
+JavaScript file, with no build step needed to run it. This is version 1.0.6 (see `template.json` and
 [CHANGELOG.md](CHANGELOG.md)). Live demo: [freeframe.dev/templates/steer](https://freeframe.dev/templates/steer).
 
 Copy uses American English, prices are in US dollars (USD) and every date and time is Central time
@@ -32,7 +32,7 @@ You only need Node.js 24 or newer if you want to change the styles and rebuild t
 
 | File | Purpose | Notable sections and features |
 |------|---------|-------------------------------|
-| `index.html` | Home | Hero with ZIP code check and the next free lesson card, stats band, lesson types, four steps to a license, instructor strip with next free times, permit quiz teaser, latest passes, new-pupil offer |
+| `index.html` | Home | Hero with ZIP code check and the next free lesson card, stats band, lesson types, four steps to a license, instructor strip with next free times, permit quiz teaser, latest passes, new-student offer |
 | `lessons.html` | Lessons & prices | Price list, block booking table, intensive courses with start dates, Winter & Highway, price calculator |
 | `instructors.html` | Instructors | Transmission, area and language filters, six instructor cards with portrait, car, areas, languages, days, hours, pass rate and next free lesson, "Choose" button |
 | `book.html` | Book a lesson | Pick-up ZIP code check, transmission, lesson length, instructor, seven-day week view of free times, details form, summary panel and confirmation |
@@ -142,7 +142,7 @@ sian: {
 ```
 
 `t` is `manual` or `automatic`, `days` uses 0 = Sunday … 6 = Saturday, `hours` are the first start time and the end
-of the working day, and `car.body` is one of `hatch`, `suv`, `saloon` (a sedan) or `estate` (a station wagon), drawn by `carSvg()`. The cards,
+of the workday, and `car.body` is one of `hatch`, `suv`, `saloon` (the sedan shape) or `estate` (the station wagon shape), drawn by `carSvg()`; these ids are never shown. The cards,
 filters, booking form, areas panel and passes filter all read from this object. Also add the portrait to the hero
 grid in `instructors.html` if you want it there.
 
@@ -181,8 +181,8 @@ Areas…); the mobile menu and footer use the long ones.
 ### Lesson availability
 
 Section 3 of `main.js` works out each instructor's free times from today, so the demo never shows a past or empty
-schedule. `freeUnits(id, key)` splits a working day (from `hours[0]` to `hours[1]`, on `days` only) into half-hour units
-and marks some as already booked with a seeded pseudo-random pattern (`hash()`), roughly `DEMO_BUSY` per cent of the
+schedule. `freeUnits(id, key)` splits a business day (from `hours[0]` to `hours[1]`, on `days` only) into half-hour units
+and marks some as already booked with a seeded pseudo-random pattern (`hash()`), roughly `DEMO_BUSY` percent of the
 day. `startsFor()` lists the on-the-hour start times with enough free units for a lesson, `slotsOn()` merges
 instructors for a day and `nextFree()` finds the earliest free lesson for a filter (`t`, `area`, `instructor`).
 
@@ -229,7 +229,7 @@ times in the next seven days. The instructor cards, home strip and areas panel s
 4. **Details**: name, cell number, email, instruction permit status, first-lesson offer and notes.
 
 The summary panel shows the pick-up, lesson, instructor, time and price (the first two hours at `FIRST_RATE` when "This
-is my first lesson" is ticked). Submitting shows a confirmation with a reference such as `BL-4K7QZ` and what happens
+is my first lesson" is checked). Submitting shows a confirmation with a reference such as `BL-4K7QZ` and what happens
 next. Changing the transmission, length or instructor drops a picked time that is no longer free.
 
 ### ZIP code checker

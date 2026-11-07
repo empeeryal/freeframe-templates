@@ -58,13 +58,13 @@
       sector: 'Public transport',
       location: 'Excelsior',
       duration: '14 months',
-      services: ['Identity system', 'Wayfinding', 'Timetable design', 'Livery'],
-      summary: 'Wakeline runs eleven passenger ferries on Lake Minnetonka. We rebuilt its identity around a single ring-and-wave mark and a timetable system that works on a phone, a pier and a paper fold-out.',
-      challenge: 'Wakeline had grown out of three older operators, and it showed: four logos, two typefaces on the same pier and timetables that changed format from boat to boat. Tourists missed the last ferry home; regulars ignored the signs altogether. The brief was to make one ferry company out of three, without losing the warmth people felt for the old boats.',
+      services: ['Identity system', 'Wayfinding', 'Schedule design', 'Livery'],
+      summary: 'Wakeline runs eleven passenger ferries on Lake Minnetonka. We rebuilt its identity around a single ring-and-wave mark and a schedule system that works on a phone, a pier and a paper fold-out.',
+      challenge: 'Wakeline had grown out of three older operators, and it showed: four logos, two typefaces on the same pier and schedules that changed format from boat to boat. Tourists missed the last ferry home; regulars ignored the signs altogether. The brief was to make one ferry company out of three, without losing the warmth people felt for the old boats.',
       approach: [
         { title: 'Audit every touchpoint', text: 'We photographed all 23 piers and catalogd 412 signs, tickets and notices. Two thirds carried information that was already out of date.' },
         { title: 'One mark, one grid', text: 'The ring-and-wave mark reads at a third of an inch on a ticket and at ten feet on a bow. Everything else sits on a single eight-column grid shared by print, signs and screens.' },
-        { title: 'Timetables first', text: 'We designed the departure board before the logo. Times are set large in tabular figures, with the last boat of the day marked in buoy orange.' }
+        { title: 'Schedules first', text: 'We designed the departure board before the logo. Times are set large in tabular figures, with the last boat of the day marked in buoy orange.' }
       ],
       results: [
         { value: '−38%', label: 'Complaints about missing the last ferry, first season' },
@@ -75,12 +75,12 @@
       credits: ['Noemi Imhof', 'Selin Karaca', 'Céline Odermatt'],
       palette: { bg: '#1d3b57', ink: '#f1efe7', accent: '#ff7a3d', soft: '#8fb3c9' },
       mark: '<circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="11"/><path d="M12 56c13-11 25-11 38 0s25 11 38 0" fill="none" stroke="currentColor" stroke-width="11"/>',
-      poster: { lines: ['Summer', 'timetable'], sub: 'May 1 – Sep 30, 2025' },
+      poster: { lines: ['Summer', 'schedule'], sub: 'May 1 – Sep 30, 2025' },
       sign: ['3', 'Departures', 'Wayzata · Excelsior · Tonka Bay'],
       gallery: [
         { kind: 'board', caption: 'Identity board: the ring-and-wave mark, wordmark and four-color palette.' },
         { kind: 'signage', caption: 'Pier signage puts departures first and everything else second.' },
-        { kind: 'poster', caption: 'Summer timetable poster for the piers and downtown Excelsior.' }
+        { kind: 'poster', caption: 'Summer schedule poster for the piers and downtown Excelsior.' }
       ]
     },
     {
@@ -1014,7 +1014,7 @@
   }
 
   /* =====================================================================
-     PROJECT ENQUIRY (contact.html): five steps with a review.
+     PROJECT INQUIRY (contact.html): five steps with a review.
      Prefills from contact.html?services=identity,website&budget=60-120&timeline=priority
      ===================================================================== */
   var enquiry = document.querySelector('[data-enquiry]');

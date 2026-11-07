@@ -5,7 +5,7 @@
 Kinetic is a complete website template for an independent personal trainer or a small personal training studio.
 The demo content is for **Foothill Performance**, a fictional two-coach studio in Old Colorado City, Colorado Springs, Colorado, run by
 Ffion Beckett and Yusuf Dacre. It is plain HTML5, Tailwind CSS v4 and one vanilla JavaScript file with no
-dependencies. This guide covers version 1.0.6 (see `template.json`). Live demo:
+dependencies. This guide covers version 1.0.7 (see `template.json`). Live demo:
 [freeframe.dev/templates/kinetic](https://freeframe.dev/templates/kinetic).
 
 The copy uses American English, US dollars, a 12-hour clock and the `America/Denver` time zone (Mountain Time). All health content
@@ -75,7 +75,7 @@ All design tokens live in the `@theme` block at the top of `src/input.css`. The 
 | `--color-cobalt-50` to `--color-cobalt-950` | Brand blue: buttons, links, headings accents, dark bands (`900`/`950`) |
 | `--color-flare-50` to `--color-flare-800` | Energy color: highlights, button shadows, stripes; `700`/`800` for text on light backgrounds |
 | `--color-sun-*` | Small highlights (today's hours row, chart markers) |
-| `--color-mint-*` | Success and "included" ticks, positive outcomes |
+| `--color-mint-*` | Success and "included" check marks, positive outcomes |
 | `--color-ink`, `--color-body`, `--color-muted` | Heading, body and secondary text |
 | `--color-paper`, `--color-mist`, `--color-line` | Page background, quiet fills and borders |
 

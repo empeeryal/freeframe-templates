@@ -6,7 +6,7 @@ Lingua is a complete website for a language school that teaches adults in small 
 shown as **Lingua Language School**, a fictional school on Villita Lane in San Antonio with thirteen courses in Spanish,
 French, Italian, German, Japanese and Portuguese. It has a course catalog with filters, course pages with a syllabus
 and teacher, an interactive placement test that recommends a course, a weekly schedule, teachers, fees and a
-four-step enrollment form. This is the **HTML + Tailwind CSS v4** version (1.0.7): plain HTML files, one stylesheet
+four-step enrollment form. This is the **HTML + Tailwind CSS v4** version (1.0.8): plain HTML files, one stylesheet
 and one vanilla JavaScript file, with no build step needed to run it.
 
 Live demo: [freeframe.dev/templates/lingua](https://freeframe.dev/templates/lingua)
@@ -343,7 +343,7 @@ deploy, change it on every page:
 Suggestions for launch:
 
 - add a `sitemap.xml` listing your pages, including every `course.html?id=…`, and a `robots.txt`;
-- add [`LanguageSchool`](https://schema.org/LanguageSchool) and [`Course`](https://schema.org/Course) structured data
+- add [`EducationalOrganization`](https://schema.org/EducationalOrganization) and [`Course`](https://schema.org/Course) structured data
   (JSON-LD) with your address and courses.
 
 ## Accessibility

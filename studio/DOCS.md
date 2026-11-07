@@ -7,7 +7,7 @@ Saint Paul that works across identity, digital product, editorial and wayfinding
 a strict 12-column grid, one typeface family in several weights plus a mono face for labels, a monochrome palette and
 a single red accent. Project imagery is drawn in SVG, so there are no photos to license. It has a work index with
 filters and grid/list views, nine data-driven case studies, a services page with a brief estimator, a studio page, a
-journal and a five-step project inquiry. This is the HTML + Tailwind CSS v4 version, **version 1.0.6**. See it live at
+journal and a five-step project inquiry. This is the HTML + Tailwind CSS v4 version, **version 1.0.7**. See it live at
 [freeframe.dev/templates/studio](https://freeframe.dev/templates/studio).
 
 ## Quick start
@@ -146,7 +146,7 @@ A project in `PROJECTS` looks like this (shortened):
   sector: 'Public transport',
   location: 'Excelsior',
   duration: '14 months',
-  services: ['Identity system', 'Wayfinding', 'Timetable design', 'Livery'],
+  services: ['Identity system', 'Wayfinding', 'Schedule design', 'Livery'],
   summary: '…',
   challenge: '…',
   approach: [{ title: 'Audit every touchpoint', text: '…' }, …],   // three steps
@@ -155,7 +155,7 @@ A project in `PROJECTS` looks like this (shortened):
   credits: ['Noemi Imhof', 'Selin Karaca', 'Céline Odermatt'],
   palette: { bg: '#1d3b57', ink: '#f1efe7', accent: '#ff7a3d', soft: '#8fb3c9' },
   mark: '<circle cx="50" cy="50" r="38" …/>',  // SVG in a 100×100 box, filled with currentColor
-  poster: { lines: ['Summer', 'timetable'], sub: 'May 1 – Sep 30, 2025' },
+  poster: { lines: ['Summer', 'schedule'], sub: 'May 1 – Sep 30, 2025' },
   sign: ['3', 'Departures', 'Wayzata · Excelsior · Tonka Bay'],
   gallery: [
     { kind: 'board', caption: '…' },     // the first image is wide (16:9)

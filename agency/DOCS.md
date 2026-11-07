@@ -7,7 +7,7 @@ Studio** (Birmingham, AL, Oakland and New York). It has a big-type home page wit
 testimonial carousel, services with engagement models and price ranges, a filterable work page, a full
 case study with a before/after slider, an about page with team portraits, a careers page with filterable
 roles and an application form, and a detailed project-brief contact form. This is the HTML + Tailwind CSS
-v4 version, **version 1.1.8**. See it live at
+v4 version, **version 1.1.9**. See it live at
 [freeframe.dev/templates/agency](https://freeframe.dev/templates/agency).
 
 ## Quick start
@@ -232,7 +232,7 @@ remove it, delete the JavaScript block and the CSS block, then rebuild the CSS.
 
 Forms with `data-validate` are checked in the browser. Error messages are created next to each field
 (inside its `[data-field]` wrapper), the field gets `aria-invalid` and `aria-describedby`, and focus moves
-to the first problem. Checkbox groups marked `data-required-group="message"` need at least one ticked
+to the first problem. Checkbox groups marked `data-required-group="message"` need at least one checked
 box. A valid form hides itself and shows the `[data-success]` panel next to it; `[data-reset-form]`
 brings the form back. The panel's `[data-ref]` shows a short reference (`NS-` and four characters, made in
 the browser by `makeRef()`; use your form service's own reference instead if it returns one). The panels say
@@ -266,7 +266,7 @@ two business days, applications get a reply within ten business days): change bo
    ```
 
 All fields have `name` attributes, and the services checkboxes share `name="services"`, so the service
-receives every ticked value.
+receives every checked value.
 
 ## Saved data (localStorage)
 

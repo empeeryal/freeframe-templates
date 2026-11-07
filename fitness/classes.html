@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Class timetable — Keel Athletic Club</title>
-  <meta name="description" content="This week&#x27;s Keel class timetable. Filter by class, intensity and coach, and book your spot in seconds.">
+  <title>Class schedule — Keel Athletic Club</title>
+  <meta name="description" content="This week&#x27;s Keel class schedule. Filter by class, intensity and coach, and book your spot in seconds.">
   <meta name="theme-color" content="#0a0b0c">
   <meta name="color-scheme" content="dark">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Keel Athletic Club">
-  <meta property="og:title" content="Class timetable — Keel Athletic Club">
-  <meta property="og:description" content="This week&#x27;s Keel class timetable. Filter by class, intensity and coach, and book your spot in seconds.">
+  <meta property="og:title" content="Class schedule — Keel Athletic Club">
+  <meta property="og:description" content="This week&#x27;s Keel class schedule. Filter by class, intensity and coach, and book your spot in seconds.">
   <meta property="og:image" content="assets/img/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
@@ -41,7 +41,7 @@
       <nav aria-label="Mobile" class="container-x pt-4 pb-10">
         <ul><li><a href="classes.html" class="display flex items-center justify-between border-b border-line py-4 text-4xl text-volt" aria-current="page">Classes<span class="font-sans text-sm text-muted">01</span></a></li><li><a href="trainers.html" class="display flex items-center justify-between border-b border-line py-4 text-4xl">Trainers<span class="font-sans text-sm text-muted">02</span></a></li><li><a href="membership.html" class="display flex items-center justify-between border-b border-line py-4 text-4xl">Membership<span class="font-sans text-sm text-muted">03</span></a></li><li><a href="contact.html" class="display flex items-center justify-between border-b border-line py-4 text-4xl">Contact<span class="font-sans text-sm text-muted">04</span></a></li></ul>
         <a href="trial.html" class="btn btn-primary btn-lg mt-8 w-full">Claim your free week</a>
-        <p class="mt-6 text-sm text-muted">Harbor &amp; Northgate · Open from 05:30</p>
+        <p class="mt-6 text-sm text-muted">Harbor &amp; Northgate · Open from 5:30am</p>
       </nav>
     </div>
   </header>
@@ -50,7 +50,7 @@
       <div class="grid-lines pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_70%_80%_at_70%_0%,#000,transparent)]" aria-hidden="true"></div>
       <div class="pointer-events-none absolute -top-40 right-0 h-[30rem] w-[30rem] rounded-full bg-volt/10 blur-3xl" aria-hidden="true"></div>
       <div class="container-x relative">
-        <p class="eyebrow">Timetable</p>
+        <p class="eyebrow">Schedule</p>
         <h1 class="display mt-5 max-w-4xl text-[clamp(3rem,8vw,6.5rem)]">This week at <span class="text-volt">Keel</span></h1>
         <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted">Filter by class, intensity or coach, then tap a class to book your spot. Bookings open seven days ahead and you can cancel up to two hours before.</p>
         
@@ -58,7 +58,7 @@
     </section>
 
     <section class="container-x pt-12" aria-labelledby="tt-title">
-      <h2 id="tt-title" class="sr-only">Weekly timetable</h2>
+      <h2 id="tt-title" class="sr-only">Weekly schedule</h2>
       <div class="card grid gap-4 p-5 md:grid-cols-[repeat(3,minmax(0,1fr))_auto] md:items-end">
         <div><label class="label" for="f-type">Class</label><select id="f-type" class="field" data-filter="type"><option value="">All classes</option><option value="strength">Strength Lab</option><option value="ignite">Ignite HIIT</option><option value="ride">Keel Ride</option><option value="box">Box &amp; Burn</option><option value="flow">Mobility Flow</option><option value="engine">Engine Room</option></select></div>
         <div><label class="label" for="f-int">Intensity</label><select id="f-int" class="field" data-filter="intensity"><option value="">Any intensity</option><option value="1">Low</option><option value="2">Medium</option><option value="3">High</option></select></div>
@@ -72,7 +72,7 @@
 
       <div class="mt-6 flex gap-2 overflow-x-auto pb-2 lg:hidden" role="tablist" aria-label="Day of the week"><button type="button" role="tab" class="chip shrink-0" id="tab-0" aria-controls="day-0" aria-selected="false" data-day-tab="0">Mon</button><button type="button" role="tab" class="chip shrink-0" id="tab-1" aria-controls="day-1" aria-selected="false" data-day-tab="1">Tue</button><button type="button" role="tab" class="chip shrink-0" id="tab-2" aria-controls="day-2" aria-selected="false" data-day-tab="2">Wed</button><button type="button" role="tab" class="chip shrink-0" id="tab-3" aria-controls="day-3" aria-selected="false" data-day-tab="3">Thu</button><button type="button" role="tab" class="chip shrink-0" id="tab-4" aria-controls="day-4" aria-selected="false" data-day-tab="4">Fri</button><button type="button" role="tab" class="chip shrink-0" id="tab-5" aria-controls="day-5" aria-selected="false" data-day-tab="5">Sat</button><button type="button" role="tab" class="chip shrink-0" id="tab-6" aria-controls="day-6" aria-selected="false" data-day-tab="6">Sun</button></div>
       <div class="mt-4 grid gap-4 lg:mt-6 lg:grid-cols-7" id="timetable" data-timetable>
-        <noscript><div class="grid gap-6 sm:grid-cols-2 lg:col-span-7 lg:grid-cols-4"><div><h3 class="font-bold">Monday</h3><ul class="mt-2 grid gap-1 text-sm text-muted"><li>06:00 · Ignite HIIT · Dev Okonjo</li><li>07:15 · Strength Lab · Maya Torres</li><li>12:15 · Mobility Flow · Lena Brandt</li><li>17:30 · Box &amp; Burn · Jonah Reed</li><li>18:30 · Strength Lab · Chloe Park</li><li>19:30 · Keel Ride · Sami Haddad</li></ul></div><div><h3 class="font-bold">Tuesday</h3><ul class="mt-2 grid gap-1 text-sm text-muted"><li>06:00 · Keel Ride · Sami Haddad</li><li>07:15 · Engine Room · Dev Okonjo</li><li>12:15 · Strength Lab · Maya Torres</li><li>17:30 · Ignite HIIT · Dev Okonjo</li><li>18:30 · Box &amp; Burn · Jonah Reed</li><li>19:30 · Mobility Flow · Lena Brandt</li></ul></div><div><h3 class="font-bold">Wednesday</h3><ul class="mt-2 grid gap-1 text-sm text-muted"><li>06:00 · Strength Lab · Chloe Park</li><li>07:15 · Ignite HIIT · Dev Okonjo</li><li>12:15 · Keel Ride · Sami Haddad</li><li>17:30 · Engine Room · Dev Okonjo</li><li>18:30 · Strength Lab · Maya Torres</li><li>19:30 · Mobility Flow · Lena Brandt</li></ul></div><div><h3 class="font-bold">Thursday</h3><ul class="mt-2 grid gap-1 text-sm text-muted"><li>06:00 · Box &amp; Burn · Jonah Reed</li><li>07:15 · Keel Ride · Sami Haddad</li><li>12:15 · Mobility Flow · Lena Brandt</li><li>17:30 · Strength Lab · Maya Torres</li><li>18:30 · Ignite HIIT · Dev Okonjo</li><li>19:30 · Box &amp; Burn · Jonah Reed</li></ul></div><div><h3 class="font-bold">Friday</h3><ul class="mt-2 grid gap-1 text-sm text-muted"><li>06:00 · Ignite HIIT · Dev Okonjo</li><li>07:15 · Strength Lab · Chloe Park</li><li>12:15 · Engine Room · Dev Okonjo</li><li>17:30 · Keel Ride · Sami Haddad</li><li>18:30 · Box &amp; Burn · Jonah Reed</li></ul></div><div><h3 class="font-bold">Saturday</h3><ul class="mt-2 grid gap-1 text-sm text-muted"><li>08:00 · Strength Lab · Maya Torres</li><li>09:00 · Ignite HIIT · Dev Okonjo</li><li>10:00 · Box &amp; Burn · Jonah Reed</li><li>11:00 · Mobility Flow · Lena Brandt</li></ul></div><div><h3 class="font-bold">Sunday</h3><ul class="mt-2 grid gap-1 text-sm text-muted"><li>09:00 · Keel Ride · Sami Haddad</li><li>10:00 · Mobility Flow · Lena Brandt</li><li>11:00 · Engine Room · Chloe Park</li></ul></div></div></noscript>
+        <noscript><div class="grid gap-6 sm:grid-cols-2 lg:col-span-7 lg:grid-cols-4"><div><h3 class="font-bold">Monday</h3><ul class="mt-2 grid gap-1 text-sm text-muted"><li>6am · Ignite HIIT · Dev Okonjo</li><li>7:15am · Strength Lab · Maya Torres</li><li>12:15pm · Mobility Flow · Lena Brandt</li><li>5:30pm · Box &amp; Burn · Jonah Reed</li><li>6:30pm · Strength Lab · Chloe Park</li><li>7:30pm · Keel Ride · Sami Haddad</li></ul></div><div><h3 class="font-bold">Tuesday</h3><ul class="mt-2 grid gap-1 text-sm text-muted"><li>6am · Keel Ride · Sami Haddad</li><li>7:15am · Engine Room · Dev Okonjo</li><li>12:15pm · Strength Lab · Maya Torres</li><li>5:30pm · Ignite HIIT · Dev Okonjo</li><li>6:30pm · Box &amp; Burn · Jonah Reed</li><li>7:30pm · Mobility Flow · Lena Brandt</li></ul></div><div><h3 class="font-bold">Wednesday</h3><ul class="mt-2 grid gap-1 text-sm text-muted"><li>6am · Strength Lab · Chloe Park</li><li>7:15am · Ignite HIIT · Dev Okonjo</li><li>12:15pm · Keel Ride · Sami Haddad</li><li>5:30pm · Engine Room · Dev Okonjo</li><li>6:30pm · Strength Lab · Maya Torres</li><li>7:30pm · Mobility Flow · Lena Brandt</li></ul></div><div><h3 class="font-bold">Thursday</h3><ul class="mt-2 grid gap-1 text-sm text-muted"><li>6am · Box &amp; Burn · Jonah Reed</li><li>7:15am · Keel Ride · Sami Haddad</li><li>12:15pm · Mobility Flow · Lena Brandt</li><li>5:30pm · Strength Lab · Maya Torres</li><li>6:30pm · Ignite HIIT · Dev Okonjo</li><li>7:30pm · Box &amp; Burn · Jonah Reed</li></ul></div><div><h3 class="font-bold">Friday</h3><ul class="mt-2 grid gap-1 text-sm text-muted"><li>6am · Ignite HIIT · Dev Okonjo</li><li>7:15am · Strength Lab · Chloe Park</li><li>12:15pm · Engine Room · Dev Okonjo</li><li>5:30pm · Keel Ride · Sami Haddad</li><li>6:30pm · Box &amp; Burn · Jonah Reed</li></ul></div><div><h3 class="font-bold">Saturday</h3><ul class="mt-2 grid gap-1 text-sm text-muted"><li>8am · Strength Lab · Maya Torres</li><li>9am · Ignite HIIT · Dev Okonjo</li><li>10am · Box &amp; Burn · Jonah Reed</li><li>11am · Mobility Flow · Lena Brandt</li></ul></div><div><h3 class="font-bold">Sunday</h3><ul class="mt-2 grid gap-1 text-sm text-muted"><li>9am · Keel Ride · Sami Haddad</li><li>10am · Mobility Flow · Lena Brandt</li><li>11am · Engine Room · Chloe Park</li></ul></div></div></noscript>
       </div>
       <p class="mt-8 text-sm text-muted">Bookings in this template are stored in your browser only. <button type="button" class="font-semibold text-volt underline" data-clear-bookings>Clear my bookings</button></p>
     </section>
@@ -81,7 +81,7 @@
       <form method="dialog" class="p-6 sm:p-8" data-booking-form>
         <div class="flex items-start justify-between gap-4">
           <div>
-            <p class="text-xs font-bold tracking-widest text-volt uppercase" data-bm="when">Monday · 06:00</p>
+            <p class="text-xs font-bold tracking-widest text-volt uppercase" data-bm="when">Monday · 6am</p>
             <h2 id="bm-title" class="display mt-2 text-4xl" data-bm="name">Class</h2>
           </div>
           <button type="button" class="grid size-10 shrink-0 place-items-center rounded-md border border-line hover:border-ink" data-bm-close aria-label="Close">
@@ -109,12 +109,12 @@
       <div>
         <a href="index.html" class="flex items-center gap-2.5"><svg class="size-8 shrink-0" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#c8ff2e"/><path d="M9 7h5v6.5L19.5 7h6L18 15.5 26 25h-6l-6-7.2V25H9Z" fill="#0a0b0c"/></svg><span class="display text-2xl">Keel</span></a>
         <p class="mt-4 max-w-xs text-sm leading-relaxed text-muted">Coached strength, conditioning and recovery for people who want to train with purpose. Two clubs, one community.</p>
-        <ul class="mt-6 grid gap-3 text-sm"><li><span class="block font-semibold">Keel Harbor</span><span class="text-muted" data-open-status="harbor">Mon–Fri 05:30–22:00</span></li><li><span class="block font-semibold">Keel Northgate</span><span class="text-muted" data-open-status="northgate">Mon–Fri 06:00–21:00</span></li></ul>
+        <ul class="mt-6 grid gap-3 text-sm"><li><span class="block font-semibold">Keel Harbor</span><span class="text-muted" data-open-status="harbor">Mon–Fri 5:30am–10pm</span></li><li><span class="block font-semibold">Keel Northgate</span><span class="text-muted" data-open-status="northgate">Mon–Fri 6am–9pm</span></li></ul>
       </div>
       <div>
         <h2 class="text-xs font-bold tracking-[.2em] text-muted uppercase">Train</h2>
         <ul class="mt-4 grid gap-2.5 text-sm">
-          <li><a class="hover:text-volt" href="classes.html">Timetable</a></li>
+          <li><a class="hover:text-volt" href="classes.html">Schedule</a></li>
           <li><a class="hover:text-volt" href="class.html?type=strength">Strength Lab</a></li>
           <li><a class="hover:text-volt" href="class.html?type=ignite">Ignite HIIT</a></li>
           <li><a class="hover:text-volt" href="class.html?type=box">Box &amp; Burn</a></li>

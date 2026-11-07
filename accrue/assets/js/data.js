@@ -310,7 +310,7 @@ window.ACCRUE = (function () {
   ];
 
   /* ---------------------------------------------------------------- Document checklist
-   * Ticks are saved per list in localStorage under "accrue:checklist" (see DOCS.md). Item ids must be unique.
+   * Checks are saved per list in localStorage under "accrue:checklist" (see DOCS.md). Item ids must be unique.
    */
   const CHECKLISTS = {
     individual: {

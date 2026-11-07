@@ -1139,7 +1139,7 @@
     bindSaveButtons(grid);
     render();
 
-    // The weekly timetable: every regular session, Monday to Sunday.
+    // The weekly schedule: every regular session, Monday to Sunday.
     var tt = $('#ws-timetable');
     if (tt) {
       var order = [1, 2, 3, 4, 5, 6, 0];

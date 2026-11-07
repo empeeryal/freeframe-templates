@@ -45,7 +45,7 @@ keystone/
   estimate.html, about.html, contact.html, 404.html
   assets/
     css/style.css         compiled Tailwind CSS (generated, do not edit by hand)
-    js/main.js            all interactive behaviour, vanilla JavaScript
+    js/main.js            all interactive behavior, vanilla JavaScript
     img/
       favicon.svg         browser tab icon
       og-image.svg        social image source (1200 x 630)
@@ -292,8 +292,8 @@ the last block in `main.js` and the `.back-to-top` rules in `src/input.css`.
 
 There are two forms. Both validate in the browser and **neither sends anything until you connect it**. Their
 success panels confirm the request the way a real office would: the quote request shows a reference like
-`CDB-26-1234` and says a project director will reply within one working day to book a site walk; the contact form
-says which office the message reached, promises a reply within one working day (as the page already says) and
+`CDB-26-1234` and says a project director will reply within one business day to book a site walk; the contact form
+says which office the message reached, promises a reply within one business day (as the page already says) and
 shows a reference like `CB-7K2Q` (`CB-` and four characters, made by `makeRef()` in `main.js`).
 
 | Form | Where | Validation |
@@ -355,7 +355,7 @@ fetch('https://formspree.io/f/your-form-id', { method: 'POST', body: data, heade
 ```
 
 Both references are made in the browser at random; replace them with the ID your system returns, or remove them.
-If you handle requests differently, change the "within one working day" promises in the success text (in
+If you handle requests differently, change the "within one business day" promises in the success text (in
 `estimate.html`, `contact.html` and the `onValid` callbacks in `main.js`) to match.
 
 ## Saved data (localStorage)

@@ -863,7 +863,7 @@
   })();
 
   /* ======================================================================
-     10. Team (team.html): working days, "in clinic today" and next session
+     10. Team (team.html): workdays, "in clinic today" and next session
      ====================================================================== */
   var DAY_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   function nextInClinic(cid) {
@@ -1000,7 +1000,7 @@
       var box = $('[data-slots]', bookingForm), title = $('[data-slots-title]', bookingForm);
       if (!state.day) {
         title.textContent = 'No times free this week';
-        box.innerHTML = '<p class="col-span-full rounded-sm border-l-[3px] border-biro-400 bg-biro-50 p-4">Try the next week' + (state.clinician !== 'any' ? ', or choose “First available”' : '') + '. You can also call us on ' + esc(CLINIC.phone) + '.</p>';
+        box.innerHTML = '<p class="col-span-full rounded-sm border-l-[3px] border-biro-400 bg-biro-50 p-4">Try the next week' + (state.clinician !== 'any' ? ', or choose “First available”' : '') + '. You can also call us at ' + esc(CLINIC.phone) + '.</p>';
         return;
       }
       var slots = slotsFor(state.treatment, state.clinician, state.day);

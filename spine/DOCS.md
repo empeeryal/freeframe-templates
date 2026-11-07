@@ -50,7 +50,7 @@ spine/
 ├── index.html … 404.html   the nine pages (header and footer repeated in each)
 ├── assets/
 │   ├── css/style.css       compiled Tailwind CSS (generated: don't edit by hand)
-│   ├── js/data.js          the catalogue, booksellers, events, clubs and finder questions
+│   ├── js/data.js          the catalog, booksellers, events, clubs and finder questions
 │   ├── js/main.js          settings, dates, cover drawings, bag, pages and forms
 │   └── img/
 │       ├── favicon.svg     the bookshelf mark

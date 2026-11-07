@@ -41,7 +41,7 @@ covers version 1.0.3. See it live at [freeframe.dev/templates/roast](https://fre
 roast/
   index.html … contact.html, 404.html   the pages (header and footer repeated in each)
   assets/css/style.css                  compiled Tailwind CSS (generated, do not edit)
-  assets/js/main.js                     all JavaScript: catalogue, art, cart, every page's features
+  assets/js/main.js                     all JavaScript: catalog, art, cart, every page's features
   assets/img/favicon.svg                browser icon
   assets/img/og-image.svg               social image source (1200×630)
   assets/img/og-image.png               social image used by the pages
@@ -68,7 +68,7 @@ The design tokens are in the `@theme` block of `src/input.css`. Every utility su
 | `--color-navy` | `#141a3c` | Text, outlines and the offset "sticker" shadows |
 | `--color-muted` | `#4b4f6e` | Secondary text |
 | `--color-tomato` / `--color-tomato-dark` | `#e0522f` / `#b03417` | Decoration / error text, stars, the cart badge |
-| `--color-leaf` | `#23714a` | Savings text, the order confirmation tick |
+| `--color-leaf` | `#23714a` | Savings text, the order confirmation check mark |
 
 To change the brand color, edit the token and rebuild the CSS:
 
@@ -111,13 +111,13 @@ Page copy is in the HTML files. Everything the shop calculates comes from consta
 |----------|---------------|
 | `COFFEES` | The catalog: one object per coffee |
 | `ORIGINS`, `ROASTS`, `PROCESSES` | Filter keys and their labels |
-| `SIZES` | Bag sizes: `id`, `label`, `grams` and `factor` (price = 250 g price × factor, rounded to whole dollars) |
+| `SIZES` | Bag sizes: `id`, `label`, `grams` and `factor` (price = 12 oz price × factor, rounded to whole dollars) |
 | `GRINDS` | Grind options |
 | `FREE_SHIPPING`, `SHIPPING` | Free-shipping threshold and the delivery methods with prices |
 | `MAX_QTY` | Largest quantity per cart line (20) |
 | `STYLES`, `SUB_DISCOUNT`, `DOSE`, `FREQUENCIES`, `MAX_BAGS` | Subscription styles and prices, discount, grams per cup, schedules, bags per delivery |
 | `ROAST_DAY`, `DELIVERY_LAG` | Roast weekday and days until delivery, for the delivery dates |
-| `METHODS` | Brew recipes: ratio, millilitres per cup, grind, temperature, time |
+| `METHODS` | Brew recipes: ratio, milliliters per cup, grind, temperature, time |
 | `TIERS`, `WHOLESALE_DOSE` | Wholesale price tiers and grams per drink (section 13) |
 
 To add a coffee, add an object to `COFFEES`:
@@ -137,7 +137,7 @@ To add a coffee, add an object to `COFFEES`:
 - `origin`, `roast` and `process` must be keys of `ORIGINS`, `ROASTS` and `PROCESSES`. A new origin also
   needs a checkbox in the filter form in `shop.html` (copy one `<label class="check">` and change `value`
   and `data-count-for`).
-- `price` is the 250 g price in dollars; `brew` is a key of `METHODS`; `bag` is the bag color.
+- `price` is the 12 oz price in dollars; `brew` is a key of `METHODS`; `bag` is the bag color.
 - `featured: 1` to `4` puts the coffee on the home page in that order; `badge` adds a sticker.
 
 The product page's HTML contains Kochere Lot 7 as default text, which the script replaces with the coffee
@@ -191,7 +191,7 @@ size come from `unitPrice()`; the add button shows the line total and the quanti
 
 ### Cart and drawer
 
-The cart is managed by the `Cart` object; `[data-add]` buttons (on every coffee card) add a 250 g whole
+The cart is managed by the `Cart` object; `[data-add]` buttons (on every coffee card) add a 12 oz whole
 bean bag. Any `[data-cart-open]` element opens the drawer `#cart-drawer`: it traps focus, closes with
 Escape, the close button or the overlay, and returns focus to the button that opened it. Lines have a
 quantity stepper and a remove button, and focus stays on the control you used. The free-shipping bar
@@ -234,7 +234,7 @@ slider and divides by its ratio (strength moves the ratio by one; espresso keeps
 
 ### Wholesale estimator
 
-`initWholesale()`: drinks a day × `WHOLESALE_DOSE` × days open gives kilos per week, the matching tier from
+`initWholesale()`: drinks a day × `WHOLESALE_DOSE` × days open gives pounds per week, the matching tier from
 `TIERS`, and the weekly spend. The matching row of the price table gets the class `is-current`.
 
 ### Scroll reveal, ticker and back to top
@@ -252,12 +252,12 @@ errors appear on blur and submit, the first invalid field is focused, and each e
 
 | Attribute | Rule |
 |-----------|------|
-| `required` | Must not be empty (checkboxes must be ticked) |
+| `required` | Must not be empty (checkboxes must be checked) |
 | `type="email"`, `type="tel"` | Must look like an email address / phone number |
 | `minlength` | Minimum length |
 | `data-label` | Name used in the error message |
 | `data-validate` | `zip`, `order`, `card`, `expiry` or `cvc` |
-| `data-group` (on a fieldset) | At least one checkbox ticked; message from `data-msg` |
+| `data-group` (on a fieldset) | At least one checkbox checked; message from `data-msg` |
 
 | Form | Where | Behavior |
 |------|-------|-----------|
@@ -268,7 +268,7 @@ errors appear on blur and submit, the first invalid field is focused, and each e
 | Checkout (`#checkout-form`) | `checkout.html` | Shows the order confirmation |
 
 The newsletter thank-you asks subscribers to look out for a confirmation email. The contact message promises a
-reply within one working day and the wholesale one a reply within two working days (as the wholesale page
+reply within one business day and the wholesale one a reply within two business days (as the wholesale page
 says); the subscription confirmation gives the first delivery date and says you email two days before every
 roast. Each shows a reference (`FC-` and four characters, from `makeRef()`), and the contact form's order
 number field (`data-validate="order"`) accepts the same shape. Change the wording to match what really happens,

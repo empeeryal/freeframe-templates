@@ -164,7 +164,7 @@ The hero of `index.html` has a week schedule (`#schedule-demo`) for five people.
   **Backspace** clears. **Arrow keys**, **Home** and **End** move between cells (one tab stop for the grid).
 - **Drag** an AM or PM shift onto another cell to move it; if that cell has a shift, the two swap. Time-off
   cells can't be changed or dropped on.
-- The **Needs** row shows a tick or the number of missing people per day; the ring and percentage show total
+- The **Needs** row shows a check mark or the number of missing people per day; the ring and percentage show total
   coverage; under each name are scheduled hours, with "over" when someone goes past `DEMO.maxHours`.
 - **Auto-fill** gives each open shift to the free person with the fewest hours without going over the limit.
   **Reset** restores the starting schedule, and **Publish** shows a toast (it sends nothing).

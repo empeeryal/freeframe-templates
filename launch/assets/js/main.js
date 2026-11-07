@@ -210,7 +210,7 @@
       return '';
     }
     if (field.dataset.message) return field.dataset.message;
-    if (v.valueMissing) return field.type === 'checkbox' ? 'Please tick this box to continue.' : messages.valueMissing;
+    if (v.valueMissing) return field.type === 'checkbox' ? 'Please check this box to continue.' : messages.valueMissing;
     if (v.typeMismatch) return messages.typeMismatch;
     if (v.tooShort) return messages.tooShort(field);
     if (v.patternMismatch) return messages.patternMismatch;

@@ -1,6 +1,6 @@
 {
   "name": "cuefold-template",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "scripts": {
     "build": "tailwindcss -i src/input.css -o assets/css/style.css --minify",

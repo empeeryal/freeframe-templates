@@ -7,7 +7,7 @@ JavaScript (no dependencies). The demo brand is **Vennick Clay**, a fictional st
 Las Cruces, New Mexico, run by Celandine Vennick and Tobi Akintola. It sells twelve stoneware pieces in five
 glazes, books workshops, and has a checkout with shipping or pickup. Every pot is drawn in SVG from the
 product data, so the drawing changes when a visitor picks another glaze or size. This guide is for version
-**1.0.4** (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). The template page, with a link to the live
+**1.0.5** (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). The template page, with a link to the live
 demo, is at [freeframe.dev/templates/glaze](https://freeframe.dev/templates/glaze).
 
 All dates and opening times use the studio’s time zone, **America/Denver** (Mountain time), whatever the visitor’s own clock

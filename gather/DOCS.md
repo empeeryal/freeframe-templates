@@ -91,7 +91,7 @@ To change the brand color, edit the tokens and rebuild the CSS:
 
 Use `apricot` only as a background: for text on light backgrounds use `apricot-dark`, which passes
 WCAG AA. The SVG artwork (hero, map, avatars, series covers, logo) uses literal hex values; search the
-HTML and `main.js` for `#5b2a6e` and `#f6a96b` to recolour it.
+HTML and `main.js` for `#5b2a6e` and `#f6a96b` to recolor it.
 
 Component classes in `src/input.css`: `.btn-primary`, `.btn-warm`, `.btn-outline`, `.btn-light`,
 `.btn-sm`, `.card`, `.card-hover`, `.eyebrow`, `.h-display`, `.h-section`, `.tag`, `.chip-dot`, `.link`,
@@ -311,7 +311,7 @@ says "Please fix the highlighted fields."
 
 | Attribute | Rule |
 |-----------|------|
-| `required` | Must not be empty (checkboxes must be ticked, selects must have a value) |
+| `required` | Must not be empty (checkboxes must be checked, selects must have a value) |
 | `type="email"`, `type="tel"` | Must look like an email address / phone number |
 | `minlength` | Minimum length |
 | `data-label` | Name used in the error message |
@@ -323,13 +323,13 @@ says "Please fix the highlighted fields."
 | Plan your visit (`#visit-form`) | `visit.html#plan` | Validates contact details and each child's age; confirms the Sunday, time and seats, with a reference |
 | Giving (`#give-form`) | `give.html` | Validates the amount (min and max from `GIVING`), name and email; confirms the gift, fund and frequency, with a reference |
 | Contact (`#contact-form`) | `contact.html` | Pre-filled from `?topic=` and `?group=`; thank-you message with a reference |
-| Prayer (`#prayer-form`) | `contact.html#prayer` | Request required; email becomes required when "I'd like a pastor to get in touch" is ticked; the message reflects "Keep this private" |
+| Prayer (`#prayer-form`) | `contact.html#prayer` | Request required; email becomes required when "I'd like a pastor to get in touch" is checked; the message reflects "Keep this private" |
 
 **The forms don't send anything** until you connect them, although their success messages read as if they
 had. The visit, giving and contact messages show a short reference (`RC-` and four characters) made in the
 browser by `makeRef()` in section 15; show your form service's or payment provider's own reference instead if
 it returns one. Check that the promises in the messages match how your church works: a reminder email before
-Sunday, an emailed receipt for every gift, a reply within two working days (as the contact page says), and a
+Sunday, an emailed receipt for every gift, a reply within two business days (as the contact page says), and a
 confirmation email for newsletter sign-ups. To collect submissions, post the form in its callback, for example
 to Formspree:
 

@@ -217,7 +217,7 @@ window.SPROCKET = (function () {
       body: [
         ['p', 'Until this summer every raw frame went on a truck to a coating shop down Interstate 35 and came back a week later. That week was the longest single step in building a Portage.'],
         ['p', 'Our new booth and curing oven sit at the back of the shop. Frames are blasted, coated with a zinc-rich primer for road salt, then given the color coat and a clear coat.'],
-        ['ul', ['Five colors, all with the same salt-resistant primer.', 'Lead time down by about six working days.', 'One less truck on Interstate 35 every week.']],
+        ['ul', ['Five colors, all with the same salt-resistant primer.', 'Lead time down by about six business days.', 'One less truck on Interstate 35 every week.']],
         ['p', 'It also means we can repair chips and scratches for owners. Bring your bike in and we will touch it up while you have a coffee.']
       ]
     },

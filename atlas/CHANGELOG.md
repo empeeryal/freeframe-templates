@@ -6,6 +6,12 @@ All notable changes to the Atlas HTML template are documented here. The format f
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-11-07
+
+### Changed
+
+- American wording throughout, including US terms for checkboxes, business days, schedules and units.
+
 ## [1.0.3] - 2026-11-05
 
 ### Changed

@@ -6,7 +6,7 @@ tooth mascot keep it warm and reassuring. It has a five-step booking flow with r
 estimator with membership comparison and a payment-plan calculator, an emergency symptom guide, a multi-step new
 patient form, and filterable treatments and team pages. Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.7** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.8** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/smile)
 
 ## Quick start

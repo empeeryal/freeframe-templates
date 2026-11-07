@@ -2,7 +2,7 @@
 
 A complete website for a law firm or professional services practice, built for the fictional **Hartwell & Sloane LLP**: practice areas, a filterable attorney directory, case results, insights with articles, offices and a consultation request form. Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.7** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.8** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/counsel)
 
 ## Quick start

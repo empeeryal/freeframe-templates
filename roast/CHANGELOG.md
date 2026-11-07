@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-11-07
+
+### Changed
+
+- Bag sizes are now in ounces and pounds, with temperatures in Fahrenheit.
+- American wording throughout, including US terms for checkboxes, business days, schedules and units.
+
 ## [1.0.6] - 2026-11-05
 
 ### Changed

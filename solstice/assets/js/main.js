@@ -1060,7 +1060,7 @@
     }
     function groups() { return $$('[data-group-required]', form).filter(function (g) { return !g.closest('[hidden]') && $$('input:not(:disabled)', g).length; }); }
     function message(f) {
-      if (f.type === 'checkbox' && f.required && !f.checked) return f.dataset.error || 'Please tick this box to continue.';
+      if (f.type === 'checkbox' && f.required && !f.checked) return f.dataset.error || 'Please check this box to continue.';
       if (f.validity.valueMissing) return f.tagName === 'SELECT' ? 'Please choose an option.' : 'Please fill in this field.';
       if (f.validity.typeMismatch) return f.type === 'url' ? 'Please enter a full web address, starting with https://' : 'Please enter a valid email address, like name@example.com.';
       if (f.validity.tooShort) return 'Please write at least ' + f.minLength + ' characters (you have ' + f.value.length + ').';

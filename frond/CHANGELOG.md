@@ -4,6 +4,12 @@ All notable changes to Frond are documented here.
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-11-07
+
+### Fixed
+
+- The plant finder's page description now says four questions, matching the page.
+
 ## [1.0.2] - 2026-11-05
 
 ### Changed

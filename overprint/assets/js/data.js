@@ -1,7 +1,7 @@
 /* Pomelo Press — the content for the Overprint template.
  * Plain data, read by assets/js/main.js. Edit this file to make the site yours:
  *  1. STUDIO           name, address, contact details, time zone, booking rules
- *  2. TYPES, USAGES, BUDGETS   the commission enquiry and its estimate
+ *  2. TYPES, USAGES, BUDGETS   the commission inquiry and its estimate
  *  3. PROJECTS         the portfolio (work grid, case studies)
  *  4. PRODUCTS, SHIPPING, TAX  the shop and its checkout
  *  5. EVENTS           fairs, markets and workshops (roll forward, see KEEP_DEMO_CURRENT)
@@ -25,7 +25,7 @@ window.OVERPRINT = (function () {
     tzLabel: 'Eastern',
     // New commissions start on a Monday at least this many days from today.
     startLeadDays: 14,
-    // Enquiries are answered within this many working days.
+    // Inquiries are answered within this many workdays.
     replyWorkingDays: 2,
     // Shop orders are packed and mailed on these weekdays (0 = Sunday … 6 = Saturday).
     mailDays: [2, 5],
@@ -35,8 +35,8 @@ window.OVERPRINT = (function () {
     winterBreakFrom: '12-24'
   };
 
-  /* 2. Commission enquiry --------------------------------------------- */
-  // days: working days for each phase. from: the usual starting fee in dollars.
+  /* 2. Commission inquiry --------------------------------------------- */
+  // days: business days for each phase. from: the usual starting fee in dollars.
   const TYPES = {
     editorial: {
       label: 'Editorial',

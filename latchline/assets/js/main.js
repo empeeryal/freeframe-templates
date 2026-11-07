@@ -600,7 +600,7 @@
     select(own(STAGE_MAP, fromHash) ? fromHash : STAGES[0].id, false, false);
   }
 
-  // The default kickoff: the first working Monday at least three days from today (or the next working day).
+  // The default kickoff: the first working Monday at least three days from today (or the next business day).
   function defaultKickoff() {
     let day = addDays(TODAY, 3);
     while (weekday(day) !== 1) day = addDays(day, 1);
@@ -609,7 +609,7 @@
 
   /*
    * Spread a playbook's milestones across its target days from kickoff. A milestone that lands on a
-   * weekend or office closure moves to the next working day. Returns [{ name, day, key }].
+   * weekend or office closure moves to the next business day. Returns [{ name, day, key }].
    */
   function planDates(playbook, kickoff) {
     const steps = playbook.milestones.length - 1;
@@ -657,7 +657,7 @@
         .join("");
       $("[data-plan-summary]").textContent = `First value by ${formatLong(lastKey)}`;
       $("[data-plan-detail]").textContent =
-        `${plural(working, "working day")} from kickoff · ${plural(playbook.tasks, "task")} · ${playbook.roles.join(", ")}`;
+        `${plural(working, "business day")} from kickoff · ${plural(playbook.tasks, "task")} · ${playbook.roles.join(", ")}`;
       $("[data-plan-link]").href = `playbooks.html?q=${encodeURIComponent(playbook.title)}`;
     }
     form.addEventListener("submit", (event) => event.preventDefault());
@@ -1230,7 +1230,7 @@
         .join("");
   }
 
-  /* ---------- Contact: demo picker and qualified enquiry ---------- */
+  /* ---------- Contact: demo picker and qualified inquiry ---------- */
 
   // A slot looks taken when this simple hash of its date and time says so; the same slots stay taken all day.
   function slotTaken(key, time) {

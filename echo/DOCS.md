@@ -34,7 +34,7 @@ headlines, mono labels and colorful SVG cover art. This guide covers version 1.0
 | `episode.html` | One episode | Cover, full player with chapter markers, about and pull quote, chapters (`#chapters`), show notes (`#notes`), transcript (`#transcript`), guest card, share box (`#share`), related episodes. `episode.html?id=18&t=754` opens episode 18 at 12:34; without `id` it shows the latest episode |
 | `hosts.html` | Hosts and story | Host cards, numbers, timeline, how an episode is made, press quotes (`#press`), team |
 | `subscribe.html` | Subscribe | App links (`#apple-podcasts`, `#spotify`, `#youtube`, `#pocket-casts`, `#overcast`, `#rss`), copyable RSS feed, next release date, FAQ, newsletter form |
-| `sponsor.html` | Advertise | Audience stats, growth line chart, occupations donut, age and country bars, ad formats, rate card (`#rates`), inquiry form (`#enquire`; `sponsor.html?format=season` ticks a format) |
+| `sponsor.html` | Advertise | Audience stats, growth line chart, occupations donut, age and country bars, ad formats, rate card (`#rates`), inquiry form (`#enquire`; `sponsor.html?format=season` checks a format) |
 | `guest.html` | Be a guest | What we look for, what happens next, pitch form |
 | `404.html` | Not found | "Dead air" page with links back into the site |
 
@@ -245,7 +245,7 @@ On `episode.html`, `initEpisodePage()` fills the page from the `id` in the URL (
 - **Chapters**: each is a button that seeks there and plays. The current chapter gets `aria-current="true"`,
   is named above the waveform, and appears as a dot under the waveform (`data-chapter-marks`).
 - **Transcript**: each line is a button that seeks and plays. The current line is highlighted while you
-  listen, and with "Follow along while playing" ticked the transcript box scrolls to keep it in view (it
+  listen, and with "Follow along while playing" checked the transcript box scrolls to keep it in view (it
   stops following for a few seconds after you scroll it yourself, and scrolls instantly with reduced motion).
   The search box filters lines and highlights matches.
 - **Share**: the share box shows the episode link; check "Start at" to add `&t=` with the current second,

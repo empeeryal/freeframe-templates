@@ -2,7 +2,7 @@
 
 ## Overview
 
-Sonata 1.0.3 is a standalone HTML + Tailwind CSS v4 website for Sonata Music Rooms, a fictional independent music school in Bloomington, Indiana. It includes twelve courses, six teachers, twenty-four weekly sessions, a tuition calculator, a guided enrollment inquiry and a saved practice planner. See the [template page](https://freeframe.dev/templates/sonata) for the live preview and available downloads.
+Sonata 1.0.4 is a standalone HTML + Tailwind CSS v4 website for Sonata Music Rooms, a fictional independent music school in Bloomington, Indiana. It includes twelve courses, six teachers, twenty-four weekly sessions, a tuition calculator, a guided enrollment inquiry and a saved practice planner. See the [template page](https://freeframe.dev/templates/sonata) for the live preview and available downloads.
 
 ## Quick start
 
@@ -223,7 +223,7 @@ Derived values, all worked out from today's date in `America/Indiana/Indianapoli
 | `JOIN_DATE` | When new starters join: the next teaching Monday, or the next term's first Monday when fewer than three teaching weeks are left |
 | `lessonsFrom(day)` | A new starter's lesson dates on that weekday from `JOIN_DATE` to the end of the term, skipping break weeks and federal holidays |
 
-The schedule header shows "This teaching week", "Lessons resume after the break" or "Next teaching week", the term's dates and break week, and "New starters join from …". The home page pill shows the joining term and date. Course pages show each session's first lesson for a new starter. A new starter pays only for the lessons left in the term.
+The schedule header shows "This teaching week", "Lessons resume after the break" or "Next teaching week", the term's dates and break week, and "New students join from …". The home page pill shows the joining term and date. Course pages show each session's first lesson for a new starter. A new starter pays only for the lessons left in the term.
 
 For a real school, set `TERM_DATES` to your terms (each `start` and `halfTerm`, the Monday of the break week, is a Monday):
 

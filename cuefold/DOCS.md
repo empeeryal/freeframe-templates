@@ -2,7 +2,7 @@
 
 ## Overview
 
-Cuefold 1.0.2 is an HTML5 and Tailwind CSS v4 website for a fictional independent theater in Staunton, Virginia. Its ten pages combine a six-week performance program that stays current, detailed productions, saved visit planning, access preferences, and ticket and workshop requests. The [template page](https://freeframe.dev/templates/cuefold) links to the live preview and available downloads.
+Cuefold 1.0.3 is an HTML5 and Tailwind CSS v4 website for a fictional independent theater in Staunton, Virginia. Its ten pages combine a six-week performance program that stays current, detailed productions, saved visit planning, access preferences, and ticket and workshop requests. The [template page](https://freeframe.dev/templates/cuefold) links to the live preview and available downloads.
 
 ## Quick start
 

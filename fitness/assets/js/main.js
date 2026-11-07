@@ -1,5 +1,5 @@
 /* Keel Athletic Club — site data.
-   Edit classes, coaches, opening hours and the weekly timetable here. */
+   Edit classes, coaches, opening hours and the weekly schedule here. */
 var FORGE = {
   "classes": {
     "strength": {
@@ -192,7 +192,7 @@ var FORGE = {
       ],
       "years": 14,
       "certs": [
-        "England Boxing Level 2 Coach",
+        "USA Boxing Level 2 Coach",
         "ACE CPT"
       ],
       "quote": "You don't need to fight to train like a fighter.",
@@ -219,7 +219,7 @@ var FORGE = {
       ],
       "quote": "Mobility isn't stretching for the sake of it. It's buying back range you'll use every day.",
       "bio": [
-        "Lena spent six years as a physiotherapy assistant before teaching yoga full-time. Her Mobility Flow classes blend the two: calm, precise and quietly hard.",
+        "Lena spent six years as a physical therapy assistant before teaching yoga full-time. Her Mobility Flow classes blend the two: calm, precise and quietly hard.",
         "She also runs our recovery workshops and the monthly Sunday sound bath."
       ],
       "handle": "lena.flows"
@@ -236,7 +236,7 @@ var FORGE = {
       ],
       "years": 7,
       "certs": [
-        "British Cycling Indoor Instructor",
+        "USA Cycling Indoor Instructor",
         "TrainingPeaks Certified Coach"
       ],
       "quote": "Watts don't lie. Show up, ride your numbers, and they will climb.",
@@ -753,6 +753,8 @@ var FORGE = {
   // Monday = 0 … Sunday = 6
   function todayIndex() { return (businessNow().day + 6) % 7; }
   function minutes(t) { var p = t.split(':'); return +p[0] * 60 + +p[1]; }
+  // "07:15" in the data shows as "7:15am", "22:00" as "10pm". The data stays 24-hour so times sort and compare.
+  function clock(t) { var p = t.split(':'), h = +p[0]; return (h % 12 || 12) + (+p[1] ? ':' + p[1] : '') + (h < 12 ? 'am' : 'pm'); }
   function meter(level, withLabel) {
     return '<span class="inline-flex items-center gap-2"><span class="meter" data-level="' + level + '" role="img" aria-label="Intensity: ' +
       INTENSITY[level] + '"><i></i><i></i><i></i></span>' + (withLabel ? '<span class="text-xs font-semibold text-muted">' + INTENSITY[level] + '</span>' : '') + '</span>';
@@ -839,10 +841,10 @@ var FORGE = {
     var d = todayIndex();
     var h = loc.hours[d];
     var m = businessNow().mins;
-    if (m >= minutes(h[0]) && m < minutes(h[1])) return { open: true, text: 'Open now · until ' + h[1] };
-    if (m < minutes(h[0])) return { open: false, text: 'Closed · opens ' + h[0] };
+    if (m >= minutes(h[0]) && m < minutes(h[1])) return { open: true, text: 'Open now · until ' + clock(h[1]) };
+    if (m < minutes(h[0])) return { open: false, text: 'Closed · opens ' + clock(h[0]) };
     var next = loc.hours[(d + 1) % 7];
-    return { open: false, text: 'Closed · opens ' + next[0] + ' tomorrow' };
+    return { open: false, text: 'Closed · opens ' + clock(next[0]) + ' tomorrow' };
   }
   $$('[data-open-status]').forEach(function (el) {
     var s = openStatus(el.dataset.openStatus);
@@ -925,14 +927,14 @@ var FORGE = {
     nextUp.innerHTML = list.slice(0, 4).map(function (s) {
       var c = FORGE.classes[s.type];
       return '<li><a href="classes.html?day=' + s.day + '" class="flex flex-wrap items-center gap-x-6 gap-y-2 px-6 py-4 transition-colors hover:bg-raised">' +
-        '<span class="display w-20 text-3xl text-volt">' + s.time + '</span>' +
+        '<span class="display w-20 text-3xl text-volt">' + clock(s.time) + '</span>' +
         '<span class="min-w-0 flex-1"><span class="block font-bold">' + esc(c.name) + '</span><span class="text-sm text-muted">' +
         esc(FORGE.coaches[s.coach].name) + ' · ' + esc(FORGE.locations[s.loc].name) + '</span></span>' +
         meter(c.intensity, true) + spotsBadge(s) + '</a></li>';
     }).join('');
   }
 
-  /* ---------- Timetable ---------- */
+  /* ---------- Schedule ---------- */
   var tt = $('[data-timetable]');
   var modal = $('#booking-modal');
   var activeDay = params.has('day') ? Math.min(6, Math.max(0, +params.get('day') || 0)) : todayIndex();
@@ -967,7 +969,7 @@ var FORGE = {
           var booked = isBooked(s.id);
           return '<li><button type="button" data-session="' + s.id + '" class="w-full rounded-lg border p-3 text-left transition-colors hover:border-ink ' +
             (booked ? 'border-volt bg-volt/10' : 'border-line bg-surface') + '" aria-haspopup="dialog">' +
-            '<span class="flex items-center justify-between gap-2"><span class="display text-xl">' + s.time + '</span>' + meter(c.intensity, false) + '</span>' +
+            '<span class="flex items-center justify-between gap-2"><span class="display text-xl">' + clock(s.time) + '</span>' + meter(c.intensity, false) + '</span>' +
             '<span class="mt-1 block text-sm font-bold">' + esc(c.name) + '</span>' +
             '<span class="block text-xs text-muted">' + esc(FORGE.coaches[s.coach].name.split(' ')[0]) + ' · ' + esc(FORGE.locations[s.loc].name.replace('Keel ', '')) + '</span>' +
             '<span class="mt-2 block">' + spotsBadge(s) + '</span></button></li>';
@@ -1028,7 +1030,7 @@ var FORGE = {
     var booked = isBooked(s.id);
     var left = spotsLeft(s);
     var set = function (k, v) { $('[data-bm="' + k + '"]', modal).textContent = v; };
-    set('when', DAY_NAMES[s.day] + ' · ' + s.time);
+    set('when', DAY_NAMES[s.day] + ' · ' + clock(s.time));
     set('name', c.name);
     set('coach', FORGE.coaches[s.coach].name);
     set('loc', FORGE.locations[s.loc].name);
@@ -1080,7 +1082,7 @@ var FORGE = {
       } else {
         list.push(s.id);
         setBookings(list);
-        toast('Booked: ' + name + ', ' + DAY_NAMES[s.day] + ' ' + s.time);
+        toast('Booked: ' + name + ', ' + DAY_NAMES[s.day] + ' ' + clock(s.time));
       }
       fillBooking();
     });
@@ -1089,7 +1091,7 @@ var FORGE = {
   /* ---------- Class detail page (class.html?type=…) ---------- */
   var classPage = $('[data-class-page]');
   if (classPage) {
-    // Case-insensitive like the timetable (?type=BOX works like ?type=box); unknown ids show the default.
+    // Case-insensitive like the schedule (?type=BOX works like ?type=box); unknown ids show the default.
     var requested = (params.get('type') || '').toLowerCase();
     var type = isClass(requested) ? requested : classPage.dataset.default;
     var c = FORGE.classes[type];
@@ -1128,7 +1130,7 @@ var FORGE = {
     $('[data-class-sessions]').innerHTML = upcoming.map(function (s) {
       return '<li><a href="classes.html?type=' + type + '&amp;day=' + s.day + '" class="card flex items-center justify-between gap-4 p-4 transition-colors hover:border-volt">' +
         '<span><span class="block text-xs font-bold tracking-widest text-muted uppercase">' + DAY_NAMES[s.day] + '</span>' +
-        '<span class="display text-3xl">' + s.time + '</span><span class="block text-sm text-muted">' + esc(FORGE.coaches[s.coach].name) + ' · ' + esc(FORGE.locations[s.loc].name) + '</span></span>' +
+        '<span class="display text-3xl">' + clock(s.time) + '</span><span class="block text-sm text-muted">' + esc(FORGE.coaches[s.coach].name) + ' · ' + esc(FORGE.locations[s.loc].name) + '</span></span>' +
         spotsBadge(s) + '</a></li>';
     }).join('');
   }
@@ -1155,7 +1157,7 @@ var FORGE = {
   /* ---------- Coach profile page (trainer.html?id=…) ---------- */
   var trainerPage = $('[data-trainer-page]');
   if (trainerPage) {
-    // Case-insensitive like the timetable's ?coach= (?id=DEV works like ?id=dev); unknown ids show the default.
+    // Case-insensitive like the schedule's ?coach= (?id=DEV works like ?id=dev); unknown ids show the default.
     var requestedCoach = (params.get('id') || '').toLowerCase();
     var id = isCoach(requestedCoach) ? requestedCoach : trainerPage.dataset.default;
     if (id !== trainerPage.dataset.default) {
@@ -1204,7 +1206,7 @@ var FORGE = {
   /* ---------- Form validation helpers ---------- */
   function fieldMessage(f) {
     var v = f.validity;
-    if (v.valueMissing) return f.type === 'checkbox' ? 'Please tick this box to continue.' : 'Please fill in this field.';
+    if (v.valueMissing) return f.type === 'checkbox' ? 'Please check this box to continue.' : 'Please fill in this field.';
     if (v.typeMismatch) return f.type === 'email' ? 'Please enter a valid email address, like name@example.com.' : 'Please check this value.';
     if (v.patternMismatch) return f.type === 'tel' ? 'Please enter a valid phone number.' : 'Please check the format.';
     if (v.tooShort) return 'Please write at least ' + f.minLength + ' characters.';

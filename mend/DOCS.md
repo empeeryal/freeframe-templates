@@ -5,7 +5,7 @@
 Mend is a multi-page website template for an independent physical therapy and sports injury clinic. The demo
 is **Ledgerock Physical Therapy**, a fictional clinic at 418 Yellowstone Avenue in Billings, Montana, with five
 physical therapists and a sports massage therapist. It is built with plain HTML, Tailwind CSS v4 and one
-vanilla JavaScript file (`assets/js/main.js`), with no other dependencies. This is version 1.1.3 (see
+vanilla JavaScript file (`assets/js/main.js`), with no other dependencies. This is version 1.1.4 (see
 `template.json` and [CHANGELOG.md](CHANGELOG.md)). Live demo:
 [freeframe.dev/templates/mend](https://freeframe.dev/templates/mend).
 
@@ -35,7 +35,7 @@ classes; see [Building and deploying](#building-and-deploying).
 | `treatments.html` | Treatments | Ten treatments as ruled entries with art, length, price, what's included, who offers them and the next free slot; filters in the left rail (`?for=`) |
 | `conditions.html` | Conditions | Index of eight areas, then one section per area (`?area=` jumps to it) with a locator figure, common problems, suggested appointments, matching exercises and red flags; a sticky side index marks the area in view |
 | `exercises.html` | Exercise library | 18 exercises filtered by area, level and equipment (`?area=`, `?level=`, `?equipment=`), a saved "my plan" with daily checkmarks, a rep and hold counter |
-| `team.html` | Our team | A board of six portraits, then each clinician's profile with special interests, working days, "in clinic today", what they offer and their first free slot; filter by treatment (`?treatment=`) |
+| `team.html` | Our team | A board of six portraits, then each clinician's profile with special interests, workdays, "in clinic today", what they offer and their first free slot; filter by treatment (`?treatment=`) |
 | `book.html` | Book online | The clinic's next seven days, then four steps: treatment, clinician, day and time, details with health screening; live summary; confirmation with a reference (`?treatment=`, `?clinician=`, `?area=`, `?day=`) |
 | `prices.html` | Prices and insurance | Self-pay table, packages with savings, a cost estimator (`?treatment=`), health plan checker (`?insurer=`), with a sticky side index |
 | `contact.html` | Contact | Contact details beside the map, hours with federal holiday notice, contact form (`?topic=`), getting here, FAQ |

@@ -511,7 +511,7 @@
      inline and linked with aria-describedby. */
   function fieldMessage(field) {
     var v = (field.value || '').trim(), label = field.getAttribute('data-label') || 'This field';
-    if (field.type === 'checkbox') return field.required && !field.checked ? (field.getAttribute('data-required-msg') || 'Please tick this box to continue.') : '';
+    if (field.type === 'checkbox') return field.required && !field.checked ? (field.getAttribute('data-required-msg') || 'Please check this box to continue.') : '';
     if (field.type === 'radio') {
       var group = $$('input[name="' + field.name + '"]', field.form);
       return field.required && !group.some(function (r) { return r.checked; }) ? (field.getAttribute('data-required-msg') || 'Please choose an option.') : '';

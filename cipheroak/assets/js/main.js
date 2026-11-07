@@ -1095,7 +1095,7 @@
     return { open: false, text: "Closed" };
   }
 
-  // Call slots: the next BOOKING.businessDays working days, starting at least
+  // Call slots: the next BOOKING.businessDays business days, starting at least
   // BOOKING.leadHours from now. Some slots are taken, the same ones on every visit.
   function slotTaken(iso, time) {
     let h = 2166136261;

@@ -7,7 +7,7 @@ picker that recommends a program, a booking flow with a week view and PAR-Q styl
 calculator, client progress stories with SVG charts, and free training tools (plan builder, one-rep max and pace
 calculators). Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.7** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/kinetic)
 
 ## Quick start

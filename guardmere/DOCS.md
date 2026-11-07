@@ -2,7 +2,7 @@
 
 ## Overview
 
-Guardmere is an HTML and Tailwind CSS v4 website for a fictional independent cybersecurity practice in Huntsville, Alabama. Version 1.0.2 includes nine pages, twelve illustrated assessment areas, a scope calculator, saved readiness evidence notes and a consultation request form. See the [template page](https://freeframe.dev/templates/guardmere) for the live preview.
+Guardmere is an HTML and Tailwind CSS v4 website for a fictional independent cybersecurity practice in Huntsville, Alabama. Version 1.0.3 includes nine pages, twelve illustrated assessment areas, a scope calculator, saved readiness evidence notes and a consultation request form. See the [template page](https://freeframe.dev/templates/guardmere) for the live preview.
 
 ## Quick start
 

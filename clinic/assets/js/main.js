@@ -267,7 +267,7 @@
     var v = field.type === 'checkbox' ? field.checked : field.value.trim();
     var msg = '';
     if (field.required && !v) {
-      msg = field.type === 'checkbox' ? 'Please tick this box to continue.' : 'Please fill in this field.';
+      msg = field.type === 'checkbox' ? 'Please check this box to continue.' : 'Please fill in this field.';
     } else if (v && field.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) {
       msg = 'Please enter an email address like name@example.com.';
     } else if (v && field.hasAttribute('data-phone') && v.replace(/\D/g, '').length < 7) {
@@ -620,7 +620,7 @@
     $('[data-wizard-nav]', booking).hidden = true;
     var done = $('[data-done]', booking);
     $('[data-done-summary]', booking).textContent = 'Thanks, ' + booking.elements.first.value + '. You asked for ' + svc().name.toLowerCase() +
-      ' with ' + clinicianText() + ' on ' + whenText() + '. We’ll confirm by email within one working day.';
+      ' with ' + clinicianText() + ' on ' + whenText() + '. We’ll confirm by email within one business day.';
     $('[data-done-ref]', booking).textContent = makeRef('BD');
     done.hidden = false;
     navItems.forEach(function (li) { li.dataset.state = 'done'; li.removeAttribute('aria-current'); });

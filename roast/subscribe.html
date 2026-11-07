@@ -90,15 +90,15 @@
             <label class="option flex-col gap-1"><input type="radio" name="style" value="decaf" class="sr-only"><span class="font-display text-base font-bold">Decaf</span><span class="text-sm text-muted">Sugarcane-process decaf that still tastes like coffee.</span><span class="mt-2 flex justify-between gap-2 text-xs font-semibold"><span>Like Cauca Decaf</span><span data-style-price="decaf" class="tabular-nums"></span></span></label>
             <label class="option flex-col gap-1 sm:col-span-2"><input type="radio" name="style" value="roasters" class="sr-only"><span class="font-display text-base font-bold">Roaster’s choice</span><span class="text-sm text-muted">A different single origin every time, picked by our roasters.</span><span class="mt-2 flex justify-between gap-2 text-xs font-semibold"><span>Rotates every delivery</span><span data-style-price="roasters" class="tabular-nums"></span></span></label>
           </div>
-          <p class="hint">Prices are per 250 g with the subscriber discount.</p>
+          <p class="hint">Prices are per 12 oz with the subscriber discount.</p>
         </fieldset>
 
         <fieldset id="step-size" class="scroll-mt-28">
           <legend class="flex items-center gap-3 font-display text-xl font-bold"><span class="grid h-9 w-9 place-items-center rounded-full border-2 border-navy bg-cobalt text-sm text-white" aria-hidden="true">2</span>Choose a bag size</legend>
           <div class="mt-5 grid grid-cols-3 gap-3">
-            <label class="option flex-col items-center gap-1 text-center"><input type="radio" name="size" value="250g" class="sr-only"><span class="font-display text-lg font-bold">250 g</span><span class="text-xs text-muted">About 16 cups</span><span data-size-price="250g" class="mt-1 text-sm font-semibold tabular-nums"></span></label>
-            <label class="option flex-col items-center gap-1 text-center"><input type="radio" name="size" value="500g" class="sr-only"><span class="font-display text-lg font-bold">500 g</span><span class="text-xs text-muted">About 33 cups</span><span data-size-price="500g" class="mt-1 text-sm font-semibold tabular-nums"></span></label>
-            <label class="option flex-col items-center gap-1 text-center"><input type="radio" name="size" value="1kg" class="sr-only"><span class="font-display text-lg font-bold">1 kg</span><span class="text-xs text-muted">About 66 cups</span><span data-size-price="1kg" class="mt-1 text-sm font-semibold tabular-nums"></span></label>
+            <label class="option flex-col items-center gap-1 text-center"><input type="radio" name="size" value="250g" class="sr-only"><span class="font-display text-lg font-bold">12 oz</span><span class="text-xs text-muted">About 22 cups</span><span data-size-price="250g" class="mt-1 text-sm font-semibold tabular-nums"></span></label>
+            <label class="option flex-col items-center gap-1 text-center"><input type="radio" name="size" value="500g" class="sr-only"><span class="font-display text-lg font-bold">2 lb</span><span class="text-xs text-muted">About 60 cups</span><span data-size-price="500g" class="mt-1 text-sm font-semibold tabular-nums"></span></label>
+            <label class="option flex-col items-center gap-1 text-center"><input type="radio" name="size" value="1kg" class="sr-only"><span class="font-display text-lg font-bold">5 lb</span><span class="text-xs text-muted">About 151 cups</span><span data-size-price="1kg" class="mt-1 text-sm font-semibold tabular-nums"></span></label>
           </div>
         </fieldset>
 
@@ -123,7 +123,7 @@
             <label class="pill"><input type="radio" name="freq" value="3" class="sr-only">Every 3 weeks</label>
             <label class="pill"><input type="radio" name="freq" value="4" class="sr-only">Every 4 weeks</label>
           </div>
-          <p class="hint">Most people drinking two cups a day get a 500 g bag every two weeks.</p>
+          <p class="hint">Two cups a day goes through a 2 lb bag in about four weeks.</p>
         </fieldset>
 
         <fieldset id="step-grind" class="scroll-mt-28">
@@ -147,21 +147,21 @@
           <h2 id="summary-title" class="font-display text-lg font-bold">Your plan</h2>
           <dl class="mt-5 divide-y-2 divide-navy/10 text-sm">
             <div class="flex items-center justify-between gap-3 py-2.5"><dt class="text-muted">Style</dt><dd class="flex items-center gap-3 text-right font-semibold"><span data-plan="style">Sweet &amp; balanced</span><button type="button" data-edit="style" class="text-xs text-cobalt underline underline-offset-4">Change<span class="sr-only"> style</span></button></dd></div>
-            <div class="flex items-center justify-between gap-3 py-2.5"><dt class="text-muted">Bag</dt><dd class="flex items-center gap-3 text-right font-semibold"><span data-plan="size">500 g</span><button type="button" data-edit="size" class="text-xs text-cobalt underline underline-offset-4">Change<span class="sr-only"> bag size</span></button></dd></div>
+            <div class="flex items-center justify-between gap-3 py-2.5"><dt class="text-muted">Bag</dt><dd class="flex items-center gap-3 text-right font-semibold"><span data-plan="size">12 oz</span><button type="button" data-edit="size" class="text-xs text-cobalt underline underline-offset-4">Change<span class="sr-only"> bag size</span></button></dd></div>
             <div class="flex items-center justify-between gap-3 py-2.5"><dt class="text-muted">Quantity</dt><dd class="flex items-center gap-3 text-right font-semibold"><span data-plan="bags">1 bag</span><button type="button" data-edit="bags" class="text-xs text-cobalt underline underline-offset-4">Change<span class="sr-only"> number of bags</span></button></dd></div>
             <div class="flex items-center justify-between gap-3 py-2.5"><dt class="text-muted">Delivery</dt><dd class="flex items-center gap-3 text-right font-semibold"><span data-plan="freq">Every 2 weeks</span><button type="button" data-edit="freq" class="text-xs text-cobalt underline underline-offset-4">Change<span class="sr-only"> how often</span></button></dd></div>
             <div class="flex items-center justify-between gap-3 py-2.5"><dt class="text-muted">Grind</dt><dd class="flex items-center gap-3 text-right font-semibold"><span data-plan="grind">Whole bean</span><button type="button" data-edit="grind" class="text-xs text-cobalt underline underline-offset-4">Change<span class="sr-only"> grind</span></button></dd></div>
           </dl>
           <div class="mt-5 rounded-2xl border-2 border-navy bg-sky p-4" aria-live="polite">
-            <p class="flex items-baseline justify-between gap-3"><span class="text-sm font-semibold">Per delivery</span><span data-plan="per-delivery" class="font-display text-2xl font-bold tabular-nums">$29.97</span></p>
-            <p class="mt-1 flex items-baseline justify-between gap-3 text-sm"><span>Per cup</span><span data-plan="per-cup" class="font-semibold tabular-nums">$0.91</span></p>
-            <p class="mt-3 text-xs text-muted" data-plan="cups">About 33 cups per delivery</p>
-            <p class="mt-1 text-xs text-muted" data-plan="monthly">≈ $64.94 a month</p>
-            <p class="mt-1 text-xs font-semibold text-leaf" data-plan="saving">You save $3.03 on every delivery</p>
+            <p class="flex items-baseline justify-between gap-3"><span class="text-sm font-semibold">Per delivery</span><span data-plan="per-delivery" class="font-display text-2xl font-bold tabular-nums">$16.20</span></p>
+            <p class="mt-1 flex items-baseline justify-between gap-3 text-sm"><span>Per cup</span><span data-plan="per-cup" class="font-semibold tabular-nums">$0.74</span></p>
+            <p class="mt-3 text-xs text-muted" data-plan="cups">About 22 cups per delivery</p>
+            <p class="mt-1 text-xs text-muted" data-plan="monthly">≈ $35.10 a month</p>
+            <p class="mt-1 text-xs font-semibold text-leaf" data-plan="saving">You save $1.80 on every delivery</p>
           </div>
           <h3 class="mt-5 text-sm font-semibold">Next deliveries</h3>
           <ol id="plan-dates" class="mt-2 space-y-1.5 text-sm"></ol>
-          <p class="mt-2 text-xs text-muted">We roast on Mondays; parcels arrive by Thursday.</p>
+          <p class="mt-2 text-xs text-muted">We roast on Mondays; packages arrive by Thursday.</p>
           <a href="#start" class="btn-primary mt-6 w-full">Start this plan</a>
         </div>
       </aside>
@@ -191,7 +191,7 @@
           <svg viewBox="0 0 40 40" class="h-9 w-9 shrink-0 transition-transform duration-300 group-hover:-rotate-12" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#2338b5" stroke="#141a3c" stroke-width="2.5"/><ellipse cx="20" cy="20" rx="8.5" ry="12.5" transform="rotate(32 20 20)" fill="#ffcd4a" stroke="#141a3c" stroke-width="2.2"/><path d="M14.6 13.4c5.6 3.4-.6 10.6 10.8 13.2" fill="none" stroke="#141a3c" stroke-width="2.2" stroke-linecap="round"/></svg>
           <span class="font-display text-lg font-bold tracking-tight text-butter">First Crack</span>
         </a>
-        <p class="mt-4 max-w-xs text-sm leading-relaxed text-butter/80">Small-batch specialty coffee, roasted every Monday in an old tram depot in Baltimore, Maryland.</p>
+        <p class="mt-4 max-w-xs text-sm leading-relaxed text-butter/80">Small-batch specialty coffee, roasted every Monday in an old trolley barn in Baltimore, Maryland.</p>
         <ul class="mt-6 flex gap-5 text-sm font-semibold">
           <li><a href="#" class="underline-offset-4 hover:underline">Instagram</a></li>
           <li><a href="#" class="underline-offset-4 hover:underline">YouTube</a></li>

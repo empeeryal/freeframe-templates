@@ -9,7 +9,7 @@ and vanilla JavaScript (no frameworks, no libraries). This is version 1.0.0 of t
 page at [freeframe.dev/templates/accrue](https://freeframe.dev/templates/accrue), which links to the live demo.
 
 The template has a tax deadline calendar worked out from rules (it never goes stale), a live countdown to the next
-deadline, a tax-season document checklist that remembers ticks, a fee estimator, consultation booking with a
+deadline, a tax-season document checklist that remembers checks, a fee estimator, consultation booking with a
 rolling availability grid, and data-driven service and article pages. Every date and time is worked out in
 `America/New_York` (Eastern time), whatever the visitor's own time zone is.
 
@@ -244,9 +244,9 @@ set.
 `[data-checklist-tab="individual|selfemployed|business|nonprofit"]` (or `?list=<id>` on load). Each item is a real
 checkbox (visually hidden, with a drawn box) inside a `<label>`. The progress text (`[data-check-progress]`, for
 example "1 of 11 ready") is a polite live region; the bar is decorative. "Clear this list" (`[data-check-reset]`)
-unticks the current list only. When every item is ticked, `[data-check-done]` appears.
+unchecks the current list only. When every item is checked, `[data-check-done]` appears.
 
-Ticks are saved through `safeStorage` (see [Saved data](#saved-data-localstorage)), so they survive reloads; when the
+Checks are saved through `safeStorage` (see [Saved data](#saved-data-localstorage)), so they survive reloads; when the
 browser blocks storage they last for the page view.
 
 ### Fee estimator
@@ -381,7 +381,7 @@ and only item ids that exist in that list are kept, so stale or tampered data ca
 change the saved value is re-read, so two open tabs don't overwrite each other's lists.
 
 All storage goes through one `safeStorage` object: `localStorage`, or an in-memory stand-in when the browser blocks
-storage (sandboxed iframes, strict privacy settings), in which case ticks last for the page view. To reset, use
+storage (sandboxed iframes, strict privacy settings), in which case checks last for the page view. To reset, use
 "Clear this list", or remove the key in the browser's developer tools (Application → Local Storage). Nothing else is
 stored; the estimator keeps its state in the URL.
 
@@ -439,8 +439,8 @@ GitHub Pages, Cloudflare Pages, an S3 bucket or your existing web server. No ser
   `day`.
 - **New styles don't show up.** Rebuild the CSS (`npm run build`) and hard-refresh. A class assembled from pieces in
   JavaScript (`'bg-' + color`) isn't generated; write the full class name.
-- **Checklist ticks disappear after a reload.** The browser is blocking storage (private mode, a sandboxed preview,
-  strict privacy settings); ticks then last for the page view only.
+- **Checklist checks disappear after a reload.** The browser is blocking storage (private mode, a sandboxed preview,
+  strict privacy settings); checks then last for the page view only.
 - **The booking grid always starts tomorrow.** That is intentional (`bookingDays()` starts at tomorrow). To allow
   same-day bookings, start the loop at `now.key` and skip times already past.
 - **The office closes on a day the grid still offers.** Add the holiday id to `BOOKING.closures`, or for a one-off

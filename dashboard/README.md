@@ -4,7 +4,7 @@ A complete admin dashboard built with HTML5, Tailwind CSS v4 and vanilla JavaScr
 orders, customers, products, settings, sign-in and a 404 page, in light and dark themes. No frameworks and
 no chart libraries: every chart is SVG drawn by `assets/js/main.js`.
 
-**Version 1.1.11** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.1.12** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/dashboard)
 
 ## Quick start

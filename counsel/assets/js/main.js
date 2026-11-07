@@ -163,7 +163,7 @@
   function messageFor(field) {
     var v = field.validity;
     if (v.valueMissing) {
-      if (field.type === 'checkbox') return 'Please tick this box to continue.';
+      if (field.type === 'checkbox') return 'Please check this box to continue.';
       if (field.tagName === 'SELECT') return 'Please choose an option.';
       return 'Please fill in this field.';
     }

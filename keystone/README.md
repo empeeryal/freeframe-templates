@@ -2,7 +2,7 @@
 
 A complete website for a design-build firm, built for the fictional **Corbel Design-Build** in Milwaukee: an architecture studio and general contractor in one. It has a blueprint-style design with technical line drawings and a safety-orange accent, a filterable project portfolio, a case study with a before/after slider and drawing gallery, a five-step cost estimator that feeds a quote request, and pages for services, leadership, safety record, careers and offices. Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/keystone)
 
 ## Quick start

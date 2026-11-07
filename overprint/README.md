@@ -11,7 +11,7 @@ projects by type, and every project has a case study that steps from pencil sket
 print. The shop sells prints, zines and stickers with a cart and a checkout, the commission form estimates a
 fee and a dated timeline in four steps, and fair dates roll forward so the demo never goes stale.
 
-**Version 1.0.3** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.4** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/overprint)
 
 ## Quick start

@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.12] - 2026-11-06
+
+### Fixed
+
+- Order dates no longer slip to the previous day around a daylight saving change.
+
 ## [1.1.11] - 2026-11-06
 
 ### Changed

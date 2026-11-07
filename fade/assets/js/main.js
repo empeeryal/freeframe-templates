@@ -7,7 +7,7 @@
  *  5. Open now        per-shop "Open / Closed" badges, today's hours and hours tables
  *  6. Wait estimate   illustrative walk-in wait per shop (demo traffic model)
  *  7. Services        category filter
- *  8. Barbers         shop + speciality filters and "next free" times
+ *  8. Barbers         shop + specialty filters and "next free" times
  *  9. Booking         five-step booking flow with calendar, time slots and .ics
  * 10. Bag             products, gift cards, delivery and demo checkout (localStorage)
  * 11. Gift cards      builder with live preview that adds to the bag
@@ -1132,7 +1132,7 @@
   }
 
   /* ------------------------------------------------------------------
-   * 8. Barbers — shop and speciality filters, next free time
+   * 8. Barbers — shop and specialty filters, next free time
    * ------------------------------------------------------------------ */
   var barbersWrap = $('[data-barbers]');
   if (barbersWrap) {

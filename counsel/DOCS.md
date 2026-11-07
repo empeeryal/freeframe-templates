@@ -219,7 +219,7 @@ cover a sticky element marked `data-back-to-top-hide`. Restyle it with the `.bac
 
 | Form | Page | Validates |
 |------|------|-----------|
-| Consultation request | `contact.html` | Name, email, who it's for (a required radio group), practice area, a message of at least 20 characters and the acknowledgement checkbox; phone, office and other parties are optional |
+| Consultation request | `contact.html` | Name, email, who it's for (a required radio group), practice area, a message of at least 20 characters and the acknowledgment checkbox; phone, office and other parties are optional |
 | Newsletter | `insights.html` | Email |
 
 Every `form[data-validate]` is handled in `main.js`:

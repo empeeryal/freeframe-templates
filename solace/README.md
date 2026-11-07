@@ -5,7 +5,7 @@ in Olympia, Washington: a therapist match quiz, a filterable clinician directory
 sliding-scale calculator and insurance checker, therapy groups, a searchable FAQ and a three-step consultation
 request, with a crisis panel on every page. Plain HTML, Tailwind CSS v4 and vanilla JavaScript.
 
-**Version 1.0.2** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.3** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/solace)
 
 ## Quick start

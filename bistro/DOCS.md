@@ -3,7 +3,7 @@
 ## Overview
 
 Bistro is a warm, high-end website for a restaurant, café or wine bar. The demo restaurant is **Olive &
-Ember**, a fictional wood-fired Mediterranean kitchen in an old town, with tabbed menus, a reservation
+Ember**, a fictional wood-fired Mediterranean kitchen in Annapolis, Maryland, with tabbed menus, a reservation
 form whose time slots follow the opening hours, private dining packages and a live "open now" badge.
 It is built with HTML5, Tailwind CSS v4 and a small vanilla JavaScript file, and needs no build step.
 This guide covers version 1.1.9.
@@ -245,7 +245,7 @@ submitted values (a word marked `data-count-of="guests"` switches between its `d
 text, so the panel says "1 guest" or "2 guests"), and a `[data-reset]` button brings the form back.
 `data-fill="ref"` shows a short reference made in the browser (`OE-` and four characters, from `makeRef()`).
 If your booking system or form service returns its own reference, show that instead. The success panels say
-what happens next ("We reply within a day", "within two working days", "We'll email to confirm your table");
+what happens next ("We reply within a day", "within two business days", "We'll email to confirm your table");
 change them to match how you actually handle requests.
 
 **Nothing is sent until you connect the forms.** In section 5 of `assets/js/main.js`, find the comment

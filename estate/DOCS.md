@@ -278,7 +278,7 @@ field. Set `data-pattern-message` on a field to customize its pattern message. D
 On success the form's `[data-form-body]` is hidden and its `[data-success]` message shown; a
 `[data-form-reset]` button brings the form back. The viewing, valuation and contact messages show a short
 reference in their `[data-ref]` element (`HH-` and four characters, made in the browser; use your form
-service's or CRM's own reference instead if it returns one). They promise a reply within one working day, as
+service's or CRM's own reference instead if it returns one). They promise a reply within one business day, as
 the pages already say: change both if yours differs. The footer newsletter message asks subscribers to look
 out for a confirmation email, so use a mailing list service that sends one (double opt-in) or reword it.
 

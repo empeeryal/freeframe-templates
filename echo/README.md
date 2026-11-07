@@ -6,7 +6,7 @@ latest episode, an episode archive with filters, episode pages with chapters, sh
 transcript, an accessible audio player with a mini player that follows you across pages, hosts, subscribe,
 advertise and be-a-guest pages. Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/echo)
 
 ## Quick start

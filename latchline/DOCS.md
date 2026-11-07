@@ -7,7 +7,7 @@ Reno, Nevada. It is built with plain HTML5, Tailwind CSS v4 and vanilla JavaScri
 The site explains the product with a six-stage board explorer, dates a plan from any of fifteen illustrated
 playbooks, compares customer stories with generated before-and-after charts, builds an itemized pricing quote,
 lists a filterable resource library and finishes with a qualified sales inquiry and a demo time picker. This is
-version 1.0.3 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). The template page with a link to the live demo
+version 1.0.4 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). The template page with a link to the live demo
 is at [freeframe.dev/templates/latchline](https://freeframe.dev/templates/latchline).
 
 The copy is written in US English, prices are in US dollars and every date and time is worked out in the
@@ -185,10 +185,10 @@ Accessibility: the stages use the ARIA tabs pattern (`role="tablist"`, `tab`, `t
 
 `initPlanPreview()` dates a playbook from a kickoff date. `planDates(playbook, kickoff)` places milestone `i` on
 day `round(days × i / (milestones − 1))` after kickoff and moves any milestone that lands on a weekend or office
-closure to the next working day. A kickoff on a closed day starts on the next working day, with a note.
+closure to the next business day. A kickoff on a closed day starts on the next business day, with a note.
 
 The default kickoff comes from `defaultKickoff()`: the first Monday at least three days after today that is a
-working day. On 24 October 2026 (Pacific time) the B2B software kickoff plan reads Monday, November 2, then
+business day. On October 24, 2026 (Pacific time) the B2B software kickoff plan reads Monday, November 2, then
 November 9, 13, 18 and "First value by Monday, November 23, 2026". `product.html?playbook=<id>#plan` preselects a
 playbook; unknown ids fall back to `saas-kickoff`.
 
@@ -247,7 +247,7 @@ quickest first. `?type=` (`guide`, `template`, `checklist`, `benchmark`, `record
 written.
 
 `clinicDates()` lists the next three monthly clinics: the second Thursday of each month, 10:00 to 11:00 a.m. PT,
-at least two days ahead and never on an office closure. On 24 October 2026 they are November 12, December 10 and
+at least two days ahead and never on an office closure. On October 24, 2026 they are November 12, December 10 and
 January 14. "Save a seat" opens `contact.html?topic=clinic&date=YYYY-MM-DD`.
 
 ### Team, office hours and closures
@@ -266,7 +266,7 @@ the next four closures.
 ### Demo time picker
 
 On the contact page, choosing "Book a 30-minute demo" (or arriving at `contact.html#demo`, which the header's
-"Book a demo" link uses) shows the picker. `demoDays()` offers the next five working days after today and each
+"Book a demo" link uses) shows the picker. `demoDays()` offers the next five business days after today and each
 day offers the start times in `DEMO_SLOTS` (Pacific time), with the visitor's own time shown when their time zone
 differs. `slotTaken()` marks some slots as booked using a simple hash of the date and time, so the same slots
 stay taken all day; replace it with your calendar's availability when you connect a real booking service.
@@ -307,12 +307,12 @@ inline message under each field, and moves focus to the first problem:
 | Active onboardings at once | A whole number from 1 to 5,000 |
 | Message | Optional, up to 1,500 characters |
 | Demo time | Required when the topic is a demo |
-| Consent | Must be ticked |
+| Consent | Must be checked |
 
 On success the form is replaced with "Request received", a reference such as `LL-261024-4821`, who will pick it
 up and what happens next. Routing: partnerships go to Nkechi Amankwah, migrations to Elodie Reiss, and teams with
 150 or more active onboardings or more than 200 people to Laszlo Tenney; everyone else to the sales team. The
-reply day is today when the request arrives on a working day before 3:00 p.m. PT, otherwise the next working day.
+reply day is today when the request arrives on a business day before 3:00 p.m. PT, otherwise the next business day.
 
 Context travels with the request in a hidden `context` field: a pricing quote from the URL, a clinic date and the
 playbook shortlist, listed above the form so the visitor can see them.
