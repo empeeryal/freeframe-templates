@@ -2,7 +2,7 @@
 
 An editorial, warm website for an accounting firm, CPA practice or tax preparer, built for the fictional **Fernley Whitcomb CPAs** in Chattanooga, Tennessee: a federal and Tennessee tax deadline calendar worked out by rule with a live countdown, a saved tax-season document checklist, a bookkeeping fee estimator, consultation booking in Eastern time, data-driven service and article pages, and a team page with illustrated portraits. Plain HTML, Tailwind CSS v4 and vanilla JavaScript.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.3** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/accrue)
 
 ## Quick start

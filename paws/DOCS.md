@@ -6,7 +6,7 @@ Paws is a multi-page website template for an independent veterinary clinic. The 
 Animal Clinic**, a fictional practice at 22 Larkin Hollow Road in West Asheville, North Carolina, with
 three vets who see dogs, cats, rabbits and small exotic pets. It is built with plain HTML, Tailwind CSS
 v4 and one vanilla JavaScript file (`assets/js/main.js`), with no other dependencies. This is version
-1.0.2 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). Live demo:
+1.0.4 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). Live demo:
 [freeframe.dev/templates/paws](https://freeframe.dev/templates/paws).
 
 The demo never goes stale: opening hours, holidays, appointment times and planner dates are all worked

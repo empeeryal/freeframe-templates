@@ -7,7 +7,7 @@ barbershop with two shops in Chicago: Logan Square (2741 N Milwaukee Ave) and Pi
 plain HTML5, Tailwind CSS v4 and one vanilla JavaScript file with no dependencies. Highlights are an illustrative
 "current wait" board for each shop, a five-step booking flow that works out time slots from each barber's schedule and
 the length of the chosen services, filterable services and barbers, a grooming product shop with a saved bag, and a gift
-card builder with a live preview. This guide covers version 1.0.5. Live demo:
+card builder with a live preview. This guide covers version 1.0.8. Live demo:
 [freeframe.dev/templates/fade](https://freeframe.dev/templates/fade).
 
 ## Quick start

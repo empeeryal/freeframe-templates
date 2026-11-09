@@ -8,7 +8,7 @@ Margin) at 112 Maple Street in Burlington, Vermont, run by Odessa Merriweather a
 twenty-five books in hardcover and paperback, lists author readings, book clubs and Saturday story time with
 RSVPs, runs five book clubs with monthly picks, and has a bag with free store pickup or US shipping. Every book
 cover is drawn in SVG from the book data, so there are no photos to replace. This guide is for version
-**1.0.0** (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). The template page, with a link to the live
+**1.0.5** (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). The template page, with a link to the live
 demo, is at [freeframe.dev/templates/spine](https://freeframe.dev/templates/spine).
 
 All dates and opening times use the shop’s time zone, **America/New_York**, whatever the visitor’s own clock

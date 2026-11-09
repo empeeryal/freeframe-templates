@@ -7,7 +7,7 @@ church in Lawrence, Kansas. It has a home page with this Sunday's times and a co
 service, a plan-your-visit page, a sermon archive and sermon pages with an audio player, an events
 calendar with calendar downloads, a small-group finder and ministries, a giving page, an about page with
 the staff team, contact and prayer requests, and a 404 page. It is plain HTML with Tailwind CSS v4 and one
-vanilla JavaScript file, with no build step needed to use it. This guide covers version 1.0.3. See it live
+vanilla JavaScript file, with no build step needed to use it. This guide covers version 1.0.7. See it live
 at [freeframe.dev/templates/gather](https://freeframe.dev/templates/gather).
 
 ## Quick start

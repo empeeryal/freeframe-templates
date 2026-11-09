@@ -5,7 +5,7 @@
 Accrue is a multi-page website template for an accounting firm, CPA practice or tax preparer. The demo business is
 Fernley Whitcomb CPAs, a fictional seven-person firm on Cherry Street in Chattanooga, Tennessee, serving households
 and businesses on both sides of the Georgia and Alabama state lines. It is built with plain HTML, Tailwind CSS v4
-and vanilla JavaScript (no frameworks, no libraries). This is version 1.0.0 of the HTML stack. See the template
+and vanilla JavaScript (no frameworks, no libraries). This is version 1.0.3 of the HTML stack. See the template
 page at [freeframe.dev/templates/accrue](https://freeframe.dev/templates/accrue), which links to the live demo.
 
 The template has a tax deadline calendar worked out from rules (it never goes stale), a live countdown to the next

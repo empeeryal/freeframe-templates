@@ -9,7 +9,7 @@ seasons. The site has a home page with the latest episode, an episode archive, e
 show notes and a transcript, hosts, subscribe, advertise and be-a-guest pages, and an audio player that
 follows the visitor from page to page. It is plain HTML with Tailwind CSS v4 and one vanilla JavaScript file,
 with no build step needed to use it. The design is dark-first: a blackcurrant night background, wide Syne
-headlines, mono labels and colorful SVG cover art. This guide covers version 1.0.5. See it live at
+headlines, mono labels and colorful SVG cover art. This guide covers version 1.0.6. See it live at
 [freeframe.dev/templates/echo](https://freeframe.dev/templates/echo).
 
 ## Quick start

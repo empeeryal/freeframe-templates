@@ -2,7 +2,7 @@
 
 ## Overview
 
-Cipheroak is a nine-page HTML and Tailwind CSS v4 website for a fictional self-custody security studio in Santa Fe, New Mexico. The studio helps households and small teams set up and maintain hardware wallets, multisig vaults, recovery and inheritance plans and key ceremonies. The site sells reviews, setups and planning only: it has no price charts, trading, yield or investment content, and it names no real wallet or exchange brands. It includes a vault-readiness assessment, a multisig signer planner, fourteen illustrated security guides with a reading list, a quote builder, rolling field notes and advisories, studio hours and a review-call booking form in Mountain Time. This is version 1.0.0. See the [template page](https://freeframe.dev/templates/cipheroak) for the live demo.
+Cipheroak is a nine-page HTML and Tailwind CSS v4 website for a fictional self-custody security studio in Santa Fe, New Mexico. The studio helps households and small teams set up and maintain hardware wallets, multisig vaults, recovery and inheritance plans and key ceremonies. The site sells reviews, setups and planning only: it has no price charts, trading, yield or investment content, and it names no real wallet or exchange brands. It includes a vault-readiness assessment, a multisig signer planner, fourteen illustrated security guides with a reading list, a quote builder, rolling field notes and advisories, studio hours and a review-call booking form in Mountain Time. This is version 1.0.4. See the [template page](https://freeframe.dev/templates/cipheroak) for the live demo.
 
 ## Quick start
 

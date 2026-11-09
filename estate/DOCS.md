@@ -6,7 +6,7 @@ Estate is a complete website for a real-estate agency: searchable listings, prop
 gallery and mortgage calculator, agent profiles and valuation requests. The demo is **Harbor & Hill
 Realty**, a fictional independent agency in the fictional coastal town of Marlow Bay, with 12 listings
 (for sale and for rent) and six agents. It is built with HTML5, Tailwind CSS v4 and one vanilla
-JavaScript file, and needs no build step. This guide covers version 1.1.10.
+JavaScript file, and needs no build step. This guide covers version 1.1.14.
 
 Live demo: [freeframe.dev/templates/estate](https://freeframe.dev/templates/estate)
 

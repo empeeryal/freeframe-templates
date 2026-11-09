@@ -9,7 +9,7 @@ pricing with a calculator, an integrations directory, customer stories, a change
 page, a sales form and a three-step trial sign-up. It is plain HTML with Tailwind CSS v4 and one vanilla
 JavaScript file, with no build step needed to use it. The design is light and friendly: warm paper
 backgrounds, pastel panels, a coral accent, rounded UI and the Gabarito display face. This guide covers
-version 1.0.5. See it live at [freeframe.dev/templates/orbit](https://freeframe.dev/templates/orbit).
+version 1.0.6. See it live at [freeframe.dev/templates/orbit](https://freeframe.dev/templates/orbit).
 
 ## Quick start
 

@@ -7,7 +7,7 @@ that recommends a program, filterable client stories with before-and-after numbe
 comparison table and FAQ, an interactive method diagram, a resource library and a free-guide sign-up. Plain HTML,
 Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/compass)
 
 ## Quick start

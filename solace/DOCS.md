@@ -7,7 +7,7 @@ Counseling**, a fictional group practice at 412 Legion Way SE in Olympia, Washin
 (a psychologist, an LICSW, an LMFT, two LMHCs and a supervised associate) who see adults, couples, teens,
 children and families in person and by video. It is built with plain HTML, Tailwind CSS v4 and two vanilla
 JavaScript files (`assets/js/data.js` for the practice data, `assets/js/main.js` for the interactions), with
-no other dependencies. This is version 1.0.0 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). Live demo:
+no other dependencies. This is version 1.0.3 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). Live demo:
 [freeframe.dev/templates/solace](https://freeframe.dev/templates/solace).
 
 The demo never goes stale: office hours, holidays, the next free consultation, reply-by dates and group start

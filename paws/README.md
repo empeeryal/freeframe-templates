@@ -5,7 +5,7 @@ Clinic** in West Asheville, North Carolina: services filtered by pet, a four-ste
 with saved pets, a vaccine and wellness planner, a pricing estimator, team, new-client info and pet care
 articles. Plain HTML, Tailwind CSS v4 and a small vanilla JavaScript file.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.4** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/paws)
 
 ## Quick start

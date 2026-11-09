@@ -2,7 +2,7 @@
 
 A colorful, cut-paper website template for a community arts center, built with HTML, Tailwind CSS v4 and
 vanilla JavaScript. The demo is Mosaic, an arts center in an old dye works on Race Street, Holyoke, Massachusetts.
-Version 1.0.5.
+Version 1.0.6.
 
 ## What's included
 

@@ -7,7 +7,7 @@ one contract. The demo brand is **Corbel Design-Build**, a fictional Milwaukee g
 architecture practice (Corbel Studio), founded in 1987. The design is architectural and technical: drawing-paper and
 blueprint grids, SVG line drawings with dimension lines, condensed uppercase headings and a safety-orange accent on
 charcoal and concrete tones. It is built with plain HTML5, Tailwind CSS v4 and one vanilla JavaScript file, with no
-dependencies. This guide covers version 1.0.2 (see `template.json`). Live demo:
+dependencies. This guide covers version 1.0.6 (see `template.json`). Live demo:
 [freeframe.dev/templates/keystone](https://freeframe.dev/templates/keystone).
 
 ## Quick start

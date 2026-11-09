@@ -6,7 +6,7 @@ Profile is a developer portfolio with a résumé, projects, writing and a ⌘K c
 person is **Sam Lindqvist**, a fictional engineer. It pairs a printable résumé and a filterable project
 gallery with a writing archive, a `/uses` page and a validated contact form, with persistent dark mode
 and keyboard-first navigation. It is built with HTML5, Tailwind CSS v4 and vanilla JavaScript, and needs
-no build step. This guide covers version 1.1.11.
+no build step. This guide covers version 1.1.12.
 
 Live demo: [freeframe.dev/templates/profile](https://freeframe.dev/templates/profile)
 

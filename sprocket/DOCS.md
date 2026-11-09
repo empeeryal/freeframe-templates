@@ -5,7 +5,7 @@
 Sprocket is a multi-page product launch and preorder website template for a hardware startup. The demo business
 is Bonfield Bikes, a fictional e-bike maker in Duluth, Minnesota, taking reservations for the Portage, a compact
 cargo e-bike built for hills and winter. It is built with plain HTML, Tailwind CSS v4 and vanilla JavaScript (no
-frameworks, no libraries). This is version 1.0.0 of the HTML stack. See the template page at
+frameworks, no libraries). This is version 1.0.4 of the HTML stack. See the template page at
 [freeframe.dev/templates/sprocket](https://freeframe.dev/templates/sprocket), which links to the live demo.
 
 The template has a product configurator with an SVG bike that recolors and shows each accessory as you choose,

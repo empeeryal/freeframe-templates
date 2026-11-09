@@ -8,7 +8,7 @@ in 1931. The design borrows from the theater itself: deep velvet burgundy, brass
 marquee bulbs and sunburst ceilings. It has a marquee home page with tonight's screenings, a two-week program,
 a page for every film with its own SVG poster, seat-map ticket booking, memberships, film series and private
 hire, and a visit page. It is built with plain HTML, Tailwind CSS v4 and vanilla JavaScript (no build step
-needed to run it). This is version 1.0.0 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). Live demo:
+needed to run it). This is version 1.0.4 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). Live demo:
 [freeframe.dev/templates/matinee](https://freeframe.dev/templates/matinee).
 
 Copy uses US English, prices are in US dollars and every date and time is Mountain Time

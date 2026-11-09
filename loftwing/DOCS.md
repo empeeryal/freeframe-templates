@@ -5,7 +5,7 @@
 Loftwing is a multi-page, waitlist-first launch site for a startup. Its fictional brand is an email marketing
 platform for independent newsletters and small online shops, based in Spokane, Washington, and still in private
 beta, so every page leads to one goal: joining the waitlist for the public launch. It's built with HTML5, Tailwind
-CSS v4 and vanilla JavaScript, with no runtime dependencies. This guide covers version 1.0.0. The template page, with
+CSS v4 and vanilla JavaScript, with no runtime dependencies. This guide covers version 1.0.1. The template page, with
 a link to the live demo, is at <https://freeframe.dev/templates/loftwing>.
 
 ## Quick start

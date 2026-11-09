@@ -5,7 +5,7 @@
 Mosaic is a multi-page website template for a community arts center, gallery or makers' space. The demo is
 Mosaic, a fictional arts center in an old dye works on Race Street, Holyoke, Massachusetts, with classes, gigs,
 film nights, family sessions, free exhibitions, room rental and volunteering. It is built with plain HTML,
-Tailwind CSS v4 and vanilla JavaScript (no frameworks, no build step needed to use it). This guide covers version 1.0.5.
+Tailwind CSS v4 and vanilla JavaScript (no frameworks, no build step needed to use it). This guide covers version 1.0.6.
 See the template page at [freeframe.dev/templates/mosaic](https://freeframe.dev/templates/mosaic), which links
 to the live demo.
 

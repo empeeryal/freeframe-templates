@@ -7,7 +7,7 @@ fictional independent magazine of essays about software, design, craft and atten
 front page, a long-form article layout with an automatic table of contents and reading progress, a
 searchable archive, topic pages, a masthead and a contact page, with typography tuned for reading in light
 and dark mode. It is built with HTML5, Tailwind CSS v4 and vanilla JavaScript, and needs no build step.
-This guide covers version 1.1.9.
+This guide covers version 1.1.10.
 
 Live demo: [freeframe.dev/templates/ledger](https://freeframe.dev/templates/ledger)
 

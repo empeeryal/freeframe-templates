@@ -6,7 +6,7 @@ Soiree is an editorial, magazine-style website for wedding and event planners. T
 Events, a fictional planning studio at 112 Church Street in Charleston, South Carolina, that offers full
 planning, partial planning and day-of coordination for weddings, corporate events and private parties. It is
 built with HTML5, Tailwind CSS v4 and vanilla JavaScript (no frameworks, no dependencies), uses US spelling and
-US dollars, and works out of time zone `America/New_York`. This guide covers version 1.0.3. Live demo:
+US dollars, and works out of time zone `America/New_York`. This guide covers version 1.0.5. Live demo:
 [freeframe.dev/templates/soiree](https://freeframe.dev/templates/soiree).
 
 ## Quick start

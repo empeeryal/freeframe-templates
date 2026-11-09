@@ -8,7 +8,7 @@ Louisville, Kentucky, who draws editorial illustration, picture books, packaging
 of it herself. It is plain HTML5, Tailwind CSS v4 and vanilla JavaScript with no dependencies: twelve
 projects with case studies, a shop with a cart and checkout, a four-step commission inquiry with a fee
 estimate and timeline, an about page with fairs and events, and a contact form. This guide covers version
-1.0.0 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). The template page, with a link to the live
+1.0.4 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). The template page, with a link to the live
 demo, is at https://freeframe.dev/templates/overprint.
 
 US spelling, US dollars and US Eastern time (`America/Kentucky/Louisville`) are used throughout.

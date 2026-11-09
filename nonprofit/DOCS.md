@@ -7,7 +7,7 @@ organization is **Clearwater Trust**, a fictional clean-water charity working in
 tells its story with impact counters, an appeal progress bar and long-form field stories, shows where
 money goes with a spending chart, and includes volunteering, events and a full donation flow. It is
 built with HTML5, Tailwind CSS v4 and vanilla JavaScript, and needs no build step. This guide covers
-version 1.1.6.
+version 1.1.9.
 
 Live demo: [freeframe.dev/templates/nonprofit](https://freeframe.dev/templates/nonprofit)
 

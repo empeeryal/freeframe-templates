@@ -5,7 +5,7 @@
 Compass is a website template for coaches and consultants. The demo content is for **Bearing**, the fictional
 leadership coaching practice of Nadia Whitcombe in Pittsburgh, who works with new managers, founders and senior
 leaders through 1:1 coaching, a group cohort and team workshops. It is built with plain HTML5, Tailwind CSS v4 and
-one vanilla JavaScript file with no dependencies. This is version 1.0.4 (see [CHANGELOG.md](CHANGELOG.md)). Live
+one vanilla JavaScript file with no dependencies. This is version 1.0.6 (see [CHANGELOG.md](CHANGELOG.md)). Live
 demo: [freeframe.dev/templates/compass](https://freeframe.dev/templates/compass).
 
 ## Quick start

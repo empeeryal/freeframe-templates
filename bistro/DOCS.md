@@ -6,7 +6,7 @@ Bistro is a warm, high-end website for a restaurant, café or wine bar. The demo
 Ember**, a fictional wood-fired Mediterranean kitchen in Annapolis, Maryland, with tabbed menus, a reservation
 form whose time slots follow the opening hours, private dining packages and a live "open now" badge.
 It is built with HTML5, Tailwind CSS v4 and a small vanilla JavaScript file, and needs no build step.
-This guide covers version 1.1.9.
+This guide covers version 1.1.11.
 
 Live demo: [freeframe.dev/templates/bistro](https://freeframe.dev/templates/bistro)
 
