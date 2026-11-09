@@ -1,0 +1,231 @@
+/* Slatework — Tailwind CSS v4 source.
+   Edit the color tokens in :root and .dark below, then rebuild with `npm run build`
+   (writes assets/css/style.css). */
+@import "tailwindcss";
+
+/* Docs and metadata are not markup: keep their words out of the generated CSS. */
+@source not "../*.md";
+@source not "../*.json";
+
+/* Dark mode follows the .dark class on <html> (set in <head> and by the theme toggle). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---- Color tokens: edit these to re-brand the whole site ---- */
+:root {
+  --paper: #ffffff;        /* page background, cards */
+  --canvas: #f4f4f1;       /* alternate bands, board columns */
+  --canvas-2: #e9e9e3;     /* tracks, pressed states */
+  --line: #dddfd7;         /* hairlines and card borders */
+  --line-strong: #878b7f;  /* inputs, chart axes (3:1 on paper) */
+  --ink: #15171e;          /* headings and body */
+  --ink-soft: #454955;     /* secondary text (AA on paper and canvas) */
+  --ink-faint: #595d69;    /* captions, meta (AA on paper and canvas) */
+  --brand: #3a3fd0;        /* Slatework indigo: buttons, links, focus */
+  --brand-strong: #2b2fa8; /* hover */
+  --brand-soft: #ecedfc;   /* tinted chips and selected rows */
+  --brand-line: #c9ccf5;   /* tinted borders */
+  --on-brand: #ffffff;     /* text on brand fills */
+  --applied: #5b6170;      /* stage colors: text and dots (AA on paper) */
+  --screen: #1f6aa5;
+  --interview: #5a3fc0;
+  --offer: #8a5a00;
+  --hired: #10734c;
+  --danger: #b42318;
+  --applied-soft: #eceef1;
+  --screen-soft: #e3f0fa;
+  --interview-soft: #eeeafc;
+  --offer-soft: #fcf0d6;
+  --hired-soft: #e0f3ea;
+  --danger-soft: #fde8e6;
+  color-scheme: light;
+}
+.dark {
+  --paper: #0f1117;
+  --canvas: #161922;
+  --canvas-2: #1f2330;
+  --line: #2b303f;
+  --line-strong: #707790;
+  --ink: #eceef5;
+  --ink-soft: #b6bbcb;
+  --ink-faint: #9ba1b4;
+  --brand: #a3a9ff;
+  --brand-strong: #c2c6ff;
+  --brand-soft: #23264a;
+  --brand-line: #3c4180;
+  --on-brand: #0f1117;
+  --applied: #b3b8c6;
+  --screen: #7fc1f2;
+  --interview: #bba8ff;
+  --offer: #f2c063;
+  --hired: #63d3a0;
+  --danger: #ff9b8f;
+  --applied-soft: #232733;
+  --screen-soft: #142a3c;
+  --interview-soft: #241f45;
+  --offer-soft: #33280f;
+  --hired-soft: #10291f;
+  --danger-soft: #3a1714;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-canvas: var(--canvas);
+  --color-canvas-2: var(--canvas-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-line: var(--brand-line);
+  --color-on-brand: var(--on-brand);
+  --color-applied: var(--applied);
+  --color-screen: var(--screen);
+  --color-interview: var(--interview);
+  --color-offer: var(--offer);
+  --color-hired: var(--hired);
+  --color-danger: var(--danger);
+  --color-applied-soft: var(--applied-soft);
+  --color-screen-soft: var(--screen-soft);
+  --color-interview-soft: var(--interview-soft);
+  --color-offer-soft: var(--offer-soft);
+  --color-hired-soft: var(--hired-soft);
+  --color-danger-soft: var(--danger-soft);
+}
+
+@theme {
+  /* Fixed colors that don't flip with the theme: the night band (CTA, footer) and the marigold highlight. */
+  --color-night: #13151d;
+  --color-night-2: #1d2030;
+  --color-night-line: #31364a;
+  --color-mist: #c3c8d8;      /* secondary text on night (AA) */
+  --color-marigold: #f2b33d;  /* highlight fills, ink text on top */
+
+  --font-display: "Hubot Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Fira Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --ease-crisp: cubic-bezier(.2, .7, .2, 1);
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
+  body { @apply bg-paper font-sans text-ink antialiased; font-variant-numeric: tabular-nums; }
+  h1, h2, h3, h4 { @apply font-display; font-stretch: 112%; }
+  /* Hubot Sans draws slashed zeros with tabular figures: keep its default figures. */
+  h1, h2, h3, h4, .font-display { font-variant-numeric: normal; }
+  ::selection { background: var(--brand-line); color: var(--ink); }
+  :focus-visible { outline: 2.5px solid var(--brand); outline-offset: 2px; border-radius: 4px; }
+  .on-night :focus-visible { outline-color: var(--color-marigold); }
+  [id] { scroll-margin-top: 6rem; }
+  summary { cursor: pointer; list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  dialog { @apply m-auto; }
+  dialog::backdrop { background: rgb(13 15 22 / .55); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:focus-within { scroll-behavior: smooth; }
+}
+
+@utility btn {
+  @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-md px-4.5 text-[15px] font-semibold whitespace-nowrap transition duration-200 select-none disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+@layer components {
+  .wrap { @apply mx-auto w-full max-w-[80rem] px-4 sm:px-6 lg:px-8; }
+
+  /* Buttons */
+  .btn-primary { @apply btn bg-brand text-on-brand hover:bg-brand-strong; }
+  .btn-outline { @apply btn border border-line-strong bg-paper text-ink hover:border-ink; }
+  .btn-night { @apply btn bg-marigold text-night hover:bg-[#f7c766]; }
+  .btn-ghost-night { @apply btn border border-white/30 text-white hover:border-white; }
+  .btn-sm { @apply min-h-10 px-3.5 text-sm; }
+
+  /* Type */
+  .eyebrow { @apply flex items-center gap-2 text-[13px] font-semibold tracking-[0.06em] text-brand uppercase; }
+  .h-display { @apply text-[2.35rem] leading-[1.02] font-bold tracking-[-0.03em] text-balance sm:text-[3.3rem] lg:text-[3.9rem]; }
+  .h-section { @apply text-[1.85rem] leading-[1.08] font-bold tracking-[-0.025em] text-balance sm:text-[2.5rem]; }
+  .lead { @apply text-lg leading-relaxed text-ink-soft text-pretty; }
+  .link { @apply font-semibold text-brand underline decoration-brand-line decoration-2 underline-offset-4 hover:decoration-brand; }
+
+  /* Surfaces */
+  .panel { @apply rounded-lg border border-line bg-paper; }
+  .panel-lift { @apply shadow-[0_1px_2px_rgb(21_23_30/.06),0_24px_48px_-28px_rgb(21_23_30/.28)] dark:shadow-[0_24px_48px_-28px_rgb(0_0_0/.8)]; }
+  .gridlines { background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 48px 48px; }
+
+  /* Header navigation */
+  .nav-link { @apply relative rounded px-3 py-2 text-[15px] font-medium text-ink-soft transition hover:text-ink; }
+  .nav-link[aria-current="page"] { @apply text-ink; }
+  .nav-link[aria-current="page"]::after { content: ""; @apply absolute right-3 -bottom-[15px] left-3 h-[3px] bg-brand; }
+  .m-link { @apply flex items-center justify-between border-b border-line py-3.5 text-lg font-semibold text-ink; }
+  .m-link[aria-current="page"] { @apply text-brand; }
+
+  /* Chips and stage tones (stage ids from STAGES in data.js) */
+  .chip { @apply inline-flex items-center gap-1.5 rounded px-2 py-0.5 text-xs font-semibold whitespace-nowrap; }
+  .tone-applied { @apply bg-applied-soft text-applied; }
+  .tone-screen { @apply bg-screen-soft text-screen; }
+  .tone-interview { @apply bg-interview-soft text-interview; }
+  .tone-offer { @apply bg-offer-soft text-offer; }
+  .tone-hired { @apply bg-hired-soft text-hired; }
+  .tone-danger { @apply bg-danger-soft text-danger; }
+  .dot-applied { @apply bg-applied; }
+  .dot-screen { @apply bg-screen; }
+  .dot-interview { @apply bg-interview; }
+  .dot-offer { @apply bg-offer; }
+  .dot-hired { @apply bg-hired; }
+
+  /* Pipeline board */
+  .board-col { @apply flex min-h-[15rem] min-w-0 flex-col rounded-md border border-line bg-canvas p-2 transition-colors; }
+  .board-col.is-target { @apply border-brand bg-brand-soft; }
+  .cand { @apply relative block cursor-grab rounded-md border border-line bg-paper px-2.5 py-2 shadow-[0_1px_1px_rgb(21_23_30/.05)] transition-shadow select-none hover:border-line-strong active:cursor-grabbing; }
+  .cand.is-dragging { @apply opacity-35; }
+  .cand-ghost { @apply pointer-events-none fixed z-50 w-48 rotate-2 cursor-grabbing shadow-[0_18px_40px_-12px_rgb(21_23_30/.45)]; }
+  .cand.is-new { animation: card-in .5s var(--ease-crisp); }
+  .move-menu { @apply absolute top-full right-0 z-30 mt-1 w-44 rounded-md border border-line bg-paper p-1 shadow-[0_16px_32px_-12px_rgb(21_23_30/.35)]; }
+  .move-menu [role="menuitem"] { @apply flex w-full items-center gap-2 rounded px-2.5 py-2 text-left text-sm text-ink hover:bg-canvas focus:bg-canvas focus:outline-none; }
+  .move-menu [role="menuitem"][aria-disabled="true"] { @apply text-ink-faint; }
+
+  /* Form fields */
+  .field-label { @apply mb-1.5 block text-sm font-semibold text-ink; }
+  .field { @apply block min-h-11 w-full rounded-md border border-line-strong bg-paper px-3 py-2 text-base text-ink placeholder:text-ink-faint focus:border-brand focus:outline-2 focus:outline-offset-0 focus:outline-brand; }
+  .field[aria-invalid="true"] { @apply border-danger; }
+  .field-error { @apply mt-1.5 text-sm font-medium text-danger; }
+  .field-hint { @apply mt-1.5 text-sm text-ink-faint; }
+
+  /* Segmented control (billing switch, filters) */
+  .seg { @apply inline-flex rounded-md border border-line bg-canvas p-1; }
+  .seg button { @apply min-h-9 rounded px-3.5 text-sm font-semibold text-ink-soft transition; }
+  .seg button[aria-pressed="true"] { @apply bg-paper text-ink shadow-[0_1px_2px_rgb(21_23_30/.15)]; }
+  .filter-btn { @apply min-h-10 rounded-full border border-line bg-paper px-3.5 text-sm font-semibold text-ink-soft transition hover:border-line-strong; }
+  .filter-btn[aria-pressed="true"] { @apply border-ink bg-ink text-paper; }
+
+  /* Rating buttons on the scorecard */
+  .rate { @apply grid min-h-10 min-w-10 place-items-center rounded border border-line bg-paper text-sm font-semibold text-ink-soft transition hover:border-line-strong; }
+  .rate[aria-checked="true"] { @apply border-brand bg-brand text-on-brand; }
+
+  /* Tables */
+  .cmp th, .cmp td { @apply border-b border-line px-4 py-3 text-left align-top; }
+  .cmp thead th { @apply bg-canvas text-sm font-semibold; }
+
+  /* Footer */
+  .foot-link { @apply text-mist hover:text-white; }
+
+  /* Scroll reveal: only when JS runs and motion is allowed. */
+  .js .reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s var(--ease-crisp), transform .6s var(--ease-crisp); }
+  .js .reveal.is-visible { opacity: 1; transform: none; }
+}
+
+@keyframes card-in { from { transform: scale(.96); box-shadow: 0 0 0 3px var(--brand-line); } to { transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  .cand.is-new { animation: none; }
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+
+@media print {
+  header, footer, .no-print { display: none !important; }
+}

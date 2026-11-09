@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Security and compliance: how Slatework protects candidate data</title>
+    <meta name="description" content="How Slatework protects candidate data: access controls, encryption, logging, an annual SOC 2 Type II audit, configurable data retention and voluntary self-ID reporting kept apart from hiring decisions." />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1117" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Slatework" />
+    <meta property="og:title" content="Security and compliance: how Slatework protects candidate data" />
+    <meta property="og:description" content="How Slatework protects candidate data: access controls, encryption, logging, an annual SOC 2 Type II audit, configurable data retention and voluntary self-ID reporting kept apart from hiring decisions." />
+    <meta property="og:image" content="assets/img/og-image.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=Hubot+Sans:wdth,wght@100..125,500..800&amp;display=swap" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script>(function(){var d=document.documentElement;d.classList.add('js');var t=null;try{t=window.localStorage.getItem('slatework:theme')}catch(e){}if(t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme: dark)').matches))d.classList.add('dark')})();</script>
+    <script src="assets/js/data.js" defer></script>
+    <script src="assets/js/main.js" defer></script>
+  </head>
+  <body data-page="security" class="flex min-h-screen flex-col">
+    <a href="#main" class="sr-only z-[60] bg-brand px-4 py-3 text-on-brand focus:not-sr-only focus:fixed focus:top-3 focus:left-3">Skip to content</a>
+    <header id="site-header" class="sticky top-0 z-40 border-b border-line bg-paper/95 backdrop-blur">
+      <div class="wrap flex min-h-[4.25rem] items-center justify-between gap-4">
+        <a href="index.html" class="flex items-center gap-2.5 rounded" aria-label="Slatework home"><svg viewBox="0 0 32 32" class="size-8 shrink-0" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#3a3fd0"/><path d="M8 10h16M8 16h11M8 22h6" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle cx="21.5" cy="22" r="2.6" fill="#f2b33d"/></svg><span class="font-display text-[1.4rem] font-bold tracking-[-0.02em] [font-stretch:115%]">Slatework</span></a>
+        <nav class="hidden lg:block" aria-label="Main">
+          <ul class="flex items-center gap-0.5">
+              <li><a class="nav-link" href="product.html">Product</a></li>
+              <li><a class="nav-link" href="pricing.html">Pricing</a></li>
+              <li><a class="nav-link" href="customers.html">Customers</a></li>
+              <li><a class="nav-link" href="integrations.html">Integrations</a></li>
+              <li><a class="nav-link" href="security.html" aria-current="page">Security</a></li>
+              <li><a class="nav-link" href="resources.html">Resources</a></li>
+          </ul>
+        </nav>
+        <div class="flex items-center gap-2">
+          <button type="button" class="grid size-11 place-items-center rounded-md border border-line text-ink-soft transition hover:border-line-strong hover:text-ink" data-theme-toggle aria-pressed="false">
+            <span class="sr-only">Dark theme</span>
+            <svg viewBox="0 0 24 24" class="size-[1.15rem] dark:hidden" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+            <svg viewBox="0 0 24 24" class="hidden size-[1.15rem] dark:block" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>
+          </button>
+          <a href="demo.html" class="btn-primary btn-sm hidden sm:inline-flex">Book a demo <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+          <button id="menu-toggle" type="button" class="grid size-11 place-items-center rounded-md border border-line-strong lg:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+            <svg data-icon-open viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+            <svg data-icon-close viewBox="0 0 24 24" class="hidden size-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </button>
+        </div>
+      </div>
+      <nav id="mobile-menu" class="wrap max-h-[calc(100vh-4.5rem)] overflow-y-auto pb-6 lg:hidden" aria-label="Mobile" hidden>
+        <ul class="grid">
+              <li><a class="m-link" href="product.html">Product</a></li>
+              <li><a class="m-link" href="pricing.html">Pricing</a></li>
+              <li><a class="m-link" href="customers.html">Customers</a></li>
+              <li><a class="m-link" href="integrations.html">Integrations</a></li>
+              <li><a class="m-link" href="security.html" aria-current="page">Security</a></li>
+              <li><a class="m-link" href="resources.html">Resources</a></li>
+        </ul>
+        <a href="demo.html" class="btn-primary mt-5 w-full">Book a demo <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="border-b border-line">
+        <div class="wrap grid gap-10 py-14 sm:py-16 lg:grid-cols-[1.25fr_1fr] lg:items-center">
+          <div>
+            <p class="eyebrow">Security and compliance</p>
+            <h1 class="h-display mt-4">Candidate data is personal. We treat it that way.</h1>
+            <p class="lead mt-5 max-w-2xl">Résumés, interview notes and self-ID answers are some of the most sensitive records a company keeps. Here is how we protect them, how long we keep them and who can see them.</p>
+            <div class="mt-7 flex flex-wrap gap-3">
+              <a href="demo.html?topic=security" class="btn-primary">Request our security packet <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+              <a href="#retention" class="btn-outline">Data retention</a>
+            </div>
+          </div>
+          <svg viewBox="0 0 360 280" class="h-auto w-full max-w-md justify-self-center" role="img" aria-label="Candidate records inside layered protection: access control, encryption and audit logging.">
+            <rect x="20" y="20" width="320" height="240" rx="18" class="fill-canvas stroke-line" stroke-width="1.5"/>
+            <rect x="52" y="50" width="256" height="180" rx="14" class="fill-paper stroke-line-strong" stroke-width="1.5" stroke-dasharray="6 6"/>
+            <rect x="88" y="82" width="184" height="116" rx="10" class="fill-brand-soft stroke-brand" stroke-width="2"/>
+            <g class="fill-paper stroke-brand" stroke-width="1.5"><rect x="104" y="98" width="70" height="84" rx="6"/><rect x="186" y="98" width="70" height="84" rx="6"/></g>
+            <g class="stroke-ink-faint" stroke-width="3" stroke-linecap="round"><path d="M116 116h34M116 128h46M116 140h40M198 116h34M198 128h46M198 140h28"/></g>
+            <circle cx="139" cy="164" r="8" class="fill-hired"/><circle cx="221" cy="164" r="8" class="fill-marigold"/>
+            <g class="fill-ink-soft" font-size="11" font-weight="600"><text x="34" y="40">Access control · SSO · roles</text><text x="66" y="70">Encryption at rest and in transit</text><text x="102" y="216">Every view and export logged</text></g>
+          </svg>
+        </div>
+      </section>
+
+      <section class="py-20" aria-labelledby="controls-title">
+        <div class="wrap">
+          <div class="max-w-3xl">
+            <h2 id="controls-title" class="h-section">Controls we run, and test every year.</h2>
+            <p class="lead mt-4">Slatework completes a SOC 2 Type II examination by an independent CPA firm each year. Customers on any plan can read the latest report under a nondisclosure agreement.</p>
+          </div>
+          <ul class="mt-10 grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+            <li class="reveal bg-paper p-6"><h3 class="text-lg font-bold">Access control</h3><p class="mt-2 text-sm text-ink-soft">Role-based permissions per job, so an interviewer sees only the candidates they meet. Single sign-on and automatic deprovisioning on Enterprise.</p></li>
+            <li class="reveal bg-paper p-6"><h3 class="text-lg font-bold">Encryption</h3><p class="mt-2 text-sm text-ink-soft">TLS 1.2 or later in transit and AES-256 at rest, including backups and résumé files. Keys rotate yearly.</p></li>
+            <li class="reveal bg-paper p-6"><h3 class="text-lg font-bold">Audit logging</h3><p class="mt-2 text-sm text-ink-soft">Every profile view, export, stage change and permission change is logged with who and when, kept for two years and searchable by admins.</p></li>
+            <li class="reveal bg-paper p-6"><h3 class="text-lg font-bold">Hosting and resilience</h3><p class="mt-2 text-sm text-ink-soft">Hosted in two US regions with hourly backups, a four-hour recovery objective and a restore test every quarter.</p></li>
+            <li class="reveal bg-paper p-6"><h3 class="text-lg font-bold">Vendor management</h3><p class="mt-2 text-sm text-ink-soft">Every subprocessor is reviewed before onboarding and every year after. We give 30 days’ notice before adding one.</p></li>
+            <li class="reveal bg-paper p-6"><h3 class="text-lg font-bold">People and change</h3><p class="mt-2 text-sm text-ink-soft">Background-checked employees, yearly security training, peer-reviewed code changes and an annual third-party penetration test.</p></li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="retention" class="border-y border-line bg-canvas py-20" aria-labelledby="retention-title">
+        <div class="wrap grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-start">
+          <div>
+            <h2 id="retention-title" class="h-section">Keep candidate data only as long as you need it.</h2>
+            <p class="lead mt-4">Set how long Slatework keeps candidates after their last activity. When the period ends, we anonymize the profile: names, contact details, résumés and notes are removed, and the counts in your reports stay.</p>
+            <p class="mt-4 text-ink-soft">Candidates can ask to see or delete their data at any time from the link in every email we send for you.</p>
+          </div>
+          <div class="panel panel-lift p-6" data-retention>
+            <fieldset>
+              <legend class="field-label">Keep rejected candidates for</legend>
+              <div class="seg mt-1 w-full">
+                <label class="flex-1"><input type="radio" name="retention" value="12" class="peer sr-only" /><span class="flex min-h-9 cursor-pointer items-center justify-center rounded px-3 text-sm font-semibold text-ink-soft peer-checked:bg-paper peer-checked:text-ink peer-checked:shadow-[0_1px_2px_rgb(21_23_30/.15)] peer-focus-visible:outline-2 peer-focus-visible:outline-brand">12 months</span></label>
+                <label class="flex-1"><input type="radio" name="retention" value="24" class="peer sr-only" checked /><span class="flex min-h-9 cursor-pointer items-center justify-center rounded px-3 text-sm font-semibold text-ink-soft peer-checked:bg-paper peer-checked:text-ink peer-checked:shadow-[0_1px_2px_rgb(21_23_30/.15)] peer-focus-visible:outline-2 peer-focus-visible:outline-brand">24 months</span></label>
+                <label class="flex-1"><input type="radio" name="retention" value="36" class="peer sr-only" /><span class="flex min-h-9 cursor-pointer items-center justify-center rounded px-3 text-sm font-semibold text-ink-soft peer-checked:bg-paper peer-checked:text-ink peer-checked:shadow-[0_1px_2px_rgb(21_23_30/.15)] peer-focus-visible:outline-2 peer-focus-visible:outline-brand">36 months</span></label>
+              </div>
+            </fieldset>
+            <p class="mt-3 text-sm text-ink-faint" data-ret-note>Our default. Covers most federal record-keeping periods for applicants.</p>
+            <ol class="mt-6 grid gap-4 border-t border-line pt-6" aria-live="polite">
+              <li class="flex gap-4"><span class="mt-1 size-3 shrink-0 rounded-full bg-applied" aria-hidden="true"></span><p class="text-sm"><span class="font-semibold">Rejected today</span><br /><span class="text-ink-soft" data-ret-today>Monday, November 9, 2026</span></p></li>
+              <li class="flex gap-4"><span class="mt-1 size-3 shrink-0 rounded-full bg-offer" aria-hidden="true"></span><p class="text-sm"><span class="font-semibold">Admins get a reminder</span><br /><span class="text-ink-soft"><span data-ret-warn>Oct 9, 2028</span>, a month before, in case of a legal hold</span></p></li>
+              <li class="flex gap-4"><span class="mt-1 size-3 shrink-0 rounded-full bg-hired" aria-hidden="true"></span><p class="text-sm"><span class="font-semibold">Profile anonymized after <span data-ret-months>24 months</span></span><br /><span class="text-ink-soft" data-ret-date>Thursday, November 9, 2028</span></p></li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-20" aria-labelledby="eeo-title">
+        <div class="wrap grid gap-10 lg:grid-cols-2">
+          <div>
+            <h2 id="eeo-title" class="h-section">Voluntary self-ID, kept apart from hiring decisions.</h2>
+            <p class="lead mt-4">Employers with federal reporting duties, including many federal contractors, may need applicant demographic data. Slatework collects it on a separate, clearly voluntary step and stores it apart from the candidate profile.</p>
+          </div>
+          <ul class="grid gap-4">
+            <li class="panel p-5"><h3 class="font-sans font-semibold">Separate storage and access</h3><p class="mt-1 text-sm text-ink-soft">Self-ID answers never appear on profiles, scorecards or exports used by interviewers. Only roles you grant reporting access can see summaries.</p></li>
+            <li class="panel p-5"><h3 class="font-sans font-semibold">Summary reports by job and stage</h3><p class="mt-1 text-sm text-ink-soft">Applicant flow by job group and stage, ready to support EEO-1 and affirmative action planning, with small groups suppressed in on-screen views.</p></li>
+            <li class="panel p-5"><h3 class="font-sans font-semibold">Disposition reasons on every rejection</h3><p class="mt-1 text-sm text-ink-soft">Required, job-related reasons when a candidate is rejected, so your records explain each decision.</p></li>
+          </ul>
+          <p class="text-sm text-ink-faint lg:col-span-2">This page is general information about how Slatework works, not legal advice. Your obligations depend on your size, contracts and locations; confirm them with your own counsel.</p>
+        </div>
+      </section>
+
+      <section class="border-t border-line bg-canvas py-20" aria-labelledby="sub-title">
+        <div class="wrap">
+          <h2 id="sub-title" class="h-section">Subprocessors</h2>
+          <p class="mt-3 max-w-2xl text-ink-soft">The service providers that process customer data for Slatework, by function. The named list is in our security packet.</p>
+          <div class="relative mt-8 overflow-x-auto rounded-lg border border-line bg-paper">
+            <table class="cmp w-full min-w-[36rem] border-collapse text-sm">
+              <caption class="sr-only">Slatework subprocessors by function</caption>
+              <thead><tr><th scope="col">Function</th><th scope="col">Data processed</th><th scope="col">Location</th></tr></thead>
+              <tbody class="text-ink-soft">
+                <tr><th scope="row" class="font-medium text-ink">Cloud hosting and storage</th><td>All customer data</td><td>United States (two regions)</td></tr>
+                <tr><th scope="row" class="font-medium text-ink">Transactional email</th><td>Names, email addresses, message content</td><td>United States</td></tr>
+                <tr><th scope="row" class="font-medium text-ink">Résumé parsing</th><td>Résumé files and extracted fields</td><td>United States</td></tr>
+                <tr><th scope="row" class="font-medium text-ink">Customer support tooling</th><td>Admin names and support conversations</td><td>United States</td></tr>
+                <tr><th scope="row" class="font-medium text-ink">Error monitoring</th><td>Technical logs, with candidate data removed</td><td>United States</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="on-night mt-auto bg-night text-white">
+      <div class="wrap grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+        <div>
+          <a href="index.html" class="inline-flex items-center gap-2.5 rounded" aria-label="Slatework home"><svg viewBox="0 0 32 32" class="size-8 shrink-0" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#3a3fd0"/><path d="M8 10h16M8 16h11M8 22h6" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle cx="21.5" cy="22" r="2.6" fill="#f2b33d"/></svg><span class="font-display text-[1.35rem] font-bold [font-stretch:115%]">Slatework</span></a>
+          <p class="mt-4 max-w-xs text-sm leading-relaxed text-mist">The applicant tracking system for growing companies. Built in Lexington, Kentucky, for teams of 50 to 1,000.</p>
+        </div>
+        <div>
+          <h2 class="text-sm font-semibold tracking-wide text-white">Product</h2>
+          <ul class="mt-4 grid gap-2.5 text-sm">
+            <li><a class="foot-link" href="product.html">Product tour</a></li>
+            <li><a class="foot-link" href="pricing.html">Pricing</a></li>
+            <li><a class="foot-link" href="integrations.html">Integrations</a></li>
+            <li><a class="foot-link" href="security.html">Security and compliance</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="text-sm font-semibold tracking-wide text-white">Company</h2>
+          <ul class="mt-4 grid gap-2.5 text-sm">
+            <li><a class="foot-link" href="customers.html">Customers</a></li>
+            <li><a class="foot-link" href="resources.html">Resources</a></li>
+            <li><a class="foot-link" href="demo.html">Book a demo</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="text-sm font-semibold tracking-wide text-white">Talk to us</h2>
+          <address class="mt-4 grid gap-2.5 text-sm text-mist not-italic">
+            <span>418 West Short Street, Suite 300<br />Lexington, KY 40507</span>
+            <a class="foot-link" href="tel:+18595550147">(859) 555-0147</a>
+            <a class="foot-link" href="mailto:hello@slatework.example">hello@slatework.example</a>
+            <span>Weekdays, 8:00 a.m. to 6:00 p.m. Eastern</span>
+          </address>
+        </div>
+      </div>
+      <div class="border-t border-night-line">
+        <div class="wrap flex flex-col gap-2 py-6 text-sm text-mist sm:flex-row sm:items-center sm:justify-between">
+          <p>© <span data-year>2026</span> Slatework, Inc. All rights reserved.</p>
+          <p>Slatework and its customers are fictional.</p>
+        </div>
+      </div>
+    </footer>
+    <div id="live-region" class="sr-only" aria-live="polite"></div>
+  </body>
+</html>

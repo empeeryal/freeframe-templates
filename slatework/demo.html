@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Book a demo of Slatework</title>
+    <meta name="description" content="Book a 30-minute Slatework demo with a hiring specialist. Tell us about your team and we’ll propose a time and load two of your open roles into a workspace before the call." />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1117" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Slatework" />
+    <meta property="og:title" content="Book a demo of Slatework" />
+    <meta property="og:description" content="Book a 30-minute Slatework demo with a hiring specialist. Tell us about your team and we’ll propose a time and load two of your open roles into a workspace before the call." />
+    <meta property="og:image" content="assets/img/og-image.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=Hubot+Sans:wdth,wght@100..125,500..800&amp;display=swap" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script>(function(){var d=document.documentElement;d.classList.add('js');var t=null;try{t=window.localStorage.getItem('slatework:theme')}catch(e){}if(t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme: dark)').matches))d.classList.add('dark')})();</script>
+    <script src="assets/js/data.js" defer></script>
+    <script src="assets/js/main.js" defer></script>
+  </head>
+  <body data-page="demo" class="flex min-h-screen flex-col">
+    <a href="#main" class="sr-only z-[60] bg-brand px-4 py-3 text-on-brand focus:not-sr-only focus:fixed focus:top-3 focus:left-3">Skip to content</a>
+    <header id="site-header" class="sticky top-0 z-40 border-b border-line bg-paper/95 backdrop-blur">
+      <div class="wrap flex min-h-[4.25rem] items-center justify-between gap-4">
+        <a href="index.html" class="flex items-center gap-2.5 rounded" aria-label="Slatework home"><svg viewBox="0 0 32 32" class="size-8 shrink-0" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#3a3fd0"/><path d="M8 10h16M8 16h11M8 22h6" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle cx="21.5" cy="22" r="2.6" fill="#f2b33d"/></svg><span class="font-display text-[1.4rem] font-bold tracking-[-0.02em] [font-stretch:115%]">Slatework</span></a>
+        <nav class="hidden lg:block" aria-label="Main">
+          <ul class="flex items-center gap-0.5">
+              <li><a class="nav-link" href="product.html">Product</a></li>
+              <li><a class="nav-link" href="pricing.html">Pricing</a></li>
+              <li><a class="nav-link" href="customers.html">Customers</a></li>
+              <li><a class="nav-link" href="integrations.html">Integrations</a></li>
+              <li><a class="nav-link" href="security.html">Security</a></li>
+              <li><a class="nav-link" href="resources.html">Resources</a></li>
+          </ul>
+        </nav>
+        <div class="flex items-center gap-2">
+          <button type="button" class="grid size-11 place-items-center rounded-md border border-line text-ink-soft transition hover:border-line-strong hover:text-ink" data-theme-toggle aria-pressed="false">
+            <span class="sr-only">Dark theme</span>
+            <svg viewBox="0 0 24 24" class="size-[1.15rem] dark:hidden" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+            <svg viewBox="0 0 24 24" class="hidden size-[1.15rem] dark:block" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>
+          </button>
+          <a href="demo.html" class="btn-primary btn-sm hidden sm:inline-flex" aria-current="page">Book a demo <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+          <button id="menu-toggle" type="button" class="grid size-11 place-items-center rounded-md border border-line-strong lg:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+            <svg data-icon-open viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+            <svg data-icon-close viewBox="0 0 24 24" class="hidden size-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </button>
+        </div>
+      </div>
+      <nav id="mobile-menu" class="wrap max-h-[calc(100vh-4.5rem)] overflow-y-auto pb-6 lg:hidden" aria-label="Mobile" hidden>
+        <ul class="grid">
+              <li><a class="m-link" href="product.html">Product</a></li>
+              <li><a class="m-link" href="pricing.html">Pricing</a></li>
+              <li><a class="m-link" href="customers.html">Customers</a></li>
+              <li><a class="m-link" href="integrations.html">Integrations</a></li>
+              <li><a class="m-link" href="security.html">Security</a></li>
+              <li><a class="m-link" href="resources.html">Resources</a></li>
+        </ul>
+        <a href="demo.html" class="btn-primary mt-5 w-full">Book a demo <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="py-12 sm:py-16">
+        <div class="wrap grid gap-12 lg:grid-cols-[1.25fr_1fr]">
+          <div>
+            <p class="eyebrow">Book a demo</p>
+            <h1 class="h-display mt-4">See Slatework with your own open roles.</h1>
+            <p class="lead mt-5 max-w-2xl">Thirty minutes with a hiring specialist, not a script. Tell us a little about your team and we’ll propose a time right away.</p>
+            <p class="mt-5 rounded-md border border-brand-line bg-brand-soft px-4 py-3 text-sm text-ink" data-demo-plan-note hidden></p>
+
+            <form class="panel mt-8 p-5 sm:p-7" data-demo-form>
+              <p class="mb-5 rounded-md bg-danger-soft px-4 py-3 text-sm font-semibold text-danger" data-form-summary role="alert" hidden></p>
+              <div class="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label class="field-label" for="d-first">First name</label>
+                  <input id="d-first" name="first" class="field" autocomplete="given-name" required aria-describedby="d-first-error" />
+                  <p id="d-first-error" class="field-error" hidden></p>
+                </div>
+                <div>
+                  <label class="field-label" for="d-last">Last name</label>
+                  <input id="d-last" name="last" class="field" autocomplete="family-name" required aria-describedby="d-last-error" />
+                  <p id="d-last-error" class="field-error" hidden></p>
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="field-label" for="d-email">Work email</label>
+                  <input id="d-email" name="email" type="email" class="field" autocomplete="email" required data-work-email aria-describedby="d-email-error" />
+                  <p id="d-email-error" class="field-error" hidden></p>
+                </div>
+                <div>
+                  <label class="field-label" for="d-company">Company</label>
+                  <input id="d-company" name="company" class="field" autocomplete="organization" required aria-describedby="d-company-error" />
+                  <p id="d-company-error" class="field-error" hidden></p>
+                </div>
+                <div>
+                  <label class="field-label" for="d-role">Your role</label>
+                  <select id="d-role" name="role" class="field" required aria-describedby="d-role-error" data-msg-required="Choose the role closest to yours.">
+                    <option value="">Choose one</option>
+                    <option value="people">People or HR leader</option>
+                    <option value="recruiting">Recruiter or talent lead</option>
+                    <option value="manager">Hiring manager</option>
+                    <option value="executive">Founder or executive</option>
+                    <option value="other">Something else</option>
+                  </select>
+                  <p id="d-role-error" class="field-error" hidden></p>
+                </div>
+                <div>
+                  <label class="field-label" for="d-size">Company size</label>
+                  <select id="d-size" name="size" class="field" required aria-describedby="d-size-error" data-msg-required="Choose your company size.">
+                    <option value="">Choose one</option>
+                    <option value="s1">50–200 employees</option>
+                    <option value="s2">201–500 employees</option>
+                    <option value="s3">501–1,000 employees</option>
+                    <option value="s4">More than 1,000</option>
+                  </select>
+                  <p id="d-size-error" class="field-error" hidden></p>
+                </div>
+                <div>
+                  <label class="field-label" for="d-plan">Plan you’re considering</label>
+                  <select id="d-plan" name="plan" class="field">
+                    <option value="unsure">Not sure yet</option>
+                    <option value="essentials">Essentials</option>
+                    <option value="growth">Growth</option>
+                    <option value="enterprise">Enterprise</option>
+                  </select>
+                </div>
+                <fieldset class="sm:col-span-2">
+                  <legend class="field-label">What would you like to see?</legend>
+                  <div class="grid gap-2 sm:grid-cols-2">
+                    <label class="flex min-h-11 items-center gap-3 rounded-md border border-line px-3 has-[:checked]:border-brand has-[:checked]:bg-brand-soft"><input type="checkbox" name="interest" value="pipeline" class="size-4 accent-[var(--brand)]" />Pipeline and job boards</label>
+                    <label class="flex min-h-11 items-center gap-3 rounded-md border border-line px-3 has-[:checked]:border-brand has-[:checked]:bg-brand-soft"><input type="checkbox" name="interest" value="interviews" class="size-4 accent-[var(--brand)]" />Scorecards and scheduling</label>
+                    <label class="flex min-h-11 items-center gap-3 rounded-md border border-line px-3 has-[:checked]:border-brand has-[:checked]:bg-brand-soft"><input type="checkbox" name="interest" value="offers" class="size-4 accent-[var(--brand)]" />Offers and approvals</label>
+                    <label class="flex min-h-11 items-center gap-3 rounded-md border border-line px-3 has-[:checked]:border-brand has-[:checked]:bg-brand-soft"><input type="checkbox" name="interest" value="security" class="size-4 accent-[var(--brand)]" />Security and reporting</label>
+                  </div>
+                </fieldset>
+                <fieldset class="sm:col-span-2">
+                  <legend class="field-label">Best time for a call</legend>
+                  <div class="seg">
+                    <label><input type="radio" name="time" value="morning" class="peer sr-only" checked /><span class="flex min-h-9 cursor-pointer items-center rounded px-3.5 text-sm font-semibold text-ink-soft peer-checked:bg-paper peer-checked:text-ink peer-checked:shadow-[0_1px_2px_rgb(21_23_30/.15)] peer-focus-visible:outline-2 peer-focus-visible:outline-brand">Morning</span></label>
+                    <label><input type="radio" name="time" value="afternoon" class="peer sr-only" /><span class="flex min-h-9 cursor-pointer items-center rounded px-3.5 text-sm font-semibold text-ink-soft peer-checked:bg-paper peer-checked:text-ink peer-checked:shadow-[0_1px_2px_rgb(21_23_30/.15)] peer-focus-visible:outline-2 peer-focus-visible:outline-brand">Afternoon</span></label>
+                  </div>
+                </fieldset>
+                <div class="sm:col-span-2">
+                  <label class="field-label" for="d-message">Anything we should know? <span class="font-normal text-ink-faint">(optional)</span></label>
+                  <textarea id="d-message" name="message" rows="4" maxlength="500" class="field" aria-describedby="d-message-count" data-no-validate></textarea>
+                  <p id="d-message-count" class="field-hint" data-count-chars>500 characters left</p>
+                </div>
+              </div>
+              <button type="submit" class="btn-primary mt-6 w-full sm:w-auto">Request my demo <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></button>
+              <p class="mt-4 text-xs text-ink-faint">We use these details only to arrange and prepare your demo.</p>
+            </form>
+
+            <div class="panel mt-8 p-6 sm:p-8" data-demo-done hidden>
+              <svg viewBox="0 0 48 48" class="size-12" aria-hidden="true"><circle cx="24" cy="24" r="22" class="fill-hired-soft"/><path d="m14 24 7 7 13-14" class="stroke-hired" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <h2 class="mt-5 text-3xl font-bold">Thanks, <span data-dd-name></span>. Your demo request is in.</h2>
+              <p class="mt-2 text-ink-soft">Reference <span class="font-semibold text-ink" data-dd-ref></span> · <span data-dd-size></span></p>
+              <div class="mt-6 rounded-md border border-brand-line bg-brand-soft p-5">
+                <p class="text-sm font-semibold text-brand">Proposed time</p>
+                <p class="mt-1 font-display text-2xl font-bold" data-dd-when></p>
+                <p class="mt-1 text-sm text-ink-soft" data-dd-eastern></p>
+              </div>
+              <h3 class="mt-7 font-sans font-semibold">What happens next</h3>
+              <ol class="mt-3 grid gap-3 text-ink-soft">
+                <li class="flex gap-3"><span class="grid size-6 shrink-0 place-items-center rounded-full bg-canvas text-xs font-bold text-ink">1</span>Within one business day, a specialist confirms the time with you at <span class="font-semibold text-ink" data-dd-email></span>, or suggests another.</li>
+                <li class="flex gap-3"><span class="grid size-6 shrink-0 place-items-center rounded-full bg-canvas text-xs font-bold text-ink">2</span>Reply with two open roles you’re hiring for, and we’ll load them into a workspace.</li>
+                <li class="flex gap-3"><span class="grid size-6 shrink-0 place-items-center rounded-full bg-canvas text-xs font-bold text-ink">3</span>On the call we walk through your pipeline, scorecards and pricing for your size.</li>
+              </ol>
+              <a href="index.html" class="btn-outline mt-7">Back to the home page</a>
+            </div>
+          </div>
+
+          <aside class="grid content-start gap-6">
+            <div class="panel bg-canvas p-6">
+              <h2 class="text-xl font-bold">What we’ll cover in 30 minutes</h2>
+              <ol class="mt-4 grid gap-3 text-sm text-ink-soft">
+                <li class="flex gap-3"><span class="font-display font-bold text-brand">5 min</span>How you hire today and where it hurts</li>
+                <li class="flex gap-3"><span class="font-display font-bold text-brand">15 min</span>Your roles in Slatework: posting, pipeline, scorecards</li>
+                <li class="flex gap-3"><span class="font-display font-bold text-brand">10 min</span>Integrations, setup plan and pricing for your size</li>
+              </ol>
+            </div>
+            <figure class="panel p-6">
+              <svg viewBox="0 0 40 40" class="size-9" fill="#be123c" aria-hidden="true"><path d="M20 7c7 0 12 5 12 12 0 8-7 14-12 14S8 27 8 19c0-7 5-12 12-12Z"/><path d="M20 7c0-2 2-4 5-4" fill="none" stroke="#be123c" stroke-width="2.5"/></svg>
+              <blockquote class="mt-4 text-lg leading-relaxed">“The demo used our real store manager roles. We knew in half an hour it would work for us.”</blockquote>
+              <figcaption class="mt-4 text-sm"><span class="font-semibold">Lourdes Jaramillo</span><br /><span class="text-ink-faint">HR Director, Hollowell Foods</span></figcaption>
+            </figure>
+            <div class="panel p-6">
+              <h2 class="text-xl font-bold">Prefer to call?</h2>
+              <p class="mt-2 text-sm text-ink-soft">Our team in Lexington answers weekdays, 8:00 a.m. to 6:00 p.m. Eastern.</p>
+              <p class="mt-4 grid gap-1 text-sm"><a class="link" href="tel:+18595550147">(859) 555-0147</a><a class="link" href="mailto:sales@slatework.example">sales@slatework.example</a></p>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="on-night mt-auto bg-night text-white">
+      <div class="wrap grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+        <div>
+          <a href="index.html" class="inline-flex items-center gap-2.5 rounded" aria-label="Slatework home"><svg viewBox="0 0 32 32" class="size-8 shrink-0" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#3a3fd0"/><path d="M8 10h16M8 16h11M8 22h6" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle cx="21.5" cy="22" r="2.6" fill="#f2b33d"/></svg><span class="font-display text-[1.35rem] font-bold [font-stretch:115%]">Slatework</span></a>
+          <p class="mt-4 max-w-xs text-sm leading-relaxed text-mist">The applicant tracking system for growing companies. Built in Lexington, Kentucky, for teams of 50 to 1,000.</p>
+        </div>
+        <div>
+          <h2 class="text-sm font-semibold tracking-wide text-white">Product</h2>
+          <ul class="mt-4 grid gap-2.5 text-sm">
+            <li><a class="foot-link" href="product.html">Product tour</a></li>
+            <li><a class="foot-link" href="pricing.html">Pricing</a></li>
+            <li><a class="foot-link" href="integrations.html">Integrations</a></li>
+            <li><a class="foot-link" href="security.html">Security and compliance</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="text-sm font-semibold tracking-wide text-white">Company</h2>
+          <ul class="mt-4 grid gap-2.5 text-sm">
+            <li><a class="foot-link" href="customers.html">Customers</a></li>
+            <li><a class="foot-link" href="resources.html">Resources</a></li>
+            <li><a class="foot-link" href="demo.html">Book a demo</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="text-sm font-semibold tracking-wide text-white">Talk to us</h2>
+          <address class="mt-4 grid gap-2.5 text-sm text-mist not-italic">
+            <span>418 West Short Street, Suite 300<br />Lexington, KY 40507</span>
+            <a class="foot-link" href="tel:+18595550147">(859) 555-0147</a>
+            <a class="foot-link" href="mailto:hello@slatework.example">hello@slatework.example</a>
+            <span>Weekdays, 8:00 a.m. to 6:00 p.m. Eastern</span>
+          </address>
+        </div>
+      </div>
+      <div class="border-t border-night-line">
+        <div class="wrap flex flex-col gap-2 py-6 text-sm text-mist sm:flex-row sm:items-center sm:justify-between">
+          <p>© <span data-year>2026</span> Slatework, Inc. All rights reserved.</p>
+          <p>Slatework and its customers are fictional.</p>
+        </div>
+      </div>
+    </footer>
+    <div id="live-region" class="sr-only" aria-live="polite"></div>
+  </body>
+</html>

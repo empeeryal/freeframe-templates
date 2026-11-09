@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Slatework: applicant tracking and hiring software for growing companies</title>
+    <meta name="description" content="Slatework is the applicant tracking system for companies with 50 to 1,000 employees: job posting to every board, one shared hiring pipeline, structured interview scorecards, scheduling, offers and hiring reports." />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1117" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Slatework" />
+    <meta property="og:title" content="Slatework: hiring software for growing companies" />
+    <meta property="og:description" content="Slatework is the applicant tracking system for companies with 50 to 1,000 employees: job posting to every board, one shared hiring pipeline, structured interview scorecards, scheduling, offers and hiring reports." />
+    <meta property="og:image" content="assets/img/og-image.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=Hubot+Sans:wdth,wght@100..125,500..800&amp;display=swap" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script>(function(){var d=document.documentElement;d.classList.add('js');var t=null;try{t=window.localStorage.getItem('slatework:theme')}catch(e){}if(t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme: dark)').matches))d.classList.add('dark')})();</script>
+    <script src="assets/js/data.js" defer></script>
+    <script src="assets/js/main.js" defer></script>
+  </head>
+  <body data-page="index" class="flex min-h-screen flex-col">
+    <a href="#main" class="sr-only z-[60] bg-brand px-4 py-3 text-on-brand focus:not-sr-only focus:fixed focus:top-3 focus:left-3">Skip to content</a>
+    <header id="site-header" class="sticky top-0 z-40 border-b border-line bg-paper/95 backdrop-blur">
+      <div class="wrap flex min-h-[4.25rem] items-center justify-between gap-4">
+        <a href="index.html" class="flex items-center gap-2.5 rounded" aria-label="Slatework home"><svg viewBox="0 0 32 32" class="size-8 shrink-0" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#3a3fd0"/><path d="M8 10h16M8 16h11M8 22h6" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle cx="21.5" cy="22" r="2.6" fill="#f2b33d"/></svg><span class="font-display text-[1.4rem] font-bold tracking-[-0.02em] [font-stretch:115%]">Slatework</span></a>
+        <nav class="hidden lg:block" aria-label="Main">
+          <ul class="flex items-center gap-0.5">
+              <li><a class="nav-link" href="product.html">Product</a></li>
+              <li><a class="nav-link" href="pricing.html">Pricing</a></li>
+              <li><a class="nav-link" href="customers.html">Customers</a></li>
+              <li><a class="nav-link" href="integrations.html">Integrations</a></li>
+              <li><a class="nav-link" href="security.html">Security</a></li>
+              <li><a class="nav-link" href="resources.html">Resources</a></li>
+          </ul>
+        </nav>
+        <div class="flex items-center gap-2">
+          <button type="button" class="grid size-11 place-items-center rounded-md border border-line text-ink-soft transition hover:border-line-strong hover:text-ink" data-theme-toggle aria-pressed="false">
+            <span class="sr-only">Dark theme</span>
+            <svg viewBox="0 0 24 24" class="size-[1.15rem] dark:hidden" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+            <svg viewBox="0 0 24 24" class="hidden size-[1.15rem] dark:block" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>
+          </button>
+          <a href="demo.html" class="btn-primary btn-sm hidden sm:inline-flex">Book a demo <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+          <button id="menu-toggle" type="button" class="grid size-11 place-items-center rounded-md border border-line-strong lg:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+            <svg data-icon-open viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+            <svg data-icon-close viewBox="0 0 24 24" class="hidden size-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </button>
+        </div>
+      </div>
+      <nav id="mobile-menu" class="wrap max-h-[calc(100vh-4.5rem)] overflow-y-auto pb-6 lg:hidden" aria-label="Mobile" hidden>
+        <ul class="grid">
+              <li><a class="m-link" href="product.html">Product</a></li>
+              <li><a class="m-link" href="pricing.html">Pricing</a></li>
+              <li><a class="m-link" href="customers.html">Customers</a></li>
+              <li><a class="m-link" href="integrations.html">Integrations</a></li>
+              <li><a class="m-link" href="security.html">Security</a></li>
+              <li><a class="m-link" href="resources.html">Resources</a></li>
+        </ul>
+        <a href="demo.html" class="btn-primary mt-5 w-full">Book a demo <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="relative border-b border-line">
+        <div class="gridlines pointer-events-none absolute inset-0 opacity-50 [mask-image:linear-gradient(to_bottom,black,transparent_70%)]" aria-hidden="true"></div>
+        <div class="wrap relative pt-10 pb-12 sm:pt-12 lg:pb-16">
+          <div class="grid gap-6 lg:grid-cols-[1.45fr_1fr] lg:items-end lg:gap-12">
+            <div>
+              <p class="eyebrow"><span class="size-2 rounded-full bg-marigold" aria-hidden="true"></span>Applicant tracking for teams of 50 to 1,000</p>
+              <h1 class="h-display mt-4 lg:text-[3.45rem]">Hiring that runs like the rest of your company.</h1>
+            </div>
+            <div>
+              <p class="lead">Post to every job board at once, move candidates through one shared pipeline, score interviews the same way every time and send offers people sign.</p>
+              <div class="mt-5 flex flex-wrap gap-3">
+                <a href="demo.html" class="btn-primary">Book a 30-minute demo <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+                <a href="product.html" class="btn-outline">Take the product tour</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-lift mt-9 overflow-hidden" data-pipeline>
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-line px-4 py-3">
+              <div class="flex min-w-0 items-center gap-3">
+                <span class="grid size-9 shrink-0 place-items-center rounded-md bg-brand-soft text-brand" aria-hidden="true"><svg viewBox="0 0 20 20" class="size-5" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="14" height="10" rx="1.5"/><path d="M7.5 6V4.5h5V6"/></svg></span>
+                <div class="min-w-0">
+                  <h2 class="truncate text-base font-bold">Customer Success Manager</h2>
+                  <p class="text-xs text-ink-faint">REQ-2207 · Brightkiln Software · 2 openings · Lexington, KY</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <p class="hidden text-xs text-ink-faint md:block">Drag a card to another stage, or use its <span class="font-semibold text-ink-soft">⋯</span> menu</p>
+                <p class="text-xs text-ink-faint md:hidden">Swipe for all five stages. Hold a card’s initials to drag it, <span class="whitespace-nowrap">or tap <span class="font-semibold text-ink-soft">⋯</span>.</span></p>
+                <button type="button" class="btn-outline btn-sm" data-pipeline-reset>
+                  <svg viewBox="0 0 20 20" class="size-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 10a6 6 0 1 0 2-4.5M4 3.5V6h2.5"/></svg>Reset board
+                </button>
+              </div>
+            </div>
+            <div class="grid lg:grid-cols-[minmax(0,1fr)_14.5rem]">
+              <div class="relative overflow-x-auto" data-board-scroll>
+                <div class="grid min-w-[60rem] grid-cols-5 gap-2 p-3">
+                  <section class="board-col" data-col="applied" aria-labelledby="col-applied">
+                    <h3 id="col-applied" class="flex items-center gap-2 px-1 pb-2 font-sans text-sm font-semibold"><span class="size-2 rounded-full dot-applied" aria-hidden="true"></span>Applied <span class="ml-auto rounded bg-paper px-1.5 text-xs text-ink-soft" data-count="applied">42</span></h3>
+                    <ul class="grid grid-cols-[minmax(0,1fr)] gap-2" data-col-list="applied"></ul>
+                    <p class="mt-auto px-1 pt-2 text-xs text-ink-faint">+ 38 earlier applicants</p>
+                  </section>
+                  <section class="board-col" data-col="screen" aria-labelledby="col-screen">
+                    <h3 id="col-screen" class="flex items-center gap-2 px-1 pb-2 font-sans text-sm font-semibold"><span class="size-2 rounded-full dot-screen" aria-hidden="true"></span>Screen <span class="ml-auto rounded bg-paper px-1.5 text-xs text-ink-soft" data-count="screen">12</span></h3>
+                    <ul class="grid grid-cols-[minmax(0,1fr)] gap-2" data-col-list="screen"></ul>
+                    <p class="mt-auto px-1 pt-2 text-xs text-ink-faint">+ 9 in phone screens</p>
+                  </section>
+                  <section class="board-col" data-col="interview" aria-labelledby="col-interview">
+                    <h3 id="col-interview" class="flex items-center gap-2 px-1 pb-2 font-sans text-sm font-semibold"><span class="size-2 rounded-full dot-interview" aria-hidden="true"></span>Interview <span class="ml-auto rounded bg-paper px-1.5 text-xs text-ink-soft" data-count="interview">5</span></h3>
+                    <ul class="grid grid-cols-[minmax(0,1fr)] gap-2" data-col-list="interview"></ul>
+                    <p class="mt-auto px-1 pt-2 text-xs text-ink-faint">+ 3 booked this week</p>
+                  </section>
+                  <section class="board-col" data-col="offer" aria-labelledby="col-offer">
+                    <h3 id="col-offer" class="flex items-center gap-2 px-1 pb-2 font-sans text-sm font-semibold"><span class="size-2 rounded-full dot-offer" aria-hidden="true"></span>Offer <span class="ml-auto rounded bg-paper px-1.5 text-xs text-ink-soft" data-count="offer">1</span></h3>
+                    <ul class="grid grid-cols-[minmax(0,1fr)] gap-2" data-col-list="offer"></ul>
+                  </section>
+                  <section class="board-col" data-col="hired" aria-labelledby="col-hired">
+                    <h3 id="col-hired" class="flex items-center gap-2 px-1 pb-2 font-sans text-sm font-semibold"><span class="size-2 rounded-full dot-hired" aria-hidden="true"></span>Hired <span class="ml-auto rounded bg-paper px-1.5 text-xs text-ink-soft" data-count="hired">1</span></h3>
+                    <ul class="grid grid-cols-[minmax(0,1fr)] gap-2" data-col-list="hired"></ul>
+                  </section>
+                </div>
+              </div>
+              <aside class="grid content-start gap-5 border-t border-line p-4 lg:border-t-0 lg:border-l" aria-label="Requisition health">
+                <div>
+                  <p class="text-xs font-semibold tracking-wide text-ink-faint uppercase">Projected time to hire</p>
+                  <p class="mt-1 flex items-baseline gap-1.5"><span class="font-display text-4xl font-bold tracking-tight" data-tth>25</span><span class="text-sm font-semibold text-ink-soft">days</span></p>
+                  <p class="mt-0.5 text-xs font-semibold text-hired" data-tth-note>5 days under the 30-day target</p>
+                </div>
+                <div>
+                  <p class="flex justify-between text-xs"><span class="font-semibold tracking-wide text-ink-faint uppercase">Openings</span><span class="font-semibold text-ink-soft" data-filled>1 of 2 openings filled</span></p>
+                  <div class="mt-2 h-2 rounded-full bg-canvas-2"><div class="h-2 rounded-full bg-hired transition-[width] duration-500" style="width: 50%" data-filled-bar></div></div>
+                </div>
+                <div>
+                  <p class="flex justify-between text-xs"><span class="font-semibold tracking-wide text-ink-faint uppercase">Funnel</span><span class="text-ink-faint">Applied → Hired <span class="font-semibold text-ink-soft" data-conversion>1.6%</span></span></p>
+                  <ul class="mt-2.5 grid gap-1.5 text-xs">
+                    <li class="grid grid-cols-[4.5rem_1fr_1.8rem] items-center gap-2" data-funnel="applied"><span class="text-ink-soft">Applied</span><span class="h-3 rounded-sm bg-canvas-2"><span class="block h-3 rounded-sm bg-applied transition-[width] duration-500" style="width: 100%" data-funnel-bar></span></span><span class="text-right font-semibold" data-funnel-n>61</span></li>
+                    <li class="grid grid-cols-[4.5rem_1fr_1.8rem] items-center gap-2" data-funnel="screen"><span class="text-ink-soft">Screen</span><span class="h-3 rounded-sm bg-canvas-2"><span class="block h-3 rounded-sm bg-screen transition-[width] duration-500" style="width: 31%" data-funnel-bar></span></span><span class="text-right font-semibold" data-funnel-n>19</span></li>
+                    <li class="grid grid-cols-[4.5rem_1fr_1.8rem] items-center gap-2" data-funnel="interview"><span class="text-ink-soft">Interview</span><span class="h-3 rounded-sm bg-canvas-2"><span class="block h-3 rounded-sm bg-interview transition-[width] duration-500" style="width: 11%" data-funnel-bar></span></span><span class="text-right font-semibold" data-funnel-n>7</span></li>
+                    <li class="grid grid-cols-[4.5rem_1fr_1.8rem] items-center gap-2" data-funnel="offer"><span class="text-ink-soft">Offer</span><span class="h-3 rounded-sm bg-canvas-2"><span class="block h-3 rounded-sm bg-offer transition-[width] duration-500" style="width: 3%" data-funnel-bar></span></span><span class="text-right font-semibold" data-funnel-n>2</span></li>
+                    <li class="grid grid-cols-[4.5rem_1fr_1.8rem] items-center gap-2" data-funnel="hired"><span class="text-ink-soft">Hired</span><span class="h-3 rounded-sm bg-canvas-2"><span class="block h-3 rounded-sm bg-hired transition-[width] duration-500" style="width: 2%" data-funnel-bar></span></span><span class="text-right font-semibold" data-funnel-n>1</span></li>
+                  </ul>
+                </div>
+                <p class="border-t border-line pt-3 text-xs leading-relaxed text-ink-faint">Hiring team: Estelle F. (manager), Renzo A., Vittorio E. Next debrief Thursday.</p>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="border-b border-line py-10" aria-labelledby="logos-title">
+        <div class="wrap">
+          <h2 id="logos-title" class="text-center font-sans text-sm font-semibold text-ink-faint">Hiring teams at 420 growing companies run on Slatework</h2>
+          <ul class="mt-6 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4 lg:grid-cols-8">
+            <li class="flex items-center justify-center gap-2 text-ink-soft"><svg viewBox="0 0 40 40" class="size-7 shrink-0" fill="currentColor" aria-hidden="true"><path d="M20 6a14 14 0 1 0 9.9 23.9l4.6 4.6 3-3-4.6-4.6A14 14 0 0 0 20 6Zm0 5a9 9 0 1 1 0 18 9 9 0 0 1 0-18Z"/></svg><span class="font-display text-[15px] leading-tight font-bold tracking-tight">Quillmont</span></li>
+            <li class="flex items-center justify-center gap-2 text-ink-soft"><svg viewBox="0 0 40 40" class="size-7 shrink-0" fill="currentColor" aria-hidden="true"><path d="M20 34V14M20 22c-6 0-10-4-11-10 6 0 10 4 11 10Zm0-4c5 0 9-3 10-9-5 0-9 3-10 9Zm0 10c-5 0-8-3-9-7 5 0 8 3 9 7Z"/></svg><span class="font-display text-[15px] leading-tight font-bold tracking-tight">Fernreach</span></li>
+            <li class="flex items-center justify-center gap-2 text-ink-soft"><svg viewBox="0 0 40 40" class="size-7 shrink-0" fill="currentColor" aria-hidden="true"><path d="M6 13h18v14H6zM24 18h6l4 5v4H24z"/><circle cx="12" cy="29" r="3"/><circle cx="29" cy="29" r="3"/></svg><span class="font-display text-[15px] leading-tight font-bold tracking-tight">Kettleby</span></li>
+            <li class="flex items-center justify-center gap-2 text-ink-soft"><svg viewBox="0 0 40 40" class="size-7 shrink-0" fill="currentColor" aria-hidden="true"><path d="M20 5l13 7.5v15L20 35 7 27.5v-15z" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="20" cy="20" r="5"/></svg><span class="font-display text-[15px] leading-tight font-bold tracking-tight">Corvane</span></li>
+            <li class="flex items-center justify-center gap-2 text-ink-soft"><svg viewBox="0 0 40 40" class="size-7 shrink-0" fill="currentColor" aria-hidden="true"><path d="M8 16 20 8l12 8v2H8zM10 20h4v10h-4zM18 20h4v10h-4zM26 20h4v10h-4zM8 31h24v3H8z"/></svg><span class="font-display text-[15px] leading-tight font-bold tracking-tight">Pellworth</span></li>
+            <li class="flex items-center justify-center gap-2 text-ink-soft"><svg viewBox="0 0 40 40" class="size-7 shrink-0" fill="currentColor" aria-hidden="true"><path d="M20 7c7 0 12 5 12 12 0 8-7 14-12 14S8 27 8 19c0-7 5-12 12-12Z"/><path d="M20 7c0-2 2-4 5-4" fill="none" stroke="currentColor" stroke-width="2.5"/></svg><span class="font-display text-[15px] leading-tight font-bold tracking-tight">Hollowell</span></li>
+            <li class="flex items-center justify-center gap-2 text-ink-soft"><svg viewBox="0 0 40 40" class="size-7 shrink-0" fill="currentColor" aria-hidden="true"><path d="M8 32V18l12-10 12 10v14z" fill="none" stroke="currentColor" stroke-width="3"/><path d="M16 32v-7a4 4 0 0 1 8 0v7z"/></svg><span class="font-display text-[15px] leading-tight font-bold tracking-tight">Brightkiln</span></li>
+            <li class="flex items-center justify-center gap-2 text-ink-soft"><svg viewBox="0 0 40 40" class="size-7 shrink-0" fill="currentColor" aria-hidden="true"><path d="M6 30h28M10 30V14l10-6 10 6v16"/><path d="M15 30v-6h10v6M15 17h3v3h-3zM22 17h3v3h-3z" fill="#fff"/></svg><span class="font-display text-[15px] leading-tight font-bold tracking-tight">Sablewood</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="py-20 sm:py-24" aria-labelledby="pillars-title">
+        <div class="wrap">
+          <div class="grid gap-6 lg:grid-cols-[1fr_1.2fr] lg:items-end">
+            <div>
+              <p class="eyebrow">One system, start to signed</p>
+              <h2 id="pillars-title" class="h-section mt-3">Everything between “we need someone” and their first day.</h2>
+            </div>
+            <p class="lead lg:pb-1">Slatework replaces the job board logins, the interview spreadsheet and the offer letter in someone’s downloads folder. Each step hands off to the next, so nothing waits on a status email.</p>
+          </div>
+          <ul class="mt-12 grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+            <li class="reveal bg-paper p-7">
+              <svg viewBox="0 0 64 48" class="h-12 w-16" aria-hidden="true"><rect x="2" y="8" width="26" height="32" rx="3" class="fill-brand-soft stroke-brand" stroke-width="2"/><path d="M8 16h14M8 22h10M8 28h12" class="stroke-brand" stroke-width="2" stroke-linecap="round"/><path d="M30 24h8" class="stroke-ink-faint" stroke-width="2" stroke-dasharray="2 3"/><rect x="40" y="4" width="20" height="10" rx="2" class="fill-canvas-2"/><rect x="40" y="19" width="20" height="10" rx="2" class="fill-canvas-2"/><rect x="40" y="34" width="20" height="10" rx="2" class="fill-marigold"/></svg>
+              <h3 class="mt-5 text-xl font-bold">Post everywhere at once</h3>
+              <p class="mt-2 text-ink-soft">Write the posting once, pick your boards, and every application lands in the same pipeline with its source tagged.</p>
+              <a class="link mt-4 inline-block text-sm" href="product.html#sourcing">Sourcing and job boards</a>
+            </li>
+            <li class="reveal bg-paper p-7">
+              <svg viewBox="0 0 64 48" class="h-12 w-16" aria-hidden="true"><rect x="2" y="6" width="14" height="36" rx="2" class="fill-canvas-2"/><rect x="19" y="6" width="14" height="36" rx="2" class="fill-canvas-2"/><rect x="36" y="6" width="14" height="36" rx="2" class="fill-canvas-2"/><rect x="4" y="10" width="10" height="7" rx="1.5" class="fill-paper stroke-line-strong"/><rect x="4" y="20" width="10" height="7" rx="1.5" class="fill-paper stroke-line-strong"/><rect x="21" y="10" width="10" height="7" rx="1.5" class="fill-brand"/><rect x="38" y="10" width="10" height="7" rx="1.5" class="fill-paper stroke-line-strong"/><path d="M53 13h9M58 9l4 4-4 4" class="stroke-hired" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+              <h3 class="mt-5 text-xl font-bold">One shared pipeline</h3>
+              <p class="mt-2 text-ink-soft">Recruiters, hiring managers and interviewers work from the same board, with days-in-stage flags so nobody sits in Screen for three weeks.</p>
+              <a class="link mt-4 inline-block text-sm" href="product.html#pipeline">Pipeline and stages</a>
+            </li>
+            <li class="reveal bg-paper p-7">
+              <svg viewBox="0 0 64 48" class="h-12 w-16" aria-hidden="true"><rect x="2" y="4" width="44" height="40" rx="3" class="fill-paper stroke-line-strong" stroke-width="1.5"/><path d="M8 13h16M8 23h12M8 33h18" class="stroke-ink-faint" stroke-width="2" stroke-linecap="round"/><rect x="30" y="10" width="5" height="6" rx="1" class="fill-brand"/><rect x="37" y="10" width="5" height="6" rx="1" class="fill-brand"/><rect x="30" y="20" width="5" height="6" rx="1" class="fill-brand"/><rect x="37" y="20" width="5" height="6" rx="1" class="fill-canvas-2"/><rect x="30" y="30" width="5" height="6" rx="1" class="fill-brand"/><rect x="37" y="30" width="5" height="6" rx="1" class="fill-brand"/><circle cx="54" cy="24" r="8" class="fill-hired"/><path d="m50.5 24 2.5 2.5 4.5-5" stroke="#fff" stroke-width="2" fill="none"/></svg>
+              <h3 class="mt-5 text-xl font-bold">Structured interviews</h3>
+              <p class="mt-2 text-ink-soft">Weighted scorecards and interview kits for every role. The recommendation comes from the ratings, before anyone hears the loudest opinion.</p>
+              <a class="link mt-4 inline-block text-sm" href="product.html#interviews">Scorecards and kits</a>
+            </li>
+            <li class="reveal bg-paper p-7">
+              <svg viewBox="0 0 64 48" class="h-12 w-16" aria-hidden="true"><rect x="2" y="6" width="40" height="36" rx="3" class="fill-paper stroke-line-strong" stroke-width="1.5"/><path d="M2 15h40" class="stroke-line-strong" stroke-width="1.5"/><rect x="7" y="20" width="9" height="7" rx="1" class="fill-canvas-2"/><rect x="18" y="20" width="9" height="7" rx="1" class="fill-brand"/><rect x="29" y="20" width="9" height="7" rx="1" class="fill-canvas-2"/><rect x="7" y="30" width="9" height="7" rx="1" class="fill-canvas-2"/><rect x="18" y="30" width="9" height="7" rx="1" class="fill-canvas-2"/><circle cx="52" cy="30" r="10" class="fill-paper stroke-brand" stroke-width="2"/><path d="M52 24v6l4 2" class="stroke-brand" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+              <h3 class="mt-5 text-xl font-bold">Scheduling across time zones</h3>
+              <p class="mt-2 text-ink-soft">Slatework reads every interviewer’s calendar and proposes times that work for the whole panel, shown in the candidate’s own time zone.</p>
+              <a class="link mt-4 inline-block text-sm" href="product.html#scheduling">Interview scheduling</a>
+            </li>
+            <li class="reveal bg-paper p-7">
+              <svg viewBox="0 0 64 48" class="h-12 w-16" aria-hidden="true"><path d="M6 4h26l8 8v32H6z" class="fill-paper stroke-line-strong" stroke-width="1.5"/><path d="M12 16h18M12 22h14M12 28h16" class="stroke-ink-faint" stroke-width="2" stroke-linecap="round"/><path d="M12 38c3-4 5 2 8-1s4-3 7 0" class="stroke-brand" stroke-width="2" fill="none" stroke-linecap="round"/><rect x="44" y="10" width="18" height="6" rx="3" class="fill-hired"/><rect x="44" y="21" width="18" height="6" rx="3" class="fill-hired"/><rect x="44" y="32" width="18" height="6" rx="3" class="fill-canvas-2"/></svg>
+              <h3 class="mt-5 text-xl font-bold">Offers with approvals</h3>
+              <p class="mt-2 text-ink-soft">Offer letters from templates, checked against the pay band, approved by the right people and signed online.</p>
+              <a class="link mt-4 inline-block text-sm" href="product.html#offers">Offers and approvals</a>
+            </li>
+            <li class="reveal bg-paper p-7">
+              <svg viewBox="0 0 64 48" class="h-12 w-16" aria-hidden="true"><path d="M4 44h56" class="stroke-line-strong" stroke-width="1.5"/><rect x="8" y="26" width="8" height="18" class="fill-canvas-2"/><rect x="20" y="18" width="8" height="26" class="fill-canvas-2"/><rect x="32" y="22" width="8" height="22" class="fill-brand-soft"/><rect x="44" y="10" width="8" height="34" class="fill-brand"/><path d="M8 20l14-8 12 5 18-13" class="stroke-marigold" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <h3 class="mt-5 text-xl font-bold">Reports leadership trusts</h3>
+              <p class="mt-2 text-ink-soft">Time to hire, source of hire, pass-through rates and voluntary self-ID summaries, ready for your Monday meeting.</p>
+              <a class="link mt-4 inline-block text-sm" href="product.html#reports">Hiring reports</a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="border-y border-line bg-canvas py-20 sm:py-24" aria-labelledby="sc-title">
+        <div class="wrap grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:items-center">
+          <div>
+            <p class="eyebrow">Structured interviews</p>
+            <h2 id="sc-title" class="h-section mt-3">Five competencies. Four ratings. One clear recommendation.</h2>
+            <p class="lead mt-5">Every interviewer scores the same competencies on the same scale, weighted by what matters for the role. Change a rating on the scorecard and watch the recommendation follow.</p>
+            <ul class="mt-7 grid gap-3 text-ink-soft">
+              <li class="flex gap-3"><svg viewBox="0 0 20 20" class="mt-1 size-4 shrink-0 text-brand" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m4 10 4 4 8-8"/></svg>Scorecards are due within 24 hours, with reminders in chat</li>
+              <li class="flex gap-3"><svg viewBox="0 0 20 20" class="mt-1 size-4 shrink-0 text-brand" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m4 10 4 4 8-8"/></svg>Interviewers can’t see each other’s ratings until they submit</li>
+              <li class="flex gap-3"><svg viewBox="0 0 20 20" class="mt-1 size-4 shrink-0 text-brand" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m4 10 4 4 8-8"/></svg>Job-related questions only, from a kit you write once per role</li>
+            </ul>
+          </div>
+          <div class="panel panel-lift p-5 sm:p-6" data-scorecard data-compact>
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-4">
+              <div>
+                <h3 class="text-lg font-bold">Ramona D. · Final interview</h3>
+                <p class="text-sm text-ink-faint">Customer Success Manager · scored by Estelle Fairbanks</p>
+              </div>
+              <span class="chip text-sm tone-screen" data-sc-rec>Hire</span>
+            </div>
+            <ul class="mt-1" data-sc-list></ul>
+            <div class="mt-3 flex items-center gap-4 border-t border-line pt-4">
+              <p class="text-sm text-ink-soft">Weighted score <span class="ml-1 font-display text-2xl font-bold text-ink" data-sc-score>3.25</span><span class="text-ink-faint"> / 4</span></p>
+              <div class="h-2 flex-1 rounded-full bg-canvas-2"><div class="h-2 rounded-full bg-brand transition-[width] duration-300" style="width: 75%" data-sc-bar></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-20 sm:py-24" aria-labelledby="results-title">
+        <div class="wrap">
+          <h2 id="results-title" class="h-section max-w-3xl">What changes in the first six months.</h2>
+          <dl class="mt-10 grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+            <div class="bg-paper p-6"><dt class="text-sm text-ink-soft">Median time to hire</dt><dd class="mt-2 font-display text-4xl font-bold">−31%</dd><dd class="mt-1 text-sm text-ink-faint">across customers after six months</dd></div>
+            <div class="bg-paper p-6"><dt class="text-sm text-ink-soft">Scorecards submitted on time</dt><dd class="mt-2 font-display text-4xl font-bold">92%</dd><dd class="mt-1 text-sm text-ink-faint">within 24 hours of the interview</dd></div>
+            <div class="bg-paper p-6"><dt class="text-sm text-ink-soft">Applicants who hear back</dt><dd class="mt-2 font-display text-4xl font-bold">100%</dd><dd class="mt-1 text-sm text-ink-faint">with stage reminders turned on</dd></div>
+            <div class="bg-paper p-6"><dt class="text-sm text-ink-soft">Typical setup</dt><dd class="mt-2 font-display text-4xl font-bold">9 days</dd><dd class="mt-1 text-sm text-ink-faint">from contract to first posting</dd></div>
+          </dl>
+          <ul class="mt-14 grid gap-6 lg:grid-cols-3">
+            <li class="reveal panel flex flex-col p-7">
+              <svg viewBox="0 0 40 40" class="size-9" fill="#2f4fb5" style="color:#2f4fb5" aria-hidden="true"><path d="M20 6a14 14 0 1 0 9.9 23.9l4.6 4.6 3-3-4.6-4.6A14 14 0 0 0 20 6Zm0 5a9 9 0 1 1 0 18 9 9 0 0 1 0-18Z"/></svg>
+              <blockquote class="mt-5 flex-1 text-lg leading-relaxed text-ink">“Our branch managers stopped asking where a candidate was. They can see it, and so can the candidate.”</blockquote>
+              <p class="mt-6 text-sm"><span class="font-semibold text-ink">Rhiannon Tolliver</span><br /><span class="text-ink-faint">VP of Talent, Quillmont Insurance</span></p>
+            </li>
+            <li class="reveal panel flex flex-col p-7">
+              <svg viewBox="0 0 40 40" class="size-9" fill="#b45309" style="color:#b45309" aria-hidden="true"><path d="M6 13h18v14H6zM24 18h6l4 5v4H24z"/><circle cx="12" cy="29" r="3"/><circle cx="29" cy="29" r="3"/></svg>
+              <blockquote class="mt-5 flex-1 text-lg leading-relaxed text-ink">“Drivers book their own road test from their phone. We lost people in the gaps before.”</blockquote>
+              <p class="mt-6 text-sm"><span class="font-semibold text-ink">Cecily Northcutt</span><br /><span class="text-ink-faint">Recruiting Manager, Kettleby Freight</span></p>
+            </li>
+            <li class="reveal panel flex flex-col p-7">
+              <svg viewBox="0 0 40 40" class="size-9" fill="#c2410c" style="color:#c2410c" aria-hidden="true"><path d="M8 32V18l12-10 12 10v14z" fill="none" stroke="currentColor" stroke-width="3"/><path d="M16 32v-7a4 4 0 0 1 8 0v7z"/></svg>
+              <blockquote class="mt-5 flex-1 text-lg leading-relaxed text-ink">“We wanted a grown-up process without a grown-up implementation project. It took a week.”</blockquote>
+              <p class="mt-6 text-sm"><span class="font-semibold text-ink">Hiroshi Lockridge</span><br /><span class="text-ink-faint">Talent Lead, Brightkiln Software</span></p>
+            </li>
+          </ul>
+          <p class="mt-8"><a class="link" href="customers.html">Read all customer stories</a></p>
+        </div>
+      </section>
+
+      <section class="on-night bg-night py-16 text-white sm:py-20" aria-labelledby="cta-title">
+        <div class="wrap grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-center">
+          <div>
+            <h2 id="cta-title" class="h-section">See your own roles in Slatework.</h2>
+            <p class="mt-4 max-w-2xl text-lg text-mist">Send us two open roles before the call and we’ll load them into a workspace, so the demo is your pipeline, not ours.</p>
+          </div>
+          <div class="flex flex-wrap gap-3 lg:justify-end">
+            <a href="demo.html" class="btn-night">Book a demo <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+            <a href="pricing.html" class="btn-ghost-night">See pricing</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="on-night mt-auto bg-night text-white">
+      <div class="wrap grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+        <div>
+          <a href="index.html" class="inline-flex items-center gap-2.5 rounded" aria-label="Slatework home"><svg viewBox="0 0 32 32" class="size-8 shrink-0" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#3a3fd0"/><path d="M8 10h16M8 16h11M8 22h6" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle cx="21.5" cy="22" r="2.6" fill="#f2b33d"/></svg><span class="font-display text-[1.35rem] font-bold [font-stretch:115%]">Slatework</span></a>
+          <p class="mt-4 max-w-xs text-sm leading-relaxed text-mist">The applicant tracking system for growing companies. Built in Lexington, Kentucky, for teams of 50 to 1,000.</p>
+        </div>
+        <div>
+          <h2 class="text-sm font-semibold tracking-wide text-white">Product</h2>
+          <ul class="mt-4 grid gap-2.5 text-sm">
+            <li><a class="foot-link" href="product.html">Product tour</a></li>
+            <li><a class="foot-link" href="pricing.html">Pricing</a></li>
+            <li><a class="foot-link" href="integrations.html">Integrations</a></li>
+            <li><a class="foot-link" href="security.html">Security and compliance</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="text-sm font-semibold tracking-wide text-white">Company</h2>
+          <ul class="mt-4 grid gap-2.5 text-sm">
+            <li><a class="foot-link" href="customers.html">Customers</a></li>
+            <li><a class="foot-link" href="resources.html">Resources</a></li>
+            <li><a class="foot-link" href="demo.html">Book a demo</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="text-sm font-semibold tracking-wide text-white">Talk to us</h2>
+          <address class="mt-4 grid gap-2.5 text-sm text-mist not-italic">
+            <span>418 West Short Street, Suite 300<br />Lexington, KY 40507</span>
+            <a class="foot-link" href="tel:+18595550147">(859) 555-0147</a>
+            <a class="foot-link" href="mailto:hello@slatework.example">hello@slatework.example</a>
+            <span>Weekdays, 8:00 a.m. to 6:00 p.m. Eastern</span>
+          </address>
+        </div>
+      </div>
+      <div class="border-t border-night-line">
+        <div class="wrap flex flex-col gap-2 py-6 text-sm text-mist sm:flex-row sm:items-center sm:justify-between">
+          <p>© <span data-year>2026</span> Slatework, Inc. All rights reserved.</p>
+          <p>Slatework and its customers are fictional.</p>
+        </div>
+      </div>
+    </footer>
+    <div id="live-region" class="sr-only" aria-live="polite"></div>
+  </body>
+</html>
