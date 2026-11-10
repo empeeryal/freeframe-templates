@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Brineworks case study: a pond oxygen alarm app | Sidecar</title>
+    <meta name="description" content="How Sidecar designed, built and launched Brineworks, a pond sensor and oxygen alarm app now used by 140 catfish farms, in 14 weeks with a seed-stage team in Stuttgart, Arkansas." />
+    <meta name="theme-color" content="#f5f0e4" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Sidecar" />
+    <meta property="og:title" content="Brineworks case study: a pond oxygen alarm app | Sidecar" />
+    <meta property="og:description" content="How Sidecar designed, built and launched Brineworks, a pond sensor and oxygen alarm app now used by 140 catfish farms, in 14 weeks with a seed-stage team in Stuttgart, Arkansas." />
+    <meta property="og:image" content="assets/img/og-image.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Architects+Daughter&amp;family=Recursive:wght,CASL,MONO@400..800,0..1,0..1&amp;display=swap" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script>document.documentElement.classList.add('js');</script>
+    <script src="assets/js/data.js" defer></script>
+    <script src="assets/js/main.js" defer></script>
+  </head>
+  <body data-page="case-study" class="flex min-h-screen flex-col">
+    <a href="#main" class="sr-only z-[60] bg-pine px-4 py-3 text-paper focus:not-sr-only focus:fixed focus:top-3 focus:left-3">Skip to content</a>
+    <header id="site-header" class="sticky top-0 z-40 border-b-2 border-ink bg-paper/95 backdrop-blur">
+      <div class="wrap flex min-h-[4.25rem] items-center justify-between gap-4">
+        <a href="index.html" class="flex items-center gap-2.5 rounded text-ink"><svg viewBox="0 0 40 32" class="h-8 w-10 shrink-0" aria-hidden="true"><path d="M11 22 19 13h5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 21h18c0-6-4.5-10-10-10h-3.5a4.5 4.5 0 0 0-4.5 4.5z" fill="#17663f" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="10" cy="23" r="6" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="29" cy="25.5" r="3.6" fill="#f1d867" stroke="currentColor" stroke-width="2.2"/></svg><span class="text-[1.45rem] font-extrabold tracking-[-0.03em] casual">Sidecar<span class="sr-only"> home</span></span><span class="mono hidden text-xs text-ink-faint xl:inline" aria-hidden="true">/ product studio</span></a>
+        <nav class="hidden lg:block" aria-label="Main">
+          <ul class="isolate flex items-center gap-0.5">
+            <li><a class="nav-link" href="work.html" aria-current="page">Work</a></li>
+            <li><a class="nav-link" href="services.html">Services</a></li>
+            <li><a class="nav-link" href="process.html">Process</a></li>
+            <li><a class="nav-link" href="pricing.html">Pricing</a></li>
+            <li><a class="nav-link" href="about.html">About</a></li>
+            <li><a class="nav-link" href="careers.html">Careers</a></li>
+          </ul>
+        </nav>
+        <div class="flex items-center gap-2">
+          <a href="contact.html" class="btn-primary btn-sm hidden sm:inline-flex">Start a project <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+          <button id="menu-toggle" type="button" class="grid size-11 place-items-center rounded-md border-2 border-ink bg-card lg:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+            <svg data-icon-open viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h11M4 17h16"/></svg>
+            <svg data-icon-close viewBox="0 0 24 24" class="hidden size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </button>
+        </div>
+      </div>
+      <nav id="mobile-menu" class="wrap max-h-[calc(100vh-4.5rem)] overflow-y-auto pb-6 lg:hidden" aria-label="Mobile" hidden>
+        <ul class="grid">
+          <li><a class="m-link" href="work.html" aria-current="page">Work</a></li>
+          <li><a class="m-link" href="services.html">Services</a></li>
+          <li><a class="m-link" href="process.html">Process</a></li>
+          <li><a class="m-link" href="pricing.html">Pricing</a></li>
+          <li><a class="m-link" href="about.html">About</a></li>
+          <li><a class="m-link" href="careers.html">Careers</a></li>
+          <li><a class="m-link" href="contact.html">Contact</a></li>
+        </ul>
+        <a href="contact.html" class="btn-primary mt-5 w-full">Start a project <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="grid-paper border-b-2 border-ink">
+        <div class="wrap pt-10 pb-12 lg:pt-14">
+          <nav aria-label="Breadcrumb"><ol class="mono flex flex-wrap gap-2 text-sm text-ink-faint"><li><a href="work.html" class="link">Work</a></li><li aria-hidden="true">/</li><li aria-current="page">Brineworks</li></ol></nav>
+          <div class="mt-6 grid gap-10 lg:grid-cols-[1.5fr_1fr]">
+            <div>
+              <div class="flex flex-wrap gap-2"><span class="chip chip-stage">Seed</span><span class="chip">Design</span><span class="chip">Engineering</span><span class="chip">Launch</span></div>
+              <h1 class="h-page mt-4">Brineworks: an oxygen alarm 140 catfish farms trust at 2 a.m.</h1>
+              <p class="lead mt-5 max-w-2xl">Two founders in Stuttgart, Arkansas, had a pond sensor that worked and an app that farmers ignored. In 14 weeks we rebuilt the app around one moment, the night alarm, and launched it through the feed stores farmers already trust.</p>
+            </div>
+            <dl class="sheet sheet-lift grid grid-cols-2 gap-x-4 gap-y-4 self-start p-6 text-sm">
+              <div><dt class="label">Client</dt><dd class="mt-1 font-semibold">Brineworks</dd></div>
+              <div><dt class="label">Based in</dt><dd class="mt-1 font-semibold">Stuttgart, AR</dd></div>
+              <div><dt class="label">Stage</dt><dd class="mt-1 font-semibold">Seed, $3.2M round</dd></div>
+              <div><dt class="label">Length</dt><dd class="mt-1 font-semibold">14 weeks</dd></div>
+              <div class="col-span-2"><dt class="label">Sidecar team</dt><dd class="mt-1 font-semibold">Itzel Arreola, Haruki Ueda, Keoni Satterfield, Rowena Prather</dd></div>
+              <div class="col-span-2"><dt class="label">Shipped</dt><dd class="mt-1 font-semibold">iOS and Android app, alert service, dealer launch kit</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <div class="wrap py-10">
+        <img src="assets/img/work/brineworks.svg" alt="The Brineworks app on a tablet: a farm map with nine ponds colored by oxygen level, and an oxygen chart for Pond 7 overnight." width="640" height="420" class="sheet sheet-lift block aspect-[64/42] w-full bg-paper" />
+      </div>
+
+      <section class="wrap grid gap-10 py-10 lg:grid-cols-[14rem_1fr] lg:py-14" aria-labelledby="problem-title">
+        <p class="label lg:pt-2">01 / The problem</p>
+        <div class="max-w-3xl">
+          <h2 id="problem-title" class="h-section">The sensor was right. Nobody looked at the app in time.</h2>
+          <div class="mt-5 grid gap-4 text-lg leading-relaxed text-ink-soft">
+            <p>Catfish ponds lose oxygen fastest between midnight and dawn. When it drops below about 3 mg/L, a farm can lose a pond of fish in an hour. Brineworks’ sensor caught the drop. Their first app showed it on page three of a dashboard built for daytime, on a laptop.</p>
+            <p>Farm managers told us the same thing in different words: at 2 a.m., in a truck, with gloves on, they need one number, one color and one button. Everything else could wait for breakfast.</p>
+          </div>
+          <p class="hand mt-6 -rotate-1 text-xl">“If I have to log in, the fish are already dead.” — a farm manager, week 1</p>
+        </div>
+      </section>
+
+      <section class="border-y-2 border-ink bg-paper-2" aria-labelledby="compare-title">
+        <div class="wrap grid gap-10 py-14 lg:grid-cols-[1fr_1.1fr] lg:items-center lg:py-20">
+          <div>
+            <p class="label">02 / From sketch to shipped</p>
+            <h2 id="compare-title" class="h-section mt-3">Week 3 on paper. Week 12 in the store.</h2>
+            <p class="lead mt-4">Drag the handle to compare the sketch we tested with six farm managers against the screen that shipped. The layout barely moved; the type got bigger and the button got louder.</p>
+            <ul class="mt-6 grid gap-3 text-ink-soft">
+              <li class="flex gap-3"><span class="mono mt-0.5 font-bold text-pine">01</span>One number per pond, readable at arm’s length in a dark cab.</li>
+              <li class="flex gap-3"><span class="mono mt-0.5 font-bold text-pine">02</span>The aerator button works from the lock screen alert.</li>
+              <li class="flex gap-3"><span class="mono mt-0.5 font-bold text-pine">03</span>Night colors by default from sunset, so the screen never blinds.</li>
+            </ul>
+          </div>
+          <div class="mx-auto w-full max-w-sm" data-compare>
+            <div class="sheet sheet-lift relative aspect-[36/52] overflow-hidden">
+              <svg viewBox="0 0 360 520" class="absolute inset-0 h-full w-full" role="img" aria-label="Shipped screen: Pond 7 at 3.1 milligrams per liter, oxygen low and falling, with a large Turn on aerator 2 button.">
+                <rect width="360" height="520" fill="#10281d"/>
+                <text x="32" y="56" font-family="Recursive" font-size="15" font-weight="600" fill="#86d6a0" letter-spacing="1.5">POND 7 · 9.5 ACRES</text>
+                <text x="32" y="140" font-family="Recursive" font-size="78" font-weight="800" fill="#f1d867">3.1</text>
+                <text x="170" y="140" font-family="Recursive" font-size="22" fill="#f1d867">mg/L</text>
+                <text x="32" y="176" font-family="Recursive" font-size="18" fill="#e8e1cf">Oxygen low and falling</text>
+                <polyline points="32,214 72,220 112,230 152,242 192,256 232,268 272,278 312,284 328,286" fill="none" stroke="#86d6a0" stroke-width="3.5"/>
+                <path d="M32 268h296" stroke="#f1d867" stroke-dasharray="6 6"/>
+                <rect x="32" y="316" width="296" height="72" rx="16" fill="#86d6a0"/>
+                <text x="180" y="360" text-anchor="middle" font-family="Recursive" font-size="22" font-weight="800" fill="#10281d">Turn on aerator 2</text>
+                <g font-family="Recursive" font-size="16" fill="#e8e1cf"><circle cx="40" cy="428" r="6" fill="#86d6a0"/><text x="58" y="434">Pond 4</text><text x="328" y="434" text-anchor="end">6.4</text><circle cx="40" cy="466" r="6" fill="#f1d867"/><text x="58" y="472">Pond 6</text><text x="328" y="472" text-anchor="end">4.2</text></g>
+              </svg>
+              <div class="absolute inset-0" data-compare-top style="clip-path: inset(0 50% 0 0)">
+                <svg viewBox="0 0 360 520" class="h-full w-full" role="img" aria-label="Week 3 pencil sketch of the same screen: pond name, a big oxygen number, a falling line and a large button labeled aerator.">
+                  <rect width="360" height="520" fill="#fcfaf4"/>
+                  <g stroke="#1d1b16" stroke-opacity=".07"><path d="M0 40h360M0 80h360M0 120h360M0 160h360M0 200h360M0 240h360M0 280h360M0 320h360M0 360h360M0 400h360M0 440h360M0 480h360M40 0v520M80 0v520M120 0v520M160 0v520M200 0v520M240 0v520M280 0v520M320 0v520"/></g>
+                  <g fill="none" stroke="#5f594b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M32 50c60-2 120-2 170 1"/>
+                    <path d="M34 92c30-2 60-1 92 2 2 18 2 38 0 56-30 2-62 2-92-1-2-18-2-38 0-57z"/>
+                    <path d="M150 140c10-1 24 0 34 1"/>
+                    <path d="M32 174c50-1 110-1 180 1"/>
+                    <path d="M32 214c40 6 90 18 140 40s110 30 150 32"/>
+                    <path d="M32 316c90-3 190-3 296 1 2 24 2 48-1 72-96 2-198 2-295-1-2-24-2-48 0-72z" stroke="#17663f" stroke-width="3"/>
+                    <path d="M40 428h120M40 466h100"/>
+                  </g>
+                  <text x="62" y="134" font-family="Architects Daughter" font-size="34" fill="#5f594b">O₂</text>
+                  <text x="98" y="362" font-family="Architects Daughter" font-size="24" fill="#17663f">AERATOR (huge)</text>
+                  <text x="214" y="122" font-family="Architects Daughter" font-size="17" fill="#17663f">big as a</text>
+                  <text x="214" y="142" font-family="Architects Daughter" font-size="17" fill="#17663f">thumb</text>
+                  <text x="214" y="214" font-family="Architects Daughter" font-size="16" fill="#4b463b">trend, not</text>
+                  <text x="214" y="232" font-family="Architects Daughter" font-size="16" fill="#4b463b">a chart</text>
+                </svg>
+              </div>
+              <div class="pointer-events-none absolute inset-y-0 left-1/2 w-0.5 -translate-x-1/2 bg-ink" data-compare-line aria-hidden="true"><span class="absolute top-1/2 left-1/2 grid size-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-2 border-ink bg-tape text-ink"><svg viewBox="0 0 20 20" class="size-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5 2 10l5 5M13 5l5 5-5 5"/></svg></span></div>
+            </div>
+            <label for="compare-range" class="mono mt-4 flex items-center justify-between text-sm text-ink-soft"><span>Week 3 sketch</span><span>Shipped</span></label>
+            <input id="compare-range" type="range" min="0" max="100" value="50" class="mt-1 w-full" data-compare-range aria-valuetext="50% sketch" />
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap grid gap-10 py-14 lg:grid-cols-[14rem_1fr] lg:py-20" aria-labelledby="shipped-title">
+        <p class="label lg:pt-2">03 / What shipped</p>
+        <div>
+          <h2 id="shipped-title" class="h-section max-w-3xl">Three things, all live on launch day.</h2>
+          <div class="mt-8 grid gap-6 md:grid-cols-3">
+            <article class="sheet reveal p-5">
+              <svg viewBox="0 0 200 110" class="h-24 w-full" aria-hidden="true"><rect x="70" y="6" width="60" height="98" rx="10" fill="#1d1b16"/><rect x="74" y="12" width="52" height="86" rx="7" fill="#10281d"/><text x="80" y="44" font-family="Recursive" font-size="18" font-weight="800" fill="#f1d867">3.1</text><rect x="80" y="68" width="40" height="14" rx="4" fill="#86d6a0"/><path d="M40 40c-14 0-20 10-20 20M160 40c14 0 20 10 20 20" stroke="#17663f" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+              <h3 class="mt-3 text-lg font-extrabold">The app</h3>
+              <p class="mt-1 text-sm text-ink-soft">iOS and Android, React Native. Night mode from sunset, alarms that break through Do Not Disturb, and a farm map for the morning.</p>
+            </article>
+            <article class="sheet reveal p-5">
+              <svg viewBox="0 0 200 110" class="h-24 w-full" aria-hidden="true"><g fill="none" stroke="#1d1b16" stroke-width="2.4"><circle cx="34" cy="55" r="16"/><rect x="82" y="35" width="40" height="40" rx="6"/><path d="M50 55h32M122 55h22"/></g><path d="M150 40l20 15-20 15z" fill="#17663f"/><path d="M28 50v10M40 46v18" stroke="#17663f" stroke-width="2.4"/><text x="88" y="60" font-family="Recursive" font-size="10" fill="#1d1b16" style="font-variation-settings:'MONO' 1">api</text></svg>
+              <h3 class="mt-3 text-lg font-extrabold">The alert service</h3>
+              <p class="mt-1 text-sm text-ink-soft">Takes a reading from every sensor each minute, spots a falling trend 25 minutes early and pages the right person, then the next one.</p>
+            </article>
+            <article class="sheet reveal p-5">
+              <svg viewBox="0 0 200 110" class="h-24 w-full" aria-hidden="true"><rect x="40" y="14" width="120" height="84" rx="4" fill="#f1d867" stroke="#1d1b16" stroke-width="2.4"/><path d="M56 34h70M56 46h88M56 58h56" stroke="#1d1b16" stroke-width="2.4" stroke-linecap="round"/><rect x="56" y="70" width="44" height="16" rx="3" fill="#17663f"/></svg>
+              <h3 class="mt-3 text-lg font-extrabold">The dealer kit</h3>
+              <p class="mt-1 text-sm text-ink-soft">A counter card, a setup video and a 20-minute training so feed store staff could install sensors and sign farms up on the spot.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="border-y-2 border-ink bg-card" aria-labelledby="timeline-title">
+        <div class="wrap grid gap-10 py-14 lg:grid-cols-[14rem_1fr] lg:py-20">
+          <p class="label lg:pt-2">04 / Timeline</p>
+          <div class="min-w-0">
+            <h2 id="timeline-title" class="h-section">Fourteen weeks, two of them in a pond truck.</h2>
+            <div class="relative mt-8 overflow-x-auto">
+              <div class="min-w-[40rem]">
+                <div class="mono grid grid-cols-14 text-center text-xs text-ink-faint" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span></div>
+                <ol class="mt-2 grid gap-2">
+                  <li class="grid grid-cols-14 items-center"><span class="col-span-2 rounded-sm border-2 border-ink bg-tape px-2 py-2 text-sm font-bold">Frame <span class="font-normal">· 1–2</span></span><span class="col-span-12 pl-3 text-sm text-ink-soft">Ride-alongs on four farms at night; the alarm becomes the product.</span></li>
+                  <li class="grid grid-cols-14 items-center"><span class="col-span-2"></span><span class="col-span-3 rounded-sm border-2 border-ink bg-sprout-soft px-2 py-2 text-sm font-bold">Shape <span class="font-normal">· 3–5</span></span><span class="col-span-9 pl-3 text-sm text-ink-soft">Paper sketches, then a prototype tested with six farm managers.</span></li>
+                  <li class="grid grid-cols-14 items-center"><span class="col-span-5"></span><span class="col-span-6 rounded-sm border-2 border-ink bg-sprout px-2 py-2 text-sm font-bold">Build <span class="font-normal">· 6–11</span></span><span class="col-span-3 pl-3 text-sm text-ink-soft">Beta on 12 farms from week 9.</span></li>
+                  <li class="grid grid-cols-14 items-center"><span class="col-span-9"></span><span class="col-span-5 rounded-sm border-2 border-ink bg-ink px-2 py-2 text-sm font-bold text-paper">Launch <span class="font-normal">· 10–14, feed stores first</span></span></li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap grid gap-10 py-14 lg:grid-cols-[14rem_1fr] lg:py-20" aria-labelledby="results-title">
+        <p class="label lg:pt-2">05 / Results</p>
+        <div>
+          <h2 id="results-title" class="h-section max-w-3xl">The first season, by the numbers.</h2>
+          <dl class="mt-8 grid gap-px overflow-hidden rounded-md border-2 border-ink bg-ink sm:grid-cols-2 lg:grid-cols-4">
+            <div class="bg-card p-6"><dt class="label">Farms on the app</dt><dd class="mt-2 text-[2rem] leading-tight font-extrabold text-pine">140</dd><dd class="mt-1 text-sm text-ink-soft">across Arkansas, Mississippi and Alabama</dd></div>
+            <div class="bg-card p-6"><dt class="label">Alarm to aerator</dt><dd class="mt-2 text-[2rem] leading-tight font-extrabold text-pine">2m 40s</dd><dd class="mt-1 text-sm text-ink-soft">median, down from 19 minutes</dd></div>
+            <div class="bg-card p-6"><dt class="label">Ponds lost to low oxygen</dt><dd class="mt-2 text-[2rem] leading-tight font-extrabold text-pine">83% fewer</dd><dd class="mt-1 text-sm text-ink-soft">on farms using alarms, against the year before</dd></div>
+            <div class="bg-card p-6"><dt class="label">Next round</dt><dd class="mt-2 text-[2rem] leading-tight font-extrabold text-pine">$9M</dd><dd class="mt-1 text-sm text-ink-soft">Series A, eight months after launch</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="border-t-2 border-ink bg-paper-2" aria-labelledby="quote-title">
+        <div class="wrap py-14 lg:py-20">
+          <h2 id="quote-title" class="sr-only">What the founder said</h2>
+          <figure class="sheet sheet-lift relative mx-auto max-w-4xl p-8 sm:p-12">
+            <span class="tape -top-3 left-10 -rotate-3" aria-hidden="true"></span>
+            <span class="tape -top-3 right-10 rotate-3" aria-hidden="true"></span>
+            <blockquote class="text-2xl leading-snug font-semibold tracking-[-0.01em] text-balance sm:text-3xl">“They sat in a pond truck with us at two in the morning. The alarm screen came straight out of that night, and so did our Series A story.”</blockquote>
+            <figcaption class="mt-6 flex items-center gap-4">
+              <svg viewBox="0 0 56 56" class="size-14 shrink-0 rounded-full border-2 border-ink" aria-hidden="true"><rect width="56" height="56" fill="#dcecd8"/><circle cx="28" cy="25" r="11" fill="#b9825c"/><path d="M15 26c-2-12 6-18 13-18s16 5 13 18c-2-6-6-9-13-9s-11 3-13 9z" fill="#1d1b16"/><path d="M10 56c2-12 9-17 18-17s16 5 18 17z" fill="#17663f"/></svg>
+              <div><p class="font-bold">Leilani Treadway</p><p class="text-sm text-ink-soft">Cofounder and CEO, Brineworks · with Dmitri Gentry, cofounder and CTO</p></div>
+            </figcaption>
+          </figure>
+          <div class="mt-10 flex flex-wrap justify-center gap-3">
+            <a href="work.html?service=engineering" class="btn-outline">More engineering projects</a>
+            <a href="contact.html" class="btn-primary">Start your project <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="on-night mt-auto bg-night text-white">
+      <div class="wrap grid gap-10 py-14 md:grid-cols-[1.5fr_1fr_1fr_1.3fr]">
+        <div>
+          <a href="index.html" class="inline-flex items-center gap-2.5 rounded text-white" aria-label="Sidecar home"><svg viewBox="0 0 40 32" class="h-8 w-10 shrink-0" aria-hidden="true"><path d="M11 22 19 13h5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 21h18c0-6-4.5-10-10-10h-3.5a4.5 4.5 0 0 0-4.5 4.5z" fill="#17663f" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="10" cy="23" r="6" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="29" cy="25.5" r="3.6" fill="#f1d867" stroke="currentColor" stroke-width="2.2"/></svg><span class="text-[1.4rem] font-extrabold tracking-[-0.03em] casual">Sidecar</span></a>
+          <p class="mt-4 max-w-xs text-sm leading-relaxed text-mist">A 14-person product studio in Little Rock, Arkansas. We design, build and launch first products with seed-stage founders.</p>
+          <p class="mt-5 font-hand text-lg text-sprout">Built alongside you, not handed over the wall.</p>
+        </div>
+        <div>
+          <h2 class="label text-mist">Studio</h2>
+          <ul class="mt-4 grid gap-2.5 text-sm">
+            <li><a class="foot-link" href="work.html">Work</a></li>
+            <li><a class="foot-link" href="services.html">Services</a></li>
+            <li><a class="foot-link" href="process.html">Process</a></li>
+            <li><a class="foot-link" href="pricing.html">Pricing and estimator</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="label text-mist">Company</h2>
+          <ul class="mt-4 grid gap-2.5 text-sm">
+            <li><a class="foot-link" href="about.html">About</a></li>
+            <li><a class="foot-link" href="careers.html">Careers</a></li>
+            <li><a class="foot-link" href="case-study.html">Case study: Brineworks</a></li>
+            <li><a class="foot-link" href="contact.html">Start a project</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="label text-mist">Visit or call</h2>
+          <address class="mt-4 grid gap-2.5 text-sm text-mist not-italic">
+            <span>1517 South Main Street<br />Little Rock, AR 72202</span>
+            <a class="foot-link" href="tel:+15015550138">(501) 555-0138</a>
+            <a class="foot-link" href="mailto:hello@sidecar.example">hello@sidecar.example</a>
+            <span>Weekdays, 9:00 a.m. to 5:30 p.m. Central</span>
+          </address>
+        </div>
+      </div>
+      <div class="border-t border-night-line">
+        <div class="wrap flex flex-col gap-2 py-6 text-sm text-mist sm:flex-row sm:items-center sm:justify-between">
+          <p>© <span data-year>2026</span> Sidecar Product Studio, LLC.</p>
+          <p>Sidecar, its clients and its team are fictional.</p>
+        </div>
+      </div>
+    </footer>
+    <div id="live-region" class="sr-only" aria-live="polite"></div>
+  </body>
+</html>

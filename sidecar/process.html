@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Process: how a 12-week engagement runs | Sidecar</title>
+    <meta name="description" content="Walk through a typical Sidecar engagement week by week: framing, design sprints, building, beta, launch and handoff, with what you get each week and how much founder time it takes." />
+    <meta name="theme-color" content="#f5f0e4" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Sidecar" />
+    <meta property="og:title" content="Process: how a 12-week engagement runs | Sidecar" />
+    <meta property="og:description" content="Walk through a typical Sidecar engagement week by week: framing, design sprints, building, beta, launch and handoff, with what you get each week and how much founder time it takes." />
+    <meta property="og:image" content="assets/img/og-image.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Architects+Daughter&amp;family=Recursive:wght,CASL,MONO@400..800,0..1,0..1&amp;display=swap" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script>document.documentElement.classList.add('js');</script>
+    <script src="assets/js/data.js" defer></script>
+    <script src="assets/js/main.js" defer></script>
+  </head>
+  <body data-page="process" class="flex min-h-screen flex-col">
+    <a href="#main" class="sr-only z-[60] bg-pine px-4 py-3 text-paper focus:not-sr-only focus:fixed focus:top-3 focus:left-3">Skip to content</a>
+    <header id="site-header" class="sticky top-0 z-40 border-b-2 border-ink bg-paper/95 backdrop-blur">
+      <div class="wrap flex min-h-[4.25rem] items-center justify-between gap-4">
+        <a href="index.html" class="flex items-center gap-2.5 rounded text-ink"><svg viewBox="0 0 40 32" class="h-8 w-10 shrink-0" aria-hidden="true"><path d="M11 22 19 13h5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 21h18c0-6-4.5-10-10-10h-3.5a4.5 4.5 0 0 0-4.5 4.5z" fill="#17663f" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="10" cy="23" r="6" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="29" cy="25.5" r="3.6" fill="#f1d867" stroke="currentColor" stroke-width="2.2"/></svg><span class="text-[1.45rem] font-extrabold tracking-[-0.03em] casual">Sidecar<span class="sr-only"> home</span></span><span class="mono hidden text-xs text-ink-faint xl:inline" aria-hidden="true">/ product studio</span></a>
+        <nav class="hidden lg:block" aria-label="Main">
+          <ul class="isolate flex items-center gap-0.5">
+            <li><a class="nav-link" href="work.html">Work</a></li>
+            <li><a class="nav-link" href="services.html">Services</a></li>
+            <li><a class="nav-link" href="process.html" aria-current="page">Process</a></li>
+            <li><a class="nav-link" href="pricing.html">Pricing</a></li>
+            <li><a class="nav-link" href="about.html">About</a></li>
+            <li><a class="nav-link" href="careers.html">Careers</a></li>
+          </ul>
+        </nav>
+        <div class="flex items-center gap-2">
+          <a href="contact.html" class="btn-primary btn-sm hidden sm:inline-flex">Start a project <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+          <button id="menu-toggle" type="button" class="grid size-11 place-items-center rounded-md border-2 border-ink bg-card lg:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+            <svg data-icon-open viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h11M4 17h16"/></svg>
+            <svg data-icon-close viewBox="0 0 24 24" class="hidden size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </button>
+        </div>
+      </div>
+      <nav id="mobile-menu" class="wrap max-h-[calc(100vh-4.5rem)] overflow-y-auto pb-6 lg:hidden" aria-label="Mobile" hidden>
+        <ul class="grid">
+          <li><a class="m-link" href="work.html">Work</a></li>
+          <li><a class="m-link" href="services.html">Services</a></li>
+          <li><a class="m-link" href="process.html" aria-current="page">Process</a></li>
+          <li><a class="m-link" href="pricing.html">Pricing</a></li>
+          <li><a class="m-link" href="about.html">About</a></li>
+          <li><a class="m-link" href="careers.html">Careers</a></li>
+          <li><a class="m-link" href="contact.html">Contact</a></li>
+        </ul>
+        <a href="contact.html" class="btn-primary mt-5 w-full">Start a project <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="grid-paper border-b-2 border-ink">
+        <div class="wrap pt-12 pb-10 lg:pt-16">
+          <p class="eyebrow">Process · 12 weeks</p>
+          <div class="mt-4 grid gap-6 lg:grid-cols-[1.4fr_1fr] lg:items-end">
+            <h1 class="h-page">A typical engagement, one week at a time.</h1>
+            <p class="lead">Every project bends this plan, but the bones stay: frame it, shape it, build it with real users watching, launch it and hand over every key.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap py-10 lg:py-14" aria-labelledby="weeks-title" data-weeks>
+        <h2 id="weeks-title" class="sr-only">Week by week</h2>
+        <div class="pb-2">
+          <div>
+            <div class="mono hidden grid-cols-12 gap-1.5 text-xs md:grid font-semibold tracking-[0.04em] uppercase" aria-hidden="true">
+              <span class="col-span-2 border-b-4 border-tape pb-1">Frame</span>
+              <span class="col-span-3 border-b-4 border-sprout-soft pb-1">Shape</span>
+              <span class="col-span-4 border-b-4 border-sprout pb-1">Build</span>
+              <span class="col-span-1 border-b-4 border-line-strong pb-1">Harden</span>
+              <span class="col-span-2 border-b-4 border-ink pb-1">Launch</span>
+            </div>
+            <div class="grid grid-cols-6 gap-1.5 md:mt-3 md:grid-cols-12" role="tablist" aria-label="Weeks of the engagement" data-week-tabs></div>
+          </div>
+        </div>
+
+        <div class="mt-8 grid gap-8 lg:grid-cols-[1.5fr_1fr]">
+          <div class="sheet sheet-lift relative p-6 sm:p-8" role="tabpanel" id="week-panel" aria-labelledby="week-tab-1" tabindex="0" data-week-panel>
+            <span class="tape -top-3 right-8 rotate-3" aria-hidden="true"></span>
+            <div class="flex flex-wrap items-center gap-3">
+              <span class="stamp text-pine" data-wk-phase>Frame</span>
+              <span class="mono text-sm text-ink-faint" data-wk-count>Week 1 of 12</span>
+            </div>
+            <h3 class="mt-4 text-[1.8rem] leading-tight font-extrabold tracking-[-0.02em]" data-wk-title>Kickoff and the problem on one page</h3>
+            <p class="mt-3 text-lg leading-relaxed text-ink-soft" data-wk-text>Two days in Little Rock or at your office. We interview you, read everything you have and talk to five of your users or would-be users.</p>
+            <div class="mt-6 grid gap-5 border-t-2 border-ink pt-5 sm:grid-cols-2">
+              <div>
+                <p class="label">Who is on it</p>
+                <ul class="mt-2 flex flex-wrap gap-2" data-wk-studio></ul>
+              </div>
+              <div>
+                <p class="label">You get</p>
+                <p class="mt-2 font-semibold" data-wk-artifact>A one-page problem statement both sides sign</p>
+              </div>
+            </div>
+            <div class="mt-6 rounded-md bg-paper-2 p-4">
+              <div class="flex items-baseline justify-between gap-3"><p class="label">Founder time this week</p><p class="mono font-bold" data-wk-hours>6 hours</p></div>
+              <div class="mt-2 h-3 overflow-hidden rounded-full border-2 border-ink bg-card"><div class="h-full bg-pine transition-[width] duration-300" style="width:100%" data-wk-bar></div></div>
+            </div>
+            <div class="mt-6 flex items-center justify-between gap-3">
+              <button type="button" class="btn-outline btn-sm" data-wk-prev>← Previous week</button>
+              <button type="button" class="btn-outline btn-sm" data-wk-next>Next week →</button>
+            </div>
+          </div>
+
+          <aside class="grid content-start gap-6">
+            <div class="sheet p-6">
+              <h3 class="font-extrabold">Founder time, all 12 weeks</h3>
+              <p class="mt-1 text-sm text-ink-soft">Hours a week we need from someone who can make product calls. Select a bar to open that week.</p>
+              <div class="mt-4" data-hours-chart></div>
+              <p class="mono mt-2 text-sm text-ink-soft" data-hours-total>39 hours in total</p>
+            </div>
+            <div class="sheet bg-sprout-soft p-6">
+              <h3 class="font-extrabold">Every week, on the same days</h3>
+              <ul class="mt-3 grid gap-2 text-sm">
+                <li class="flex gap-3"><span class="mono w-12 shrink-0 font-bold">Mon</span>Plan the week together, 30 minutes</li>
+                <li class="flex gap-3"><span class="mono w-12 shrink-0 font-bold">Wed</span>Check-in in Slack, written</li>
+                <li class="flex gap-3"><span class="mono w-12 shrink-0 font-bold">Fri</span>Demo of working software, recorded</li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="border-y-2 border-ink bg-card" aria-labelledby="after-title">
+        <div class="wrap grid gap-10 py-14 lg:grid-cols-[1fr_1.4fr] lg:py-20">
+          <div>
+            <p class="eyebrow">After week 12</p>
+            <h2 id="after-title" class="h-section mt-3">Handoff means you could fire us the next day.</h2>
+            <p class="hand mt-5 rotate-1 text-xl">(Please don’t. But you could.)</p>
+          </div>
+          <ol class="grid gap-4">
+            <li class="sheet flex gap-4 p-5"><span class="mono text-2xl font-bold text-pine">A</span><div><h3 class="font-bold">Every account in your name</h3><p class="mt-1 text-sm text-ink-soft">Repository, hosting, app stores, analytics, domain and email. We remove ourselves on the last day.</p></div></li>
+            <li class="sheet flex gap-4 p-5"><span class="mono text-2xl font-bold text-pine">B</span><div><h3 class="font-bold">Docs a new engineer can follow</h3><p class="mt-1 text-sm text-ink-soft">Setup in one command, architecture notes and a recorded walkthrough of each part of the system.</p></div></li>
+            <li class="sheet flex gap-4 p-5"><span class="mono text-2xl font-bold text-pine">C</span><div><h3 class="font-bold">30 days of support</h3><p class="mt-1 text-sm text-ink-soft">A shared channel stays open. Bugs we wrote, we fix, free.</p></div></li>
+            <li class="sheet flex gap-4 p-5"><span class="mono text-2xl font-bold text-pine">D</span><div><h3 class="font-bold">A plan for the next 90 days</h3><p class="mt-1 text-sm text-ink-soft">What to build next, who to hire first and what to measure, written with you.</p></div></li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="wrap flex flex-col gap-6 py-14 md:flex-row md:items-center md:justify-between" aria-labelledby="process-cta">
+        <div>
+          <h2 id="process-cta" class="h-section">Want to see what your twelve weeks would cost?</h2>
+          <p class="mt-3 text-ink-soft">Pick services, people and weeks, and get a range and a timeline in a minute.</p>
+        </div>
+        <a href="pricing.html" class="btn-primary">Open the estimator <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+      </section>
+    </main>
+    <footer class="on-night mt-auto bg-night text-white">
+      <div class="wrap grid gap-10 py-14 md:grid-cols-[1.5fr_1fr_1fr_1.3fr]">
+        <div>
+          <a href="index.html" class="inline-flex items-center gap-2.5 rounded text-white" aria-label="Sidecar home"><svg viewBox="0 0 40 32" class="h-8 w-10 shrink-0" aria-hidden="true"><path d="M11 22 19 13h5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 21h18c0-6-4.5-10-10-10h-3.5a4.5 4.5 0 0 0-4.5 4.5z" fill="#17663f" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="10" cy="23" r="6" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="29" cy="25.5" r="3.6" fill="#f1d867" stroke="currentColor" stroke-width="2.2"/></svg><span class="text-[1.4rem] font-extrabold tracking-[-0.03em] casual">Sidecar</span></a>
+          <p class="mt-4 max-w-xs text-sm leading-relaxed text-mist">A 14-person product studio in Little Rock, Arkansas. We design, build and launch first products with seed-stage founders.</p>
+          <p class="mt-5 font-hand text-lg text-sprout">Built alongside you, not handed over the wall.</p>
+        </div>
+        <div>
+          <h2 class="label text-mist">Studio</h2>
+          <ul class="mt-4 grid gap-2.5 text-sm">
+            <li><a class="foot-link" href="work.html">Work</a></li>
+            <li><a class="foot-link" href="services.html">Services</a></li>
+            <li><a class="foot-link" href="process.html">Process</a></li>
+            <li><a class="foot-link" href="pricing.html">Pricing and estimator</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="label text-mist">Company</h2>
+          <ul class="mt-4 grid gap-2.5 text-sm">
+            <li><a class="foot-link" href="about.html">About</a></li>
+            <li><a class="foot-link" href="careers.html">Careers</a></li>
+            <li><a class="foot-link" href="case-study.html">Case study: Brineworks</a></li>
+            <li><a class="foot-link" href="contact.html">Start a project</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="label text-mist">Visit or call</h2>
+          <address class="mt-4 grid gap-2.5 text-sm text-mist not-italic">
+            <span>1517 South Main Street<br />Little Rock, AR 72202</span>
+            <a class="foot-link" href="tel:+15015550138">(501) 555-0138</a>
+            <a class="foot-link" href="mailto:hello@sidecar.example">hello@sidecar.example</a>
+            <span>Weekdays, 9:00 a.m. to 5:30 p.m. Central</span>
+          </address>
+        </div>
+      </div>
+      <div class="border-t border-night-line">
+        <div class="wrap flex flex-col gap-2 py-6 text-sm text-mist sm:flex-row sm:items-center sm:justify-between">
+          <p>© <span data-year>2026</span> Sidecar Product Studio, LLC.</p>
+          <p>Sidecar, its clients and its team are fictional.</p>
+        </div>
+      </div>
+    </footer>
+    <div id="live-region" class="sr-only" aria-live="polite"></div>
+  </body>
+</html>

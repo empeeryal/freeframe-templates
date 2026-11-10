@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" width="640" height="420">
+<rect width="640" height="420" fill="#dcecd8"/>
+<path d="M20 0v420M40 0v420M60 0v420M80 0v420M100 0v420M120 0v420M140 0v420M160 0v420M180 0v420M200 0v420M220 0v420M240 0v420M260 0v420M280 0v420M300 0v420M320 0v420M340 0v420M360 0v420M380 0v420M400 0v420M420 0v420M440 0v420M460 0v420M480 0v420M500 0v420M520 0v420M540 0v420M560 0v420M580 0v420M600 0v420M620 0v420M0 20h640M0 40h640M0 60h640M0 80h640M0 100h640M0 120h640M0 140h640M0 160h640M0 180h640M0 200h640M0 220h640M0 240h640M0 260h640M0 280h640M0 300h640M0 320h640M0 340h640M0 360h640M0 380h640M0 400h640" stroke="#1d1b16" stroke-opacity=".06"/>
+
+<g transform="rotate(-2 320 210)">
+<rect x="70" y="40" width="500" height="340" rx="22" fill="#1d1b16"/>
+<rect x="84" y="54" width="472" height="312" rx="10" fill="#10281d"/>
+<text x="104" y="86" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#86d6a0" letter-spacing="1.5">HOLLOW CREEK FARM · 9 PONDS</text>
+<g stroke="#1d1b16" stroke-width="2">
+<path d="M104 104h70l8 40h-80z" fill="#86d6a0"/><path d="M190 104h80v44h-84z" fill="#86d6a0"/><path d="M104 156h84v50h-86z" fill="#f1d867"/>
+<path d="M196 158h76v48h-78z" fill="#86d6a0"/><path d="M104 216h90v50h-92z" fill="#86d6a0"/><path d="M202 216h70v52h-74z" fill="#86d6a0"/>
+<path d="M104 278h80v52h-82z" fill="#86d6a0"/><path d="M192 280h80v50h-80z" fill="#e8b84d"/><path d="M280 104h40v226h-40z" fill="#86d6a0"/>
+</g>
+<g font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#10281d"><text x="132" y="128">1</text><text x="222" y="130">2</text><text x="138" y="186">7</text><text x="226" y="186">3</text><text x="142" y="246">4</text><text x="230" y="246">5</text><text x="138" y="308">6</text><text x="226" y="308">8</text><text x="295" y="220">9</text></g>
+<rect x="344" y="104" width="196" height="226" rx="8" fill="#163829"/>
+<text x="360" y="130" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#e8e1cf">Pond 7 · overnight</text>
+<text x="360" y="172" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="34" font-weight="800" fill="#f1d867">3.1</text><text x="420" y="172" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="13" fill="#f1d867">mg/L</text>
+<path d="M360 270h164" stroke="#2c4a3b"/><path d="M360 246h164" stroke="#f1d867" stroke-dasharray="4 4"/>
+<polyline points="360,198 380,202 400,210 420,222 440,236 460,250 480,258 500,252 524,240" fill="none" stroke="#86d6a0" stroke-width="3" stroke-linejoin="round"/>
+<g font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="10" fill="#e8e1cf"><text x="360" y="290">10p</text><text x="420" y="290">1a</text><text x="476" y="290">4a</text></g>
+<rect x="360" y="300" width="164" height="20" rx="6" fill="#86d6a0"/><text x="442" y="314" text-anchor="middle" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#10281d">Aerator 2 on since 2:16</text>
+</g>
+<rect x="270" y="26" width="100" height="24" fill="#f1d867" fill-opacity=".8" transform="rotate(3 320 38)"/>
+
+</svg>

@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Services: product design, engineering and launch | Sidecar</title>
+    <meta name="description" content="Sidecar designs, builds and launches first products for seed-stage startups: product design, web and mobile engineering, and launch, as a fixed sprint, a monthly retainer or a build-to-hire engagement." />
+    <meta name="theme-color" content="#f5f0e4" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Sidecar" />
+    <meta property="og:title" content="Services: product design, engineering and launch | Sidecar" />
+    <meta property="og:description" content="Sidecar designs, builds and launches first products for seed-stage startups: product design, web and mobile engineering, and launch, as a fixed sprint, a monthly retainer or a build-to-hire engagement." />
+    <meta property="og:image" content="assets/img/og-image.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Architects+Daughter&amp;family=Recursive:wght,CASL,MONO@400..800,0..1,0..1&amp;display=swap" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script>document.documentElement.classList.add('js');</script>
+    <script src="assets/js/data.js" defer></script>
+    <script src="assets/js/main.js" defer></script>
+  </head>
+  <body data-page="services" class="flex min-h-screen flex-col">
+    <a href="#main" class="sr-only z-[60] bg-pine px-4 py-3 text-paper focus:not-sr-only focus:fixed focus:top-3 focus:left-3">Skip to content</a>
+    <header id="site-header" class="sticky top-0 z-40 border-b-2 border-ink bg-paper/95 backdrop-blur">
+      <div class="wrap flex min-h-[4.25rem] items-center justify-between gap-4">
+        <a href="index.html" class="flex items-center gap-2.5 rounded text-ink"><svg viewBox="0 0 40 32" class="h-8 w-10 shrink-0" aria-hidden="true"><path d="M11 22 19 13h5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 21h18c0-6-4.5-10-10-10h-3.5a4.5 4.5 0 0 0-4.5 4.5z" fill="#17663f" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="10" cy="23" r="6" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="29" cy="25.5" r="3.6" fill="#f1d867" stroke="currentColor" stroke-width="2.2"/></svg><span class="text-[1.45rem] font-extrabold tracking-[-0.03em] casual">Sidecar<span class="sr-only"> home</span></span><span class="mono hidden text-xs text-ink-faint xl:inline" aria-hidden="true">/ product studio</span></a>
+        <nav class="hidden lg:block" aria-label="Main">
+          <ul class="isolate flex items-center gap-0.5">
+            <li><a class="nav-link" href="work.html">Work</a></li>
+            <li><a class="nav-link" href="services.html" aria-current="page">Services</a></li>
+            <li><a class="nav-link" href="process.html">Process</a></li>
+            <li><a class="nav-link" href="pricing.html">Pricing</a></li>
+            <li><a class="nav-link" href="about.html">About</a></li>
+            <li><a class="nav-link" href="careers.html">Careers</a></li>
+          </ul>
+        </nav>
+        <div class="flex items-center gap-2">
+          <a href="contact.html" class="btn-primary btn-sm hidden sm:inline-flex">Start a project <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+          <button id="menu-toggle" type="button" class="grid size-11 place-items-center rounded-md border-2 border-ink bg-card lg:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+            <svg data-icon-open viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h11M4 17h16"/></svg>
+            <svg data-icon-close viewBox="0 0 24 24" class="hidden size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </button>
+        </div>
+      </div>
+      <nav id="mobile-menu" class="wrap max-h-[calc(100vh-4.5rem)] overflow-y-auto pb-6 lg:hidden" aria-label="Mobile" hidden>
+        <ul class="grid">
+          <li><a class="m-link" href="work.html">Work</a></li>
+          <li><a class="m-link" href="services.html" aria-current="page">Services</a></li>
+          <li><a class="m-link" href="process.html">Process</a></li>
+          <li><a class="m-link" href="pricing.html">Pricing</a></li>
+          <li><a class="m-link" href="about.html">About</a></li>
+          <li><a class="m-link" href="careers.html">Careers</a></li>
+          <li><a class="m-link" href="contact.html">Contact</a></li>
+        </ul>
+        <a href="contact.html" class="btn-primary mt-5 w-full">Start a project <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="grid-paper border-b-2 border-ink">
+        <div class="wrap grid gap-10 pt-12 pb-12 lg:grid-cols-[1.3fr_1fr] lg:items-center lg:pt-16">
+          <div>
+            <p class="eyebrow">Services</p>
+            <h1 class="h-page mt-4">Design, engineering and launch, from one bench.</h1>
+            <p class="lead mt-5 max-w-2xl">Hire us for one, or all three. Either way you get one small team, one plan and one Friday demo, not three vendors pointing at each other.</p>
+            <ul class="mono mt-7 flex flex-wrap gap-2 text-sm">
+              <li><a href="#design" class="chip hover:border-ink">01 Product design</a></li>
+              <li><a href="#engineering" class="chip hover:border-ink">02 Engineering</a></li>
+              <li><a href="#launch" class="chip hover:border-ink">03 Launch</a></li>
+              <li><a href="#models" class="chip hover:border-ink">Engagement models</a></li>
+            </ul>
+          </div>
+          <svg viewBox="0 0 440 300" class="h-auto w-full" role="img" aria-label="A workbench drawing: a pencil and sketchbook, a laptop showing code and a megaphone, each labeled with a service number.">
+            <path d="M20 250h400" stroke="#1d1b16" stroke-width="3" stroke-linecap="round"/>
+            <path d="M40 250v36M400 250v36" stroke="#1d1b16" stroke-width="3" stroke-linecap="round"/>
+            <g transform="rotate(-6 100 200)"><rect x="40" y="150" width="120" height="96" rx="4" fill="#fcfaf4" stroke="#1d1b16" stroke-width="2.5"/><path d="M56 176c20-2 50-2 86 0M56 196c14-1 40-1 60 0" stroke="#5f594b" stroke-width="2" fill="none" stroke-linecap="round"/><rect x="56" y="210" width="40" height="22" rx="3" fill="#86d6a0" stroke="#1d1b16" stroke-width="2"/></g>
+            <g transform="rotate(28 150 160)"><rect x="140" y="110" width="12" height="96" rx="2" fill="#f1d867" stroke="#1d1b16" stroke-width="2.2"/><path d="M140 206l6 14 6-14z" fill="#1d1b16"/></g>
+            <rect x="182" y="132" width="140" height="92" rx="6" fill="#1d1b16"/>
+            <rect x="190" y="140" width="124" height="76" rx="3" fill="#10281d"/>
+            <g font-family="Recursive" font-size="10" style="font-variation-settings:'MONO' 1"><text x="198" y="160" fill="#86d6a0">git push</text><text x="198" y="178" fill="#e8e1cf">✓ 42 tests</text><text x="198" y="196" fill="#f1d867">deployed</text></g>
+            <path d="M170 224h164l12 22H158z" fill="#ece5d4" stroke="#1d1b16" stroke-width="2.5" stroke-linejoin="round"/>
+            <g transform="translate(350 168)"><path d="M0 30l40-24v60L0 42z" fill="#17663f" stroke="#1d1b16" stroke-width="2.5" stroke-linejoin="round"/><rect x="-14" y="26" width="16" height="20" rx="3" fill="#fcfaf4" stroke="#1d1b16" stroke-width="2.5"/><path d="M52 20c8 6 8 26 0 32M60 12c14 10 14 38 0 48" fill="none" stroke="#17663f" stroke-width="2.5" stroke-linecap="round"/></g>
+            <g font-family="Architects Daughter" font-size="16" fill="#17663f"><text x="52" y="122">01 design</text><text x="214" y="112">02 engineering</text><text x="344" y="146">03 launch</text></g>
+            <path d="M84 128c2 8 4 14 8 20M262 118c-2 6-2 10 0 14M378 152c-2 6-2 10 0 16" fill="none" stroke="#17663f" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </section>
+
+      <section id="design" class="wrap grid gap-10 py-14 lg:grid-cols-[1fr_1.2fr] lg:py-20" aria-labelledby="design-title">
+        <div>
+          <p class="label">Service 01</p>
+          <h2 id="design-title" class="h-section mt-2">Product design</h2>
+          <p class="lead mt-4">We find out what your users need badly enough to switch, then design the smallest product that does it well. Sketches first, then prototypes tested every week with real people, then a design system your next hire can pick up on day one.</p>
+          <dl class="mt-6 grid grid-cols-2 gap-4 border-t-2 border-ink pt-5 text-sm">
+            <div><dt class="label">Typical length</dt><dd class="mt-1 font-semibold">4 to 8 weeks</dd></div>
+            <div><dt class="label">Typical team</dt><dd class="mt-1 font-semibold">2 designers, a partner</dd></div>
+          </dl>
+        </div>
+        <div class="sheet sheet-lift p-6 sm:p-8">
+          <h3 class="label text-ink">What you get</h3>
+          <ul class="mt-4 grid gap-3">
+            <li class="flex gap-3"><span class="hand text-xl leading-none">✓</span><span><strong>Five to fifteen user interviews</strong>, with notes and the quotes that changed our minds.</span></li>
+            <li class="flex gap-3"><span class="hand text-xl leading-none">✓</span><span><strong>Tested prototypes</strong> of your core flows, on the devices your users carry.</span></li>
+            <li class="flex gap-3"><span class="hand text-xl leading-none">✓</span><span><strong>A design system</strong> in Figma with tokens matching the code.</span></li>
+            <li class="flex gap-3"><span class="hand text-xl leading-none">✓</span><span><strong>A release map</strong> with a cut line: what ships first, what waits.</span></li>
+          </ul>
+          <p class="mt-6 rounded-md bg-tape-soft p-4 text-sm"><strong>Good fit if</strong> you have a strong hunch and a fundraising clock, but no designer yet.</p>
+        </div>
+      </section>
+
+      <section id="engineering" class="border-y-2 border-ink bg-paper-2" aria-labelledby="eng-title">
+        <div class="wrap grid gap-10 py-14 lg:grid-cols-[1fr_1.2fr] lg:py-20">
+          <div>
+            <p class="label">Service 02</p>
+            <h2 id="eng-title" class="h-section mt-2">Engineering</h2>
+            <p class="lead mt-4">Web apps, iOS and Android apps, APIs and the integrations that make them useful: payments, messaging, sensors, partner data. Deployed from the first week, demoed every Friday, built with boring, well-known tools your own engineers will be glad to inherit.</p>
+            <dl class="mt-6 grid grid-cols-2 gap-4 border-t-2 border-ink pt-5 text-sm">
+              <div><dt class="label">Typical length</dt><dd class="mt-1 font-semibold">8 to 16 weeks</dd></div>
+              <div><dt class="label">Typical team</dt><dd class="mt-1 font-semibold">2 to 3 engineers, a designer</dd></div>
+            </dl>
+          </div>
+          <div class="sheet sheet-lift p-6 sm:p-8">
+            <h3 class="label text-ink">What you get</h3>
+            <ul class="mt-4 grid gap-3">
+              <li class="flex gap-3"><span class="hand text-xl leading-none">✓</span><span><strong>Production code</strong> in your repository from day one, reviewed and tested.</span></li>
+              <li class="flex gap-3"><span class="hand text-xl leading-none">✓</span><span><strong>Hosting, monitoring and alerts</strong> set up in your accounts, not ours.</span></li>
+              <li class="flex gap-3"><span class="hand text-xl leading-none">✓</span><span><strong>Architecture notes</strong> and a recorded walkthrough of every part.</span></li>
+              <li class="flex gap-3"><span class="hand text-xl leading-none">✓</span><span><strong>Help hiring</strong> your first engineers: the job post, interviews and onboarding.</span></li>
+            </ul>
+            <p class="mono mt-6 text-sm text-ink-soft">Usually: TypeScript, React, React Native, Node, Postgres. We will use what you have if it works.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="launch" class="wrap grid gap-10 py-14 lg:grid-cols-[1fr_1.2fr] lg:py-20" aria-labelledby="launch-title">
+        <div>
+          <p class="label">Service 03</p>
+          <h2 id="launch-title" class="h-section mt-2">Launch</h2>
+          <p class="lead mt-4">A launch is a plan, not a post. We work out who should hear about it first, write the words, build the launch page and onboarding, and sit with you through launch week and the first 30 days of numbers.</p>
+          <dl class="mt-6 grid grid-cols-2 gap-4 border-t-2 border-ink pt-5 text-sm">
+            <div><dt class="label">Typical length</dt><dd class="mt-1 font-semibold">3 to 6 weeks</dd></div>
+            <div><dt class="label">Typical team</dt><dd class="mt-1 font-semibold">A strategist, a designer</dd></div>
+          </dl>
+        </div>
+        <div class="sheet sheet-lift p-6 sm:p-8">
+          <h3 class="label text-ink">What you get</h3>
+          <ul class="mt-4 grid gap-3">
+            <li class="flex gap-3"><span class="hand text-xl leading-none">✓</span><span><strong>Positioning</strong> in one page, tested on ten target customers.</span></li>
+            <li class="flex gap-3"><span class="hand text-xl leading-none">✓</span><span><strong>A launch site</strong> and app store pages, with the analytics wired up.</span></li>
+            <li class="flex gap-3"><span class="hand text-xl leading-none">✓</span><span><strong>Onboarding emails</strong> and in-app guides for the first two weeks.</span></li>
+            <li class="flex gap-3"><span class="hand text-xl leading-none">✓</span><span><strong>A 30-day dashboard</strong> and a review meeting at the end of it.</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="models" class="border-y-2 border-ink bg-card" aria-labelledby="models-title">
+        <div class="wrap py-14 lg:py-20">
+          <p class="eyebrow">Engagement models</p>
+          <h2 id="models-title" class="h-section mt-3 max-w-3xl">Three ways to work together.</h2>
+          <div class="mt-10 grid gap-6 lg:grid-cols-3">
+            <article class="sheet reveal flex flex-col p-6" data-model-card="sprint">
+              <p class="stamp self-start text-pine">Most common</p>
+              <h3 class="mt-4 text-2xl font-extrabold">Fixed sprint</h3>
+              <p class="mt-2 text-ink-soft">A fixed scope, team and price for 6 to 16 weeks. Best when the problem is clear and the deadline is real.</p>
+              <ul class="mt-4 grid gap-2 text-sm"><li>· Price agreed up front, paid in three parts</li><li>· Scope changes swap work, never add cost</li><li>· 30 days of support after handoff</li></ul>
+            </article>
+            <article class="sheet reveal flex flex-col p-6" data-model-card="retainer">
+              <p class="stamp self-start text-ink-soft">Flexible</p>
+              <h3 class="mt-4 text-2xl font-extrabold">Monthly retainer</h3>
+              <p class="mt-2 text-ink-soft">A steady team, billed every four weeks, for three months or more. Best when you are still learning what to build.</p>
+              <ul class="mt-4 grid gap-2 text-sm"><li>· 10% below the sprint rate</li><li>· Change direction every Friday</li><li>· 30 days’ notice to stop</li></ul>
+            </article>
+            <article class="sheet reveal flex flex-col p-6" data-model-card="hire">
+              <p class="stamp self-start text-ink-soft">For teams</p>
+              <h3 class="mt-4 text-2xl font-extrabold">Build to hire</h3>
+              <p class="mt-2 text-ink-soft">We build the first version and hire your first two or three people while we do, then hand the product to them.</p>
+              <ul class="mt-4 grid gap-2 text-sm"><li>· Sprint pricing, plus hiring support</li><li>· Your hires pair with us for four weeks</li><li>· No placement fees</li></ul>
+            </article>
+          </div>
+
+          <form class="sheet sheet-lift mt-12 grid gap-6 p-6 sm:p-8 lg:grid-cols-[1.4fr_1fr]" data-model-quiz>
+            <div>
+              <h3 class="text-xl font-extrabold">Not sure which fits? Answer three questions.</h3>
+              <fieldset class="mt-5">
+                <legend class="font-semibold">Is the first release clearly scoped?</legend>
+                <div class="mt-2 flex gap-2"><label class="choice py-2"><input type="radio" name="scope" value="yes" />Yes</label><label class="choice py-2"><input type="radio" name="scope" value="no" />Not yet</label></div>
+              </fieldset>
+              <fieldset class="mt-4">
+                <legend class="font-semibold">Do you already have engineers on staff?</legend>
+                <div class="mt-2 flex gap-2"><label class="choice py-2"><input type="radio" name="engineers" value="yes" />Yes</label><label class="choice py-2"><input type="radio" name="engineers" value="no" />No</label></div>
+              </fieldset>
+              <fieldset class="mt-4">
+                <legend class="font-semibold">Do you want your own product team within a year?</legend>
+                <div class="mt-2 flex gap-2"><label class="choice py-2"><input type="radio" name="team" value="yes" />Yes</label><label class="choice py-2"><input type="radio" name="team" value="no" />Not yet</label></div>
+              </fieldset>
+            </div>
+            <div class="rounded-md border-2 border-dashed border-ink/40 bg-paper p-5" aria-live="polite" data-model-result>
+              <p class="label">Our suggestion</p>
+              <p class="mt-2 text-2xl font-extrabold" data-model-name>Answer all three</p>
+              <p class="mt-2 text-ink-soft" data-model-why>We will point you at the model most founders in your spot pick.</p>
+              <a href="pricing.html" class="link mt-4 inline-block" data-model-link>Open the estimator</a>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="wrap grid gap-10 py-14 lg:grid-cols-[1fr_1.4fr] lg:py-20" aria-labelledby="faq-title">
+        <div>
+          <p class="eyebrow">Questions</p>
+          <h2 id="faq-title" class="h-section mt-3">What founders ask on the first call.</h2>
+          <p class="hand mt-6 -rotate-1 text-xl">and one we wish they asked: “what won’t you build?”</p>
+        </div>
+        <div class="grid gap-3">
+          <details class="sheet group p-5"><summary class="flex items-center justify-between gap-4 font-bold">Do you take equity instead of cash?<span class="mono text-xl group-open:rotate-45 transition" aria-hidden="true">+</span></summary><p class="mt-3 text-ink-soft">Not as a replacement. For seed-stage clients we can take up to 15% of a sprint fee as a SAFE on the same terms as your round. Most founders do not ask.</p></details>
+          <details class="sheet group p-5"><summary class="flex items-center justify-between gap-4 font-bold">Who owns the code and designs?<span class="mono text-xl group-open:rotate-45 transition" aria-hidden="true">+</span></summary><p class="mt-3 text-ink-soft">You do, from the first commit. Everything lives in your accounts: repository, hosting, Figma, analytics and app stores.</p></details>
+          <details class="sheet group p-5"><summary class="flex items-center justify-between gap-4 font-bold">Do we have to come to Little Rock?<span class="mono text-xl group-open:rotate-45 transition" aria-hidden="true">+</span></summary><p class="mt-3 text-ink-soft">No. Most clients are elsewhere in the US. We ask for a two-day kickoff in person, at our studio or at yours; after that it is Slack, calls and the Friday demo.</p></details>
+          <details class="sheet group p-5"><summary class="flex items-center justify-between gap-4 font-bold">How much of our time will it take?<span class="mono text-xl group-open:rotate-45 transition" aria-hidden="true">+</span></summary><p class="mt-3 text-ink-soft">Two to six hours a week from a founder who can make product decisions, more in the first and last weeks. The process page shows it week by week.</p></details>
+          <details class="sheet group p-5"><summary class="flex items-center justify-between gap-4 font-bold">What won’t you build?<span class="mono text-xl group-open:rotate-45 transition" aria-hidden="true">+</span></summary><p class="mt-3 text-ink-soft">Crypto tokens, ad-tech, anything built to keep people scrolling, and products whose main job is collecting data about people who never signed up.</p></details>
+        </div>
+      </section>
+    </main>
+    <footer class="on-night mt-auto bg-night text-white">
+      <div class="wrap grid gap-10 py-14 md:grid-cols-[1.5fr_1fr_1fr_1.3fr]">
+        <div>
+          <a href="index.html" class="inline-flex items-center gap-2.5 rounded text-white" aria-label="Sidecar home"><svg viewBox="0 0 40 32" class="h-8 w-10 shrink-0" aria-hidden="true"><path d="M11 22 19 13h5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 21h18c0-6-4.5-10-10-10h-3.5a4.5 4.5 0 0 0-4.5 4.5z" fill="#17663f" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="10" cy="23" r="6" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="29" cy="25.5" r="3.6" fill="#f1d867" stroke="currentColor" stroke-width="2.2"/></svg><span class="text-[1.4rem] font-extrabold tracking-[-0.03em] casual">Sidecar</span></a>
+          <p class="mt-4 max-w-xs text-sm leading-relaxed text-mist">A 14-person product studio in Little Rock, Arkansas. We design, build and launch first products with seed-stage founders.</p>
+          <p class="mt-5 font-hand text-lg text-sprout">Built alongside you, not handed over the wall.</p>
+        </div>
+        <div>
+          <h2 class="label text-mist">Studio</h2>
+          <ul class="mt-4 grid gap-2.5 text-sm">
+            <li><a class="foot-link" href="work.html">Work</a></li>
+            <li><a class="foot-link" href="services.html">Services</a></li>
+            <li><a class="foot-link" href="process.html">Process</a></li>
+            <li><a class="foot-link" href="pricing.html">Pricing and estimator</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="label text-mist">Company</h2>
+          <ul class="mt-4 grid gap-2.5 text-sm">
+            <li><a class="foot-link" href="about.html">About</a></li>
+            <li><a class="foot-link" href="careers.html">Careers</a></li>
+            <li><a class="foot-link" href="case-study.html">Case study: Brineworks</a></li>
+            <li><a class="foot-link" href="contact.html">Start a project</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="label text-mist">Visit or call</h2>
+          <address class="mt-4 grid gap-2.5 text-sm text-mist not-italic">
+            <span>1517 South Main Street<br />Little Rock, AR 72202</span>
+            <a class="foot-link" href="tel:+15015550138">(501) 555-0138</a>
+            <a class="foot-link" href="mailto:hello@sidecar.example">hello@sidecar.example</a>
+            <span>Weekdays, 9:00 a.m. to 5:30 p.m. Central</span>
+          </address>
+        </div>
+      </div>
+      <div class="border-t border-night-line">
+        <div class="wrap flex flex-col gap-2 py-6 text-sm text-mist sm:flex-row sm:items-center sm:justify-between">
+          <p>© <span data-year>2026</span> Sidecar Product Studio, LLC.</p>
+          <p>Sidecar, its clients and its team are fictional.</p>
+        </div>
+      </div>
+    </footer>
+    <div id="live-region" class="sr-only" aria-live="polite"></div>
+  </body>
+</html>

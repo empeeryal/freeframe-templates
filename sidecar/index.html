@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sidecar: product studio for seed-stage startups in Little Rock</title>
+    <meta name="description" content="Sidecar is a 14-person product and engineering studio in Little Rock, Arkansas. We embed with seed-stage founders to design, build and launch first products, rebuilds and launches in about 12 weeks." />
+    <meta name="theme-color" content="#f5f0e4" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Sidecar" />
+    <meta property="og:title" content="Sidecar: we build your first product alongside you" />
+    <meta property="og:description" content="Sidecar is a 14-person product and engineering studio in Little Rock, Arkansas. We embed with seed-stage founders to design, build and launch first products, rebuilds and launches in about 12 weeks." />
+    <meta property="og:image" content="assets/img/og-image.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Architects+Daughter&amp;family=Recursive:wght,CASL,MONO@400..800,0..1,0..1&amp;display=swap" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script>document.documentElement.classList.add('js');</script>
+    <script src="assets/js/data.js" defer></script>
+    <script src="assets/js/main.js" defer></script>
+  </head>
+  <body data-page="index" class="flex min-h-screen flex-col">
+    <a href="#main" class="sr-only z-[60] bg-pine px-4 py-3 text-paper focus:not-sr-only focus:fixed focus:top-3 focus:left-3">Skip to content</a>
+    <header id="site-header" class="sticky top-0 z-40 border-b-2 border-ink bg-paper/95 backdrop-blur">
+      <div class="wrap flex min-h-[4.25rem] items-center justify-between gap-4">
+        <a href="index.html" class="flex items-center gap-2.5 rounded text-ink"><svg viewBox="0 0 40 32" class="h-8 w-10 shrink-0" aria-hidden="true"><path d="M11 22 19 13h5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 21h18c0-6-4.5-10-10-10h-3.5a4.5 4.5 0 0 0-4.5 4.5z" fill="#17663f" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="10" cy="23" r="6" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="29" cy="25.5" r="3.6" fill="#f1d867" stroke="currentColor" stroke-width="2.2"/></svg><span class="text-[1.45rem] font-extrabold tracking-[-0.03em] casual">Sidecar<span class="sr-only"> home</span></span><span class="mono hidden text-xs text-ink-faint xl:inline" aria-hidden="true">/ product studio</span></a>
+        <nav class="hidden lg:block" aria-label="Main">
+          <ul class="isolate flex items-center gap-0.5">
+            <li><a class="nav-link" href="work.html">Work</a></li>
+            <li><a class="nav-link" href="services.html">Services</a></li>
+            <li><a class="nav-link" href="process.html">Process</a></li>
+            <li><a class="nav-link" href="pricing.html">Pricing</a></li>
+            <li><a class="nav-link" href="about.html">About</a></li>
+            <li><a class="nav-link" href="careers.html">Careers</a></li>
+          </ul>
+        </nav>
+        <div class="flex items-center gap-2">
+          <a href="contact.html" class="btn-primary btn-sm hidden sm:inline-flex">Start a project <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+          <button id="menu-toggle" type="button" class="grid size-11 place-items-center rounded-md border-2 border-ink bg-card lg:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+            <svg data-icon-open viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h11M4 17h16"/></svg>
+            <svg data-icon-close viewBox="0 0 24 24" class="hidden size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </button>
+        </div>
+      </div>
+      <nav id="mobile-menu" class="wrap max-h-[calc(100vh-4.5rem)] overflow-y-auto pb-6 lg:hidden" aria-label="Mobile" hidden>
+        <ul class="grid">
+          <li><a class="m-link" href="work.html">Work</a></li>
+          <li><a class="m-link" href="services.html">Services</a></li>
+          <li><a class="m-link" href="process.html">Process</a></li>
+          <li><a class="m-link" href="pricing.html">Pricing</a></li>
+          <li><a class="m-link" href="about.html">About</a></li>
+          <li><a class="m-link" href="careers.html">Careers</a></li>
+          <li><a class="m-link" href="contact.html">Contact</a></li>
+        </ul>
+        <a href="contact.html" class="btn-primary mt-5 w-full">Start a project <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="grid-paper relative overflow-hidden border-b-2 border-ink">
+        <div class="wrap relative grid gap-10 pt-10 pb-14 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-8 lg:pt-14 lg:pb-20">
+          <div class="relative">
+            <p class="eyebrow"><span class="stamp text-pine">Est. 2019</span> Product studio · Little Rock, AR</p>
+            <h1 class="h-display mt-5">We build your first product <span class="relative inline-block whitespace-nowrap">alongside you.<svg viewBox="0 0 300 18" preserveAspectRatio="none" class="absolute -bottom-2 left-0 h-3.5 w-full text-pine" aria-hidden="true"><path class="draw" style="--len:320" d="M3 12C60 5 120 4 180 7s90 4 115-2" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></span></h1>
+            <p class="lead mt-6 max-w-xl">Sidecar is a 14-person design and engineering studio. We join seed-stage founders for about twelve weeks and ship the first version, the rebuild or the launch, then hand over everything, including the people who will keep it running.</p>
+            <div class="mt-7 flex flex-wrap gap-3">
+              <a href="contact.html" class="btn-primary">Start a project <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+              <a href="pricing.html" class="btn-outline">Estimate an engagement</a>
+            </div>
+            <dl class="mt-9 grid max-w-lg grid-cols-3 gap-4 border-t-2 border-ink pt-5">
+              <div><dt class="label">Shipped</dt><dd class="mt-1 text-xl font-extrabold sm:text-2xl">38 products</dd></div>
+              <div><dt class="label">Length</dt><dd class="mt-1 text-xl font-extrabold sm:text-2xl">12 weeks</dd></div>
+              <div><dt class="label">Still live</dt><dd class="mt-1 text-xl font-extrabold sm:text-2xl">34 of 38</dd></div>
+            </dl>
+            <p class="hand absolute -top-3 right-0 hidden rotate-[4deg] text-lg leading-tight xl:block" aria-hidden="true">we pair, we don’t<br />disappear for a month</p>
+          </div>
+
+          <div class="relative mx-auto w-full max-w-[34rem]">
+            <svg viewBox="0 0 560 480" class="h-auto w-full" role="img" aria-label="A pencil sketch of a pond oxygen app on paper, with a finished phone app on top showing an oxygen alarm for Pond 7, stamped Shipped, week 12.">
+              <g transform="rotate(-4 200 240)">
+                <rect x="22" y="40" width="330" height="392" rx="6" fill="#fcfaf4" stroke="#1d1b16" stroke-width="2"/>
+                <g stroke="#1d1b16" stroke-opacity=".07"><path d="M22 88h330M22 136h330M22 184h330M22 232h330M22 280h330M22 328h330M22 376h330M70 40v392M118 40v392M166 40v392M214 40v392M262 40v392M310 40v392"/></g>
+                <text x="44" y="74" font-family="Architects Daughter" font-size="17" fill="#4b463b">pond 7 / night view (v3)</text>
+                <g fill="none" stroke="#5f594b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M62 96c40-2 100-1 140 1 3 90 2 190-1 278-46 2-96 2-138-1-2-92-3-186-1-278z"/>
+                  <path d="M80 116h70M80 128h40"/>
+                  <path d="M136 160c24-1 42 18 41 41-1 23-20 40-43 39-22-1-39-19-38-41 1-21 18-39 40-39z"/>
+                  <path d="M136 170v22l14 10"/>
+                  <path d="M78 262c30-1 72-1 106 1 1 12 1 22-1 32-34 1-74 1-105-1-1-10-1-21 0-32z" stroke="#17663f" stroke-width="2.2"/>
+                  <path d="M80 318h104M80 336h80M80 354h96"/>
+                  <path d="M218 270c22-6 40-4 58 6" stroke="#17663f"/>
+                  <path d="M222 262l-6 9 10 3" stroke="#17663f"/>
+                </g>
+                <text x="115" y="284" font-family="Architects Daughter" font-size="14" fill="#17663f">ALARM OFF</text>
+                <text x="232" y="246" font-family="Architects Daughter" font-size="15" fill="#17663f">big button!!</text>
+                <text x="214" y="318" font-family="Architects Daughter" font-size="14" fill="#4b463b">2 a.m. check:</text>
+                <text x="214" y="336" font-family="Architects Daughter" font-size="14" fill="#4b463b">big type,</text>
+                <text x="214" y="354" font-family="Architects Daughter" font-size="14" fill="#4b463b">one tap</text>
+                <rect x="140" y="26" width="96" height="26" fill="#f1d867" fill-opacity=".8" transform="rotate(3 188 39)"/>
+              </g>
+
+              <g transform="translate(318 58) rotate(5 105 195)">
+                <rect x="6" y="8" width="210" height="392" rx="32" fill="#1d1b16" opacity=".18"/>
+                <rect x="0" y="0" width="210" height="392" rx="32" fill="#1d1b16"/>
+                <rect x="9" y="9" width="192" height="374" rx="24" fill="#10281d"/>
+                <rect x="80" y="17" width="50" height="8" rx="4" fill="#1d1b16"/>
+                <text x="26" y="50" font-family="Recursive" font-size="11" fill="#cfe6d3" font-weight="600">2:14</text>
+                <text x="26" y="80" font-family="Recursive" font-size="12" fill="#86d6a0" font-weight="600" letter-spacing="1">POND 7 · 9.5 ACRES</text>
+                <text x="26" y="128" font-family="Recursive" font-size="42" font-weight="800" fill="#f1d867">3.1</text>
+                <text x="104" y="128" font-family="Recursive" font-size="14" fill="#f1d867">mg/L</text>
+                <text x="26" y="149" font-family="Recursive" font-size="12" fill="#e8e1cf">Oxygen low and falling</text>
+                <path d="M26 170h158" stroke="#2c4a3b"/>
+                <path d="M26 230h158" stroke="#2c4a3b"/>
+                <polyline points="26,180 46,184 66,190 86,197 106,206 126,214 146,222 166,226 184,228" fill="none" stroke="#86d6a0" stroke-width="2.5" stroke-linejoin="round"/>
+                <path d="M26 214h158" stroke="#f1d867" stroke-dasharray="4 4"/>
+                <text x="140" y="210" font-family="Recursive" font-size="9" fill="#f1d867">alarm 3.5</text>
+                <rect x="24" y="248" width="162" height="48" rx="12" fill="#86d6a0"/>
+                <text x="105" y="277" text-anchor="middle" font-family="Recursive" font-size="14" font-weight="700" fill="#10281d">Turn on aerator 2</text>
+                <g font-family="Recursive" font-size="11" fill="#e8e1cf">
+                  <circle cx="32" cy="320" r="4" fill="#86d6a0"/><text x="44" y="324">Pond 4</text><text x="184" y="324" text-anchor="end">6.4</text>
+                  <circle cx="32" cy="344" r="4" fill="#86d6a0"/><text x="44" y="348">Pond 5</text><text x="184" y="348" text-anchor="end">5.9</text>
+                  <circle cx="32" cy="368" r="4" fill="#f1d867"/><text x="44" y="372">Pond 6</text><text x="184" y="372" text-anchor="end">4.2</text>
+                </g>
+                <rect x="70" y="-12" width="86" height="24" fill="#f1d867" fill-opacity=".8" transform="rotate(-6 113 0)"/>
+              </g>
+
+              <path d="M196 26c44-22 104-24 150 6" fill="none" stroke="#17663f" stroke-width="2.4" stroke-linecap="round"/>
+              <path d="M336 18l12 15-18 3" fill="none" stroke="#17663f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+              <text x="208" y="16" font-family="Architects Daughter" font-size="17" fill="#17663f">week 3 → week 12</text>
+
+              <g transform="rotate(-9 140 444)">
+                <rect x="58" y="424" width="178" height="40" rx="4" fill="#f5f0e4" fill-opacity=".9" stroke="#17663f" stroke-width="3"/>
+                <rect x="63" y="429" width="168" height="30" rx="2" fill="none" stroke="#17663f" stroke-width="1"/>
+                <text x="147" y="450" text-anchor="middle" font-family="Recursive" font-size="14" font-weight="800" fill="#17663f" letter-spacing="2">SHIPPED · WK 12</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <section class="border-b-2 border-ink bg-card" aria-labelledby="clients-title">
+        <div class="wrap py-8">
+          <h2 id="clients-title" class="label text-center">Founders we have built with, from pre-seed to Series A</h2>
+          <ul class="mt-6 grid grid-cols-2 items-center gap-x-6 gap-y-5 text-ink-soft sm:grid-cols-4 lg:grid-cols-8">
+            <li class="flex justify-center"><svg viewBox="0 0 150 40" class="h-9 w-auto" role="img" aria-label="Brineworks"><path d="M4 22c6-6 10 6 16 0s10 6 16 0" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M4 30c6-6 10 6 16 0s10 6 16 0" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity=".5"/><text x="44" y="29" font-family="Recursive" font-size="17" font-weight="700" fill="currentColor">brineworks</text></svg></li>
+            <li class="flex justify-center"><svg viewBox="0 0 130 40" class="h-9 w-auto" role="img" aria-label="Tinpan"><circle cx="16" cy="20" r="11" fill="none" stroke="currentColor" stroke-width="3"/><path d="M27 20h14" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><text x="48" y="27" font-family="Recursive" font-size="17" font-weight="800" letter-spacing="2" fill="currentColor" style="font-variation-settings:'MONO' 1">TINPAN</text></svg></li>
+            <li class="flex justify-center"><svg viewBox="0 0 140 40" class="h-9 w-auto" role="img" aria-label="Mulecart"><path d="M4 12h6l5 15h18l4-11H13" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"/><circle cx="18" cy="33" r="3" fill="currentColor"/><circle cx="30" cy="33" r="3" fill="currentColor"/><text x="44" y="28" font-family="Recursive" font-size="18" font-weight="600" fill="currentColor" style="font-variation-settings:'CASL' 1">Mulecart</text></svg></li>
+            <li class="flex justify-center"><svg viewBox="0 0 140 40" class="h-9 w-auto" role="img" aria-label="Pawpaw Health"><path d="M18 6c9 6 11 17 6 25-3 4-9 4-12 0-5-8-3-19 6-25z" fill="currentColor"/><path d="M18 6c-1-3 1-5 4-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><text x="34" y="22" font-family="Recursive" font-size="16" font-weight="700" fill="currentColor">pawpaw</text><text x="34" y="35" font-family="Recursive" font-size="10" letter-spacing="3" fill="currentColor">HEALTH</text></svg></li>
+            <li class="flex justify-center"><svg viewBox="0 0 150 40" class="h-9 w-auto" role="img" aria-label="Voltyard"><rect x="3" y="6" width="28" height="28" rx="3" fill="currentColor"/><path d="M19 10l-8 12h6l-2 9 8-13h-6z" fill="#fcfaf4"/><text x="38" y="27" font-family="Recursive" font-size="16" font-weight="800" letter-spacing="1.5" fill="currentColor">VOLTYARD</text></svg></li>
+            <li class="flex justify-center"><svg viewBox="0 0 150 40" class="h-9 w-auto" role="img" aria-label="Quillstead"><path d="M6 34C10 20 20 8 32 4c-2 12-10 22-22 26" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 26l8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><text x="40" y="27" font-family="Recursive" font-size="18" font-weight="500" fill="currentColor" font-style="italic">Quillstead</text></svg></li>
+            <li class="flex justify-center"><svg viewBox="0 0 150 40" class="h-9 w-auto" role="img" aria-label="Thimbleset"><path d="M8 32V16a10 10 0 0 1 20 0v16z" fill="none" stroke="currentColor" stroke-width="2.8"/><g fill="currentColor"><circle cx="14" cy="18" r="1.6"/><circle cx="20" cy="15" r="1.6"/><circle cx="22" cy="21" r="1.6"/><circle cx="15" cy="25" r="1.6"/><circle cx="21" cy="28" r="1.6"/></g><text x="36" y="27" font-family="Recursive" font-size="17" font-weight="600" fill="currentColor">thimbleset</text></svg></li>
+            <li class="flex justify-center"><svg viewBox="0 0 150 40" class="h-9 w-auto" role="img" aria-label="Haulbook"><rect x="3" y="10" width="20" height="16" fill="currentColor"/><path d="M23 14h7l4 6v6H23z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><circle cx="10" cy="30" r="3.4" fill="currentColor"/><circle cx="28" cy="30" r="3.4" fill="currentColor"/><text x="42" y="27" font-family="Recursive" font-size="16" font-weight="800" fill="currentColor" style="font-variation-settings:'MONO' 1">HAULBOOK</text></svg></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="wrap py-16 lg:py-24" aria-labelledby="what-title">
+        <div class="grid gap-6 lg:grid-cols-[1fr_1.4fr] lg:items-end">
+          <div>
+            <p class="eyebrow">01 / What we do</p>
+            <h2 id="what-title" class="h-section mt-3">One small team for design, code and the launch.</h2>
+          </div>
+          <p class="lead">Founders hire us when the product has to exist before the next raise, and there is no time to hire a whole team first. You get senior people who have done this 38 times, working in your Slack, your repo and your calendar.</p>
+        </div>
+        <div class="mt-10 grid gap-6 md:grid-cols-3">
+          <article class="sheet sheet-lift reveal relative p-6">
+            <span class="tape -top-3 left-6 -rotate-3" aria-hidden="true"></span>
+            <svg viewBox="0 0 220 120" class="h-28 w-full" aria-hidden="true"><rect x="10" y="10" width="200" height="100" rx="6" fill="#ece5d4"/><g fill="none" stroke="#1d1b16" stroke-width="2" stroke-linecap="round"><rect x="24" y="22" width="56" height="76" rx="8"/><path d="M34 40h36M34 50h24"/><rect x="34" y="66" width="36" height="14" rx="4" fill="#86d6a0"/></g><g fill="none" stroke="#17663f" stroke-width="2" stroke-dasharray="4 4"><path d="M86 60h28"/></g><g fill="none" stroke="#1d1b16" stroke-width="2" stroke-linecap="round"><rect x="120" y="22" width="76" height="76" rx="6" fill="#fcfaf4"/><path d="M132 36h40M132 46h52M132 56h30"/><circle cx="182" cy="82" r="8" fill="#f1d867"/></g></svg>
+            <p class="label mt-4">Service 01</p>
+            <h3 class="mt-1 text-2xl font-extrabold">Product design</h3>
+            <p class="mt-2 text-ink-soft">Research with your users, flows, prototypes tested every week and a design system your next hire can pick up.</p>
+            <p class="mono mt-4 text-sm text-ink-faint">Usually 4 to 8 weeks</p>
+          </article>
+          <article class="sheet sheet-lift reveal relative p-6">
+            <span class="tape -top-3 right-6 rotate-2" aria-hidden="true"></span>
+            <svg viewBox="0 0 220 120" class="h-28 w-full" aria-hidden="true"><rect x="10" y="10" width="200" height="100" rx="6" fill="#1d1b16"/><g font-family="Recursive" font-size="10" style="font-variation-settings:'MONO' 1"><text x="24" y="34" fill="#86d6a0">$ deploy staging</text><text x="24" y="52" fill="#e8e1cf">✓ api      42 tests</text><text x="24" y="68" fill="#e8e1cf">✓ mobile   ios, android</text><text x="24" y="84" fill="#e8e1cf">✓ alerts   sms, push</text><text x="24" y="100" fill="#f1d867">live in 1m 48s</text></g></svg>
+            <p class="label mt-4">Service 02</p>
+            <h3 class="mt-1 text-2xl font-extrabold">Engineering</h3>
+            <p class="mt-2 text-ink-soft">Web and mobile apps, APIs and the integrations that make them useful, built to be grown by your own team.</p>
+            <p class="mono mt-4 text-sm text-ink-faint">Usually 8 to 16 weeks</p>
+          </article>
+          <article class="sheet sheet-lift reveal relative p-6">
+            <span class="tape -top-3 left-10 rotate-1" aria-hidden="true"></span>
+            <svg viewBox="0 0 220 120" class="h-28 w-full" aria-hidden="true"><rect x="10" y="10" width="200" height="100" rx="6" fill="#dcecd8"/><path d="M24 96 64 78l30 6 34-22 30 4 40-34" fill="none" stroke="#17663f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="198" cy="32" r="6" fill="#f1d867" stroke="#1d1b16" stroke-width="2"/><path d="M24 24v72h176" fill="none" stroke="#1d1b16" stroke-width="2" stroke-linecap="round"/><text x="150" y="58" font-family="Architects Daughter" font-size="13" fill="#1d1b16">launch day</text></svg>
+            <p class="label mt-4">Service 03</p>
+            <h3 class="mt-1 text-2xl font-extrabold">Launch</h3>
+            <p class="mt-2 text-ink-soft">Positioning, the launch page, onboarding and the first 30 days of numbers, planned with you week by week.</p>
+            <p class="mono mt-4 text-sm text-ink-faint">Usually 3 to 6 weeks</p>
+          </article>
+        </div>
+        <p class="mt-8"><a href="services.html" class="link">How each service works, and the engagement models</a></p>
+      </section>
+
+      <section class="border-y-2 border-ink bg-paper-2" aria-labelledby="work-title">
+        <div class="wrap py-16 lg:py-24">
+          <div class="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p class="eyebrow">02 / Featured work</p>
+              <h2 id="work-title" class="h-section mt-3">Shipped, and still running.</h2>
+            </div>
+            <a href="work.html" class="btn-outline">All eight projects <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+          </div>
+          <div class="mt-10 grid gap-6 md:grid-cols-2">
+            <a href="case-study.html" class="sheet sheet-lift reveal group grid overflow-hidden transition hover:-translate-y-0.5 md:col-span-2 lg:grid-cols-[1.25fr_1fr]">
+              <img src="assets/img/work/brineworks.svg" alt="" width="640" height="420" class="block aspect-[64/42] w-full border-b-2 border-ink bg-paper lg:border-r-2 lg:border-b-0" />
+              <div class="flex flex-col justify-center p-6 lg:p-9">
+                <div class="flex flex-wrap gap-2"><span class="chip chip-stage">Seed</span><span class="chip">Design</span><span class="chip">Engineering</span><span class="chip">Launch</span></div>
+                <h3 class="mt-4 text-2xl font-extrabold tracking-[-0.02em] lg:text-[2rem] lg:leading-tight">Brineworks: an oxygen alarm 140 catfish farms trust at 2 a.m.</h3>
+                <p class="mono mt-3 text-sm text-ink-faint">Stuttgart, AR · 14 weeks · team of 4</p>
+                <p class="mt-3 text-ink-soft">The sensor worked; nobody checked the app in time. We rebuilt it around one moment, the night alarm, and launched it through feed stores.</p>
+                <p class="mt-5 inline-flex items-center gap-2 font-semibold text-pine group-hover:underline">Read the case study <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></p>
+              </div>
+            </a>
+            <article class="sheet reveal flex flex-col overflow-hidden">
+              <img src="assets/img/work/pawpaw.svg" alt="" width="640" height="420" class="block aspect-[64/42] w-full border-b-2 border-ink bg-paper" />
+              <div class="p-6">
+                <div class="flex flex-wrap gap-2"><span class="chip chip-stage">Seed</span><span class="chip">Design</span><span class="chip">Engineering</span></div>
+                <h3 class="mt-3 text-xl font-extrabold">Pawpaw Health</h3>
+                <p class="mt-1 text-ink-soft">After-hours nurse line scheduling for pediatric clinics. Live in 38 clinics within a year.</p>
+              </div>
+            </article>
+            <article class="sheet reveal flex flex-col overflow-hidden">
+              <img src="assets/img/work/mulecart.svg" alt="" width="640" height="420" class="block aspect-[64/42] w-full border-b-2 border-ink bg-paper" />
+              <div class="p-6">
+                <div class="flex flex-wrap gap-2"><span class="chip chip-stage">Seed</span><span class="chip">Engineering</span><span class="chip">Launch</span></div>
+                <h3 class="mt-3 text-xl font-extrabold">Mulecart</h3>
+                <p class="mt-1 text-ink-soft">Wholesale ordering for rural grocers: $2.4M in orders in the first six months.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap py-16 lg:py-24" aria-labelledby="process-title">
+        <div class="grid gap-6 lg:grid-cols-[1fr_1.4fr] lg:items-end">
+          <div>
+            <p class="eyebrow">03 / How it runs</p>
+            <h2 id="process-title" class="h-section mt-3">Twelve weeks, demoed every Friday.</h2>
+          </div>
+          <p class="lead">No disappearing for a month. You see working software from week six, you make the product calls, and on launch day you already own every account, every line of code and every document.</p>
+        </div>
+        <div class="sheet sheet-lift reveal mt-10 p-5 sm:p-7">
+          <div>
+            <div>
+              <ol class="grid gap-1 md:grid-cols-12" aria-label="A typical 12-week engagement">
+                <li class="md:col-span-2 rounded-sm border-2 border-ink bg-tape px-3 py-3"><p class="label text-ink">Weeks 1–2</p><p class="mt-1 font-extrabold">Frame</p></li>
+                <li class="md:col-span-3 rounded-sm border-2 border-ink bg-sprout-soft px-3 py-3"><p class="label text-ink">Weeks 3–5</p><p class="mt-1 font-extrabold">Shape</p></li>
+                <li class="md:col-span-4 rounded-sm border-2 border-ink bg-sprout px-3 py-3"><p class="label text-ink">Weeks 6–9</p><p class="mt-1 font-extrabold">Build</p></li>
+                <li class="md:col-span-1 rounded-sm border-2 border-ink bg-paper-2 px-3 py-3 md:px-2"><p class="label text-ink"><span class="md:hidden">Week </span><span class="hidden md:inline">Wk </span>10</p><p class="mt-1 font-extrabold">Harden</p></li>
+                <li class="md:col-span-2 rounded-sm border-2 border-ink bg-ink px-3 py-3 text-paper"><p class="label text-mist">Weeks 11–12</p><p class="mt-1 font-extrabold">Launch</p></li>
+              </ol>
+              <div class="mono mt-2 hidden grid-cols-12 text-center md:grid text-xs text-ink-faint" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span></div>
+              <p class="hand mt-3 text-lg md:pl-[42%]"><span class="hidden md:inline">↑ </span>working software from week 6, on your phone</p>
+            </div>
+          </div>
+          <a href="process.html" class="link mt-4 inline-block">Walk through it week by week</a>
+        </div>
+      </section>
+
+      <section class="border-y-2 border-ink bg-card" aria-labelledby="quotes-title">
+        <div class="wrap py-16 lg:py-24">
+          <p class="eyebrow">04 / From founders</p>
+          <h2 id="quotes-title" class="h-section mt-3 max-w-2xl">They hired a studio. They got a cofounder for a quarter.</h2>
+          <div class="mt-10 grid gap-8 md:grid-cols-3">
+            <figure class="reveal relative -rotate-1 border-2 border-ink bg-[repeating-linear-gradient(transparent_0_27px,#d6ccb6_27px_28px)] p-6 pt-8 shadow-[4px_4px_0_var(--color-ink)] bg-card">
+              <span class="tape -top-3 left-1/2 -translate-x-1/2 -rotate-2" aria-hidden="true"></span>
+              <blockquote class="text-[1.05rem] leading-7">“They sat in a pond truck with us at two in the morning. Nobody else we talked to asked to do that. The alarm screen came straight out of that night.”</blockquote>
+              <figcaption class="mt-5 border-t-2 border-ink pt-3"><span class="font-bold">Leilani Treadway</span><span class="block text-sm text-ink-soft">Cofounder and CEO, Brineworks</span></figcaption>
+            </figure>
+            <figure class="reveal relative rotate-1 border-2 border-ink bg-[repeating-linear-gradient(transparent_0_27px,#d6ccb6_27px_28px)] p-6 pt-8 shadow-[4px_4px_0_var(--color-ink)] bg-card">
+              <span class="tape -top-3 left-1/2 -translate-x-1/2 rotate-3" aria-hidden="true"></span>
+              <blockquote class="text-[1.05rem] leading-7">“Our first prototype was pretty and could not take an order. Sidecar rebuilt the core in eight weeks and sat in on our first fifty sales calls.”</blockquote>
+              <figcaption class="mt-5 border-t-2 border-ink pt-3"><span class="font-bold">Jolene Pendleton</span><span class="block text-sm text-ink-soft">Founder, Mulecart</span></figcaption>
+            </figure>
+            <figure class="reveal relative -rotate-[0.5deg] border-2 border-ink bg-[repeating-linear-gradient(transparent_0_27px,#d6ccb6_27px_28px)] p-6 pt-8 shadow-[4px_4px_0_var(--color-ink)] bg-card">
+              <span class="tape -top-3 left-1/2 -translate-x-1/2 -rotate-1" aria-hidden="true"></span>
+              <blockquote class="text-[1.05rem] leading-7">“We are a Series A company with good engineers. What we lacked was someone to say no to features. Ten weeks later fleet managers could use our product without us.”</blockquote>
+              <figcaption class="mt-5 border-t-2 border-ink pt-3"><span class="font-bold">Brisa Villalobos</span><span class="block text-sm text-ink-soft">CEO, Voltyard</span></figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="on-night bg-night text-white" aria-labelledby="cta-title">
+        <div class="wrap grid gap-10 py-16 lg:grid-cols-[1.3fr_1fr] lg:items-center lg:py-20">
+          <div>
+            <p class="mono text-[13px] font-semibold tracking-[0.04em] text-sprout uppercase">05 / Start</p>
+            <h2 id="cta-title" class="mt-3 text-[2rem] leading-[1.06] font-extrabold tracking-[-0.03em] text-balance sm:text-[2.7rem]">Tell us what has to exist by your next raise.</h2>
+            <p class="mt-4 max-w-xl text-lg text-mist">Send a short brief. A partner reads every one and replies within two working days with honest questions, a rough plan or the name of a better fit.</p>
+            <div class="mt-7 flex flex-wrap gap-3">
+              <a href="contact.html" class="btn-night">Send a project brief <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+              <a href="pricing.html" class="btn-ghost-night">Estimate the cost first</a>
+            </div>
+          </div>
+          <div class="rounded-md border-2 border-night-line bg-night-2 p-6">
+            <p class="mono text-xs tracking-[0.06em] text-mist uppercase">Next open start</p>
+            <p class="mt-2 text-3xl font-extrabold text-tape" data-start-date="0">Monday, Dec 7</p>
+            <p class="mt-1 text-mist" data-start-open="0">1 of 2 pods open</p>
+            <ul class="mt-5 grid gap-2 border-t border-night-line pt-4 text-sm text-mist">
+              <li class="flex justify-between gap-3"><span>Then</span><span class="font-semibold text-white" data-start-date="1">Monday, Jan 4</span></li>
+              <li class="flex justify-between gap-3"><span>And</span><span class="font-semibold text-white" data-start-date="2">Monday, Feb 1</span></li>
+            </ul>
+            <p class="mt-4 text-xs text-mist">We start new engagements on Mondays, about every four weeks, with two pods of three to five people.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="on-night mt-auto bg-night text-white">
+      <div class="wrap grid gap-10 py-14 md:grid-cols-[1.5fr_1fr_1fr_1.3fr]">
+        <div>
+          <a href="index.html" class="inline-flex items-center gap-2.5 rounded text-white" aria-label="Sidecar home"><svg viewBox="0 0 40 32" class="h-8 w-10 shrink-0" aria-hidden="true"><path d="M11 22 19 13h5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 21h18c0-6-4.5-10-10-10h-3.5a4.5 4.5 0 0 0-4.5 4.5z" fill="#17663f" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="10" cy="23" r="6" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="29" cy="25.5" r="3.6" fill="#f1d867" stroke="currentColor" stroke-width="2.2"/></svg><span class="text-[1.4rem] font-extrabold tracking-[-0.03em] casual">Sidecar</span></a>
+          <p class="mt-4 max-w-xs text-sm leading-relaxed text-mist">A 14-person product studio in Little Rock, Arkansas. We design, build and launch first products with seed-stage founders.</p>
+          <p class="mt-5 font-hand text-lg text-sprout">Built alongside you, not handed over the wall.</p>
+        </div>
+        <div>
+          <h2 class="label text-mist">Studio</h2>
+          <ul class="mt-4 grid gap-2.5 text-sm">
+            <li><a class="foot-link" href="work.html">Work</a></li>
+            <li><a class="foot-link" href="services.html">Services</a></li>
+            <li><a class="foot-link" href="process.html">Process</a></li>
+            <li><a class="foot-link" href="pricing.html">Pricing and estimator</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="label text-mist">Company</h2>
+          <ul class="mt-4 grid gap-2.5 text-sm">
+            <li><a class="foot-link" href="about.html">About</a></li>
+            <li><a class="foot-link" href="careers.html">Careers</a></li>
+            <li><a class="foot-link" href="case-study.html">Case study: Brineworks</a></li>
+            <li><a class="foot-link" href="contact.html">Start a project</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="label text-mist">Visit or call</h2>
+          <address class="mt-4 grid gap-2.5 text-sm text-mist not-italic">
+            <span>1517 South Main Street<br />Little Rock, AR 72202</span>
+            <a class="foot-link" href="tel:+15015550138">(501) 555-0138</a>
+            <a class="foot-link" href="mailto:hello@sidecar.example">hello@sidecar.example</a>
+            <span>Weekdays, 9:00 a.m. to 5:30 p.m. Central</span>
+          </address>
+        </div>
+      </div>
+      <div class="border-t border-night-line">
+        <div class="wrap flex flex-col gap-2 py-6 text-sm text-mist sm:flex-row sm:items-center sm:justify-between">
+          <p>© <span data-year>2026</span> Sidecar Product Studio, LLC.</p>
+          <p>Sidecar, its clients and its team are fictional.</p>
+        </div>
+      </div>
+    </footer>
+    <div id="live-region" class="sr-only" aria-live="polite"></div>
+  </body>
+</html>

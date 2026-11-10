@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About: a 14-person product studio in Little Rock | Sidecar</title>
+    <meta name="description" content="Meet Sidecar, a product design and engineering studio on South Main in Little Rock, Arkansas: our team, how we work and what we believe about building first products with founders." />
+    <meta name="theme-color" content="#f5f0e4" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Sidecar" />
+    <meta property="og:title" content="About: a 14-person product studio in Little Rock | Sidecar" />
+    <meta property="og:description" content="Meet Sidecar, a product design and engineering studio on South Main in Little Rock, Arkansas: our team, how we work and what we believe about building first products with founders." />
+    <meta property="og:image" content="assets/img/og-image.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Architects+Daughter&amp;family=Recursive:wght,CASL,MONO@400..800,0..1,0..1&amp;display=swap" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script>document.documentElement.classList.add('js');</script>
+    <script src="assets/js/data.js" defer></script>
+    <script src="assets/js/main.js" defer></script>
+  </head>
+  <body data-page="about" class="flex min-h-screen flex-col">
+    <a href="#main" class="sr-only z-[60] bg-pine px-4 py-3 text-paper focus:not-sr-only focus:fixed focus:top-3 focus:left-3">Skip to content</a>
+    <header id="site-header" class="sticky top-0 z-40 border-b-2 border-ink bg-paper/95 backdrop-blur">
+      <div class="wrap flex min-h-[4.25rem] items-center justify-between gap-4">
+        <a href="index.html" class="flex items-center gap-2.5 rounded text-ink"><svg viewBox="0 0 40 32" class="h-8 w-10 shrink-0" aria-hidden="true"><path d="M11 22 19 13h5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 21h18c0-6-4.5-10-10-10h-3.5a4.5 4.5 0 0 0-4.5 4.5z" fill="#17663f" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="10" cy="23" r="6" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="29" cy="25.5" r="3.6" fill="#f1d867" stroke="currentColor" stroke-width="2.2"/></svg><span class="text-[1.45rem] font-extrabold tracking-[-0.03em] casual">Sidecar<span class="sr-only"> home</span></span><span class="mono hidden text-xs text-ink-faint xl:inline" aria-hidden="true">/ product studio</span></a>
+        <nav class="hidden lg:block" aria-label="Main">
+          <ul class="isolate flex items-center gap-0.5">
+            <li><a class="nav-link" href="work.html">Work</a></li>
+            <li><a class="nav-link" href="services.html">Services</a></li>
+            <li><a class="nav-link" href="process.html">Process</a></li>
+            <li><a class="nav-link" href="pricing.html">Pricing</a></li>
+            <li><a class="nav-link" href="about.html" aria-current="page">About</a></li>
+            <li><a class="nav-link" href="careers.html">Careers</a></li>
+          </ul>
+        </nav>
+        <div class="flex items-center gap-2">
+          <a href="contact.html" class="btn-primary btn-sm hidden sm:inline-flex">Start a project <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+          <button id="menu-toggle" type="button" class="grid size-11 place-items-center rounded-md border-2 border-ink bg-card lg:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+            <svg data-icon-open viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h11M4 17h16"/></svg>
+            <svg data-icon-close viewBox="0 0 24 24" class="hidden size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </button>
+        </div>
+      </div>
+      <nav id="mobile-menu" class="wrap max-h-[calc(100vh-4.5rem)] overflow-y-auto pb-6 lg:hidden" aria-label="Mobile" hidden>
+        <ul class="grid">
+          <li><a class="m-link" href="work.html">Work</a></li>
+          <li><a class="m-link" href="services.html">Services</a></li>
+          <li><a class="m-link" href="process.html">Process</a></li>
+          <li><a class="m-link" href="pricing.html">Pricing</a></li>
+          <li><a class="m-link" href="about.html" aria-current="page">About</a></li>
+          <li><a class="m-link" href="careers.html">Careers</a></li>
+          <li><a class="m-link" href="contact.html">Contact</a></li>
+        </ul>
+        <a href="contact.html" class="btn-primary mt-5 w-full">Start a project <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="grid-paper border-b-2 border-ink">
+        <div class="wrap grid gap-10 pt-12 pb-12 lg:grid-cols-[1.3fr_1fr] lg:items-center lg:pt-16">
+          <div>
+            <p class="eyebrow">About · Since 2019</p>
+            <h1 class="h-page mt-4">Fourteen people on South Main who like the messy first version.</h1>
+            <p class="lead mt-5 max-w-2xl">Ottavia Varner and Delmar Haskins started Sidecar after building three startups’ first products from a back table at a Little Rock coffee shop. The idea was simple: ride alongside founders for one quarter, then get out of the way.</p>
+          </div>
+          <div class="sheet sheet-lift relative rotate-1 p-6">
+            <span class="tape -top-3 left-8 -rotate-3" aria-hidden="true"></span>
+            <p class="label">Build log, so far</p>
+            <dl class="mono mt-4 grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+              <dt class="text-ink-faint">Products shipped</dt><dd class="text-right font-bold">38</dd>
+              <dt class="text-ink-faint">Still live</dt><dd class="text-right font-bold">34</dd>
+              <dt class="text-ink-faint">Founders’ next rounds</dt><dd class="text-right font-bold">21 raised</dd>
+              <dt class="text-ink-faint">Engineers hired for clients</dt><dd class="text-right font-bold">47</dd>
+              <dt class="text-ink-faint">States our clients are in</dt><dd class="text-right font-bold">17</dd>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap py-14 lg:py-20" aria-labelledby="values-title">
+        <p class="eyebrow">What we believe</p>
+        <h2 id="values-title" class="h-section mt-3 max-w-3xl">Four rules on the wall above the workbench.</h2>
+        <ol class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <li class="sheet reveal p-6"><p class="hand text-4xl">1.</p><h3 class="mt-2 text-xl font-extrabold">Ship by Friday</h3><p class="mt-2 text-sm text-ink-soft">Something real, every week. A slide is not a demo.</p></li>
+          <li class="sheet reveal p-6"><p class="hand text-4xl">2.</p><h3 class="mt-2 text-xl font-extrabold">Sit where it hurts</h3><p class="mt-2 text-sm text-ink-soft">Barns, kitchens, truck cabs, clinic back offices. We go to the user.</p></li>
+          <li class="sheet reveal p-6"><p class="hand text-4xl">3.</p><h3 class="mt-2 text-xl font-extrabold">Say the hard thing early</h3><p class="mt-2 text-sm text-ink-soft">If a feature should not exist, you will hear it in week two, not week ten.</p></li>
+          <li class="sheet reveal p-6"><p class="hand text-4xl">4.</p><h3 class="mt-2 text-xl font-extrabold">Leave it better owned</h3><p class="mt-2 text-sm text-ink-soft">The goal is a founder who no longer needs us. Most still call.</p></li>
+        </ol>
+      </section>
+
+      <section class="border-y-2 border-ink bg-card" aria-labelledby="team-title">
+        <div class="wrap py-14 lg:py-20">
+          <div class="flex flex-wrap items-end justify-between gap-5">
+            <div>
+              <p class="eyebrow">The team</p>
+              <h2 id="team-title" class="h-section mt-3">Everyone you would work with.</h2>
+            </div>
+            <div class="flex flex-wrap gap-2" role="group" aria-label="Show team members" data-team-filters>
+              <button type="button" class="filter-btn" data-team-group="all" aria-pressed="true">Everyone</button>
+              <button type="button" class="filter-btn" data-team-group="lead" aria-pressed="false">Partners</button>
+              <button type="button" class="filter-btn" data-team-group="design" aria-pressed="false">Design</button>
+              <button type="button" class="filter-btn" data-team-group="engineering" aria-pressed="false">Engineering</button>
+              <button type="button" class="filter-btn" data-team-group="launch" aria-pressed="false">Launch and ops</button>
+            </div>
+          </div>
+          <p class="mono mt-4 text-sm text-ink-soft" data-team-count aria-live="polite">14 people</p>
+          <ul class="mt-6 grid grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5" data-team-list></ul>
+        </div>
+      </section>
+
+      <section class="wrap grid gap-10 py-14 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:py-20" aria-labelledby="studio-title">
+        <svg viewBox="0 0 520 340" class="h-auto w-full" role="img" aria-label="A line drawing of the Sidecar studio: a two-story brick storefront on South Main Street with big windows, a bench and a bicycle with a sidecar parked outside.">
+          <rect x="0" y="0" width="520" height="340" fill="#ece5d4"/>
+          <path d="M0 290h520" stroke="#1d1b16" stroke-width="3"/>
+          <rect x="90" y="60" width="300" height="230" fill="#fcfaf4" stroke="#1d1b16" stroke-width="3"/>
+          <g stroke="#b9a98a" stroke-width="1.2"><path d="M90 80h300M90 100h300M90 120h300M90 140h300M90 160h300M90 180h300"/></g>
+          <path d="M80 60h320v-16H80z" fill="#1d1b16"/>
+          <text x="240" y="57" text-anchor="middle" font-family="Recursive" font-size="12" font-weight="800" letter-spacing="4" fill="#f1d867">1517</text>
+          <rect x="112" y="92" width="74" height="60" fill="#dcecd8" stroke="#1d1b16" stroke-width="2.5"/><rect x="203" y="92" width="74" height="60" fill="#dcecd8" stroke="#1d1b16" stroke-width="2.5"/><rect x="294" y="92" width="74" height="60" fill="#dcecd8" stroke="#1d1b16" stroke-width="2.5"/>
+          <path d="M149 92v60M240 92v60M331 92v60" stroke="#1d1b16" stroke-width="1.5"/>
+          <path d="M90 178h300" stroke="#1d1b16" stroke-width="3"/>
+          <rect x="112" y="196" width="160" height="94" fill="#86d6a0" stroke="#1d1b16" stroke-width="2.5"/>
+          <text x="192" y="232" text-anchor="middle" font-family="Recursive" font-size="20" font-weight="800" fill="#1d1b16">Sidecar</text>
+          <text x="192" y="252" text-anchor="middle" font-family="Architects Daughter" font-size="13" fill="#1d1b16">product studio</text>
+          <rect x="300" y="196" width="68" height="94" fill="#fcfaf4" stroke="#1d1b16" stroke-width="2.5"/>
+          <circle cx="356" cy="246" r="3" fill="#1d1b16"/>
+          <path d="M84 196l20-14h272l20 14z" fill="#f1d867" stroke="#1d1b16" stroke-width="2.5" stroke-linejoin="round"/>
+          <g transform="translate(408 238)"><circle cx="10" cy="40" r="12" fill="none" stroke="#1d1b16" stroke-width="3"/><circle cx="58" cy="40" r="12" fill="none" stroke="#1d1b16" stroke-width="3"/><path d="M10 40l18-22h18l12 22M28 18l-4-10h-8M46 18l4-8h8" fill="none" stroke="#1d1b16" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>
+          <g transform="translate(18 252)"><path d="M0 18h56c0-10-8-16-18-16H10C4 2 0 8 0 18z" fill="#17663f" stroke="#1d1b16" stroke-width="2.5"/><circle cx="40" cy="28" r="8" fill="none" stroke="#1d1b16" stroke-width="3"/></g>
+          <path d="M440 74c-14 4-28 12-40 26" fill="none" stroke="#17663f" stroke-width="2" stroke-linecap="round"/>
+          <path d="M398 92l2 9 8-4" fill="none" stroke="#17663f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="404" y="44" font-family="Architects Daughter" font-size="15" fill="#17663f">design upstairs,</text>
+          <text x="404" y="64" font-family="Architects Daughter" font-size="15" fill="#17663f">code downstairs</text>
+        </svg>
+        <div>
+          <p class="eyebrow">The studio</p>
+          <h2 id="studio-title" class="h-section mt-3">An old print shop in the SoMa neighborhood.</h2>
+          <p class="lead mt-4">We work from a two-story brick building on South Main Street, ten minutes from the airport. Founders who visit get the big table, the good coffee and a pin-up wall of everything we have sketched for them.</p>
+          <div class="sheet mt-6 p-5">
+            <p class="mono text-sm" data-studio-clock>It is 10:00 a.m. in Little Rock. The studio is open.</p>
+            <address class="mt-3 grid gap-1 text-ink-soft not-italic">
+              <span>1517 South Main Street, Little Rock, AR 72202</span>
+              <span>Weekdays, 9:00 a.m. to 5:30 p.m. Central</span>
+              <a href="tel:+15015550138" class="link w-fit">(501) 555-0138</a>
+            </address>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="on-night mt-auto bg-night text-white">
+      <div class="wrap grid gap-10 py-14 md:grid-cols-[1.5fr_1fr_1fr_1.3fr]">
+        <div>
+          <a href="index.html" class="inline-flex items-center gap-2.5 rounded text-white" aria-label="Sidecar home"><svg viewBox="0 0 40 32" class="h-8 w-10 shrink-0" aria-hidden="true"><path d="M11 22 19 13h5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 21h18c0-6-4.5-10-10-10h-3.5a4.5 4.5 0 0 0-4.5 4.5z" fill="#17663f" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="10" cy="23" r="6" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="29" cy="25.5" r="3.6" fill="#f1d867" stroke="currentColor" stroke-width="2.2"/></svg><span class="text-[1.4rem] font-extrabold tracking-[-0.03em] casual">Sidecar</span></a>
+          <p class="mt-4 max-w-xs text-sm leading-relaxed text-mist">A 14-person product studio in Little Rock, Arkansas. We design, build and launch first products with seed-stage founders.</p>
+          <p class="mt-5 font-hand text-lg text-sprout">Built alongside you, not handed over the wall.</p>
+        </div>
+        <div>
+          <h2 class="label text-mist">Studio</h2>
+          <ul class="mt-4 grid gap-2.5 text-sm">
+            <li><a class="foot-link" href="work.html">Work</a></li>
+            <li><a class="foot-link" href="services.html">Services</a></li>
+            <li><a class="foot-link" href="process.html">Process</a></li>
+            <li><a class="foot-link" href="pricing.html">Pricing and estimator</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="label text-mist">Company</h2>
+          <ul class="mt-4 grid gap-2.5 text-sm">
+            <li><a class="foot-link" href="about.html">About</a></li>
+            <li><a class="foot-link" href="careers.html">Careers</a></li>
+            <li><a class="foot-link" href="case-study.html">Case study: Brineworks</a></li>
+            <li><a class="foot-link" href="contact.html">Start a project</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="label text-mist">Visit or call</h2>
+          <address class="mt-4 grid gap-2.5 text-sm text-mist not-italic">
+            <span>1517 South Main Street<br />Little Rock, AR 72202</span>
+            <a class="foot-link" href="tel:+15015550138">(501) 555-0138</a>
+            <a class="foot-link" href="mailto:hello@sidecar.example">hello@sidecar.example</a>
+            <span>Weekdays, 9:00 a.m. to 5:30 p.m. Central</span>
+          </address>
+        </div>
+      </div>
+      <div class="border-t border-night-line">
+        <div class="wrap flex flex-col gap-2 py-6 text-sm text-mist sm:flex-row sm:items-center sm:justify-between">
+          <p>© <span data-year>2026</span> Sidecar Product Studio, LLC.</p>
+          <p>Sidecar, its clients and its team are fictional.</p>
+        </div>
+      </div>
+    </footer>
+    <div id="live-region" class="sr-only" aria-live="polite"></div>
+  </body>
+</html>

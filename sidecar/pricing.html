@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pricing and engagement estimator | Sidecar</title>
+    <meta name="description" content="Estimate what a Sidecar engagement costs: pick services, team size and weeks, compare a fixed sprint with a monthly retainer, and see a price range and a sample timeline." />
+    <meta name="theme-color" content="#f5f0e4" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Sidecar" />
+    <meta property="og:title" content="Pricing and engagement estimator | Sidecar" />
+    <meta property="og:description" content="Estimate what a Sidecar engagement costs: pick services, team size and weeks, compare a fixed sprint with a monthly retainer, and see a price range and a sample timeline." />
+    <meta property="og:image" content="assets/img/og-image.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Architects+Daughter&amp;family=Recursive:wght,CASL,MONO@400..800,0..1,0..1&amp;display=swap" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script>document.documentElement.classList.add('js');</script>
+    <script src="assets/js/data.js" defer></script>
+    <script src="assets/js/main.js" defer></script>
+  </head>
+  <body data-page="pricing" class="flex min-h-screen flex-col">
+    <a href="#main" class="sr-only z-[60] bg-pine px-4 py-3 text-paper focus:not-sr-only focus:fixed focus:top-3 focus:left-3">Skip to content</a>
+    <header id="site-header" class="sticky top-0 z-40 border-b-2 border-ink bg-paper/95 backdrop-blur">
+      <div class="wrap flex min-h-[4.25rem] items-center justify-between gap-4">
+        <a href="index.html" class="flex items-center gap-2.5 rounded text-ink"><svg viewBox="0 0 40 32" class="h-8 w-10 shrink-0" aria-hidden="true"><path d="M11 22 19 13h5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 21h18c0-6-4.5-10-10-10h-3.5a4.5 4.5 0 0 0-4.5 4.5z" fill="#17663f" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="10" cy="23" r="6" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="29" cy="25.5" r="3.6" fill="#f1d867" stroke="currentColor" stroke-width="2.2"/></svg><span class="text-[1.45rem] font-extrabold tracking-[-0.03em] casual">Sidecar<span class="sr-only"> home</span></span><span class="mono hidden text-xs text-ink-faint xl:inline" aria-hidden="true">/ product studio</span></a>
+        <nav class="hidden lg:block" aria-label="Main">
+          <ul class="isolate flex items-center gap-0.5">
+            <li><a class="nav-link" href="work.html">Work</a></li>
+            <li><a class="nav-link" href="services.html">Services</a></li>
+            <li><a class="nav-link" href="process.html">Process</a></li>
+            <li><a class="nav-link" href="pricing.html" aria-current="page">Pricing</a></li>
+            <li><a class="nav-link" href="about.html">About</a></li>
+            <li><a class="nav-link" href="careers.html">Careers</a></li>
+          </ul>
+        </nav>
+        <div class="flex items-center gap-2">
+          <a href="contact.html" class="btn-primary btn-sm hidden sm:inline-flex">Start a project <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+          <button id="menu-toggle" type="button" class="grid size-11 place-items-center rounded-md border-2 border-ink bg-card lg:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+            <svg data-icon-open viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h11M4 17h16"/></svg>
+            <svg data-icon-close viewBox="0 0 24 24" class="hidden size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </button>
+        </div>
+      </div>
+      <nav id="mobile-menu" class="wrap max-h-[calc(100vh-4.5rem)] overflow-y-auto pb-6 lg:hidden" aria-label="Mobile" hidden>
+        <ul class="grid">
+          <li><a class="m-link" href="work.html">Work</a></li>
+          <li><a class="m-link" href="services.html">Services</a></li>
+          <li><a class="m-link" href="process.html">Process</a></li>
+          <li><a class="m-link" href="pricing.html" aria-current="page">Pricing</a></li>
+          <li><a class="m-link" href="about.html">About</a></li>
+          <li><a class="m-link" href="careers.html">Careers</a></li>
+          <li><a class="m-link" href="contact.html">Contact</a></li>
+        </ul>
+        <a href="contact.html" class="btn-primary mt-5 w-full">Start a project <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="grid-paper border-b-2 border-ink">
+        <div class="wrap pt-12 pb-10 lg:pt-16">
+          <p class="eyebrow">Pricing · Work with us</p>
+          <div class="mt-4 grid gap-6 lg:grid-cols-[1.4fr_1fr] lg:items-end">
+            <h1 class="h-page">Price it yourself, before the first call.</h1>
+            <p class="lead">We price by people and weeks, not by deliverables. Pick what you need below and you will see the range we would most likely propose, plus a sample timeline.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap py-10 lg:py-14" aria-labelledby="est-title">
+        <h2 id="est-title" class="sr-only">Engagement estimator</h2>
+        <div class="grid gap-8 lg:grid-cols-[1.1fr_1fr] lg:items-start">
+          <form class="sheet sheet-lift grid gap-8 p-5 sm:p-7" data-estimator>
+            <fieldset>
+              <legend class="flex w-full items-baseline justify-between gap-3"><span class="text-lg font-extrabold">1. What do you need?</span><span class="label">Pick one or more</span></legend>
+              <div class="mt-3 grid gap-3 sm:grid-cols-3">
+                <label class="choice flex-col"><span class="flex items-center gap-2"><input type="checkbox" name="svc" value="design" checked /><span class="font-bold">Design</span></span><span class="mono text-xs text-ink-faint">$4,500 / person-week</span></label>
+                <label class="choice flex-col"><span class="flex items-center gap-2"><input type="checkbox" name="svc" value="engineering" checked /><span class="font-bold">Engineering</span></span><span class="mono text-xs text-ink-faint">$5,000 / person-week</span></label>
+                <label class="choice flex-col"><span class="flex items-center gap-2"><input type="checkbox" name="svc" value="launch" /><span class="font-bold">Launch</span></span><span class="mono text-xs text-ink-faint">$4,000 / person-week</span></label>
+              </div>
+              <p class="field-error" data-est-svc-error hidden>Pick at least one service. We kept your last one.</p>
+            </fieldset>
+
+            <fieldset>
+              <legend class="flex w-full items-baseline justify-between gap-3"><span class="text-lg font-extrabold">2. How many people?</span><span class="label">Your pod</span></legend>
+              <div class="mt-3 grid grid-cols-5 gap-2" data-est-team>
+                <label class="choice justify-center px-2 py-3"><input type="radio" name="team" value="2" class="sr-only" /><span class="mono text-lg font-bold">2</span></label>
+                <label class="choice justify-center px-2 py-3"><input type="radio" name="team" value="3" class="sr-only" checked /><span class="mono text-lg font-bold">3</span></label>
+                <label class="choice justify-center px-2 py-3"><input type="radio" name="team" value="4" class="sr-only" /><span class="mono text-lg font-bold">4</span></label>
+                <label class="choice justify-center px-2 py-3"><input type="radio" name="team" value="5" class="sr-only" /><span class="mono text-lg font-bold">5</span></label>
+                <label class="choice justify-center px-2 py-3"><input type="radio" name="team" value="6" class="sr-only" /><span class="mono text-lg font-bold">6</span></label>
+              </div>
+              <p class="field-hint" data-est-team-hint>Three people: usually a designer and two engineers, with a partner on call.</p>
+            </fieldset>
+
+            <div>
+              <div class="flex items-baseline justify-between gap-3">
+                <label for="est-weeks" class="text-lg font-extrabold">3. How many weeks?</label>
+                <output for="est-weeks" class="mono text-2xl font-bold text-pine" data-est-weeks-out>12 weeks</output>
+              </div>
+              <input id="est-weeks" name="weeks" type="range" min="4" max="24" step="2" value="12" class="mt-4 w-full" aria-valuetext="12 weeks" />
+              <div class="mono mt-1 flex justify-between text-xs text-ink-faint" aria-hidden="true"><span>4</span><span>8</span><span>12</span><span>16</span><span>20</span><span>24</span></div>
+            </div>
+
+            <div>
+              <p class="text-lg font-extrabold" id="model-label">4. How would you like to pay?</p>
+              <div class="seg mt-3 w-full" role="group" aria-labelledby="model-label">
+                <button type="button" class="flex-1" data-model="sprint" aria-pressed="true">Fixed sprint</button>
+                <button type="button" class="flex-1" data-model="retainer" aria-pressed="false">Monthly retainer</button>
+              </div>
+              <p class="field-hint" data-est-model-hint>One price for the whole scope, paid in three parts.</p>
+            </div>
+          </form>
+
+          <div class="lg:sticky lg:top-24">
+            <div class="sheet sheet-lift relative overflow-hidden" aria-live="polite" data-est-result>
+              <div class="border-b-2 border-ink bg-ink p-6 text-paper">
+                <p class="mono text-xs tracking-[0.06em] text-mist uppercase" data-est-label>Estimated fixed price</p>
+                <p class="mt-2 text-[2rem] leading-tight font-extrabold text-tape sm:text-[2.4rem]" data-est-range>$154,000 to $197,000</p>
+                <p class="mt-1 text-sm text-mist" data-est-sub>3 people for 12 weeks at $4,750 per person-week</p>
+              </div>
+              <div class="p-6">
+                <div class="flex flex-wrap items-baseline justify-between gap-2">
+                  <h3 class="font-extrabold">Sample timeline</h3>
+                  <p class="mono text-xs text-ink-faint" data-est-dates>Dec 7 to Feb 26</p>
+                </div>
+                <ol class="mt-4 grid gap-2" data-est-timeline></ol>
+                <p class="mt-5 text-sm text-ink-soft">Earliest start: <span class="font-semibold text-ink" data-est-start>Monday, Dec 7</span>. Handoff on <span class="font-semibold text-ink" data-est-end>Friday, Feb 26</span>.</p>
+                <a href="contact.html?services=design,engineering&amp;team=3&amp;weeks=12&amp;model=sprint" class="btn-primary mt-6 w-full" data-est-brief>Send this with a project brief <svg viewBox="0 0 20 20" class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5"/></svg></a>
+                <button type="button" class="mono mt-3 w-full text-center text-sm text-ink-soft underline underline-offset-4 hover:text-ink" data-est-reset>Reset the estimator</button>
+              </div>
+              <p class="border-t-2 border-dashed border-ink/30 bg-tape-soft px-6 py-4 text-sm"><strong>An estimate, not a quote.</strong> Your proposal comes after a call and depends on scope, integrations and timing. Prices are in US dollars and exclude third-party costs such as hosting and app store fees.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="border-y-2 border-ink bg-card" aria-labelledby="included-title">
+        <div class="wrap grid gap-10 py-14 lg:grid-cols-[1fr_1.4fr] lg:py-20">
+          <div>
+            <p class="eyebrow">In every engagement</p>
+            <h2 id="included-title" class="h-section mt-3">No line items for the things that should be free.</h2>
+          </div>
+          <ul class="grid gap-x-8 gap-y-5 sm:grid-cols-2">
+            <li class="border-t-2 border-ink pt-3"><h3 class="font-bold">A partner on every project</h3><p class="mt-1 text-sm text-ink-soft">Ottavia or Delmar joins kickoff, every other demo and the handoff.</p></li>
+            <li class="border-t-2 border-ink pt-3"><h3 class="font-bold">Two-day kickoff in person</h3><p class="mt-1 text-sm text-ink-soft">Travel inside the continental US is on us.</p></li>
+            <li class="border-t-2 border-ink pt-3"><h3 class="font-bold">Friday demos, recorded</h3><p class="mt-1 text-sm text-ink-soft">For your board, your investors or your cofounder who missed it.</p></li>
+            <li class="border-t-2 border-ink pt-3"><h3 class="font-bold">30 days of support</h3><p class="mt-1 text-sm text-ink-soft">After handoff, bugs we wrote are ours to fix, at no charge.</p></li>
+            <li class="border-t-2 border-ink pt-3"><h3 class="font-bold">Everything in your accounts</h3><p class="mt-1 text-sm text-ink-soft">Code, designs, analytics, app stores. Nothing to buy back.</p></li>
+            <li class="border-t-2 border-ink pt-3"><h3 class="font-bold">Help hiring</h3><p class="mt-1 text-sm text-ink-soft">Job posts, interview loops and onboarding for your first hires.</p></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="wrap grid gap-10 py-14 lg:grid-cols-[1fr_1.4fr] lg:py-20" aria-labelledby="pay-title">
+        <div>
+          <p class="eyebrow">Paying us</p>
+          <h2 id="pay-title" class="h-section mt-3">Simple terms, written down.</h2>
+        </div>
+        <div class="relative overflow-x-auto">
+          <table class="w-full min-w-[34rem] border-2 border-ink bg-card text-left text-sm">
+            <caption class="sr-only">Payment terms for each engagement model</caption>
+            <thead class="bg-paper-2"><tr><th scope="col" class="border-b-2 border-ink p-3"></th><th scope="col" class="border-b-2 border-ink p-3 font-extrabold">Fixed sprint</th><th scope="col" class="border-b-2 border-ink p-3 font-extrabold">Monthly retainer</th></tr></thead>
+            <tbody>
+              <tr><th scope="row" class="border-b border-line p-3 font-semibold">Invoices</th><td class="border-b border-line p-3">40% to start, 40% at week 6, 20% at handoff</td><td class="border-b border-line p-3">Every four weeks, in advance</td></tr>
+              <tr><th scope="row" class="border-b border-line p-3 font-semibold">Price</th><td class="border-b border-line p-3">Fixed for the agreed scope</td><td class="border-b border-line p-3">10% below the sprint rate</td></tr>
+              <tr><th scope="row" class="border-b border-line p-3 font-semibold">Minimum</th><td class="border-b border-line p-3">4 weeks</td><td class="border-b border-line p-3">3 months</td></tr>
+              <tr><th scope="row" class="border-b border-line p-3 font-semibold">Changing scope</th><td class="border-b border-line p-3">Swap work of equal size, any Friday</td><td class="border-b border-line p-3">Change direction any Friday</td></tr>
+              <tr><th scope="row" class="p-3 font-semibold">Stopping early</th><td class="p-3">Pay for weeks worked, keep everything</td><td class="p-3">30 days’ notice</td></tr>
+            </tbody>
+          </table>
+          <p class="mt-4 text-sm text-ink-soft">Net 15, by ACH or check. Seed-stage clients can put up to 15% of a sprint fee into a SAFE on their round’s terms.</p>
+        </div>
+      </section>
+    </main>
+    <footer class="on-night mt-auto bg-night text-white">
+      <div class="wrap grid gap-10 py-14 md:grid-cols-[1.5fr_1fr_1fr_1.3fr]">
+        <div>
+          <a href="index.html" class="inline-flex items-center gap-2.5 rounded text-white" aria-label="Sidecar home"><svg viewBox="0 0 40 32" class="h-8 w-10 shrink-0" aria-hidden="true"><path d="M11 22 19 13h5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 21h18c0-6-4.5-10-10-10h-3.5a4.5 4.5 0 0 0-4.5 4.5z" fill="#17663f" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="10" cy="23" r="6" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="29" cy="25.5" r="3.6" fill="#f1d867" stroke="currentColor" stroke-width="2.2"/></svg><span class="text-[1.4rem] font-extrabold tracking-[-0.03em] casual">Sidecar</span></a>
+          <p class="mt-4 max-w-xs text-sm leading-relaxed text-mist">A 14-person product studio in Little Rock, Arkansas. We design, build and launch first products with seed-stage founders.</p>
+          <p class="mt-5 font-hand text-lg text-sprout">Built alongside you, not handed over the wall.</p>
+        </div>
+        <div>
+          <h2 class="label text-mist">Studio</h2>
+          <ul class="mt-4 grid gap-2.5 text-sm">
+            <li><a class="foot-link" href="work.html">Work</a></li>
+            <li><a class="foot-link" href="services.html">Services</a></li>
+            <li><a class="foot-link" href="process.html">Process</a></li>
+            <li><a class="foot-link" href="pricing.html">Pricing and estimator</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="label text-mist">Company</h2>
+          <ul class="mt-4 grid gap-2.5 text-sm">
+            <li><a class="foot-link" href="about.html">About</a></li>
+            <li><a class="foot-link" href="careers.html">Careers</a></li>
+            <li><a class="foot-link" href="case-study.html">Case study: Brineworks</a></li>
+            <li><a class="foot-link" href="contact.html">Start a project</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="label text-mist">Visit or call</h2>
+          <address class="mt-4 grid gap-2.5 text-sm text-mist not-italic">
+            <span>1517 South Main Street<br />Little Rock, AR 72202</span>
+            <a class="foot-link" href="tel:+15015550138">(501) 555-0138</a>
+            <a class="foot-link" href="mailto:hello@sidecar.example">hello@sidecar.example</a>
+            <span>Weekdays, 9:00 a.m. to 5:30 p.m. Central</span>
+          </address>
+        </div>
+      </div>
+      <div class="border-t border-night-line">
+        <div class="wrap flex flex-col gap-2 py-6 text-sm text-mist sm:flex-row sm:items-center sm:justify-between">
+          <p>© <span data-year>2026</span> Sidecar Product Studio, LLC.</p>
+          <p>Sidecar, its clients and its team are fictional.</p>
+        </div>
+      </div>
+    </footer>
+    <div id="live-region" class="sr-only" aria-live="polite"></div>
+  </body>
+</html>
