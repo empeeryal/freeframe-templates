@@ -5,7 +5,7 @@
 Launch is a complete marketing website for a software product, built for the fictional product-planning
 tool "Launch". It has a product screenshot built in HTML, feature deep-dives, a pricing page with a
 monthly/annual switch, an about page, a validated contact form and a sign-in / create-account page, in
-light and dark themes. This is the HTML + Tailwind CSS v4 version, **version 1.1.8**. See it live at
+light and dark themes. This is the HTML + Tailwind CSS v4 version, **version 1.1.9**. See it live at
 [freeframe.dev/templates/launch](https://freeframe.dev/templates/launch).
 
 ## Quick start

@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.10] - 2026-11-10
+
+### Fixed
+
+- The testimonials' pause button now changes to a play icon while paused (the icons are SVG elements, which ignore the hidden property).
+- An address with a malformed escape after the # (such as /work#%E0) no longer breaks the page's scripts; the filters show everything instead.
+
 ## [1.1.9] - 2026-11-07
 
 ### Changed

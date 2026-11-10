@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.9] - 2026-11-10
+
+### Fixed
+
+- The other two offices on the Contact page, the company timeline and the job listings are now in the US (Atlanta and Columbus) instead of Lisbon and Toronto.
+- The password Show/Hide button no longer keeps the label "Show password" while it reads "Hide": screen readers now announce its visible text and whether it is pressed.
+
 ## [1.1.8] - 2026-11-07
 
 ### Changed

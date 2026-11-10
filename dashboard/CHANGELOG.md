@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.13] - 2026-11-10
+
+### Fixed
+
+- The "(you)" label in Settings > Team is darker in light mode so it is easier to read.
+
 ## [1.1.12] - 2026-11-06
 
 ### Fixed

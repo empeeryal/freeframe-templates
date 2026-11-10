@@ -7,7 +7,7 @@ Studio** (Birmingham, AL, Oakland and New York). It has a big-type home page wit
 testimonial carousel, services with engagement models and price ranges, a filterable work page, a full
 case study with a before/after slider, an about page with team portraits, a careers page with filterable
 roles and an application form, and a detailed project-brief contact form. This is the HTML + Tailwind CSS
-v4 version, **version 1.1.9**. See it live at
+v4 version, **version 1.1.10**. See it live at
 [freeframe.dev/templates/agency](https://freeframe.dev/templates/agency).
 
 ## Quick start

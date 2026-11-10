@@ -116,8 +116,9 @@
     function setPaused(p) {
       userPaused = p;
       toggle.setAttribute('aria-label', p ? 'Play testimonials' : 'Pause testimonials');
-      $('[data-icon-pause]', toggle).hidden = p;
-      $('[data-icon-play]', toggle).hidden = !p;
+      // toggleAttribute, not .hidden: the icons are <svg> elements, which have no hidden property.
+      $('[data-icon-pause]', toggle).toggleAttribute('hidden', p);
+      $('[data-icon-play]', toggle).toggleAttribute('hidden', !p);
       p ? stop() : play();
     }
 
@@ -170,7 +171,8 @@
       var b = e.target.closest('[data-filter]');
       if (b) apply(b.dataset.filter, true);
     });
-    var fromHash = decodeURIComponent(location.hash.slice(1));
+    var fromHash = '';
+    try { fromHash = decodeURIComponent(location.hash.slice(1)); } catch (e) { /* a malformed %-escape: show everything */ }
     var valid = buttons.some(function (b) { return b.dataset.filter === fromHash; });
     apply(valid ? fromHash : 'all', false);
   });
