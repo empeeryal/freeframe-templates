@@ -1164,6 +1164,8 @@ var FORGE = {
       var t = FORGE.coaches[id];
       var tput = function (k, html) { var el = $('[data-t="' + k + '"]', trainerPage); if (el) el.innerHTML = html; };
       document.title = t.name + ' — Coach at Keel Athletic Club';
+      var tmeta = $('meta[name="description"]');
+      if (tmeta) tmeta.content = t.name + ', ' + t.role + ' at Keel Athletic Club.';
       tput('crumb', esc(t.name));
       tput('role', esc(t.role));
       tput('name', esc(t.name));

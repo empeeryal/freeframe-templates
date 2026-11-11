@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.14] - 2026-11-10
+
+### Fixed
+
+- Coach pages (`trainer.html?id=`) also update the page description for the coach, not just the title.
+
 ## [1.1.13] - 2026-11-07
 
 ### Changed

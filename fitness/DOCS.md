@@ -6,7 +6,7 @@ Fitness is a bold, dark website for a gym or fitness studio: a weekly class sche
 class and coach profiles, membership pricing with a BMI and calorie calculator, and a three-step free
 trial sign-up. The demo is **Keel Athletic Club**, a fictional club in New Bedford, Massachusetts, with two locations, six class
 types, six coaches and 36 weekly sessions. It is built with HTML5, Tailwind CSS v4 and one vanilla
-JavaScript file, and needs no build step. This guide covers version 1.1.13.
+JavaScript file, and needs no build step. This guide covers version 1.1.14.
 
 Live demo: [freeframe.dev/templates/fitness](https://freeframe.dev/templates/fitness)
 

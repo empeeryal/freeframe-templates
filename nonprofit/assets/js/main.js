@@ -178,7 +178,8 @@
     var fields = $$('input, select, textarea', form).filter(function (f) { return f.willValidate && !f.closest('[hidden]'); });
     var ok = true;
     fields.forEach(function (f) { if (!validateField(f)) ok = false; });
-    if (!ok) { var first = $('[aria-invalid="true"]', form); if (first) first.focus(); }
+    // Focus the first invalid field that is showing (not one left over in a hidden block).
+    if (!ok) { var first = fields.filter(function (f) { return f.getAttribute('aria-invalid'); })[0]; if (first) first.focus(); }
     return ok;
   }
   function wireLiveValidation(form) {
@@ -335,6 +336,8 @@
       ded.setAttribute('aria-expanded', String(ded.checked));
       dedName.required = ded.checked;
       if (ded.checked) dedName.focus();
+      // Hiding the block clears its errors, so they don't come back when it is shown again.
+      else $$('input, select, textarea', dedBox).forEach(function (f) { showError(f, ''); });
     });
 
     // Light formatting for the demo card fields

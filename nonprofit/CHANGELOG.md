@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.10] - 2026-11-10
+
+### Fixed
+
+- Donate: sending the form with errors focuses the first invalid field that is showing, and unticking the dedication clears the errors in it, so they don't come back when it is ticked again.
+
 ## [1.1.9] - 2026-11-07
 
 ### Changed

@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.13] - 2026-11-10
+
+### Fixed
+
+- The speaker pop-up is centered in the window again (Tailwind's reset had removed the dialog's automatic margins).
+
 ## [1.1.12] - 2026-11-05
 
 ### Changed

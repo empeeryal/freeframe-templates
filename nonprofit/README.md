@@ -5,7 +5,7 @@ Trust**: impact counters, an appeal progress bar, programs with a region map, fi
 volunteering, events and a full donate page. Plain HTML, Tailwind CSS v4 and a small vanilla JavaScript
 file.
 
-**Version 1.1.9** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.1.10** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/nonprofit)
 
 ## Quick start

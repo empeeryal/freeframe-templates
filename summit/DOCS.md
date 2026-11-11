@@ -6,7 +6,7 @@ Summit is a vibrant website for a conference or event: a live countdown, speaker
 a three-day schedule with tracks and a personal "My schedule", ticket selection with a team discount, the
 venue and sponsors. The demo event is **Summit 2027**, a fictional design, engineering and AI conference
 in Bellevue, WA (April 14–16, 2027) with 12 speakers and 35 sessions. It is built with HTML5, Tailwind CSS
-v4 and vanilla JavaScript, and needs no build step. This guide covers version 1.1.12.
+v4 and vanilla JavaScript, and needs no build step. This guide covers version 1.1.13.
 
 Live demo: [freeframe.dev/templates/summit](https://freeframe.dev/templates/summit)
 

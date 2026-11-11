@@ -5,7 +5,7 @@ weekly schedule with class booking, class and coach profiles, membership pricing
 calorie calculator, and a free-trial sign-up. Plain HTML, Tailwind CSS v4 and a small vanilla JavaScript
 file.
 
-**Version 1.1.13** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.1.14** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/fitness)
 
 ## Quick start
