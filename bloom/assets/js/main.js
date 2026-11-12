@@ -1122,7 +1122,7 @@
     var renderStylists = function () {
       var ids = selected();
       var eligible = eligibleMembers(ids);
-      if (state.stylist !== 'any' && !eligible.some(function (m) { return m.id === state.stylist; })) state.stylist = 'any';
+      if (state.stylist !== 'any' && !eligible.some(function (m) { return m.id === state.stylist; })) { state.stylist = 'any'; paintSummary(); }
       var help = $('[data-stylist-help]', form);
       help.textContent = eligible.length
         ? 'Everyone below can do all of your treatments. Hair and color prices depend on level.'

@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.11] - 2026-11-12
+
+### Fixed
+
+- The booking summary now switches to "Anyone available" and updates its prices when you go back and add a treatment your chosen stylist doesn't offer.
+
 ## [1.0.10] - 2026-11-07
 
 ### Changed

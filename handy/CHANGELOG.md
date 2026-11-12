@@ -6,6 +6,12 @@ All notable changes to the Handy HTML template are documented here. The format f
 
 ## [Unreleased]
 
+## [1.0.8] - 2026-11-12
+
+### Fixed
+
+- The quote page's search and sharing description now uses American spelling ("remodeling").
+
 ## [1.0.7] - 2026-11-07
 
 ### Changed

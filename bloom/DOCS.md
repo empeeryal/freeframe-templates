@@ -7,7 +7,7 @@ salon at 48 Burns Court, Sarasota, Florida. It's built with plain HTML5, Tailwin
 no dependencies. Highlights are a five-step booking wizard that works out real time slots from business hours, staff
 business days and treatment length, level-based pricing (stylist, senior, director), a gift card builder with a live
 preview, filterable service and team pages, a gallery with saved looks and a lightbox, a before/after slider and a live
-"Open now" status. This guide covers version 1.0.10. Live demo:
+"Open now" status. This guide covers version 1.0.11. Live demo:
 [freeframe.dev/templates/bloom](https://freeframe.dev/templates/bloom).
 
 ## Quick start

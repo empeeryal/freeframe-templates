@@ -7,7 +7,7 @@ painting and remodels. The demo brand is Brightline Home Services, a fictional c
 built with plain HTML5, Tailwind CSS v4 and a single vanilla JavaScript file with no dependencies. Highlights are an
 instant quote calculator that turns into a booking request, a ZIP code service-area checker with a coverage map, a
 before/after slider, a filterable project gallery with a lightbox, a reviews page with filters and sorting, and a
-sticky mobile call bar. This guide covers version 1.0.7. Live demo:
+sticky mobile call bar. This guide covers version 1.0.8. Live demo:
 [freeframe.dev/templates/handy](https://freeframe.dev/templates/handy).
 
 ## Quick start
