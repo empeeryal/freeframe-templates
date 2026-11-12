@@ -6,7 +6,7 @@ Roast is a shop for a specialty coffee roaster, built for **First Crack Coffee**
 Baltimore. It has a filterable coffee shop, product pages with bag sizes and grinds, a subscription builder,
 a cart drawer, a three-step checkout, brew guides, a wholesale page and a sourcing page. It is plain
 HTML with Tailwind CSS v4 and one vanilla JavaScript file, with no build step needed to use it. This guide
-covers version 1.0.7. See it live at [freeframe.dev/templates/roast](https://freeframe.dev/templates/roast).
+covers version 1.0.8. See it live at [freeframe.dev/templates/roast](https://freeframe.dev/templates/roast).
 
 ## Quick start
 

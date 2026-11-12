@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.8] - 2026-11-12
+
+### Fixed
+
+- The brew guide page no longer stops working when its address ends in a broken #link: it opens the first guide, and the cart button still shows how many items are in your cart.
+- The "View cart" button in the added-to-cart message is now read out by screen readers as "View cart", instead of taking the header cart button's label.
+
 ## [1.0.7] - 2026-11-07
 
 ### Changed

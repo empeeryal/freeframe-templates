@@ -567,7 +567,8 @@ document.documentElement.classList.add('js');
       el.textContent = count;
       el.hidden = count === 0;
     });
-    $$('[data-cart-open]').forEach((b) => b.setAttribute('aria-label', 'Open cart, ' + plural(count, 'item', 'items')));
+    // Only the header's cart button; the toast's "View cart" button is named by its text.
+    $$('a[data-cart-open]').forEach((b) => b.setAttribute('aria-label', 'Open cart, ' + plural(count, 'item', 'items')));
     if (drawer && !drawer.hidden) renderDrawer();
     if (document.body.dataset.page === 'checkout') renderCheckout();
   }
@@ -1216,7 +1217,13 @@ document.documentElement.classList.add('js');
     strength.addEventListener('change', scale);
 
     function fromHash() {
-      const key = ownKey(decodeURIComponent(location.hash.slice(1)), ids);
+      let hash = '';
+      try {
+        hash = decodeURIComponent(location.hash.slice(1));
+      } catch {
+        // A malformed hash (brew.html#%E0%A4%A) opens the first tab.
+      }
+      const key = ownKey(hash, ids);
       select(key ? ids.indexOf(key) : 0, false);
     }
     window.addEventListener('hashchange', fromHash);
