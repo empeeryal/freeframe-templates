@@ -4,7 +4,7 @@ An elegant, botanical wedding website for a fictional couple, Amara & Theo: RSVP
 countdown, schedule with add-to-calendar files, travel map and room blocks, registry with a honeymoon fund, gallery
 and FAQ. Built with HTML5, Tailwind CSS v4 and vanilla JavaScript. A Next.js version of this template is also available.
 
-**Version 1.0.12** · see [CHANGELOG.md](CHANGELOG.md) for what changed.
+**Version 1.0.13** · see [CHANGELOG.md](CHANGELOG.md) for what changed.
 
 Live demo: [freeframe.dev/templates/vows](https://freeframe.dev/templates/vows)
 

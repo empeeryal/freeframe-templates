@@ -4,7 +4,7 @@ An image-led website for a wedding, portrait and travel photographer (the fictio
 slideshow, filterable galleries with a masonry layout and lightbox, photo stories, packages with a price
 calculator, client proofing and an inquiry form. Built with HTML5, Tailwind CSS v4 and vanilla JavaScript. A Next.js version of this template is also available.
 
-**Version 1.0.11** · see [CHANGELOG.md](CHANGELOG.md) for what changed.
+**Version 1.0.12** · see [CHANGELOG.md](CHANGELOG.md) for what changed.
 
 Live demo: [freeframe.dev/templates/lens](https://freeframe.dev/templates/lens)
 

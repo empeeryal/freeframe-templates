@@ -771,7 +771,8 @@
       count.textContent = type === 'All' ? 'Showing all ' + cards.length + ' experiences' : 'Showing ' + shown + ' ' + type.toLowerCase() + ' experiences';
     }
     buttons.forEach(function (b) { b.addEventListener('click', function () { apply(b.dataset.expFilter); }); });
-    var hash = decodeURIComponent(window.location.hash.slice(1));
+    var hash = '';
+    try { hash = decodeURIComponent(window.location.hash.slice(1)); } catch (e) { /* a malformed hash: no filter */ }
     if (buttons.some(function (b) { return b.dataset.expFilter.toLowerCase() === hash.toLowerCase(); })) {
       apply(hash.charAt(0).toUpperCase() + hash.slice(1).toLowerCase());
     }

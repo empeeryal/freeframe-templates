@@ -6,6 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.12] - 2026-11-11
+
+### Fixed
+
+- The Garden Room card on the home and rooms pages now shows its real rate, from $240 a night (it said $280).
+- The experiences page no longer stops working when opened with a malformed link after the # sign.
+
 ## [1.0.11] - 2026-11-05
 
 ### Changed

@@ -2,7 +2,7 @@
 
 A complete website for a small hotel or resort, built for the fictional **Casa Marea**, a 22-room hotel in a 1903 villa above Narragansett Bay in Newport, Rhode Island: rooms with filters, room pages, an availability calendar, a five-step booking flow with live pricing and promo codes, offers, dining, experiences and contact. Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.11** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.12** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/stay)
 
 ## Quick start

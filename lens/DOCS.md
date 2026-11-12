@@ -382,6 +382,6 @@ left out. Most hosts serve `404.html` for missing pages automatically.
 
 ## License
 
-MIT, like every Freeframe template: free for personal and commercial projects, no attribution required. The SVG
-photo stand-ins and the social image are included under the same license. See `LICENSE.txt` in the download. The
-photographer, clients and places in the copy are fictional.
+MIT. The code and all included artwork are free for personal and commercial use; see `LICENSE.txt` in the download.
+The SVG photo stand-ins and the social image are included in the download. The photographer, clients and places in
+the copy are fictional.

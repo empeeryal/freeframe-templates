@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.13] - 2026-11-11
+
+### Fixed
+
+- The License section in DOCS.md now uses the standard wording; it describes this template's own
+  license.
+
 ## [1.0.12] - 2026-11-05
 
 ### Changed

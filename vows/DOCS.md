@@ -404,6 +404,5 @@ left out. Serve it over `https://` so copy buttons work.
 
 ## License
 
-MIT, like every Freeframe template: free for personal and commercial projects, no attribution required. The
-botanical illustrations and social image are included under the same license. See `LICENSE.txt` in the download.
-Names, places and people are fictional.
+MIT. The code and all included artwork are free for personal and commercial use; see `LICENSE.txt` in the download.
+The botanical illustrations and social image are included in the download. Names, places and people are fictional.

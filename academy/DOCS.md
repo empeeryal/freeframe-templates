@@ -433,5 +433,4 @@ You can leave out `src/`, `package.json` and the Markdown files when uploading; 
 
 ## License
 
-MIT, like every Freeframe template: free for personal and commercial projects, no attribution required. The
-generated artwork is included under the same license. See `LICENSE.txt` in the download.
+MIT. The code and all included artwork are free for personal and commercial use; see `LICENSE.txt` in the download.

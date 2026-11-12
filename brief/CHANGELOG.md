@@ -6,6 +6,13 @@ All notable changes to the Brief HTML template are documented here. The format f
 
 ## [Unreleased]
 
+## [1.0.9] - 2026-11-11
+
+### Fixed
+
+- The License section in DOCS.md now uses the standard wording; it describes this template's own
+  license.
+
 ## [1.0.8] - 2026-11-07
 
 ### Changed

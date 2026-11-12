@@ -6,7 +6,7 @@ fixed fees, a fee estimator, a branching "what are my options?" check with a cla
 searchable guides, a long-form article and a four-step consultation booking flow. Plain HTML, Tailwind CSS
 v4 and one vanilla JavaScript file.
 
-**Version 1.0.8** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.9** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/brief)
 
 ## Quick start

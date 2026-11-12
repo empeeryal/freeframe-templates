@@ -584,15 +584,16 @@
 
   // Forms: inline validation helpers. To send for real, POST new FormData(form) to
   // your endpoint (e.g. Formspree) where the success state is shown.
-  function fieldError(input, msg) {
+  // after: the element the message goes after (the input by default); color: a text class for dark panels.
+  function fieldError(input, msg, after, color) {
     var id = input.id + '-error';
     var err = document.getElementById(id);
     if (msg) {
       if (!err) {
         err = document.createElement('p');
         err.id = id;
-        err.className = 'field-error';
-        input.insertAdjacentElement('afterend', err);
+        err.className = color ? 'field-error ' + color : 'field-error';
+        (after || input).insertAdjacentElement('afterend', err);
       }
       err.textContent = msg;
       input.setAttribute('aria-invalid', 'true');
@@ -618,7 +619,8 @@
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var v = input.value.trim();
-      if (!fieldError(input, !v ? 'Enter your email address.' : !EMAIL.test(v) ? 'Enter a valid email address, like you@example.com.' : '')) { input.focus(); return; }
+      // The message goes under the input and button row, in a light color on the dark footer.
+      if (!fieldError(input, !v ? 'Enter your email address.' : !EMAIL.test(v) ? 'Enter a valid email address, like you@example.com.' : '', input.parentElement, 'text-rose-300')) { input.focus(); return; }
       // Demo only: connect this form to your email provider to collect sign-ups.
       form.innerHTML = '<p class="rounded-2xl bg-leaf-400/15 px-4 py-3 text-sm font-semibold text-leaf-100" role="status">Thanks! Look out for a confirmation email from us; once you click the link, your first Thursday lesson is on its way.</p>';
     });

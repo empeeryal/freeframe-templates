@@ -337,5 +337,5 @@ left out.
 
 ## License
 
-MIT, like every Freeframe template: free for personal and commercial projects, no attribution required. Artwork
-and logos are included. See `LICENSE.txt` in the download. The privacy policy is placeholder text, not legal advice.
+MIT. The code and all included artwork are free for personal and commercial use; see `LICENSE.txt` in the download.
+The logos are original artwork. The privacy policy is placeholder text, not legal advice.

@@ -6,7 +6,7 @@ Brief is a website template for a solo lawyer or attorney. The demo content is f
 Employment Law**, the fictional Dayton, Ohio, practice of independent employment attorney Tessa Pennington, who
 advises employees and senior staff on severance agreements, layoffs, wrongful termination, discrimination and
 problems at work, mostly for fixed fees. It is built with plain HTML5, Tailwind CSS v4 and one vanilla
-JavaScript file with no dependencies. This is version 1.0.8 (see [CHANGELOG.md](CHANGELOG.md)). Live demo:
+JavaScript file with no dependencies. This is version 1.0.9 (see [CHANGELOG.md](CHANGELOG.md)). Live demo:
 [freeframe.dev/templates/brief](https://freeframe.dev/templates/brief).
 
 The sample copy is general information about employment law in Ohio and under federal law, written for a fictional
@@ -408,5 +408,5 @@ harmless. Most hosts serve `404.html` automatically for missing pages.
 
 ## License
 
-MIT, like every Freeframe template: free for personal and commercial use. See `LICENSE.txt` in the download.
-The SVG illustrations, portrait and icons are original artwork included under the same license.
+MIT. The code and all included artwork are free for personal and commercial use; see `LICENSE.txt` in the download.
+The SVG illustrations, portrait and icons are original artwork, included in the download.

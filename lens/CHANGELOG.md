@@ -6,6 +6,13 @@ All notable changes to the Lens template are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.0.12] - 2026-11-11
+
+### Fixed
+
+- The License section in DOCS.md now uses the standard wording; it describes this template's own
+  license.
+
 ## [1.0.11] - 2026-11-06
 
 ### Changed
