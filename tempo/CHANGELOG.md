@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.11] - 2026-11-12
+
+### Fixed
+
+- The "Out 11/13" sticker on the home page hero now follows the new album's release date when the demo moves it to a later year, like the other release dates on the site.
+
 ## [1.0.10] - 2026-11-07
 
 ### Changed

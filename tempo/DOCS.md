@@ -10,7 +10,7 @@ tour dates, a merch store with a cart, an about page, an electronic press kit (E
 routes messages by topic. It is plain HTML with Tailwind CSS v4 and one vanilla JavaScript file, with no
 build step needed to use it. The look is a printed gig poster: warm paper, black ink, fluorescent pink,
 cobalt and sun-yellow "riso" inks, condensed Big Shoulders Display headlines and SVG artwork throughout.
-This guide covers version 1.0.10. See it live at
+This guide covers version 1.0.11. See it live at
 [freeframe.dev/templates/tempo](https://freeframe.dev/templates/tempo).
 
 ## Quick start
@@ -156,7 +156,7 @@ way and upcoming shows again. Set it to `false` on your real site.
 
 The dates written in the pages follow `RELEASES` and `TOUR` (`initDemoText()`): the banner's
 `[data-release-note]` ("Weather for Two is out November 13", then "is out now"), `[data-release-day]` (the press
-kit and the about timeline, with `[data-release-year]`, and the home page title), `[data-tour-years]` ("2026–27",
+kit, the about timeline and the home page's "Out 11/13" sticker, with `[data-release-year]`, and the home page title), `[data-tour-years]` ("2026–27",
 also in the tour page title) and `[data-tour-from]` ("November 2026"). Once the new album is out, links with `data-release-cta` (the
 "Pre-save" buttons, "Hear the first single", "Pre-order the LP") read their text from `RELEASE_CTA` instead
 (`listen`: "Listen", `listen-album`, `listen-now`, `buy-lp`), products

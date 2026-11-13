@@ -329,9 +329,10 @@
 
   // Release and tour dates written in the pages: [data-release-note] (the banner), [data-release-cta] (pre-save
   // and pre-order links, which read RELEASE_CTA[their data-release-cta] once the album is out), [data-release-day]
-  // ("November 13, 2026", or "November 13" with ="dm"), [data-release-year], [data-tour-years] ("2026–27") and
+  // ("November 13, 2026", "November 13" with ="dm", "11/13" with ="md"), [data-release-year], [data-tour-years] ("2026–27") and
   // [data-tour-from] ("November 2026"). They follow the dates in RELEASES and TOUR, including the demo shift.
   var RELEASE_CTA = { listen: 'Listen', 'listen-album': 'Listen to the album', 'listen-now': 'Listen now', 'buy-lp': 'Buy the LP' };
+  var RELEASE_DAY_FORMATS = { dm: { day: 'numeric', month: 'long' }, md: { month: 'numeric', day: 'numeric' } };
   function initDemoText() {
     var rel = RELEASES[0], out = isOut(rel);
     $$('[data-release-note]').forEach(function (el) {
@@ -339,7 +340,7 @@
     });
     if (out) $$('[data-release-cta]').forEach(function (el) { var k = el.getAttribute('data-release-cta'); if (Object.prototype.hasOwnProperty.call(RELEASE_CTA, k)) el.textContent = RELEASE_CTA[k]; });
     $$('[data-release-day]').forEach(function (el) {
-      el.textContent = fmtDate(rel.date, el.getAttribute('data-release-day') === 'dm' ? { day: 'numeric', month: 'long' } : { day: 'numeric', month: 'long', year: 'numeric' });
+      el.textContent = fmtDate(rel.date, RELEASE_DAY_FORMATS[el.getAttribute('data-release-day') || ''] || { day: 'numeric', month: 'long', year: 'numeric' });
     });
     $$('[data-release-year]').forEach(function (el) { el.textContent = rel.date.slice(0, 4); });
     // The home page title ends "…, out November 13".

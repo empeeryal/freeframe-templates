@@ -6,7 +6,7 @@ schedule with a personal plan, clash warnings and calendar export, tickets with 
 group discount, a food village with dietary filters and an interactive site map. Plain HTML, Tailwind CSS v4
 and vanilla JavaScript.
 
-**Version 1.0.8** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.9** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/solstice)
 
 ## Quick start

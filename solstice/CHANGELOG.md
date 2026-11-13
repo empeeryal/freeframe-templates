@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.9] - 2026-11-12
+
+### Fixed
+
+- The schedule's Fri, Sat and Sun tabs now show the right day numbers when the demo moves the festival to a later year, instead of always saying 25, 26 and 27.
+
 ## [1.0.8] - 2026-11-07
 
 ### Changed

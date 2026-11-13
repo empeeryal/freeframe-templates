@@ -7,7 +7,7 @@ checkout with time slots from the opening hours and an animated order tracker. P
 and one vanilla JavaScript file. Every pizza is drawn in SVG from the menu data, so there are no photos to
 replace.
 
-**Version 1.0.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.7** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/slice)
 
 ## Quick start

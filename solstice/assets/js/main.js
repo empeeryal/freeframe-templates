@@ -137,7 +137,7 @@
     });
     $$('[data-date]').forEach(function (el) {
       var a = shiftIso(el.getAttribute('data-date')), end = el.getAttribute('data-date-end');
-      var opts = el.getAttribute('data-date-format') === 'dm' ? { day: 'numeric', month: 'long' } : { day: 'numeric', month: 'long', year: 'numeric' };
+      var opts = { d: { day: 'numeric' }, dm: { day: 'numeric', month: 'long' } }[el.getAttribute('data-date-format')] || { day: 'numeric', month: 'long', year: 'numeric' };
       if (!end) { el.textContent = fmtDate(a, opts); return; }
       var b = shiftIso(end);
       var endYear = el.getAttribute('data-date-format') === 'dm' ? '' : ', ' + b.slice(0, 4);

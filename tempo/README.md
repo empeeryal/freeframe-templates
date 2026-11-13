@@ -6,7 +6,7 @@ discography with a working track player, tour dates with filters and calendar do
 a cart, an about page, an electronic press kit and a contact form that routes messages by topic. Plain HTML,
 Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.10** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.11** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/tempo)
 
 ## Quick start

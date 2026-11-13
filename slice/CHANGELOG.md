@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-11-12
+
+### Fixed
+
+- The catering form's delivery ZIP code field had its class attribute written twice; it now has one (no visible change).
+
 ## [1.0.6] - 2026-11-05
 
 ### Changed

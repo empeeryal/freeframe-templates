@@ -8,7 +8,7 @@ pizza customizer, a cart drawer on every page, a ZIP code delivery checker, set 
 checkout with time slots worked out from the opening hours, an animated order tracker, a locations page
 with a delivery-zone map, an about page and a catering page with a pizza calculator and inquiry form. It is
 plain HTML with Tailwind CSS v4 and one vanilla JavaScript file, with no build step needed to use it. This
-guide covers version 1.0.6. See it live at
+guide covers version 1.0.7. See it live at
 [freeframe.dev/templates/slice](https://freeframe.dev/templates/slice).
 
 ## Quick start
