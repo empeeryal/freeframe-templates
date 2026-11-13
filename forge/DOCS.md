@@ -9,7 +9,7 @@ sample and an interactive API explorer, a quickstart, an SDK directory, usage-ba
 changelog, a status page, a company page, a sales form and an API key sign-up. It is plain HTML with Tailwind
 CSS v4 and one vanilla JavaScript file, with no build step needed to use it. The design is terminal-inspired:
 near-black surfaces inside a framed hairline grid, IBM Plex Mono labels and a single amber accent. This guide
-covers version 1.0.6. See it live at [freeframe.dev/templates/forge](https://freeframe.dev/templates/forge).
+covers version 1.0.7. See it live at [freeframe.dev/templates/forge](https://freeframe.dev/templates/forge).
 
 ## Quick start
 
@@ -207,7 +207,7 @@ request is sent on load so the panel is never empty.
 ### Latency chart
 
 `initLatency()` (section 7) draws `LATENCY.p50` (solid amber with a fill) and `LATENCY.p99` (dashed) into
-`#lat-chart` as an inline SVG with gridlines at 0, 100, 200 and 300 ms. It redraws on resize so labels stay the
+`#lat-chart` as an inline SVG with gridlines at 0, 100, 200 and 300 ms. It redraws whenever the chart box changes size so labels stay the
 same size. The SVG has `role="img"` and an `aria-label` with the ranges.
 
 ### Pricing calculator

@@ -6,6 +6,12 @@ All notable changes to the Studio HTML template are documented here. The format 
 
 ## [Unreleased]
 
+## [1.0.8] - 2026-11-13
+
+### Fixed
+
+- Fixed the spelling of "cataloged" in the Wakeline case study.
+
 ## [1.0.7] - 2026-11-07
 
 ### Changed

@@ -7,7 +7,7 @@ Saint Paul that works across identity, digital product, editorial and wayfinding
 a strict 12-column grid, one typeface family in several weights plus a mono face for labels, a monochrome palette and
 a single red accent. Project imagery is drawn in SVG, so there are no photos to license. It has a work index with
 filters and grid/list views, nine data-driven case studies, a services page with a brief estimator, a studio page, a
-journal and a five-step project inquiry. This is the HTML + Tailwind CSS v4 version, **version 1.0.7**. See it live at
+journal and a five-step project inquiry. This is the HTML + Tailwind CSS v4 version, **version 1.0.8**. See it live at
 [freeframe.dev/templates/studio](https://freeframe.dev/templates/studio).
 
 ## Quick start

@@ -716,7 +716,8 @@ if err != nil {
 
   /* ------------------------------------------------------------------
    * 7. Latency chart — two polylines (p50, p99) drawn into #lat-chart.
-   *    Redrawn on resize so text stays the same size on every screen.
+   *    Redrawn whenever the box changes size (a window resize, or the layout
+   *    settling later without one), so text stays the same size on every screen.
    * ------------------------------------------------------------------ */
   function initLatency() {
     const box = $('#lat-chart');
@@ -752,8 +753,11 @@ if err != nil {
       box.innerHTML = svg;
     }
     draw();
-    let t;
-    window.addEventListener('resize', () => { window.clearTimeout(t); t = window.setTimeout(draw, 120); });
+    let drawn = box.clientWidth + 'x' + box.clientHeight;
+    new ResizeObserver(() => {
+      const now = box.clientWidth + 'x' + box.clientHeight;
+      if (now !== drawn) { drawn = now; draw(); }
+    }).observe(box);
   }
 
   /* ------------------------------------------------------------------

@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-11-13
+
+### Fixed
+
+- The latency chart on the home page now redraws whenever its box changes size, not only when the window is resized, so it always fits its panel.
+
 ## [1.0.6] - 2026-11-06
 
 ### Changed

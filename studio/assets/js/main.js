@@ -62,7 +62,7 @@
       summary: 'Wakeline runs eleven passenger ferries on Lake Minnetonka. We rebuilt its identity around a single ring-and-wave mark and a schedule system that works on a phone, a pier and a paper fold-out.',
       challenge: 'Wakeline had grown out of three older operators, and it showed: four logos, two typefaces on the same pier and schedules that changed format from boat to boat. Tourists missed the last ferry home; regulars ignored the signs altogether. The brief was to make one ferry company out of three, without losing the warmth people felt for the old boats.',
       approach: [
-        { title: 'Audit every touchpoint', text: 'We photographed all 23 piers and catalogd 412 signs, tickets and notices. Two thirds carried information that was already out of date.' },
+        { title: 'Audit every touchpoint', text: 'We photographed all 23 piers and cataloged 412 signs, tickets and notices. Two thirds carried information that was already out of date.' },
         { title: 'One mark, one grid', text: 'The ring-and-wave mark reads at a third of an inch on a ticket and at ten feet on a bow. Everything else sits on a single eight-column grid shared by print, signs and screens.' },
         { title: 'Schedules first', text: 'We designed the departure board before the logo. Times are set large in tabular figures, with the last boat of the day marked in buoy orange.' }
       ],
