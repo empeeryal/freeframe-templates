@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-11-13
+
+### Fixed
+
+- The playground's SSO example answer no longer mentions a fixed date that would go out of date.
+
 ## [1.0.6] - 2026-11-07
 
 ### Changed

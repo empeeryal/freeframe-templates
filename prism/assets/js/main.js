@@ -104,12 +104,12 @@ document.documentElement.classList.add('js');
       answer: [
         { p: 'Four open enterprise deals mention SSO as a blocker, worth **$1.18M** in combined annual value [1]:' },
         { ul: [
-          '**Ardent Logistics** ($420k) needs SCIM provisioning, not only SAML. Procurement review on November 14 [1][2].',
+          '**Ardent Logistics** ($420k) needs SCIM provisioning, not only SAML. Procurement review is in two weeks [1][2].',
           '**Kestrel Bank** ($360k) requires SSO enforced for every user, contractors included [2].',
           '**Otter Creek Schools** ($240k) wants SSO through their existing identity provider before a pilot [1].',
           '**Vantage Freight** ($160k): blocker resolved last week, now waiting on legal [1].'
         ] },
-        { p: 'SCIM is planned for January [3]. Sharing that date with Ardent before November 14 could keep the deal on track.' }
+        { p: 'SCIM is planned for January [3]. Sharing that date with Ardent before their procurement review could keep the deal on track.' }
       ]
     }
   ];

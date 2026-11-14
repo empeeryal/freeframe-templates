@@ -1695,7 +1695,7 @@
       $('[data-custom-wrap]', gForm).hidden = checkedValue('amount') !== 'custom';
       $('[data-date-wrap]', gForm).hidden = checkedValue('send') !== 'later';
       var a = amount(), design = checkedValue('design');
-      preview.className = 'gift-card gift-card-lg gift-' + design;
+      preview.className = 'mt-3 gift-card gift-card-lg gift-' + design;
       $('[data-preview-amount]', preview).textContent = a ? money(a) : '$—';
       var to = gf.to.value.trim(), from = gf.from.value.trim(), msg = gf.message.value.trim();
       $('[data-preview-to]', preview).textContent = 'For ' + (to || 'someone sharp');

@@ -6,6 +6,12 @@ All notable changes to the Handy HTML template are documented here. The format f
 
 ## [Unreleased]
 
+## [1.0.9] - 2026-11-13
+
+### Fixed
+
+- The Wheat Ridge label on the service area map now sits inside its area instead of running past its edge.
+
 ## [1.0.8] - 2026-11-12
 
 ### Fixed

@@ -2,7 +2,7 @@
 
 A bold, vintage-modern website for a barbershop, built for the fictional **Fade Bros. Barber Co.** with two shops in Chicago: an illustrative walk-in wait board, a five-step booking flow with real time slots from each barber's schedule, filterable services and barbers, a grooming product shop with a saved bag, and a gift card builder. Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.8** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.9** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/fade)
 
 ## Quick start

@@ -6,6 +6,12 @@ All notable changes to the Brief HTML template are documented here. The format f
 
 ## [Unreleased]
 
+## [1.0.10] - 2026-11-13
+
+### Fixed
+
+- The “Check your options first” button on the closing call-to-action card is now filled with the card color, so the drawing behind it no longer shows through.
+
 ## [1.0.9] - 2026-11-11
 
 ### Fixed

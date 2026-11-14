@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.12] - 2026-11-13
+
+### Fixed
+
+- The social sharing image no longer shows a fixed release date (“Out 11/13”), which went out of date as the demo's dates move forward; it now reads “New album”.
+
 ## [1.0.11] - 2026-11-12
 
 ### Fixed

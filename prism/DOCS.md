@@ -8,7 +8,7 @@ citations, in an app and through an API. The site has a home page with a streami
 page, API docs, pricing with a cost calculator, a changelog, a company and careers page and a sales form. It is
 plain HTML with Tailwind CSS v4 and one vanilla JavaScript file, with no build step needed to use it. The design
 is dark-first: near-black surfaces, a hairline grid, film grain and spectrum gradients taken from light passing
-through a prism. This guide covers version 1.0.6. See it live at
+through a prism. This guide covers version 1.0.7. See it live at
 [freeframe.dev/templates/prism](https://freeframe.dev/templates/prism).
 
 ## Quick start

@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.10] - 2026-11-13
+
+### Fixed
+
+- The footer's GitHub, forum and newsletter icons no longer link to example.com; they are placeholder links (#) to replace with your own.
+
 ## [1.1.9] - 2026-11-10
 
 ### Fixed

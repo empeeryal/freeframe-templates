@@ -2,7 +2,7 @@
 
 A complete website for a plumbing, electrical and renovation company, built for the fictional **Brightline Home Services** in Denver: an instant quote calculator that turns into a booking request, a ZIP code service-area checker with a coverage map, price tables, a before/after slider, a project gallery and reviews. Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.8** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.9** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/handy)
 
 ## Quick start

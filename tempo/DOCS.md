@@ -10,7 +10,7 @@ tour dates, a merch store with a cart, an about page, an electronic press kit (E
 routes messages by topic. It is plain HTML with Tailwind CSS v4 and one vanilla JavaScript file, with no
 build step needed to use it. The look is a printed gig poster: warm paper, black ink, fluorescent pink,
 cobalt and sun-yellow "riso" inks, condensed Big Shoulders Display headlines and SVG artwork throughout.
-This guide covers version 1.0.11. See it live at
+This guide covers version 1.0.12. See it live at
 [freeframe.dev/templates/tempo](https://freeframe.dev/templates/tempo).
 
 ## Quick start

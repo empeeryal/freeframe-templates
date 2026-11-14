@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.9] - 2026-11-13
+
+### Fixed
+
+- The gift card's live preview now has the intended space below its “Live preview” label.
+
 ## [1.0.8] - 2026-11-07
 
 ### Changed
