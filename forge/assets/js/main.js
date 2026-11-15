@@ -117,7 +117,7 @@ if err != nil {
   // What the hero "receives": the JSON body, then one line per delivery attempt.
   const HERO_RESPONSE = {
     status: '202 Accepted',
-    latency: [31, 48], // random milliseconds in this range
+    latency: [31, 48], // milliseconds in this range (see demoRandom())
     body: {
       id: 'evt_2Lq8vX4mN7kR',
       type: 'invoice.paid',
@@ -250,7 +250,26 @@ if err != nil {
   const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
   const money2 = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 4 });
   const sleep = (ms) => new Promise((r) => window.setTimeout(r, ms));
-  const rand = (min, max) => Math.round(min + Math.random() * (max - min));
+  // The demo responses (the hero's latency; the API explorer's latencies, ids and counts) come from small
+  // seeded generators, one per widget, so every visit shows the same values in the same order and the
+  // first response looks the same on every load; each new request still gets new values.
+  const DEMO_SEEDS = { hero: 13, explorer: 15 };
+  function demoRandom(seed) {
+    let s = seed >>> 0;
+    const next = () => {
+      s = (s + 0x6d2b79f5) >>> 0;
+      let t = s;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    return {
+      next,
+      int: (min, max) => Math.round(min + next() * (max - min)),
+      id: (length) => Array.from({ length }, () => chars[Math.floor(next() * 62)]).join('')
+    };
+  }
 
   function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -272,7 +291,7 @@ if err != nil {
       history.replaceState(null, '', url);
     } catch (e) { /* some browsers block this on file:// pages */ }
   }
-  // Random base62 string from the browser's secure generator (ids and the demo API key).
+  // Random base62 string from the browser's secure generator (the demo API key).
   function randomId(length) {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const bytes = new Uint8Array(length);
@@ -476,6 +495,7 @@ if err != nil {
     const panel = $('#hero-panel');
     let run = 0;
     let started = false;
+    const random = demoRandom(DEMO_SEEDS.hero);
 
     function responseLines() {
       const lines = highlight(json(HERO_RESPONSE.body), 'json').split('\n');
@@ -499,7 +519,7 @@ if err != nil {
       if (fileEl) fileEl.textContent = sample.file;
       const tab = $('#hero-tab-' + lang);
       if (tab && panel) panel.setAttribute('aria-labelledby', tab.id);
-      const ms = rand(HERO_RESPONSE.latency[0], HERO_RESPONSE.latency[1]);
+      const ms = random.int(HERO_RESPONSE.latency[0], HERO_RESPONSE.latency[1]);
       if (reduceMotion) {
         codeEl.innerHTML = highlight(sample.code, lang);
         respEl.innerHTML = responseLines().join('\n');
@@ -558,6 +578,7 @@ if err != nil {
     const sendBtn = $('#insp-send');
     let remaining = 5000; // ratelimit-remaining header
     let current = INSPECTOR[0];
+    const random = demoRandom(DEMO_SEEDS.explorer);
 
     // Endpoint radio list.
     list.innerHTML = INSPECTOR.map((ep, i) =>
@@ -629,8 +650,8 @@ if err != nil {
       }
       const now = new Date().toISOString();
       if (current.id === 'send') {
-        const data = v.type === 'customer.created' ? { customer_id: 'cus_' + randomId(8), amount: Number(v.amount) } : { invoice_id: 'in_' + rand(1000, 9999), amount: Number(v.amount), currency: 'usd' };
-        return { status: 202, text: 'Accepted', body: { id: 'evt_' + randomId(12), object: 'event', type: v.type, tenant: v.tenant, data, status: 'queued', endpoints: v.type === 'subscription.canceled' ? 2 : 3, created_at: now } };
+        const data = v.type === 'customer.created' ? { customer_id: 'cus_' + random.id(8), amount: Number(v.amount) } : { invoice_id: 'in_' + random.int(1000, 9999), amount: Number(v.amount), currency: 'usd' };
+        return { status: 202, text: 'Accepted', body: { id: 'evt_' + random.id(12), object: 'event', type: v.type, tenant: v.tenant, data, status: 'queued', endpoints: v.type === 'subscription.canceled' ? 2 : 3, created_at: now } };
       }
       if (current.id === 'get' || current.id === 'replay') {
         if (!/^evt_[A-Za-z0-9]{6,}$/.test(v.id)) return err(404, 'Not Found', 'not_found', "No event with id '" + v.id + "'.");
@@ -640,7 +661,7 @@ if err != nil {
       }
       if (current.id === 'replay') {
         const eps = v.endpoint === 'all' ? ['ep_7Hc2Qm', 'ep_9Kd4Lx', 'ep_3Fw8Rt'] : [v.endpoint];
-        return { status: 202, text: 'Accepted', body: { id: 'rpl_' + randomId(10), object: 'replay', event: v.id, endpoints: eps, status: 'queued', created_at: now } };
+        return { status: 202, text: 'Accepted', body: { id: 'rpl_' + random.id(10), object: 'replay', event: v.id, endpoints: eps, status: 'queued', created_at: now } };
       }
       if (current.id === 'list') {
         const matches = DELIVERIES.filter((d) => v.status === 'any' || d.status === v.status);
@@ -650,8 +671,8 @@ if err != nil {
       // stats
       if (!/^ep_[A-Za-z0-9]{4,}$/.test(v.id)) return err(404, 'Not Found', 'not_found', "No endpoint with id '" + v.id + "'.");
       const scale = { '1h': 1, '24h': 24, '7d': 168 }[v.window] || 24;
-      const attempts = 4210 * scale + rand(0, 400);
-      return { status: 200, text: 'OK', body: { endpoint: v.id, window: v.window, attempts, success_rate: Number((99.2 + Math.random() * 0.7).toFixed(2)), latency_ms: { p50: rand(70, 95), p95: rand(180, 260), p99: rand(380, 620) }, failures: { '5xx': Math.round(attempts * 0.004), timeout: Math.round(attempts * 0.001), '4xx': Math.round(attempts * 0.0005) } } };
+      const attempts = 4210 * scale + random.int(0, 400);
+      return { status: 200, text: 'OK', body: { endpoint: v.id, window: v.window, attempts, success_rate: Number((99.2 + random.next() * 0.7).toFixed(2)), latency_ms: { p50: random.int(70, 95), p95: random.int(180, 260), p99: random.int(380, 620) }, failures: { '5xx': Math.round(attempts * 0.004), timeout: Math.round(attempts * 0.001), '4xx': Math.round(attempts * 0.0005) } } };
     }
 
     let busy = false;
@@ -661,7 +682,7 @@ if err != nil {
       const v = values();
       const res = respond(v);
       const ok = res.status < 400;
-      const ms = ok ? rand(current.latency[0], current.latency[1]) : rand(8, 16);
+      const ms = ok ? random.int(current.latency[0], current.latency[1]) : random.int(8, 16);
       sendBtn.disabled = true;
       $('#insp-meta').innerHTML = '<span>Sending…</span>';
       if (!reduceMotion && !instant) await sleep(ms * 6);
@@ -670,7 +691,7 @@ if err != nil {
       const headers = {
         'content-type': 'application/json',
         'content-length': String(new Blob([bodyText]).size),
-        'forge-request-id': 'req_' + randomId(14),
+        'forge-request-id': 'req_' + random.id(14),
         'forge-version': '2026-09-01',
         'ratelimit-limit': '5000',
         'ratelimit-remaining': String(remaining),

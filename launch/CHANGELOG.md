@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.11] - 2026-11-14
+
+### Fixed
+
+- The contact page's "All systems operational" link no longer points to example.com; it is a placeholder link (#) to replace with your own status page.
+
 ## [1.1.10] - 2026-11-13
 
 ### Fixed

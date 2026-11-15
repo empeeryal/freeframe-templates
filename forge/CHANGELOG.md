@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.8] - 2026-11-14
+
+### Fixed
+
+- The hero's sample response and the API explorer's responses now come from a seeded generator, so the latency, ids and numbers shown are the same on every visit (each new request still gets new values).
+
 ## [1.0.7] - 2026-11-13
 
 ### Fixed

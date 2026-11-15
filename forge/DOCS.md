@@ -9,7 +9,7 @@ sample and an interactive API explorer, a quickstart, an SDK directory, usage-ba
 changelog, a status page, a company page, a sales form and an API key sign-up. It is plain HTML with Tailwind
 CSS v4 and one vanilla JavaScript file, with no build step needed to use it. The design is terminal-inspired:
 near-black surfaces inside a framed hairline grid, IBM Plex Mono labels and a single amber accent. This guide
-covers version 1.0.7. See it live at [freeframe.dev/templates/forge](https://freeframe.dev/templates/forge).
+covers version 1.0.8. See it live at [freeframe.dev/templates/forge](https://freeframe.dev/templates/forge).
 
 ## Quick start
 
@@ -185,7 +185,7 @@ saved (see [Saved data](#saved-data-localstorage)), so picking Go on the home pa
 
 `initHero()` (section 5) types `HERO_SAMPLES[lang].code` with live highlighting, shows "sending…", then prints the
 `HERO_RESPONSE` JSON line by line and the three delivery results. It starts when the sample is on screen, restarts
-when the language changes, and "Run again" (`#hero-replay`) replays it. The latency is a random number in
+when the language changes, and "Run again" (`#hero-replay`) replays it. The latency is a number in
 `HERO_RESPONSE.latency`. With reduced motion, everything appears at once and nothing animates. The response area is
 an `aria-live="polite"` region.
 
@@ -195,6 +195,11 @@ an `aria-live="polite"` region.
 shows the full URL, an equivalent `curl` command (updated as you type), the status, latency, size, a JSON body and a
 Headers tab (`forge-request-id`, `forge-version`, and `ratelimit-remaining` counting down from 5000). A first
 request is sent on load so the panel is never empty.
+
+**Demo values:** the hero's latency and the explorer's latencies, ids and counts come from small seeded
+generators (`demoRandom()` in `assets/js/main.js`, seeds in `DEMO_SEEDS`), so every visit shows the same values in
+the same order and the first response looks the same on every load; each new request still gets new values.
+Change a seed for other numbers.
 
 - **Errors:** empty values, numbers outside `min`/`max` and failed `pattern` checks return `422` with an
   `invalid_request_error`; event ids that don't match `evt_…` and endpoint ids that don't match `ep_…` return `404`.
