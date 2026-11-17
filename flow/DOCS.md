@@ -6,7 +6,7 @@ Flow is a multi-page website template for an independent yoga studio, built for 
 studio above the harbor in Santa Cruz, California. It is plain HTML5, Tailwind CSS v4 and one vanilla JavaScript
 file, with no framework and no build step needed to run it. The home page lists today's classes from the weekly
 schedule, the schedule can be filtered and shows what's on now and next, and visitors can reserve a specific mat
-and see it under My bookings. This guide covers version 1.0.6 (see `template.json`). Live demo:
+and see it under My bookings. This guide covers version 1.0.7 (see `template.json`). Live demo:
 [freeframe.dev/templates/flow](https://freeframe.dev/templates/flow).
 
 ## Quick start

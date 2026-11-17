@@ -6,6 +6,14 @@ All notable changes to the Flow HTML template are documented here. The format fo
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-11-15
+
+### Fixed
+
+- On phones, the confirmation after you reserve or cancel a mat was squeezed into a narrow bubble four lines tall. It now uses the width of the screen, and the back-to-top button moves up out of its way.
+- In the booking window, "Please choose a free mat first." stayed on screen after you chose a mat. It now goes away as soon as you pick one.
+- On the pricing page, if you moved the "How often would you come?" slider or checked the discount box, opened another page and pressed Back, the browser could put your choices back into the slider and the box while the prices next to them showed the starting numbers. The calculator now starts over as a whole, so the slider, the box and the prices always agree.
+
 ## [1.0.6] - 2026-11-05
 
 ### Changed

@@ -58,6 +58,11 @@ document.documentElement.classList.add('js');
   // Set a real date (e.g. '2026-10-30') to show a fixed one.
   const INVOICE_DUE = null;
 
+  // Month of the last independent security test on security.html (every [data-test-month]), written as
+  // you want it shown, e.g. 'August 2026'. null = a rolling demo date: the most recent August that is over,
+  // so the yearly test never looks overdue. Set a real month for a real site.
+  const LAST_TEST = null;
+
   // Reminder writer on features.html: subject and paragraphs per tone and stage.
   // {amount}, {invoice}, {client}, {due} ('Friday, October 30') and {dueDay} ('Friday') are filled in from
   // REMINDER_SAMPLE; the two dates come from INVOICE_DUE.
@@ -185,6 +190,17 @@ document.documentElement.classList.add('js');
     } catch (e) { /* some browsers block this on file:// pages */ }
   }
 
+  // After Back (and, in some browsers, a reload) the browser puts form controls back the way the visitor
+  // left them, once this script has already drawn the page from the address and saved data. Controls that
+  // only drive a result on the page (the reminder stage, the sales tax box, the calculator fields) would
+  // then disagree with it, so each feature passes afterRestore() a function that sets its controls back to
+  // what the script holds. The forms that are sent keep what the browser restores, and the search box on
+  // the integrations page is never restored (autocomplete="off"). A page brought back whole from the
+  // back/forward cache is left alone: nothing in it has changed.
+  function afterRestore(fn) {
+    window.addEventListener('pageshow', (e) => { if (!e.persisted) fn(); });
+  }
+
   // The sample invoice's due date (see INVOICE_DUE): a fixed date, or the Friday 7 to 13 days from today.
   // Shown in the hero invoice (time[data-invoice-due]) and the reminder writer ({due}, {dueDay}).
   function invoiceDue() {
@@ -207,6 +223,16 @@ document.documentElement.classList.add('js');
       el.setAttribute('datetime', iso);
       el.textContent = fmt({ day: 'numeric', month: 'short', year: 'numeric' });
     });
+  }
+
+  // The month of the last security test (see LAST_TEST), shown in every [data-test-month].
+  function lastTestMonth() {
+    if (typeof LAST_TEST === 'string' && LAST_TEST) return LAST_TEST;
+    const now = new Date();
+    return 'August ' + (now.getMonth() >= 8 ? now.getFullYear() : now.getFullYear() - 1);
+  }
+  function initTestMonth() {
+    $$('[data-test-month]').forEach((el) => { el.textContent = lastTestMonth(); });
   }
 
   // One polite live region for short announcements.
@@ -403,7 +429,8 @@ document.documentElement.classList.add('js');
       }
       // features.html#expenses opens that tab. Only ids of this tablist's panels are accepted.
       function fromHash(scroll) {
-        const id = decodeURIComponent((window.location.hash || '').slice(1));
+        let id = '';
+        try { id = decodeURIComponent((window.location.hash || '').slice(1)); } catch (e) { /* a malformed % sequence */ }
         const i = panels.findIndex((p) => p.id === id);
         if (i < 0) return false;
         select(i);
@@ -434,11 +461,13 @@ document.documentElement.classList.add('js');
     const body = $('[data-reminder-body]');
     if (!subject || !body) return;
     const toneBtns = $$('[data-tone]');
+    const stageRadios = $$('input[name="reminder-stage"]');
     let tone = 'friendly';
+    // The stage starts at the radio button marked `checked` in the page.
+    const first = stageRadios.find((r) => r.defaultChecked);
+    let stage = first && hasOwn(REMINDER_TONES[tone], first.value) ? first.value : 'before';
     const fill = (s) => s.replace(/\{(\w+)\}/g, (m, k) => (hasOwn(REMINDER_SAMPLE, k) ? REMINDER_SAMPLE[k] : m));
     function render() {
-      const checked = $('input[name="reminder-stage"]:checked');
-      const stage = checked && hasOwn(REMINDER_TONES[tone], checked.value) ? checked.value : 'before';
       const msg = REMINDER_TONES[tone][stage];
       subject.textContent = fill(msg.subject);
       body.innerHTML = msg.body.map((p) => '<p>' + escapeHtml(fill(p)) + '</p>').join('');
@@ -448,8 +477,16 @@ document.documentElement.classList.add('js');
       const t = b.getAttribute('data-tone');
       if (hasOwn(REMINDER_TONES, t)) { tone = t; render(); }
     }));
-    $$('input[name="reminder-stage"]').forEach((r) => r.addEventListener('change', render));
-    render();
+    stageRadios.forEach((r) => r.addEventListener('change', () => {
+      if (r.checked && hasOwn(REMINDER_TONES[tone], r.value)) { stage = r.value; render(); }
+    }));
+    // The radio buttons follow the stage the email is written for (see afterRestore).
+    const sync = () => {
+      stageRadios.forEach((r) => { r.checked = r.value === stage; });
+      render();
+    };
+    sync();
+    afterRestore(sync);
   }
 
   /* ------------------------------------------------------------------
@@ -513,6 +550,8 @@ document.documentElement.classList.add('js');
     }));
     if (vatToggle) vatToggle.addEventListener('change', () => { state.vat = vatToggle.checked; save(); render(true); });
     render(false);
+    // The sales tax box follows the prices shown (see afterRestore).
+    afterRestore(() => render(false));
   }
 
   /* ------------------------------------------------------------------
@@ -625,12 +664,16 @@ document.documentElement.classList.add('js');
 
     function renderLate() {
       if (!lateForm) return;
-      const amount = read('amount');
-      const days = Math.round(read('days'));
-      const rate = read('rate');
+      read('amount');
+      read('days');
+      read('rate');
+      // Worked out from the last valid value of each field, so the figures stay in step with the
+      // slider and with each other while an amount or a rate is being corrected.
+      const amount = values.amount;
+      const days = Math.round(values.days);
+      const rate = values.rate;
       setFill(inputs.days);
       $('[data-days-out]').textContent = plural(days, 'day', 'days');
-      if (amount === null || rate === null) return;
       const c = lateClaim(amount, days, rate);
       $('[data-out-total]').textContent = money(c.total);
       $('[data-out-rate]').textContent = num(c.statutory, 2) + '%';
@@ -645,7 +688,7 @@ document.documentElement.classList.add('js');
     function renderTime() {
       if (!timeForm) return;
       ['invoices', 'minutes', 'late', 'chase'].forEach((k) => { read(k); setFill(inputs[k]); });
-      const hourly = read('hourly');
+      read('hourly');
       const v = values;
       $('[data-out-invoices]').textContent = String(v.invoices);
       $('[data-out-minutes]').textContent = v.minutes + ' min';
@@ -660,21 +703,25 @@ document.documentElement.classList.add('js');
       $('[data-out-with]').textContent = hoursText(hours(withTally));
       $('[data-bar-now]').style.width = '100%';
       $('[data-bar-with]').style.width = (now > 0 ? Math.min(100, withTally / now * 100) : 0).toFixed(1) + '%';
-      if (hourly !== null) $('[data-out-value]').textContent = money(Math.round(savedMin / 60 * hourly), true);
+      // The last valid hourly rate, so the value always matches the hours above it.
+      $('[data-out-value]').textContent = money(Math.round(savedMin / 60 * v.hourly), true);
     }
 
+    // Fields the visitor has changed in this page view.
+    const touched = {};
     Object.keys(inputs).forEach((k) => {
       const input = inputs[k];
       if (!input) return;
       input.addEventListener('input', () => {
+        touched[k] = true;
         if (k === 'amount' || k === 'days' || k === 'rate') renderLate(); else renderTime();
         save();
       });
-      // Shareable link: amount and days go into the URL when they change.
+      // Shareable link: amount and days go into the URL when a change is finished. The last valid value
+      // goes in (the one the figures show), so the link never disagrees with the page.
       if (CALC_URL_PARAMS.indexOf(k) !== -1) {
         input.addEventListener('change', () => {
-          const v = validNumber(k, input.value);
-          if (v !== null) setParams({ [k]: String(k === 'days' ? Math.round(v) : v) });
+          setParams({ [k]: String(k === 'days' ? Math.round(values[k]) : values[k]) });
         });
       }
     });
@@ -691,6 +738,13 @@ document.documentElement.classList.add('js');
     });
     renderLate();
     renderTime();
+    // Every field the visitor hasn't changed since the page opened goes back to the value the figures
+    // are worked out from (see afterRestore).
+    afterRestore(() => {
+      Object.keys(inputs).forEach((k) => { if (inputs[k] && !touched[k]) inputs[k].value = String(values[k]); });
+      renderLate();
+      renderTime();
+    });
   }
 
   /* ------------------------------------------------------------------
@@ -756,7 +810,8 @@ document.documentElement.classList.add('js');
     if (v && field.type === 'email' && !EMAIL_RE.test(v)) return 'Enter an email address like name@studio.example.';
     return '';
   }
-  // Show or clear an inline error under a field (or a fieldset for radio groups).
+  // Show or clear an inline error under a field (or a fieldset for radio groups). A field that shares
+  // a row with a button (the footer sign-up, marked data-field-row) gets its error under the row.
   function setFieldError(target, msg) {
     const id = (target.id || target.getAttribute('data-error-id')) + '-error';
     let el = document.getElementById(id);
@@ -766,7 +821,7 @@ document.documentElement.classList.add('js');
         el = document.createElement('p');
         el.id = id;
         el.className = 'field-error';
-        const anchor = target.tagName === 'FIELDSET' ? target.lastElementChild : (target.closest('.input-affix') || (target.type === 'checkbox' ? target.closest('label') : target));
+        const anchor = target.tagName === 'FIELDSET' ? target.lastElementChild : (target.closest('.input-affix') || target.closest('[data-field-row]') || (target.type === 'checkbox' ? target.closest('label') : target));
         anchor.insertAdjacentElement('afterend', el);
       }
       el.textContent = msg;
@@ -867,6 +922,8 @@ document.documentElement.classList.add('js');
         };
         msg.addEventListener('input', update);
         update();
+        // The message is kept when the browser restores the form, so the count is worked out again.
+        afterRestore(update);
       }
 
       onValidSubmit(form, () => {
@@ -876,7 +933,7 @@ document.documentElement.classList.add('js');
         const topics = data.getAll('topics').length;
         const planText = hasOwn(PLANS, planKey) ? ' about the ' + PLANS[planKey].name + ' plan' : '';
         successSwap(form, '<div class="flex items-start gap-4"><span class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-mint-400 text-ink">' + CHECK_SVG + '</span><div>' +
-          '<h2 class="text-2xl font-semibold tracking-[-0.02em]">Thanks, ' + escapeHtml(first) + '. Your demo request is in.</h2>' +
+          '<h2 id="form-title" class="text-2xl font-semibold tracking-[-0.02em]">Thanks, ' + escapeHtml(first) + '. Your demo request is in.</h2>' +
           '<p class="mt-2 text-ink-soft">Noelle in Grand Rapids will email you a few times for a call' + escapeHtml(planText) + (topics ? ' covering the ' + plural(topics, 'topic', 'topics') + ' you picked' : '') + ', within two business hours if we’re in the office or first thing the next business day if not. Your reference is <span class="font-semibold text-ink">' + makeRef('TA') + '</span>.</p>' +
           '<p class="mt-4"><a href="calculator.html" class="link">Try the late-payment calculator while you wait</a></p></div></div>');
       });
@@ -920,6 +977,7 @@ document.documentElement.classList.add('js');
    * 11. Boot
    * ------------------------------------------------------------------ */
   initDueDates();
+  initTestMonth();
   initInvoiceDemo();
   initTabs();
   initReminders();

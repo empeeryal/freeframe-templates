@@ -7,6 +7,33 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-11-15
+
+### Fixed
+
+- Large and small buttons are really large and small. The `btn-lg` and `btn-sm` classes had no effect, because the
+  button looks were declared after them; the header buttons are now more compact and the main calls to action larger.
+- The footer sign-up shows its error message under the field, in a color you can read on the dark footer, instead of
+  squeezed between the field and the Subscribe button.
+- The calculators keep their figures in step while a field is being corrected: with an amount, rate or hourly rate out
+  of range, the results follow the sliders using the field's last valid value, instead of freezing or mixing old and
+  new numbers.
+- The calculator's shareable link always carries the amount and days the figures show, also after a field was left
+  with a value out of range.
+- A link to the features page with a malformed `#` address no longer stops the page's scripts.
+- On the contact page, "Book a demo" is marked as the current page in the phone menu too, as it is in the header.
+- The demo request confirmation keeps the heading its section is labeled by, and the team size error has its own id
+  (`d-size-error`).
+- The last security test on the security page is a rolling month (`LAST_TEST = null`: the most recent August that is
+  over), so the yearly test never looks overdue. Set `LAST_TEST` to a real month to show a fixed one.
+- The profit chart on the features page no longer names a year.
+- After going Back to a page, its controls and what it shows agree again. Browsers put form controls back the way
+  you left them, so the reminder writer could show "7 days late" selected above the "Before due" email, the demo
+  request form a restored message with its counter at 0, a calculator field a value left out of range with nothing
+  marked and, where the browser blocks saved data (as in a sandboxed preview), a checked sales tax box over prices
+  without tax and calculator fields that didn't match their figures. These controls now return to what the page
+  shows, and the counter counts the restored message.
+
 ## [1.0.6] - 2026-11-05
 
 ### Changed

@@ -78,6 +78,12 @@
       window.history.replaceState(null, '', url.pathname + url.search + url.hash);
     } catch (e) { /* file:// or sandboxed: the URL just doesn't update */ }
   }
+  // After Back or a reload, a browser may put the values it remembers into selects, checkboxes and fields
+  // once this script has run, without telling it. `fix` puts such controls back in step with what the page
+  // shows. (A page that comes back whole from the browser's back/forward cache needs nothing.)
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
 
   /* ---------- Dates in Charleston (America/New_York) ---------- */
   // Today's date in Charleston as YYYY-MM-DD, whatever the visitor's own time zone.
@@ -328,6 +334,7 @@
     });
     sync();
     render(false);
+    afterRestore(sync);
   })();
 
   /* ---------- Portfolio: filter and case-study dialog ---------- */
@@ -461,9 +468,18 @@
     var today = parseISO(todayISO());
     input.min = toISO(new Date(today.getTime() + 86400000));
     input.max = toISO(addYears(today, 3));
+    // The date the visitor has entered on this visit: a date the browser remembers from an earlier visit
+    // would sit there without its answer, so the field starts empty like the answer does.
+    var entered = '';
+    input.value = entered;
+    function remember() { entered = input.value; }
+    input.addEventListener('input', remember);
+    input.addEventListener('change', remember);
+    afterRestore(function () { if (input.value !== entered) input.value = entered; });
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      remember();
       var problem = input.value ? dateProblem(input.value) : 'Choose your event date.';
       error.hidden = !problem;
       error.textContent = problem;
@@ -516,6 +532,8 @@
     var countEl = $('[data-shortlist-count]');
     var shortlist = readShortlist();
     var savedOnly = false;
+    // What the four selects were last set to, by the visitor or by this script.
+    var chosen = { area: 'all', setting: 'all', guests: '0', sort: 'name' };
     var SAVE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4.5L6 21Z"/></svg>';
 
     function matches(v) {
@@ -579,7 +597,18 @@
         renderCount();
       }
     });
-    [areaSel, settingSel, guestsSel, sortSel].forEach(function (sel) { sel.addEventListener('change', render); });
+    function remember() { chosen = { area: areaSel.value, setting: settingSel.value, guests: guestsSel.value, sort: sortSel.value }; }
+    // Sets the selects to `chosen`; true when one of them showed something else.
+    function showChosen() {
+      var changed = false;
+      [[areaSel, chosen.area], [settingSel, chosen.setting], [guestsSel, chosen.guests], [sortSel, chosen.sort]].forEach(function (pair) {
+        if (pair[0].value !== pair[1]) { pair[0].value = pair[1]; changed = true; }
+      });
+      return changed;
+    }
+    [areaSel, settingSel, guestsSel, sortSel].forEach(function (sel) {
+      sel.addEventListener('change', function () { remember(); render(); });
+    });
     areaSel.addEventListener('change', function () { setParam('area', areaSel.value === 'all' ? null : areaSel.value); });
     savedOnlyBtn.addEventListener('click', function () {
       savedOnly = !savedOnly;
@@ -590,12 +619,16 @@
       areaSel.value = 'all'; settingSel.value = 'all'; guestsSel.value = '0';
       savedOnly = false; savedOnlyBtn.setAttribute('aria-pressed', 'false');
       setParam('area', null);
+      remember();
       render();
       areaSel.focus();
     });
+    // The guide starts with the area in the address (?area=islands) and the first choice everywhere else.
     var area = params().get('area');
-    if (own(S.areas, area)) areaSel.value = area;
+    if (own(S.areas, area)) chosen.area = area;
+    showChosen();
     render();
+    afterRestore(function () { if (showChosen()) render(); });
   })();
 
   /* ---------- Inquiry form ---------- */
@@ -650,6 +683,7 @@
     }
     message.addEventListener('input', updateCounter);
     updateCounter();
+    afterRestore(updateCounter); // a half-written message the browser brings back counts too
 
     function setError(name, text) {
       var err = $('#inq-' + name + '-error');
@@ -724,6 +758,8 @@
       $('[data-success-summary]', success).innerHTML = rows.map(function (r) {
         return '<div class="grid grid-cols-[8rem_1fr] gap-4 py-2.5"><dt class="smallcaps text-muted">' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd></div>';
       }).join('');
+      // The "From the estimator" note belongs to the form it describes, so it goes away with it.
+      $('[data-prefill-note]').hidden = true;
       form.hidden = true;
       success.hidden = false;
       success.focus();

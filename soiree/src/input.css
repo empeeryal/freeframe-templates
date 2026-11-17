@@ -189,7 +189,7 @@
   .step.is-past { opacity: .55; }
 
   /* Dialog (case study) */
-  .case-dialog { width: min(1080px, calc(100% - 1.5rem)); max-height: calc(100dvh - 1.5rem); padding: 0; border: 1px solid var(--color-ink); background: var(--color-cream); color: var(--color-ink); overflow: auto; }
+  .case-dialog { width: min(1080px, calc(100% - 1.5rem)); max-height: calc(100dvh - 1.5rem); margin: auto; padding: 0; border: 1px solid var(--color-ink); background: var(--color-cream); color: var(--color-ink); overflow: auto; }
   .case-dialog::backdrop { background: rgb(22 19 15 / .78); }
   .case-dialog[open] { animation: rise .35s ease; }
   @keyframes rise { from { opacity: 0; transform: translateY(14px); } }

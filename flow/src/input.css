@@ -253,7 +253,8 @@
   /* ---------- Toast ---------- */
   .toast { position: fixed; left: 50%; bottom: 1.5rem; z-index: 70; transform: translate(-50%, 1rem); opacity: 0; pointer-events: none;
     border-radius: 999px; background: var(--color-sea-900); color: var(--color-sand); padding: .8rem 1.4rem; font-weight: 700; font-size: .95rem;
-    transition: opacity .3s, transform .3s var(--ease-calm); max-width: calc(100% - 2rem); text-align: center; }
+    transition: opacity .3s, transform .3s var(--ease-calm); width: max-content; max-width: calc(100% - 2rem);
+    text-align: center; }
   .toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
 
   /* ---------- Motion ---------- */

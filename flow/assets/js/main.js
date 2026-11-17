@@ -443,6 +443,8 @@
     if (mine && mat === mine.m) btn.textContent = 'Keep mat ' + mat;
     else if (mine && mat) btn.textContent = 'Move to mat ' + mat;
     else btn.textContent = mat ? 'Reserve mat ' + mat : 'Reserve a mat';
+    // Choosing a mat answers "Please choose a free mat first."
+    if (mat) $('[data-bd-error]', dialog).hidden = true;
   }
   function closeBooking() {
     if (!dialog) return;
@@ -623,7 +625,13 @@
   if (calc) {
     var range = $('[data-calc-classes]', calc), conc = $('[data-calc-concession]', calc);
     var weeksPerMonth = 52 / 12;
+    // The calculator's own state: what the page was written with, then whatever the visitor chooses.
+    // After Back or a reload a browser may put its remembered values into the two controls without
+    // telling the script; paintCalc() writes this state back first, so controls and result always agree.
+    var classes = range.defaultValue, discount = conc.defaultChecked;
     var paintCalc = function () {
+      range.value = classes;
+      conc.checked = discount;
       var n = Math.min(6, Math.max(1, parseInt(range.value, 10) || 2));
       var off = conc.checked ? 1 - PRICES.concession : 1;
       var month = n * weeksPerMonth, o = PRICES.options;
@@ -652,9 +660,11 @@
           '<div class="bar mt-2" aria-hidden="true"><div class="bar-fill' + (isBest ? ' is-best' : '') + '" style="width:' + Math.max(4, Math.round(c.cost / max * 100)) + '%"></div></div></li>';
       }).join('');
     };
-    range.addEventListener('input', paintCalc);
-    conc.addEventListener('change', paintCalc);
+    range.addEventListener('input', function () { classes = range.value; paintCalc(); });
+    conc.addEventListener('change', function () { discount = conc.checked; paintCalc(); });
     paintCalc();
+    // A page shown again from the browser's back/forward cache (persisted) is exactly as it was left.
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) paintCalc(); });
   }
 
   /* ---------- Workshops: dates, hide past events, kind filter, ?event= for the inquiry form ---------- */
@@ -868,7 +878,8 @@
 /* ---------- Back to top ----------
    A button that fades in after you scroll about one screen down. It returns to
    the top (instantly if the visitor prefers reduced motion) and moves keyboard
-   focus to the main content. Mark your own UI with data-back-to-top-avoid (lift
+   focus to the main content. It lifts itself above the toast so they never
+   overlap. Mark your own UI with data-back-to-top-avoid (lift
    above it) or data-back-to-top-hide (hide while covering it). To remove the
    button: delete this block and the .back-to-top styles in src/input.css. */
 (function () {
@@ -922,6 +933,9 @@
   }
   window.addEventListener('scroll', schedule, { passive: true });
   window.addEventListener('resize', schedule);
+  // The toast fades in and out; check the lift again whenever another element finishes a transition.
+  document.addEventListener('transitionrun', function (e) { if (e.target !== btn) schedule(); }, true);
+  document.addEventListener('transitionend', function (e) { if (e.target !== btn) schedule(); }, true);
   update();
 
   function focusTop() {

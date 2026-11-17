@@ -7,6 +7,17 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-15
+
+### Fixed
+
+- The case-study dialog on the portfolio page opens in the middle of the screen instead of the top left corner, so a click on the backdrop beside it closes it as described.
+- The "From the estimator" note ("We've filled in your choices… Change anything you like.") no longer stays above the confirmation after an inquiry is sent, or above the empty form after "Start a new inquiry".
+- Coming back to the venue guide with the browser's Back button (or reloading it in a browser that keeps form values) no longer leaves the Setting, Guests and Sort menus showing your earlier choices above a list that ignores them. The menus and the list now start again together, and the Area menu follows the address (`?area=`) as before.
+- The budget estimator's choices and its figures always agree after Back or a reload, also when the saved estimate was reset or changed in the meantime.
+- On the process page, "Where would you start?" no longer shows a date the browser remembered without its answer after Back: the field starts empty, like the answer.
+- On the inquiry form, the character counter counts a half-written message that the browser brings back after Back or a reload, instead of saying 2,000 characters are left.
+
 ## [1.0.5] - 2026-11-05
 
 ### Changed

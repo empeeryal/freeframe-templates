@@ -5,7 +5,7 @@
 Tally is a marketing website template for a SaaS or fintech product: invoicing, expenses and simple
 bookkeeping software for freelancers and small studios. The fictional company is Tally Software, Inc., based
 on Ionia Avenue in Grand Rapids, Michigan, so prices are in US dollars, exclude sales tax, and the copy uses
-American spelling. Times are Eastern (`America/Detroit`). It is plain HTML, Tailwind CSS v4 and one vanilla JavaScript file. This guide covers version 1.0.6.
+American spelling. Times are Eastern (`America/Detroit`). It is plain HTML, Tailwind CSS v4 and one vanilla JavaScript file. This guide covers version 1.0.7.
 See the live demo at [freeframe.dev/templates/tally](https://freeframe.dev/templates/tally).
 
 Money and tax copy in the template is deliberately general ("not tax advice", no guaranteed savings). If you
@@ -121,6 +121,7 @@ Text lives in the HTML pages. Data that the JavaScript uses sits at the top of `
 | `STORAGE_KEYS` | localStorage key names (see [Saved data](#saved-data-localstorage)) |
 | `INVOICE_DEMO` | Quantity limits (1–9), stage names and the notes under the hero invoice |
 | `INVOICE_DUE` | Due date of the sample invoice INV-0142 (`'YYYY-MM-DD'`). `null` (the default) is a rolling demo date: the Friday 7 to 13 days from today, so the demo invoice is never overdue |
+| `LAST_TEST` | Month of the last independent security test on `security.html` (`'August 2026'`). `null` (the default) is a rolling demo date: the most recent August that is over, so the yearly test never looks overdue |
 | `REMINDER_SAMPLE`, `REMINDER_TONES` | Sample values and the reminder emails per tone (`friendly`, `neutral`, `firm`) and stage (`before`, `due`, `late`) |
 | `LATE_PAYMENT` | Points added to the rate entered (`margin: 0`, so it is used as written), days in a year and the flat late-fee tiers (`compensation`) |
 | `TIME_ASSUMPTIONS` | Minutes per invoice with Tally (4) and the reduction in chasing (0.8) |
@@ -223,8 +224,11 @@ late-payment rate for businesses, so the calculator uses what the visitor’s ow
 With the defaults ($2,400, 45 days, 12%) the result is $85.51: 12.00%, $35.51 interest, $0.79 a day, $50
 late fee. `calculator.html?amount=12000&days=1` gives $103.95. The chart is drawn in `drawChart()` as inline
 SVG: the late fee as a flat band, interest on top, a marker at the chosen day, over 90 days or the next multiple
-of 30. Its text description (`data-chart-desc`) is rewritten each time. Out-of-range numbers mark the input
-`aria-invalid` and leave the last valid result. **Reset to the example** restores the defaults, clears the
+of 30. Its text description (`data-chart-desc`) is rewritten each time. An out-of-range number marks its input
+`aria-invalid` and turns its hint red, and the figures keep using the field's last valid value, so they always
+match the slider and each other. When a change to the amount or the days is finished (on leaving the field or
+releasing the slider) the URL follows, with the value the figures show, so the page can be shared as a link.
+**Reset to the example** restores the defaults, clears the
 saved values and removes the URL parameters. Change the default rate in `CALC_FIELDS.rate.def` and the HTML to
 match your own terms; state limits vary, so check them first.
 
@@ -244,6 +248,19 @@ an optional search box (`data-search`, matches the item's text), a live count (`
 On the integrations page `data-url-param="category"` reads `?category=banking` (checked against
 `INTEGRATION_CATEGORIES` with an own-key check) and keeps the URL in step with the pills.
 
+### Rolling demo dates
+
+Two dates are worked out from today so the demo never looks out of date. Set either constant in section 1 of
+`main.js` to show a fixed date on a real site.
+
+| Constant | Shown in | Rule while `null` | Fixed value |
+|----------|----------|-------------------|-------------|
+| `INVOICE_DUE` | `time[data-invoice-due]` on the hero invoice, `{due}` and `{dueDay}` in the reminder writer | The Friday 7 to 13 days from today | `'2026-10-30'` |
+| `LAST_TEST` | Every `[data-test-month]` on `security.html` (key facts and the first FAQ answer) | The most recent August that is over: August of this year from September on, otherwise last year's | `'August 2026'` |
+
+The copyright year in the footer (`[data-year]`) is always the current year. Changelog entries, customer figures
+and the survey year are history and keep their real dates.
+
 ### Office hours
 
 `contact.html`; `officeState()` and `initOfficeHours()` (section 10). The time is worked out in
@@ -262,7 +279,10 @@ motion). `data-count` numbers count up once. The back-to-top button is a separat
 
 Two forms, validated in section 10 of `main.js` (`validate()`, `setFieldError()`), with errors shown under
 each field, linked with `aria-describedby` and `aria-invalid`, and focus moved to the first problem. After the
-first submit, fields re-validate as they are fixed.
+first submit, fields re-validate as they are fixed. An error's id is the field's id plus `-error`; a radio
+group's `<fieldset data-required-group>` names its error with `data-error-id` (`d-size-error`). When a field
+shares a row with a button (the footer sign-up), mark the row `data-field-row` and the error goes under the
+row.
 
 | Form | Where | Validates |
 |------|-------|-----------|
@@ -308,6 +328,11 @@ the browser blocks it (sandboxed iframes, strict privacy settings), so features 
 URL parameters win over saved values: `pricing.html?billing=`, `calculator.html?amount=&days=`. Other URL
 parameters are `integrations.html?category=` and `contact.html?plan=`; every one is checked with
 `Object.prototype.hasOwnProperty.call(...)` or a range check, so values like `?plan=constructor` are ignored.
+
+After Back, browsers put form controls back the way the visitor left them, which is not always what the
+address and saved data say. `afterRestore()` in section 2 of `main.js` then sets the reminder stage, the sales
+tax box and the calculator fields back to what the page shows, and counts the restored message on the contact
+page again. The forms that are sent keep what the browser restores.
 
 To reset, use **Reset to the example** on the calculator, or run
 `localStorage.removeItem('tally:pricing')` in the browser console. To stop saving, remove the `store.set(...)`
