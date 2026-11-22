@@ -2,7 +2,7 @@
 
 ## Overview
 
-Tracewick is a fictional observability company in Cary, North Carolina. This HTML5, Tailwind CSS v4 and dependency-free JavaScript template is version 1.0.2. Its nine pages combine a midnight telemetry aesthetic with a useful service explorer, local request queries, pricing calculations and searchable engineering guides. Visit [the template page](https://freeframe.dev/templates/tracewick) for the live preview.
+Tracewick is a fictional observability company in Cary, North Carolina. This HTML5, Tailwind CSS v4 and dependency-free JavaScript template is version 1.0.3. Its nine pages combine a midnight telemetry aesthetic with a useful service explorer, local request queries, pricing calculations and searchable engineering guides. Visit [the template page](https://freeframe.dev/templates/tracewick) for the live preview.
 
 ## Quick start
 

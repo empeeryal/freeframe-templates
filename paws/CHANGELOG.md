@@ -7,6 +7,14 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the planner, the price estimator and the packing list on the new
+  clients page go back to their starting choices, and the booking page's kind of pet and the contact page's
+  character count follow what the browser puts back.
+
 ## [1.0.4] - 2026-11-07
 
 ### Changed

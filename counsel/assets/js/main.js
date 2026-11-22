@@ -1,6 +1,14 @@
 /* Hartwell & Sloane — site scripts. Vanilla JavaScript, no dependencies. */
 (function () {
   'use strict';
+
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
   var $ = function (sel, el) { return (el || document).querySelector(sel); };
   var $$ = function (sel, el) { return Array.prototype.slice.call((el || document).querySelectorAll(sel)); };
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -115,6 +123,11 @@
     });
     selects.forEach(function (s) { s.addEventListener('change', apply); });
     if (search) search.addEventListener('input', apply);
+    // The boxes go back to "all" and an empty search (the chips keep their own state), whatever the browser puts back.
+    afterRestore(function () {
+      selects.forEach(function (s) { s.value = 'all'; });
+      if (search) search.value = '';
+    });
     $$('[data-filter-reset]', list).forEach(function (btn) {
       btn.addEventListener('click', function () {
         chipValue = 'all';

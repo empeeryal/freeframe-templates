@@ -7,6 +7,14 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the area and language boxes on the instructors page and the
+  instructor box on the passes page go back to what the page shows, and the booking page's car, lesson length
+  and first-lesson box follow what the browser puts back.
+
 ## [1.0.6] - 2026-11-07
 
 ### Changed

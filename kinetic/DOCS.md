@@ -5,7 +5,7 @@
 Kinetic is a complete website template for an independent personal trainer or a small personal training studio.
 The demo content is for **Foothill Performance**, a fictional two-coach studio in Old Colorado City, Colorado Springs, Colorado, run by
 Ffion Beckett and Yusuf Dacre. It is plain HTML5, Tailwind CSS v4 and one vanilla JavaScript file with no
-dependencies. This guide covers version 1.0.7 (see `template.json`). Live demo:
+dependencies. This guide covers version 1.0.8 (see `template.json`). Live demo:
 [freeframe.dev/templates/kinetic](https://freeframe.dev/templates/kinetic).
 
 The copy uses American English, US dollars, a 12-hour clock and the `America/Denver` time zone (Mountain Time). All health content

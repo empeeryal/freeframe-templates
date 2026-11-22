@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the attendance, ticket and T-shirt choices on the features page
+  and the filter chips on the changelog and customers pages now match the list and total the page shows.
+
 ## [1.0.0] - 2026-10-27
 
 ### Added

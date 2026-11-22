@@ -6,6 +6,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the guest pitch form's extra "their name" fields and the
+  character count now match the choice and the story the browser puts back. Pressing a form's send button while
+  a field above it shows a message no longer misses the click: the message used to push the button out from
+  under the pointer.
+
 ## [1.0.6] - 2026-11-07
 
 ### Changed

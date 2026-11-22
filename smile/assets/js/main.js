@@ -4,6 +4,21 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache); resetControls(selector) sets those controls back to
+     the values in the page's markup, which is what the page starts with. */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+  function resetControls(selector) {
+    Array.prototype.forEach.call(document.querySelectorAll(selector), function (el) {
+      if (el.tagName === 'SELECT') Array.prototype.forEach.call(el.options, function (o) { o.selected = o.defaultSelected; });
+      else if (el.type === 'checkbox' || el.type === 'radio') el.checked = el.defaultChecked;
+      else el.value = el.defaultValue;
+    });
+  }
+
   /* ---------- Practice: time zone, office hours, closures ----------
      Times are wall-clock times in Boise. Day 0 is Sunday; null means closed.
      Keep these in step with the hours lists in the HTML (data-hours). */
@@ -381,6 +396,8 @@
     }
     chips.forEach(function (chip) { chip.addEventListener('click', function () { state.tag = chip.getAttribute('data-filter'); apply(true); }); });
     if (select) select.addEventListener('change', function () { state.lang = select.value; apply(false); });
+    // The language box shows the language the list is filtered by, whatever the browser puts back.
+    if (select) afterRestore(function () { select.value = state.lang; apply(false); });
     $$('[data-filter-reset]', root).forEach(function (b) {
       b.addEventListener('click', function () { state.tag = 'all'; state.lang = 'all'; if (select) select.value = 'all'; apply(true); if (chips[0]) chips[0].focus(); });
     });
@@ -597,6 +614,12 @@
     Object.keys(qty).forEach(function (id) { setQty(id, qty[id]); });
     setQty('m-adult', members.adult);
     setQty('m-kid', members.kid);
+    // Every quantity box shows the quantity the estimate uses, whatever the browser puts back.
+    afterRestore(function () {
+      Object.keys(qty).forEach(function (id) { setQty(id, qty[id]); });
+      setQty('m-adult', members.adult);
+      setQty('m-kid', members.kid);
+    });
 
     /* Payment plan calculator: standard amortised monthly payment. Illustrative only. */
     var plan = $('[data-plan]');
@@ -634,6 +657,11 @@
       toast('Payment plan updated with your estimate of ' + money(best) + '.');
     });
     planCalc('amount');
+    // Back to the starting cost and term, whatever the browser puts back.
+    afterRestore(function () {
+      resetControls('[data-plan-amount], [data-plan-range], [data-plan] input[name="plan-term"]');
+      planCalc('amount');
+    });
   }
 
   /* ---------- Booking flow (book.html) ----------
@@ -697,6 +725,8 @@
         renderSummary();
       });
     });
+    // The visit reason is the one in `state`, whatever the browser puts back.
+    afterRestore(function () { $$('input[name="reason"]', root).forEach(function (r) { r.checked = r.value === state.reason; }); });
     $('[data-next="2"]', root).addEventListener('click', function () {
       if (!state.reason) { stepError(1, 'Please choose what the visit is for.'); $('input[name="reason"]', root).focus(); return; }
       renderClinicians();

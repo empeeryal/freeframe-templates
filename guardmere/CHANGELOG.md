@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the search boxes and filters on the services, readiness, case
+  studies and field notes pages and the scope on the assessment page go back to what the page shows, and the
+  call fields on the contact page follow the box the browser puts back.
+
 ## [1.0.3] - 2026-11-07
 
 ### Changed

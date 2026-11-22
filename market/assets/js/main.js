@@ -10,6 +10,35 @@ document.documentElement.classList.add('js');
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
+  /* While the pointer is down on a submit button, a field of that form losing focus does not show its message yet: the
+     message would push the button down before the click finishes, and the click would miss it. Submitting checks every
+     field anyway. (Capture phase, so it runs before the page's own blur and change handlers.) */
+  (function () {
+    var pressed = null;
+    document.addEventListener('pointerdown', function (e) {
+      var b = e.target.closest && e.target.closest('button, input[type="submit"]');
+      pressed = b && b.form && b.type === 'submit' ? b.form : null;
+    }, true);
+    ['pointerup', 'pointercancel', 'dragend'].forEach(function (type) {
+      document.addEventListener(type, function () { pressed = null; }, true);
+    });
+    ['blur', 'focusout', 'change'].forEach(function (type) {
+      document.addEventListener(type, function (e) {
+        var t = e.target;
+        if (!pressed || t.form !== pressed) return;
+        // A text field's "change" comes with its blur; a select's or a checkbox's does not.
+        if (type !== 'change' || t.tagName === 'TEXTAREA' || (t.tagName === 'INPUT' && !/^(checkbox|radio|range|file|color)$/.test(t.type))) e.stopImmediatePropagation();
+      }, true);
+    });
+  })();
+
   /* ------------------------------------------------------------------
    * 1. Product catalog — edit, add or remove products here.
    *    shape: vase | bud | mug | cup | tumbler | bowl | plate | pitcher | planter
@@ -865,6 +894,15 @@ document.documentElement.classList.add('js');
       apply();
     });
     apply();
+    // The category is the one in the address, the price and sort start from their defaults, whatever the browser puts back.
+    afterRestore(function () {
+      var want = new URLSearchParams(location.search).get('category');
+      if (CATEGORIES.indexOf(want) === -1) want = 'all';
+      $$('input[name="category"]', form).forEach(function (r) { r.checked = r.value === want; });
+      priceInput.value = priceInput.max;
+      sort.value = 'featured';
+      apply();
+    });
   }
 
   /* ------------------------------------------------------------------
@@ -967,6 +1005,13 @@ document.documentElement.classList.add('js');
 
     renderGallery();
     renderPrice();
+    // The glaze, size and quantity are the ones in `state`, whatever the browser puts back.
+    afterRestore(function () {
+      $$('input[name="glaze"]', glazeBox).forEach(function (r) { r.checked = +r.value === state.glaze; });
+      $$('input[name="size"]', sizeBox).forEach(function (r) { r.checked = +r.value === state.size; });
+      qtyInput.value = state.qty;
+      renderPrice();
+    });
   }
 
   /* ------------------------------------------------------------------
@@ -1240,7 +1285,7 @@ document.documentElement.classList.add('js');
     var groups = $$('[data-faq-group]');
     var none = $('#faq-none');
     var status = $('#faq-status');
-    input.addEventListener('input', function () {
+    var search = function () {
       var q = input.value.trim().toLowerCase();
       var shown = 0;
       items.forEach(function (d) {
@@ -1253,7 +1298,9 @@ document.documentElement.classList.add('js');
       groups.forEach(function (g) { g.hidden = !$$('[data-faq]', g).some(function (d) { return !d.hidden; }); });
       none.hidden = shown > 0;
       status.textContent = q ? shown + (shown === 1 ? ' answer' : ' answers') + ' found' : '';
-    });
+    };
+    input.addEventListener('input', search);
+    afterRestore(function () { input.value = ''; search(); }); // an empty search box shows every answer
   }
 
   /* ------------------------------------------------------------------

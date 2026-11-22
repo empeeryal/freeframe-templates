@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.15] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the class, intensity and coach filters on the classes page go
+  back to showing every class, and the units on the membership calculator now match the labels and limits shown.
+
 ## [1.1.14] - 2026-11-10
 
 ### Fixed

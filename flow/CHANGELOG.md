@@ -6,6 +6,13 @@ All notable changes to the Flow HTML template are documented here. The format fo
 
 ## [Unreleased]
 
+## [1.0.8] - 2026-11-19
+
+### Fixed
+
+- Pressing a form's send button while a field above it shows a message no longer misses the click: the message
+  used to push the button out from under the pointer.
+
 ## [1.0.7] - 2026-11-15
 
 ### Fixed

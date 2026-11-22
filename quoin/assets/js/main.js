@@ -1,6 +1,15 @@
 /* Quoin: inventory, cart, project board, reservation requests and opening days. */
 (() => {
   "use strict";
+
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener("pageshow", (event) => {
+      if (!event.persisted) fix();
+    });
+  }
   const { products: PRODUCTS, guides: GUIDES, team: TEAM } = window.QUOIN_DATA;
   const own = (object, key) => Object.prototype.hasOwnProperty.call(object, key);
   const PRODUCT_MAP = Object.fromEntries(PRODUCTS.map((product) => [product.id, product]));
@@ -315,10 +324,15 @@
     const form = $("[data-stock-filters]");
     const params = new URLSearchParams(location.search);
     const categories = new Set(PRODUCTS.map((product) => product.category));
-    form.elements.q.value = cleanText(params.get("q"), 80);
-    if (categories.has(params.get("category"))) form.elements.category.value = params.get("category");
-    if (["100", "300", "500"].includes(params.get("max"))) form.elements.max.value = params.get("max");
-    if (["lot", "low", "high", "name"].includes(params.get("sort"))) form.elements.sort.value = params.get("sort");
+    // The filters start from the address, and go back to that after Back, whatever the browser puts back.
+    function start() {
+      form.reset();
+      form.elements.q.value = cleanText(params.get("q"), 80);
+      if (categories.has(params.get("category"))) form.elements.category.value = params.get("category");
+      if (["100", "300", "500"].includes(params.get("max"))) form.elements.max.value = params.get("max");
+      if (["lot", "low", "high", "name"].includes(params.get("sort"))) form.elements.sort.value = params.get("sort");
+    }
+    start();
     function render() {
       const query = form.elements.q.value.trim().toLocaleLowerCase("en-US");
       const category = form.elements.category.value;
@@ -352,6 +366,10 @@
       form.elements.q.focus();
     });
     render();
+    afterRestore(() => {
+      start();
+      render();
+    });
   }
   function finishOptions(product) {
     return optionsFor(product)
@@ -423,13 +441,15 @@
       const save = event.target.closest("[data-save]");
       if (save) toggleSave(save.dataset.save);
     });
-    document.addEventListener("change", (event) => {
-      const form = event.target.closest("[data-purchase]");
+    function showUnitPrice(form) {
       if (!form || !validProduct(form.dataset.purchase)) return;
       const product = PRODUCT_MAP[form.dataset.purchase];
       const finish = finishFor(product, form.elements.finish.value);
       $("[data-unit-price]", form).textContent = money(product.price + finish.extra);
-    });
+    }
+    document.addEventListener("change", (event) => showUnitPrice(event.target.closest("[data-purchase]")));
+    // A preparation the browser puts back stays (it is a form to send), so the price follows it.
+    afterRestore(() => $$("[data-purchase]").forEach(showUnitPrice));
     document.addEventListener("submit", (event) => {
       const form = event.target.closest("[data-purchase]");
       if (!form) return;
@@ -912,6 +932,10 @@
     form.addEventListener("submit", (event) => event.preventDefault());
     form.addEventListener("input", render);
     render();
+    afterRestore(() => {
+      form.reset();
+      render();
+    }); // the search box and material go back to showing every care note, whatever the browser puts back
   }
   function initTeam() {
     const container = $("[data-team]");

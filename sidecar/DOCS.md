@@ -6,7 +6,7 @@ Sidecar is a multi-page website for a product and engineering studio, an agency 
 build and launch their first product. The fictional Sidecar is a 14-person studio on South Main Street in Little
 Rock, Arkansas, working in Central time (`America/Chicago`) with seed-stage founders across the US. The site is
 plain HTML5 with Tailwind CSS v4 and vanilla JavaScript, with no dependencies and no build step needed to view it.
-This guide covers version 1.0.0. The template page, with a link to the live demo, is at
+This guide covers version 1.0.1. The template page, with a link to the live demo, is at
 [freeframe.dev/templates/sidecar](https://freeframe.dev/templates/sidecar).
 
 The look is a workshop build log: warm paper with a faint engineering grid, ink outlines with hard offset

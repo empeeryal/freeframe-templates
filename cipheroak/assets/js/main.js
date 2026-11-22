@@ -20,6 +20,15 @@
 (function () {
   "use strict";
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener("pageshow", (event) => {
+      if (!event.persisted) fix();
+    });
+  }
+
   /* ------------------------------------------------------------------
    * 1. Studio settings. Every time on the site is shown in TIMEZONE,
    *    so a visitor in another state still sees the studio's clock.
@@ -2387,10 +2396,12 @@
 
     const message = $("#booking-message");
     const counter = $("[data-message-count]", form);
-    message.addEventListener("input", () => {
+    const countLeft = () => {
       const left = BOOKING.messageMax - message.value.length;
       counter.textContent = plural(Math.max(0, left), "character") + " left";
-    });
+    };
+    message.addEventListener("input", countLeft);
+    afterRestore(countLeft); // a message the browser puts back stays (it is a form to send), so the count follows it
 
     function showError(name, text) {
       const el = $("#booking-" + name + "-error");

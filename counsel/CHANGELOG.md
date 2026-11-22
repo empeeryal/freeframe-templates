@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.10] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the practice area box on the attorneys and results pages goes
+  back to all areas, so it matches the list shown.
+
 ## [1.0.9] - 2026-11-11
 
 ### Fixed

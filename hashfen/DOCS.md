@@ -2,7 +2,7 @@
 
 ## Overview
 
-Hashfen is a fictional network research product based in Golden, Colorado, built with standalone HTML, Tailwind CSS v4 and dependency-free JavaScript. Version 1.0.2 includes nine pages, twelve original network profiles, transaction modeling, a research workspace and a pricing calculator. See the [template page](https://freeframe.dev/templates/hashfen) for the live preview.
+Hashfen is a fictional network research product based in Golden, Colorado, built with standalone HTML, Tailwind CSS v4 and dependency-free JavaScript. Version 1.0.3 includes nine pages, twelve original network profiles, transaction modeling, a research workspace and a pricing calculator. See the [template page](https://freeframe.dev/templates/hashfen) for the live preview.
 
 The profiles describe invented networks and editable assumptions. The product does not connect wallets, request secrets, move funds or query blockchains. Replace the research content with reviewed material appropriate to your business before publishing.
 

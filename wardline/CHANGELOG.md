@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the framework explorer's list choice and the story filter on the
+  customers page go back to what the page shows, and the NDA box on the trust page follows the documents the
+  browser puts back.
+
 ## [1.0.1] - 2026-11-06
 
 ### Changed

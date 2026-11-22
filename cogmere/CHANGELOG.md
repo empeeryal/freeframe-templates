@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the search box and sort on the repair board, the search box and
+  topic on the ride notes and the drop-off times on the booking page now match what the page shows.
+
 ## [1.0.3] - 2026-11-05
 
 ### Changed

@@ -5,7 +5,7 @@
 Folio is a dark, type-led portfolio for product designers, developers and small studios. The demo
 content belongs to Mira Okafor, a fictional independent product designer in Lancaster, PA, with six sample
 projects and one full case study. It is built with plain HTML5, Tailwind CSS v4 and a small vanilla
-JavaScript file, so it runs without a build step. This guide covers version 1.1.10.
+JavaScript file, so it runs without a build step. This guide covers version 1.1.11.
 
 Live demo: [freeframe.dev/templates/folio](https://freeframe.dev/templates/folio)
 

@@ -4,6 +4,13 @@
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
   /* ---------- The agent ----------
      Used in calendar files, the listing page title and confirmation messages. */
   var AGENT = {
@@ -1027,6 +1034,7 @@
     tSqft.addEventListener('input', updTeaser);
     teaser.addEventListener('submit', function (e) { e.preventDefault(); window.location.href = tLink.href; });
     updTeaser();
+    afterRestore(function () { tArea.value = AREAS[0].id; tSqft.value = tSqft.defaultValue; updTeaser(); });
   }
 
   /* Valuation wizard (sell.html, [data-valuation]): three steps, then a result. */
@@ -1203,6 +1211,7 @@
     afford.addEventListener('change', calcAfford);
     afford.addEventListener('submit', function (e) { e.preventDefault(); });
     calcAfford();
+    afterRestore(function () { afford.reset(); calcAfford(); });
   }
 
   /* =========================================================================
@@ -1370,6 +1379,10 @@
     renderSlots();
     summary();
     liveValidate(form);
+    // The consultation chosen is the one in `state` (from the address, or none).
+    afterRestore(function () {
+      $$('[name="consult"]', form).forEach(function (r) { r.checked = !!state.type && r.value === state.type; });
+    });
 
     var success = $('[data-booking-success]', root);
     form.addEventListener('submit', function (e) {

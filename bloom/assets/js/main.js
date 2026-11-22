@@ -17,6 +17,13 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
   /* ------------------------------------------------------------------
    * 1. Data — generated from one source shared with the Next.js version.
    * ------------------------------------------------------------------ */
@@ -906,6 +913,7 @@
     }
     range.addEventListener('input', update);
     update();
+    afterRestore(function () { range.value = range.defaultValue; update(); });
   });
 
   /* ------------------------------------------------------------------
@@ -1292,6 +1300,8 @@
       go(1);
     });
     paintSummary();
+    // The treatments the browser puts back stay chosen (it is a form to send), so the summary follows them.
+    afterRestore(paintSummary);
   }
 
   /* ------------------------------------------------------------------
@@ -1368,6 +1378,8 @@
       doneBox.focus();
     });
     paintGift();
+    // Choices and words the browser puts back stay (it is a form to send), so the card preview follows them.
+    afterRestore(paintGift);
   }
 
   /* ------------------------------------------------------------------

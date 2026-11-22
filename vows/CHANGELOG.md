@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.14] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the "hide reserved gifts" box on the registry and the search box
+  on the FAQ now match the gifts and questions the page shows.
+
 ## [1.0.13] - 2026-11-11
 
 ### Fixed

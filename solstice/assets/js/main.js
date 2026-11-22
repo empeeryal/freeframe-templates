@@ -3,6 +3,35 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
+  /* While the pointer is down on a submit button, a field of that form losing focus does not show its message yet: the
+     message would push the button down before the click finishes, and the click would miss it. Submitting checks every
+     field anyway. (Capture phase, so it runs before the page's own blur and change handlers.) */
+  (function () {
+    var pressed = null;
+    document.addEventListener('pointerdown', function (e) {
+      var b = e.target.closest && e.target.closest('button, input[type="submit"]');
+      pressed = b && b.form && b.type === 'submit' ? b.form : null;
+    }, true);
+    ['pointerup', 'pointercancel', 'dragend'].forEach(function (type) {
+      document.addEventListener(type, function () { pressed = null; }, true);
+    });
+    ['blur', 'focusout', 'change'].forEach(function (type) {
+      document.addEventListener(type, function (e) {
+        var t = e.target;
+        if (!pressed || t.form !== pressed) return;
+        // A text field's "change" comes with its blur; a select's or a checkbox's does not.
+        if (type !== 'change' || t.tagName === 'TEXTAREA' || (t.tagName === 'INPUT' && !/^(checkbox|radio|range|file|color)$/.test(t.type))) e.stopImmediatePropagation();
+      }, true);
+    });
+  })();
+
   /* localStorage, or memory when it's blocked or a save fails (storage full). Memory is read first, so a change
      that couldn't be saved still shows for this page view. */
   var safeStorage = (function () {
@@ -1038,6 +1067,11 @@
     if (pre && ROUTES[pre]) { radios.forEach(function (r) { r.checked = r.value === pre; }); }
     var checked = radios.filter(function (r) { return r.checked; })[0];
     setTopic(checked ? checked.value : null);
+    // A topic the browser puts back stays (it is a form to send), so its fields and the route note follow it.
+    afterRestore(function () {
+      var now = radios.filter(function (r) { return r.checked; })[0];
+      setTopic(now ? now.value : null);
+    });
     var cForm = $('form', contact);
     cForm.addEventListener('solstice:valid', function (e) {
       var data = e.detail.data;

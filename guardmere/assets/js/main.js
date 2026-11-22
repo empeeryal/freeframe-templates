@@ -1,6 +1,15 @@
 /* Guardmere — independent security practice. No external scripts or telemetry. */
 (() => {
   "use strict";
+
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener("pageshow", (event) => {
+      if (!event.persisted) fix();
+    });
+  }
   const TIME_ZONE = "America/Chicago";
   const DAY_RATE_PENCE = 180000;
   const PRIORITY_MULTIPLIER = 1.15;
@@ -630,6 +639,10 @@
       form.elements.search.focus();
     });
     render();
+    afterRestore(() => {
+      form.reset();
+      render();
+    }); // the search box and focus go back to showing every service, whatever the browser puts back
   }
   function setupDialogs() {
     let opener;
@@ -782,6 +795,11 @@
     fill();
     update();
     renderSaved();
+    // The boxes show the scope the estimate started from, whatever the browser puts back.
+    afterRestore(() => {
+      fill();
+      update();
+    });
   }
   function setupReadiness() {
     const list = $("[data-readiness-list]");
@@ -861,6 +879,10 @@
       announce("All readiness checkmarks and evidence notes cleared.");
     });
     render();
+    afterRestore(() => {
+      form.reset();
+      render();
+    }); // the filters go back to showing every area, whatever the browser puts back
   }
   function setupCases() {
     const grid = $("[data-case-grid]");
@@ -886,6 +908,10 @@
     form.addEventListener("input", render);
     form.addEventListener("submit", (event) => event.preventDefault());
     render();
+    afterRestore(() => {
+      form.reset();
+      render();
+    }); // the filters go back to showing every project, whatever the browser puts back
   }
   function setupResources() {
     const grid = $("[data-resource-grid]");
@@ -911,6 +937,10 @@
     form.addEventListener("input", render);
     form.addEventListener("submit", (event) => event.preventDefault());
     render();
+    afterRestore(() => {
+      form.reset();
+      render();
+    }); // the filters go back to showing every field note, whatever the browser puts back
   }
   function setupTeam() {
     const grid = $("[data-team-grid]");
@@ -1010,10 +1040,12 @@
       toggle.disabled = true;
     }
     const fields = $("[data-call-fields]");
-    toggle.addEventListener("change", () => {
+    const showCallFields = () => {
       fields.hidden = !toggle.checked;
       fields.disabled = !toggle.checked;
-    });
+    };
+    toggle.addEventListener("change", showCallFields);
+    afterRestore(showCallFields); // a call request the browser puts back stays (it is a form to send), so its fields follow it
     function clearErrors() {
       $$("[data-error]", form).forEach((element) => {
         element.textContent = "";

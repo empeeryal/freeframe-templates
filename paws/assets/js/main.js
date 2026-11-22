@@ -4,6 +4,21 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache); resetControls(selector) sets those controls back to
+     the values in the page's markup, which is what the page starts with. */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+  function resetControls(selector) {
+    Array.prototype.forEach.call(document.querySelectorAll(selector), function (el) {
+      if (el.tagName === 'SELECT') Array.prototype.forEach.call(el.options, function (o) { o.selected = o.defaultSelected; });
+      else if (el.type === 'checkbox' || el.type === 'radio') el.checked = el.defaultChecked;
+      else el.value = el.defaultValue;
+    });
+  }
+
   /* ======================================================================
      1. Clinic settings
      ====================================================================== */
@@ -555,6 +570,7 @@
       $('[data-kind-field]', bookingForm).hidden = selectedSpecies() !== 'exotic';
       updateSummary();
     }
+    afterRestore(toggleNewPet); // a kind of pet the browser puts back stays (it is a form to send), so its fields and the summary follow it
     bookingForm.addEventListener('change', function (e) {
       if (e.target.name === 'petChoice' || e.target.name === 'species') {
         clearError(1);
@@ -922,6 +938,15 @@
     ageInput.addEventListener('input', function () { render(false, true); });
     planner.addEventListener('submit', function (e) { e.preventDefault(); render(false, true); });
     render(false, false);
+    // The pet, age and extras start from the address (or the form's own start), and go back to that after Back, whatever
+    // the browser puts back.
+    afterRestore(function () {
+      planner.reset();
+      if (has(PLANNER, pp)) $('input[name="pet"][value="' + pp + '"]', planner).checked = true;
+      if (pa >= 1 && pa <= 30) ageInput.value = String(pa);
+      if (has(PLANNER_UNITS, pu)) unitSel.value = pu;
+      render(false, false);
+    });
   })();
 
   /* ======================================================================
@@ -1070,6 +1095,12 @@
     estimator.addEventListener('change', function (e) { render(e.target.name === 'pet'); });
     estimator.addEventListener('submit', function (e) { e.preventDefault(); });
     render(false);
+    // The pet and ticked services start from the address (or the form's own start), whatever the browser puts back.
+    afterRestore(function () {
+      estimator.reset();
+      if (has(PRICE_PETS, up)) $('input[name="pet"][value="' + up + '"]', estimator).checked = true;
+      render(false);
+    });
   })();
 
   /* ======================================================================
@@ -1082,7 +1113,11 @@
     var left = Number(field.getAttribute('maxlength')) - field.value.length;
     out.textContent = plural(left, 'character') + ' left';
   }
-  $$('[data-count-for]').forEach(function (f) { f.addEventListener('input', function () { updateCount(f); }); updateCount(f); });
+  $$('[data-count-for]').forEach(function (f) {
+    f.addEventListener('input', function () { updateCount(f); });
+    updateCount(f);
+    afterRestore(function () { updateCount(f); }); // words the browser puts back stay (it is a form to send), so the count follows them
+  });
 
   var topicSel = $('[data-contact-topic]'), pt = param('topic');
   if (topicSel && typeof pt === 'string' && $$('option', topicSel).some(function (o) { return o.value === pt; })) topicSel.value = pt;
@@ -1095,6 +1130,8 @@
     };
     bring.addEventListener('change', bringCount);
     bringCount();
+    // Ticks go back to an empty packing list, whatever the browser puts back.
+    afterRestore(function () { resetControls('[data-bring] input'); bringCount(); });
   }
 
   function fieldMessage(f) {

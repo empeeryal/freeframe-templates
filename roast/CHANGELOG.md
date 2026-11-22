@@ -7,6 +7,14 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.9] - 2026-11-19
+
+### Fixed
+
+- Pressing Place order while the card's expiry date is wrong no longer loses the click when that field's message
+  appears: the form now checks every field at once. After you go to another page and press Back, the bag size
+  and quantity on a coffee page, the brew guide and the wholesale estimate now match the figures shown.
+
 ## [1.0.8] - 2026-11-12
 
 ### Fixed

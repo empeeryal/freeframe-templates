@@ -7,6 +7,18 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.8] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the visit plan, the giving total and the prayer request notes now
+  match the choices the browser puts back. Opening the home page with an event in the address now shows that
+  event, as the events page does, and the events calendar always selects the same day for the same address:
+  today in the month shown, otherwise the 1st. Pressing a form's send button while a field above it shows a
+  message no longer misses the click: the message used to push the button out from under the pointer.
+- After you go to another page and press Back, the sermon player's seek slider now shows where the sermon is.
+  Forward 15 seconds always works from the real play position, so it was never out of step.
+
 ## [1.0.7] - 2026-11-07
 
 ### Changed

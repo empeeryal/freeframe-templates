@@ -20,6 +20,13 @@ document.documentElement.classList.add('js');
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
   /* ------------------------------------------------------------------
    * 1. Shop settings — edit these to make the template yours.
    *    HOURS: one entry per weekday, Sunday first, as ['open', 'close']
@@ -1460,6 +1467,8 @@ document.documentElement.classList.add('js');
     // dateSel carries data-pickup-date, so the shared change handler saves it.
     onBasket(() => { if (basket.date !== renderedDate) render(); else { renderFilters(); renderDate(); refreshCards(); } });
     render();
+    // The pickup day is the saved one and the box starts unticked; whatever the browser puts back is replaced.
+    afterRestore(() => { onlyDay.checked = onlyDay.defaultChecked; render(); });
   }
 
   /* ------------------------------------------------------------------
@@ -1561,6 +1570,8 @@ document.documentElement.classList.add('js');
     form.addEventListener('change', update);
     msgEl.addEventListener('input', update);
     update();
+    // The choices the browser puts back stay (it is a form to send), so the cake, its price and its notes follow them.
+    afterRestore(update);
 
     setupValidation(form, () => {
       const cakes = basket.lines.filter((l) => l.id === 'cake').length;
@@ -1951,6 +1962,7 @@ document.documentElement.classList.add('js');
       const upd = () => { out.textContent = field.value.length + '/' + field.maxLength; };
       field.addEventListener('input', upd);
       upd();
+      afterRestore(upd);
     });
   }
 

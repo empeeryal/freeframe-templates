@@ -8,7 +8,7 @@ oven" board, a preorder catalog with per-day availability and quantity limits, a
 pickup day, time slot and order cut-off, a pickup checkout with an order number and a calendar file, a
 celebration cake builder with a live drawing and price, a café menu with diet filters, an about page and a
 visit page with a wholesale form. It is plain HTML with Tailwind CSS v4 and one vanilla JavaScript file, with
-no build step needed to use it. This guide covers version 1.0.7. See it live at
+no build step needed to use it. This guide covers version 1.0.8. See it live at
 [freeframe.dev/templates/crumb](https://freeframe.dev/templates/crumb).
 
 ## Quick start

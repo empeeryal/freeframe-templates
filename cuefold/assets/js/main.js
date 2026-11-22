@@ -5,6 +5,15 @@
    the forms" further down to send them to a real endpoint. */
 (function () {
   "use strict";
+
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener("pageshow", (event) => {
+      if (!event.persisted) fix();
+    });
+  }
   const LOCALE = "en-US";
   const TIMEZONE = "America/New_York";
   // Keep the demo program current: once a performance has started, it moves forward by whole program cycles
@@ -857,11 +866,15 @@
       period: form.elements.period,
       access: form.elements.access,
     };
-    fields.genre.value = param("genre", GENRES, "all");
-    fields.access.value = param("access", ACCESS_FILTERS, "all");
-    fields.period.value = param("period", PERIODS, "all");
-    const initialSearch = parameters.get("search");
-    if (initialSearch) fields.search.value = initialSearch.slice(0, 100);
+    // The filters start from the address (or empty), and go back to that after Back, whatever the browser puts back.
+    function start() {
+      fields.genre.value = param("genre", GENRES, "all");
+      fields.access.value = param("access", ACCESS_FILTERS, "all");
+      fields.period.value = param("period", PERIODS, "all");
+      const initialSearch = parameters.get("search");
+      fields.search.value = initialSearch ? initialSearch.slice(0, 100) : "";
+    }
+    start();
     function render() {
       const query = fields.search.value.trim().toLocaleLowerCase(LOCALE).slice(0, 100);
       const genre = own(GENRES, fields.genre.value) ? fields.genre.value : "all";
@@ -903,6 +916,10 @@
     $("[data-reset-filters]").addEventListener("click", reset);
     $("[data-empty-reset]").addEventListener("click", reset);
     render();
+    afterRestore(() => {
+      start();
+      render();
+    });
   }
   function initShow() {
     const detail = $("[data-show-detail]");
@@ -1240,6 +1257,13 @@
     const access = readAccess();
     if (access.stepfree) form.elements.seating.value = "wheelchair";
     showSelect.addEventListener("change", () => updatePerformance());
+    // A show, date and ticket numbers the browser puts back stay (it is a form to send), so the dates and the cost follow them.
+    afterRestore(() => {
+      const chosen = performanceSelect.value;
+      updatePerformance();
+      if (own(performanceById, chosen) && performanceById[chosen].show === selectedShow().id) performanceSelect.value = chosen;
+      updateCost();
+    });
     form.addEventListener("input", (event) => {
       if (event.target !== showSelect) updateCost();
     });

@@ -9,6 +9,13 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
   /* ======================================================================
    * 1. DATA
    * ==================================================================== */
@@ -949,6 +956,8 @@
       calc.addEventListener('input', update);
       calc.addEventListener('submit', function (e) { e.preventDefault(); });
       update();
+      // The calculator starts from the home's price; whatever the browser puts back is replaced.
+      afterRestore(function () { calc.reset(); cf.price.value = p.price; update(); });
     } else {
       calc.hidden = true;
       var deposit = p.price * 1.5;

@@ -479,6 +479,35 @@ var LENS = {
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
+  /* While the pointer is down on a submit button, a field of that form losing focus does not show its message yet: the
+     message would push the button down before the click finishes, and the click would miss it. Submitting checks every
+     field anyway. (Capture phase, so it runs before the page's own blur and change handlers.) */
+  (function () {
+    var pressed = null;
+    document.addEventListener('pointerdown', function (e) {
+      var b = e.target.closest && e.target.closest('button, input[type="submit"]');
+      pressed = b && b.form && b.type === 'submit' ? b.form : null;
+    }, true);
+    ['pointerup', 'pointercancel', 'dragend'].forEach(function (type) {
+      document.addEventListener(type, function () { pressed = null; }, true);
+    });
+    ['blur', 'focusout', 'change'].forEach(function (type) {
+      document.addEventListener(type, function (e) {
+        var t = e.target;
+        if (!pressed || t.form !== pressed) return;
+        // A text field's "change" comes with its blur; a select's or a checkbox's does not.
+        if (type !== 'change' || t.tagName === 'TEXTAREA' || (t.tagName === 'INPUT' && !/^(checkbox|radio|range|file|color)$/.test(t.type))) e.stopImmediatePropagation();
+      }, true);
+    });
+  })();
+
   /* localStorage, or memory when it's blocked or a save fails (storage full). Memory is read first, so a change
      that couldn't be saved still shows for this page view. */
   var safeStorage = (function () {
@@ -764,6 +793,8 @@ var LENS = {
     });
     calc.addEventListener('submit', function (e) { e.preventDefault(); });
     update();
+    // The package and add-ons start from the markup's choices, whatever the browser puts back.
+    afterRestore(function () { calc.reset(); update(); });
   }
 
   // A short reference for confirmations, like IM-7K2Q (no 0/O or 1/I to misread).

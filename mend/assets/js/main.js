@@ -4,6 +4,21 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache); resetControls(selector) sets those controls back to
+     the values in the page's markup, which is what the page starts with. */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+  function resetControls(selector) {
+    Array.prototype.forEach.call(document.querySelectorAll(selector), function (el) {
+      if (el.tagName === 'SELECT') Array.prototype.forEach.call(el.options, function (o) { o.selected = o.defaultSelected; });
+      else if (el.type === 'checkbox' || el.type === 'radio') el.checked = el.defaultChecked;
+      else el.value = el.defaultValue;
+    });
+  }
+
   /* ======================================================================
      1. Clinic settings
      ====================================================================== */
@@ -1203,6 +1218,10 @@
       }
     }
     go(state.day ? 3 : state.treatment ? 2 : 1, false);
+    // The treatment is the one in `state`, whatever the browser puts back.
+    afterRestore(function () {
+      $$('input[name="treatment"]', bookingForm).forEach(function (r) { r.checked = r.value === state.treatment; });
+    });
   })();
 
   /* ======================================================================
@@ -1467,6 +1486,8 @@
         root.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' });
         mainBtn.focus({ preventScroll: true });
       });
+      // The exercise box shows the exercise the helper is on, whatever the browser puts back.
+      afterRestore(function () { if (h.id) sel.value = h.id; });
       return { refresh: refresh };
     })();
 
@@ -1501,7 +1522,13 @@
     var tSel = $('#est-treatment', estimator), nIn = $('#est-sessions', estimator), usePk = $('#est-package', estimator), out = $('[data-est-result]', estimator);
     tSel.innerHTML = Object.keys(TREATMENTS).map(function (id) { return '<option value="' + id + '">' + esc(TREATMENTS[id].name) + ' (' + money(TREATMENTS[id].price) + ')</option>'; }).join('');
     var pt = param('treatment');
-    tSel.value = has(TREATMENTS, pt) ? pt : 'followup';
+    // The treatment starts from the address (or follow-up), and the sessions and package box from the page, and go back
+    // to that after Back, whatever the browser puts back.
+    function start() {
+      tSel.value = has(TREATMENTS, pt) ? pt : 'followup';
+      resetControls('#est-sessions, #est-package');
+    }
+    start();
     function calc() {
       var id = has(TREATMENTS, tSel.value) ? tSel.value : 'followup', t = TREATMENTS[id];
       var n = Math.max(1, Math.min(20, Math.round(Number(nIn.value) || 1)));
@@ -1524,6 +1551,7 @@
     estimator.addEventListener('submit', function (e) { e.preventDefault(); calc(); });
     [tSel, nIn, usePk].forEach(function (el) { el.addEventListener('input', calc); el.addEventListener('change', calc); });
     calc();
+    afterRestore(function () { start(); calc(); });
   })();
   var insurerSel = $('#insurer');
   if (insurerSel) (function () {

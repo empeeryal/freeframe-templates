@@ -4,6 +4,13 @@ All notable changes to Frond are documented here.
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the delivery choice, ZIP code and coupon on the cart, the plant
+  and symptom on the care page and the character count on the visit page now match what the page shows.
+
 ## [1.0.3] - 2026-11-07
 
 ### Fixed

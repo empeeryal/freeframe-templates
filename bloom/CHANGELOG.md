@@ -7,6 +7,14 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.12] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the before and after slider on the home page goes back to the
+  middle, and on the booking and gift card pages the summary and the card preview now match the treatments,
+  amount, design and message the browser puts back.
+
 ## [1.0.11] - 2026-11-12
 
 ### Fixed

@@ -6,7 +6,7 @@ an outline that follows your reading, an archive by year, tags, series, instant 
 about and now page and a newsletter sign-up. Plain HTML, Tailwind CSS v4 and a small vanilla
 JavaScript file.
 
-**Version 1.0.3** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.4** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/notebook)
 
 ## Quick start

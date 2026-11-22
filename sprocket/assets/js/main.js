@@ -21,6 +21,13 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
   const D = window.SPROCKET;
   if (!D) return;
 
@@ -594,6 +601,7 @@
     });
     syncForm();
     renderRange();
+    afterRestore(() => { syncForm(); renderRange(); }); // the boxes show what the estimate uses, whatever the browser puts back
   }
 
   /* ------------------------------------------------------------------
@@ -784,6 +792,7 @@
     costForm.addEventListener('input', renderCost);
     costForm.addEventListener('submit', (e) => e.preventDefault());
     renderCost();
+    afterRestore(() => { costForm.reset(); renderCost(); }); // back to the starting figures, whatever the browser puts back
   }
 
   /* ------------------------------------------------------------------
@@ -954,6 +963,7 @@
     };
     faqSearch.addEventListener('input', run);
     run();
+    afterRestore(() => { faqSearch.value = ''; run(); }); // an empty search box shows every question
   }
 
   const zoneList = $('[data-zone-list]');

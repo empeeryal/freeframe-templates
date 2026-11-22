@@ -12,6 +12,44 @@ document.documentElement.classList.add('js');
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache); resetControls(selector) sets those controls back to
+     the values in the page's markup, which is what the page starts with. */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
+  function resetControls(selector) {
+    Array.prototype.forEach.call(document.querySelectorAll(selector), function (el) {
+      if (el.tagName === 'SELECT') Array.prototype.forEach.call(el.options, function (o) { o.selected = o.defaultSelected; });
+      else if (el.type === 'checkbox' || el.type === 'radio') el.checked = el.defaultChecked;
+      else el.value = el.defaultValue;
+    });
+  }
+
+  /* While the pointer is down on a submit button, a field of that form losing focus does not show its message yet: the
+     message would push the button down before the click finishes, and the click would miss it. Submitting checks every
+     field anyway. (Capture phase, so it runs before the page's own blur and change handlers.) */
+  (function () {
+    var pressed = null;
+    document.addEventListener('pointerdown', function (e) {
+      var b = e.target.closest && e.target.closest('button, input[type="submit"]');
+      pressed = b && b.form && b.type === 'submit' ? b.form : null;
+    }, true);
+    ['pointerup', 'pointercancel', 'dragend'].forEach(function (type) {
+      document.addEventListener(type, function () { pressed = null; }, true);
+    });
+    ['blur', 'focusout', 'change'].forEach(function (type) {
+      document.addEventListener(type, function (e) {
+        var t = e.target;
+        if (!pressed || t.form !== pressed) return;
+        // A text field's "change" comes with its blur; a select's or a checkbox's does not.
+        if (type !== 'change' || t.tagName === 'TEXTAREA' || (t.tagName === 'INPUT' && !/^(checkbox|radio|range|file|color)$/.test(t.type))) e.stopImmediatePropagation();
+      }, true);
+    });
+  })();
+
   /* ------------------------------------------------------------------
    * 1. Catalog and store settings — edit, add or remove coffees here.
    *    origin, roast and process use the keys of ORIGINS, ROASTS and
@@ -909,6 +947,7 @@ document.documentElement.classList.add('js');
       update();
     });
     update();
+    afterRestore(() => { $('#buy-form').reset(); update(); }); // back to the starting size, grind and quantity
 
     // Related: same roast first, then the rest, four in all.
     const related = $('#related');
@@ -1215,6 +1254,7 @@ document.documentElement.classList.add('js');
     }
     cups.addEventListener('input', scale);
     strength.addEventListener('change', scale);
+    afterRestore(() => { resetControls('#cups, #strength'); scale(); }); // back to the starting amount and strength
 
     function fromHash() {
       let hash = '';
@@ -1268,6 +1308,7 @@ document.documentElement.classList.add('js');
     cups.addEventListener('input', update);
     days.addEventListener('change', update);
     update();
+    afterRestore(() => { resetControls('#est-cups, #est-days'); update(); }); // back to the starting drinks and days
   }
 
   /* ------------------------------------------------------------------

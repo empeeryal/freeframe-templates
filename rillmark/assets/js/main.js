@@ -21,6 +21,35 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
+  /* While the pointer is down on a submit button, a field of that form losing focus does not show its message yet: the
+     message would push the button down before the click finishes, and the click would miss it. Submitting checks every
+     field anyway. (Capture phase, so it runs before the page's own blur and change handlers.) */
+  (function () {
+    var pressed = null;
+    document.addEventListener('pointerdown', function (e) {
+      var b = e.target.closest && e.target.closest('button, input[type="submit"]');
+      pressed = b && b.form && b.type === 'submit' ? b.form : null;
+    }, true);
+    ['pointerup', 'pointercancel', 'dragend'].forEach(function (type) {
+      document.addEventListener(type, function () { pressed = null; }, true);
+    });
+    ['blur', 'focusout', 'change'].forEach(function (type) {
+      document.addEventListener(type, function (e) {
+        var t = e.target;
+        if (!pressed || t.form !== pressed) return;
+        // A text field's "change" comes with its blur; a select's or a checkbox's does not.
+        if (type !== 'change' || t.tagName === 'TEXTAREA' || (t.tagName === 'INPUT' && !/^(checkbox|radio|range|file|color)$/.test(t.type))) e.stopImmediatePropagation();
+      }, true);
+    });
+  })();
+
   var D = window.RILLMARK;
   if (!D) return;
 
@@ -995,6 +1024,8 @@
     }
     scrub.addEventListener('input', paintScrub);
     paintScrub();
+    // The scrubber goes back to its starting spot, whatever the browser puts back.
+    afterRestore(function () { scrub.value = scrub.defaultValue; paintScrub(); });
 
     $('[data-cs-frames]', root).innerHTML = p.frames.map(function (fr, i) {
       var sec = Math.floor(fr.t * p.runtime);
@@ -1136,6 +1167,8 @@
     });
     load();
     paint();
+    // The estimate's choices are the ones in `s`, whatever the browser puts back.
+    afterRestore(function () { load(); paint(); });
   }
 
   /* ======================================================================
@@ -1363,6 +1396,7 @@
     function paintCount() { counter.textContent = message.value.trim().length + ' / 40 characters minimum'; }
     message.addEventListener('input', paintCount);
     paintCount();
+    afterRestore(paintCount); // a brief the browser puts back stays (it is a form to send), so the count follows it
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();

@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the before and after slider on the case study goes back to the
+  middle, and the answers to the engagement quiz on the services page go back to empty, so both match what the page
+  shows.
+
 ## [1.0.0] - 2026-11-10
 
 ### Added

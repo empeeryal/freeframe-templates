@@ -6,6 +6,13 @@ All notable changes to the Compass HTML template are documented here. The format
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the type of call on the booking page goes back to the one the
+  summary shows.
+
 ## [1.0.6] - 2026-11-07
 
 ### Changed

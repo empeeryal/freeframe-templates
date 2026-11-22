@@ -5,6 +5,15 @@
 (() => {
   "use strict";
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  const afterRestore = (fix) => {
+    window.addEventListener("pageshow", (event) => {
+      if (!event.persisted) fix();
+    });
+  };
+
   const { DEMO, WAITLIST, TOOLS, SUBJECT, PRICING, MIGRATION, ROADMAP, JOURNAL, AUTOMATIONS, SEGMENTS, ANALYTICS } =
     window.LOFTWING;
 
@@ -1545,6 +1554,10 @@
       render(id);
     });
     render();
+    // The sort box shows the sort the list uses, whatever the browser puts back.
+    afterRestore(() => {
+      sortInput.value = sort;
+    });
   }
 
   /* ---------- Journal ---------- */

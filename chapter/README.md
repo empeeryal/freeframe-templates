@@ -10,7 +10,7 @@ reading-order views, single book pages with a first-chapter reader that remember
 roll forward with the calendar, book club guides to download, a press kit and a contact form that routes
 messages to the agent, publicist or rights team.
 
-**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/chapter)
 
 ## Quick start

@@ -12,7 +12,7 @@ saved shortlist; every project has its own case study with a styleframe scrubber
 estimates a fee with a full breakdown in dollars, the journal and availability roll forward with the
 calendar, and the inquiry form finishes with a reference and next steps.
 
-**Version 1.0.3** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.4** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/rillmark)
 
 ## Quick start

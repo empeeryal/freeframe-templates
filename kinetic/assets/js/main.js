@@ -4,6 +4,13 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
   /* localStorage, or memory when it's blocked or a save fails (storage full). Memory is read first, so a change
      that couldn't be saved still shows for this page view. */
   var safeStorage = (function () {
@@ -657,6 +664,11 @@
       r.addEventListener('change', function () { if (r.checked) { length = Number(r.value); render(); } });
     });
     render();
+    // The session length is the one in `length`, whatever the browser puts back.
+    afterRestore(function () {
+      $$('input[name="calc-length"]', root).forEach(function (r) { r.checked = Number(r.value) === length; });
+      render();
+    });
   });
 
   /* ---------- Plan builder (tools.html) ----------
@@ -743,6 +755,7 @@
       if (validateFields($$('[data-validate]', form))) calc();
     });
     calc();
+    afterRestore(function () { form.reset(); calc(); }); // back to the starting figures, whatever the browser puts back
   });
 
   /* ---------- Pace calculator (tools.html) ---------- */
@@ -780,6 +793,7 @@
     form.addEventListener('change', calc);
     form.addEventListener('submit', function (e) { e.preventDefault(); calc(); });
     calc();
+    afterRestore(function () { form.reset(); calc(); }); // back to the starting figures, whatever the browser puts back
   });
 
   /* ---------- Booking flow (book.html) ----------
@@ -1020,6 +1034,11 @@
     renderCoaches();
     renderSummary();
     setStep(1, false);
+    // The session type and coach are the ones in `state`, whatever the browser puts back.
+    afterRestore(function () {
+      $$('input[name="type"]', root).forEach(function (r) { r.checked = r.value === state.type; });
+      renderCoaches();
+    });
   }
 })();
 

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Weftiq is a fictional workflow automation business in Plano, Texas. This HTML and Tailwind CSS website includes a twelve-recipe library, an editable workflow workbench, transparent pricing and connection guidance. Version 1.0.2 includes nine pages. Visit the [template page](https://freeframe.dev/templates/weftiq) for the live preview.
+Weftiq is a fictional workflow automation business in Plano, Texas. This HTML and Tailwind CSS website includes a twelve-recipe library, an editable workflow workbench, transparent pricing and connection guidance. Version 1.0.3 includes nine pages. Visit the [template page](https://freeframe.dev/templates/weftiq) for the live preview.
 
 ## Quick start
 

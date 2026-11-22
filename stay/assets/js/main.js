@@ -10,6 +10,13 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
   /* localStorage, or memory when it's blocked or a save fails (storage full). Memory is read first, so a change
      that couldn't be saved still shows for this page view. */
   var safeStorage = (function () {
@@ -723,6 +730,14 @@
       var d = parseISO(monthStart); d.setUTCMonth(d.getUTCMonth() + 1); monthStart = toISO(d); renderCalendar();
     });
     update();
+    // The dates and guests are the ones the page started with, whatever the browser puts back.
+    var started = { checkin: ci.value, checkout: co.value, adults: form.elements.adults.value, children: form.elements.children.value, month: monthStart };
+    afterRestore(function () {
+      ci.value = started.checkin; co.value = started.checkout;
+      form.elements.adults.value = started.adults; form.elements.children.value = started.children;
+      monthStart = started.month; picking = 'checkin';
+      update();
+    });
   }
 
   /* ------------------------------------------------------------------

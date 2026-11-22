@@ -2,7 +2,7 @@
 
 A complete HTML and Tailwind CSS website for an independent alterations and clothing repair studio in Alexandria, Virginia. Midnight blue, parchment and brass frame original garment, repair and workroom drawings and a practical workroom ledger.
 
-Version 1.0.5 includes nine main pages plus a 404, sixteen detailed services, a multi-garment estimate, saved repair plans, a fitting calendar, work detail dialogs and searchable clothes care notes.
+Version 1.0.6 includes nine main pages plus a 404, sixteen detailed services, a multi-garment estimate, saved repair plans, a fitting calendar, work detail dialogs and searchable clothes care notes.
 
 ## Quick start
 

@@ -5,7 +5,7 @@ Flagstaff company running trips of twelve travelers or fewer across six regions:
 filters, tour pages with itineraries, route maps, departure dates and a live-priced inquiry, a seasonality
 chart, a journal and an about page. Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/wander)
 
 ## Quick start

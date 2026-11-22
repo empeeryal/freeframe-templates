@@ -7,7 +7,7 @@ builder with a live drawing and price, a café menu with diet filters, our story
 page. Every bake is drawn in SVG from the product data, so there are no photos to replace. Plain HTML,
 Tailwind CSS v4 and vanilla JavaScript.
 
-**Version 1.0.7** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.8** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/crumb)
 
 ## Quick start

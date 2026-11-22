@@ -17,6 +17,13 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
   /* ------------------------------------------------------------------
    * 1. Data — edit shops, hours, services, barbers and products here.
    *    Times are "HH:MM" in the shop's time zone (FADE.shop.timeZone).
@@ -1503,6 +1510,11 @@
       go(1);
     });
     paintSummary();
+    // The shop is the one in `state`; services the browser puts back stay chosen (it is a form to send), so the summary follows.
+    afterRestore(function () {
+      $$('input[name="location"]', form).forEach(function (r) { r.checked = r.value === state.location; });
+      paintSummary();
+    });
   }
 
   /* ------------------------------------------------------------------
@@ -1732,6 +1744,7 @@
       paintGift();
     });
     paintGift();
+    afterRestore(paintGift); // choices and words the browser puts back stay (it is a form to send), so the card follows them
   }
 
   /* ------------------------------------------------------------------

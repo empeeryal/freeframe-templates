@@ -708,6 +708,13 @@ var FORGE = {
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
   var $ = function (s, el) { return (el || document).querySelector(s); };
   var $$ = function (s, el) { return Array.prototype.slice.call((el || document).querySelectorAll(s)); };
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1019,6 +1026,11 @@ var FORGE = {
       toast('Your bookings have been cleared');
     });
     renderTimetable();
+    // The filters go back to what the timetable shows.
+    afterRestore(function () {
+      $$('[data-filter]').forEach(function (sel) { sel.value = filters[sel.dataset.filter] || ''; });
+      renderTimetable();
+    });
   }
 
   /* ---------- Booking modal ---------- */
@@ -1287,16 +1299,17 @@ var FORGE = {
     liveValidate(calc);
     var unitInputs = $$('input[name="units"]', calc);
     function units() { return $('input[name="units"]:checked', calc).value; }
-    unitInputs.forEach(function (r) {
-      r.addEventListener('change', function () {
-        var imp = units() === 'imperial';
-        $('[data-unit-label="height"]', calc).textContent = imp ? 'Height (in)' : 'Height (cm)';
-        $('[data-unit-label="weight"]', calc).textContent = imp ? 'Weight (lb)' : 'Weight (kg)';
-        var h = $('#c-height'), w = $('#c-weight');
-        h.min = imp ? 20 : 50; h.max = imp ? 100 : 250; h.placeholder = imp ? '69' : '175';
-        w.min = imp ? 44 : 20; w.max = imp ? 880 : 400; w.placeholder = imp ? '160' : '72';
-      });
-    });
+    function applyUnits() {
+      var imp = units() === 'imperial';
+      $('[data-unit-label="height"]', calc).textContent = imp ? 'Height (in)' : 'Height (cm)';
+      $('[data-unit-label="weight"]', calc).textContent = imp ? 'Weight (lb)' : 'Weight (kg)';
+      var h = $('#c-height'), w = $('#c-weight');
+      h.min = imp ? 20 : 50; h.max = imp ? 100 : 250; h.placeholder = imp ? '69' : '175';
+      w.min = imp ? 44 : 20; w.max = imp ? 880 : 400; w.placeholder = imp ? '160' : '72';
+    }
+    unitInputs.forEach(function (r) { r.addEventListener('change', applyUnits); });
+    // The units the browser puts back stay (it is a form to send), so the labels and limits follow them.
+    afterRestore(applyUnits);
     calc.addEventListener('submit', function (e) {
       e.preventDefault();
       var fields = ['#c-height', '#c-weight', '#c-age'].map(function (s) { return $(s, calc); });

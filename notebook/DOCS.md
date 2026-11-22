@@ -9,7 +9,7 @@ buttons, heading links, an outline that follows your reading, a progress bar and
 archive by year, a tag browser, instant search, a series page, projects, an about and now page and a
 subscribe page. The design is a sheet of graph paper with a red margin line and a yellow highlighter, in
 light and dark mode. It is built with HTML5, Tailwind CSS v4 and vanilla JavaScript, and needs no build
-step. This guide covers version 1.0.3.
+step. This guide covers version 1.0.4.
 
 Live demo: [freeframe.dev/templates/notebook](https://freeframe.dev/templates/notebook)
 

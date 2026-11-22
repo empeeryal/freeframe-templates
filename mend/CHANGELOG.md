@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.5] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the exercise box on the exercises page, the treatment choice on
+  the booking page and the estimate on the prices page now match what the page shows.
+
 ## [1.1.4] - 2026-11-07
 
 ### Changed

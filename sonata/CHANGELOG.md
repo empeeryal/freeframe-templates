@@ -4,6 +4,13 @@ All notable changes to Sonata are recorded here.
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the course details and price on the enrol page now follow the
+  course and class time the browser puts back.
+
 ## [1.0.4] - 2026-11-07
 
 ### Changed

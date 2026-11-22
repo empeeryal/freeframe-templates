@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.10] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the shop choice on the booking page and the gift card preview on
+  the shop page now match the choices and words the browser puts back.
+
 ## [1.0.9] - 2026-11-13
 
 ### Fixed

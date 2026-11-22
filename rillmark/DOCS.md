@@ -7,7 +7,7 @@ built for Rillmark, the fictional studio of Marika Drever on Arch Street in Hart
 title sequences, brand motion, explainer animation and music videos. It is plain HTML5, Tailwind CSS v4
 and vanilla JavaScript with no dependencies: a showreel drawn live in SVG, fifteen projects with their own
 case studies and artwork, a fee estimator in dollars, a journal, an about page and a project inquiry. This
-guide covers version 1.0.3 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). The template page,
+guide covers version 1.0.4 (see `template.json` and [CHANGELOG.md](CHANGELOG.md)). The template page,
 with a link to the live demo, is at https://freeframe.dev/templates/rillmark.
 
 American spelling, US dollars and Eastern time (America/New_York) are used throughout.

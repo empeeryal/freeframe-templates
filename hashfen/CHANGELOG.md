@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the search and filters on the networks and research notes pages
+  and the plan, billing, seats and lookups on the pricing page go back to what the page shows.
+
 ## [1.0.2] - 2026-11-05
 
 ### Changed

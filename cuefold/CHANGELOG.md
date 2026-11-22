@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the search and filters on the program page go back to what the
+  list shows, and the show, date and ticket numbers on the tickets page now match the dates and cost shown.
+
 ## [1.0.3] - 2026-11-07
 
 ### Changed

@@ -6,6 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.13] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the check-in and check-out dates and the number of children on a
+  room page go back to the dates the page started with, so they match the price and calendar shown.
+
 ## [1.0.12] - 2026-11-11
 
 ### Fixed

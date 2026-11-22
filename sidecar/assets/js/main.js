@@ -19,6 +19,13 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
   var D = window.SIDECAR;
   if (!D) return;
 
@@ -344,6 +351,7 @@
     }
     range.addEventListener('input', set);
     set();
+    afterRestore(function () { range.value = range.defaultValue; set(); }); // back to the middle, whatever the browser puts back
   }
 
   /* ------------------------------------------------------------------
@@ -366,6 +374,8 @@
       link.textContent = 'Estimate a ' + m.name.toLowerCase();
       $$('[data-model-card]').forEach(function (c) { c.classList.toggle(MODEL_PICKED, c.getAttribute('data-model-card') === pick); });
     });
+    // The page starts with no answers (and no recommendation), whatever the browser puts back.
+    afterRestore(function () { form.reset(); });
   }
 
   /* ------------------------------------------------------------------

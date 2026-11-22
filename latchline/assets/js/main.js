@@ -5,6 +5,15 @@
 (() => {
   "use strict";
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener("pageshow", (event) => {
+      if (!event.persisted) fix();
+    });
+  }
+
   const DATA = window.LATCHLINE;
   const {
     SEGMENTS,
@@ -625,9 +634,14 @@
     form.elements.playbook.innerHTML = PLAYBOOKS.map(
       (item) => `<option value="${item.id}">${esc(item.title)} (${item.days} days)</option>`,
     ).join("");
-    form.elements.playbook.value = validParam("playbook", PLAYBOOK_MAP, "saas-kickoff");
+    // The playbook and kickoff date start from the address and today, and go back to that after Back, whatever the
+    // browser puts back.
+    function start() {
+      form.elements.playbook.value = validParam("playbook", PLAYBOOK_MAP, "saas-kickoff");
+      form.elements.kickoff.value = defaultKickoff();
+    }
     form.elements.kickoff.min = TODAY;
-    form.elements.kickoff.value = defaultKickoff();
+    start();
     function render() {
       const playbook = PLAYBOOK_MAP[form.elements.playbook.value];
       let kickoff = form.elements.kickoff.value;
@@ -663,6 +677,10 @@
     form.addEventListener("submit", (event) => event.preventDefault());
     form.addEventListener("input", render);
     render();
+    afterRestore(() => {
+      start();
+      render();
+    });
   }
 
   /* ---------- Customers ---------- */
@@ -794,6 +812,10 @@
     });
     form.addEventListener("change", render);
     render();
+    afterRestore(() => {
+      form.elements.industry.value = "all";
+      render();
+    }); // the industry chips go back to "All industries", whatever the browser puts back
   }
 
   /* ---------- Pricing calculator ---------- */
@@ -1067,8 +1089,16 @@
       Object.entries(TOPICS)
         .map(([key, label]) => `<option value="${key}">${label}</option>`)
         .join("");
-    form.elements.type.value = validParam("type", RESOURCE_TYPES, "all");
-    form.elements.topic.value = validParam("topic", TOPICS, "all");
+    // The filters start from the address, and go back to that after Back, whatever the browser puts back.
+    function start() {
+      form.elements.type.value = validParam("type", RESOURCE_TYPES, "all");
+      form.elements.topic.value = validParam("topic", TOPICS, "all");
+      form.elements.q.value = form.elements.q.defaultValue;
+      Array.from(form.elements.sort.options).forEach((option) => {
+        option.selected = option.defaultSelected;
+      });
+    }
+    start();
     const grid = $("[data-resource-grid]");
     const published = new Intl.DateTimeFormat("en-US", {
       timeZone: "UTC",
@@ -1119,6 +1149,10 @@
       render();
     });
     render();
+    afterRestore(() => {
+      start();
+      render();
+    });
   }
 
   function initClinic() {
@@ -1352,6 +1386,7 @@
     }
     form.elements.topic.addEventListener("change", syncTopic);
     syncTopic();
+    afterRestore(syncTopic); // a topic the browser puts back stays (it is a form to send), so the demo times follow it
     window.addEventListener("hashchange", () => {
       if (location.hash === "#demo") {
         form.elements.topic.value = "demo";

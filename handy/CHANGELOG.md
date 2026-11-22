@@ -6,6 +6,15 @@ All notable changes to the Handy HTML template are documented here. The format f
 
 ## [Unreleased]
 
+## [1.0.10] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the before and after slider on the service page goes back to the
+  middle, and the service and sort boxes on the reviews page go back to all services, newest first, so they
+  match the reviews shown. Pressing a form's send button while a field above it shows a message no longer misses
+  the click: the message used to push the button out from under the pointer.
+
 ## [1.0.9] - 2026-11-13
 
 ### Fixed

@@ -5,7 +5,7 @@
 Mend is a multi-page website template for an independent physical therapy and sports injury clinic. The demo
 is **Ledgerock Physical Therapy**, a fictional clinic at 418 Yellowstone Avenue in Billings, Montana, with five
 physical therapists and a sports massage therapist. It is built with plain HTML, Tailwind CSS v4 and one
-vanilla JavaScript file (`assets/js/main.js`), with no other dependencies. This is version 1.1.4 (see
+vanilla JavaScript file (`assets/js/main.js`), with no other dependencies. This is version 1.1.5 (see
 `template.json` and [CHANGELOG.md](CHANGELOG.md)). Live demo:
 [freeframe.dev/templates/mend](https://freeframe.dev/templates/mend).
 

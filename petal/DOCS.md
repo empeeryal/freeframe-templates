@@ -9,7 +9,7 @@ delivery calendar and a gift message, a cart saved in the browser with a ZIP cod
 charges, a demo checkout, a flower subscription builder with the savings worked out, a weddings and events
 page with an estimate and inquiry form, a day-by-day flower care guide, an about and contact page and a 404
 page. It is plain HTML with Tailwind CSS v4 and one vanilla JavaScript file, with no build step needed to use
-it. This guide covers version 1.0.6. See it live at
+it. This guide covers version 1.0.7. See it live at
 [freeframe.dev/templates/petal](https://freeframe.dev/templates/petal).
 
 ## Quick start

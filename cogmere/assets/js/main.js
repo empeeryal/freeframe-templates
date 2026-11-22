@@ -1,6 +1,15 @@
 /* Cogmere Bicycle Workshop — standalone, dependency-free interactions. */
 (() => {
   "use strict";
+
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener("pageshow", (event) => {
+      if (!event.persisted) fix();
+    });
+  }
   const TIME_ZONE = "America/Los_Angeles";
   const STORAGE_KEYS = { plan: "cogmere.repair-plan.v1", checks: "cogmere.ride-checks.v1" };
   const BIKE_TYPES = {
@@ -813,6 +822,12 @@
     });
     search.addEventListener("input", render);
     sort.addEventListener("change", render);
+    // The search box and sort go back to what the board shows (everything, recommended first), whatever the browser puts back.
+    afterRestore(() => {
+      search.value = "";
+      sort.value = "recommended";
+      render();
+    });
     $("[data-reset-filters]").addEventListener("click", () => {
       category = "All repairs";
       search.value = "";
@@ -1085,6 +1100,8 @@
     }
     dateSelect.addEventListener("change", renderSlots);
     mechanicSelect.addEventListener("change", renderSlots);
+    // A mechanic or date the browser puts back stays (it is a form to send), so the drop-off times follow it.
+    afterRestore(renderSlots);
     $("[data-book-slots]").addEventListener("click", (event) => {
       const button = event.target.closest("[data-select-slot]");
       if (!button || !slotsForSelection().includes(button.dataset.selectSlot)) return;
@@ -1260,6 +1277,12 @@
     search.addEventListener("input", render);
     category.addEventListener("change", render);
     render();
+    // The search box and topic go back to showing every ride note, whatever the browser puts back.
+    afterRestore(() => {
+      search.value = "";
+      category.value = "all";
+      render();
+    });
   }
   function visibleChecks(state) {
     return CHECKS.filter((item) => item.kinds.includes(state.kind) && (!item.wet || state.weather === "wet"));

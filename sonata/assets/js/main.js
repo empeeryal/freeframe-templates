@@ -4,6 +4,15 @@
  */
 (function () {
   "use strict";
+
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener("pageshow", (event) => {
+      if (!event.persisted) fix();
+    });
+  }
   const TIMEZONE = "America/Indiana/Indianapolis";
   // Term dates. null = work them out from TERM_RULES for any year, so the site never shows a past term as
   // current. For a real school, list your terms instead (a Monday for start and halfTerm), for example:
@@ -1296,6 +1305,13 @@
     $("#wizard-next").addEventListener("click", next);
     $("#wizard-back").addEventListener("click", () => showStep(Math.max(0, step - 1)));
     $("#enrol-course").addEventListener("change", updateCourse);
+    // A course and class time the browser puts back stay (it is a form to send), so the course details and the price follow them.
+    afterRestore(() => {
+      const session = $("#enrol-session").value;
+      updateCourse();
+      if (Array.from($("#enrol-session").options).some((option) => option.value === session)) $("#enrol-session").value = session;
+      updateCost();
+    });
     $("#enrol-session").addEventListener("change", updateCost);
     $("#enrol-first").addEventListener("change", updateCost);
     $("#enrol-credit").addEventListener("change", updateCost);

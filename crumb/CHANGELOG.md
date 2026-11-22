@@ -7,6 +7,14 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.8] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the pickup day and the "only that day's bakes" box on the
+  preorder page, the cake builder's size, flavor and finish, and the message counter on the visit page now match
+  what the page shows.
+
 ## [1.0.7] - 2026-11-05
 
 ### Changed

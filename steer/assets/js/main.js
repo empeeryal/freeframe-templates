@@ -21,6 +21,13 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
   /* ------------------------------------------------------------------
    * 1. Data — times are "HH:MM" in TIME_ZONE. Weekday indexes: 0 = Sunday … 6 = Saturday.
    * ------------------------------------------------------------------ */
@@ -904,6 +911,13 @@
     tBtns.forEach((b) => b.addEventListener('click', () => { tFilter = b.getAttribute('data-t'); filter(); }));
     areaSel.addEventListener('change', filter);
     langSel.addEventListener('change', filter);
+    // The area starts from the address (or all areas) and the language from "any", and go back to that after Back,
+    // whatever the browser puts back.
+    afterRestore(() => {
+      areaSel.value = hasOwn(AREAS, pa) ? pa : 'all';
+      langSel.value = 'all';
+      filter();
+    });
     $('[data-filter-reset]').addEventListener('click', () => { tFilter = 'all'; areaSel.value = 'all'; langSel.value = 'all'; filter(); });
     list.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-choose]');
@@ -1046,6 +1060,13 @@
       refresh(true);
     });
     $('[name="first"]', booking).addEventListener('change', summary);
+    // The type of car and lesson length are the ones in `st`, and a first-lesson box the browser puts back stays (it is a
+    // form to send), so the times and the price follow them.
+    afterRestore(() => {
+      $('[name="t"][value="' + st.t + '"]', booking).checked = true;
+      $('[name="d"][value="' + st.d + '"]', booking).checked = true;
+      refresh(false);
+    });
     $('[data-week-prev]').addEventListener('click', () => { if (st.week > 0) { st.week--; renderWeek(); } });
     $('[data-week-next]').addEventListener('click', () => { if (st.week < maxWeek) { st.week++; renderWeek(); } });
     weekEl.addEventListener('click', (e) => {
@@ -1318,6 +1339,8 @@
     }
     tBtns.forEach((b) => b.addEventListener('click', () => { tFilter = b.getAttribute('data-t'); render(); }));
     insSel.addEventListener('change', render);
+    // The instructor starts from the address (or all), and goes back to that after Back, whatever the browser puts back.
+    afterRestore(() => { insSel.value = hasOwn(INSTRUCTORS, pi) ? pi : 'all'; render(); });
     firstBtn.addEventListener('click', () => { firstOnly = !firstOnly; render(); });
     $('[data-pass-reset]').addEventListener('click', () => { tFilter = 'all'; firstOnly = false; insSel.value = 'all'; render(); });
     stats(passes);

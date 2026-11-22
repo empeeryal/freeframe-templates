@@ -7,6 +7,15 @@
 (() => {
   "use strict";
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener("pageshow", (event) => {
+      if (!event.persisted) fix();
+    });
+  }
+
   const TIME_ZONE = "America/New_York";
   const STORE_PLAN = "pleat:repair-plan";
   const PLAN_VERSION = 1;
@@ -1327,6 +1336,10 @@
     });
     search.addEventListener("input", render);
     render();
+    afterRestore(() => {
+      search.value = "";
+      render();
+    }); // an empty search box shows every service, whatever the browser puts back
   }
   function initDetail() {
     const heading = $("[data-detail-name]");
@@ -1364,6 +1377,11 @@
       setText("[data-detail-finish-note]", service.finishes[choice].note);
     }
     finish.addEventListener("change", update);
+    // The finish goes back to the first one, whatever the browser puts back.
+    afterRestore(() => {
+      finish.selectedIndex = 0;
+      update();
+    });
     $("[data-detail-add]").addEventListener("click", () => {
       const choice = own(service.finishes, finish.value) ? finish.value : firstKey(service.finishes);
       if (addLine({ service: key, finish: choice, complexity: "standard", quantity: 1 }))
@@ -1467,6 +1485,7 @@
     finishSelect.addEventListener("change", preview);
     complexitySelect.addEventListener("change", preview);
     quantityInput.addEventListener("input", preview);
+    afterRestore(preview); // choices the browser puts back stay (it is a form to send), so the price follows them
     urgencySelect.addEventListener("change", () => {
       plan.urgency = own(URGENCY, urgencySelect.value) ? urgencySelect.value : "standard";
       persistPlan();
@@ -1627,6 +1646,11 @@
       renderDays();
       renderSlots();
     }
+    // The appointment and person are the ones in `type` and `person`, whatever the browser puts back.
+    afterRestore(() => {
+      typeSelect.value = type;
+      populatePeople();
+    });
     typeSelect.addEventListener("change", () => {
       type = own(APPOINTMENTS, typeSelect.value) ? typeSelect.value : "fitting";
       populatePeople();
@@ -1817,6 +1841,10 @@
     });
     search.addEventListener("input", render);
     render();
+    afterRestore(() => {
+      search.value = "";
+      render();
+    }); // an empty search box shows every care note, whatever the browser puts back
   }
 
   function validEmailAddress(value) {

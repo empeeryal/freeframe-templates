@@ -6,6 +6,14 @@ All notable changes to the Lens template are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.0.13] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the package and add-ons on the packages page go back to the
+  starting choices, so they match the total shown. Pressing a form's send button while a field above it shows a
+  message no longer misses the click: the message used to push the button out from under the pointer.
+
 ## [1.0.12] - 2026-11-11
 
 ### Fixed

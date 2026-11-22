@@ -17,6 +17,13 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
   /* ======================================================================
      1. Settings and data
      ====================================================================== */
@@ -1057,6 +1064,12 @@
         renderDates();
       });
       updateTotal();
+      // A date and number of spots the browser puts back stay (it is a form to send), so the date list and the total follow them.
+      afterRestore(function () {
+        dates.forEach(function (o, i) { if (isoOf(o.day) === bd.value) sel = i; });
+        renderDates();
+        updateTotal();
+      });
       initForm($('#booking-form'), function (form) {
         var day = dayNum(bd.value);
         var who = $('#bk-name').value.trim().split(/\s+/)[0];
@@ -1213,6 +1226,7 @@
     form.addEventListener('input', update);
     form.addEventListener('change', update);
     update();
+    afterRestore(update); // choices the browser puts back stay (it is a form to send), so the quote follows them
     initForm(form, function () {
       var q = quote();
       var who = $('#h-name').value.trim().split(/\s+/)[0];

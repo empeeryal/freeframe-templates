@@ -18,6 +18,43 @@ document.documentElement.classList.add('js');
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache); resetControls(selector) sets those controls back to
+     the values in the page's markup, which is what the page starts with. */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+  function resetControls(selector) {
+    Array.prototype.forEach.call(document.querySelectorAll(selector), function (el) {
+      if (el.tagName === 'SELECT') Array.prototype.forEach.call(el.options, function (o) { o.selected = o.defaultSelected; });
+      else if (el.type === 'checkbox' || el.type === 'radio') el.checked = el.defaultChecked;
+      else el.value = el.defaultValue;
+    });
+  }
+
+  /* While the pointer is down on a submit button, a field of that form losing focus does not show its message yet: the
+     message would push the button down before the click finishes, and the click would miss it. Submitting checks every
+     field anyway. (Capture phase, so it runs before the page's own blur and change handlers.) */
+  (function () {
+    var pressed = null;
+    document.addEventListener('pointerdown', function (e) {
+      var b = e.target.closest && e.target.closest('button, input[type="submit"]');
+      pressed = b && b.form && b.type === 'submit' ? b.form : null;
+    }, true);
+    ['pointerup', 'pointercancel', 'dragend'].forEach(function (type) {
+      document.addEventListener(type, function () { pressed = null; }, true);
+    });
+    ['blur', 'focusout', 'change'].forEach(function (type) {
+      document.addEventListener(type, function (e) {
+        var t = e.target;
+        if (!pressed || t.form !== pressed) return;
+        // A text field's "change" comes with its blur; a select's or a checkbox's does not.
+        if (type !== 'change' || t.tagName === 'TEXTAREA' || (t.tagName === 'INPUT' && !/^(checkbox|radio|range|file|color)$/.test(t.type))) e.stopImmediatePropagation();
+      }, true);
+    });
+  })();
+
   /* localStorage, or memory when it's blocked or a save fails (storage full). Memory is read first, so a change
      that couldn't be saved still shows for this page view. */
   var safeStorage = (function () {
@@ -271,6 +308,7 @@ document.documentElement.classList.add('js');
     const examples = $('#pg-examples');
     let job = 0;        // increments on every run, so a stopped run can't keep writing
     let running = false;
+    let shown = null;   // the question and model the answer on screen was written for
 
     examples.innerHTML = PLAYGROUND.map((ex) =>
       '<li><button type="button" data-example="' + ex.id + '" class="group flex w-full items-center justify-between gap-3 rounded-xl border border-white/[.07] bg-white/[.02] px-3.5 py-2.5 text-left text-sm text-muted transition hover:border-white/15 hover:bg-white/[.05] hover:text-fg aria-pressed:border-brand-400/40 aria-pressed:bg-brand-400/[.07] aria-pressed:text-fg" aria-pressed="false">' +
@@ -367,6 +405,7 @@ document.documentElement.classList.add('js');
     function run() {
       const text = prompt.value.trim();
       if (!text) { setState('Type a question first', 'idle'); prompt.focus(); return; }
+      shown = { prompt: prompt.value, model: model.value };
       const ex = pick(text);
       const data = ex || {
         seconds: PLAYGROUND_FALLBACK.seconds, tokens: PLAYGROUND_FALLBACK.tokens, sources: PLAYGROUND_FALLBACK.sources,
@@ -443,6 +482,13 @@ document.documentElement.classList.add('js');
     } else {
       auto();
     }
+    // The question and model boxes show what the answer on screen was written for (or their starting values), whatever
+    // the browser puts back.
+    afterRestore(() => {
+      prompt.value = shown ? shown.prompt : prompt.defaultValue;
+      if (shown) model.value = shown.model;
+      else resetControls('#pg-model');
+    });
   }
 
   /* ------------------------------------------------------------------
@@ -567,6 +613,8 @@ document.documentElement.classList.add('js');
     [seats, tokens].forEach((r) => r.addEventListener('input', calc));
     $$('input[name="calc-model"]').forEach((r) => r.addEventListener('change', calc));
     applyBilling();
+    // Back to the starting seats, tokens and model, whatever the browser puts back.
+    afterRestore(() => { resetControls('#calc-seats, #calc-tokens, input[name="calc-model"]'); calc(); });
   }
 
   /* ------------------------------------------------------------------

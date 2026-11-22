@@ -7,6 +7,14 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.11] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the donation summary and the dedication fields on the donate page
+  now match the amount and boxes the browser puts back. Pressing a form's send button while a field above it
+  shows a message no longer misses the click: the message used to push the button out from under the pointer.
+
 ## [1.1.10] - 2026-11-10
 
 ### Fixed

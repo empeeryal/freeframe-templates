@@ -12,6 +12,13 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
   /* ---------------------------------------------------------------- 1 --- */
   // Opening hours per weekday (0 = Sunday). Times are minutes after midnight.
   // null = closed all day.
@@ -324,6 +331,13 @@
       if (date.dataset.touched || date.value) showError(date);
     });
     fillSlots();
+    // A date or party size the browser brings back is kept (it is a form to send), so the times and the note follow it.
+    afterRestore(function () {
+      var chosenTime = time.value;
+      fillSlots();
+      if (chosenTime) time.value = chosenTime;
+      if (party && partyNote) partyNote.hidden = party.value !== '9+';
+    });
 
     if (party && partyNote) {
       party.addEventListener('change', function () { partyNote.hidden = party.value !== '9+'; });
@@ -340,6 +354,7 @@
     // Back to 0 when the form is reset ("Make another booking"); the reset event comes before the values change.
     if (area.form) area.form.addEventListener('reset', function () { setTimeout(update); });
     update();
+    afterRestore(update);
   });
 
   // "Inquire about this package" links preselect the package in the events form.

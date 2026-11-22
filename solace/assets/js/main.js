@@ -5,6 +5,13 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
   var D = window.SOLACE;
   if (!D) return;
   var P = D.PRACTICE, CL = D.CLINICIANS, IDS = Object.keys(CL);
@@ -851,9 +858,14 @@
     income.addEventListener('input', update);
     slideForm.addEventListener('submit', function (e) { e.preventDefault(); update(); });
     var qs = Number(param('household')), qi = param('income');
-    if (qs >= 1 && qs <= S.maxHousehold && Math.floor(qs) === qs) sizeSel.value = String(qs);
-    if (qi && /^\d{1,8}$/.test(qi)) income.value = Number(qi).toLocaleString('en-US');
+    // The household and income are the ones in the address (or the starting ones), whatever the browser puts back.
+    function start() {
+      sizeSel.value = qs >= 1 && qs <= S.maxHousehold && Math.floor(qs) === qs ? String(qs) : sizeSel.options[0].value;
+      income.value = qi && /^\d{1,8}$/.test(qi) ? Number(qi).toLocaleString('en-US') : '';
+    }
+    start();
     update();
+    afterRestore(function () { start(); update(); });
   })();
 
   function inNetwork(plan) { return IDS.filter(function (id) { return CL[id].insurance.indexOf(plan) !== -1; }); }
@@ -898,6 +910,12 @@
     var qp = param('plan');
     if (has(D.PLANS, qp) || qp === 'other') planCheck.value = qp;
     render();
+    // The plan is the one in the address, and the share starts at its default, whatever the browser puts back.
+    afterRestore(function () {
+      planCheck.value = has(D.PLANS, qp) || qp === 'other' ? qp : '';
+      share.value = String(D.OON.defaultShare);
+      render();
+    });
   })();
 
   /* ======================================================================

@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the character count on the contact page now matches the message
+  the browser puts back.
+
 ## [1.0.4] - 2026-11-07
 
 ### Changed

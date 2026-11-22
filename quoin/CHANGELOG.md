@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the search boxes and filters on the stock and care pages go back
+  to what the page shows, and the price on a lot page follows the preparation the browser puts back.
+
 ## [1.0.2] - 2026-11-05
 
 ### Changed

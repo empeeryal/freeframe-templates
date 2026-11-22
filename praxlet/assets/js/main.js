@@ -2,6 +2,15 @@
    Catalog prices are cents. Current is a planning allowance in milliamps. */
 (() => {
   "use strict";
+
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener("pageshow", (event) => {
+      if (!event.persisted) fix();
+    });
+  }
   const TIME_ZONE = "America/New_York";
   const POWER_MARGIN = 1.25;
   const MAX_COMPARE = 4;
@@ -313,6 +322,10 @@
     form.addEventListener("submit", (event) => event.preventDefault());
     form.addEventListener("reset", () => setTimeout(render));
     render();
+    afterRestore(() => {
+      form.reset();
+      render();
+    }); // the search box and filters go back to showing every module, whatever the browser puts back
   }
   function initModule() {
     const target = $("[data-module-detail]");
@@ -734,6 +747,10 @@
     });
     form.addEventListener("submit", (event) => event.preventDefault());
     render();
+    afterRestore(() => {
+      form.reset();
+      render();
+    }); // the search box and topic go back to showing every field note, whatever the browser puts back
   }
   function initTeam() {
     const target = $("[data-team]");
@@ -807,6 +824,7 @@
     }
     renderAside();
     renderQuote();
+    afterRestore(renderQuote); // a topic the browser puts back stays (it is a form to send), so the kit box follows it
     topicField.addEventListener("change", () => {
       clearErrors(form);
       renderQuote();

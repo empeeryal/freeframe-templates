@@ -6,6 +6,14 @@ All notable changes to the Kinetic HTML template are documented here. The format
 
 ## [Unreleased]
 
+## [1.0.8] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the pricing calculator's session length, the one-rep max and pace
+  calculators on the tools page and the session type on the booking page now match the figures and summary the
+  page shows.
+
 ## [1.0.7] - 2026-11-07
 
 ### Changed

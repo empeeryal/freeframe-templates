@@ -7,6 +7,15 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the delivery day on the subscriptions page, the delivered-on date
+  and search on the care page and the message counts on the weddings and about pages now match what the page
+  shows. Pressing a form's send button while a field above it shows a message no longer misses the click: the
+  message used to push the button out from under the pointer.
+
 ## [1.0.6] - 2026-11-05
 
 ### Changed

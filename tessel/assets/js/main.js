@@ -19,6 +19,15 @@
 (() => {
   "use strict";
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener("pageshow", (event) => {
+      if (!event.persisted) fix();
+    });
+  }
+
   /* ---------- 1. Settings ---------- */
 
   const DATA = window.TESSEL;
@@ -870,6 +879,11 @@
     form.addEventListener("change", update);
     form.addEventListener("submit", (event) => event.preventDefault());
     update();
+    // Back to the starting choices, whatever the browser puts back.
+    afterRestore(() => {
+      form.reset();
+      update();
+    });
   }
 
   function initAnalytics() {
@@ -1150,6 +1164,13 @@
         render();
       }
     });
+    // The chips show the tag the list is filtered by, whatever the browser puts back.
+    afterRestore(() => {
+      $$("[data-change-chips] input").forEach((input) => {
+        input.checked = input.value === tag;
+      });
+      render();
+    });
     render();
   }
 
@@ -1229,6 +1250,13 @@
       }
     });
     render();
+    // The chips show the industry the list is filtered by, whatever the browser puts back.
+    afterRestore(() => {
+      $$("[data-story-chips] input").forEach((input) => {
+        input.checked = input.value === industry;
+      });
+      render();
+    });
     const target = location.hash.slice(1);
     if (target && STORIES.some((s) => s.id === target)) {
       const element = document.getElementById(target);

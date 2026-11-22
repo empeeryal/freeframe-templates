@@ -1,6 +1,15 @@
 /* Planwick browser features: catalog data stays local; no live service calls. */
 (() => {
   "use strict";
+
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener("pageshow", (event) => {
+      if (!event.persisted) fix();
+    });
+  }
   const D = window.PLANWICK_DATA;
   if (!D) return;
   const $ = (selector, root = document) => root.querySelector(selector);
@@ -475,6 +484,10 @@
       status.textContent = "Original roadmap, scores and release scope restored.";
     });
     renderBoard();
+    afterRestore(() => {
+      filters.reset();
+      renderBoard();
+    }); // the search box and filters go back to showing every initiative, whatever the browser puts back
   }
   function setupUsecases() {
     const tabs = $("[data-usecase-tabs]");
@@ -656,6 +669,13 @@
       announce("Connection rollout cleared.");
     });
     render();
+    // The search box starts from the address's connection (or empty), the type from its first choice and the rollout
+    // box unticked, and they go back to that after Back, whatever the browser puts back.
+    afterRestore(() => {
+      filters.reset();
+      if (own(integrationMap, connection)) filters.elements.search.value = integrationMap[connection].title;
+      render();
+    });
   }
   function setupResources() {
     const grid = $("[data-resources]");
@@ -681,6 +701,10 @@
     form.addEventListener("input", render);
     form.addEventListener("submit", (event) => event.preventDefault());
     render();
+    afterRestore(() => {
+      form.reset();
+      render();
+    }); // the search box and topic go back to showing every guide, whatever the browser puts back
   }
   function setupContact() {
     const form = $("#contact-form");
@@ -709,6 +733,7 @@
     };
     form.elements.topic.addEventListener("change", showTopic);
     showTopic();
+    afterRestore(showTopic); // a topic the browser puts back stays (it is a form to send), so the walkthrough fields follow it
     function clearErrors() {
       $$("[data-error]").forEach((element) => {
         element.textContent = "";

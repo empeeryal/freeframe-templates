@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the sort box on the roadmap goes back to the sort the list is
+  using.
+
 ## [1.0.1] - 2026-11-07
 
 ### Changed

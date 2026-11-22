@@ -5,7 +5,7 @@
 Slatework is a multi-page marketing website for a recruiting software company: an applicant tracking system (ATS)
 for companies with 50 to 1,000 employees. The fictional Slatework, Inc. is based in Lexington, Kentucky, and works
 in Eastern time. The site is plain HTML5 with Tailwind CSS v4 and vanilla JavaScript, with no dependencies and no
-build step needed to view it. This guide covers version 1.0.0. The template page, with a link to the live demo,
+build step needed to view it. This guide covers version 1.0.1. The template page, with a link to the live demo,
 is at [freeframe.dev/templates/slatework](https://freeframe.dev/templates/slatework).
 
 The look is corporate and structured: white paper with hairline grids, a deep indigo brand color, a marigold

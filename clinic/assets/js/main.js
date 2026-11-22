@@ -12,6 +12,35 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
+  /* While the pointer is down on a submit button, a field of that form losing focus does not show its message yet: the
+     message would push the button down before the click finishes, and the click would miss it. Submitting checks every
+     field anyway. (Capture phase, so it runs before the page's own blur and change handlers.) */
+  (function () {
+    var pressed = null;
+    document.addEventListener('pointerdown', function (e) {
+      var b = e.target.closest && e.target.closest('button, input[type="submit"]');
+      pressed = b && b.form && b.type === 'submit' ? b.form : null;
+    }, true);
+    ['pointerup', 'pointercancel', 'dragend'].forEach(function (type) {
+      document.addEventListener(type, function () { pressed = null; }, true);
+    });
+    ['blur', 'focusout', 'change'].forEach(function (type) {
+      document.addEventListener(type, function (e) {
+        var t = e.target;
+        if (!pressed || t.form !== pressed) return;
+        // A text field's "change" comes with its blur; a select's or a checkbox's does not.
+        if (type !== 'change' || t.tagName === 'TEXTAREA' || (t.tagName === 'INPUT' && !/^(checkbox|radio|range|file|color)$/.test(t.type))) e.stopImmediatePropagation();
+      }, true);
+    });
+  })();
+
   /* ---------------------------------------------------------------- 1. Settings */
 
   // Opening hours per weekday (0 = Sunday). Times are 24h decimals: 8.5 = 8:30 am,
@@ -364,7 +393,7 @@
     var plans = $$('[data-plan]');
     var planCount = $('[data-plan-count]');
     var planEmpty = $('[data-plan-empty]');
-    planSearch.addEventListener('input', function () {
+    var filterPlans = function () {
       var q = planSearch.value.trim().toLowerCase();
       var shown = 0;
       plans.forEach(function (p) {
@@ -374,7 +403,9 @@
       });
       planCount.textContent = shown === plans.length ? plans.length + ' plans' : shown + ' of ' + plans.length + ' plans match';
       planEmpty.classList.toggle('hidden', shown > 0);
-    });
+    };
+    planSearch.addEventListener('input', filterPlans);
+    afterRestore(function () { planSearch.value = ''; filterPlans(); }); // an empty search box shows every plan
   }
 
   /* --------------------------------------------------------- 7. Booking wizard */
@@ -411,6 +442,10 @@
       '<span class="badge shrink-0">' + s.minutes + ' min</span></span>' +
       '<span class="mt-1 block text-[.95rem] text-muted">' + esc(s.note) + '</span></span></label>';
   }).join('');
+  // The treatment is the one in `state`, whatever the browser puts back.
+  afterRestore(function () {
+    $$('input[name="service"]', serviceList).forEach(function (r) { r.checked = r.value === state.service; });
+  });
 
   // Step 2: clinicians for the chosen treatment
   var clinicianList = $('[data-clinician-list]', booking);

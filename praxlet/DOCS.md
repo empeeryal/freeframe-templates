@@ -2,7 +2,7 @@
 
 ## Overview
 
-Praxlet is a fictional educational robotics and modular hardware company in Nashua, New Hampshire. This HTML and Tailwind CSS v4 template includes a sixteen-module catalog, a compatible kit planner, project guides, field notes and a business inquiry form. This is version 1.0.2. Visit the [template page](https://freeframe.dev/templates/praxlet) for the live preview.
+Praxlet is a fictional educational robotics and modular hardware company in Nashua, New Hampshire. This HTML and Tailwind CSS v4 template includes a sixteen-module catalog, a compatible kit planner, project guides, field notes and a business inquiry form. This is version 1.0.3. Visit the [template page](https://freeframe.dev/templates/praxlet) for the live preview.
 
 ## Quick start
 

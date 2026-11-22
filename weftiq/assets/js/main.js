@@ -1,6 +1,15 @@
 /* Weftiq — workflow catalog, local rule processing and saved plans. */
 (() => {
   "use strict";
+
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener("pageshow", (event) => {
+      if (!event.persisted) fix();
+    });
+  }
   const TIME_ZONE = "America/Chicago";
   const KEEP_CLINICS_CURRENT = true;
   const FIXED_CLINIC_DATES = ["2026-10-27", "2026-10-29", "2026-11-03", "2026-11-05"];
@@ -759,9 +768,14 @@
   function initRecipes() {
     const form = $("[data-recipe-filters]");
     if (!form) return;
-    form.elements.team.value = validParam("team", TEAMS, "all");
     const query = cleanText(params.get("q"), 100);
-    form.elements.q.value = query;
+    // The filters start from the address (or empty), and go back to that after Back, whatever the browser puts back.
+    function start() {
+      form.reset();
+      form.elements.team.value = validParam("team", TEAMS, "all");
+      form.elements.q.value = query;
+    }
+    start();
     function render() {
       const search = form.elements.q.value.trim().toLowerCase(),
         team = form.elements.team.value,
@@ -797,6 +811,10 @@
       form.elements.q.focus();
     });
     render();
+    afterRestore(() => {
+      start();
+      render();
+    });
   }
   function initRecipeDetail() {
     const root = $("[data-recipe-detail]");
@@ -1251,6 +1269,10 @@
     // Selects also emit input; avoid rebuilding results on a search field's blur.
     form.addEventListener("input", render);
     render();
+    afterRestore(() => {
+      form.reset();
+      render();
+    }); // the search box and kind go back to showing every connection, whatever the browser puts back
   }
   function todayKey() {
     return new Intl.DateTimeFormat("en-CA", {

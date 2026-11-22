@@ -6,6 +6,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.13] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the color choices on the merch page go back to each item's first
+  color, and the contact page's topic fields, route note and character count now match what the browser puts
+  back. Pressing a form's send button while a field above it shows a message no longer misses the click: the
+  message used to push the button out from under the pointer.
+
 ## [1.0.12] - 2026-11-13
 
 ### Fixed

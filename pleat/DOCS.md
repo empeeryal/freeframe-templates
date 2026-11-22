@@ -2,7 +2,7 @@
 
 ## Overview
 
-Pleat is a complete HTML and Tailwind CSS v4 website for an independent alterations and repair workroom in Alexandria, Virginia. This guide covers version 1.0.5, which includes a service catalog, a multi-garment price estimator, a saved repair plan, a rolling fitting calendar, a fitting request form and an inquiry form. The fictional studio uses American spelling, US dollars and the `America/New_York` time zone. See the [template page and live demo](https://freeframe.dev/templates/pleat).
+Pleat is a complete HTML and Tailwind CSS v4 website for an independent alterations and repair workroom in Alexandria, Virginia. This guide covers version 1.0.6, which includes a service catalog, a multi-garment price estimator, a saved repair plan, a rolling fitting calendar, a fitting request form and an inquiry form. The fictional studio uses American spelling, US dollars and the `America/New_York` time zone. See the [template page and live demo](https://freeframe.dev/templates/pleat).
 
 ## Quick start
 

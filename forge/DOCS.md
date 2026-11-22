@@ -9,7 +9,7 @@ sample and an interactive API explorer, a quickstart, an SDK directory, usage-ba
 changelog, a status page, a company page, a sales form and an API key sign-up. It is plain HTML with Tailwind
 CSS v4 and one vanilla JavaScript file, with no build step needed to use it. The design is terminal-inspired:
 near-black surfaces inside a framed hairline grid, IBM Plex Mono labels and a single amber accent. This guide
-covers version 1.0.8. See it live at [freeframe.dev/templates/forge](https://freeframe.dev/templates/forge).
+covers version 1.0.9. See it live at [freeframe.dev/templates/forge](https://freeframe.dev/templates/forge).
 
 ## Quick start
 

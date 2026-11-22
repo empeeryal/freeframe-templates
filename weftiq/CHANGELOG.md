@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the search boxes and filters on the recipes and integrations
+  pages go back to what the list shows.
+
 ## [1.0.2] - 2026-11-05
 
 ### Changed

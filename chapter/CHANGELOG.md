@@ -6,6 +6,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the contact page's topic, route note and character count now
+  match the choice and message the browser puts back. Pressing a form's send button while a field above it shows
+  a message no longer misses the click: the message used to push the button out from under the pointer.
+
 ## [1.0.5] - 2026-11-05
 
 ### Changed

@@ -7,6 +7,15 @@
 (() => {
   "use strict";
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener("pageshow", (event) => {
+      if (!event.persisted) fix();
+    });
+  }
+
   const PRODUCTS = window.FROND_PRODUCTS || [];
   const PRODUCT_MAP = Object.fromEntries(PRODUCTS.map((plant) => [plant.id, plant]));
   const BASKET_KEY = "frond-basket-v1";
@@ -842,6 +851,15 @@
     });
     postcode.value = options.postcode;
     coupon.value = options.coupon;
+    // The delivery choice, ZIP code and coupon show the saved options, whatever the browser puts back.
+    afterRestore(() => {
+      shippingInputs.forEach((input) => {
+        input.checked = input.value === options.shipping;
+      });
+      postcode.value = options.postcode;
+      coupon.value = options.coupon;
+      drawTotals();
+    });
     function drawTotals() {
       $("#basket-totals").innerHTML = totalsHTML();
       $("#checkout-link").hidden = !basket.length;
@@ -1372,6 +1390,15 @@
     symptom.addEventListener("change", drawSymptom);
     drawPlantCare();
     drawSymptom();
+    // The plant is the one in the address (or the first) and the symptom starts at its first choice, whatever the browser puts back.
+    afterRestore(() => {
+      select.value = typeof requested === "string" && own(PRODUCT_MAP, requested) ? requested : PRODUCTS[0].id;
+      Array.from(symptom.options).forEach((option) => {
+        option.selected = option.defaultSelected;
+      });
+      drawPlantCare();
+      drawSymptom();
+    });
   }
 
   /* ------------------------------------------------------------------
@@ -1431,10 +1458,12 @@
       ["email", (value) => (validEmail(value) ? "" : "Please enter an email address like name@example.com.")],
       ["message", (value) => (value.length >= 20 ? "" : "Tell us a little more, at least 20 characters.")],
     ];
-    controls("message").addEventListener("input", () => {
+    const drawCount = () => {
       $("#contact-count").textContent =
         `${controls("message").value.length.toLocaleString("en-US")} / 1,200 characters`;
-    });
+    };
+    controls("message").addEventListener("input", drawCount);
+    afterRestore(drawCount); // a message the browser puts back stays (it is a form to send), so the count follows it
     form.addEventListener("input", (event) => {
       if (event.target.getAttribute("aria-invalid") === "true") fieldError(event.target, "");
     });

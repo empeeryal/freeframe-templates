@@ -8,7 +8,7 @@ the Aegean, Japan and Tanzania. It has a trip finder, a filterable tours page, t
 day-by-day itinerary, a route map, departure dates and a live-priced booking inquiry, a destinations page
 with a seasonality chart, a journal with an article, an about page and a contact page. It is plain HTML
 with Tailwind CSS v4 and one vanilla JavaScript file, with no build step needed to use it. This guide
-covers version 1.0.5. See it live at [freeframe.dev/templates/wander](https://freeframe.dev/templates/wander).
+covers version 1.0.6. See it live at [freeframe.dev/templates/wander](https://freeframe.dev/templates/wander).
 
 ## Quick start
 

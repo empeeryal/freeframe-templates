@@ -7,7 +7,7 @@ checkout, a flower subscription builder, weddings and events with an estimate, a
 contact, and a 404 page. Every bouquet is drawn in SVG from the product data, so there are no photos to
 replace. Plain HTML, Tailwind CSS v4 and vanilla JavaScript.
 
-**Version 1.0.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.7** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/petal)
 
 ## Quick start

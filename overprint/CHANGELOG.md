@@ -6,6 +6,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the print sizes on the shop, the project type and brief on the
+  commissions page and the message count on the contact page now match what the page shows. Pressing a form's
+  send button while a field above it shows a message no longer misses the click: the message used to push the
+  button out from under the pointer.
+
 ## [1.0.4] - 2026-11-07
 
 ### Changed

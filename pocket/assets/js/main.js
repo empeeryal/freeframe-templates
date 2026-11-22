@@ -2,6 +2,13 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
   var root = document.documentElement;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var $ = function (sel, el) { return (el || document).querySelector(sel); };
@@ -286,6 +293,8 @@
     });
     platformSelect.addEventListener('change', applyFilters);
     applyFilters();
+    // The platform box goes back to "All platforms" (the type filter keeps its own state), whatever the browser puts back.
+    afterRestore(function () { platformSelect.value = 'all'; applyFilters(); });
   }
 
   /* ---------- Help center search ---------- */
@@ -310,6 +319,7 @@
       $('[data-help-empty]').classList.toggle('hidden', total > 0);
     };
     helpSearch.addEventListener('input', filterHelp);
+    afterRestore(function () { helpSearch.value = ''; filterHelp(); }); // an empty search box shows every article
   }
 
   /* ---------- Copy to clipboard (press kit) ---------- */

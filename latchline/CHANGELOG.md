@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the playbook and kickoff date on the product page, the industry
+  chips on the customers page and the type, topic and sort on the resources page go back to what the page shows,
+  and the demo times on the contact page follow the topic the browser puts back.
+
 ## [1.0.4] - 2026-11-07
 
 ### Changed

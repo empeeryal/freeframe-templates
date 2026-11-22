@@ -6,7 +6,7 @@ drop-off analytics, a searchable template gallery with previews and a shortlist,
 slider, an integrations directory, a changelog, customer stories, a sales form, sign-up and sign-in, and a 404 page.
 Plain HTML, Tailwind CSS v4 and vanilla JavaScript, with light and dark themes; every illustration is SVG.
 
-**Version 1.0.0** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.1** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/tessel)
 
 ## Quick start

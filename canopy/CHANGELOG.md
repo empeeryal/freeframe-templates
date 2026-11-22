@@ -6,6 +6,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the camping rig and the other booking choices on the book page
+  now match the length field and the quote the page shows. Pressing a form's send button while a field above it
+  shows a message no longer misses the click: the message used to push the button out from under the pointer.
+
 ## [1.0.4] - 2026-11-07
 
 ### Changed

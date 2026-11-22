@@ -14,6 +14,21 @@ document.documentElement.classList.add('js');
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache); resetControls(selector) sets those controls back to
+     the values in the page's markup, which is what the page starts with. */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+  function resetControls(selector) {
+    Array.prototype.forEach.call(document.querySelectorAll(selector), function (el) {
+      if (el.tagName === 'SELECT') Array.prototype.forEach.call(el.options, function (o) { o.selected = o.defaultSelected; });
+      else if (el.type === 'checkbox' || el.type === 'radio') el.checked = el.defaultChecked;
+      else el.value = el.defaultValue;
+    });
+  }
+
   /* ------------------------------------------------------------------
    * 1. Settings and storage keys
    * ------------------------------------------------------------------ */
@@ -1522,7 +1537,11 @@ document.documentElement.classList.add('js');
       el.addEventListener('click', function () { annual = el.getAttribute('data-billing-label') === 'annual'; render(); });
     });
     var range = $('#visits');
-    if (range) range.addEventListener('input', updateSavings);
+    if (range) {
+      range.addEventListener('input', updateSavings);
+      // The slider goes back to its starting value, whatever the browser puts back.
+      afterRestore(function () { resetControls('#visits'); updateSavings(); });
+    }
     document.addEventListener('click', function (e) {
       var a = e.target.closest ? e.target.closest('[data-choose-tier]') : null;
       if (a && tierSelect) { tierSelect.value = a.getAttribute('data-choose-tier'); updateJoinPrice(); }
@@ -1531,9 +1550,14 @@ document.documentElement.classList.add('js');
       var pt = param('tier');
       if (has(M, pt)) tierSelect.value = pt;
       tierSelect.addEventListener('change', updateJoinPrice);
+      // A level the browser puts back stays (it is a form to send), so the price follows it.
+      afterRestore(updateJoinPrice);
     }
     var gift = $('#jn-gift'), giftBox = $('[data-gift-fields]');
-    if (gift && giftBox) gift.addEventListener('change', function () { giftBox.hidden = !gift.checked; });
+    if (gift && giftBox) {
+      gift.addEventListener('change', function () { giftBox.hidden = !gift.checked; });
+      afterRestore(function () { giftBox.hidden = !gift.checked; }); // a gift box the browser puts back stays, so its fields follow it
+    }
     render();
   }
 
@@ -1672,6 +1696,7 @@ document.documentElement.classList.add('js');
     }
     form.addEventListener('input', quote);
     form.addEventListener('change', quote);
+    afterRestore(quote); // choices and words the browser puts back stay (it is a form to send), so the quote and the marquee follow them
     $$('[data-hours-step]', form).forEach(function (b) {
       b.addEventListener('click', function () {
         hours.value = String(clamp((parseInt(hours.value, 10) || H.minHours) + (+b.getAttribute('data-hours-step')), H.minHours, H.maxHours));

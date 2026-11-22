@@ -1,6 +1,15 @@
 /* Tracewick — service workloads, saved investigations and local tools. */
 (() => {
   "use strict";
+
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener("pageshow", (event) => {
+      if (!event.persisted) fix();
+    });
+  }
   const TIME_ZONE = "America/New_York";
   const KEEP_MAINTENANCE_CURRENT = true;
   const FIXED_MAINTENANCE_ANCHOR = "2026-10-28";
@@ -966,6 +975,15 @@
       if (event.target.closest("[data-watch],[data-remove-watch],[data-clear-watchlist]") && saved.checked) render();
     });
     render();
+    // The search box, group, sort and watchlist box start from the address (or empty), and go back to that after Back,
+    // whatever the browser puts back.
+    afterRestore(() => {
+      form.reset();
+      group.value = safeParam("group", GROUPS, "all");
+      if (!own(GROUPS, group.value)) group.value = "all";
+      search.value = cleanString(params.get("search"));
+      render();
+    });
     const initial = safeParam("service", SERVICE_MAP, null);
     if (initial) openService(initial);
   }
@@ -1027,6 +1045,8 @@
         `${SERVICE_MAP[id].name}: ${state.budget.latency} ms latency / ${state.budget.errors.toFixed(1)}% errors. ${state.breached ? "The reference workload exceeds this budget." : "The reference workload is within this budget."}`;
     }
     form.elements.service.addEventListener("change", load);
+    // A service the browser puts back stays (it is a form to send), so the budget fields and the status follow it.
+    afterRestore(load);
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       const id = form.elements.service.value,
@@ -1475,10 +1495,15 @@
     const form = $("[data-pricing-form]");
     if (!form) return;
     const value = readEstimate();
-    Object.entries(value).forEach(([key, item]) => {
-      if (key === "billing") form.querySelector(`[name="billing"][value="${item}"]`).checked = true;
-      else form.elements[key].value = item;
-    });
+    // The estimate starts from the saved workload (or the starting one), and goes back to that after Back, whatever the
+    // browser puts back.
+    function start() {
+      Object.entries(value).forEach(([key, item]) => {
+        if (key === "billing") form.querySelector(`[name="billing"][value="${item}"]`).checked = true;
+        else form.elements[key].value = item;
+      });
+    }
+    start();
     function fromForm() {
       return cleanEstimate(Object.fromEntries(new FormData(form)));
     }
@@ -1512,6 +1537,10 @@
     form.addEventListener("submit", (event) => event.preventDefault());
     form.addEventListener("input", () => render());
     form.addEventListener("change", () => render(true));
+    afterRestore(() => {
+      start();
+      render(true);
+    });
     $("[data-save-pricing]").addEventListener("click", () => {
       writeJSON(STORAGE_KEYS.estimate, fromForm());
       const clean = readEstimate();
@@ -1582,6 +1611,13 @@
     });
     form.addEventListener("change", (event) => {
       if (event.target.name !== "search") render();
+    });
+    // The search box and topic start from the address (or empty), and go back to that after Back, whatever the browser
+    // puts back.
+    afterRestore(() => {
+      form.reset();
+      form.elements.search.value = cleanString(params.get("search"));
+      render();
     });
     $("[data-doc-list]").addEventListener("click", (event) => {
       const button = event.target.closest("[data-guide]");
@@ -1657,6 +1693,10 @@
     }
     $("[data-maintenance-filter]").addEventListener("change", render);
     render();
+    afterRestore(() => {
+      $("[data-maintenance-filter]").value = "all";
+      render();
+    }); // the component box goes back to showing every window, whatever the browser puts back
     $("[data-commitments]").innerHTML = COMMITMENTS.map(
       (item) =>
         `<article class="border border-line p-5"><h3 class="font-display text-2xl font-semibold">${esc(item.title)}</h3><p class="mt-3 text-muted">${esc(item.text)}</p></article>`,

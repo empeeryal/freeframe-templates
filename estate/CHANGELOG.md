@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.15] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the mortgage calculator on a property page goes back to the
+  home's price and the starting deposit, rate and term, so the payment shown matches the boxes.
+
 ## [1.1.14] - 2026-11-07
 
 ### Changed

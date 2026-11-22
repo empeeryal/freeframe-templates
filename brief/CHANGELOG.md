@@ -6,6 +6,14 @@ All notable changes to the Brief HTML template are documented here. The format f
 
 ## [Unreleased]
 
+## [1.0.11] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the fee estimator's payment plan, employer contribution and
+  amount, the type of call on the booking page and the claim type on the deadline calculator now match the
+  figures and wording the page shows.
+
 ## [1.0.10] - 2026-11-13
 
 ### Fixed

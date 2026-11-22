@@ -19,6 +19,13 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
   /* ------------------------------------------------------------------
    * 1. Data — times are "HH:MM" in TIME_ZONE. Weekday indexes: 0 = Sunday … 6 = Saturday.
    * ------------------------------------------------------------------ */
@@ -725,6 +732,8 @@
       if ((wait.disabled && wait.checked) || (car.disabled && car.checked)) $('input[name="transport"][value="leave"]', form).checked = true;
     }
     $$('input[name="transport"]', form).forEach((r) => r.addEventListener('change', paintSummary));
+    // Jobs, a plate and a way to get home that the browser puts back stay (it is a form to send), so the summary follows them.
+    afterRestore(() => { paintReg(); paintTransport(); paintSummary(); });
 
     // Calendar: from the Monday of this week to the Sunday after the last bookable day
     function dayInfo(key) {
@@ -1035,6 +1044,8 @@
     paintVia();
     paintResult();
     paintList();
+    // The basis, date and way of reminding that the browser puts back stay (it is a form to send), so the result and fields follow them.
+    afterRestore(() => { paintBasis(); paintVia(); paintResult(); });
   }
 
   /* ------------------------------------------------------------------
@@ -1089,6 +1100,12 @@
     filterSel.addEventListener('change', apply);
     sortSel.addEventListener('change', apply);
     apply();
+    // The job and sort boxes go back to all jobs and the first sort, whatever the browser puts back.
+    afterRestore(() => {
+      filterSel.value = 'all';
+      Array.prototype.forEach.call(sortSel.options, (o) => { o.selected = o.defaultSelected; });
+      apply();
+    });
   }
 
   /* ------------------------------------------------------------------

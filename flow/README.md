@@ -8,7 +8,7 @@ room and keep track of it under My bookings, compares passes and memberships wit
 includes workshops and retreats with a booking inquiry, a beginners' guide and a searchable FAQ. Plain HTML,
 Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.7** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.8** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/flow)
 
 ## Quick start

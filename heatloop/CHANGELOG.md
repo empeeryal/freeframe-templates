@@ -6,6 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the cold-day heat slider on the home page and the time-of-day
+  slider on the technology page go back to their starting values, so they match the figures shown.
+
 ## [1.0.3] - 2026-11-05
 
 ### Changed

@@ -4,6 +4,15 @@
  */
 (() => {
   "use strict";
+
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener("pageshow", (event) => {
+      if (!event.persisted) fix();
+    });
+  }
   const { networks: NETWORKS, guides: GUIDES, plans: PLANS, team: TEAM } = window.HASHFEN_DATA;
   const TIME_ZONE = "America/Denver";
   const STORAGE_KEYS = {
@@ -252,9 +261,13 @@
   function initNetworkLibrary() {
     const form = $("[data-network-filters]");
     if (!form) return;
-    form.elements.q.value = cleanText(parameters.get("q") || "", 100);
-    form.elements.layer.value = queryKey("layer", LAYERS, "all");
-    form.elements.sort.value = queryKey("sort", SORTS, "name");
+    // The filters start from the address, and go back to that after Back, whatever the browser puts back.
+    function start() {
+      form.elements.q.value = cleanText(parameters.get("q") || "", 100);
+      form.elements.layer.value = queryKey("layer", LAYERS, "all");
+      form.elements.sort.value = queryKey("sort", SORTS, "name");
+    }
+    start();
     function render() {
       const query = form.elements.q.value.trim().toLowerCase();
       const layer = own(LAYERS, form.elements.layer.value) ? form.elements.layer.value : "all";
@@ -284,6 +297,10 @@
     });
     form.addEventListener("reset", () => setTimeout(render, 0));
     render();
+    afterRestore(() => {
+      start();
+      render();
+    });
   }
   function initNetworkDetail() {
     const target = $("[data-network-detail]");
@@ -593,10 +610,18 @@
         `<article class="flex flex-col border ${plan.id === "team" ? "border-lime bg-panel" : "border-line"} p-6"><p class="eyebrow">${escape(plan.name)}</p><h2 class="mt-5 text-lg leading-relaxed">${escape(plan.headline)}</h2><p class="mt-7 text-4xl font-bold text-lime">$${plan.price}<span class="text-sm font-normal text-muted"> / month</span></p><p class="mt-4 text-sm text-muted">${plural(plan.seats, "researcher seat")} · ${number(plan.queries, 0)} monthly lookups</p><ul class="mt-7 grow space-y-4 text-sm text-muted">${plan.features.map((feature) => `<li class="border-t border-line pt-3">${escape(feature)}</li>`).join("")}</ul><a href="company.html?plan=${plan.id}#contact" class="btn-outline mt-7">Discuss ${escape(plan.name)}</a></article>`,
     ).join("");
     const form = $("[data-pricing-form]");
-    form.elements.plan.value = queryKey("plan", PLAN_MAP, "team");
-    const initial = PLAN_MAP[form.elements.plan.value];
-    form.elements.seats.value = initial.seats;
-    form.elements.queries.value = initial.queries;
+    // The plan, seats and lookups start from the address's plan (or Team), and go back to that after Back, whatever the
+    // browser puts back; billing goes back to its first choice.
+    function start() {
+      form.elements.plan.value = queryKey("plan", PLAN_MAP, "team");
+      const initial = PLAN_MAP[form.elements.plan.value];
+      form.elements.seats.value = initial.seats;
+      form.elements.queries.value = initial.queries;
+      Array.from(form.elements.billing.options).forEach((option) => {
+        option.selected = option.defaultSelected;
+      });
+    }
+    start();
     function render() {
       const result = priceCalculation(Object.fromEntries(new FormData(form)));
       $("[data-price-total]").textContent = `${money(result.total)} / ${result.annual ? "year" : "month"}`;
@@ -636,6 +661,10 @@
       render();
     });
     render();
+    afterRestore(() => {
+      start();
+      render();
+    });
   }
   function initGuides() {
     const form = $("[data-guide-filters]");
@@ -671,6 +700,10 @@
       render();
     });
     render();
+    afterRestore(() => {
+      form.reset();
+      render();
+    }); // the search box and area go back to showing every note, whatever the browser puts back
   }
   function initContact() {
     const target = $("[data-team]");

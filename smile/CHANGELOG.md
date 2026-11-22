@@ -6,6 +6,14 @@ All notable changes to the Smile HTML template are documented here. The format f
 
 ## [Unreleased]
 
+## [1.0.9] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the cost estimator and payment plan on the pricing page, the
+  language box on the team page and the visit reason on the booking page now match the figures and list the page
+  shows.
+
 ## [1.0.8] - 2026-11-07
 
 ### Changed

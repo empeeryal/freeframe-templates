@@ -5,6 +5,15 @@
 (() => {
   "use strict";
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  const afterRestore = (fix) => {
+    window.addEventListener("pageshow", (event) => {
+      if (!event.persisted) fix();
+    });
+  };
+
   const {
     FRAMEWORKS,
     FAMILIES,
@@ -656,6 +665,15 @@
     fillVersus();
     render();
     renderMatrix();
+    // The framework, comparison and view are the ones in `primary`, `compare` and `view`, whatever the browser puts back.
+    afterRestore(() => {
+      form.elements.fw.value = primary;
+      fillVersus();
+      $$("[data-fw-view]", root).forEach((input) => {
+        input.checked = input.value === view;
+      });
+      render();
+    });
   }
 
   // Pairwise shared-control matrix under the explorer.
@@ -1257,6 +1275,7 @@
     }
     form.addEventListener("change", syncNda);
     syncNda();
+    afterRestore(syncNda); // documents the browser puts back stay (it is a form to send), so the NDA box follows them
 
     function setError(field, message) {
       const error = $(`[data-error-for="${field}"]`, form);
@@ -1353,7 +1372,7 @@
           `<label class="chip"><input class="sr-only" type="radio" name="storyfw" value="${id}" ${id === "all" ? "checked" : ""} />${esc(name)}</label>`,
       )
       .join("");
-    filter.addEventListener("change", () => {
+    const apply = () => {
       const value = filter.elements.storyfw.value;
       let shown = 0;
       $$("[data-story]").forEach((section) => {
@@ -1362,6 +1381,12 @@
         if (on) shown++;
       });
       $("[data-story-count]").textContent = `Showing ${plural(shown, "story", "stories")}`;
+    };
+    filter.addEventListener("change", apply);
+    // The chips go back to "All stories", whatever the browser puts back.
+    afterRestore(() => {
+      filter.reset();
+      apply();
     });
   }
 

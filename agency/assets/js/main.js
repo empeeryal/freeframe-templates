@@ -6,6 +6,21 @@
   var $$ = function (sel, el) { return Array.prototype.slice.call((el || document).querySelectorAll(sel)); };
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache); resetControls(selector) sets those controls back to
+     the values in the page's markup, which is what the page starts with. */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+  function resetControls(selector) {
+    Array.prototype.forEach.call(document.querySelectorAll(selector), function (el) {
+      if (el.tagName === 'SELECT') Array.prototype.forEach.call(el.options, function (o) { o.selected = o.defaultSelected; });
+      else if (el.type === 'checkbox' || el.type === 'radio') el.checked = el.defaultChecked;
+      else el.value = el.defaultValue;
+    });
+  }
+
   // Kick off the headline line-reveal once the page has painted.
   requestAnimationFrame(function () { document.body.classList.add('is-loaded'); });
 
@@ -183,6 +198,7 @@
     function update() { cmp.style.setProperty('--pos', input.value + '%'); }
     input.addEventListener('input', update);
     update();
+    afterRestore(function () { input.value = input.defaultValue; update(); });
   });
 
   /* ---------- Careers: "Apply" buttons preselect the role ---------- */
@@ -204,6 +220,7 @@
     };
     budget.addEventListener('input', updateBudget);
     updateBudget();
+    afterRestore(function () { resetControls('#budget'); updateBudget(); });
   }
 
   /* ---------- Office clocks ---------- */

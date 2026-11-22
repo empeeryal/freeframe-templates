@@ -4,6 +4,15 @@ All notable changes to the Hearth template (HTML + Tailwind CSS) are documented 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the template uses
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.8] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the gift certificate preview, total and mailing fields on the
+  vouchers page now match the choices and words the browser puts back. Pressing a form's send button while a
+  field above it shows a message no longer misses the click: the message used to push the button out from under
+  the pointer.
+
 ## [1.0.6] - 2026-11-05
 
 ### Changed

@@ -6,6 +6,14 @@ All notable changes to the Atlas HTML template are documented here. The format f
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the home page's neighborhood and size boxes, the loan term on the
+  buy page's affordability calculator and the consultation choice on the contact page now match the numbers and
+  summary the page shows.
+
 ## [1.0.4] - 2026-11-07
 
 ### Changed

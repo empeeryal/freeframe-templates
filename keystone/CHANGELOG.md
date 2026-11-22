@@ -6,6 +6,14 @@ All notable changes to the Keystone HTML template are documented here. The forma
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the before and after slider on a project page goes back to the
+  middle, so it matches the images shown. Pressing a form's send button while a field above it shows a message
+  no longer misses the click: the message used to push the button out from under the pointer.
+
 ## [1.0.6] - 2026-11-07
 
 ### Changed

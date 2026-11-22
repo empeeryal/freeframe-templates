@@ -2,7 +2,7 @@
 
 ## Overview
 
-Quoin is a fictional architectural salvage yard in Troy, New York. Version 1.0.2 is a complete HTML and Tailwind CSS v4 website with sixteen stock lots, a cart, a reservation request checkout, a room-by-room project board, care notes, the yard team and a visit page with opening days, a delivery guide and a contact form. The [template page](https://freeframe.dev/templates/quoin) links to the live preview and download.
+Quoin is a fictional architectural salvage yard in Troy, New York. Version 1.0.3 is a complete HTML and Tailwind CSS v4 website with sixteen stock lots, a cart, a reservation request checkout, a room-by-room project board, care notes, the yard team and a visit page with opening days, a delivery guide and a contact form. The [template page](https://freeframe.dev/templates/quoin) links to the live preview and download.
 
 ## Quick start
 

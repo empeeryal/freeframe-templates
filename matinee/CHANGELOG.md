@@ -7,6 +7,14 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the films-a-month slider on the membership page goes back to its
+  starting value, and the membership level, gift fields and the private hire quote and marquee preview now
+  follow the choices and words the browser puts back.
+
 ## [1.0.4] - 2026-11-07
 
 ### Changed

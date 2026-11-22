@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the search boxes on the services and care pages and the finish on
+  a service page go back to what the page shows, and the quote and appointment pages follow what the browser
+  puts back.
+
 ## [1.0.5] - 2026-11-05
 
 ### Changed

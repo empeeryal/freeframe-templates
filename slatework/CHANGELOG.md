@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the posting preview and job boards, the interview panel, length
+  and time zone, the offer amount and the data retention choice now match the results shown, and the character
+  count on the demo request follows the message the browser puts back.
+
 ## [1.0.0] - 2026-11-09
 
 ### Added

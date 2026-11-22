@@ -1,6 +1,35 @@
 /* Clearwater Trust — site scripts. Vanilla JS, no dependencies. */
 (function () {
   'use strict';
+
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
+  /* While the pointer is down on a submit button, a field of that form losing focus does not show its message yet: the
+     message would push the button down before the click finishes, and the click would miss it. Submitting checks every
+     field anyway. (Capture phase, so it runs before the page's own blur and change handlers.) */
+  (function () {
+    var pressed = null;
+    document.addEventListener('pointerdown', function (e) {
+      var b = e.target.closest && e.target.closest('button, input[type="submit"]');
+      pressed = b && b.form && b.type === 'submit' ? b.form : null;
+    }, true);
+    ['pointerup', 'pointercancel', 'dragend'].forEach(function (type) {
+      document.addEventListener(type, function () { pressed = null; }, true);
+    });
+    ['blur', 'focusout', 'change'].forEach(function (type) {
+      document.addEventListener(type, function (e) {
+        var t = e.target;
+        if (!pressed || t.form !== pressed) return;
+        // A text field's "change" comes with its blur; a select's or a checkbox's does not.
+        if (type !== 'change' || t.tagName === 'TEXTAREA' || (t.tagName === 'INPUT' && !/^(checkbox|radio|range|file|color)$/.test(t.type))) e.stopImmediatePropagation();
+      }, true);
+    });
+  })();
   var $ = function (s, el) { return (el || document).querySelector(s); };
   var $$ = function (s, el) { return Array.prototype.slice.call((el || document).querySelectorAll(s)); };
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -338,6 +367,19 @@
       if (ded.checked) dedName.focus();
       // Hiding the block clears its errors, so they don't come back when it is shown again.
       else $$('input, select, textarea', dedBox).forEach(function (f) { showError(f, ''); });
+    });
+
+    // An amount, fee box and dedication the browser puts back stay (it is a form to send), so the gift, the summary and
+    // the dedication fields follow them.
+    afterRestore(function () {
+      checkMinimum();
+      var typed = parseFloat(custom.value);
+      if (typed > 0) state.amount = Math.round(typed * 100) / 100;
+      renderAmounts();
+      update();
+      dedBox.hidden = !ded.checked;
+      ded.setAttribute('aria-expanded', String(ded.checked));
+      dedName.required = ded.checked;
     });
 
     // Light formatting for the demo card fields

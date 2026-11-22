@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the search boxes and filters on the workspace, integrations and
+  resources pages go back to what the page shows, and the walkthrough fields on the contact page follow the
+  topic the browser puts back.
+
 ## [1.0.2] - 2026-11-05
 
 ### Changed

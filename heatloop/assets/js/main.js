@@ -13,6 +13,13 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
   /* ------------------------------------------------------------------
    * 1. Settings and data. Edit these to make the template yours.
    * ------------------------------------------------------------------ */
@@ -388,6 +395,8 @@
     });
     range.addEventListener('input', render);
     render();
+    // The slider goes back to its starting value, whatever the browser puts back.
+    afterRestore(function () { range.value = range.defaultValue; render(); });
   }
 
   /* ------------------------------------------------------------------
@@ -521,6 +530,8 @@
     window.addEventListener('resize', function () { var n = svgHost.clientWidth < 560; if (lastNarrow !== null && n !== lastNarrow) draw(); lastNarrow = n; });
     draw();
     lastNarrow = svgHost.clientWidth < 560;
+    // The time slider goes back to its starting value, whatever the browser puts back.
+    afterRestore(function () { stop(); range.value = range.defaultValue; update(); });
   }
 
   /* ------------------------------------------------------------------

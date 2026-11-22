@@ -7,6 +7,15 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.12] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the price and sort boxes on the shop page, the glaze, size and
+  quantity on a product page and the search box on the FAQ now match the products and answers the page shows.
+  Pressing a form's send button while a field above it shows a message no longer misses the click: the message
+  used to push the button out from under the pointer.
+
 ## [1.1.11] - 2026-11-06
 
 ### Changed

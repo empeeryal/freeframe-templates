@@ -15,6 +15,35 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
+  /* While the pointer is down on a submit button, a field of that form losing focus does not show its message yet: the
+     message would push the button down before the click finishes, and the click would miss it. Submitting checks every
+     field anyway. (Capture phase, so it runs before the page's own blur and change handlers.) */
+  (function () {
+    var pressed = null;
+    document.addEventListener('pointerdown', function (e) {
+      var b = e.target.closest && e.target.closest('button, input[type="submit"]');
+      pressed = b && b.form && b.type === 'submit' ? b.form : null;
+    }, true);
+    ['pointerup', 'pointercancel', 'dragend'].forEach(function (type) {
+      document.addEventListener(type, function () { pressed = null; }, true);
+    });
+    ['blur', 'focusout', 'change'].forEach(function (type) {
+      document.addEventListener(type, function (e) {
+        var t = e.target;
+        if (!pressed || t.form !== pressed) return;
+        // A text field's "change" comes with its blur; a select's or a checkbox's does not.
+        if (type !== 'change' || t.tagName === 'TEXTAREA' || (t.tagName === 'INPUT' && !/^(checkbox|radio|range|file|color)$/.test(t.type))) e.stopImmediatePropagation();
+      }, true);
+    });
+  })();
+
   const D = window.OVERPRINT;
   if (!D) return;
   const { STUDIO, TYPES, USAGES, BUDGETS, RUSH, CATEGORIES, PROJECTS, SHOP_FILTERS, PRODUCTS, SHIPPING, TAX, MAX_QTY } = D;
@@ -976,6 +1005,11 @@
     });
     cartListeners.push(() => $$('[data-product]', grid).forEach(renderStock));
     render();
+    // Every print starts with its first size in stock chosen, whatever the browser puts back.
+    afterRestore(() => {
+      $$('[data-product] input[type="radio"]', grid).forEach((r) => { r.checked = r.defaultChecked; });
+      $$('[data-product]', grid).forEach(renderStock);
+    });
     if (location.hash) {
       const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
       if (target && target.hasAttribute('data-product')) { target.classList.add('is-visible'); target.scrollIntoView(); }
@@ -1165,6 +1199,7 @@
     $('[data-step-prev]', form).addEventListener('click', () => showStep(Math.max(stepIndex - 1, 0), true));
     form.addEventListener('change', (e) => { if (e.target.name === 'type') suggestDeadline(); render(); });
     form.addEventListener('input', render);
+    afterRestore(render); // choices and words the browser puts back stay (it is a form to send), so the estimate follows them
 
     // A deadline before the earliest rush delivery can't be met: say so on submit.
     deadline.setAttribute('data-validate', 'deadline');
@@ -1384,6 +1419,7 @@
       const upd = () => { outEl.textContent = plural(field.maxLength - field.value.length, 'character', 'characters') + ' left'; };
       field.addEventListener('input', upd);
       upd();
+      afterRestore(upd); // words the browser puts back stay (it is a form to send), so the count follows them
     });
     // Card number: group digits in fours as they're typed.
     $$('[data-validate="card"]').forEach((el) => el.addEventListener('input', () => {

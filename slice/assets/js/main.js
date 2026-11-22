@@ -21,6 +21,43 @@ document.documentElement.classList.add('js');
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache); resetControls(selector) sets those controls back to
+     the values in the page's markup, which is what the page starts with. */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+  function resetControls(selector) {
+    Array.prototype.forEach.call(document.querySelectorAll(selector), function (el) {
+      if (el.tagName === 'SELECT') Array.prototype.forEach.call(el.options, function (o) { o.selected = o.defaultSelected; });
+      else if (el.type === 'checkbox' || el.type === 'radio') el.checked = el.defaultChecked;
+      else el.value = el.defaultValue;
+    });
+  }
+
+  /* While the pointer is down on a submit button, a field of that form losing focus does not show its message yet: the
+     message would push the button down before the click finishes, and the click would miss it. Submitting checks every
+     field anyway. (Capture phase, so it runs before the page's own blur and change handlers.) */
+  (function () {
+    var pressed = null;
+    document.addEventListener('pointerdown', function (e) {
+      var b = e.target.closest && e.target.closest('button, input[type="submit"]');
+      pressed = b && b.form && b.type === 'submit' ? b.form : null;
+    }, true);
+    ['pointerup', 'pointercancel', 'dragend'].forEach(function (type) {
+      document.addEventListener(type, function () { pressed = null; }, true);
+    });
+    ['blur', 'focusout', 'change'].forEach(function (type) {
+      document.addEventListener(type, function (e) {
+        var t = e.target;
+        if (!pressed || t.form !== pressed) return;
+        // A text field's "change" comes with its blur; a select's or a checkbox's does not.
+        if (type !== 'change' || t.tagName === 'TEXTAREA' || (t.tagName === 'INPUT' && !/^(checkbox|radio|range|file|color)$/.test(t.type))) e.stopImmediatePropagation();
+      }, true);
+    });
+  })();
+
   /* ------------------------------------------------------------------
    * 1. Shop settings — edit these to make the template yours.
    *    hours: one entry per weekday, Sunday first, as ['open', 'close']
@@ -2218,6 +2255,7 @@ document.documentElement.classList.add('js');
       $('#c-name').focus({ preventScroll: true });
     });
     paint();
+    afterRestore(() => { resetControls('#cat-guests, #cater-calc input[name="appetite"]'); paint(); }); // back to the starting guests and appetite, whatever the browser puts back
   }
 
   /* ------------------------------------------------------------------
@@ -2355,6 +2393,7 @@ document.documentElement.classList.add('js');
     };
     form.addEventListener('change', sync);
     sync();
+    afterRestore(sync); // a service the browser puts back stays (it is a form to send), so the ZIP code field follows it
     setupValidation(form, () => {
       const name = $('#c-name').value.trim().split(/\s+/)[0];
       const guests = $('#c-guests').value;

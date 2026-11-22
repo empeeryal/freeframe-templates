@@ -7,7 +7,7 @@ crime and historical novelist who lives in Salem, Massachusetts, with four Esme 
 two standalone novels and a new book, *The Glass Marsh*, on the way. The design borrows from a well-set book
 jacket: a book-face serif, generous margins, cream paper with a faint grain, fleuron ornaments and a jacket
 drawn in SVG for every book. It is built with plain HTML, Tailwind CSS v4 and one vanilla JavaScript file,
-with no build step needed to run it. This is version 1.0.5 (see `template.json` and
+with no build step needed to run it. This is version 1.0.6 (see `template.json` and
 [CHANGELOG.md](CHANGELOG.md)). Live demo: [freeframe.dev/templates/chapter](https://freeframe.dev/templates/chapter).
 
 Copy uses American English, prices are in US dollars (USD) and every date and time is Eastern time

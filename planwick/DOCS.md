@@ -2,7 +2,7 @@
 
 ## Overview
 
-Planwick is a spacious product-planning website for a fictional SaaS business in Chapel Hill, North Carolina, in a deep indigo, periwinkle and marigold palette. Version 1.0.2 uses static HTML, Tailwind CSS v4 and plain browser JavaScript. Its workspace combines a roadmap, transparent priority inputs and capacity-based release planning. The [template page](https://freeframe.dev/templates/planwick) links to the live preview.
+Planwick is a spacious product-planning website for a fictional SaaS business in Chapel Hill, North Carolina, in a deep indigo, periwinkle and marigold palette. Version 1.0.3 uses static HTML, Tailwind CSS v4 and plain browser JavaScript. Its workspace combines a roadmap, transparent priority inputs and capacity-based release planning. The [template page](https://freeframe.dev/templates/planwick) links to the live preview.
 
 ## Quick start
 

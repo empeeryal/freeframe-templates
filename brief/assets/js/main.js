@@ -2,6 +2,13 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
   /* localStorage, or memory when it's blocked or a save fails (storage full). Memory is read first, so a change
      that couldn't be saved still shows for this page view. */
   var safeStorage = (function () {
@@ -495,6 +502,11 @@
     });
     planBox.checked = state.plan; contribBox.checked = state.contrib; contribAmount.value = state.contribAmount;
     render(false);
+    afterRestore(function () {
+      matterSel.value = state.matter;
+      planBox.checked = state.plan; contribBox.checked = state.contrib; contribAmount.value = state.contribAmount;
+      render(false);
+    });
   }
 
   /* ---------- Options check ([data-check], check.html) ----------
@@ -673,6 +685,8 @@
       $('[data-deadline-heading]', dlOut).focus();
     });
     dlLabel();
+    // The claim type the browser puts back stays (it is a form to send), so the date's label follows it.
+    afterRestore(dlLabel);
   }
 
   /* ---------- Booking flow ([data-booking], book.html) ---------- */
@@ -776,6 +790,7 @@
       r.checked = r.value === state.type;
       r.addEventListener('change', function () { state.type = r.value; state.slot = null; renderSummary(); });
     });
+    afterRestore(function () { $$('input[name="call-type"]', root).forEach(function (r) { r.checked = r.value === state.type; }); });
     $('[data-next="2"]', root).addEventListener('click', function () {
       if (state.date && !slotsFor(state.date).length) state.date = null;
       renderCalendar(false);

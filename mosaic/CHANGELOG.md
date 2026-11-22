@@ -5,6 +5,13 @@ All notable changes to the Mosaic HTML template are documented here. The format 
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the date and spots on an event page and the room, time and extras
+  on the hire page now match the total and quote the page shows.
+
 ## [1.0.6] - 2026-11-07
 
 ### Changed

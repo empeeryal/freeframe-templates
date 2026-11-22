@@ -8,7 +8,7 @@ butter, mint, periwinkle and pink blocks, sticker-like badges and chunky buttons
 The fictional company, Tessel Forms, Inc., is based at 1110 Harney Street in Omaha, Nebraska, so the copy uses US
 spelling, prices are in US dollars and everything time-based runs in Central Time (`America/Chicago`). It is
 built with plain HTML, Tailwind CSS v4 and vanilla JavaScript, has a light and a dark theme, and is version
-1.0.0. See it on the [template page](https://freeframe.dev/templates/tessel), which links to the live demo.
+1.0.1. See it on the [template page](https://freeframe.dev/templates/tessel), which links to the live demo.
 
 ## Quick start
 

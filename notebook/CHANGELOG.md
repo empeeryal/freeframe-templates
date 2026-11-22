@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-11-19
+
+### Fixed
+
+- Pressing a form's send button while a field above it shows a message no longer misses the click: the message
+  used to push the button out from under the pointer.
+
 ## [1.0.3] - 2026-11-06
 
 ### Changed

@@ -14,6 +14,35 @@ document.documentElement.classList.add('js');
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
+  /* While the pointer is down on a submit button, a field of that form losing focus does not show its message yet: the
+     message would push the button down before the click finishes, and the click would miss it. Submitting checks every
+     field anyway. (Capture phase, so it runs before the page's own blur and change handlers.) */
+  (function () {
+    var pressed = null;
+    document.addEventListener('pointerdown', function (e) {
+      var b = e.target.closest && e.target.closest('button, input[type="submit"]');
+      pressed = b && b.form && b.type === 'submit' ? b.form : null;
+    }, true);
+    ['pointerup', 'pointercancel', 'dragend'].forEach(function (type) {
+      document.addEventListener(type, function () { pressed = null; }, true);
+    });
+    ['blur', 'focusout', 'change'].forEach(function (type) {
+      document.addEventListener(type, function (e) {
+        var t = e.target;
+        if (!pressed || t.form !== pressed) return;
+        // A text field's "change" comes with its blur; a select's or a checkbox's does not.
+        if (type !== 'change' || t.tagName === 'TEXTAREA' || (t.tagName === 'INPUT' && !/^(checkbox|radio|range|file|color)$/.test(t.type))) e.stopImmediatePropagation();
+      }, true);
+    });
+  })();
+
   /* ------------------------------------------------------------------
    * 1. Church settings and service schedule
    *    Times are wall-clock times in CHURCH.timeZone, whatever the
@@ -985,6 +1014,8 @@ document.documentElement.classList.add('js');
     });
     window.addEventListener('pagehide', () => { if (playing) save(); });
     render();
+    // The seek slider the browser puts back must show where the sermon is (the time and the audio), not where it was.
+    afterRestore(render);
     return api;
   }
 
@@ -1288,7 +1319,13 @@ document.documentElement.classList.add('js');
     const mm = /^(\d{4})-(\d{2})$/.exec(params.get('month') || '');
     const todayDate = new Date(today * 864e5);
     state.month = mm && +mm[2] >= 1 && +mm[2] <= 12 ? { y: +mm[1], m: +mm[2] - 1 } : { y: todayDate.getUTCFullYear(), m: todayDate.getUTCMonth() };
-    if (mm) state.selected = Math.round(Date.UTC(state.month.y, state.month.m, 1) / 864e5);
+    // The day selected for a month: today when that is the month shown, otherwise the 1st. The same address always
+    // shows the same day, and it is the day the arrows and the Today button pick too.
+    const dayFor = (month) => {
+      const first = Math.round(Date.UTC(month.y, month.m, 1) / 864e5);
+      return first <= today && today < first + 31 && new Date(today * 864e5).getUTCMonth() === month.m ? today : first;
+    };
+    state.selected = dayFor(state.month);
 
     // Category pills
     const catBox = $('#cal-cats');
@@ -1400,8 +1437,7 @@ document.documentElement.classList.add('js');
     function moveMonth(delta) {
       const d = new Date(Date.UTC(state.month.y, state.month.m + delta, 1));
       state.month = { y: d.getUTCFullYear(), m: d.getUTCMonth() };
-      const first = Math.round(d.getTime() / 864e5);
-      state.selected = first <= today && today < first + 31 && new Date(today * 864e5).getUTCMonth() === state.month.m ? today : first;
+      state.selected = dayFor(state.month);
       render(true);
     }
     $('#cal-prev').addEventListener('click', () => moveMonth(-1));
@@ -1567,6 +1603,7 @@ document.documentElement.classList.add('js');
     }
     form.addEventListener('change', (e) => { if (!e.target.closest('[data-stepper]')) update(); });
     update();
+    afterRestore(update); // choices the browser puts back stay (it is a form to send), so the summary follows them
 
     setupValidation(form, () => {
       const day = dayNum(sundaySel.value);
@@ -1630,6 +1667,13 @@ document.documentElement.classList.add('js');
     chips.addEventListener('change', () => { custom.value = ''; showError(custom, ''); update(); });
     form.addEventListener('change', update);
     update();
+    // Choices the browser puts back stay (it is a form to send), so the total follows them. A typed amount still
+    // replaces the chips, as it does when it is typed.
+    afterRestore(() => {
+      if (custom.value.trim()) $$('input[name="amount"]', form).forEach((r) => { r.checked = false; });
+      else if (!$('input[name="amount"]:checked', form)) $$('input[name="amount"]', form).forEach((r) => { r.checked = r.defaultChecked; });
+      update();
+    });
 
     setupValidation(form, () => {
       const a = amount();
@@ -1784,6 +1828,7 @@ document.documentElement.classList.add('js');
       follow.addEventListener('change', sync);
       priv.addEventListener('change', sync);
       sync();
+      afterRestore(sync); // boxes the browser puts back stay (it is a form to send), so the notes follow them
       setupValidation(prayer, () => {
         const name = $('#p-name').value.trim().split(' ')[0];
         successSwap(prayer, `<p class="font-display text-2xl font-extrabold">${name ? 'Thank you, ' + escapeHtml(name) + '.' : 'Thank you for trusting us.'}</p>
@@ -1810,9 +1855,13 @@ document.documentElement.classList.add('js');
     }
     const evList = $('#home-events');
     if (evList) {
-      setupEventDialog();
+      const dialog = setupEventDialog();
       const next = OCCURRENCES.filter((o) => o.day >= TODAY && !o.ev.weekly).slice(0, 4);
       evList.innerHTML = next.map((o) => eventCard(o, { place: true })).join('');
+      // index.html?event=... opens that event, as it does on the events page.
+      const evKey = urlParams().get('event');
+      const shown = evKey && OCCURRENCES.find((x) => x.key === evKey.toLowerCase());
+      if (shown && dialog) dialog.open(shown);
     }
   }
 

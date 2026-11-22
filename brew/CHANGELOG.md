@@ -7,6 +7,14 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-11-19
+
+### Fixed
+
+- After you go to another page and press Back, the taproom's four flight glasses go back to the beers the page
+  started with, the tour choice goes back to the tour shown, and the estimate on the private events page follows
+  the space the browser puts back.
+
 ## [1.0.3] - 2026-11-05
 
 ### Changed

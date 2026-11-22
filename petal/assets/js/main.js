@@ -19,6 +19,35 @@ document.documentElement.classList.add('js');
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
+  /* While the pointer is down on a submit button, a field of that form losing focus does not show its message yet: the
+     message would push the button down before the click finishes, and the click would miss it. Submitting checks every
+     field anyway. (Capture phase, so it runs before the page's own blur and change handlers.) */
+  (function () {
+    var pressed = null;
+    document.addEventListener('pointerdown', function (e) {
+      var b = e.target.closest && e.target.closest('button, input[type="submit"]');
+      pressed = b && b.form && b.type === 'submit' ? b.form : null;
+    }, true);
+    ['pointerup', 'pointercancel', 'dragend'].forEach(function (type) {
+      document.addEventListener(type, function () { pressed = null; }, true);
+    });
+    ['blur', 'focusout', 'change'].forEach(function (type) {
+      document.addEventListener(type, function (e) {
+        var t = e.target;
+        if (!pressed || t.form !== pressed) return;
+        // A text field's "change" comes with its blur; a select's or a checkbox's does not.
+        if (type !== 'change' || t.tagName === 'TEXTAREA' || (t.tagName === 'INPUT' && !/^(checkbox|radio|range|file|color)$/.test(t.type))) e.stopImmediatePropagation();
+      }, true);
+    });
+  })();
+
   /* ------------------------------------------------------------------
    * 1. Shop settings — edit these to make the template yours.
    *    All times are in TIMEZONE, so a visitor abroad still sees the
@@ -1533,6 +1562,8 @@ document.documentElement.classList.add('js');
     plans.addEventListener('change', (e) => { if (has(SUBSCRIPTION.plans, e.target.value)) { state.plan = e.target.value; render(); } });
     sizes.addEventListener('change', (e) => { if (has(SUBSCRIPTION.sizes, e.target.value)) { state.size = e.target.value; render(); } });
     daySel.addEventListener('change', () => { const d = +daySel.value; if (SUBSCRIPTION.days.indexOf(d) !== -1) { state.day = d; render(); } });
+    // The plan, size and delivery day are the ones in `state`, whatever the browser puts back.
+    afterRestore(render);
     setupValidation(form, () => {
       const first = $('#s-name').value.trim().split(/\s+/)[0];
       successSwap(form, '<p class="kicker">Subscription request</p><p class="display mt-3 text-4xl">Lovely, ' + escapeHtml(first) + '.</p>' +
@@ -1636,6 +1667,7 @@ document.documentElement.classList.add('js');
       input.addEventListener('change', render);
       input.addEventListener('input', render);
       render();
+      afterRestore(() => { input.value = today; render(); }); // back to today, whatever the browser puts back
     }
     const search = $('#care-search');
     const grid = $('#care-flowers');
@@ -1649,6 +1681,7 @@ document.documentElement.classList.add('js');
       };
       search.addEventListener('input', render);
       render();
+      afterRestore(() => { search.value = ''; render(); }); // an empty search box shows every flower
     }
   }
 
@@ -1816,6 +1849,7 @@ document.documentElement.classList.add('js');
       const upd = () => { out.textContent = plural(field.maxLength - field.value.length, 'character', 'characters') + ' left'; };
       field.addEventListener('input', upd);
       upd();
+      afterRestore(upd); // words the browser puts back stay (it is a form to send), so the count follows them
     });
     // ZIP code checker (home page): a quick "do you deliver to me?".
     $$('[data-form="zone-check"]').forEach((form) => {

@@ -20,6 +20,13 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
   /* ------------------------------------------------------------------
    * 1. Setup
    * ------------------------------------------------------------------ */
@@ -658,6 +665,8 @@
     };
     selects.forEach((s) => s.addEventListener('change', draw));
     draw();
+    // The four glasses go back to the beers the page started with, whatever the browser puts back.
+    afterRestore(() => { selects.forEach((sel, i) => { sel.value = picks[i]; }); draw(); });
   }
 
   /* ------------------------------------------------------------------
@@ -1262,6 +1271,9 @@
       if (st && !st.disabled) { const w = st.getAttribute('data-step-count'); state[w] += +st.getAttribute('data-step'); draw(); const again = $('[data-step-count="' + w + '"][data-step="' + st.getAttribute('data-step') + '"]', form); if (again && !again.disabled) again.focus(); }
     });
 
+    // The tour is the one in `state`, whatever the browser puts back.
+    afterRestore(() => { $$('input[name="tour"]', form).forEach((r) => { r.checked = r.value === state.tour; }); });
+
     const drawSaved = () => {
       const wrap = $('[data-my-tours]'), list = $('[data-my-tour-list]');
       if (!wrap) return;
@@ -1358,6 +1370,7 @@
     form.addEventListener('input', estimate);
     form.addEventListener('change', estimate);
     estimate();
+    afterRestore(estimate); // a space the browser puts back stays (it is a form to send), so the estimate follows it
     clearOnInput(form);
     form.addEventListener('submit', (e) => {
       e.preventDefault();

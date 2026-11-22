@@ -3,6 +3,13 @@
 (function () {
   'use strict';
 
+  /* After Back or a reload the browser may put values it remembers into fields, selects and checkboxes once this
+     script has run, without telling it. afterRestore(fix) runs `fix` when the page was loaded afresh (not when the
+     browser brings it back whole from its back/forward cache). */
+  function afterRestore(fix) {
+    window.addEventListener('pageshow', function (e) { if (!e.persisted) fix(); });
+  }
+
   var V = window.VOWS || {};
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
@@ -685,6 +692,8 @@
     });
     var avail = $('[data-gift-available]');
     if (avail) avail.addEventListener('change', function () { hideReserved = avail.checked; render(); });
+    // The box shows whether the list hides reserved gifts, whatever the browser puts back.
+    if (avail) afterRestore(function () { avail.checked = hideReserved; });
     grid.addEventListener('click', function (e) {
       var btn = e.target.closest('[data-reserve]');
       if (!btn || btn.disabled) return;
@@ -799,7 +808,7 @@
     var status = $('[data-faq-status]');
     var items = $$('[data-faq]');
     var wasOpen = new Map();
-    input.addEventListener('input', function () {
+    var search = function () {
       var q = input.value.trim().toLowerCase();
       var count = 0;
       items.forEach(function (d) {
@@ -812,7 +821,9 @@
       if (!q) wasOpen = new Map();
       $$('[data-faq-group]').forEach(function (g) { g.hidden = !$$('[data-faq]:not([hidden])', g).length; });
       status.textContent = !q ? '' : count ? count + (count === 1 ? ' question matches' : ' questions match') + ' “' + input.value.trim() + '”' : 'No questions match “' + input.value.trim() + '”. Try another word, or email us.';
-    });
+    };
+    input.addEventListener('input', search);
+    afterRestore(function () { input.value = ''; search(); }); // an empty search box shows every question
   })();
 })();
 

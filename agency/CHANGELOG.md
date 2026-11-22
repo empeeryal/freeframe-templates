@@ -7,6 +7,14 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.11] - 2026-11-19
+
+### Fixed
+
+- On the case study, after you go to another page and press Back, the before and after slider goes back to the
+  middle, and on the contact page the budget slider goes back to its starting step, so each matches what the
+  page shows.
+
 ## [1.1.10] - 2026-11-10
 
 ### Fixed

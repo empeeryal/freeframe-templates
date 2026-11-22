@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.11] - 2026-11-19
+
+### Fixed
+
+- On the pricing page, after you go to another page and press Back, the seats slider and the seats number now go
+  back to the starting 12 seats, so they match the price shown.
+
 ## [1.0.10] - 2026-11-11
 
 ### Fixed
