@@ -6,7 +6,7 @@ Atlas is a personal-brand website template for an independent real estate agent 
 **Delia Quintero**, a fictional Nashville agent who trained as an architect and works in six neighborhoods. It is
 built with plain HTML5, Tailwind CSS v4 and one vanilla JavaScript file with no dependencies. Listings, neighborhoods,
 the home value formula and the booking rules all live in data constants at the top of `assets/js/main.js`, and every
-house and room picture is an SVG drawn from that data, so there are no photos to license. This is version 1.0.5 (see
+house and room picture is an SVG drawn from that data, so there are no photos to license. This is version 1.0.6 (see
 [CHANGELOG.md](CHANGELOG.md)). Live demo: [freeframe.dev/templates/atlas](https://freeframe.dev/templates/atlas).
 
 ## Quick start
@@ -116,7 +116,7 @@ Page text is plain HTML. The data that drives the interactive parts lives at the
 | `LISTINGS` | Every home, active, under contract or sold |
 | `VALUATION` | Factors and rounding for the home value estimate |
 | `CONSULT_TYPES` | Bookable consultations: label, length in minutes and where they happen |
-| `AVAILABILITY` | Weekly hours, slot spacing, notice period, number of days shown, closed dates and the demo "busy" share |
+| `AVAILABILITY` | Weekly hours, slot spacing, notice period, number of days shown, holidays and closed dates, and the demo "busy" share |
 
 A listing looks like this (fields after `description` shortened):
 
@@ -261,7 +261,7 @@ To add a neighborhood, add it to `AREAS`, add a polygon to the map in each page 
 
 1. **Consult type**: radio cards from `CONSULT_TYPES` (`buyer`, `seller`, `value`, `relocation`). `?type=seller`
    pre-selects one, and `?listing=<id>` pre-fills the message.
-2. **Day**: a strip of the next `AVAILABILITY.daysShown` days that have a free slot, skipping closed dates and days
+2. **Day**: a strip of the next `AVAILABILITY.daysShown` days that have a free slot, skipping holidays and closed dates, and days
    without hours.
 3. **Time**: slots every `slotStep` minutes inside the day's windows, long enough for the chosen consult and at least
    `minNoticeHours` from now. All times are Nashville time (`AGENT.timeZone`), with the visitor's local time added in
@@ -272,6 +272,22 @@ The summary panel updates live. On submit, missing choices are reported inline a
 The confirmation repeats the booking, shows a short reference (`DQ-` and four characters, from `makeRef()` in
 `main.js`) and offers an `.ics` download that carries the same reference. `demoBusyShare` marks a fixed share of slots as
 taken (the same ones on every load) so the demo looks realistic; set it to `0` when connected to a real calendar.
+
+### Holidays and closures
+
+Consultations can't be booked on the same holidays every year, worked out for any year from rules instead of a list of
+dates, so the booking calendar never runs out of closures: Thanksgiving and the day after (the fourth Thursday of
+November and the Friday after it), Christmas Eve and Christmas Day, and New Year's Eve and New Year's Day. The rules
+are `AVAILABILITY.holidays` in `assets/js/main.js`:
+
+- a fixed date is `{ name, month, day }`; add `observed: true` to also close the weekday a weekend holiday is observed on (the Friday before a
+  Saturday, the Monday after a Sunday);
+- "the nth weekday of a month" is `{ name, month, weekday, nth }` (weekday 0 is Sunday; `nth: -1` means the last
+  one);
+- `plusDays` moves a date on, like the day after Thanksgiving.
+
+Change the rules to match your own holidays. One-off closures, like a conference day, go in `AVAILABILITY.closed` as
+Nashville dates (`['2027-03-12']`); it is empty by default.
 
 ### Carousel, stats, reveals and back to top
 
@@ -398,7 +414,7 @@ your own server. There is no server code. `src/`, `package.json` and the Markdow
 | A listing page says "That listing isn't on my desk" | The `?id=` doesn't match any `id` in `LISTINGS`. Check the spelling, including the link on cards you added by hand. |
 | A new listing doesn't appear | Its `status` must be `active`, `pending` or `sold`, its `area` must match an `id` in `AREAS`, and check the browser console for a missing comma. |
 | Open houses show the wrong day or time | Weekdays are `sun` to `sat`, times are 24-hour Nashville time, and the agent's zone is `AGENT.timeZone`. |
-| No booking days appear | Check `AVAILABILITY.hours` (day 0 is Sunday) and `closed`, and that `minNoticeHours` isn't larger than your windows. |
+| No booking days appear | Check `AVAILABILITY.hours` (day 0 is Sunday) and `holidays`/`closed`, and that `minNoticeHours` isn't larger than your windows. |
 | Map counts show 0 | `data-area-count` must use the same `id` as `AREAS` and `LISTINGS`, and only active listings are counted. |
 | The social image doesn't show when sharing | Use an absolute `og:image` URL and the PNG, not the SVG. |
 | Fonts look different | The Google Fonts link must be present on the page; check your Content Security Policy allows `fonts.googleapis.com` and `fonts.gstatic.com`. |

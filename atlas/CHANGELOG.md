@@ -6,6 +6,14 @@ All notable changes to the Atlas HTML template are documented here. The format f
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-23
+
+### Fixed
+
+- Holiday closures for consultation booking are now worked out for every year from rules (Thanksgiving and the day
+  after, Christmas Eve and Day, New Year's Eve and Day) instead of a list of dates that ended on January 1, 2027, so
+  these days stay closed in later years.
+
 ## [1.0.5] - 2026-11-19
 
 ### Fixed

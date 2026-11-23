@@ -7,7 +7,7 @@ organization is **Clearwater Trust**, a fictional clean-water charity working in
 tells its story with impact counters, an appeal progress bar and long-form field stories, shows where
 money goes with a spending chart, and includes volunteering, events and a full donation flow. It is
 built with HTML5, Tailwind CSS v4 and vanilla JavaScript, and needs no build step. This guide covers
-version 1.1.11.
+version 1.1.12.
 
 Live demo: [freeframe.dev/templates/nonprofit](https://freeframe.dev/templates/nonprofit)
 
@@ -109,16 +109,53 @@ All words are in the HTML. Things driven by attributes or scripts:
   `stroke-dashoffset` is minus the total of the previous slices' `percent × 439.82`. Update the
   `<title>` texts and the "84¢" label with it.
 - **Volunteer roles** and **events**: see [Volunteer roles and event RSVPs](#volunteer-roles-and-event-rsvps).
+- **Event dates** on `events.html` and the appeal year on `index.html` move forward with the calendar in the demo:
+  see [Demo dates](#demo-dates).
 - **Stories**: every card on `stories.html` links to the one example `story.html`. Copy `story.html` for
   each new story and point the cards at the new files.
 
-### Images and artwork
+### Demo dates
 
-All artwork is SVG in `assets/img/`: page illustrations (`hero.svg`, `about.svg`, `donate.svg`,
-`events.svg`, `involved.svg`, `cta.svg`, `lost.svg`) and story images (`story-*.svg`). Replace them
-with photos of the same proportions and keep the `alt` text meaningful. Leadership portraits on
-`about.html` are inline SVG. The favicon is `assets/img/favicon.svg`; the social image is
-`assets/img/og-image.png` (1200×630), exported from `assets/img/og-image.svg`.
+A template can wait a long time between downloads, so the demo never lists an event that has already happened. The
+events are written with real dates. While `KEEP_DEMO_CURRENT` is `true`, `assets/js/main.js` changes the events on
+`events.html` as the page loads:
+
+- An event whose day has passed (in Minneapolis time) moves to the same week next year: 52 or 53 weeks on,
+  whichever lands nearer the date as written (again each year if needed). Weekdays and times never change, Giving
+  Tuesday stays in late November or early December and the Winter Gala stays in January.
+- The events, and the options of the RSVP form, are sorted by date, so the next event is always first.
+- The gala's "the 2027 dry-season appeal" follows the gala's year, and "Dry Season Appeal 2026" on the home page
+  becomes this year once 2026 is over.
+
+Until the first event has passed, the pages show exactly what is written.
+
+```js
+var KEEP_DEMO_CURRENT = true;     // false once events.html has your real dates
+```
+
+The dates it moves are marked in the HTML with the date as written:
+
+| Attribute | Example | Shows |
+|-----------|---------|-------|
+| `data-demo-day` | `<span data-demo-day="2026-12-01">01</span>` | the day of the month, two digits |
+| `data-demo-month` | `<span data-demo-month="2026-12-01">Dec</span>` | the month |
+| `data-demo-short` | `<time datetime="2026-12-01" data-demo-short="2026-12-01">Dec 1, 11:00 am CT</time>` | replaces "Dec 1" in the text (and the `<time>`'s `datetime`); also on each option of the RSVP form's event list |
+| `data-demo-year` | `<span data-demo-year="2027-01-23">2027</span>` | the event's year |
+| `data-demo-this-year` | `<span data-demo-this-year>2026</span>` | the appeal's year |
+
+The cards are the `<article>`s holding a `time[data-demo-short]`; they and the options are sorted by their dates.
+
+**Set `KEEP_DEMO_CURRENT = false` in `assets/js/main.js` when you enter real dates.** The pages then show exactly
+what is written, in the order written. Remember to remove an event when it has passed.
+
+What the demo shows with `KEEP_DEMO_CURRENT = true` on a few days (Central time):
+
+| Day | Events, next first | Appeal |
+|-----|--------------------|--------|
+| Oct 14, 2026 (as written) | Oct 21, Oct 29, Nov 14, Dec 1, Jan 23, 2027 (gala: "the 2027 dry-season appeal") | 2026 |
+| Nov 23, 2026 | Dec 1, Jan 23, 2027, then Oct 20, Oct 28, Nov 13, 2027 | 2026 |
+| Jan 25, 2027 | Oct 20, Oct 28, Nov 13, Nov 30, 2027, Jan 22, 2028 (gala: "the 2028 dry-season appeal") | 2027 |
+| Nov 23, 2027 | Nov 30, 2027, Jan 22, 2028, then Oct 18, Oct 26, Nov 11, 2028 | 2027 |
 
 ### Navigation, header and footer
 
@@ -311,6 +348,8 @@ Cloudflare Pages or any web host. No build command is needed on the host.
 - **"Apply for this role" leaves the role empty.** The button's `data-apply` must match an `<option>` in
   `#v-role` exactly.
 - **An RSVP button doesn't select the event.** `data-rsvp` must match an option `value` in `#r-event`.
+- **My event dates are wrong.** `KEEP_DEMO_CURRENT` in `assets/js/main.js` is still `true`, so dates are moved
+  forward. Set it to `false` (see [Demo dates](#demo-dates)).
 - **A program never shows for a region.** Its card's `data-region` must match a filter id in `REGIONS`.
 - **New Tailwind classes have no effect.** Rebuild the CSS.
 - **A form shows its thank-you message but nothing arrives.** It sends nothing until you connect it, as

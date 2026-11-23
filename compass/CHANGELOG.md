@@ -6,6 +6,14 @@ All notable changes to the Compass HTML template are documented here. The format
 
 ## [Unreleased]
 
+## [1.0.8] - 2026-11-23
+
+### Fixed
+
+- Holiday closures for call booking are now worked out for every year from rules (Thanksgiving and the day after,
+  Christmas Eve and Day, New Year's Eve and Day) instead of a list of dates that ended on January 1, 2027, so these
+  days stay closed in later years.
+
 ## [1.0.7] - 2026-11-19
 
 ### Fixed

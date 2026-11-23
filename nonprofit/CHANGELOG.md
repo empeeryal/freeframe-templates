@@ -7,6 +7,16 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.1.12] - 2026-11-23
+
+### Fixed
+
+- The demo's upcoming events no longer go out of date: while `KEEP_DEMO_CURRENT` is on (`assets/js/main.js`), an event
+  whose day has passed moves to the same week next year (so Giving Tuesday stays in late November and the Winter Gala
+  in January), the events page and the RSVP form list the next event first, and the appeal years follow. Set it to
+  `false` when you enter real dates (see DOCS.md).
+- Online events show Central time (CT), the charity's Minneapolis time zone, instead of Pacific time.
+
 ## [1.1.11] - 2026-11-19
 
 ### Fixed

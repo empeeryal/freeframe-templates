@@ -6,6 +6,14 @@ All notable changes to the Smile HTML template are documented here. The format f
 
 ## [Unreleased]
 
+## [1.0.10] - 2026-11-23
+
+### Fixed
+
+- Holiday closures are now worked out for every year from rules (Thanksgiving and the day after, Christmas Eve and
+  Day, New Year's Eve and Day, Memorial Day and Independence Day) instead of a list of dates that ended in July 2027,
+  so the open-now badge and the booking calendar keep these days closed in later years.
+
 ## [1.0.9] - 2026-11-19
 
 ### Fixed

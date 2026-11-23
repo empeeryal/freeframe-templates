@@ -7,7 +7,7 @@ fictional practice in Boise, Idaho, with four dentists, three hygienists and a p
 five-step booking flow whose time slots come from each clinician's schedule and the length of the visit, a pricing page
 with a cost estimator and a payment-plan calculator, an emergency symptom guide, a multi-step new patient form and
 filterable treatments and team pages. It's plain HTML5, Tailwind CSS v4 and one vanilla JavaScript file with no
-dependencies. This guide covers version 1.0.9 of the HTML version. Live demo:
+dependencies. This guide covers version 1.0.10 of the HTML version. Live demo:
 [freeframe.dev/templates/smile](https://freeframe.dev/templates/smile).
 
 All health content is general information written for a fictional practice. Have a qualified professional review
@@ -131,7 +131,7 @@ Page text lives in the HTML files. Practice data that drives interactive feature
 |----------|---------------|
 | `PRACTICE` | Name, time zone (`America/Boise`), time zone label, phone and address used in the booking flow and `.ics` file |
 | `HOURS` | Office hours per weekday (0 = Sunday, `null` = closed), used by the open-now badge and the booking slots |
-| `CLOSED_DATES` | Whole-practice closures as `YYYY-MM-DD` |
+| `HOLIDAYS`, `CLOSED_DATES` | Whole-practice closures: holiday rules worked out for every year, plus one-off dates as `YYYY-MM-DD` (see [Holidays and closures](#holidays-and-closures)) |
 | `LUNCH` | Lunch break applied on days longer than six hours |
 | `CLINICIANS` | Each clinician's name, short name, role, portrait and working weekdays |
 | `REASONS` | Visit types for booking: label, length in minutes, price note, who offers it and minimum notice |
@@ -218,7 +218,7 @@ matches the background of the section above it:
 - **Date and time.** `slotsFor(reasonId, clinician, dateKey)` builds start times every `BOOKING.slotStep` minutes
   inside each clinician's working windows (practice `HOURS` on their `days`, minus `LUNCH` on long days), keeping
   only times where the whole visit (`minutes`) fits before the window ends. Times before now plus the visit's
-  `notice` are skipped, as are `CLOSED_DATES` and anything beyond `BOOKING.daysAhead`. With "First available", each
+  `notice` are skipped, as are holidays (`HOLIDAYS`), `CLOSED_DATES` and anything beyond `BOOKING.daysAhead`. With "First available", each
   time is offered by the first free clinician in `who` order and the slot shows their name.
 - **Demo availability.** `BOOKING.demoBusyShare` (0.55) marks a stable, pseudo-random share of slots as taken so the
   demo looks realistic. Set it to `0` when you load real availability.
@@ -289,6 +289,24 @@ views can be shared.
 `[data-open-status]` badge shows "Open now · until 5:00 pm" or "Closed · opens tomorrow 8:00 am", calculated in the
 practice's time zone, and refreshes every minute. The home page's "Next checkup" card uses the booking engine to find
 the first open checkup slot.
+
+### Holidays and closures
+
+The practice closes on the same holidays every year, and they are worked out for any year from rules instead of a
+list of dates, so the open-now badge and the booking calendar never run out of closures: Thanksgiving and the day
+after (the fourth Thursday of November and the Friday after it), Christmas Eve and Christmas Day, New Year's Eve and
+New Year's Day, Memorial Day (the last Monday of May) and Independence Day (July 4, plus the Friday before when it
+falls on a Saturday or the Monday after when it falls on a Sunday). The rules are `HOLIDAYS` in `assets/js/main.js`:
+
+- a fixed date is `{ name, month, day }`; add `observed: true` to also close the weekday a weekend holiday is observed on (the Friday before a
+  Saturday, the Monday after a Sunday);
+- "the nth weekday of a month" is `{ name, month, weekday, nth }` (weekday 0 is Sunday; `nth: -1` means the last
+  one);
+- `plusDays` moves a date on, like the day after Thanksgiving.
+
+Change the rules to match your own holidays. One-off closures, like a staff training day, go in `CLOSED_DATES` as
+Boise dates (`['2027-03-12']`); it is empty by default. The contact page's closure sentence is plain text, so
+update it too.
 
 ### Tabs, accordion and carousel
 
@@ -455,7 +473,7 @@ connected.
 - **The open-now badge looks wrong.** It uses `PRACTICE.timeZone` and `HOURS` in `main.js`, not the HTML hours lists
   and not the visitor's clock. Check both and keep them in step.
 - **The booking calendar shows no times.** Check that the visit type's `who` clinicians work on days that are open
-  in `HOURS`, that the visit `minutes` fit inside the office hours, and that the dates aren't in `CLOSED_DATES` or
+  in `HOURS`, that the visit `minutes` fit inside the office hours, and that the dates aren't holidays (`HOLIDAYS`) or in `CLOSED_DATES`, or
   beyond `BOOKING.daysAhead`. Late in the day, today may have no times because of the visit's `notice`.
 - **Times in the downloaded .ics file are an hour off.** `wallToInstant()` converts practice time to UTC using
   `PRACTICE.timeZone`. Make sure it's a valid IANA zone such as `America/Denver`.

@@ -38,8 +38,23 @@
     5: ['08:00', '14:00'],
     6: ['09:00', '13:00']
   };
-  // Days the whole practice is closed (YYYY-MM-DD, Boise date).
-  var CLOSED_DATES = ['2026-11-26', '2026-11-27', '2026-12-24', '2026-12-25', '2026-12-31', '2027-01-01', '2027-05-31', '2027-07-05'];
+  /* Holidays the whole practice closes for. They are worked out for every year from these rules
+     (Boise dates), so the demo never runs out of closures. A fixed date: { month, day }; observed: true
+     also closes the weekday it's observed on when it falls at a weekend (Saturday: the Friday before;
+     Sunday: the Monday after). "The nth weekday of a month": { month, weekday (0 = Sunday), nth }, where
+     nth -1 means the last one; plusDays moves it on (the day after Thanksgiving). */
+  var HOLIDAYS = [
+    { name: 'Thanksgiving', month: 11, weekday: 4, nth: 4 },
+    { name: 'Day after Thanksgiving', month: 11, weekday: 4, nth: 4, plusDays: 1 },
+    { name: 'Christmas Eve', month: 12, day: 24 },
+    { name: 'Christmas Day', month: 12, day: 25 },
+    { name: 'New Year’s Eve', month: 12, day: 31 },
+    { name: 'New Year’s Day', month: 1, day: 1 },
+    { name: 'Memorial Day', month: 5, weekday: 1, nth: -1 },
+    { name: 'Independence Day', month: 7, day: 4, observed: true }
+  ];
+  // One-off closures as 'YYYY-MM-DD' (Boise date), e.g. a staff training day.
+  var CLOSED_DATES = [];
   // Clinicians take a lunch break on days longer than six hours.
   var LUNCH = ['12:00', '12:45'];
 
@@ -187,6 +202,37 @@
     return keyOf(x.getUTCFullYear(), x.getUTCMonth() + 1, x.getUTCDate());
   }
   function weekday(key) { var d = key.split('-').map(Number); return new Date(Date.UTC(d[0], d[1] - 1, d[2])).getUTCDay(); }
+  // The dates ('YYYY-MM-DD') a holiday rule closes in a year (see HOLIDAYS).
+  function holidayDates(rule, year) {
+    var d;
+    if (rule.day) d = new Date(Date.UTC(year, rule.month - 1, rule.day));
+    else if (rule.nth > 0) {
+      d = new Date(Date.UTC(year, rule.month - 1, 1));
+      d.setUTCDate(1 + ((rule.weekday - d.getUTCDay() + 7) % 7) + (rule.nth - 1) * 7);
+    } else {
+      d = new Date(Date.UTC(year, rule.month, 0));
+      d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() - rule.weekday + 7) % 7));
+    }
+    if (rule.plusDays) d.setUTCDate(d.getUTCDate() + rule.plusDays);
+    var out = [d.toISOString().slice(0, 10)], wd = d.getUTCDay();
+    if (rule.observed && (wd === 6 || wd === 0)) {
+      d.setUTCDate(d.getUTCDate() + (wd === 6 ? -1 : 1));
+      out.push(d.toISOString().slice(0, 10));
+    }
+    return out;
+  }
+  var holidayCache = {};
+  // True when the whole practice is closed on a date: a holiday or a one-off closure.
+  function isClosedDate(key) {
+    var year = Number(key.slice(0, 4));
+    if (!holidayCache[year]) {
+      holidayCache[year] = {};
+      HOLIDAYS.forEach(function (rule) {
+        holidayDates(rule, year).forEach(function (k) { holidayCache[year][k] = rule.name; });
+      });
+    }
+    return Object.prototype.hasOwnProperty.call(holidayCache[year], key) || CLOSED_DATES.indexOf(key) !== -1;
+  }
   function dateLabel(key, opts) {
     var d = key.split('-').map(Number);
     return new Date(Date.UTC(d[0], d[1] - 1, d[2], 12)).toLocaleDateString('en-US', Object.assign({ timeZone: 'UTC' }, opts));
@@ -269,14 +315,14 @@
   /* ---------- Office hours: today's row + live open-now badge ---------- */
   function openStatus() {
     var now = practiceNow();
-    var closedToday = CLOSED_DATES.indexOf(now.key) !== -1;
+    var closedToday = isClosedDate(now.key);
     var h = HOURS[now.day];
     if (h && !closedToday && now.mins >= toMin(h[0]) && now.mins < toMin(h[1])) {
       return { open: true, text: 'Open now · until ' + time12(toMin(h[1])) };
     }
     for (var i = 0; i < 14; i++) {
       var key = addDays(now.key, i), wd = weekday(key), hh = HOURS[wd];
-      if (!hh || CLOSED_DATES.indexOf(key) !== -1) continue;
+      if (!hh || isClosedDate(key)) continue;
       if (i === 0 && now.mins >= toMin(hh[0])) continue;
       var when = i === 0 ? 'today' : i === 1 ? 'tomorrow' : dateLabel(key, { weekday: 'long' });
       return { open: false, text: 'Closed · opens ' + when + ' ' + time12(toMin(hh[0])) };
@@ -303,7 +349,7 @@
   /* ---------- Booking engine: slots from clinician schedules and visit length ---------- */
   function windowsFor(id, key) {
     var wd = weekday(key), h = HOURS[wd], c = CLINICIANS[id];
-    if (!h || !c || CLOSED_DATES.indexOf(key) !== -1 || c.days.indexOf(wd) === -1) return [];
+    if (!h || !c || isClosedDate(key) || c.days.indexOf(wd) === -1) return [];
     var open = toMin(h[0]), close = toMin(h[1]);
     if (close - open > 360) return [[open, toMin(LUNCH[0])], [toMin(LUNCH[1]), close]];
     return [[open, close]];

@@ -5,7 +5,7 @@
 Compass is a website template for coaches and consultants. The demo content is for **Bearing**, the fictional
 leadership coaching practice of Nadia Whitcombe in Pittsburgh, who works with new managers, founders and senior
 leaders through 1:1 coaching, a group cohort and team workshops. It is built with plain HTML5, Tailwind CSS v4 and
-one vanilla JavaScript file with no dependencies. This is version 1.0.7 (see [CHANGELOG.md](CHANGELOG.md)). Live
+one vanilla JavaScript file with no dependencies. This is version 1.0.8 (see [CHANGELOG.md](CHANGELOG.md)). Live
 demo: [freeframe.dev/templates/compass](https://freeframe.dev/templates/compass).
 
 ## Quick start
@@ -115,7 +115,7 @@ Most content is plain HTML in the page files. A few things live in `assets/js/ma
 | `QUIZ_QUESTIONS` | The six self-check questions and which result type each answer points to |
 | `QUIZ_RESULTS` | The four result types: name, text, three next steps and the recommended program key |
 | `CALL_TYPES` | Bookable call types: label, length in minutes, price and where it happens |
-| `AVAILABILITY` | Studio time zone, weekly hours, slot spacing, notice period, booking window and closed dates |
+| `AVAILABILITY` | Studio time zone, weekly hours, slot spacing, notice period, booking window, holidays and closed dates |
 | `COHORT_DATES`, `COHORT_MIN_WEEKS` | First 90 Days start dates. `null` (the default) shows rolling demo dates: the next second Wednesday of January, April, July or October at least `6` weeks away, and the one after it. Set `{ next: '2027-01-13', after: '2027-04-14' }` for real dates |
 
 Client stories (`results.html`) and resources (`resources.html`) are HTML cards. Each card has a `data-tags`
@@ -185,7 +185,8 @@ desktop menu appears from the `lg` breakpoint (1024 px); below that the menu but
      slotStep: 30,
      minNoticeHours: 24,
      daysAhead: 45,
-     closed: ['2026-11-26', '2026-12-25' /* ... */],
+     holidays: [{ name: 'Thanksgiving', month: 11, weekday: 4, nth: 4 } /* ... */],
+     closed: [],
      demoBusyShare: 0.35
    };
    ```
@@ -207,6 +208,22 @@ current step with `aria-current="step"`. Calendar days are buttons with full-dat
 number of open times; only one day is in the tab order, and the arrow keys move by day and week, Home/End go to the
 start/end of the week and Page Up/Page Down move four weeks. Unavailable days use `aria-disabled="true"`. Time slots
 are native radio buttons inside a fieldset, and a missing date or time shows an inline `role="alert"` message.
+
+### Holidays and closures
+
+Calls can't be booked on the same holidays every year, worked out for any year from rules instead of a list of
+dates, so the booking calendar never runs out of closures: Thanksgiving and the day after (the fourth Thursday of
+November and the Friday after it), Christmas Eve and Christmas Day, and New Year's Eve and New Year's Day. The rules
+are `AVAILABILITY.holidays` in `assets/js/main.js`:
+
+- a fixed date is `{ name, month, day }`; add `observed: true` to also close the weekday a weekend holiday is observed on (the Friday before a
+  Saturday, the Monday after a Sunday);
+- "the nth weekday of a month" is `{ name, month, weekday, nth }` (weekday 0 is Sunday; `nth: -1` means the last
+  one);
+- `plusDays` moves a date on, like the day after Thanksgiving.
+
+Change the rules to match your own holidays. One-off closures, like a conference day, go in `AVAILABILITY.closed` as
+studio dates (`['2027-03-12']`); it is empty by default.
 
 ### Leadership self-check
 

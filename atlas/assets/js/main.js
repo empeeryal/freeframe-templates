@@ -192,9 +192,54 @@
     slotStep: 30,          // minutes between start times
     minNoticeHours: 12,    // earliest bookable slot from now
     daysShown: 14,         // number of bookable days in the day strip
-    closed: ['2026-11-26', '2026-11-27', '2026-12-24', '2026-12-25', '2026-12-31', '2027-01-01'],
+    /* Holidays with no calls, worked out for every year from these rules (Nashville dates), so the
+       demo never runs out of closures. A fixed date: { month, day }. "The nth weekday of a month":
+       { month, weekday (0 = Sunday), nth }, where nth -1 means the last one; plusDays moves it on
+       (the day after Thanksgiving); observed: true also closes the weekday a weekend holiday is
+       observed on (Saturday: the Friday before; Sunday: the Monday after). */
+    holidays: [
+      { name: 'Thanksgiving', month: 11, weekday: 4, nth: 4 },
+      { name: 'Day after Thanksgiving', month: 11, weekday: 4, nth: 4, plusDays: 1 },
+      { name: 'Christmas Eve', month: 12, day: 24 },
+      { name: 'Christmas Day', month: 12, day: 25 },
+      { name: 'New Year’s Eve', month: 12, day: 31 },
+      { name: 'New Year’s Day', month: 1, day: 1 }
+    ],
+    closed: [],            // one-off closures as 'YYYY-MM-DD' (Nashville date), e.g. a conference day
     demoBusyShare: 0.3     // share of slots shown as taken so the demo looks realistic. Set to 0 when connected.
   };
+
+  // The dates ('YYYY-MM-DD') a holiday rule closes in a year (see AVAILABILITY.holidays).
+  function holidayDates(rule, year) {
+    var d;
+    if (rule.day) d = new Date(Date.UTC(year, rule.month - 1, rule.day));
+    else if (rule.nth > 0) {
+      d = new Date(Date.UTC(year, rule.month - 1, 1));
+      d.setUTCDate(1 + ((rule.weekday - d.getUTCDay() + 7) % 7) + (rule.nth - 1) * 7);
+    } else {
+      d = new Date(Date.UTC(year, rule.month, 0));
+      d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() - rule.weekday + 7) % 7));
+    }
+    if (rule.plusDays) d.setUTCDate(d.getUTCDate() + rule.plusDays);
+    var out = [d.toISOString().slice(0, 10)], wd = d.getUTCDay();
+    if (rule.observed && (wd === 6 || wd === 0)) {
+      d.setUTCDate(d.getUTCDate() + (wd === 6 ? -1 : 1));
+      out.push(d.toISOString().slice(0, 10));
+    }
+    return out;
+  }
+  var holidayCache = {};
+  // True when no calls can be booked on a date: a holiday or a one-off closure.
+  function isClosedDate(key) {
+    var year = Number(key.slice(0, 4));
+    if (!holidayCache[year]) {
+      holidayCache[year] = {};
+      AVAILABILITY.holidays.forEach(function (rule) {
+        holidayDates(rule, year).forEach(function (k) { holidayCache[year][k] = rule.name; });
+      });
+    }
+    return Object.prototype.hasOwnProperty.call(holidayCache[year], key) || AVAILABILITY.closed.indexOf(key) !== -1;
+  }
 
   /* ---------- Small helpers ---------- */
   function $(sel, root) { return (root || document).querySelector(sel); }
@@ -1313,7 +1358,7 @@
       days = [];
       for (var i = 0; i < 60 && days.length < AVAILABILITY.daysShown; i++) {
         var d = dayInZone(i, AGENT.timeZone);
-        if (AVAILABILITY.closed.indexOf(d.iso) !== -1 || !AVAILABILITY.hours[d.dow]) continue;
+        if (isClosedDate(d.iso) || !AVAILABILITY.hours[d.dow]) continue;
         if (slotsFor(d).some(function (s) { return !s.taken; })) days.push(d);
       }
       dayStrip.innerHTML = days.map(function (d, i) {

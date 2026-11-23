@@ -7,6 +7,13 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.11] - 2026-11-23
+
+### Fixed
+
+- The order reference on the shop's confirmation now shows in the dark ink color it was meant to have; the stylesheet
+  was missing that rule.
+
 ## [1.0.10] - 2026-11-19
 
 ### Fixed

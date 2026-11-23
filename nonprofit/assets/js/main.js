@@ -45,6 +45,60 @@
 
   $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 
+  /* ---------- Demo dates ---------- */
+  // The events on events.html are written with real dates. While KEEP_DEMO_CURRENT is true, an event whose day has
+  // passed (in Minneapolis time) moves to the same week next year: 52 or 53 weeks on, whichever lands nearer the
+  // date as written, so weekdays never change and Giving Tuesday stays in late November. The cards and the RSVP
+  // form's options are then sorted by date, so the next event is first. The appeal year on index.html (data-demo-this-year)
+  // becomes this year once the year as written is over. Set KEEP_DEMO_CURRENT to false once you enter real dates.
+  // Dates are marked with the date as written: data-demo-day="2026-10-21" shows "21", data-demo-month "Oct",
+  // data-demo-year "2026", and data-demo-short replaces "Oct 21" in the element's text (and a <time>'s datetime).
+  var KEEP_DEMO_CURRENT = true;
+  (function () {
+    if (!KEEP_DEMO_CURRENT) return;
+    var DAY = 864e5;
+    var dayNum = function (iso) { return Math.round(Date.parse(iso + 'T00:00:00Z') / DAY); };
+    var today;
+    try {
+      today = dayNum(new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()));
+    } catch (e) {
+      today = dayNum(new Date().toISOString().slice(0, 10));
+    }
+    // The date an event is shown on: as written until it has passed, then a year (in whole weeks) at a time.
+    var upcoming = function (iso) {
+      var d = dayNum(iso), y = +iso.slice(0, 4), m = +iso.slice(5, 7) - 1, dd = +iso.slice(8, 10);
+      for (var k = 1; d < today && k < 500; k++) {
+        var target = Date.UTC(y + k, m, dd) / DAY;
+        d += Math.abs(d + 371 - target) < Math.abs(d + 364 - target) ? 371 : 364;
+      }
+      return new Date(d * DAY);
+    };
+    var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var short = function (d) { return MONTHS[d.getUTCMonth()] + ' ' + d.getUTCDate(); };
+    $$('[data-demo-day]').forEach(function (el) { el.textContent = String(upcoming(el.dataset.demoDay).getUTCDate()).padStart(2, '0'); });
+    $$('[data-demo-month]').forEach(function (el) { el.textContent = MONTHS[upcoming(el.dataset.demoMonth).getUTCMonth()]; });
+    $$('[data-demo-year]').forEach(function (el) { el.textContent = String(upcoming(el.dataset.demoYear).getUTCFullYear()); });
+    $$('[data-demo-this-year]').forEach(function (el) {
+      el.textContent = String(Math.max(Number(el.textContent), new Date(today * DAY).getUTCFullYear()));
+    });
+    $$('[data-demo-short]').forEach(function (el) {
+      var iso = el.dataset.demoShort, d = upcoming(iso);
+      el.textContent = el.textContent.replace(short(new Date(dayNum(iso) * DAY)), short(d));
+      if (el.tagName === 'TIME') el.setAttribute('datetime', d.toISOString().slice(0, 10));
+    });
+    // Next event first: the cards (articles holding a dated <time>), and the options of the RSVP form.
+    function sortByDate(items, dateOf, restagger) {
+      var sorted = items.slice().sort(function (a, b) { return upcoming(dateOf(a)) - upcoming(dateOf(b)); });
+      if (sorted.every(function (el, i) { return el === items[i]; })) return;
+      sorted.forEach(function (el, i) {
+        el.parentNode.appendChild(el);
+        if (restagger) el.style.setProperty('--d', i * 60 + 'ms');
+      });
+    }
+    sortByDate($$('article time[data-demo-short]').map(function (t) { return t.closest('article'); }), function (a) { return $('time[data-demo-short]', a).dataset.demoShort; }, true);
+    sortByDate($$('option[data-demo-short]'), function (o) { return o.dataset.demoShort; }, false);
+  })();
+
   /* ---------- Mobile menu ---------- */
   var toggle = $('[data-menu-toggle]');
   var menu = $('#mobile-menu');
