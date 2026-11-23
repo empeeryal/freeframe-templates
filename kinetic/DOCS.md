@@ -5,7 +5,7 @@
 Kinetic is a complete website template for an independent personal trainer or a small personal training studio.
 The demo content is for **Foothill Performance**, a fictional two-coach studio in Old Colorado City, Colorado Springs, Colorado, run by
 Ffion Beckett and Yusuf Dacre. It is plain HTML5, Tailwind CSS v4 and one vanilla JavaScript file with no
-dependencies. This guide covers version 1.0.8 (see `template.json`). Live demo:
+dependencies. This guide covers version 1.0.9 (see `template.json`). Live demo:
 [freeframe.dev/templates/kinetic](https://freeframe.dev/templates/kinetic).
 
 The copy uses American English, US dollars, a 12-hour clock and the `America/Denver` time zone (Mountain Time). All health content
@@ -31,7 +31,7 @@ CSS. See [Building and deploying](#building-and-deploying).
 | File | Purpose | Notable sections and features |
 |------|---------|-------------------------------|
 | `index.html` | Home | Hero with live "next free consult" badge, goal picker with five recommendation panels, programs teaser, three client progress charts, how it works, testimonials, pricing teaser with Kickstart offer and a health note |
-| `programmes.html` | Programs | Seven program cards filterable by goal (`?goal=`), what's included, prices, facts and booking links, comparison table |
+| `programs.html` | Programs | Seven program cards filterable by goal (`?goal=`), what's included, prices, facts and booking links, comparison table |
 | `pricing.html` | Pricing | Kickstart intro offer (`#kickstart`), session packs, memberships (`#memberships`), cost calculator (`#calculator`), monthly vs pay-per-session table, FAQ (`#faq`), small print (`#terms`) |
 | `results.html` | Client results | Six anonymized progress stories with SVG charts, filterable by goal (`?goal=`), review wall |
 | `tools.html` | Training tools | Plan builder (`#plan`), one-rep max estimator (`#one-rep-max`), pace calculator (`#pace`) |
@@ -153,7 +153,7 @@ var COACHES = {
 assessment: { label: 'Fitness assessment', minutes: 60, price: 85, priceLabel: '$85', coaches: ['yusuf'], notice: 1440, screen: true }
 ```
 
-**Add a program.** Copy an `<article>` on `programmes.html`. Its `data-goals` attribute lists the goal ids it
+**Add a program.** Copy an `<article>` on `programs.html`. Its `data-goals` attribute lists the goal ids it
 should appear under, separated by spaces (`data-goals="strength sport"`). Filter counts update automatically.
 
 **Add a client story chart.** Add an entry to `RESULTS` and a figure where you want it:
@@ -205,9 +205,9 @@ an `aria-live="polite"` region and the cards are a native radio group (arrow key
 
 ### Program and story filters
 
-`programmes.html` and `results.html` use the same filter. A `[data-filter]` wrapper holds chip buttons
+`programs.html` and `results.html` use the same filter. A `[data-filter]` wrapper holds chip buttons
 (`[data-filter-value]`, `aria-pressed`) and items with `data-goals`. With `data-filter-url` on the wrapper the choice is
-written to `?goal=` with `history.replaceState`, so `programmes.html?goal=postnatal` opens filtered. Unknown values
+written to `?goal=` with `history.replaceState`, so `programs.html?goal=postnatal` opens filtered. Unknown values
 fall back to "All". A status line (`[data-filter-status]`, `role="status"`) announces how many items are shown, and
 choosing a goal also updates `kinetic-goal`.
 

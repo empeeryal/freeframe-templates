@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-11-22
+
+### Changed
+
+- A code comment in the stylesheet now uses the American spelling "color".
+
 ## [1.0.2] - 2026-11-19
 
 ### Fixed

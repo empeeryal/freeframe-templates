@@ -283,7 +283,7 @@
     color: var(--color-teal-deep);
     text-decoration-thickness: 2px;
   }
-  /* Status pill: colour plus a shape and a word, never colour alone. */
+  /* Status pill: color plus a shape and a word, never color alone. */
   .status {
     display: inline-flex;
     align-items: center;

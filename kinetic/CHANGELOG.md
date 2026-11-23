@@ -6,6 +6,12 @@ All notable changes to the Kinetic HTML template are documented here. The format
 
 ## [Unreleased]
 
+## [1.0.9] - 2026-11-22
+
+### Changed
+
+- The Programs page now lives at `/programs` (it was `/programmes`), and the menu, links and page text use the American spelling "program" everywhere.
+
 ## [1.0.8] - 2026-11-19
 
 ### Fixed
