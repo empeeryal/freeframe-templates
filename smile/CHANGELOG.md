@@ -6,6 +6,13 @@ All notable changes to the Smile HTML template are documented here. The format f
 
 ## [Unreleased]
 
+## [1.0.11] - 2026-11-24
+
+### Fixed
+
+- The contact page's list of holiday closures now includes the day after Thanksgiving, which the practice also
+  closes for.
+
 ## [1.0.10] - 2026-11-23
 
 ### Fixed
