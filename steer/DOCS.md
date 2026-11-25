@@ -5,7 +5,7 @@
 Steer is a website template for a driving school or an independent driving instructor. The demo brand is
 **Brayline Driving School**, a fictional school in Eau Claire, Wisconsin with six instructors teaching automatic and
 manual lessons across six ZIP codes around the city. It is built with plain HTML, Tailwind CSS v4 and one vanilla
-JavaScript file, with no build step needed to run it. This is version 1.0.7 (see `template.json` and
+JavaScript file, with no build step needed to run it. This is version 1.0.8 (see `template.json` and
 [CHANGELOG.md](CHANGELOG.md)). Live demo: [freeframe.dev/templates/steer](https://freeframe.dev/templates/steer).
 
 Copy uses American English, prices are in US dollars (USD) and every date and time is Central time

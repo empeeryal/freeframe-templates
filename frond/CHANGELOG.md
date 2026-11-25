@@ -4,6 +4,12 @@ All notable changes to Frond are documented here.
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-24
+
+### Fixed
+
+- The blue-green cover pot glaze is now called teal instead of petrol, its British name.
+
 ## [1.0.4] - 2026-11-19
 
 ### Fixed

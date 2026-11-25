@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-24
+
+### Fixed
+
+- DOCS.md uses the American spelling "canceling".
+
 ## [1.0.5] - 2026-11-19
 
 ### Fixed

@@ -35,7 +35,7 @@ You only need Node.js 24 (for `npm`) if you change `src/input.css` or add Tailwi
 | `placement.html` | Placement test | A language plus ten can-do questions, a CEFR level estimate and recommended courses |
 | `teachers.html` | Teachers | Eight teacher cards with a language filter and the courses each teaches |
 | `timetable.html` | Schedule | Monday to Saturday week view with filters by language, format and time of day |
-| `enrol.html` | Fees & enrollment | Prices in tabs (group, private, companies), good-to-know facts, four-step enrollment form with a live fee summary |
+| `enroll.html` | Fees & enrollment | Prices in tabs (group, private, companies), good-to-know facts, four-step enrollment form with a live fee summary |
 | `about.html` | About | Story and figures, teaching method, the building, FAQ |
 | `contact.html` | Contact | Contact form (topic prefilled from the URL), map, address, front desk hours, getting here |
 | `404.html` | Not found | Friendly 404 page for your host to serve |
@@ -133,7 +133,7 @@ form's course list are HTML, so a new course needs both. To add one:
    and fee.
 3. Add an `<li data-session …>` to each day it runs in `timetable.html` (`data-time` is `morning`, `lunchtime` or
    `evening`).
-4. Add an `<option value="fr-b1-online">` to the French `<optgroup>` of `#e-course` in `enrol.html`, and the course
+4. Add an `<option value="fr-b1-online">` to the French `<optgroup>` of `#e-course` in `enroll.html`, and the course
    to its teacher's "Teaching this term" line in `teachers.html`.
 
 Course ids must stay lowercase: links and saved drafts use them.
@@ -184,7 +184,7 @@ anything else is ignored.
 
 `course.html?id=<course id>` shows that course: `initCoursePage()` fills every `[data-course-field]` (title, chips,
 schedule, start date, length in hours, place, teacher, fee, seats left, overview, outcomes, syllabus and teacher
-tab), points the enroll button to `enrol.html?course=<id>#enrol` and the placement link to
+tab), points the enroll button to `enroll.html?course=<id>#enrol` and the placement link to
 `placement.html?lang=<language>`, rebuilds the related courses (other courses in the same language first) and sets the
 page title. The id is matched in any case; an unknown or missing id shows the course in the markup (the first one).
 Seats left under four are shown in the accent color.
@@ -194,11 +194,11 @@ strings formatted without `Date` objects, so the page shows the same thing in ev
 
 ### Tabs
 
-The course page (Overview, Syllabus, Your teacher) and the prices on `enrol.html` (Group courses, Private lessons,
+The course page (Overview, Syllabus, Your teacher) and the prices on `enroll.html` (Group courses, Private lessons,
 For companies) use the ARIA tabs pattern: `role="tablist"`, `role="tab"` with `aria-selected` and `aria-controls`,
 `role="tabpanel"`. Left and right arrows move between tabs (wrapping), Home and End jump to the first and last, and
-only the selected tab is in the tab order. A hash naming a panel opens it: `enrol.html#private` and
-`enrol.html#companies`. Code: `initTabs()`.
+only the selected tab is in the tab order. A hash naming a panel opens it: `enroll.html#private` and
+`enroll.html#companies`. Code: `initTabs()`.
 
 ### Placement test
 
@@ -231,7 +231,7 @@ kept in the URL (`?lang=&format=&time=`, any case). Code: `initTimetable()`.
 
 ### Enrollment form
 
-`enrol.html#enrol` is a four-step form (`form[data-enrol-form]`):
+`enroll.html#enrol` is a four-step form (`form[data-enrol-form]`):
 
 1. **Course**: a required select grouped by language, with when, where, teacher and seats left below it.
 2. **Your details**: first and last name, email (checked for a valid address), an optional phone (digits, spaces,
@@ -243,7 +243,7 @@ The step indicator marks the current step with `aria-current="step"`; each step 
 inline errors and focuses the first invalid field. The summary (`[data-summary]`) updates live with the fee, the discount, the book, the total and, for installments, the three payments (the last absorbs any rounding, so they add
 up exactly). Fees are calculated in cents by `enrolQuote()`.
 
-`enrol.html?course=<id>` (any case, own ids only) chooses the course; the course page and placement result link
+`enroll.html?course=<id>` (any case, own ids only) chooses the course; the course page and placement result link
 here. Confirming shows a thank-you panel that confirms the enrollment, promises an email within one business day and
 shows a short reference (`LI-` and four characters, made in the browser by `makeRef()`; show your booking system's own
 reference instead if it returns one), and clears the draft. Code: `initEnrol()`.
@@ -268,7 +268,7 @@ styles in `src/input.css`.
 | Form | Page | Validates |
 |------|------|-----------|
 | Placement test (`data-placement-form`) | `placement.html` | An answer on every step |
-| Enrollment (`data-enrol-form`) | `enrol.html` | Each step (see above) |
+| Enrollment (`data-enrol-form`) | `enroll.html` | Each step (see above) |
 | Contact (`data-form="contact"`) | `contact.html` | Name, email, message of at least 20 characters |
 | Newsletter (`data-form="newsletter"`) | Footer of every page | Email |
 

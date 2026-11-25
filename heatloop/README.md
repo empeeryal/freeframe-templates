@@ -7,7 +7,7 @@ shareable results, a three-step reservation with a ZIP code check, careers with 
 company page with a press kit, and news. Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file, with light
 and dark themes.
 
-**Version 1.0.4** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/heatloop)
 
 ## Quick start

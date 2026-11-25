@@ -6,6 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.9] - 2026-11-24
+
+### Fixed
+
+- The fees and enrollment page now lives at enroll.html (it was enrol.html), with the American spelling, and every
+  link to it is updated.
+
 ## [1.0.8] - 2026-11-07
 
 ### Changed

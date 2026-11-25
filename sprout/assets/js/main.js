@@ -10,7 +10,7 @@
  *  8. Course list with filters (courses.html)
  *  9. Course page (course.html?course=…)
  * 10. Schedule (timetable.html)
- * 11. Enrollment (enrol.html)
+ * 11. Enrollment (enroll.html)
  * 12. Bed planner (planner.html)
  * 13. Shortlist page (saved.html)
  * 14. Inquiry form (visit.html)
@@ -676,7 +676,7 @@
       '<p class="mt-2 flex flex-wrap gap-1.5">' + (o.showCourse === false ? '' : '<span class="tag">' + LEVELS[c.level].name + '</span>') + '<span class="inline-flex items-center px-2 py-0.5 text-xs font-semibold ' + placesClass(left) + '">' + placesText(left) + '</span></p>' +
       '</div>' +
       '<div class="col-start-2 sm:col-start-3">' + (left > 0
-        ? '<a class="btn btn-primary btn-sm" href="enrol.html?course=' + c.id + '&amp;session=' + s.key + '" aria-label="Enroll in ' + esc(c.name) + ', ' + longDate(s.key) + '">Enroll</a>'
+        ? '<a class="btn btn-primary btn-sm" href="enroll.html?course=' + c.id + '&amp;session=' + s.key + '" aria-label="Enroll in ' + esc(c.name) + ', ' + longDate(s.key) + '">Enroll</a>'
         : '<a class="btn btn-ghost btn-sm" href="visit.html?topic=' + c.id + '#enquiry" aria-label="Ask about a waitlist for ' + esc(c.name) + ', ' + longDate(s.key) + '">Waitlist</a>') + '</div>' +
       '</li>';
   }
@@ -827,7 +827,7 @@
     $('[data-c-next]').textContent = sessionDates(next) + ', ' + timeRange(c);
     $('[data-c-next-places]').textContent = placesText(next.left);
     const enrolLink = $('[data-c-enrol]');
-    enrolLink.href = 'enrol.html?course=' + c.id;
+    enrolLink.href = 'enroll.html?course=' + c.id;
     $$('[data-save]', root).forEach((b) => b.setAttribute('data-save', c.id));
     set('[data-c-sessions]', sessions.map((s) => sessionRow(s, { showCourse: false })).join(''));
     $('[data-c-dates-note]').textContent = c.rule.parts.length > 1
@@ -891,7 +891,7 @@
           : 'No sessions match those filters in the next twelve weeks.';
         const link = $('[data-tt-empty-link]');
         link.hidden = !s;
-        if (s) link.href = 'enrol.html?course=' + c.id + '&session=' + s.key;
+        if (s) link.href = 'enroll.html?course=' + c.id + '&session=' + s.key;
       }
       $('[data-tt-count]').textContent = plural(rows.length, 'session');
       const q = new URLSearchParams();
@@ -906,7 +906,7 @@
   })();
 
   /* ------------------------------------------------------------------
-   * 11. Enrollment (enrol.html?course=<id>&session=<YYYY-MM-DD>)
+   * 11. Enrollment (enroll.html?course=<id>&session=<YYYY-MM-DD>)
    * ------------------------------------------------------------------ */
   function setError(form, name, msg) {
     const field = form.elements.namedItem(name);

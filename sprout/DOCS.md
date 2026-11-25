@@ -10,7 +10,7 @@ way a real school would write them. The look is a field notebook: cream paper, g
 rust accent, with Vollkorn headings and Commissioner text.
 
 It is plain HTML, Tailwind CSS v4 and one vanilla JavaScript file, with no dependencies. This guide covers version
-**1.0.5** of the HTML version. The template page, with a live demo, is at
+**1.0.6** of the HTML version. The template page, with a live demo, is at
 [freeframe.dev/templates/sprout](https://freeframe.dev/templates/sprout).
 
 ## Quick start
@@ -36,7 +36,7 @@ aren't already used (see [Building and deploying](#building-and-deploying)).
 | `courses.html` | All courses | Level buttons, topic and season filters (kept in the URL), course cards with next date and places, Save buttons, level guide |
 | `course.html` | One course (`?course=<id>`) | Title, description and Open Graph tags set from the course; facts, drawing, session plan, what you take home, what to bring, next four dates with places, instructor, student quote, related courses; an "unknown course" message for bad links |
 | `timetable.html` | Schedule of upcoming sessions | Every session starting in the next twelve weeks, grouped by month, filterable by course and level, with Enroll links |
-| `enrol.html` | Enrollment request | Three steps (date, who's coming, your details), inline validation, running total, confirmation with a reference |
+| `enroll.html` | Enrollment request | Three steps (date, who's coming, your details), inline validation, running total, confirmation with a reference |
 | `planner.html` | Bed planner | Bed size and crop, plant count, scale drawing with one mark per plant, too-small and corner-only messages, suggested course with Save |
 | `saved.html` | Shortlist | Saved courses with their next dates, enrollment requests made on this device, clear and remove buttons |
 | `about.html` | About the school | Founder's note, map of the plot, numbers, instructor cards, values |
@@ -47,7 +47,7 @@ aren't already used (see [Building and deploying](#building-and-deploying)).
 
 ```text
 sprout/
-  index.html, courses.html, course.html, timetable.html, enrol.html,
+  index.html, courses.html, course.html, timetable.html, enroll.html,
   planner.html, saved.html, about.html, visit.html, 404.html
   assets/
     css/style.css         compiled Tailwind CSS (generated; don't edit by hand)
@@ -162,7 +162,7 @@ All artwork is SVG drawn for the template; there are no photos.
 
 The header and footer are repeated in every HTML file, so edit them in each page (a find-and-replace across the
 folder works well). The current page's link has `aria-current="page"`; `course.html` marks **Courses** as current, and
-`enrol.html` marks the **Enroll** button. The mobile menu (`#mobile-menu`) repeats the links. The footer holds the
+`enroll.html` marks the **Enroll** button. The mobile menu (`#mobile-menu`) repeats the links. The footer holds the
 address, phone, email and office hours, and the line "A fictional school from a Freeframe template", which you should
 delete for a real site.
 
@@ -243,12 +243,12 @@ course instead of showing a wrong one.
 ### Schedule
 
 `timetable.html` (the Schedule page) groups sessions by month with a heading per month. Each row shows the date, course, time, instructor,
-price, level and places left, and links to `enrol.html?course=<id>&session=<YYYY-MM-DD>`. The course and level
+price, level and places left, and links to `enroll.html?course=<id>&session=<YYYY-MM-DD>`. The course and level
 filters are kept in the URL (`?course=…&level=…`).
 
 ### Enrollment request
 
-`enrol.html` is one form in three steps (`fieldset[data-step]`); **Continue** validates the current step before moving
+`enroll.html` is one form in three steps (`fieldset[data-step]`); **Continue** validates the current step before moving
 on and focuses the next step's heading. Step 1 picks a course and one of its next four dates (full dates are
 disabled); step 2 takes the number of people (1 to `MAX_PEOPLE`, and never more than the places left), how much
 growing they have done and optional access or other needs; step 3 takes name, email, an optional US phone number and
@@ -309,7 +309,7 @@ business day", the reply time the visit page already promises); change them to m
 
 | Form | Where | Validates |
 |------|-------|-----------|
-| Enrollment request | `enrol.html`, `[data-enrol-form]` | Course, date, people, experience, name, email, optional US phone, terms |
+| Enrollment request | `enroll.html`, `[data-enrol-form]` | Course, date, people, experience, name, email, optional US phone, terms |
 | Inquiry | `visit.html`, `[data-enquiry-form]` | Name (2+ characters), email, message (10–1,500 characters); topic is a select |
 | Bed planner | `planner.html`, `[data-planner]` | Width and length (0.5–30 ft), crop |
 
@@ -352,8 +352,8 @@ shortlist** and **Remove** on `saved.html`.
 
 | Parameter | Page | Accepted values |
 |-----------|------|-----------------|
-| `course` | `course.html`, `timetable.html`, `enrol.html` | A course id (case-insensitive) |
-| `session` | `enrol.html` | `YYYY-MM-DD`, preselected when it is one of that course's dates |
+| `course` | `course.html`, `timetable.html`, `enroll.html` | A course id (case-insensitive) |
+| `session` | `enroll.html` | `YYYY-MM-DD`, preselected when it is one of that course's dates |
 | `level`, `topic`, `season` | `courses.html` | Keys of `LEVELS`, `TOPICS`, `SEASONS` |
 | `level` | `timetable.html` | A key of `LEVELS` |
 | `crop` | `planner.html` | A key of `CROPS` |

@@ -7,6 +7,12 @@ and this template follows [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [1.0.8] - 2026-11-24
+
+### Fixed
+
+- The FAQ's "Paying and canceling" heading uses the American spelling.
+
 ## [1.0.7] - 2026-11-19
 
 ### Fixed

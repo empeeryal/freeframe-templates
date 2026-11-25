@@ -35,7 +35,7 @@ Use `npm run watch` during development. Do not upload `node_modules` to your sta
 | `tutors.html` | Teaching team | Six biographies, instrument filter and expandable teaching notes |
 | `timetable.html` | Weekly planning | This or the next teaching week with term dates; day, instrument, age, level and teacher filters (collapsed behind a Filter button on small screens); session inquiry links |
 | `fees.html` | Tuition information | Group, individual and flexible-pass calculator; scholarships and policies |
-| `enrol.html` | Enrollment inquiry | Four steps, age matching, first lesson and pro-rata tuition, then a confirmation with a reference |
+| `enroll.html` | Enrollment inquiry | Four steps, age matching, first lesson and pro-rata tuition, then a confirmation with a reference |
 | `approach.html` | School philosophy | School history, learning guidance and saved weekly practice planner |
 | `contact.html` | Visits and inquiries | Location illustration, access, opening hours and a message form with a confirmation |
 | `404.html` | Missing page | Useful links back to the home page and course catalog |
@@ -52,7 +52,7 @@ sonata/
   tutors.html                Data-driven teaching team
   timetable.html             Weekly session filters
   fees.html                  Lesson calculator
-  enrol.html                 Enrollment wizard
+  enroll.html                 Enrollment wizard
   approach.html              Teaching approach and practice planner
   contact.html               Access, hours and message form
   404.html                   Recovery page

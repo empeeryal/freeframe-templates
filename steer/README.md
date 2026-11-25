@@ -2,7 +2,7 @@
 
 A clean, confident website for a driving school or driving instructor, built for the fictional **Brayline Driving School** in Eau Claire, Wisconsin: a week-view lesson booking with free times worked out from today, a pick-up ZIP code checker and area map, six instructors with their own cars and calendars, a price calculator with block, student and new-student discounts, a permit test practice quiz with saved best scores, a student passes wall and a searchable FAQ. Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.7** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.8** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/steer)
 
 ## Quick start

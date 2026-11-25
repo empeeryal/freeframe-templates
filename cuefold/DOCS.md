@@ -23,7 +23,7 @@ Node 24 and npm are needed only when rebuilding Tailwind after changing classes.
 | File               | Purpose                     | Notable features                                                                            |
 | ------------------ | --------------------------- | ------------------------------------------------------------------------------------------- |
 | `index.html`       | Theater introduction        | Featured production date, three program cards, room statistics and visitor routes         |
-| `programme.html`   | Find a performance          | Search, genre, date window and access filters; eighteen productions in date order           |
+| `program.html`   | Find a performance          | Search, genre, date window and access filters; eighteen productions in date order           |
 | `show.html`        | Production details          | `show` parameter, story, credits, age guidance, effects notes, performances and saved dates |
 | `planner.html`     | Build an evening            | Saved performances, overlaps, cost and date summaries, access notes and text download       |
 | `tickets.html`     | Ask the box office          | Production/date selection, live estimate, seating and a box-office reply with a reference   |
@@ -40,7 +40,7 @@ Every file repeats the same header and footer. Every page has a static `h1`; on 
 ```text
 cuefold/
   index.html               Home page
-  programme.html           Program search and filters
+  program.html           Program search and filters
   show.html                Production detail shell
   planner.html             Saved visit plan
   tickets.html             Ticket request form and confirmation
@@ -138,7 +138,7 @@ Use an existing object as the shape for an addition:
 }
 ```
 
-This is a short excerpt of the existing object, not a complete replacement. Include the remaining fields described above, draw `assets/img/<id>.svg` and keep `id` unique. Add any new genre to `GENRES` and the genre select in `programme.html`.
+This is a short excerpt of the existing object, not a complete replacement. Include the remaining fields described above, draw `assets/img/<id>.svg` and keep `id` unique. Add any new genre to `GENRES` and the genre select in `program.html`.
 
 `WORKSHOPS` holds the three workshop titles, week numbers (see Workshops below), times, durations, prices, leaders and image keys. The interests select, `choices` in `initInterest()` and URL validation must agree with the workshop IDs. The fourth inquiry option is `volunteer`.
 

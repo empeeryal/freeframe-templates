@@ -8,7 +8,7 @@
  *  6. Teacher filter (teachers.html)
  *  7. Schedule filters (timetable.html)
  *  8. Placement test (placement.html)
- *  9. Enrollment form (enrol.html)
+ *  9. Enrollment form (enroll.html)
  * 10. Contact and newsletter forms, ?topic= prefill
  * 11. Header, mobile menu, scroll reveal, year
  *
@@ -345,7 +345,7 @@
     $('[data-course-field="syllabus"]').innerHTML = syllabusHTML(c);
     $('[data-course-field="teacher-card"]').innerHTML = teacherHTML(t);
     $('[data-course-field="places"]').innerHTML = icon('users', 'size-4 shrink-0 text-brand') + '<span>' + placesLabel(c) + '</span>';
-    $('[data-course-enrol]').href = 'enrol.html?course=' + c.id + '#enrol';
+    $('[data-course-enrol]').href = 'enroll.html?course=' + c.id + '#enrol';
     $('[data-course-placement]').href = 'placement.html?lang=' + c.lang;
     root.dataset.courseId = c.id;
     $('[data-related-title]').textContent = 'More ' + l.name + ' courses';
@@ -355,7 +355,7 @@
 
   /* ------------------------------------------------------------------
    * 5. Tabs: arrow keys, Home and End move between tabs; #<panel name> in
-   *    the URL opens a tab (enrol.html#private).
+   *    the URL opens a tab (enroll.html#private).
    * ------------------------------------------------------------------ */
   function initTabs() {
     $$('[role="tablist"]').forEach(function (list) {
@@ -533,7 +533,7 @@
         : 'We don\'t run a ' + lang.name + ' ' + lv.code + ' course this term. The closest is:';
       $('[data-result-courses]', result).innerHTML = recs.map(function (c) { return courseCardHTML(c, 'h3'); }).join('');
       var enrol = $('[data-result-enrol]', result);
-      enrol.href = 'enrol.html?course=' + recs[0].id + '#enrol';
+      enrol.href = 'enroll.html?course=' + recs[0].id + '#enrol';
       enrol.textContent = 'Enroll in ' + recs[0].title;
       var all = $('[data-result-all]', result);
       all.href = 'courses.html?lang=' + lang.id;

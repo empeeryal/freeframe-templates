@@ -6,7 +6,7 @@ schedule with places left, a three-step enrollment request, a bed planner that d
 shortlist, instructor profiles, and real accessibility, booking and student safety copy. Course dates are worked out from rules, so
 the demo never goes stale. Plain HTML, Tailwind CSS v4 and one vanilla JavaScript file.
 
-**Version 1.0.5** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
+**Version 1.0.6** · [Documentation](DOCS.md) · [Changelog](CHANGELOG.md) ·
 [Live demo](https://freeframe.dev/templates/sprout)
 
 ## Quick start

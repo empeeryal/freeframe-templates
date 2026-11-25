@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-24
+
+### Fixed
+
+- The What's on page now lives at program.html (it was programme.html), with the American spelling, and every link
+  to it is updated.
+
 ## [1.0.4] - 2026-11-19
 
 ### Fixed

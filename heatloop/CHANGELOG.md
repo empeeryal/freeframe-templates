@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-24
+
+### Fixed
+
+- The careers page uses the American spelling "theater".
+
 ## [1.0.4] - 2026-11-19
 
 ### Fixed

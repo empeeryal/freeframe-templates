@@ -5,6 +5,13 @@ All notable changes to the Sprout HTML template are documented here. The format 
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-11-24
+
+### Fixed
+
+- The enrollment page now lives at enroll.html (it was enrol.html), with the American spelling, and every link to
+  it is updated.
+
 ## [1.0.5] - 2026-11-05
 
 ### Changed
